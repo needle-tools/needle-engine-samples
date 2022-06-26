@@ -4,7 +4,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class TVScreen : UnityEngine.MonoBehaviour
+	public partial class DisplayCameraView : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.Camera[] @views;
 		public float @width = 256f;

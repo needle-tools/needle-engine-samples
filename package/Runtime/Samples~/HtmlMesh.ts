@@ -7,8 +7,8 @@ import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGrou
 
 export class HtmlMesh extends Behaviour {
 
-    public buttonText : string = "Hello World";
-    public otherButtonText : string = "Hello World";
+    public buttonText: string = "Hello World";
+    public otherButtonText: string = "Hello World";
 
     @serializeable(EventList)
     public onClick?: EventList;
@@ -16,13 +16,12 @@ export class HtmlMesh extends Behaviour {
     @serializeable(EventList)
     public onClickOtherButton?: EventList;
 
-    @serializeable(RGBAColor) 
-    public color : RGBAColor = new RGBAColor(1,1,1,1);
+    @serializeable(RGBAColor)
+    public color: RGBAColor = new RGBAColor(1, 1, 1, 1);
 
-    private group : InteractiveGroup | undefined;
+    private group: InteractiveGroup | undefined;
 
-    onEnable()
-    {
+    start() {
         // seems that in awake() context.mainCamera might not be available yet
         if (this.group) return;
 
@@ -42,7 +41,7 @@ export class HtmlMesh extends Behaviour {
         p.style.margin = "10px";
         p.style.fontSize = "20px";
         p.textContent = this.buttonText;
-        p.onclick = function() {
+        p.onclick = function () {
             me.onClick?.invoke();
         };
         div.append(p);
@@ -52,7 +51,7 @@ export class HtmlMesh extends Behaviour {
         p2.style.margin = "10px";
         p2.style.fontSize = "20px";
         p2.textContent = this.otherButtonText;
-        p2.onclick = function() {
+        p2.onclick = function () {
             me.onClickOtherButton?.invoke();
         };
         div.append(p2);
@@ -60,12 +59,12 @@ export class HtmlMesh extends Behaviour {
         this.context.domElement.append(div);
 
         div.style.visibility = "hidden";
-        
-        this.group = new InteractiveGroup( this.context.renderer, this.context.mainCamera! );
-        this.gameObject.add( this.group );
 
-        const mesh = new HTMLMesh( div );
-        mesh.scale.set(5,5,5);
-        this.group.add( mesh );
+        this.group = new InteractiveGroup(this.context.renderer, this.context.mainCamera!);
+        this.gameObject.add(this.group);
+
+        const mesh = new HTMLMesh(div);
+        mesh.scale.set(5, 5, 5);
+        this.group.add(mesh);
     }
 }

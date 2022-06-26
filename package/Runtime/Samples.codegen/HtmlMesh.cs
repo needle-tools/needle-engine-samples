@@ -14,6 +14,6 @@ namespace Needle.Typescript.GeneratedComponents
 		// public undefined @color;
 		// Could not resolve type "InteractiveGroup | undefined"
 		// private undefined @group;
-		public void onEnable(){}
+		public void start(){}
 	}
 }

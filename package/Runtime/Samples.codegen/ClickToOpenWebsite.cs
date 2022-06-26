@@ -9,9 +9,12 @@ namespace Needle.Typescript.GeneratedComponents
 		public string @url;
 		public bool @keepQuery = false;
 		public bool @keepHash = false;
+		public bool @openNewTab = false;
 		public void awake(){}
-		public float @lastClickTime = 0f;
+		private float @lastClickTime = 0f;
 		public void onClick(){}
 		public void onPointerClick(object @args){}
+		public void onPointerEnter(){}
+		public void onPointerExit(){}
 	}
 }

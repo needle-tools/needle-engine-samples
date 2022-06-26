@@ -5,17 +5,16 @@ import * as utils from "needle.tiny.engine/engine/engine_utils";
 import { serializeable } from "needle.tiny.engine/engine/engine_serialization_decorator";
 const disableRT = utils.getParam("disableRT"); 
 
-export class TVScreen extends Behaviour {
+export class DisplayCameraView extends Behaviour {
 
     //@type(UnityEngine.Camera[])
-    @serializeable(Camera) // tried THREE.Object3D, THREE.Camera, Camera, Camera[]
+    @serializeable(Camera)
     public views: Camera[] | null = null;
 
     public width : number = 256;
     public height : number = 256;
 
     // TODO add dropdown for emissive vs. diffuse
-
     private rtTexture: THREE.WebGLRenderTarget | null = null;
     private rtScene: THREE.Scene | null = null;
     private material: THREE.Material | null = null;
