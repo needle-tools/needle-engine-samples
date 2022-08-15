@@ -1,7 +1,7 @@
-import { Behaviour } from "needle.tiny.engine/engine-components/Component";
-import { EventList } from "needle.tiny.engine/engine-components/EventList";
-import { RGBAColor } from "needle.tiny.engine/engine-components/js-extensions/RGBAColor";
-import { serializeable } from "needle.tiny.engine/engine/engine_serialization_decorator";
+import { Behaviour } from "@needle-tools/engine/engine-components/Component";
+import { EventList } from "@needle-tools/engine/engine-components/EventList";
+import { RGBAColor } from "@needle-tools/engine/engine-components/js-extensions/RGBAColor";
+import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
 

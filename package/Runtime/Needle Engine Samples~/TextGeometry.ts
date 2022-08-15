@@ -1,110 +1,198 @@
 import { Color, Group, Object3D, BufferGeometry, DoubleSide, Material, Mesh, MeshStandardMaterial, ShapeGeometry, Vector3 } from "three";
 import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry as ThreeTextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import { Behaviour } from 'needle.tiny.engine/engine-components/Component';
-import { serializeable } from "needle.tiny.engine/engine/engine_serialization_decorator";
+import { Behaviour } from '@needle-tools/engine/engine-components/Component';
+import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
+import { FrameEvent } from "@needle-tools/engine/engine/engine_setup";
+
 
 // @dont-generate-component
+export class TextMesh extends Behaviour {
+
+    @serializeable()
+    text?: string;
+
+    // http://gero3.github.io/facetype.js/
+    @serializeable()
+    font?: string;
+
+    @serializeable()
+    characterSize: number = 1;
+
+    @serializeable()
+    fontSize: number = 10;
+
+    @serializeable()
+    lineSpacing: number = 1;
+
+    @serializeable(Color)
+    color: Color;
+
+    private _loadedFont?: Font | null;
+
+    async getFont(characterSpacing: number = 1): Font {
+        if (this._loadedFont !== undefined)
+            return this._loadedFont;
+
+        if (this.font?.startsWith("fonts/")) {
+            this.font = this.font.substring(6);
+        }
+
+        const loader = new FontLoader();
+        const path = "assets/font/helvetiker_bold.typeface.json";// './include/three-mesh-ui-assets/' + this.font?.toLowerCase() + '-msdf.json';
+        console.log(path);
+        return new Promise((res, _rej) => {
+            loader.load(path, response => {
+                this._loadedFont = response;
+                const bb = this._loadedFont.data.boundingBox;
+                if (bb) {
+                    bb.yMax *= this.lineSpacing;
+                    bb.yMin *= this.lineSpacing;
+                }
+
+                // update glyph ha for character spacing
+                const glyphData = this._loadedFont.data.glyphs;
+                if (glyphData) {
+                    for (const glyph in glyphData)
+                        glyphData[glyph].ha = glyphData[glyph].ha * characterSpacing;
+                }
+
+                res(this._loadedFont);
+            });
+        });
+    }
+}
+
 export class TextGeometry extends Behaviour {
 
     // not passed over for now, needs additional assets
-
-    fontName = 'droid_sans'; // helvetiker, optimer, gentilis, droid sans, droid serif
-    fontWeight = 'regular'; // regular bold
+    // fontName = 'droid_sans'; // helvetiker, optimer, gentilis, droid sans, droid serif
+    // fontWeight = 'regular'; // regular bold
 
     // passed over from editor
 
-    text = 'three.js';
+    get text(): string {
+        return this.textMesh?.text ?? "";
+    }
+    set text(str: string) {
+        if (this.textMesh && str !== this.textMesh.text) {
+            this.textMesh.text = str;
+            this.refreshText();
+        }
+    }
 
-    lineSpacing = 1.0;
-    characterSpacing = 1.0;
-    size = 0.1;
-    @serializeable(Color)
-    fontColor: Color = null!;
-    curveSegments = 4;
+    get size(): number {
+        return this.textMesh?.characterSize ?? 1;
+    }
 
-    extrudeEnabled = true;
-    extrudeHeight = 0.01;
+    get lineSpacing(): number {
+        return this.textMesh?.lineSpacing ?? 1;
+    }
 
-    bevelEnabled = true;
-    bevelThickness = 0.005;
-    bevelSize = 0.004;
+    @serializeable()
+    characterSpacing: number = 1.0;
+    @serializeable()
+    curveSegments: number = 4;
+
+    @serializeable()
+    extrudeEnabled: boolean = true;
+    @serializeable()
+    extrudeHeight: number = 0.01;
+
+    @serializeable()
+    bevelEnabled: boolean = true;
+    @serializeable()
+    bevelThickness: number = 0.005;
+    @serializeable()
+    bevelSize: number = 0.004;
 
     // js properties
 
     private group!: Group;
-    private textMesh1!: Object3D;
+    private font: Font | null = null;
+    private textMeshObj!: Object3D;
     private textGeo!: BufferGeometry;
     private materials!: Material | Material[];
-    private font: Font | null = null;
-
-    setColor(col: Color) {
-        this.fontColor = col;
-        if (this.materials) {
-            if (Array.isArray(this.materials)) {
-                for (const mat of this.materials) mat["color"] = col;
-            }
-            else this.materials["color"] = col;
-        }
-    }
+    private textMesh?: TextMesh;
 
     awake() {
-
-        this.materials =
-            false ?
-                [
-                    new MeshStandardMaterial({ color: this.fontColor, flatShading: false }), // front
-                    new MeshStandardMaterial({ color: this.fontColor, flatShading: false }) // side
-                ] :
-                new MeshStandardMaterial({ color: this.fontColor, flatShading: false, side: DoubleSide }) // side
-            ;
-
         this.group = new Group();
         this.gameObject.add(this.group);
-
         this.loadFont();
     }
 
-    loadFont() {
-
-        const me = this;
-        const loader = new FontLoader();
-        loader.load('./include/three-json-fonts/' + this.fontName + '_' + this.fontWeight + '.typeface.json', function (response) {
-            me.font = response;
-
-            // relevant lines in FontLoader source
-            // const line_height = ( data.boundingBox.yMax - data.boundingBox.yMin + data.underlineThickness ) * scale; // line height, https://github.com/mrdoob/three.js/blob/1a241ef10048770d56e06d6cd6a64c76cc720f95/examples/jsm/loaders/FontLoader.js#L87
-            // return { offsetX: glyph.ha * scale, path: path }; // character distance, https://github.com/mrdoob/three.js/blob/1a241ef10048770d56e06d6cd6a64c76cc720f95/examples/jsm/loaders/FontLoader.js#L190
-
-            // update font bounding box for line spacing
-            let bb = me.font.data["boundingBox"];
-            bb.yMax *= me.lineSpacing;
-            bb.yMin *= me.lineSpacing;
-
-            // update glyph ha for character spacing
-            let glyphData = me.font.data["glyphs"];
-            for (let glyph in glyphData)
-                glyphData[glyph].ha = glyphData[glyph].ha * me.characterSpacing;
-
-            me.refreshText();
-
-        });
-
+    onEnable() {
+        this.refreshText();
     }
 
-    createGeometryText() {
+    onDisable() {
+        this._isDirty = false;
+    }
+
+    async loadFont() {
+        this.textMesh = this.gameObject.getComponent(TextMesh) ?? undefined;
+        if (this.textMesh) {
+            this.font = await this.textMesh.getFont(this.characterSpacing);
+        }
+        if (this.font) {
+            console.log(this.font);
+
+            const color = this.textMesh?.color;
+            this.materials =
+                false ?
+                    [
+                        new MeshStandardMaterial({ color: color, flatShading: false }), // front
+                        new MeshStandardMaterial({ color: color, flatShading: false }) // side
+                    ] :
+                    new MeshStandardMaterial({ color: color, flatShading: false, side: DoubleSide }) // side
+                ;
+
+            console.log("font loaded");
+            this.refreshText();
+        }
+    }
+
+
+    refreshText() {
+        this.markDirty();
+    }
+
+
+    private _isDirty: boolean = false;
+
+    private markDirty() {
+        if (this._isDirty) return;
+        this._isDirty = true;
+        this.startCoroutine(this.waitForEndOfFrame(), FrameEvent.OnBeforeRender);
+    }
+
+    private *waitForEndOfFrame() {
+        yield;
+        this.createGeometryText();
+    }
+
+    private createGeometryText() {
+        this._isDirty = false;
         if (!this.font) return;
+
+        if (this.group && this.textMeshObj)
+            this.group.remove(this.textMeshObj);
+
         // geometric, extruded text with optional bevel
+
+        this.textGeo?.dispose();
+
+        let size = this.size;
+        if (this.textMesh) {
+            size *= this.textMesh?.fontSize / 15;
+        }
 
         if (this.extrudeEnabled) {
             this.textGeo = new ThreeTextGeometry(this.text, {
-
-                font: this.font!,
-
-                size: this.size * 10,
+                font: this.font,
+                size: size,
                 height: this.extrudeHeight,
                 curveSegments: this.curveSegments,
-
                 bevelThickness: this.bevelThickness,
                 bevelSize: this.bevelSize,
                 bevelEnabled: this.bevelEnabled
@@ -112,7 +200,7 @@ export class TextGeometry extends Behaviour {
             });
         }
         else {
-            const shapes = this.font!.generateShapes(this.text, this.size * 10);
+            const shapes = this.font.generateShapes(this.text, size);
             this.textGeo = new ShapeGeometry(shapes, this.curveSegments);
         }
 
@@ -121,44 +209,21 @@ export class TextGeometry extends Behaviour {
         this.textGeo.computeBoundingBox();
 
         const centerOffsetX = 0.5 * (this.textGeo.boundingBox!.max.x - this.textGeo.boundingBox!.min.x);
-        let center = new Vector3();
+        const center = new Vector3();
         this.textGeo.boundingBox!.getCenter(center);
-        const centerOffsetY = this.textGeo.boundingBox!.max.y - this.textGeo.boundingBox!.min.y - this.size * 10;
-        const centerOffsetZ = 0.5 * (this.textGeo.boundingBox!.max.z - this.textGeo.boundingBox!.min.z);
+        const centerOffsetY = this.textGeo.boundingBox!.max.y - this.textGeo.boundingBox!.min.y - size;
+        // const centerOffsetZ = 0.5 * (this.textGeo.boundingBox!.max.z - this.textGeo.boundingBox!.min.z);
 
-        this.textMesh1 = new Mesh(this.textGeo, this.materials);
-        this.textMesh1.castShadow = true;
+        this.textMeshObj = new Mesh(this.textGeo, this.materials);
+        this.textMeshObj.castShadow = true;
 
-        this.textMesh1.position.x = centerOffsetX;
-        this.textMesh1.position.y = centerOffsetY;
-        this.textMesh1.position.z = this.extrudeEnabled ? this.extrudeHeight * 0.5 : 0.0;
-        this.textMesh1.rotation.x = 0;
-        this.textMesh1.rotation.y = Math.PI * 1;
+        this.textMeshObj.position.x = centerOffsetX;
+        this.textMeshObj.position.y = centerOffsetY;
+        this.textMeshObj.position.z = this.extrudeEnabled ? this.extrudeHeight * 0.5 : 0.0;
+        this.textMeshObj.rotation.x = 0;
+        this.textMeshObj.rotation.y = Math.PI * 1;
 
-        this.group.add(this.textMesh1);
+        this.group.add(this.textMeshObj);
         this.group.traverse(x => x.frustumCulled = false);
-
-        // console.log(this);
-    }
-
-    private isDirty: boolean = false;
-
-    refreshText() {
-        if (this.group)
-            this.group.remove(this.textMesh1);
-        if (!this.text) return;
-        if (!this.font) {
-            this.isDirty = true;
-            this.startCoroutine(this.internalWait());
-        }
-        else
-            this.createGeometryText();
-    }
-
-    *internalWait() {
-        while (this.isDirty) {
-            yield;
-        }
-        this.createGeometryText();
     }
 }
