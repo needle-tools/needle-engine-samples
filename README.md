@@ -1,6 +1,10 @@
 # Needle Engine Samples
 
-This repository contains Needle Engine sample scenes.
+This repository contains Needle Engine sample scenes.  
+
+1) Clone this repository
+2) Open any Unity project inside the ``projects`` subfolder of this repository
+3) All samples are in ``Packages/Needle Engine Sample Assets/Runtime``
 
 ## Sample Scenes
 
