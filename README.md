@@ -7,7 +7,7 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
 ## Get Started  
 1) Clone this repository
 2) Open any Unity project inside the ``projects`` subfolder of this repository
-3) All samples are in ``Packages/Needle Engine Sample Assets/Runtime``
+3) NOTE: All samples are in **Packages/Needle Engine Sample Assets/Runtime**
 
 ## Content: Sample Scenes  
 *These are some live examples of the scenes this repository contains*
