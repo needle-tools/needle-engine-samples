@@ -4,11 +4,13 @@
 
 This repository contains [Needle Engine](https://docs.needle.tools) sample scenes.  
 
+## Get Started  
 1) Clone this repository
 2) Open any Unity project inside the ``projects`` subfolder of this repository
 3) All samples are in ``Packages/Needle Engine Sample Assets/Runtime``
 
-## Live Sample Scenes
+## Content: Sample Scenes  
+*These are some live examples of the scenes this repository contains*
 
 - [Brune Simons 20k](https://bruno-simon-20k-needle.glitch.me/)  
   *Physics*
