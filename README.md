@@ -2,7 +2,7 @@
 
 # Needle Engine Samples
 
-This repository contains Needle Engine sample scenes.  
+This repository contains [Needle Engine](https://docs.needle.tools) sample scenes.  
 
 1) Clone this repository
 2) Open any Unity project inside the ``projects`` subfolder of this repository
