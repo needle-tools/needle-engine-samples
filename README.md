@@ -21,7 +21,9 @@ This repository contains Needle Engine sample scenes.
 - [VideoPlayer](https://needle-videoplayer-sample.glitch.me/)  
   *Minimal Unity VideoPlayer sample*  
 - [UI Button](https://needle-ui-button-sample.glitch.me/)   
-  *Minimal UI button event sample**
+  *Minimal UI button event sample*
+- [Spatial Trigger](https://needle-spatial-trigger-sample.glitch.me/)  
+  *Define areas in your world and hookup events from Unity*
  
 ## Sample Scene Videos
 
