@@ -2,13 +2,15 @@
 
 # Needle Engine Samples
 
-This repository contains Needle Engine sample scenes.  
+This repository contains [Needle Engine](https://docs.needle.tools) sample scenes.  
 
+## Get Started  
 1) Clone this repository
 2) Open any Unity project inside the ``projects`` subfolder of this repository
-3) All samples are in ``Packages/Needle Engine Sample Assets/Runtime``
+3) NOTE: All samples are in **Packages/Needle Engine Sample Assets/Runtime**
 
-## Live Sample Scenes
+## Content: Sample Scenes  
+*These are some live examples of the scenes this repository contains*
 
 - [Brune Simons 20k](https://bruno-simon-20k-needle.glitch.me/)  
   *Physics*
@@ -21,7 +23,9 @@ This repository contains Needle Engine sample scenes.
 - [VideoPlayer](https://needle-videoplayer-sample.glitch.me/)  
   *Minimal Unity VideoPlayer sample*  
 - [UI Button](https://needle-ui-button-sample.glitch.me/)   
-  *Minimal UI button event sample**
+  *Minimal UI button event sample. Uses: Unity UI*
+- [Spatial Trigger](https://needle-spatial-trigger-sample.glitch.me/)  
+  *Define areas in your world and hookup events from Unity. Uses: SpatialTrigger, Events, Animator*
  
 ## Sample Scene Videos
 
@@ -30,6 +34,8 @@ https://user-images.githubusercontent.com/5083203/189973321-aeafc83b-7c71-4517-a
 https://user-images.githubusercontent.com/5083203/189970610-9f913d5e-4f77-4a64-bc15-beb8220e82cf.mp4  
 
 https://user-images.githubusercontent.com/5083203/189973474-2d907e1c-fae3-439f-a349-5fe2c9b25b15.mp4
+
+https://user-images.githubusercontent.com/5083203/190458268-c66bad1e-fd68-4171-85b0-2ce001591650.mp4
 
 
 
