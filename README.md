@@ -26,6 +26,8 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
   *Minimal UI button event sample. Uses: Unity UI*
 - [Spatial Trigger](https://needle-spatial-trigger-sample.glitch.me/)  
   *Define areas in your world and hookup events from Unity. Uses: SpatialTrigger, Events, Animator*
+- [UI Fonts](https://needle-fonts-sample.glitch.me/)  
+  *Fonts are automatically exported*
  
 ## Sample Scene Videos
 
