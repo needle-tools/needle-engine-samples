@@ -12,7 +12,7 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
 ## Content: Sample Scenes  
 *These are some live examples of the scenes this repository contains*
 
-- [Brune Simons 20k](https://bruno-simon-20k-needle.glitch.me/)  
+- [Bruno Simon 20k](https://bruno-simon-20k-needle.glitch.me/)  
   *Physics*
 - [Stencil Portals](https://needle-stencil-rendering.glitch.me/)  
   *URP RenderObject stencil to threejs*
