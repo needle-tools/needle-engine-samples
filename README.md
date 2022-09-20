@@ -14,7 +14,7 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
 
 - [Bruno Simon 20k](https://bruno-simon-20k-needle.glitch.me/)  
   *Physics*
-- [Stencil Portals](https://needle-stencil-rendering.glitch.me/)  
+- [Stencil Portals](https://needle-stencil-rendering-sample.glitch.me/)  
   *URP RenderObject stencil to threejs*
 - [Custom Shaders](https://needle-custom-shader-sample.glitch.me/)  
   *Unity ShaderGraph to threejs*
