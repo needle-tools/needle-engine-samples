@@ -16,7 +16,7 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
   *Physics*
 - [Stencil Portals on glitch](https://needle-stencil-rendering-sample.glitch.me/) or [on itch.io](https://needletools.itch.io/needle-engine-stencils-sample)  
   *URP RenderObject stencil to threejs*
-- [Custom Shaders](https://needle-custom-shader-sample.glitch.me/)  
+- [Custom Shaders o glitch](https://needle-custom-shader-sample.glitch.me/) or [on itch.io](https://needletools.itch.io/needle-engine-shader-sample)    
   *Unity ShaderGraph to threejs*
 - [Sandbox](https://needle-tiny-starter.glitch.me/)  
   *Multi-user sandbox builder*
