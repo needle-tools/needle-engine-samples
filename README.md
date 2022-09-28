@@ -28,6 +28,8 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
   *Define areas in your world and hookup events from Unity. Uses: SpatialTrigger, Events, Animator*
 - [UI Fonts](https://needle-fonts-sample.glitch.me/)  
   *Fonts are automatically exported*
+- [Ground Projection with Drag-Drop HDRi](https://needle-groundprojection-sample.glitch.me/)  
+  *Threejs ground environment projection and drag-drop HDRi import from [PolyHaven](https://polyhaven.com/hdris)*
  
 ## Sample Scene Videos
 
@@ -38,6 +40,8 @@ https://user-images.githubusercontent.com/5083203/189970610-9f913d5e-4f77-4a64-b
 https://user-images.githubusercontent.com/5083203/189973474-2d907e1c-fae3-439f-a349-5fe2c9b25b15.mp4
 
 https://user-images.githubusercontent.com/5083203/190458268-c66bad1e-fd68-4171-85b0-2ce001591650.mp4
+
+https://user-images.githubusercontent.com/5083203/192903705-65c403b5-f8f3-4f5d-9c77-514087810da7.mp4
 
 
 
