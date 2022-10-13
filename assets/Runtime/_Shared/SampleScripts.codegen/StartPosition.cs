@@ -5,11 +5,11 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class RandomColor : UnityEngine.MonoBehaviour
+	public partial class StartPosition : UnityEngine.MonoBehaviour
 	{
-		public bool @applyOnStart = true;
+		public UnityEngine.Vector3 @startPosition;
 		public void start(){}
-		public void applyRandomColor(){}
+		public void resetToStart(){}
 	}
 }
 

@@ -1,10 +1,27 @@
-import { Behaviour } from "@needle-tools/engine";
+import { Behaviour, serializeable } from "@needle-tools/engine";
 import { Renderer } from "@needle-tools/engine/engine-components/Renderer";
 import { Color } from "three";
 
 export class RandomColor extends Behaviour {
+
+    @serializeable()
+    applyOnStart: boolean = true;
+
     start() {
-        this.applyRandomColor();
+        if (this.applyOnStart)
+            this.applyRandomColor();
+
+        // if materials are not cloned and we change the color they might also change on other objects
+        const cloneMaterials = true;
+        if (cloneMaterials) {
+            const renderer = this.gameObject.getComponent(Renderer);
+            if (!renderer) {
+                return;
+            }
+            for (let i = 0; i < renderer.sharedMaterials.length; i++) {
+                renderer.sharedMaterials[i] = renderer.sharedMaterials[i].clone();
+            }
+        }
     }
 
     applyRandomColor() {
@@ -13,7 +30,7 @@ export class RandomColor extends Behaviour {
             console.warn("Can not change color: No renderer on " + this.name);
             return;
         }
-        for (let i = 0; i < renderer.sharedMaterials.length; i++) { 
+        for (let i = 0; i < renderer.sharedMaterials.length; i++) {
             renderer.sharedMaterials[i].color = new Color(Math.random(), Math.random(), Math.random());
         }
     }

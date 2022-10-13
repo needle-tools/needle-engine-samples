@@ -5,11 +5,10 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class RandomColor : UnityEngine.MonoBehaviour
+	public partial class ChangeColorOnCollision : UnityEngine.MonoBehaviour
 	{
-		public bool @applyOnStart = true;
 		public void start(){}
-		public void applyRandomColor(){}
+		public void onCollisionEnter(UnityEngine.Collider @_col){}
 	}
 }
 
