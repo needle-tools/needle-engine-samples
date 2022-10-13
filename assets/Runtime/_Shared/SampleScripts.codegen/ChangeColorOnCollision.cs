@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class ChangeColorOnCollision : UnityEngine.MonoBehaviour
 	{
 		public void start(){}
-		public void onCollisionEnter(UnityEngine.Collider @_col){}
+		public void onCollisionEnter(UnityEngine.Collision @_col){}
 	}
 }
 
