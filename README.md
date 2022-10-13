@@ -30,6 +30,8 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
   *Fonts are automatically exported*
 - [Ground Projection with Drag-Drop HDRi lighting](https://needle-groundprojection-sample.glitch.me/)  
   *Threejs ground environment projection and drag-drop HDRi import from [PolyHaven](https://polyhaven.com/hdris)*
+- [Physics Sample](https://needle-physics-sample.glitch.me/)
+  *Basic physics example showing how to use the physics callbacks on components. We change some colors on collision 😅*
  
 ## Sample Scene Videos
 
