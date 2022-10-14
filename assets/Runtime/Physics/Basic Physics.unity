@@ -543,7 +543,7 @@ Transform:
   - {fileID: 2044358870}
   - {fileID: 862246946}
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &602398392
 GameObject:
@@ -797,6 +797,53 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 607103999}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &692051024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692051025}
+  - component: {fileID: 692051026}
+  m_Layer: 0
+  m_Name: WorldBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &692051025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692051024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.13, z: 0}
+  m_LocalScale: {x: 30, y: 10, z: 30}
+  m_Children: []
+  m_Father: {fileID: 1597275518}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &692051026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692051024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7acbdfe3ef4eaf8bfa9ee4f4958339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.SpatialTrigger, Needle.Engine
+    $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-692051026-0
+  TriggerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &706762903
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,6 +1817,7 @@ Transform:
   - {fileID: 1609064307}
   - {fileID: 806518227}
   - {fileID: 724005985}
+  - {fileID: 692051025}
   - {fileID: 599714508}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -2235,7 +2283,7 @@ Transform:
   m_GameObject: {fileID: 1866542965}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 599714508}
   m_RootOrder: 0
@@ -2408,6 +2456,8 @@ GameObject:
   - component: {fileID: 2137960720}
   - component: {fileID: 2137960725}
   - component: {fileID: 2137960726}
+  - component: {fileID: 2137960728}
+  - component: {fileID: 2137960727}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -2423,7 +2473,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2137960718}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 2.21, z: 0}
+  m_LocalPosition: {x: 1, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 599714508}
@@ -2570,3 +2620,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-2137960726-0
   applyOnStart: 0
+--- !u!114 &2137960727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137960718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdac82c25b574d6a07a98d8506ba3f35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.StartPosition, Needle.Engine-Samples.Runtime
+    $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-2137960727-0
+  startPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &2137960728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137960718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90522fc79517459a92915e809fe9c0d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.SpatialTriggerReceiver, Needle.Engine
+    $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-2137960728-0
+  TriggerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStay:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2137960727}
+        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.StartPosition,
+          Needle.Engine-Samples.Runtime
+        m_MethodName: resetToStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
