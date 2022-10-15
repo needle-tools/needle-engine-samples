@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public void start(){}
 		public void onCollisionEnter(UnityEngine.Collision @_col){}
+		public void onCollisionExit(UnityEngine.Collision @_col){}
 	}
 }
 
