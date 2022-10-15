@@ -45,6 +45,7 @@ export class Cannon extends Behaviour {
             // make sure the object is active
             GameObject.setActive(instance, true);
 
+            this.audioSource?.stop();
             this.audioSource?.play();
 
             // set the object to the spawn position and apply the force
