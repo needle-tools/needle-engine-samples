@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class PlayAudioOnCollision : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.AudioSource @audioSource;
-		public void onCollisionEnter(){}
+		public void onTriggerEnter(){}
 	}
 }
 
