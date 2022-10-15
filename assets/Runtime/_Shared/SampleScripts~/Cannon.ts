@@ -1,5 +1,5 @@
 import { AudioSource, Behaviour, GameObject, InstantiateOptions, Rigidbody, serializeable } from "@needle-tools/engine";
-import { setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
+import { getWorldScale, setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
 import { Object3D, Vector3 } from "three";
 
 
@@ -53,10 +53,15 @@ export class Cannon extends Behaviour {
             setWorldPosition(instance, start);
             const rigidbody = GameObject.getComponent(instance, Rigidbody);
             if (!rigidbody) return;
-            const vel = forward.add(new Vector3(0, .3, 0)).multiplyScalar(3000 * rigidbody.mass);
+            // let scale = 1;
+            // if(this.context.isInXR)
+            // {
+            //     scale /= getWorldScale(comp.gameObject).x;
+            // }
+            const vel = forward.add(new Vector3(0, .3, 0)).multiplyScalar(50 * rigidbody.mass);
             rigidbody?.setVelocity(0, 0, 0);
             rigidbody?.setTorque(0, 0, 0);
-            rigidbody?.applyForce(vel, undefined);
+            rigidbody?.applyForce(vel);
         }
     }
 }
