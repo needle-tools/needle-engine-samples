@@ -57,12 +57,13 @@ export class Cannon extends Behaviour {
             setWorldPosition(instance, start);
             const rigidbody = GameObject.getComponent(instance, Rigidbody);
             if (!rigidbody) return;
-            
+
             const vel = new Vector3(0, 0, -1);
-            this._pointerRotation.y = -screenPoint.x;
-            // TODO: this is not correct when turning the camera
-            this._pointerRotation.x = screenPoint.y;
-            vel.applyEuler(this._pointerRotation);
+            if (!this.context.isInXR) { 
+                this._pointerRotation.y = -screenPoint.x;
+                this._pointerRotation.x = screenPoint.y;
+                vel.applyEuler(this._pointerRotation);
+            }
             vel.multiplyScalar(50 * rigidbody.mass);
             vel.applyQuaternion(comp.worldQuaternion);
             rigidbody?.setVelocity(0, 0, 0);
