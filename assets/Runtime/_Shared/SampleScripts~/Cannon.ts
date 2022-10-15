@@ -1,6 +1,6 @@
-import { AudioSource, Behaviour, GameObject, InstantiateOptions, Rigidbody, serializeable } from "@needle-tools/engine";
+import { AudioSource, Behaviour, Camera, GameObject, InstantiateOptions, Rigidbody, serializeable } from "@needle-tools/engine";
 import { getWorldScale, setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
-import { Object3D, Vector3 } from "three";
+import { Object3D, Vector3, Euler } from "three";
 
 
 export class Cannon extends Behaviour {
@@ -9,20 +9,24 @@ export class Cannon extends Behaviour {
     prefab?: THREE.Object3D;
 
     @serializeable(AudioSource)
-    audioSource? : AudioSource;
+    audioSource?: AudioSource;
 
     private _instances: THREE.Object3D[] = [];
     private _index: number = -1;
+    private _pointerRotation!: Euler;
 
     start() {
         if (this.prefab) GameObject.setActive(this.prefab, false);
+        this._pointerRotation = new Euler();
     }
 
     update() {
         if (this.context.input.getPointerClicked(0) && this.context.mainCameraComponent) {
             if (!this.prefab) return;
 
+            const screenPoint = this.context.input.getPointerPositionRC(0)!;
             const comp = this.context.mainCameraComponent;
+
             const forward = comp.forward;
             const pos = comp.worldPosition;
             const start = pos.add(forward);
@@ -53,12 +57,14 @@ export class Cannon extends Behaviour {
             setWorldPosition(instance, start);
             const rigidbody = GameObject.getComponent(instance, Rigidbody);
             if (!rigidbody) return;
-            // let scale = 1;
-            // if(this.context.isInXR)
-            // {
-            //     scale /= getWorldScale(comp.gameObject).x;
-            // }
-            const vel = forward.add(new Vector3(0, .3, 0)).multiplyScalar(50 * rigidbody.mass);
+            
+            const vel = new Vector3(0, 0, -1);
+            this._pointerRotation.y = -screenPoint.x;
+            // TODO: this is not correct when turning the camera
+            this._pointerRotation.x = screenPoint.y;
+            vel.applyEuler(this._pointerRotation);
+            vel.multiplyScalar(50 * rigidbody.mass);
+            vel.applyQuaternion(comp.worldQuaternion);
             rigidbody?.setVelocity(0, 0, 0);
             rigidbody?.setTorque(0, 0, 0);
             rigidbody?.applyForce(vel);
