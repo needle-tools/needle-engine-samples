@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, InstantiateOptions, Rigidbody, serializeable } from "@needle-tools/engine";
+import { AudioSource, Behaviour, GameObject, InstantiateOptions, Rigidbody, serializeable } from "@needle-tools/engine";
 import { setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
 import { Object3D, Vector3 } from "three";
 
@@ -7,6 +7,9 @@ export class Cannon extends Behaviour {
 
     @serializeable(Object3D)
     prefab?: THREE.Object3D;
+
+    @serializeable(AudioSource)
+    audioSource? : AudioSource;
 
     private _instances: THREE.Object3D[] = [];
     private _index: number = -1;
@@ -42,11 +45,14 @@ export class Cannon extends Behaviour {
             // make sure the object is active
             GameObject.setActive(instance, true);
 
+            this.audioSource?.play();
+
             // set the object to the spawn position and apply the force
             start.sub(new Vector3(0, 0.3, 0));
             setWorldPosition(instance, start);
             const rigidbody = GameObject.getComponent(instance, Rigidbody);
-            const vel = forward.add(new Vector3(0, .3, 0)).multiplyScalar(3000);
+            if (!rigidbody) return;
+            const vel = forward.add(new Vector3(0, .3, 0)).multiplyScalar(3000 * rigidbody.mass);
             rigidbody?.setVelocity(0, 0, 0);
             rigidbody?.setTorque(0, 0, 0);
             rigidbody?.applyForce(vel, undefined);

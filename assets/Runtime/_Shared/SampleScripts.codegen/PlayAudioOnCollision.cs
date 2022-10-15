@@ -5,12 +5,10 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class Cannon : UnityEngine.MonoBehaviour
+	public partial class PlayAudioOnCollision : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform @prefab;
 		public UnityEngine.AudioSource @audioSource;
-		public void start(){}
-		public void update(){}
+		public void onCollisionEnter(){}
 	}
 }
 
