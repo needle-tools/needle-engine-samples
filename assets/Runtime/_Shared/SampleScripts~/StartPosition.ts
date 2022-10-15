@@ -14,6 +14,7 @@ export class StartPosition extends Behaviour {
         if (!this.startPosition) return;
         this.gameObject.position.copy(this.startPosition);
         const rb = GameObject.getComponent(this.gameObject, Rigidbody);
-        if (rb) rb.setVelocity(0, 0, 0);
+        rb?.setVelocity(0, 0, 0);
+        rb?.setTorque(0, 0, 0);
     }
 }
