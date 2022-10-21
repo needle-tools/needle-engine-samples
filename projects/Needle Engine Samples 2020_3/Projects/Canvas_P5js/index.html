@@ -41,26 +41,39 @@
 <script>
   function setup() {
     createCanvas(400, 400);
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 30; i++) {
       let x = random(0, width);
       let y = random(0, height);
       let r = random(10, width * .5);
-      let c = color(random(0, 255), random(0, 255), random(0, 255));
-      fill(c);
+      noStroke();
+      fill(0);
       ellipse(x, y, r, r);
     }
+    createRandomColor();
+  }
+
+  let randomColor;
+  let randomWidth = 10;
+
+  function createRandomColor() {
+    randomWidth = random(10, 50);
+    randomColor = color(random(0, 255), random(0, 255), random(0, 255));
+  }
+
+  function mousePressed() {
+    createRandomColor();
   }
 
   function draw() {
     noStroke();
     noFill();
+    let radius = 80;
     if (mouseIsPressed) {
-      stroke(0, 0, 0, 100);
     } else {
-      stroke(0, 0, 0, 10);
-      fill(255, 255, 255, 10);
+      radius = randomWidth;
+      fill(randomColor);
     }
-    ellipse(mouseX, mouseY, 80, 80);
+    ellipse(mouseX, mouseY, radius);
   }
 </script>
 
