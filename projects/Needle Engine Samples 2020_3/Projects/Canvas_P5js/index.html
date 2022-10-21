@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <title>Made with Needle</title>
+  <meta name="description" content="🌵 Made with Needle Engine">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:title" content="Made with Needle" />
+  <meta property="og:description" content="🌵 Made with Needle Engine" />
+
+  <meta property="twitter:image" content="" />
+  <meta property="og:image" content="" />
+
+  <meta name="robots" content="index,follow">
+  <meta name="url" content="http://needle.tools">
+
+  <link rel="stylesheet" href="./src/styles/style.css">
+
+  <!-- include p5js -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
+  <link rel="stylesheet" href="./src/styles/p5.css">
+</head>
+
+<body>
+  <script>
+    // hack for simple-peer
+    window.global = window;
+    var parcelRequire;
+  </script>
+  <script type="module" src="./src/generated/gen.js"></script>
+  <script type="module" src="./src/main.ts"></script>
+
+  <needle-engine>
+  </needle-engine>
+</body>
+
+<script>
+  function setup() {
+    createCanvas(400, 400);
+    for (let i = 0; i < 10; i++) {
+      let x = random(0, width);
+      let y = random(0, height);
+      let r = random(10, width * .5);
+      let c = color(random(0, 255), random(0, 255), random(0, 255));
+      fill(c);
+      ellipse(x, y, r, r);
+    }
+  }
+
+  function draw() {
+    noStroke();
+    noFill();
+    if (mouseIsPressed) {
+      stroke(0, 0, 0, 100);
+    } else {
+      stroke(0, 0, 0, 10);
+      fill(255, 255, 255, 10);
+    }
+    ellipse(mouseX, mouseY, 80, 80);
+  }
+</script>
+
+</html>
