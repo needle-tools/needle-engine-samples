@@ -39,41 +39,69 @@
 </body>
 
 <script>
+  class Circle {
+    constructor(x, y, radius) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+      this.color = color(255, 255, 255);
+      this.directionX = random(-1, 1);
+      this.directionY = random(-1, 1);
+      this.speed = random(.5, 2);
+    }
+
+    update() {
+      if (this.x > width || this.x < 0) {
+        this.directionX *= -1;
+      }
+      if (this.y > height || this.y < 0) {
+        this.directionY *= -1;
+      }
+      const distanceToMouse = dist(this.x, this.y, mouseX, mouseY);
+      if (distanceToMouse < 100) {
+        // move away from mouse
+        this.directionX = (this.x - mouseX) / 100;
+        this.directionY = (this.y - mouseY) / 100;
+        this.speed *= 1.1;
+      }
+      this.x += this.directionX * this.speed;
+      this.y += this.directionY * this.speed;
+      this.speed *= .99;
+      if(this.speed < 1) this.speed = 1;
+    }
+
+    draw() {
+      fill(this.color);
+      noStroke();
+      ellipse(this.x, this.y, this.radius);
+    }
+  }
+
+  const circles = [];
+
   function setup() {
     createCanvas(400, 400);
-    for (let i = 0; i < 30; i++) {
-      let x = random(0, width);
-      let y = random(0, height);
-      let r = random(10, width * .5);
-      noStroke();
-      fill(0);
-      ellipse(x, y, r, r);
+    for (let i = 0; i < 20; i++) {
+      const circle = new Circle(random(0, width), random(0, height), random(10, 30));
+      circles.push(circle);
     }
-    createRandomColor();
+    fill(0, 0, 0);
+    rect(0, 0, width, height);
   }
 
-  let randomColor;
-  let randomWidth = 10;
-
-  function createRandomColor() {
-    randomWidth = random(10, 50);
-    randomColor = color(random(0, 255), random(0, 255), random(0, 255));
-  }
 
   function mousePressed() {
-    createRandomColor();
   }
 
   function draw() {
     noStroke();
-    noFill();
-    let radius = 80;
-    if (mouseIsPressed) {
-    } else {
-      radius = randomWidth;
-      fill(randomColor);
+    fill(0, 0, 0, 1);
+    rect(0, 0, width, height);
+    for (let i = 0; i < circles.length; i++) {
+      const circle = circles[i];
+      circle.update();
+      circle.draw();
     }
-    ellipse(mouseX, mouseY, radius);
   }
 </script>
 
