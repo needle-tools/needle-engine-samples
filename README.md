@@ -35,7 +35,7 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
 - [Physic Cannon Sample](https://needle-physics-cannon-sample.glitch.me)  
   *Shoot some footballs*
 - [p5js Sample](https://needle-p5js-sample.glitch.me/)  
-  *Draw with p5js on 3d objects*
+  *Draw with [p5js](https://p5js.org/) on 3d objects*
 - [Screensharing](https://needle-engine-screenshare-sample.glitch.me/)  
   *Share your screen or camera with networking*  
 - [Progressive loading](https://needle-progressive-loading-sample.glitch.me/)  
