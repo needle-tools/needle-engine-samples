@@ -31,7 +31,15 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
 - [Ground Projection with Drag-Drop HDRi lighting](https://needle-groundprojection-sample.glitch.me/)  
   *Threejs ground environment projection and drag-drop HDRi import from [PolyHaven](https://polyhaven.com/hdris)*
 - [Physics Sample](https://needle-physics-sample.glitch.me/)  
-  *Basic physics example showing how to use the physics callbacks on components. We change some colors on collision 😅*
+  *Basic physics example showing how to use the physics callbacks on components. We change some colors on collision 😅* 
+- [Physic Cannon Sample](https://needle-physics-cannon-sample.glitch.me)  
+  *Shoot some footballs*
+- [p5js Sample](https://needle-p5js-sample.glitch.me/)  
+  *Draw with [p5js](https://p5js.org/) on 3d objects*
+- [Screensharing](https://needle-engine-screenshare-sample.glitch.me/)  
+  *Share your screen or camera with networking*  
+- [Progressive loading](https://needle-progressive-loading-sample.glitch.me/)  
+  *Lazily load high-res textures*  
  
 ## Sample Scene Videos
 
