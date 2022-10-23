@@ -36,9 +36,9 @@ This repository contains [Needle Engine](https://docs.needle.tools) sample scene
   *Shoot some footballs*
 - [p5js Sample](https://needle-p5js-sample.glitch.me/)  
   *Draw with p5js on 3d objects*
-- [Screensharing](https://needle-engine-screenshare-sample.glitch.com/)  
+- [Screensharing](https://needle-engine-screenshare-sample.glitch.me/)  
   *Share your screen or camera with networking*  
-- [Progressive loading](https://needle-progressive-loading-sample.glitch.com/)  
+- [Progressive loading](https://needle-progressive-loading-sample.glitch.me/)  
   *Lazily load high-res textures*  
  
 ## Sample Scene Videos
