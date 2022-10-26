@@ -76,6 +76,7 @@ namespace Needle
 			Refresh();
 			EditorApplication.delayCall += Refresh;
 			EditorSceneManager.activeSceneChangedInEditMode += (s, o) => Refresh();
+			maxSize = new Vector2(960, 1024);
 		}
 
 		private List<SampleInfo> sampleInfos;
@@ -114,7 +115,7 @@ namespace Needle
 					rect.y += rect.height;
 					rect.width = Screen.width;
 					// rect.height = rect.width / aspect;
-					rect.height = 128;
+					rect.height = 64;
 					EditorGUI.DrawPreviewTexture(rect, sample.Thumbnail, null, ScaleMode.ScaleAndCrop);
 					GUILayout.Space(rect.height);
 				}
@@ -138,7 +139,7 @@ namespace Needle
 					}
 
 					GUILayout.FlexibleSpace();
-					var buttonHeight = sample.Thumbnail ? 30 : (EditorGUIUtility.singleLineHeight);
+					var buttonHeight = EditorGUIUtility.singleLineHeight + 1;
 					if (!string.IsNullOrWhiteSpace(sample.LiveUrl))
 					{
 						if (GUILayout.Button("Live " + Constants.ExternalLinkChar, GUILayout.Height(buttonHeight)))
