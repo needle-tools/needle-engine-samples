@@ -43,6 +43,7 @@ namespace Needle
 				.ToList();
 
 			AssetDatabase.Refresh();
+			// TODO when auto collecting scenes ignore all scenes that are in subfolder depth > 1 (so not directly in a subfolder of the samples directory but further nested)
 			var tempSamples = AssetDatabase.FindAssets("t:SceneAsset", new[] { samplesDirectory });
 			foreach (var sample in tempSamples)
 			{
@@ -90,6 +91,10 @@ namespace Needle
 			{
 				EditorGUILayout.LabelField("Samples", EditorStyles.largeLabel);
 				GUILayout.FlexibleSpace();
+				if (GUILayout.Button("Open Documentation " + Constants.ExternalLinkChar))
+				{
+					Application.OpenURL("https://engine.needle.tools/docs");
+				}
 				if (GUILayout.Button("Show Samples Directory"))
 				{
 					var folder = AssetDatabase.LoadAssetAtPath<Object>("Packages/com.needle.sample-assets/Runtime");
