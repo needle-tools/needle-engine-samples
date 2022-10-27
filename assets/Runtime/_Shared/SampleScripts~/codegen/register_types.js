@@ -9,6 +9,7 @@ import { PhysicsCollision } from "../PhysicsCollision.ts";
 import { PlayAnimationOnCollision } from "../PlayAnimationOnCollision.ts";
 import { PlayAudioOnCollision } from "../PlayAudioOnCollision.ts";
 import { StartPosition } from "../StartPosition.ts";
+import { TimedSpawn } from "../TimedSpawn.ts";
 
 // Register types
 TypeStore.add("Cannon", Cannon);
@@ -19,3 +20,4 @@ TypeStore.add("PhysicsCollision", PhysicsCollision);
 TypeStore.add("PlayAnimationOnCollision", PlayAnimationOnCollision);
 TypeStore.add("PlayAudioOnCollision", PlayAudioOnCollision);
 TypeStore.add("StartPosition", StartPosition);
+TypeStore.add("TimedSpawn", TimedSpawn);

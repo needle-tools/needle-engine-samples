@@ -8,10 +8,12 @@ export class StartPosition extends Behaviour {
 
     start() {
         this.startPosition = this.gameObject.position.clone();
+        // setInterval(()=>this.resetToStart(), 3000);
     }
 
     resetToStart() {
         if (!this.startPosition) return;
+        console.log("RESET", this.startPosition);
         this.gameObject.position.copy(this.startPosition);
         const rb = GameObject.getComponent(this.gameObject, Rigidbody);
         rb?.setVelocity(0, 0, 0);
