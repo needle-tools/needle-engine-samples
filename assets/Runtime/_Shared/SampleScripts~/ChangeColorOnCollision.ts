@@ -3,6 +3,7 @@ import { Behaviour, Collision, Renderer } from "@needle-tools/engine";
 export class ChangeColorOnCollision extends Behaviour {
 
     private renderer: Renderer | null = null;
+    private collisionCount: number = 0;
 
     start() {
         this.renderer = this.gameObject.getComponent(Renderer);
@@ -14,6 +15,7 @@ export class ChangeColorOnCollision extends Behaviour {
 
     onCollisionEnter(_col: Collision) {
         if (!this.renderer) return;
+        this.collisionCount += 1;
         for (let i = 0; i < this.renderer.sharedMaterials.length; i++) {
             this.renderer.sharedMaterials[i].color.setRGB(Math.random(), Math.random(), Math.random());
         }
@@ -21,9 +23,11 @@ export class ChangeColorOnCollision extends Behaviour {
 
     onCollisionExit(_col: Collision) {
         if (!this.renderer) return;
-        if(this.collisionsCount > 0) return;
-        for (let i = 0; i < this.renderer.sharedMaterials.length; i++) {
-            this.renderer.sharedMaterials[i].color.setRGB(.1,.1,.1);
+        this.collisionCount -= 1;
+        if (this.collisionCount === 0) {
+            for (let i = 0; i < this.renderer.sharedMaterials.length; i++) {
+                this.renderer.sharedMaterials[i].color.setRGB(.1, .1, .1);
+            }
         }
     }
 

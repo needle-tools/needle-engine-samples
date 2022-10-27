@@ -64,11 +64,12 @@ export class Cannon extends Behaviour {
                 this._pointerRotation.x = screenPoint.y;
                 vel.applyEuler(this._pointerRotation);
             }
-            vel.multiplyScalar(50 * rigidbody.mass);
+            
+            vel.multiplyScalar(10);
             vel.applyQuaternion(comp.worldQuaternion);
-            rigidbody?.setVelocity(0, 0, 0);
-            rigidbody?.setTorque(0, 0, 0);
-            rigidbody?.applyForce(vel);
+            rigidbody.resetForcesAndTorques();
+            rigidbody.resetVelocities();
+            rigidbody?.applyImpulse(vel);
         }
     }
 }

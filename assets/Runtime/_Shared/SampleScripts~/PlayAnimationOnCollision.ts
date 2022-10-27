@@ -10,7 +10,7 @@ export class PlayAnimationOnCollision extends Behaviour {
     private _lastTriggerTime: number = 0;
 
     onTriggerEnter(col) {
-        console.log("ENTER", col.gameObject);
+        console.log("ENTER", this);
         if (this.context.time.time - this._lastTriggerTime < .3) return;
         this._lastTriggerTime = this.context.time.time;
         if (this.animation) this.animation.play(0, { loop: false });
