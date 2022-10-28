@@ -1,4 +1,5 @@
 import { Behaviour, GameObject, LogType, serializeable, showBalloonMessage } from "@needle-tools/engine";
+import { WaitForSeconds } from "@needle-tools/engine/engine/engine_coroutine";
 import { serializeObject } from "@needle-tools/engine/engine/engine_serialization_core";
 import { Object3D } from "three";
 
@@ -7,9 +8,9 @@ export class TimedSpawn extends Behaviour {
     object?: GameObject;
 
     interval: number = 1000;
-    max : number = 100;
-    
-    private spawned : number = 0;
+    max: number = 100;
+
+    private spawned: number = 0;
 
     awake() {
         if (!this.object) {
@@ -18,15 +19,16 @@ export class TimedSpawn extends Behaviour {
             return;
         }
         GameObject.setActive(this.object, false);
-        const interval = setInterval(() => {
-            if (!this.object) return;
-            if(this.spawned >= this.max) {
-                clearInterval(interval);
-                return;
-            }
+        this.startCoroutine(this.spawn())
+    }
+
+    *spawn() {
+        if (!this.object) return;
+        while (this.spawned < this.max) {
             const instance = GameObject.instantiate(this.object);
             GameObject.setActive(instance!, true);
             this.spawned += 1;
-        }, this.interval);
+            yield WaitForSeconds(this.interval / 1000);
+        }
     }
 }

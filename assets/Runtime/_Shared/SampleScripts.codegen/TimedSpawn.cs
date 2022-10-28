@@ -11,6 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @interval = 1000f;
 		public float @max = 100f;
 		public void awake(){}
+		public void spawn(){}
 	}
 }
 
