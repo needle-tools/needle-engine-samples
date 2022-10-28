@@ -839,7 +839,7 @@ Transform:
   m_GameObject: {fileID: 307935432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.55, z: 0}
-  m_LocalScale: {x: 1.3165022, y: 0.4749177, z: 1.3165017}
+  m_LocalScale: {x: 0.6688218, y: 0.24127217, z: 0.6688216}
   m_Children:
   - {fileID: 687178707}
   m_Father: {fileID: 599714508}
@@ -1278,6 +1278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 599714508}
+  - component: {fileID: 599714509}
   m_Layer: 0
   m_Name: Physics Objects
   m_TagString: Untagged
@@ -1308,6 +1309,19 @@ Transform:
   m_Father: {fileID: 1597275518}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &599714509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599714507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45ec385cd68b69447a510846141e8e2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.TeleportTarget, Needle.Engine
+    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-599714509-0
 --- !u!1 &629481511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,7 +1522,6 @@ GameObject:
   m_Component:
   - component: {fileID: 687178707}
   - component: {fileID: 687178708}
-  - component: {fileID: 687178709}
   m_Layer: 0
   m_Name: Propeller
   m_TagString: Untagged
@@ -1550,21 +1563,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &687178709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687178706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 920a854a289e41e694be9d07512f9a4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.AdditionalData.AnimationData, Needle.Engine
-    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-687178709-0
-  minMaxSpeed: {x: 2, y: 2}
-  minMaxOffsetNormalized: {x: 0, y: 0}
 --- !u!1 &700003122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1713,7 +1711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
-    $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-706762907-0
+    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-706762907-0
   autoRotate: 1
   autoRotateSpeed: 0.3
   enableKeys: 1
@@ -1738,7 +1736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalCameraData,
-    Unity.RenderPipelines.Universal.Runtime $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-706762908-0
+    Unity.RenderPipelines.Universal.Runtime $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-706762908-0
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
@@ -2550,6 +2548,50 @@ Transform:
   m_Father: {fileID: 687178707}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1131657795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1131657796}
+  - component: {fileID: 1131657797}
+  m_Layer: 0
+  m_Name: PlayerBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1131657796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131657795}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalScale: {x: 19.761, y: 39.522, z: 19.761}
+  m_Children: []
+  m_Father: {fileID: 1597275518}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1131657797
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131657795}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1135416290
 GameObject:
   m_ObjectHideFlags: 0
@@ -2776,6 +2818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1211803453}
   - component: {fileID: 1211803452}
+  - component: {fileID: 1211803454}
   m_Layer: 0
   m_Name: XR
   m_TagString: Untagged
@@ -2794,10 +2837,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-49068307165cdb346a242c48a6528235-1211803452-0
+  m_EditorClassIdentifier: 
   enableVR: 1
   enableAR: 1
-  defaultAvatar: {fileID: 0}
+  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
   handModelPath: 
   createVRButton: 1
   createARButton: 1
@@ -2815,6 +2858,18 @@ Transform:
   m_Father: {fileID: 1597275518}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1211803454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211803451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dbed295924245ab9fc25c3df3bcff02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.WebXRSync, Needle.Engine $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1211803454-0
 --- !u!1 &1264693306
 GameObject:
   m_ObjectHideFlags: 0
@@ -3228,6 +3283,7 @@ GameObject:
   - component: {fileID: 1597275519}
   - component: {fileID: 1597275520}
   - component: {fileID: 1597275521}
+  - component: {fileID: 1597275522}
   m_Layer: 0
   m_Name: SceneRoot
   m_TagString: Untagged
@@ -3254,6 +3310,9 @@ Transform:
   - {fileID: 724005985}
   - {fileID: 599714508}
   - {fileID: 393675637}
+  - {fileID: 1735917268}
+  - {fileID: 1638831709}
+  - {fileID: 1131657796}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3300,6 +3359,23 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1597275521-0
   arScale: 10
   invertForward: 0
+--- !u!114 &1597275522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597275517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3678e6ee7af44e4d9fecf9a0f082ba74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.SyncedRoom, Needle.Engine $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1597275522-0
+  roomName: Physics + Animation
+  urlParameterName: room
+  joinRandomRoom: 1
+  requireRoomParameter: 0
+  autoRejoin: 1
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0
@@ -3424,6 +3500,95 @@ Transform:
   m_Father: {fileID: 700003123}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!1 &1638831708
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1638831709}
+  - component: {fileID: 1638831710}
+  - component: {fileID: 1638831712}
+  - component: {fileID: 1638831711}
+  - component: {fileID: 1638831714}
+  m_Layer: 0
+  m_Name: XRRig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1638831709
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638831708}
+  m_LocalRotation: {x: -0, y: -0.9365181, z: -0, w: 0.3506194}
+  m_LocalPosition: {x: 1.17, y: 1.693, z: 3.06}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1597275518}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: -138.95, z: 0}
+--- !u!114 &1638831710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638831708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1638831710-0
+--- !u!54 &1638831711
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638831708}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
+--- !u!65 &1638831712
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638831708}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1638831714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638831708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6640489f291355f2ebffbcbfbec1452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.AutoReset, Needle.Engine-Samples.Runtime
+    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1638831714-0
+  worldCollider: {fileID: 1131657797}
 --- !u!1 &1654274936
 GameObject:
   m_ObjectHideFlags: 0
@@ -3614,6 +3779,130 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671961240}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1735917267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1735917268}
+  - component: {fileID: 1735917271}
+  - component: {fileID: 1735917270}
+  - component: {fileID: 1735917269}
+  m_Layer: 0
+  m_Name: Spectator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1735917268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735917267}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1597275518}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1735917269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735917267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalCameraData,
+    Unity.RenderPipelines.Universal.Runtime $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1735917269-0
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+--- !u!114 &1735917270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735917267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ab78f1b389ffa4082062e946ee337b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.SpectatorCamera, Needle.Engine
+    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1735917270-0
+  mode: 0
+--- !u!20 &1735917271
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735917267}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &1757714494
 GameObject:
   m_ObjectHideFlags: 0
@@ -3999,7 +4288,7 @@ Transform:
   m_GameObject: {fileID: 1866542965}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_Children: []
   m_Father: {fileID: 599714508}
   m_RootOrder: 1
@@ -4029,7 +4318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9722be1d85e14bc3a725c1a2e279cd7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectName: needle-physics-sample
+  ProjectName: needle-physics-animation-sample
 --- !u!1 &2023278910
 GameObject:
   m_ObjectHideFlags: 0
