@@ -5,10 +5,11 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class StartPosition : UnityEngine.MonoBehaviour
+	public partial class AutoReset : Needle.Typescript.GeneratedComponents.StartPosition
 	{
+		public UnityEngine.Collider @worldCollider;
 		public void start(){}
-		public void resetToStart(){}
+		public void onTriggerExit(object @col){}
 	}
 }
 

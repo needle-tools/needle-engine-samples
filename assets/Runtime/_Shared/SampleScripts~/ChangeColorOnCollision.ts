@@ -17,7 +17,7 @@ export class ChangeColorOnCollision extends Behaviour {
         if (!this.renderer) return;
         this.collisionCount += 1;
         for (let i = 0; i < this.renderer.sharedMaterials.length; i++) {
-            this.renderer.sharedMaterials[i].color.setRGB(Math.random(), Math.random(), Math.random());
+            this.renderer.sharedMaterials[i]["color"].setRGB(Math.random(), Math.random(), Math.random());
         }
     }
 
@@ -26,7 +26,7 @@ export class ChangeColorOnCollision extends Behaviour {
         this.collisionCount -= 1;
         if (this.collisionCount === 0) {
             for (let i = 0; i < this.renderer.sharedMaterials.length; i++) {
-                this.renderer.sharedMaterials[i].color.setRGB(.1, .1, .1);
+                this.renderer.sharedMaterials[i]["color"].setRGB(.1, .1, .1);
             }
         }
     }

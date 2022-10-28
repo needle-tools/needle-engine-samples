@@ -549,6 +549,7 @@ GameObject:
   - component: {fileID: 246607201}
   - component: {fileID: 246607205}
   - component: {fileID: 246607206}
+  - component: {fileID: 246607207}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -660,7 +661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3c12123e96cd7c0f7d2fbb94b65a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ChangeColorOnCollision,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-246607205-0
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-246607205-0
 --- !u!114 &246607206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,7 +674,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
-    GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-246607206-0
+    GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-246607206-0
+--- !u!114 &246607207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246607199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6640489f291355f2ebffbcbfbec1452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldCollider: {fileID: 393675638}
 --- !u!1 &281004358
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,8 +982,8 @@ GameObject:
   - component: {fileID: 393675637}
   - component: {fileID: 393675638}
   m_Layer: 0
-  m_Name: DeleteBox
-  m_TagString: EditorOnly
+  m_Name: WorldBox
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -982,11 +996,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393675636}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.13, z: 0}
-  m_LocalScale: {x: 30, y: 10, z: 30}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalScale: {x: 10, y: 20, z: 10}
   m_Children: []
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &393675638
 BoxCollider:
@@ -1292,7 +1306,7 @@ Transform:
   - {fileID: 995412503}
   - {fileID: 1811436884}
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &629481511
 GameObject:
@@ -1494,6 +1508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 687178707}
   - component: {fileID: 687178708}
+  - component: {fileID: 687178709}
   m_Layer: 0
   m_Name: Propeller
   m_TagString: Untagged
@@ -1535,53 +1550,21 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!1 &692051024
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 692051025}
-  - component: {fileID: 692051026}
-  m_Layer: 0
-  m_Name: WorldBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &692051025
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 692051024}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.13, z: 0}
-  m_LocalScale: {x: 30, y: 10, z: 30}
-  m_Children: []
-  m_Father: {fileID: 1597275518}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &692051026
+--- !u!114 &687178709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 692051024}
+  m_GameObject: {fileID: 687178706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d7acbdfe3ef4eaf8bfa9ee4f4958339, type: 3}
+  m_Script: {fileID: 11500000, guid: 920a854a289e41e694be9d07512f9a4a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.SpatialTrigger, Needle.Engine
-    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-692051026-0
-  TriggerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.AnimationData, Needle.Engine
+    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-687178709-0
+  minMaxSpeed: {x: 2, y: 2}
+  minMaxOffsetNormalized: {x: 0, y: 0}
 --- !u!1 &700003122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1822,7 +1805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e821103f3bbad7e4aafb1f92fb077a0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ShadowCatcher, Needle.Engine
-    $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-724005986-0
+    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-724005986-0
   mode: 0
   shadowColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!33 &724005987
@@ -1889,6 +1872,7 @@ GameObject:
   - component: {fileID: 724728138}
   - component: {fileID: 724728137}
   - component: {fileID: 724728142}
+  - component: {fileID: 724728143}
   m_Layer: 0
   m_Name: Cube (5)
   m_TagString: Untagged
@@ -2014,6 +1998,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-724728142-0
+--- !u!114 &724728143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724728135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6640489f291355f2ebffbcbfbec1452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.AutoReset, Needle.Engine-Samples.Runtime
+    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-724728143-0
+  worldCollider: {fileID: 393675638}
 --- !u!1 &739084372
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,7 +2089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.TimedSpawn, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-767966320-0
   object: {fileID: 724728135}
-  interval: 300
+  interval: 100
   max: 100
 --- !u!1 &784234922
 GameObject:
@@ -2567,6 +2565,7 @@ GameObject:
   - component: {fileID: 1135416293}
   - component: {fileID: 1135416292}
   - component: {fileID: 1135416297}
+  - component: {fileID: 1135416298}
   m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Untagged
@@ -2600,7 +2599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3c12123e96cd7c0f7d2fbb94b65a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ChangeColorOnCollision,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-1135416292-0
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1135416292-0
 --- !u!54 &1135416293
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2690,7 +2689,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
+    GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1135416297-0
+--- !u!114 &1135416298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135416290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6640489f291355f2ebffbcbfbec1452, type: 3}
+  m_Name: 
   m_EditorClassIdentifier: 
+  worldCollider: {fileID: 393675638}
 --- !u!1 &1151337483
 GameObject:
   m_ObjectHideFlags: 0
@@ -3239,7 +3252,6 @@ Transform:
   - {fileID: 1609064307}
   - {fileID: 806518227}
   - {fileID: 724005985}
-  - {fileID: 692051025}
   - {fileID: 599714508}
   - {fileID: 393675637}
   m_Father: {fileID: 0}
@@ -3286,7 +3298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1597275521-0
-  arScale: 5
+  arScale: 10
   invertForward: 0
 --- !u!1 &1609064305
 GameObject:
@@ -3790,6 +3802,7 @@ GameObject:
   - component: {fileID: 1798914982}
   - component: {fileID: 1798914986}
   - component: {fileID: 1798914987}
+  - component: {fileID: 1798914988}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -3915,6 +3928,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-1798914987-0
+--- !u!114 &1798914988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798914980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6640489f291355f2ebffbcbfbec1452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldCollider: {fileID: 393675638}
 --- !u!1 &1811436883
 GameObject:
   m_ObjectHideFlags: 0
