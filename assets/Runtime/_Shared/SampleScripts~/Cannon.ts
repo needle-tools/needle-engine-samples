@@ -21,6 +21,7 @@ export class Cannon extends Behaviour {
     }
 
     update() {
+        // todo: VR support
         if (this.context.input.getPointerClicked(0) && this.context.mainCameraComponent) {
             if (!this.prefab) return;
 
