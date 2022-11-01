@@ -11,6 +11,7 @@ using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.TestTools.Constraints;
 using Object = UnityEngine.Object;
+using Task = System.Threading.Tasks.Task;
 
 namespace Needle
 {
@@ -29,6 +30,21 @@ namespace Needle
 			{
 				CreateWindow<SamplesWindow>().Show();
 			}
+		}
+
+		private static bool didOpen
+		{
+			get => SessionState.GetBool("OpenedNeedleSamplesWindow", false);
+			set => SessionState.SetBool("OpenedNeedleSamplesWindow", value);
+		}
+
+		[InitializeOnLoadMethod]
+		private static async void Init()
+		{
+			if (didOpen) return;
+			didOpen = true;
+			await Task.Yield();
+			Open();
 		}
 
 		private const string samplesDirectory = "Packages/com.needle.sample-assets/Runtime";
