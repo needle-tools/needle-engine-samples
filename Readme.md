@@ -2,26 +2,44 @@
 
 # Needle Engine Samples
 
-This repository contains Needle Engine sample scenes.  
+This repository contains [Needle Engine](https://docs.needle.tools) sample scenes.  
 
+## Get Started  
 1) Clone this repository
 2) Open any Unity project inside the ``projects`` subfolder of this repository
-3) All samples are in ``Packages/Needle Engine Sample Assets/Runtime``
+3) NOTE: All samples are in **Packages/Needle Engine Sample Assets/Runtime**
 
-## Live Sample Scenes
+## Content: Sample Scenes  
+*These are some live examples of the scenes this repository contains*
 
-- [Brune Simons 20k](https://bruno-simon-20k-needle.glitch.me/)  
+- [Bruno Simon 20k on glitch](https://bruno-simon-20k-needle.glitch.me/) or [on itch.io](https://needletools.itch.io/bruno-simon-20k-in-needle-engine)   
   *Physics*
-- [Stencil Portals](https://needle-stencil-rendering.glitch.me/)  
+- [Stencil Portals on glitch](https://needle-stencil-rendering-sample.glitch.me/) or [on itch.io](https://needletools.itch.io/needle-engine-stencils-sample)  
   *URP RenderObject stencil to threejs*
-- [Custom Shaders](https://needle-custom-shader-sample.glitch.me/)  
+- [Custom Shaders o glitch](https://needle-custom-shader-sample.glitch.me/) or [on itch.io](https://needletools.itch.io/needle-engine-shader-sample)    
   *Unity ShaderGraph to threejs*
 - [Sandbox](https://needle-tiny-starter.glitch.me/)  
   *Multi-user sandbox builder*
 - [VideoPlayer](https://needle-videoplayer-sample.glitch.me/)  
   *Minimal Unity VideoPlayer sample*  
 - [UI Button](https://needle-ui-button-sample.glitch.me/)   
-  *Minimal UI button event sample**
+  *Minimal UI button event sample. Uses: Unity UI*
+- [Spatial Trigger](https://needle-spatial-trigger-sample.glitch.me/)  
+  *Define areas in your world and hookup events from Unity. Uses: SpatialTrigger, Events, Animator*
+- [UI Fonts](https://needle-fonts-sample.glitch.me/)  
+  *Fonts are automatically exported*
+- [Ground Projection with Drag-Drop HDRi lighting](https://needle-groundprojection-sample.glitch.me/)  
+  *Threejs ground environment projection and drag-drop HDRi import from [PolyHaven](https://polyhaven.com/hdris)*
+- [Physics Sample](https://needle-physics-sample.glitch.me/)  
+  *Basic physics example showing how to use the physics callbacks on components. We change some colors on collision 😅* 
+- [Physic Cannon Sample](https://needle-physics-cannon-sample.glitch.me)  
+  *Shoot some footballs*
+- [p5js Sample](https://needle-p5js-sample.glitch.me/)  
+  *Draw with [p5js](https://p5js.org/) on 3d objects*
+- [Screensharing](https://needle-engine-screenshare-sample.glitch.me/)  
+  *Share your screen or camera with networking*  
+- [Progressive loading](https://needle-progressive-loading-sample.glitch.me/)  
+  *Lazily load high-res textures*  
  
 ## Sample Scene Videos
 
@@ -30,6 +48,15 @@ https://user-images.githubusercontent.com/5083203/189973321-aeafc83b-7c71-4517-a
 https://user-images.githubusercontent.com/5083203/189970610-9f913d5e-4f77-4a64-bc15-beb8220e82cf.mp4  
 
 https://user-images.githubusercontent.com/5083203/189973474-2d907e1c-fae3-439f-a349-5fe2c9b25b15.mp4
+
+https://user-images.githubusercontent.com/5083203/190458268-c66bad1e-fd68-4171-85b0-2ce001591650.mp4
+
+https://user-images.githubusercontent.com/5083203/192903705-65c403b5-f8f3-4f5d-9c77-514087810da7.mp4
+
+https://user-images.githubusercontent.com/5083203/195703995-a070034d-60ed-4220-a23e-d5ec5c044dc3.mp4
+
+
+
 
 
 
