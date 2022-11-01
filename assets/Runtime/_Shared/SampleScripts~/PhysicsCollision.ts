@@ -38,8 +38,8 @@ export class PhysicsCollision extends Behaviour {
 
 export class PhysicsTrigger extends Behaviour {
 
-    @serializeable(Collider)
-    validColliders?:Collider[];
+    @serializeable(GameObject)
+    triggerObjects?:GameObject[];
 
     @serializeable(EventList)
     onEnter?: EventList;
@@ -51,17 +51,17 @@ export class PhysicsTrigger extends Behaviour {
     onExit?: EventList;
 
     onTriggerEnter(col: Collider) {
-        if(this.validColliders && this.validColliders.length >= 0 && !this.validColliders?.includes(col)) return;
+        if(this.triggerObjects && this.triggerObjects.length > 0 && !this.triggerObjects?.includes(col.gameObject)) return;
         this.onEnter?.invoke();
     }
 
     onTriggerStay(col: Collider) {
-        if(this.validColliders && this.validColliders.length >= 0 && !this.validColliders?.includes(col)) return;
+        if(this.triggerObjects && this.triggerObjects.length > 0 && !this.triggerObjects?.includes(col.gameObject)) return;
         this.onStay?.invoke();
     }
 
     onTriggerExit(col: Collider) {
-        if(this.validColliders && this.validColliders.length >= 0 && !this.validColliders?.includes(col)) return;
+        if(this.triggerObjects && this.triggerObjects.length > 0 && !this.triggerObjects?.includes(col.gameObject)) return;
         this.onExit?.invoke();
     }
 

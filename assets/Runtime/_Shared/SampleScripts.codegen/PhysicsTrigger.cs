@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class PhysicsTrigger : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Collider[] @validColliders;
+		public UnityEngine.GameObject[] @triggerObjects;
 		public UnityEngine.Events.UnityEvent @onEnter;
 		public UnityEngine.Events.UnityEvent @onStay;
 		public UnityEngine.Events.UnityEvent @onExit;
