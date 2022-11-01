@@ -8,6 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class StartPosition : UnityEngine.MonoBehaviour
 	{
 		public void start(){}
+		public void updateStartPosition(){}
 		public void resetToStart(){}
 	}
 }
