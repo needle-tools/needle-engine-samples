@@ -70,8 +70,7 @@ namespace Needle
 					var info = ScriptableObject.CreateInstance<SampleInfo>();
 					info.Scene = sceneAsset;
 					info.name = sceneAsset.name;
-					var screenshotPath = screenshotsDirectory + "/" + sceneAsset.name + ".png";
-					if (File.Exists(screenshotPath))
+					if (TryGetScreenshot(sceneAsset.name, out var screenshotPath))
 					{
 						info.Thumbnail = AssetDatabase.LoadAssetAtPath<Texture>(screenshotPath);
 					}
@@ -82,8 +81,12 @@ namespace Needle
 			sampleInfos.Sort((s, o) => (o.Thumbnail ? 1 : 0) - (s.Thumbnail ? 1 : 0));
 		}
 
-		private void Awake()
+		private bool TryGetScreenshot(string name, out string path)
 		{
+			path = screenshotsDirectory + "/" + name + ".png";
+			if (File.Exists(path)) return true;
+			path = screenshotsDirectory + "/" + name + ".jpg";
+			return File.Exists(path);
 		}
 
 		private void OnEnable()
