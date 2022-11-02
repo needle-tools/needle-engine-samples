@@ -77,7 +77,7 @@ namespace Needle
 					sampleInfos.Add(info);
 				}
 			}
-			
+
 			sampleInfos.Sort((s, o) => (o.Thumbnail ? 1 : 0) - (s.Thumbnail ? 1 : 0));
 		}
 
@@ -96,32 +96,51 @@ namespace Needle
 			EditorApplication.delayCall += Refresh;
 			EditorSceneManager.activeSceneChangedInEditMode += (s, o) => Refresh();
 			maxSize = new Vector2(960, 1024);
+			minSize = new Vector2(560, 420);
 		}
 
 		private List<SampleInfo> sampleInfos;
 		private Vector2 scroll;
+		private double lastClickTime;
 
 		private void OnGUI()
 		{
 			using var sv = new EditorGUILayout.ScrollViewScope(scroll);
 			scroll = sv.scrollPosition;
 
+			var isDoubleClick = false;
+			if (Event.current.type == EventType.MouseDown)
+			{
+				var now = EditorApplication.timeSinceStartup;
+				if (now - lastClickTime < .2f) isDoubleClick = true;
+				lastClickTime = now;
+			}
+
+			var labelLayout = new GUILayoutOption[] { };
+			var buttonHeight = EditorGUIUtility.singleLineHeight + 1;
+			var buttonLayout = new GUILayoutOption[]
+			{
+				GUILayout.Height(buttonHeight),
+				// GUILayout.MaxWidth(110)
+			};
+
 			GUILayout.Space(10);
 			using (new GUILayout.HorizontalScope())
 			{
-				EditorGUILayout.LabelField("Samples", EditorStyles.largeLabel);
-				GUILayout.FlexibleSpace();
-				if (GUILayout.Button("Open Documentation " + Constants.ExternalLinkChar))
+				EditorGUILayout.LabelField("Samples", EditorStyles.boldLabel, labelLayout);
+				// EditorGUILayout.Space(0, true);
+				if (GUILayout.Button("Open Documentation " + Constants.ExternalLinkChar, buttonLayout))
 				{
 					Application.OpenURL("https://engine.needle.tools/docs");
 				}
-				if (GUILayout.Button("Show Samples Directory"))
+				if (GUILayout.Button("Show Samples", buttonLayout))
 				{
 					var folder = AssetDatabase.LoadAssetAtPath<Object>("Packages/com.needle.sample-assets/Runtime");
 					EditorGUIUtility.PingObject(folder);
 				}
 			}
 			GUILayout.Space(15);
+
 
 			foreach (var sample in sampleInfos)
 			{
@@ -137,6 +156,16 @@ namespace Needle
 					rect.height = 64;
 					EditorGUI.DrawPreviewTexture(rect, sample.Thumbnail, null, ScaleMode.ScaleAndCrop);
 					GUILayout.Space(rect.height);
+					if (Event.current.type == EventType.MouseDown && sample.Scene)
+					{
+						if (rect.Contains(Event.current.mousePosition))
+						{
+							if (isDoubleClick)
+								OpenScene(sample.Scene);
+							else
+								EditorGUIUtility.PingObject(sample.Scene);
+						}
+					}
 				}
 				using (new GUILayout.HorizontalScope())
 				{
@@ -147,35 +176,43 @@ namespace Needle
 					}
 					else name = sample.DisplayName;
 
-					EditorGUILayout.LabelField(new GUIContent(name, sample.Description), EditorStyles.boldLabel);
+					EditorGUILayout.LabelField(new GUIContent(name, sample.Description), EditorStyles.boldLabel, labelLayout);
 					var rect = GUILayoutUtility.GetLastRect();
 					if (Event.current.type == EventType.MouseDown && sample.Scene)
 					{
 						if (rect.Contains(Event.current.mousePosition))
 						{
-							EditorGUIUtility.PingObject(sample.Scene);
+							if (isDoubleClick)
+								OpenScene(sample.Scene);
+							else
+								EditorGUIUtility.PingObject(sample.Scene);
 						}
 					}
 
-					GUILayout.FlexibleSpace();
-					var buttonHeight = EditorGUIUtility.singleLineHeight + 1;
+					// GUILayout.FlexibleSpace();
 					if (!string.IsNullOrWhiteSpace(sample.LiveUrl))
 					{
-						if (GUILayout.Button("Live " + Constants.ExternalLinkChar, GUILayout.Height(buttonHeight)))
+						if (GUILayout.Button("Live " + Constants.ExternalLinkChar, buttonLayout))
 						{
 							Application.OpenURL(sample.LiveUrl);
 						}
 					}
-					if (GUILayout.Button("Open Scene", GUILayout.Height(buttonHeight)))
+					if (GUILayout.Button("Open Scene", buttonLayout))
 					{
-						EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-						EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(sample.Scene), OpenSceneMode.Single);
+						OpenScene(sample.Scene);
 					}
 				}
 				if (sample.Thumbnail)
 					GUILayout.Space(10);
 				else GUILayout.Space(5);
 			}
+		}
+
+		private void OpenScene(SceneAsset asset)
+		{
+			EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+			EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(asset), OpenSceneMode.Single);
+			GUIUtility.ExitGUI();
 		}
 	}
 }
