@@ -11,7 +11,10 @@ export class SceneSwitcherSample extends Behaviour {
     private currentScene: AssetReference | undefined = undefined;
 
     start() {
-        showBalloonMessage("Press \"a\" or \"d\" keys to switch between the scenes or use the numbers 1 2 3");
+        setInterval(() => {
+            showBalloonMessage("Press \"a\" or \"d\" keys to switch between the scenes or use the numbers 1 2 3");
+        }, 3000);
+
         this.context.input.addEventListener(InputEvents.KeyDown, (e: any) => {
             if (!this.scenes) return;
             const key = e.key;
