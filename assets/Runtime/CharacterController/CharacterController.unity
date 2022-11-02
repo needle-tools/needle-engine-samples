@@ -1668,7 +1668,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &113837082
@@ -1889,7 +1889,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126150765}
-  m_LocalRotation: {x: -0, y: 0.3005038, z: -0, w: 0.95378065}
+  m_LocalRotation: {x: -0, y: 0.61115396, z: -0, w: 0.7915118}
   m_LocalPosition: {x: 0.13, y: 9.18, z: -0.0011785468}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1898,8 +1898,8 @@ Transform:
   - {fileID: 1719489590}
   - {fileID: 86442262}
   m_Father: {fileID: 1912817890}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 34.976, z: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 75.346, z: 0}
 --- !u!143 &126150767
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2554,7 +2554,7 @@ GameObject:
   - component: {fileID: 284856215}
   - component: {fileID: 284856216}
   m_Layer: 0
-  m_Name: LookAt
+  m_Name: SmoothedLook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3096,7 +3096,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &473873716
@@ -3370,36 +3370,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 523999363}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &526928499
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 526928500}
-  m_Layer: 0
-  m_Name: CameraPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &526928500
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526928499}
-  m_LocalRotation: {x: 0.33728024, y: -0.29438654, z: 0.11193285, w: 0.8871582}
-  m_LocalPosition: {x: 1.6402373, y: 2.586781, z: -2.0552435}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1129431095}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &565220704
 GameObject:
   m_ObjectHideFlags: 0
@@ -3750,7 +3720,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &625808552
@@ -4457,9 +4427,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.SmoothFollow, Needle.Engine $
     GlobalObjectId_V1-2-eac4dd0f2678cca419a5cb70efd54f74-706762909-0
   target: {fileID: 1719489590}
-  followFactor: 1
+  followFactor: 3
   rotateFactor: 0
-  positionAxes: 6
+  positionAxes: -1
 --- !u!1183024399 &706762910
 LookAtConstraint:
   m_ObjectHideFlags: 0
@@ -4574,7 +4544,7 @@ Transform:
   - {fileID: 585893092}
   - {fileID: 763231406}
   m_Father: {fileID: 1912817890}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 90.927, z: 0}
 --- !u!114 &753792283
 MonoBehaviour:
@@ -5588,7 +5558,7 @@ Transform:
   m_GameObject: {fileID: 1050250609}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 15.1, y: 2.29, z: -0.13}
-  m_LocalScale: {x: 0.38499454, y: 0.820352, z: 2.4684}
+  m_LocalScale: {x: 0.38499454, y: 0.820352, z: 1.837625}
   m_Children: []
   m_Father: {fileID: 203143735}
   m_RootOrder: 2
@@ -5651,55 +5621,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050250609}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1129431094
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1129431095}
-  - component: {fileID: 1129431096}
-  m_Layer: 0
-  m_Name: FollowCharacer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1129431095
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129431094}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.76, y: 1.96, z: 0.32}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 526928500}
-  m_Father: {fileID: 1912817890}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1129431096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129431094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91e887f1c3ee463881c1913204ca9388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.SmoothFollow, Needle.Engine $
-    GlobalObjectId_V1-2-eac4dd0f2678cca419a5cb70efd54f74-1129431096-0
-  target: {fileID: 126150766}
-  followFactor: 3
-  rotateFactor: 0
-  positionAxes: 14
 --- !u!1 &1130805816
 GameObject:
   m_ObjectHideFlags: 0
@@ -7745,7 +7666,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1912817890}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1609064308
 MonoBehaviour:
@@ -7918,8 +7839,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1647642665}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.21, y: 2.2270002, z: -0.13}
-  m_LocalScale: {x: 0.38499454, y: 0.820352, z: 2.4684}
+  m_LocalPosition: {x: 2, y: 2.2270002, z: -0.011}
+  m_LocalScale: {x: 0.38499454, y: 0.820352, z: 1.6996168}
   m_Children: []
   m_Father: {fileID: 203143735}
   m_RootOrder: 0
@@ -8878,7 +8799,6 @@ Transform:
   m_Children:
   - {fileID: 1571624860}
   - {fileID: 284856215}
-  - {fileID: 1129431095}
   - {fileID: 1609064307}
   - {fileID: 126150766}
   - {fileID: 1990536817}
@@ -9012,7 +8932,7 @@ Transform:
   - {fileID: 1130805817}
   - {fileID: 203143735}
   m_Father: {fileID: 1912817890}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1997344220
 GameObject:
