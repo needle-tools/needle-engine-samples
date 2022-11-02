@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42798c1a37db46409660e69421ebdd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
-    $ GlobalObjectId_V1-1-694d3e55caf69a342b567fcaecd47456-3167682199628623955-0
+    $ GlobalObjectId_V1-2-00000000000000000000000000000000-3167682199628623955-0
 --- !u!1 &8270832356511426154
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 7519427742422900806}
   - component: {fileID: 8697373038748823255}
   - component: {fileID: 6728725516034544131}
+  - component: {fileID: 8391231632239605997}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -73,7 +74,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8270832356511426154}
-  m_LocalRotation: {x: -0.03025402, y: -0.9545393, z: 0.10377752, w: -0.27779427}
+  m_LocalRotation: {x: 0.021190714, y: 0.9585501, z: -0.07404707, w: 0.27431688}
   m_LocalPosition: {x: -0.72937346, y: 1.0926206, z: 1.1600796}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -103,8 +104,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.1
+  far clip plane: 10
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -184,12 +185,31 @@ MonoBehaviour:
   enableDamping: 1
   dampingFactor: 0.1
   enableZoom: 1
-  minZoom: 0
-  maxZoom: Infinity
+  minZoom: 0.5
+  maxZoom: 3
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  lookAtConstraint: {fileID: 8391231632239605997}
   middleClickToFocus: 1
   doubleClickToFocus: 1
+--- !u!1183024399 &8391231632239605997
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8270832356511426154}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 4854251761062994187}
+    weight: 1
 --- !u!1001 &6189337365924541931
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -282,5 +302,10 @@ PrefabInstance:
 --- !u!4 &1080499627498396859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6564635432296917328, guid: 23973f8b392f6b6448dfad52a85f0627, type: 3}
+  m_PrefabInstance: {fileID: 6189337365924541931}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4854251761062994187 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7585972950017076000, guid: 23973f8b392f6b6448dfad52a85f0627, type: 3}
   m_PrefabInstance: {fileID: 6189337365924541931}
   m_PrefabAsset: {fileID: 0}
