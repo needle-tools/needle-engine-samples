@@ -10144,8 +10144,15 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   AutoExport: 1
   Dependencies:
+  - Name: samplescripts
+    VersionOrPath: Packages/com.needle.sample-assets/Runtime/_Shared/SampleScripts.npmdef
+    Guid: a54d66e790a1fe74b86cebd5eae8145d
+  - Name: ui-button-sample
+    VersionOrPath: Packages/com.needle.sample-assets/Runtime/UI Button/UI Button
+      Sample.npmdef
+    Guid: dc8a15046937e4145bd4af5e5e9da423
   - Name: particlestestscripts
-    VersionOrPath: Assets/Scenes/Particles/ParticlesTestScripts.npmdef
+    VersionOrPath: Packages/com.needle.sample-assets/Runtime/Particles/ParticlesTestScripts.npmdef
     Guid: 71621ede96876cf4c9b8edbb107e121e
 --- !u!4 &784234924
 Transform:
@@ -19930,7 +19937,7 @@ Transform:
   - {fileID: 1702834043}
   - {fileID: 1602066738}
   - {fileID: 850201874}
-  - {fileID: 1764445347}
+  - {fileID: 1839902000}
   m_Father: {fileID: 1597275518}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19992,11 +19999,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1502522825}
-  - component: {fileID: 1502522828}
   - component: {fileID: 1502522827}
   - component: {fileID: 1502522826}
+  - component: {fileID: 1502522828}
   m_Layer: 0
-  m_Name: PS world
+  m_Name: PS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24817,9 +24824,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9a43f428ea884a4b8461ed3ae01daa7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Particle_MoveAround,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-1502522828-0
-  factor: 1
+  m_EditorClassIdentifier: 
+  factor: 2
 --- !u!1 &1597275517
 GameObject:
   m_ObjectHideFlags: 0
@@ -39464,11 +39470,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1764445347}
-  - component: {fileID: 1764445348}
   - component: {fileID: 1764445350}
   - component: {fileID: 1764445349}
   m_Layer: 0
-  m_Name: PS (7) world
+  m_Name: particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39482,26 +39487,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764445346}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.62, y: 0.5, z: 11.77}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1035975159}
-  m_RootOrder: 8
+  m_Father: {fileID: 1839902000}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1764445348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764445346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9a43f428ea884a4b8461ed3ae01daa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Particle_MoveAround,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-1764445348-0
-  factor: 3
 --- !u!199 &1764445349
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -40136,7 +40127,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 50
+    maxNumParticles: 100
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -40401,7 +40392,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 15
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -44348,6 +44339,54 @@ Transform:
   m_Father: {fileID: 1597275518}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1839901999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1839902000}
+  - component: {fileID: 1839902001}
+  m_Layer: 0
+  m_Name: PS anim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1839902000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839901999}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.62, y: 0.5, z: 11.77}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1764445347}
+  m_Father: {fileID: 1035975159}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &1839902001
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839901999}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 3888ea1c01b57ae4597e271149917053, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 3888ea1c01b57ae4597e271149917053, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &1911445426
 MonoBehaviour:
   m_ObjectHideFlags: 0
