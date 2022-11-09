@@ -18,7 +18,7 @@ namespace Needle
 		public SceneAsset Scene;
 		public string LiveUrl;
 
-		public string DisplayNameOrName => !string.IsNullOrWhiteSpace(DisplayName) ? DisplayName : name;
+		public string DisplayNameOrName => !string.IsNullOrWhiteSpace(DisplayName) ? DisplayName : ObjectNames.NicifyVariableName(name);
 
 		private void OnValidate()
 		{
