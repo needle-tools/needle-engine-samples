@@ -1,21 +1,17 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
 using Needle.Engine;
-using Needle.Engine.Utils;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.TestTools.Constraints;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 using Task = System.Threading.Tasks.Task;
 
 namespace Needle
 {
-	public class SamplesWindow : EditorWindow
+	public class SamplesWindow : EditorWindow, IHasCustomMenu
 	{
 		[MenuItem("Needle Engine Samples/Samples Window")]
 		public static void Open()
@@ -49,8 +45,17 @@ namespace Needle
 
 		private const string samplesDirectory = "Packages/com.needle.sample-assets/Runtime";
 		private const string screenshotsDirectory = "Packages/com.needle.sample-assets/Editor/Screenshots";
-
-		[ContextMenu("Refresh")]
+		
+		public void AddItemsToMenu(GenericMenu menu)
+		{
+			menu.AddItem(new GUIContent("Refresh"), false, Refresh);
+			menu.AddItem(new GUIContent("Reopen Window"), false, () =>
+			{
+				Close();
+				Open();
+			});
+		}
+		
 		private void Refresh()
 		{
 			sampleInfos = AssetDatabase.FindAssets("t:" + nameof(SampleInfo))
@@ -91,7 +96,9 @@ namespace Needle
 
 		private void OnEnable()
 		{
-			titleContent = new GUIContent("Needle Engine Samples");
+			titleContent = new GUIContent(
+				"Needle Engine Samples", 
+				AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath("39a802f6842d896498768ef6444afe6f")));
 			Refresh();
 			EditorApplication.delayCall += Refresh;
 			EditorSceneManager.activeSceneChangedInEditMode += (s, o) => Refresh();
@@ -103,112 +110,71 @@ namespace Needle
 		private Vector2 scroll;
 		private double lastClickTime;
 
-		private void OnGUI()
+		private void CreateGUI()
 		{
-			using var sv = new EditorGUILayout.ScrollViewScope(scroll);
-			scroll = sv.scrollPosition;
+			var scrollView = new ScrollView();
 
-			var isDoubleClick = false;
-			if (Event.current.type == EventType.MouseDown)
+			var header = new VisualElement();
+			header.AddToClassList("header");
+			header.Add(new Label("Explore our Samples"));
+			var buttonContainer = new VisualElement();
+			buttonContainer.AddToClassList("buttons");
+			buttonContainer.Add(new Button(() =>
 			{
-				var now = EditorApplication.timeSinceStartup;
-				if (now - lastClickTime < .2f) isDoubleClick = true;
-				lastClickTime = now;
-			}
-
-			var labelLayout = new GUILayoutOption[] { };
-			var buttonHeight = EditorGUIUtility.singleLineHeight + 1;
-			var buttonLayout = new GUILayoutOption[]
+				Application.OpenURL("https://engine.needle.tools/docs");
+			}) { text = "Open Documentation " + Constants.ExternalLinkChar});
+			buttonContainer.Add(new Button(() => 
 			{
-				GUILayout.Height(buttonHeight),
-				// GUILayout.MaxWidth(110)
-			};
-
-			GUILayout.Space(10);
-			using (new GUILayout.HorizontalScope())
-			{
-				EditorGUILayout.LabelField("Samples", EditorStyles.boldLabel, labelLayout);
-				// EditorGUILayout.Space(0, true);
-				if (GUILayout.Button("Open Documentation " + Constants.ExternalLinkChar, buttonLayout))
-				{
-					Application.OpenURL("https://engine.needle.tools/docs");
-				}
-				if (GUILayout.Button("Show Samples", buttonLayout))
-				{
-					var folder = AssetDatabase.LoadAssetAtPath<Object>("Packages/com.needle.sample-assets/Runtime");
-					EditorGUIUtility.PingObject(folder);
-				}
-			}
-			GUILayout.Space(15);
-
-
+				var folder = AssetDatabase.LoadAssetAtPath<Object>("Packages/com.needle.sample-assets/Runtime");
+				EditorGUIUtility.PingObject(folder);
+			}) { text = "Show Samples Folder" });
+			header.Add(buttonContainer);
+			scrollView.Add(header);
+			
 			foreach (var sample in sampleInfos)
-			{
-				if (!sample) continue;
-				var preview = sample.Thumbnail;
-				if (preview)
-				{
-					// var aspect = preview.width / (float)preview.height;
-					var rect = GUILayoutUtility.GetLastRect();
-					rect.y += rect.height;
-					rect.width = Screen.width;
-					// rect.height = rect.width / aspect;
-					rect.height = 64;
-					EditorGUI.DrawPreviewTexture(rect, sample.Thumbnail, null, ScaleMode.ScaleAndCrop);
-					GUILayout.Space(rect.height);
-					if (Event.current.type == EventType.MouseDown && sample.Scene)
-					{
-						if (rect.Contains(Event.current.mousePosition))
-						{
-							if (isDoubleClick)
-								OpenScene(sample.Scene);
-							else
-								EditorGUIUtility.PingObject(sample.Scene);
-						}
-					}
-				}
-				using (new GUILayout.HorizontalScope())
-				{
-					var name = sample.name;
-					if (string.IsNullOrWhiteSpace(sample.DisplayName))
-					{
-						// name = ObjectNames.NicifyVariableName(name);
-					}
-					else name = sample.DisplayName;
-
-					EditorGUILayout.LabelField(new GUIContent(name, sample.Description), EditorStyles.boldLabel, labelLayout);
-					var rect = GUILayoutUtility.GetLastRect();
-					if (Event.current.type == EventType.MouseDown && sample.Scene)
-					{
-						if (rect.Contains(Event.current.mousePosition))
-						{
-							if (isDoubleClick)
-								OpenScene(sample.Scene);
-							else
-								EditorGUIUtility.PingObject(sample.Scene);
-						}
-					}
-
-					// GUILayout.FlexibleSpace();
-					if (!string.IsNullOrWhiteSpace(sample.LiveUrl))
-					{
-						if (GUILayout.Button("Live " + Constants.ExternalLinkChar, buttonLayout))
-						{
-							Application.OpenURL(sample.LiveUrl);
-						}
-					}
-					if (GUILayout.Button("Open Scene", buttonLayout))
-					{
-						OpenScene(sample.Scene);
-					}
-				}
-				if (sample.Thumbnail)
-					GUILayout.Space(10);
-				else GUILayout.Space(5);
-			}
+				scrollView.Add(new Sample(sample));
+			
+			rootVisualElement.Add(scrollView);
+			
+			rootVisualElement.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(AssetDatabase.GUIDToAssetPath("1d7049f4814274e4b9f6f99f2bc36c90")));
 		}
 
-		private void OpenScene(SceneAsset asset)
+		class Sample : VisualElement
+		{
+			private SampleInfo sample;
+			
+			public Sample(SampleInfo sample)
+			{
+				this.sample = sample;
+				if (!sample.Thumbnail) AddToClassList("no-preview");
+				var preview = new Image() { image = sample.Thumbnail };
+				var click = new Clickable(DoubleClick);
+				click.activators.Clear();
+				click.activators.Add(new ManipulatorActivationFilter() { button = MouseButton.LeftMouse, clickCount = 2} );
+				preview.AddManipulator(click);
+				preview.AddManipulator(new Clickable(Click));
+				Add(preview);
+				
+				var overlay = new VisualElement();
+				overlay.AddToClassList("overlay");
+				overlay.Add(new Label() { name = "Title", text = sample.DisplayNameOrName } );
+				overlay.Add(new Label() { text = sample.Description } );
+				Add(overlay);
+				
+				var options = new VisualElement();
+				options.AddToClassList("options");
+				options.Add(new Button(_Live) { text = "Live ↗"});
+				options.Add(new Button(_OpenScene) { text = "Open Scene" });
+				Add(options);
+			}
+
+			private void DoubleClick(EventBase evt) => OpenScene(sample.Scene);
+			private void Click(EventBase evt) => EditorGUIUtility.PingObject(sample.Scene);
+			private void _OpenScene() => OpenScene(sample.Scene);
+			private void _Live() => Application.OpenURL(sample.LiveUrl);
+		}
+
+		private static void OpenScene(SceneAsset asset)
 		{
 			EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 			EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(asset), OpenSceneMode.Single);
