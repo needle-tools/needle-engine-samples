@@ -163,8 +163,10 @@ namespace Needle
 				
 				var options = new VisualElement();
 				options.AddToClassList("options");
-				options.Add(new Button(_Live) { text = "Live ↗"});
-				options.Add(new Button(_OpenScene) { text = "Open Scene" });
+				if (!string.IsNullOrEmpty(sample.LiveUrl))
+					options.Add(new Button(_Live) { text = "Live ↗"});
+				if (sample.Scene)
+					options.Add(new Button(_OpenScene) { text = "Open Scene" });
 				Add(options);
 			}
 
