@@ -387,6 +387,7 @@ Transform:
   - {fileID: 1388575682}
   - {fileID: 1203524989}
   - {fileID: 916620858}
+  - {fileID: 1197622688}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -571,6 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-822809848-0
+  applyOnStart: 1
 --- !u!114 &822809849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,6 +714,103 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112154577}
   m_CullTransparentMesh: 1
+--- !u!1 &1197622687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1197622688}
+  - component: {fileID: 1197622690}
+  - component: {fileID: 1197622691}
+  - component: {fileID: 1197622689}
+  m_Layer: 0
+  m_Name: WithBoxCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1197622688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197622687}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.06, y: 0.534, z: 0.142}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 652168557}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1197622689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197622687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ff0fff63cc63d413aef58c2f0c0f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PhysicsTrigger,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-1197622689-0
+  triggerObjects: []
+  onEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 822809848}
+        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.RandomColor,
+          Needle.Engine-Samples.Runtime
+        m_MethodName: applyRandomColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onStay:
+    m_PersistentCalls:
+      m_Calls: []
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!65 &1197622690
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197622687}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1197622691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197622687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3825bb9fe3ef4051a04810d958936fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.BoxGizmo, Needle.Engine $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-1197622691-0
+  objectBounds: 0
+  color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  isGizmo: 0
 --- !u!1 &1203524988
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,6 +978,7 @@ GameObject:
   - component: {fileID: 1261386490}
   - component: {fileID: 1261386489}
   - component: {fileID: 1261386488}
+  - component: {fileID: 1261386491}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -932,6 +1032,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1261386491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261386487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-1261386491-0
+  FTPServer: {fileID: 11400000, guid: 10155bc195d376643abaefe881d45c5e, type: 2}
+  Path: /spatial-triggers/
 --- !u!1 &1273898214
 GameObject:
   m_ObjectHideFlags: 0
