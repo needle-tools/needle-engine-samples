@@ -1,5 +1,5 @@
 import { Behaviour, serializeable } from "@needle-tools/engine";
-import { Euler, MathUtils } from "three";
+import { Euler, MathUtils, Quaternion } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -8,15 +8,9 @@ export class SensorAccess extends Behaviour {
     @serializeable()
     public frequency: number = 60;
 
-    private log(x : number) : string {
-        return MathUtils.radToDeg(x).toFixed(2) + "°";
-    }
-
     start() {
-        // this.showAllSensors();
-
         const div = document.createElement("div");
-        const label = document.createElement("p");
+        this.orientationLabel = document.createElement("p");
         const label2 = document.createElement("p");
         div.style.position = "absolute";
         div.style.left = "5px";
@@ -24,37 +18,45 @@ export class SensorAccess extends Behaviour {
 
         label2.innerHTML = "<b>Pick up your phone!</b>";
         div.appendChild(label2);
-        div.appendChild(label);
+        div.appendChild(this.orientationLabel);
         const btn = document.createElement("button");
-        btn.innerText = "Lock Phone Orientation";
+        const defaultText = "Fullscreen";
+        btn.innerText = defaultText;
 
-        btn.addEventListener("click", () => {
-            if (window.matchMedia('(display-mode: fullscreen)').matches || document.fullscreenElement ) {
-                document.exitFullscreen();
-                btn.innerText = "Lock Phone Orientation";
-            } else { 
-                this.context.domElement.requestFullscreen();
+        // check if the Fullscreen API is available and show a button if it is
+        if ("requestFullscreen" in document.body) {
+            btn.addEventListener("click", () => {
+                if (window.matchMedia('(display-mode: fullscreen)').matches || document.fullscreenElement ) {
+                    document.exitFullscreen();
+                    btn.innerText = defaultText;
+                } else { 
+                    this.context.domElement.requestFullscreen();
 
-                if ("orientation" in screen && "lock" in screen.orientation) {
-                    try {
-                        screen.orientation.lock("portrait-primary");
+                    // in fullscreen, we can lock device orientation on some devices
+                    if ("orientation" in screen && "lock" in screen.orientation) {
+                        try {
+                            screen.orientation.lock("portrait-primary");
+                        }
+                        catch (e) {
+                            console.warn("Could not lock screen orientation.");
+                        }
                     }
-                    catch (e) {
-                        console.warn("Could not lock screen orientation.");
-                    }
+                    btn.innerText = "Exit";
                 }
-                btn.innerText = "Exit";
-            }
+            });
+        }
+        else {
+            btn.style.display = "none";
+        }
 
-            
-        });
         div.appendChild(btn);
         this.context.domElement.appendChild(div);
         
         const euler = new Euler();
 
         try {
-            //@ts-ignore
+            // try creating a sensor object, will throw if not available
+            //@ts-ignore 
             const sensor = new RelativeOrientationSensor({frequency: this.frequency});
 
             Promise.all([
@@ -65,35 +67,86 @@ export class SensorAccess extends Behaviour {
                 .then((results) => {
                     if (results.every((result) => result.state === "granted"))
                     {
+                        // attach to the sensor and apply to our object
                         sensor.addEventListener('reading', (e) => {
                             this.gameObject.quaternion.fromArray(sensor.quaternion).invert();
                             euler.setFromQuaternion(this.gameObject.quaternion);
-                            label.innerText = `Orientation: ${this.log(euler.x)} ${this.log(euler.y)} ${this.log(euler.z)}`;
+                            euler.z += Math.PI / 2; // related to phone orientation - portrait
+                            this.gameObject.quaternion.setFromEuler(euler);
+                            this.setOrientationLabel();
                         });
+
+                        // Handle runtime errors.
                         sensor.addEventListener('error', (e) => {
-                            // Handle runtime errors.
                             if (e.error.name === 'NotAllowedError') {
-                                label.innerText = 'Permission to access sensor was denied.';
+                                this.orientationLabel.innerText = 'Permission to access sensor was denied.';
                             } else if (e.error.name === 'NotReadableError') {
-                                label.innerText = 'Cannot connect to the sensor.';
+                                this.orientationLabel.innerText = 'Cannot connect to the sensor.';
                             } else
-                                label.innerText = `RelativeOrientationSensor error: ${e.error.name}`;
+                            this.orientationLabel.innerText = `RelativeOrientationSensor error: ${e.error.name}`;
                         });
+
                         sensor.start();
                     } else {
-                        label.innerText = "No permissions to use RelativeOrientationSensor.";
+                        this.orientationLabel.innerText = "No permissions to use RelativeOrientationSensor.";
                     }
             });
         }
+        // Handle construction errors.
         catch (error) {
-            // Handle construction errors.
             if (error.name === 'SecurityError') {
-                label.innerText = 'Sensor construction was blocked by the Permissions Policy.';
+                this.orientationLabel.innerText = 'Sensor construction was blocked by the Permissions Policy.';
             } else if (error.name === 'ReferenceError') {
-                label.innerText = 'Sensor is not supported by the User Agent.';
+                this.orientationLabel.innerText = 'Sensor is not supported by the User Agent.';
+
+                // fallback when the Sensor API doesn't exist
+                if ("DeviceMotionEvent" in globalThis && "requestPermission" in DeviceMotionEvent) {
+                    this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
+
+                    let haveCheckedPermissions = false;
+                    this.context.domElement.addEventListener("click", () => {
+                        if (haveCheckedPermissions) return;
+                        haveCheckedPermissions = true;
+
+                        this.deviceMotionFallback();
+                    });
+                }
+
             } else {
-                label.innerText = error;
+                this.orientationLabel.innerText = error;
             }
         }
+    }
+
+    private orientationLabel: HTMLParagraphElement;
+    private euler: Euler = new Euler();
+    private setOrientationLabel() {
+        this.euler.setFromQuaternion(this.gameObject.quaternion);
+        this.orientationLabel.innerText = `Orientation: ${this.log(this.euler.x)} ${this.log(this.euler.y)} ${this.log(this.euler.z)}`;
+    }
+
+    private log(x : number) : string {
+        return MathUtils.radToDeg(x).toFixed(2) + "°";
+    }
+
+    private deviceMotionFallback() {
+        //@ts-ignore
+        DeviceMotionEvent.requestPermission().then(response => {
+            if (response == 'granted') {
+                const quaternion = new Quaternion();
+                window.addEventListener('deviceorientation', (event) => {
+                    if (!event.alpha || !event.beta || !event.gamma) return;
+
+                    // convert alpha, beta, gamma to quaternion
+                    const alpha = event.alpha;
+                    const beta = event.beta;
+                    const gamma = event.gamma;
+                    quaternion.setFromEuler(new Euler(MathUtils.degToRad(beta), MathUtils.degToRad(gamma), MathUtils.degToRad(alpha), 'YXZ'));
+                    
+                    this.gameObject.quaternion.copy(quaternion.invert());
+                    this.setOrientationLabel();
+                });
+            }
+        });
     }
 } 
