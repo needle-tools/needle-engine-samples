@@ -17,35 +17,68 @@
     flex-shrink: 1;
 }
 
+.items {
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
 Sample {
-    height: 120px;
+    width: 100%;
     margin-bottom: 0px;
-    border-width: 1px;
-    border-color: black;
+    border-width: 2px;
+    border-color: rgba(0,0,0,0.0);
     align-items: center;
 }
 
-Sample Image {
-    height:100%;
+Sample:hover {
+    border-color: rgb(181, 222, 77);
+}
+
+.__columns_1 Sample {
     width: 100%;
 }
 
-Sample:hover Image {
-    width: 105%;
+.__columns_2 Sample {
+    width: 50%;
+}
+
+.__columns_3 Sample {
+    width: 33.333%;
+}
+
+.__columns_4 Sample {
+    width: 25%;
+}
+
+.__columns_5 Sample {
+    width: 20%;
+}
+
+Sample Image {
+    max-height: 200px;
+    height:100%;
+    width: 100%;
+    padding:10px;
 }
 
 Sample.no-preview {
-    height: 60px;
+}
+
+#Content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-grow: 1;
+    margin-bottom: 20px;
 }
 
 .overlay {
-    position: absolute;
-    background-color: black;
-    padding: 5px;
+    padding: 10px;
     bottom: 4px;
-    left: 4px;
-    max-width: 250px;
+    max-width: 80%;
     font-size: 14px;
+    height: 100%;
+    margin-top: 4px;
 }
 
 .overlay Label {
@@ -55,16 +88,47 @@ Sample.no-preview {
 .overlay #Title {
     font-size: 20px;
 }
-
+/*
 Sample:hover .overlay #Title {
     -unity-font-style: bold;
 }
+ */
 
 .options {
     position: absolute;
-    background-color: black;
-    border-radius: 5px;
     padding: 5px;
-    bottom: 4px;
+    top: 4px;
     right: 4px;
+}
+
+/*
+Sample:hover .options {
+    display: initial;
+}
+*/
+
+
+
+.__columns_1 Sample {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.__columns_1 Sample Image {
+    width: 40%;
+    max-height: 120px;
+    margin-top: 3px;
+}
+
+.__columns_1 Sample #Content {
+}
+
+.__columns_1 Sample .overlay {
+    height: auto;
+    max-width: 100%;
+}
+
+.__columns_1 Sample .options {
+    position: initial;
+    width: 120px;
 }

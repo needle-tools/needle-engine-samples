@@ -102,8 +102,13 @@ namespace Needle
 			Refresh();
 			EditorApplication.delayCall += Refresh;
 			EditorSceneManager.activeSceneChangedInEditMode += (s, o) => Refresh();
-			maxSize = new Vector2(960, 1024);
-			minSize = new Vector2(560, 420);
+			maxSize = new Vector2(10000, 5000);
+			minSize = new Vector2(360, 420);
+			
+			// TODO not sure how to only do this if this window hasn't been manually resized by the user
+			var p = position;
+			p.width = 1080;
+			position = p;
 		}
 
 		private List<SampleInfo> sampleInfos;
@@ -116,7 +121,7 @@ namespace Needle
 
 			var header = new VisualElement();
 			header.AddToClassList("header");
-			header.Add(new Label("Explore our Samples"));
+			header.Add(new Label("Explore Needle Engine Samples"));
 			var buttonContainer = new VisualElement();
 			buttonContainer.AddToClassList("buttons");
 			buttonContainer.Add(new Button(() =>
@@ -130,13 +135,32 @@ namespace Needle
 			}) { text = "Show Samples Folder" });
 			header.Add(buttonContainer);
 			scrollView.Add(header);
+
+			// samples with thumbnails
+			var itemContainer = new VisualElement();
+			itemContainer.AddToClassList("items");
+			foreach (var sample in sampleInfos.Where(x => x.Thumbnail))
+				itemContainer.Add(new Sample(sample));
+			scrollView.Add(itemContainer);
 			
-			foreach (var sample in sampleInfos)
-				scrollView.Add(new Sample(sample));
+			// samples without thumbnails
+			var itemContainerNoThumbnail = new VisualElement();
+			itemContainerNoThumbnail.AddToClassList("items");
+			foreach (var sample in sampleInfos.Where(x => !x.Thumbnail))
+				itemContainerNoThumbnail.Add(new Sample(sample));
+			scrollView.Add(itemContainerNoThumbnail);
 			
 			rootVisualElement.Add(scrollView);
-			
 			rootVisualElement.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(AssetDatabase.GUIDToAssetPath("1d7049f4814274e4b9f6f99f2bc36c90")));
+
+			// responsive layout - basically a media query for screen width
+			const int columnWidth = 360;
+			rootVisualElement.RegisterCallback<GeometryChangedEvent>(evt =>
+			{
+				for(int i = 0; i < 20; i++)
+					scrollView.RemoveFromClassList("__columns_" + i);
+				scrollView.AddToClassList("__columns_" +Mathf.FloorToInt(evt.newRect.width / columnWidth));
+			});
 		}
 
 		class Sample : VisualElement
@@ -146,26 +170,37 @@ namespace Needle
 			public Sample(SampleInfo sample)
 			{
 				this.sample = sample;
-				if (!sample.Thumbnail) AddToClassList("no-preview");
-				var preview = new Image() { image = sample.Thumbnail };
+				if (!sample.Thumbnail)
+				{
+					AddToClassList("no-preview");
+				}
+				else
+				{
+					var preview = new Image() { image = sample.Thumbnail };
+					Add(preview);
+				}
+
 				var click = new Clickable(DoubleClick);
 				click.activators.Clear();
 				click.activators.Add(new ManipulatorActivationFilter() { button = MouseButton.LeftMouse, clickCount = 2} );
-				preview.AddManipulator(click);
-				preview.AddManipulator(new Clickable(Click));
-				Add(preview);
-				
+				this.AddManipulator(click);
+				this.AddManipulator(new Clickable(Click));
+
+				var content = new VisualElement() { name = "Content" };
 				var overlay = new VisualElement();
 				overlay.AddToClassList("overlay");
 				overlay.Add(new Label() { name = "Title", text = sample.DisplayNameOrName } );
 				overlay.Add(new Label() { text = sample.Description } );
-				Add(overlay);
+				content.Add(overlay);
 				
 				var options = new VisualElement();
 				options.AddToClassList("options");
-				options.Add(new Button(_Live) { text = "Live ↗"});
-				options.Add(new Button(_OpenScene) { text = "Open Scene" });
-				Add(options);
+				if (!string.IsNullOrEmpty(sample.LiveUrl))
+					options.Add(new Button(_Live) { text = "Live ↗", tooltip = "Open " + sample.LiveUrl});
+				if (sample.Scene)
+					options.Add(new Button(_OpenScene) { text = "Open Scene" });
+				content.Add(options);
+				Add(content);
 			}
 
 			private void DoubleClick(EventBase evt) => OpenScene(sample.Scene);
