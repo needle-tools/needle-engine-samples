@@ -19,7 +19,7 @@ export class SingleFileDrop extends Behaviour {
         div.style.top = "15px";
         div.style.width = "100%";
         div.style.pointerEvents = "none";
-        div.style.opacity = "0.7";
+        div.style.opacity = "0.75";
 
         div.style.display = 'flex';
 

@@ -14,15 +14,23 @@ export class LookingGlass extends Behaviour {
 
     awake() {
 
+        const btnGroup = document.createElement('div');
+        btnGroup.style.display = 'flex';
+        btnGroup.style.flexDirection = 'column';
+        btnGroup.style.position = 'absolute';
+        btnGroup.style.top = '10px';
+        btnGroup.style.right = '10px';
         const btn = document.createElement('button');
-        btn.style.position = 'absolute';
-        btn.style.top = '10px';
-        btn.style.right = '10px';
-        btn.innerHTML = "<p>Click to view on<p>";
+        btn.innerHTML = "<p>Click to display on<p>";
         btn.style.backgroundColor = 'black';
         btn.style.color = 'white';
-        this.context.domElement.appendChild(btn);
-        
+        btnGroup.appendChild(btn);
+
+        btnGroup.appendChild(this.makeButton("Learn More", "https://look.glass"));
+        btnGroup.appendChild(this.makeButton("Buy ($40 off)", "https://lookingglass.refr.cc/needle"));
+
+        this.context.domElement.appendChild(btnGroup);
+
         const config = LookingGlassConfig;
         console.log(config)
 
@@ -48,6 +56,21 @@ export class LookingGlass extends Behaviour {
         });
         
         btn.appendChild(this.lookingGlassLogo());
+    }
+
+    private makeButton(text, url) {
+        const learnMoreButton = document.createElement('button');
+        learnMoreButton.style.backgroundColor = 'black';
+        learnMoreButton.style.marginTop = '10px';
+        learnMoreButton.style.paddingTop = '5px';
+        learnMoreButton.style.paddingBottom = '5px';
+        const learnMoreLink = document.createElement('a');
+        learnMoreLink.style.color = 'white';
+        learnMoreLink.text = text;
+        learnMoreLink.href = url;
+        learnMoreLink.target = "_blank";
+        learnMoreButton.appendChild(learnMoreLink);
+        return learnMoreButton;
     }
 
     private lookingGlassLogo() : HTMLImageElement {
@@ -85,6 +108,7 @@ export class LookingGlass extends Behaviour {
         let image = document.createElement('img');
         image.src = url;
         image.addEventListener('load', () => URL.revokeObjectURL(url), {once: true});
+        image.width = 110;
         return image;
     }
 
