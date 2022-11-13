@@ -98,22 +98,22 @@ export class SensorAccess extends Behaviour {
                 this.orientationLabel.innerText = 'Sensor construction was blocked by the Permissions Policy.';
             } else if (error.name === 'ReferenceError') {
                 this.orientationLabel.innerText = 'Sensor is not supported by the User Agent.';
-
-                // fallback when the Sensor API doesn't exist
-                if ("DeviceMotionEvent" in globalThis && "requestPermission" in DeviceMotionEvent) {
-                    this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
-
-                    let haveCheckedPermissions = false;
-                    this.context.domElement.addEventListener("click", () => {
-                        if (haveCheckedPermissions) return;
-                        haveCheckedPermissions = true;
-
-                        this.deviceMotionFallback();
-                    });
-                }
-
             } else {
                 this.orientationLabel.innerText = error;
+            }
+
+            // fallback when the Sensor API doesn't exist
+            if ("DeviceMotionEvent" in globalThis)
+            {
+                this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
+
+                let haveCheckedPermissions = false;
+                this.context.domElement.addEventListener("click", () => {
+                    if (haveCheckedPermissions) return;
+                    haveCheckedPermissions = true;
+
+                    this.deviceMotionFallback();
+                });
             }
         }
     }
@@ -129,24 +129,34 @@ export class SensorAccess extends Behaviour {
         return MathUtils.radToDeg(x).toFixed(2) + "°";
     }
 
+    private connectDeviceMotionEvents() {
+        const quaternion = new Quaternion();
+        window.addEventListener('deviceorientation', (event) => {  
+            if (!event.alpha || !event.beta || !event.gamma) return;
+
+            // convert alpha, beta, gamma to quaternion
+            const alpha = event.alpha;
+            const beta = event.beta;
+            const gamma = event.gamma;
+            quaternion.setFromEuler(new Euler(MathUtils.degToRad(beta), MathUtils.degToRad(gamma), MathUtils.degToRad(alpha), 'YXZ'));
+            
+            this.gameObject.quaternion.copy(quaternion.invert());
+            this.setOrientationLabel();
+        });
+    }
+
     private deviceMotionFallback() {
         //@ts-ignore
-        DeviceMotionEvent.requestPermission().then(response => {
-            if (response == 'granted') {
-                const quaternion = new Quaternion();
-                window.addEventListener('deviceorientation', (event) => {
-                    if (!event.alpha || !event.beta || !event.gamma) return;
-
-                    // convert alpha, beta, gamma to quaternion
-                    const alpha = event.alpha;
-                    const beta = event.beta;
-                    const gamma = event.gamma;
-                    quaternion.setFromEuler(new Euler(MathUtils.degToRad(beta), MathUtils.degToRad(gamma), MathUtils.degToRad(alpha), 'YXZ'));
-                    
-                    this.gameObject.quaternion.copy(quaternion.invert());
-                    this.setOrientationLabel();
-                });
-            }
-        });
+        if ("requestPermission" in DeviceMotionEvent) {
+            //@ts-ignore
+            DeviceMotionEvent.requestPermission().then(response => {
+                if (response == 'granted') {
+                    this.connectDeviceMotionEvents();
+                }
+            });
+        }
+        else {
+            this.connectDeviceMotionEvents();
+        }
     }
 } 
