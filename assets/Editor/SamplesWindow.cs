@@ -211,7 +211,7 @@ namespace Needle
 
 		private static void OpenScene(SceneAsset asset)
 		{
-			EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+			if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
 			EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(asset), OpenSceneMode.Single);
 			GUIUtility.ExitGUI();
 		}
