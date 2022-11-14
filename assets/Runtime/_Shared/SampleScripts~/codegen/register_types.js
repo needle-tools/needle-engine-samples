@@ -4,6 +4,7 @@
 import { Cannon } from "../Cannon.ts";
 import { RandomColor } from "../ChangeColor.ts";
 import { ChangeColorOnCollision } from "../ChangeColorOnCollision.ts";
+import { EmitParticlesOnClick } from "../EmitParticlesOnClick.ts";
 import { LookAtCamera } from "../LookAtCamera.ts";
 import { PhysicsCollision } from "../PhysicsCollision.ts";
 import { PhysicsTrigger } from "../PhysicsCollision.ts";
@@ -19,6 +20,7 @@ import { TimedSpawn } from "../TimedSpawn.ts";
 TypeStore.add("Cannon", Cannon);
 TypeStore.add("RandomColor", RandomColor);
 TypeStore.add("ChangeColorOnCollision", ChangeColorOnCollision);
+TypeStore.add("EmitParticlesOnClick", EmitParticlesOnClick);
 TypeStore.add("LookAtCamera", LookAtCamera);
 TypeStore.add("PhysicsCollision", PhysicsCollision);
 TypeStore.add("PhysicsTrigger", PhysicsTrigger);
