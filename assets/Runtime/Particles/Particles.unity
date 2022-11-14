@@ -19940,6 +19940,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 431664, guid: 39f586f40e7d928499bfe946ffb04ad5, type: 3}
   m_PrefabInstance: {fileID: 621207743}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &621207745 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 190236, guid: 39f586f40e7d928499bfe946ffb04ad5, type: 3}
+  m_PrefabInstance: {fileID: 621207743}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &621207746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621207745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e887f1c3ee463881c1913204ca9388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.SmoothFollow, Needle.Engine $
+    GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-621207746-0
+  target: {fileID: 1764445347}
+  followFactor: 100
+  rotateFactor: 100
+  positionAxes: -1
 --- !u!1 &679026936
 GameObject:
   m_ObjectHideFlags: 0
@@ -98333,7 +98355,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -99039,8 +99061,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.22719088
-          value: 0.14194977
+          time: 0.043444544
+          value: 0.12850678
           inSlope: 0.089683585
           outSlope: 0.089683585
           tangentMode: 0
@@ -99048,8 +99070,17 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.78753376
-          value: 0.24008161
+          time: 0.20494698
+          value: 0.043045267
+          inSlope: 0.002012272
+          outSlope: 0.002012272
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.9112215
+          value: 0.08761579
           inSlope: 0.06711761
           outSlope: 0.06711761
           tangentMode: 0
@@ -99370,20 +99401,20 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 1, b: 0.5066898, a: 1}
-        key1: {r: 0.8323159, g: 0.8254717, b: 1, a: 1}
-        key2: {r: 0.97404873, g: 1, b: 0, a: 0}
-        key3: {r: 1, g: 0, b: 0.009897232, a: 0}
-        key4: {r: 0, g: 0, b: 0, a: 0}
-        key5: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 1, g: 0.7957734, b: 0, a: 1}
+        key1: {r: 0.5421155, g: 0.3725525, b: 0.8679245, a: 1}
+        key2: {r: 0.482672, g: 0.46101815, b: 0.5283019, a: 0}
+        key3: {r: 0.8323159, g: 0.8254717, b: 1, a: 0}
+        key4: {r: 0.97404873, g: 1, b: 0, a: 0}
+        key5: {r: 1, g: 0, b: 0.009897232, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 48766
-        ctime1: 54548
-        ctime2: 58982
-        ctime3: 60716
-        ctime4: 0
-        ctime5: 0
+        ctime0: 13685
+        ctime1: 18890
+        ctime2: 54356
+        ctime3: 58018
+        ctime4: 61487
+        ctime5: 62451
         ctime6: 0
         ctime7: 0
         atime0: 0
@@ -99395,7 +99426,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 4
+        m_NumColorKeys: 6
         m_NumAlphaKeys: 3
       minGradient:
         serializedVersion: 2
