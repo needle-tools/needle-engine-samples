@@ -24,7 +24,8 @@ export class SingleFileDrop extends Behaviour {
         div.style.display = 'flex';
 
         const p = document.createElement('p');
-        p.innerText = "Drop .glb files to view them";
+        p.style.pointerEvents = "initial";
+        p.innerHTML = `Drop .glb files to view them<br/>Drop <a href="https://polyhaven.com/hdris" target="_blank">PolyHaven HDRI</a> image previews`;
         p.style.textAlign = 'center';
         p.style.margin = 'auto';
         p.style.width = '100%';
