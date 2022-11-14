@@ -15,6 +15,8 @@ import { SceneSwitcherSample } from "../SceneSwitcher.ts";
 import { StartPosition } from "../StartPosition.ts";
 import { AutoReset } from "../StartPosition.ts";
 import { TimedSpawn } from "../TimedSpawn.ts";
+import { ResetPositionOnInterval } from "../VisibilitySamples.ts";
+import { ToggleVisibility } from "../VisibilitySamples.ts";
 
 // Register types
 TypeStore.add("Cannon", Cannon);
@@ -31,3 +33,5 @@ TypeStore.add("SceneSwitcherSample", SceneSwitcherSample);
 TypeStore.add("StartPosition", StartPosition);
 TypeStore.add("AutoReset", AutoReset);
 TypeStore.add("TimedSpawn", TimedSpawn);
+TypeStore.add("ResetPositionOnInterval", ResetPositionOnInterval);
+TypeStore.add("ToggleVisibility", ToggleVisibility);
