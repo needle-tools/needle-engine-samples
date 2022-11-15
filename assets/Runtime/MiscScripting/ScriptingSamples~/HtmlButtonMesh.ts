@@ -5,7 +5,7 @@ import { serializeable } from "@needle-tools/engine/engine/engine_serialization_
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
 
-export class HtmlMesh extends Behaviour {
+export class HtmlButtonMesh extends Behaviour {
 
     public buttonText: string = "Hello World";
     public otherButtonText: string = "Hello World";
