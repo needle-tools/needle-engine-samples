@@ -81,6 +81,9 @@ export class IFrameContent extends Behaviour {
 
         // attach to post_render events to get perfect sync to the camera
         this.context.post_render_callbacks.push(this.onPostRender.bind(this));
+        window.addEventListener( 'resize', () => {
+            this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
+        });
     }
 
     onPostRender() {
