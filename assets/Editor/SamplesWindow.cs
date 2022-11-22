@@ -64,26 +64,30 @@ namespace Needle
 				.ToList();
 
 			AssetDatabase.Refresh();
+			
 			// TODO when auto collecting scenes ignore all scenes that are in subfolder depth > 1 (so not directly in a subfolder of the samples directory but further nested)
 			var tempSamples = AssetDatabase.FindAssets("t:SceneAsset", new[] { samplesDirectory });
-			foreach (var sample in tempSamples)
+			foreach (var sceneAsset in tempSamples
+				         .Select(AssetDatabase.GUIDToAssetPath)
+				         .Select(AssetDatabase.LoadAssetAtPath<SceneAsset>)
+				         .OrderBy(x => x.name))
 			{
-				var path = AssetDatabase.GUIDToAssetPath(sample);
-				var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
-				if (!sampleInfos.Any(s => s.Scene == sceneAsset))
+				if (sampleInfos.Any(s => s.Scene == sceneAsset)) continue;
+				
+				var info = CreateInstance<SampleInfo>();
+				info.Scene = sceneAsset;
+				info.name = sceneAsset.name;
+				if (TryGetScreenshot(sceneAsset.name, out var screenshotPath))
 				{
-					var info = ScriptableObject.CreateInstance<SampleInfo>();
-					info.Scene = sceneAsset;
-					info.name = sceneAsset.name;
-					if (TryGetScreenshot(sceneAsset.name, out var screenshotPath))
-					{
-						info.Thumbnail = AssetDatabase.LoadAssetAtPath<Texture>(screenshotPath);
-					}
-					sampleInfos.Add(info);
+					info.Thumbnail = AssetDatabase.LoadAssetAtPath<Texture>(screenshotPath);
 				}
+				sampleInfos.Add(info);
 			}
 
-			sampleInfos.Sort((s, o) => (o.Thumbnail ? 1 : 0) - (s.Thumbnail ? 1 : 0));
+			sampleInfos = sampleInfos
+				.OrderBy(x => (bool) x.Thumbnail)
+				.ThenBy(x => x.name)
+				.ToList();
 		}
 
 		private bool TryGetScreenshot(string name, out string path)
