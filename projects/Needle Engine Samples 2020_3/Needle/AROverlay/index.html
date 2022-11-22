@@ -20,14 +20,22 @@
   <link rel="stylesheet" href="./src/styles/style.css">
 
   <style type="text/css">
-    div#overlay {
+    #overlay {
       position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
       display: flex;
+    }
+    
+    div.buttons {
+      display: flex;
+      position: absolute;
       justify-content: center;
       align-items: flex-start;
       width: 100%;
-      pointer-events: none;
-      padding-top: 50px;
+      bottom: 0;
+      padding-bottom: 80px;
     }
 
     #overlay button {
@@ -35,12 +43,25 @@
       margin: 10px;
       margin-top: 30px;
       pointer-events: initial;
+      background-color: black;
+      color: white;
+      font-size: 30px;
+      border-radius: 20px;
+      padding: 15px;
+      border: 0;
+      transition: transform 0.1s;
+    }
+
+    #overlay button:hover {
+      transform: scale(1.2);
+      cursor: pointer;
     }
 
     .quit-ar {
       display: none;
     }
 
+    :xr-overlay .quit-ar,
     .ar-session-active .quit-ar {
       display: initial;
     }
@@ -61,11 +82,13 @@
     <!-- Elements inside <needle-engine> that have classes "ar", "desktop" will be shown in that respective mode. "desktop ar" will be shown in both modes -->
     <!-- AR mode uses the optional feature "dom-overlay", which may not be supported on all browsers / devices. -->  
     <div id="overlay" class="desktop ar">
-      <button>Previous</button>
-      <button>Next</button>
+      <div class="buttons">
+        <button class="prev">👈</button>
+        <button class="next">👉</button>
 
-      <!-- Custom AR Quit Button - if you leave this out, a default "X" button will be created -->
-      <button class="quit-ar">Quit AR</button>
+        <!-- Custom AR Quit Button - if you leave this out, a default "X" button will be created -->
+        <button class="quit-ar">❌</button>
+      </div>
     </div>
   </needle-engine>
 
