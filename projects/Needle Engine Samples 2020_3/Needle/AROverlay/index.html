@@ -31,9 +31,10 @@
     }
 
     #overlay button {
-      pointer-events: initial;
       padding: 10px;
       margin: 10px;
+      margin-top: 30px;
+      pointer-events: initial;
     }
 
     .quit-ar {
@@ -57,14 +58,19 @@
   <script type="module" src="./src/main.ts"></script>
 
   <needle-engine>
+    <!-- Elements inside <needle-engine> that have classes "ar", "desktop" will be shown in that respective mode. "desktop ar" will be shown in both modes -->
+    <!-- AR mode uses the optional feature "dom-overlay", which may not be supported on all browsers / devices. -->  
     <div id="overlay" class="desktop ar">
       <button>Previous</button>
       <button>Next</button>
+
+      <!-- Custom AR Quit Button - if you leave this out, a default "X" button will be created -->
       <button class="quit-ar">Quit AR</button>
     </div>
   </needle-engine>
 
   <script>
+    // You can also attach to Needle Engine events from the outside, e.g. "enter-ar", "enter-vr", "exit-ar", "exit-vr"
     const needleEngine = document.querySelector('needle-engine');
 
     needleEngine.addEventListener('enter-ar', () => {
