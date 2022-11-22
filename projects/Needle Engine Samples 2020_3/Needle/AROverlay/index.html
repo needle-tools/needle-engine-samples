@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <title>Made with Needle</title>
+  <meta name="description" content="🌵 Made with Needle Engine">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:title" content="Made with Needle" />
+  <meta property="og:description" content="🌵 Made with Needle Engine" />
+
+  <meta property="twitter:image" content="" />
+  <meta property="og:image" content="" />
+
+  <meta name="robots" content="index,follow">
+  <meta name="url" content="http://needle.tools">
+
+  <link rel="stylesheet" href="./src/styles/style.css">
+
+  <style type="text/css">
+    div#overlay {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    #overlay button {
+      pointer-events: initial;
+      padding: 10px;
+      margin: 10px;
+      margin-top: 30px;
+    }
+
+    .quit-ar {
+      display: none;
+    }
+
+    .ar-session-active .quit-ar {
+      display: initial;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    // hack for simple-peer
+    window.global = window;
+    var parcelRequire;
+  </script>
+
+  <script type="module" src="./src/generated/gen.js"></script>
+  <script type="module" src="./src/main.ts"></script>
+
+  <needle-engine>
+    <div id="overlay" class="desktop ar">
+      <button>Previous</button>
+      <button>Next</button>
+      <button class="quit-ar">Quit AR</button>
+    </div>
+  </needle-engine>
+
+  <script>
+    const needleEngine = document.querySelector('needle-engine');
+
+    needleEngine.addEventListener('enter-ar', () => {
+      console.log("Entering AR!"); 
+    });
+
+    needleEngine.addEventListener('exit-ar', () => {
+      console.log("Exiting AR!");
+    });
+
+  </script>
+</body>
+</html>
