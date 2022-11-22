@@ -1,0 +1,36 @@
+.menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+}
+
+.menu button {
+    font-size: 2em;
+    color: white;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+    background:none;
+    border: none;
+    color: white;
+}
+
+.menu button img {
+    height: 60px;
+}
+
+.menu button:hover {  
+    opacity: 1;
+}
+
+.vr-button, .ar-button {
+    position: relative;
+    margin: 0px 15px;
+}
+
+.not-supported::after {
+    content: url('../../include/Slash.png');
+    position: absolute;
+    left:-38px;
+    top: -5px;
+}
