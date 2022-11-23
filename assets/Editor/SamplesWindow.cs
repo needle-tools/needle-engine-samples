@@ -13,6 +13,8 @@ namespace Needle
 {
 	public class SamplesWindow : EditorWindow, IHasCustomMenu
 	{
+		private const string packageName = "com.needle.needle-engine-samples";
+		
 		[MenuItem("Needle Engine Samples/Samples Window")]
 		public static void Open()
 		{
@@ -43,8 +45,8 @@ namespace Needle
 			Open();
 		}
 
-		private const string samplesDirectory = "Packages/com.needle.sample-assets/Runtime";
-		private const string screenshotsDirectory = "Packages/com.needle.sample-assets/Editor/Screenshots";
+		private const string samplesDirectory = "Packages/" + packageName + "/Runtime";
+		private const string screenshotsDirectory = "Packages/" + packageName + "/Editor/Screenshots";
 		
 		public void AddItemsToMenu(GenericMenu menu)
 		{
@@ -134,7 +136,7 @@ namespace Needle
 			}) { text = "Open Documentation " + Constants.ExternalLinkChar});
 			buttonContainer.Add(new Button(() => 
 			{
-				var folder = AssetDatabase.LoadAssetAtPath<Object>("Packages/com.needle.sample-assets/Runtime");
+				var folder = AssetDatabase.LoadAssetAtPath<Object>("Packages/" + packageName + "/Runtime");
 				EditorGUIUtility.PingObject(folder);
 			}) { text = "Show Samples Folder" });
 			header.Add(buttonContainer);
