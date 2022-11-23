@@ -159,11 +159,14 @@ namespace Needle
 
 			// responsive layout - basically a media query for screen width
 			const int columnWidth = 360;
+			const int maxCols = 5;
 			rootVisualElement.RegisterCallback<GeometryChangedEvent>(evt =>
 			{
 				for(int i = 0; i < 20; i++)
 					scrollView.RemoveFromClassList("__columns_" + i);
-				scrollView.AddToClassList("__columns_" +Mathf.FloorToInt(evt.newRect.width / columnWidth));
+				var cols = Mathf.FloorToInt(evt.newRect.width / columnWidth);
+				cols = Mathf.Min(cols, maxCols);
+				scrollView.AddToClassList("__columns_" + cols);
 			});
 		}
 
