@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: adec4cfb3280f814bbfac76af2518d35, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.046978727, g: 0.06984807, b: 0.0762444, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1077,6 +1077,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.AnimationData, Needle.Engine
     $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-515768813-0
+  loop: 1
+  clampWhenFinished: 0
   minMaxSpeed: {x: 1, y: 1}
   minMaxOffsetNormalized: {x: 0, y: 0}
 --- !u!1 &525107428
@@ -1125,6 +1127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.AnimationData, Needle.Engine
     $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-525107430-0
+  loop: 1
+  clampWhenFinished: 0
   minMaxSpeed: {x: 1, y: 1}
   minMaxOffsetNormalized: {x: 0.25, y: 0.25}
 --- !u!111 &525107431
@@ -1670,7 +1674,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -2101,6 +2105,7 @@ GameObject:
   - component: {fileID: 784234923}
   - component: {fileID: 784234925}
   - component: {fileID: 784234926}
+  - component: {fileID: 784234927}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -2168,6 +2173,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-784234926-0
   Glitch: {fileID: 1911445426}
+--- !u!114 &784234927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-784234927-0
+  FTPServer: {fileID: 11400000, guid: db88b202e93acf046bbcaaf467a56c99, type: 2}
+  Path: physics-animation
 --- !u!1 &798894591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2228,11 +2248,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9ba56a0a7b775340a115f4c712abd91, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.GridHelper, Needle.Engine $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-806518226-0
+  m_EditorClassIdentifier: 
   isGizmo: 0
   size: 10
   divisions: 10
-  offset: -0.001
+  offset: 0.001
   color0: {r: 0.25, g: 0.25, b: 0.25, a: 1}
   color1: {r: 0.18, g: 0.18, b: 0.18, a: 1}
 --- !u!4 &806518227
@@ -2260,7 +2280,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 141c4525abe049cc8376792dfeed6718, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.AxesHelper, Needle.Engine $ GlobalObjectId_V1-2-843fb2edad548a64d90bb18c68448109-806518228-0
+  m_EditorClassIdentifier: Needle.Engine.Components.AxesHelper, Needle.Engine $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-806518228-0
   Length: 1
   DepthTest: 1
   IsGizmo: 0
@@ -2840,10 +2860,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1211803452-0
   enableVR: 1
   enableAR: 1
-  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
-  handModelPath: 
   createVRButton: 1
   createARButton: 1
+  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
+  handModelPath: 
 --- !u!4 &1211803453
 Transform:
   m_ObjectHideFlags: 0
@@ -3127,6 +3147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.AnimationData, Needle.Engine
     $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-1525698641-0
+  loop: 1
+  clampWhenFinished: 0
   minMaxSpeed: {x: 1, y: 1}
   minMaxOffsetNormalized: {x: 0.5, y: 0.5}
 --- !u!111 &1525698642
@@ -3904,7 +3926,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -4476,6 +4498,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.AnimationData, Needle.Engine
     $ GlobalObjectId_V1-2-7ac4ed825375f054da0b3d3338b03649-2047411193-0
+  loop: 1
+  clampWhenFinished: 0
   minMaxSpeed: {x: 1, y: 1}
   minMaxOffsetNormalized: {x: 0.75, y: 0.75}
 --- !u!111 &2047411194
