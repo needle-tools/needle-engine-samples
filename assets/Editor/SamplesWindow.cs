@@ -86,7 +86,7 @@ namespace Needle
 
 			sampleInfos = sampleInfos
 				.OrderBy(x => (bool) x.Thumbnail)
-				.ThenBy(x => x.name)
+				.ThenBy(x => x.DisplayNameOrName)
 				.ToList();
 		}
 
