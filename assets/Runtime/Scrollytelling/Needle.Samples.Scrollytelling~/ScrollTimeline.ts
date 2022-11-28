@@ -49,7 +49,6 @@ export class ScrollTimeline extends Behaviour {
 
                 this.timeline.time = Mathf.lerp(this.timeline.time, progress * length + this.startOffset, this.context.time.deltaTime * this.lerpSpeed);
                 this.timeline.play();
-                console.log(progress, progress * length, this.timeline.time);
             }
             yield;
         }
