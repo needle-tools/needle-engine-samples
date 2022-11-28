@@ -32,24 +32,26 @@ export class ScrollTimeline extends Behaviour {
 
     *updateTimeline() {
         yield WaitForSeconds(1);
+        
+        if(!this.timeline) return;
 
-        this.timeline?.play();
+        this.timeline.play();
 
-        while (this.timeline?.time < this.startOffset)
+        while (this.timeline.time < this.startOffset)
         {
             yield;
         }
 
         while (this.enabled) {
             if (this.timeline) {
-                if(!this.timeline.isPlaying) this.timeline.play();
+                if(this.timeline.isPlaying) this.timeline.pause();
                 
                 const length = this.timeline.duration - this.startOffset;
                 const progress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
 
                 this.timeline.time = Mathf.lerp(this.timeline.time, progress * length + this.startOffset, this.context.time.deltaTime * this.lerpSpeed);
-                this.timeline.play();
                 console.log(progress, progress * length, this.timeline.time);
+                this.timeline.evaluate();
             }
             yield;
         }
