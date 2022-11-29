@@ -24,6 +24,22 @@ export class ScrollTimeline extends Behaviour {
         this.updateTimelineCoroutine = this.updateTimeline();
         this.startCoroutine(this.updateTimelineCoroutine);
         this.context.scene.backgroundBlurriness = 1.0;
+
+        const mainCam = this.context.mainCameraComponent;
+        const startFov = mainCam?.fieldOfView; // designed for 16:9
+
+        // add resize observer to domElement
+		const resizeObserver = new ResizeObserver(_ => {
+            
+            let fov = startFov;
+            
+            // TODO figure out equation for fov
+
+            mainCam.fieldOfView = fov;
+
+            console.log(mainCam.fieldOfView);
+        });
+		resizeObserver.observe(this.context.domElement);
     }
 
     onDisable() {
@@ -50,7 +66,6 @@ export class ScrollTimeline extends Behaviour {
                 const progress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
 
                 this.timeline.time = Mathf.lerp(this.timeline.time, progress * length + this.startOffset, this.context.time.deltaTime * this.lerpSpeed);
-                console.log(progress, progress * length, this.timeline.time);
                 this.timeline.evaluate();
             }
             yield;
