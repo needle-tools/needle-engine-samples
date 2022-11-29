@@ -23,6 +23,7 @@ export class ScrollTimeline extends Behaviour {
     onEnable() {
         this.updateTimelineCoroutine = this.updateTimeline();
         this.startCoroutine(this.updateTimelineCoroutine);
+        //@ts-ignore
         this.context.scene.backgroundBlurriness = 1.0;
     }
 
@@ -50,7 +51,7 @@ export class ScrollTimeline extends Behaviour {
                 const progress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
 
                 this.timeline.time = Mathf.lerp(this.timeline.time, progress * length + this.startOffset, this.context.time.deltaTime * this.lerpSpeed);
-                console.log(progress, progress * length, this.timeline.time);
+                // console.log(progress, progress * length, this.timeline.time);
                 this.timeline.evaluate();
             }
             yield;
