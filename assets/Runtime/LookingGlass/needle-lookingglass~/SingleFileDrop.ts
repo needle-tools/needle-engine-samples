@@ -6,7 +6,7 @@ export class SingleFileDrop extends Behaviour {
     
     start() {
         const drop = this.gameObject.getComponent(DropListener);
-        drop?.addEventListener('object-added', (evt : CustomEvent) => {
+        drop?.addEventListener('object-added', (evt : any) => {
 
             // clear all children, re-add the new one
             this.gameObject.clear();

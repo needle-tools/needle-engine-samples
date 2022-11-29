@@ -13,6 +13,8 @@ namespace Needle
 {
 	public class SamplesWindow : EditorWindow, IHasCustomMenu
 	{
+		private const string packageName = "com.needle.needle-engine-samples";
+		
 		[MenuItem("Needle Engine Samples/Samples Window")]
 		public static void Open()
 		{
@@ -43,8 +45,8 @@ namespace Needle
 			Open();
 		}
 
-		private const string samplesDirectory = "Packages/com.needle.sample-assets/Runtime";
-		private const string screenshotsDirectory = "Packages/com.needle.sample-assets/Editor/Screenshots";
+		private const string samplesDirectory = "Packages/" + packageName + "/Runtime";
+		private const string screenshotsDirectory = "Packages/" + packageName + "/Editor/Screenshots";
 		
 		public void AddItemsToMenu(GenericMenu menu)
 		{
@@ -86,7 +88,7 @@ namespace Needle
 
 			sampleInfos = sampleInfos
 				.OrderBy(x => (bool) x.Thumbnail)
-				.ThenBy(x => x.name)
+				.ThenBy(x => x.DisplayNameOrName)
 				.ToList();
 		}
 
@@ -134,7 +136,7 @@ namespace Needle
 			}) { text = "Open Documentation " + Constants.ExternalLinkChar});
 			buttonContainer.Add(new Button(() => 
 			{
-				var folder = AssetDatabase.LoadAssetAtPath<Object>("Packages/com.needle.sample-assets/Runtime");
+				var folder = AssetDatabase.LoadAssetAtPath<Object>("Packages/" + packageName + "/Runtime");
 				EditorGUIUtility.PingObject(folder);
 			}) { text = "Show Samples Folder" });
 			header.Add(buttonContainer);
@@ -159,11 +161,14 @@ namespace Needle
 
 			// responsive layout - basically a media query for screen width
 			const int columnWidth = 360;
+			const int maxCols = 5;
 			rootVisualElement.RegisterCallback<GeometryChangedEvent>(evt =>
 			{
 				for(int i = 0; i < 20; i++)
 					scrollView.RemoveFromClassList("__columns_" + i);
-				scrollView.AddToClassList("__columns_" +Mathf.FloorToInt(evt.newRect.width / columnWidth));
+				var cols = Mathf.FloorToInt(evt.newRect.width / columnWidth);
+				cols = Mathf.Min(cols, maxCols);
+				scrollView.AddToClassList("__columns_" + cols);
 			});
 		}
 
