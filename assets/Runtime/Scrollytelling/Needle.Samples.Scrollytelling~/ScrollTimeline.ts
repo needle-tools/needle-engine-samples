@@ -23,24 +23,22 @@ export class ScrollTimeline extends Behaviour {
     onEnable() {
         this.updateTimelineCoroutine = this.updateTimeline();
         this.startCoroutine(this.updateTimelineCoroutine);
+
         //@ts-ignore
         this.context.scene.backgroundBlurriness = 1.0;
 
         const mainCam = this.context.mainCameraComponent;
-        const startFov = mainCam?.fieldOfView; // designed for 16:9
+        if (!mainCam) return;
+
+        const startFov = mainCam.fieldOfView; // designed for 16:9
 
         // add resize observer to domElement
 		const resizeObserver = new ResizeObserver(_ => {
-            
+            // approximate calculation for nicer FOV across various aspect ratios
             let fov = startFov;
-            
-            // TODO figure out equation for fov
             const aspect = Mathf.clamp(window.innerWidth / window.innerHeight / 1.77777777, 0.25, 3.5);
             fov /= Mathf.lerp(aspect, 1, 0.2);
-
             mainCam.fieldOfView = fov;
-
-            console.log(mainCam.fieldOfView);
         });
 		resizeObserver.observe(this.context.domElement);
     }

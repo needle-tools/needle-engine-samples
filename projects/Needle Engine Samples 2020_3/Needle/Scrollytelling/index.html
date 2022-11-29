@@ -20,10 +20,6 @@
   <link rel="stylesheet" href="./src/styles/style.css">
 
   <style>
-    body {
-      background-color: white;
-    }
-
     needle-engine {
       position:fixed;
       top:0;
@@ -53,13 +49,17 @@
       opacity: 1;
     }
 
+    h2, p {
+      text-shadow: white 0 0 30px;
+    }
+
     h2 {
       margin-bottom: 0;
     }
 
     p {    
-      margin-top: 0.5em;
-      margin-bottom: 0.8em;
+      margin-top: 0.7em;
+      margin-bottom: 1.2em;
     }
 
     a {
@@ -100,6 +100,9 @@
         <p>
           <a href="https://www.lynx-r.com/" target="_blank">Learn More</a>
         </p>
+        <p>
+          <a href="https://needle.tools" target="_blank">Made with Needle</a>
+        </p>
       </div>
     </div>
     
@@ -125,7 +128,13 @@
       <div class="sticky-section">
         <h2>Lynx R-1</h2>
         <p>
+          One device, endless possibilities.
+        </p>
+        <p>
           <a href="https://www.lynx-r.com/" target="_blank">Learn More</a>
+        </p>
+        <p>
+          <a href="https://needle.tools" target="_blank">Made with Needle</a>
         </p>
       </div>
     </div>
@@ -134,25 +143,21 @@
   </div>
 
   <script>
-    // create an IntersectionObserver and watch changes to elements with the class "section"
+    // create an IntersectionObserver and watch changes to elements with the class "sticky-section"
     const observer = new IntersectionObserver((entries, observer) => {
-      
       entries.forEach((entry) => {
-        console.log(entry.target, entry.isIntersecting)
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
         } else {
           entry.target.classList.remove('is-visible');
         }
       });
-    }, { threshold: 0.9, rootMargin: '0px 0px -80% 0px' });
+    }, { threshold: 0.9, rootMargin: '0px 0px -70% 0px' });
     
-    // add to sections
+    // observe sections
     document.querySelectorAll('.sticky-section').forEach((section) => {
       observer.observe(section);
-      console.log("observing", section)
     });
-    console.log("yo")
   </script>
 </body>
 </html>
