@@ -35,6 +35,8 @@ export class ScrollTimeline extends Behaviour {
             let fov = startFov;
             
             // TODO figure out equation for fov
+            const aspect = Mathf.clamp(window.innerWidth / window.innerHeight / 1.77777777, 0.25, 3.5);
+            fov /= Mathf.lerp(aspect, 1, 0.2);
 
             mainCam.fieldOfView = fov;
 
