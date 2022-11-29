@@ -20,6 +20,10 @@
   <link rel="stylesheet" href="./src/styles/style.css">
 
   <style>
+    body {
+      background-color: white;
+    }
+
     needle-engine {
       position:fixed;
       top:0;
@@ -36,9 +40,8 @@
 
     .sticky-section {
       position: sticky;
-      top: 3vw;
-      border: 1px solid green;
-      margin-left: 3vw;
+      top: 5vw;
+      margin-left: 5vw;
     }
 
     .sticky-section {
@@ -48,6 +51,26 @@
 
     .sticky-section.is-visible {
       opacity: 1;
+    }
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    p {    
+      margin-top: 0.5em;
+      margin-bottom: 0.8em;
+    }
+
+    a {
+      background: black;
+      border: 1px solid grey;
+      text-transform: uppercase;
+      color: white;
+      text-decoration: none;
+      letter-spacing: 0.4em;
+      padding: 8px;
+      font-size: 0.7em;
     }
   </style>
 </head>
@@ -62,7 +85,7 @@
   <script type="module" src="./src/main.ts"></script>
 
   <needle-engine>
-    <div class="ar scroller"><p>Test</p></div>
+    <!--<div class="ar scroller"><p>Test</p></div>-->
   </needle-engine>
 
   <div id="sections">
@@ -70,9 +93,11 @@
     <div class="section">
       
       <div class="sticky-section">
-        <h2>LYNX R1</h2>
+        <h2>Lynx R1</h2>
         <p>
           One device, endless possibilities.
+        </p>
+        <p>
           <a href="https://www.lynx-r.com/" target="_blank">Learn More</a>
         </p>
       </div>
