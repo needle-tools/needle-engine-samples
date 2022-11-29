@@ -23,6 +23,7 @@ export class ScrollTimeline extends Behaviour {
     onEnable() {
         this.updateTimelineCoroutine = this.updateTimeline();
         this.startCoroutine(this.updateTimelineCoroutine);
+        //@ts-ignore
         this.context.scene.backgroundBlurriness = 1.0;
 
         const mainCam = this.context.mainCameraComponent;
