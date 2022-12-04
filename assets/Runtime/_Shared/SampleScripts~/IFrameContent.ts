@@ -31,7 +31,10 @@ export class IFrameContent extends Behaviour {
 
         const div = document.createElement('div');
         div.innerHTML = `<iframe width="1000" height="1000" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; xr-spatial-tracking; xr" allowfullscreen></iframe>`;
-        
+        div.style.zIndex = "10000";
+        div.style.position = "absolute";
+        div.style.pointerEvents = "initial";
+
         const iframe = div.querySelector('iframe')!;
         // slight delay for opening after page load
         iframe.addEventListener('load', () => {
@@ -55,8 +58,9 @@ export class IFrameContent extends Behaviour {
         if (this.borderRadius > 0)
             div.style.borderRadius = this.borderRadius + "px";
         div.style.overflow = "hidden";
+        div.style.pointerEvents = "initial";
 
-        this.context.domElement.append(div);
+        document.body.append(div);
 
         // set up CSS3D renderer for this object
         this.cssRenderer = new CSS3DRenderer();
@@ -64,7 +68,7 @@ export class IFrameContent extends Behaviour {
         this.cssRenderer.domElement.style.position = 'absolute';
         this.cssRenderer.domElement.style.top = '0px';
         this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
-        this.context.domElement.append(this.cssRenderer.domElement);
+        document.body.append(this.cssRenderer.domElement);
         
         // set up CSS3D scene
         this.cssScene = new Scene();
