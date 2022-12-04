@@ -28,22 +28,19 @@ MonoBehaviour:
   version: 0
 --- !u!21 &2100000
 Material:
-  serializedVersion: 8
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Specular
-  m_Shader: {fileID: -6465566751694194690, guid: b9d29dfa1474148e792ac720cbd45122, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _DISABLE_SSR_TRANSPARENT
+  m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
+  m_ShaderKeywords: _VERTEX_COLORS_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
@@ -52,11 +49,11 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - baseColorTexture:
+    - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - normalTexture:
+    - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -72,11 +69,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - emissiveTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - baseColorTexture:
+    - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -84,7 +77,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - occlusionTexture:
+    - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -92,11 +85,51 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - transmissionTexture:
+    - _TransmittanceColorMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - baseColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - emissiveTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - iridescenceTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - iridescenceThicknessTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - metallicRoughnessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - normalTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - occlusionTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - specularColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - specularTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - thicknessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - transmissionTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -112,7 +145,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
@@ -132,24 +164,25 @@ Material:
     - _BUILTIN_ZTest: 4
     - _BUILTIN_ZWrite: 1
     - _BUILTIN_ZWriteControl: 0
-    - baseColorTextureTexCoord: 0
+    - _BaseMapUVChannel: 0
     - _Blend: 0
     - _BlendMode: 0
-    - normalTextureTexCoord: 0
-    - normalTextureScale: 1
+    - _BumpMapUVChannel: 0
+    - _BumpScale: 1
+    - _CLEARCOAT: 0
     - _CastShadows: 1
     - _ConservativeDepthOffsetEnable: 0
     - _Cull: 2
     - _CullMode: 2
     - _CullModeForward: 2
-    - alphaCutoff: 0.5
+    - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
     - _DetailNormalMapScale: 1
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
-    - emissiveTextureTexCoord: 0
+    - _EmissionMapUVChannel: 0
     - _EmissiveExposureWeight: 0
     - _EmissiveIntensity: 1
     - _EnableBlendModePreserveSpecularLighting: 1
@@ -157,10 +190,11 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - metallicFactor: 0
+    - _IRIDESCENCE: 0
+    - _Metallic: 1
     - _Mode: 0
-    - occlusionTextureTexCoord: 0
-    - occlusionTextureStrength: 1
+    - _OcclusionMapUVChannel: 0
+    - _OcclusionStrength: 1
     - _OpaqueCullMode: 2
     - _Parallax: 0.02
     - _QueueControl: 0
@@ -172,7 +206,8 @@ Material:
     - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
-    - roughnessFactor: 0
+    - _SPECULAR: 0
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -189,6 +224,7 @@ Material:
     - _SupportDecals: 1
     - _Surface: 0
     - _SurfaceType: 0
+    - _TEXTURE_TRANSFORM: 0
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
@@ -198,6 +234,9 @@ Material:
     - _TransparentZWrite: 0
     - _UVSec: 0
     - _UseShadowThreshold: 0
+    - _VERTEX_COLORS: 1
+    - _VOLUME_ON: 0
+    - _VOLUME_TRANSMISSION: 0
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZTestDepthEqualForOpaque: 3
@@ -205,18 +244,50 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
+    - alphaCutoff: 0.5
+    - attenuationDistance: 0.001
+    - baseColorTextureRotation: 0
+    - baseColorTextureTexCoord: 0
+    - clearcoatFactor: 0
+    - clearcoatRoughnessFactor: 0
+    - emissiveTextureTexCoord: 0
+    - ior: 1.5
+    - iridescenceFactor: 0
+    - iridescenceIor: 1.3
+    - iridescenceThicknessMaximum: 400
+    - iridescenceThicknessMinimum: 100
+    - metallicFactor: 0
     - metallicRoughnessTextureTexCoord: 0
+    - metallicRoughnessTextureUVChannel: 0
+    - normalScale: 1
+    - normalTextureScale: 1
+    - normalTextureTexCoord: 0
+    - occlusionStrength: 1
+    - occlusionTextureRotation: 0
+    - occlusionTextureStrength: 1
+    - occlusionTextureTexCoord: 0
+    - roughnessFactor: 0
+    - specularFactor: 1
+    - thicknessFactor: 0
     - transmissionFactor: 0
     m_Colors:
-    - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
-    - baseColorTextureRotation: {r: 0, g: 0, b: 0, a: 0}
-    - normalTextureRotation: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseMapRotation: {r: 0, g: 0, b: 0, a: 0}
+    - _BumpMapRotation: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionMapRotation: {r: 0, g: 0, b: 0, a: 0}
+    - _OcclusionMapRotation: {r: 0, g: 0, b: 0, a: 0}
+    - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
+    - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
+    - baseColorTextureRotation: {r: 0, g: 0, b: 0, a: 0}
     - emissiveFactor: {r: 1, g: 1, b: 1, a: 1}
     - emissiveTextureRotation: {r: 0, g: 0, b: 0, a: 0}
-    - occlusionTextureRotation: {r: 0, g: 0, b: 0, a: 0}
     - metallicRoughnessTextureRotation: {r: 0, g: 0, b: 0, a: 0}
+    - normalTextureRotation: {r: 0, g: 0, b: 0, a: 0}
+    - occlusionTextureRotation: {r: 0, g: 0, b: 0, a: 0}
+    - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &8876547187379381139
 MonoBehaviour:
