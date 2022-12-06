@@ -11,6 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @startOffset;
 		public float @lerpSpeed = 2.5f;
 		public float @startLerpSpeed = 0.5f;
+		public void start(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void updateTimeline(){}
