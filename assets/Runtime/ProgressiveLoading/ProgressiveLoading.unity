@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 0243e7d31c117564ab552ef31c380336, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 29ab8f3e149b6074191a151858aa33c8, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.74870116, g: 0.61826795, b: 0.59117955, a: 1}
+  m_IndirectSpecularColor: {r: 0.47901297, g: 0.47712904, b: 0.47901297, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -422,9 +422,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-1209dc86e5a79324389ed95570bebe69-1211803452-0
   enableVR: 1
   enableAR: 1
-  defaultAvatar: {fileID: 0}
   createVRButton: 1
   createARButton: 1
+  defaultAvatar: {fileID: 0}
+  handModelPath: 
 --- !u!4 &1211803453
 Transform:
   m_ObjectHideFlags: 0
@@ -555,7 +556,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -607,7 +608,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609064305}
   m_LocalRotation: {x: 0.09367499, y: -0.8837638, z: 0.41210514, w: 0.20088784}
-  m_LocalPosition: {x: 0, y: 2.39, z: -3.31}
+  m_LocalPosition: {x: 1.45, y: 3.9, z: -0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1597275518}
@@ -620,13 +621,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1597275518}
     m_Modifications:
+    - target: {fileID: 6691099823928423013, guid: ef3de3382664b464d8eefde886e75ed0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: ef3de3382664b464d8eefde886e75ed0, type: 3}
       propertyPath: m_Name
       value: male_armour_-_game_ready
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: ef3de3382664b464d8eefde886e75ed0, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: ef3de3382664b464d8eefde886e75ed0, type: 3}
       propertyPath: m_LocalPosition.x
