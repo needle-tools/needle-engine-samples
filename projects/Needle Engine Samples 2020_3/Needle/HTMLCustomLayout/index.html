@@ -75,8 +75,8 @@
 
     .overlay-container {    
       position: absolute;
-      left: -60px;
-      bottom: -60px;
+      left: -2.5%;
+      bottom: -15%;
       background-color: #02022B99;
       border-radius: 30px;
       padding: 10px;
@@ -104,6 +104,10 @@
     }
 
     @media screen and (max-width: 768px) {
+      .headline {
+        font-size: 1.5em;
+        margin-top: 2em;
+      }
       .content {
         width: 90vw;
         height: 90vh;
@@ -112,6 +116,9 @@
       .content.small {
         width: 50vw;
         height: 50vh;
+      }
+      .overlay-container button {
+        font-size: 1em;
       }
     }
   </style>
@@ -128,7 +135,7 @@
 
   <div class="container">
     <div class="content">
-      <h1>&lt;needle-engine&gt; is a HTML Element ✌<br/>You can style and position it like any other element.</h1>
+      <h1 class="headline">&lt;needle-engine&gt; is a HTML Element ✌<br/>You can style and position it like any other element.</h1>
       <needle-engine></needle-engine>
       <p class="overlay-container">
         <button class="btn-transparent">Make Background Transparent</button>
