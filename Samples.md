@@ -25,6 +25,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Physics Basic](https://engine.needle.tools/samples/basic-physics) | Simple physics scene with objects changing colors on collision | <img src="assets/Editor/Screenshots/BasicPhysics.jpg" height="200"/>
 | [Physics Playground](https://engine.needle.tools/samples/physics-cannon/) | Rigidbodies, Colliders, Triggers | <img src="assets/Editor/Screenshots/Cannon Playground.jpg" height="200"/>
 | [Portal Rendering](https://engine.needle.tools/samples/stencil-portals) | Using stencil buffers | <img src="assets/Editor/Screenshots/Stencils.jpg" height="200"/>
+| [Product Scrollytelling](https://engine.needle.tools/samples/scrollytelling/) | Lnyx R1 scrolling website | <img src="assets/Editor/Screenshots/Scrollytelling.jpg" height="200"/>
 | [Screensharing](https://engine.needle.tools/samples/screensharing) | WebRTC and Streaming | <img src="assets/Editor/Screenshots/Screensharing.jpg" height="200"/>
 | [Shaders](https://engine.needle.tools/samples/custom-shaders) | Exporting Unity Shaders to the web | <img src="assets/Editor/Screenshots/CustomShader.png" height="200"/>
 | [Spatial Triggers](https://engine.needle.tools/samples/spatial-triggers/) | Reactive Zones and Events | <img src="assets/Editor/Screenshots/SpatialTrigger.jpg" height="200"/>
