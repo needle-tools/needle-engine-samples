@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <title>Scrollytelling Sample • Made with 🌵 Needle</title>
+  <meta name="description" content="Scrollytelling sample 🌵 Made with Needle Engine">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:title" content="Scrollytelling - Made with Needle" />
+  <meta property="og:description" content="🌵 Made with Needle Engine" />
+
+  <meta property="twitter:image" content="" />
+  <meta property="og:image" content="" />
+
+  <meta name="robots" content="index,follow">
+  <meta name="url" content="http://needle.tools">
+
+  <link rel="stylesheet" href="./src/styles/style.css">
+  <link rel="stylesheet" href="./src/styles/scrollytelling.css">
+</head>
+
+<body>
+  <script>
+    // hack for simple-peer
+    window.global = window;
+    var parcelRequire;
+  </script>
+  <script type="module" src="./src/generated/gen.js"></script>
+  <script type="module" src="./src/main.ts"></script>
+
+  <needle-engine>
+    <!--<div class="ar scroller"><p>Test</p></div>-->
+  </needle-engine>
+
+  <div id="sections">
+
+    <div class="section">
+      
+      <div class="sticky-section">
+        <h2>Lynx R1</h2>
+        <p>
+          One device, endless possibilities.
+        </p>
+        <p>
+          <a href="https://www.lynx-r.com/" target="_blank">Learn More</a>
+        </p>
+        <p>
+          <a href="https://needle.tools" target="_blank">Made with Needle</a>
+        </p>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="sticky-section">
+        <h2>The Future of Mixed Reality</h2>
+        <p>
+           Mixed-Reality for Professionals & Consumers.
+        </p>
+      </div>
+    </div>
+    
+    <div class="section double">
+      <div class="sticky-section">
+        <h2>Unique Lens Design</h2>
+        <p>
+          Standalone AR and VR
+        </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sticky-section">
+        <h2>Lynx R-1</h2>
+        <p>
+          One device, endless possibilities.
+        </p>
+        <p>
+          <a href="https://www.lynx-r.com/" target="_blank">Learn More</a>
+        </p>
+        <p>
+          <a href="https://needle.tools" target="_blank">Made with Needle</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="section" style="height: 500px;"></div>
+  </div>
+
+  <script>
+    // create an IntersectionObserver and watch changes to elements with the class "sticky-section"
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        } else {
+          entry.target.classList.remove('is-visible');
+        }
+      });
+    }, { threshold: 0.9, rootMargin: '0px 0px -70% 0px' });
+    
+    // observe sections
+    document.querySelectorAll('.sticky-section').forEach((section) => {
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>
