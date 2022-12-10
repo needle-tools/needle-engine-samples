@@ -16,6 +16,7 @@ export class EmitParticlesOnClick extends Behaviour {
                 setWorldPosition(this.gameObject, hit.point);
                 Gizmos.DrawWireSphere(hit.point, 0.5, 0xff0000, 1);
                 for (const ps of this.particleSystems) {
+                    if(!ps) continue;
                     GameObject.setActive(ps.gameObject, true);
                     ps.play();
                 }
