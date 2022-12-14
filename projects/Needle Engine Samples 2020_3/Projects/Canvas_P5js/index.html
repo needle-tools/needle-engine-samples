@@ -58,16 +58,34 @@
         this.directionY *= -1;
       }
       const distanceToMouse = dist(this.x, this.y, mouseX, mouseY);
-      if (distanceToMouse < 100) {
+
+      if (distanceToMouse < 50) {
         // move away from mouse
         this.directionX = (this.x - mouseX) / 100;
         this.directionY = (this.y - mouseY) / 100;
         this.speed *= 1.1;
       }
+      // change rotation slowly over time
+      const rotationSpeed = .1;
+      this.directionX += random(-rotationSpeed, rotationSpeed);
+      this.directionY += random(-rotationSpeed, rotationSpeed);
+      // normalize
+      const length = sqrt(this.directionX * this.directionX + this.directionY * this.directionY);
+      this.directionX /= length;
+      this.directionY /= length;
       this.x += this.directionX * this.speed;
       this.y += this.directionY * this.speed;
       this.speed *= .99;
-      if(this.speed < 1) this.speed = 1;
+      if (this.speed < 1) this.speed = 1;
+
+      // change radius slowly over time
+      const radiusSpeed = 1;
+      this.radius += random(-radiusSpeed * 1.05, radiusSpeed);
+      this.radius = Math.abs(this.radius);
+
+      // random change to make color colorful
+      const colorSpeed = 5;
+      this.color.levels[0] += random(-colorSpeed, colorSpeed);
     }
 
     draw() {
@@ -80,12 +98,14 @@
   const circles = [];
 
   function setup() {
-    createCanvas(400, 400);
-    for (let i = 0; i < 20; i++) {
-      const circle = new Circle(random(0, width), random(0, height), random(10, 30));
+    let s = Math.round(window.innerWidth * .3);
+    if (s < 100) s = 100;
+    createCanvas(s, s);
+    for (let i = 0; i < s * .5; i++) {
+      const circle = new Circle(random(0, width), random(0, height), random(s / 40, s / 20));
       circles.push(circle);
     }
-    fill(0, 0, 0);
+    fill(100, 100, 100);
     rect(0, 0, width, height);
   }
 
