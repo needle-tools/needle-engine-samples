@@ -28,7 +28,9 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Product Scrollytelling](https://engine.needle.tools/samples/scrollytelling/) | Lnyx R1 scrolling website | <img src="assets/Editor/Screenshots/Scrollytelling.jpg" height="200"/>
 | [Screensharing](https://engine.needle.tools/samples/screensharing) | WebRTC and Streaming | <img src="assets/Editor/Screenshots/Screensharing.jpg" height="200"/>
 | [Shaders](https://engine.needle.tools/samples/custom-shaders) | Exporting Unity Shaders to the web | <img src="assets/Editor/Screenshots/CustomShader.png" height="200"/>
+| [Shadow Catcher](https://engine.needle.tools/samples/screensharing) | Render additive or masked transparent shadows, great for AR | <img src="assets/Editor/Screenshots/ShadowCatcher.png" height="200"/>
 | [Spatial Triggers](https://engine.needle.tools/samples/spatial-triggers/) | Reactive Zones and Events | <img src="assets/Editor/Screenshots/SpatialTrigger.jpg" height="200"/>
+| [Spritesheet Animation](https://engine.needle.tools/samples/spritesheet/) | Animate Sprites using AnimationClips | <img src="assets/Editor/Screenshots/Spritesheet.jpg" height="200"/>
 | [Third-Person Controller](https://engine.needle.tools/samples/character-controller) | Characters, Animations and Controls | <img src="assets/Editor/Screenshots/CharacterController.jpg" height="200"/>
 | Fonts |  | 
 | Joints |  | 
