@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.05796216, g: 0.057734888, b: 0.05796216, a: 1}
+  m_IndirectSpecularColor: {r: 0.057983708, g: 0.05775872, b: 0.057983708, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -319,6 +319,7 @@ GameObject:
   - component: {fileID: 1072521944}
   - component: {fileID: 1072521943}
   - component: {fileID: 1072521942}
+  - component: {fileID: 1072521945}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -356,7 +357,7 @@ MonoBehaviour:
   AutoExport: 1
   Dependencies:
   - Name: needle.samples.customxrbuttons
-    VersionOrPath: Packages/com.needle.sample-assets/Runtime/HTMLCustomXRButtons/Needle.Samples.CustomXRButtons.npmdef
+    VersionOrPath: Packages/com.needle.needle-engine-samples/Runtime/HTMLCustomXRButtons/Needle.Samples.CustomXRButtons.npmdef
     Guid: d14b2da477eb8194eab317836161db09
 --- !u!4 &1072521944
 Transform:
@@ -372,6 +373,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1072521945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072521941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-6d35115f0b3856747b249df7640272df-1072521945-0
+  FTPServer: {fileID: 11400000, guid: 10155bc195d376643abaefe881d45c5e, type: 2}
+  Path: /html-custom-xr-buttons
 --- !u!1 &1173569453
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ export default defineConfig({
     // logLevel: 'info',
 
     plugins: [
-        // viteCompression({ deleteOriginFile: true }),,
+         viteCompression({ deleteOriginFile: true }),,
         basicSsl(),
         {
             name: 'reload',
