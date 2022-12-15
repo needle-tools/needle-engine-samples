@@ -15,7 +15,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Ground Projection](https://engine.needle.tools/samples/groundprojection) | Floor projection from environment maps | <img src="assets/Editor/Screenshots/GroundProjection.jpg" height="200"/>
 | [HTML AR Overlay](https://engine.needle.tools/samples/ar-overlay/) | Custom DOM Overlays in AR | <img src="assets/Editor/Screenshots/AROverlay.jpg" height="200"/>
 | [HTML Custom Layout](https://engine.needle.tools/samples/html-custom-layout) | Custom DOM Layout | <img src="assets/Editor/Screenshots/CustomLayout.jpg" height="200"/>
-| HTML Custom XR Buttons |  | <img src="assets/Editor/Screenshots/HTMLCustomXRButtons.png" height="200"/>
+| [HTML Custom XR Buttons](https://engine.needle.tools/samples/html-custom-xr-buttons) | AR and VR buttons can be customized for your app. | <img src="assets/Editor/Screenshots/HTMLCustomXRButtons.png" height="200"/>
 | [iframe Content](https://engine.needle.tools/samples/iframe-content/?url=https://www.youtube.com/embed/puWNRrG4MCg) | Displaying external web pages in 3D | <img src="assets/Editor/Screenshots/iFrameContent.jpg" height="200"/>
 | [Integrating p5.js](https://engine.needle.tools/samples/p5js) | Dynamic Textures | <img src="assets/Editor/Screenshots/p5js.jpg" height="200"/>
 | [Looking Glass](https://engine.needle.tools/samples/looking-glass/) | 3D Holographic Display - look.glass | <img src="assets/Editor/Screenshots/LookingGlass.jpg" height="200"/>
