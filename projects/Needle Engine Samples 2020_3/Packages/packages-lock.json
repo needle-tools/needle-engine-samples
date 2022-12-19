@@ -30,18 +30,18 @@
       "url": "https://package.openupm.com"
     },
     "com.needle.engine": {
-      "version": "2.54.1-pre",
+      "version": "2.54.2-pre",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.needle.tools"
     },
     "com.needle.engine-exporter": {
-      "version": "2.54.0-pre.1",
+      "version": "2.54.2-pre",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.needle.engine": "2.54.0-pre.1",
+        "com.needle.engine": "2.54.2-pre",
         "org.khronos.unitygltf": "1.19.0-pre",
         "com.unity.modules.animation": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0",
@@ -55,6 +55,14 @@
       },
       "url": "https://packages.needle.tools"
     },
+    "com.needle.engine-samples": {
+      "version": "file:../../../assets",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.needle.engine-exporter": "2.54.1-pre"
+      }
+    },
     "com.needle.engine-tests": {
       "version": "file:../../../tests",
       "depth": 0,
@@ -67,14 +75,6 @@
       "source": "registry",
       "dependencies": {},
       "url": "https://package.openupm.com"
-    },
-    "com.needle.engine-samples": {
-      "version": "file:../../../assets",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {
-        "com.needle.engine-exporter": "2.54.1-pre"
-      }
     },
     "com.needle.package-tools": {
       "version": "0.9.10",
