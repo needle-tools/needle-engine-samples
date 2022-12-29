@@ -45,6 +45,7 @@ export class LookingGlass extends Behaviour {
         config.trackballY = this.trackballY / 180.0 * Math.PI;
         config.targetDiam = this.targetDiam;
         config.fovy = (40 * Math.PI) / 180;
+        config.depthiness = 1.0;
 
         const polyfill = new LookingGlassWebXRPolyfill(config);
 
