@@ -1,16 +1,18 @@
-import { Behaviour, GameObject, WebXR } from "@needle-tools/engine";
+import { Behaviour, GameObject, serializable, WebXR } from "@needle-tools/engine";
 import { LookingGlassWebXRPolyfill, LookingGlassConfig } from "@lookingglass/webxr";
 
 // Documentation → https://docs.needle.tools/scripting
 
 export class LookingGlass extends Behaviour {
 
+    @serializable()
     public targetY : number = 0;
+    @serializable()
     public trackballX : number = 0;
+    @serializable()
     public trackballY : number = 0;
+    @serializable()
     public targetDiam : number = 3;
-
-    private config : LookingGlassConfig;
 
     awake() {
 
@@ -34,18 +36,17 @@ export class LookingGlass extends Behaviour {
         const config = LookingGlassConfig;
         console.log(config)
 
-        config.tileHeight = 512
-        config.numViews = 45
+        config.tileHeight = 512;
+        config.numViews = 45;
         config.targetY = this.targetY;
-        config.targetZ = 0
+        config.targetZ = 0;
+        console.log(this.trackballX);
         config.trackballX = this.trackballX / 180.0 * Math.PI;
         config.trackballY = this.trackballY / 180.0 * Math.PI;
         config.targetDiam = this.targetDiam;
-        config.fovy = (40 * Math.PI) / 180
+        config.fovy = (40 * Math.PI) / 180;
 
-        this.config = config;
-
-        const polyfill = new LookingGlassWebXRPolyfill();
+        const polyfill = new LookingGlassWebXRPolyfill(config);
 
         const webxr = GameObject.findObjectOfType(WebXR);
         if (!webxr) return;
@@ -111,41 +112,4 @@ export class LookingGlass extends Behaviour {
         image.width = 110;
         return image;
     }
-
-    /*
-    // TODO better control over when/what is injected into the scene
-    initExtraControls() {
-        const xr = polyfill["xr"];
-        const objectSymbols = Object.getOwnPropertySymbols(xr);
-        const xrSymbol = objectSymbols.find(x => {
-            console.log(x);
-            return x.toString() === "Symbol(@@webxr-polyfill/XR)";
-        });
-
-        xr[xrSymbol]["devicePromise"].then(device => {
-            console.log("device", device);
-        });
-
-        const cam = this.context.mainCameraComponent;
-        this.controls = (cam?.gameObject as GameObject)?.getComponent(OrbitControls);
-
-        console.log(config, polyfill["xr"], xr[xrSymbol]);
-    }
-
-    private controls: OrbitControls | null = null;
-
-    // TODO : ability to override with external camera
-    update() {
-        if (!this.controls || !this.controls.controls) return;
-
-        const wp = this.controls.controls.target;
-
-        this.config.targetX = wp.x;
-        this.config.targetY = wp.y;
-        this.config.targetZ = wp.z;
-
-        this.config.trackballX = this.controls.controls.getPolarAngle() / Math.PI;
-        this.config.trackballY = this.controls.controls.getAzimuthalAngle() / Math.PI;
-    }
-    */
 }

@@ -15,6 +15,8 @@ export class SingleFileDrop extends Behaviour {
             // NOTE: in production, old objects should be properly desytroyed and freed instead of just clearing.
             this.gameObject.clear();
             const newObject = data.scene;
+            // necessary because Looking Glass overwrites the rotation again, so the scene itself needs to be flipped right now...
+            newObject.rotateY(Math.PI);
             this.gameObject.add(newObject);
 
             // play the first animation as loop
