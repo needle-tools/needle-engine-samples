@@ -2812,6 +2812,20 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!115 &1186201216
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 5
+  m_Script: 
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_ExecutionOrder: 0
+  m_ClassName: Fog
+  m_Namespace: Needle.Engine.AdditionalData
 --- !u!1 &1224042568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2915,6 +2929,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1238210737}
   - component: {fileID: 1238210736}
+  - component: {fileID: 1238210738}
   m_Layer: 0
   m_Name: MyScene
   m_TagString: Untagged
@@ -2959,6 +2974,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1238210738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238210735}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1186201216}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 3
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  density: 0.01
+  near: 0
+  far: 300
 --- !u!1 &1253076202
 GameObject:
   m_ObjectHideFlags: 0
