@@ -1,4 +1,4 @@
-import { Behaviour, EventList, serializable, SkinnedMeshRenderer } from "@needle-tools/engine";
+import { Behaviour, serializable, SkinnedMeshRenderer } from "@needle-tools/engine";
 
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { Object3D } from "three";
