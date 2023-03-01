@@ -39,6 +39,7 @@ public class AssetChecks
     private static readonly string[] AllowedMaterialGuids = new string[]
     {
         "e653836c30661fe419b8992e230ca189", // glow_add particle material - no good way to make a cross-platform additive material right now
+        "0252d1a9babfab041b028d802c7ee9db", // also glow_add
     };
 
     private static bool MaterialIsAllowed(Material material)
@@ -111,7 +112,7 @@ public class AssetChecks
 
             if (!MaterialIsAllowed(material))
             {
-                Debug.LogError(Path.GetFileName(materialPath) + ", subasset: " + isSubAsset + ", shader: " + material.shader, material);
+                Debug.LogError(Path.GetFileName(materialPath) + ", subasset: " + isSubAsset + ", shader: " + material.shader + ", guid: " + materialFile, material);
             }
         }
     }
