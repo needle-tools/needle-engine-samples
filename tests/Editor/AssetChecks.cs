@@ -86,13 +86,20 @@ public class AssetChecks
             var importer = AssetImporter.GetAtPath(modelPath);
             var asset = AssetDatabase.LoadAssetAtPath<GameObject>(modelPath);
             
+#if UNITY_2022_1_OR_NEWER
+            var availableImporters = AssetDatabase.GetAvailableImporters(importer.assetPath);
+#else
             var availableImporters = AssetDatabase.GetAvailableImporterTypes(importer.assetPath);
+#endif
             if (availableImporters.Contains(typeof(UnityGLTF.GLTFImporter)))
             {
                 var importerOverride = AssetDatabase.GetImporterOverride(importer.assetPath);
                 if (importerOverride == null || importerOverride != typeof(UnityGLTF.GLTFImporter))
                 {
-                    Debug.LogError($"Model {Path.GetFileName(modelPath)} uses the wrong importer, should use " + nameof(UnityGLTF.GLTFImporter) + ". Uses: " + importer.GetType(), asset);
+#if UNITY_2022_1_OR_NEWER
+                    if (importerOverride == null) continue; // Bug in 2022.1+: doesn't actually return the specified override, instead always returns null
+#endif
+                    Debug.LogError($"Model {Path.GetFileName(modelPath)} uses the wrong importer, should use " + typeof(UnityGLTF.GLTFImporter) + ". Uses: " + importer.GetType() + ". Override: " + importerOverride, asset);
                 }
             }
             // Debug.Log(Path.GetFileName(importer.assetPath) + ", " + importer, importer);
