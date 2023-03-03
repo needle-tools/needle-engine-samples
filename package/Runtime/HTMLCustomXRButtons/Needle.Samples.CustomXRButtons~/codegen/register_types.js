@@ -1,4 +1,4 @@
-﻿import { TypeStore } from "@needle-tools/engine/engine/engine_typestore"
+﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
 import { CustomXRButtons } from "../CustomXRButtons.ts";
