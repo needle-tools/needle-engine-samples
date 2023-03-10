@@ -1,24 +1,24 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { Cannon } from "../Cannon.ts";
-import { RandomColor } from "../ChangeColor.ts";
-import { ChangeColorOnCollision } from "../ChangeColorOnCollision.ts";
-import { EmitParticlesOnClick } from "../EmitParticlesOnClick.ts";
-import { HTMLButtonClick } from "../HTMLButtonEvent.ts";
-import { IFrameContent } from "../IFrameContent.ts";
-import { LookAtCamera } from "../LookAtCamera.ts";
-import { PhysicsCollision } from "../PhysicsCollision.ts";
-import { PhysicsTrigger } from "../PhysicsCollision.ts";
-import { PlayAnimationOnCollision } from "../PlayAnimationOnCollision.ts";
-import { PlayAnimationOnTrigger } from "../PlayAnimationOnTrigger.ts";
-import { PlayAudioOnCollision } from "../PlayAudioOnCollision.ts";
-import { SceneSwitcherSample } from "../SceneSwitcher.ts";
-import { StartPosition } from "../StartPosition.ts";
-import { AutoReset } from "../StartPosition.ts";
-import { TimedSpawn } from "../TimedSpawn.ts";
-import { ResetPositionOnInterval } from "../VisibilitySamples.ts";
-import { ToggleVisibility } from "../VisibilitySamples.ts";
+import { Cannon } from "../Cannon";
+import { RandomColor } from "../ChangeColor";
+import { ChangeColorOnCollision } from "../ChangeColorOnCollision";
+import { EmitParticlesOnClick } from "../EmitParticlesOnClick";
+import { HTMLButtonClick } from "../HTMLButtonEvent";
+import { IFrameContent } from "../IFrameContent";
+import { LookAtCamera } from "../LookAtCamera";
+import { PhysicsCollision } from "../PhysicsCollision";
+import { PhysicsTrigger } from "../PhysicsCollision";
+import { PlayAnimationOnCollision } from "../PlayAnimationOnCollision";
+import { PlayAnimationOnTrigger } from "../PlayAnimationOnTrigger";
+import { PlayAudioOnCollision } from "../PlayAudioOnCollision";
+import { SceneSwitcherSample } from "../SceneSwitcher";
+import { StartPosition } from "../StartPosition";
+import { AutoReset } from "../StartPosition";
+import { TimedSpawn } from "../TimedSpawn";
+import { ResetPositionOnInterval } from "../VisibilitySamples";
+import { ToggleVisibility } from "../VisibilitySamples";
 
 // Register types
 TypeStore.add("Cannon", Cannon);

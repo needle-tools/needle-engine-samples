@@ -1,9 +1,9 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { Particle_MoveAround } from "../Movement.ts";
-import { Particle_Rotate } from "../Movement.ts";
-import { ParticleOnCollision } from "../ParticleOnCollision.ts";
+import { Particle_MoveAround } from "../Movement";
+import { Particle_Rotate } from "../Movement";
+import { ParticleOnCollision } from "../ParticleOnCollision";
 
 // Register types
 TypeStore.add("Particle_MoveAround", Particle_MoveAround);

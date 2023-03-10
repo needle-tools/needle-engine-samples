@@ -1,5 +1,5 @@
 import { Behaviour, serializeable } from "@needle-tools/engine";
-import { Renderer } from "@needle-tools/engine/engine-components/Renderer";
+import { Renderer } from "@needle-tools/engine/src/engine-components/Renderer";
 import { Color } from "three";
 
 export class RandomColor extends Behaviour {

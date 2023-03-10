@@ -1,6 +1,6 @@
 import { AssetReference, Behaviour, GameObject, serializeable, showBalloonMessage } from "@needle-tools/engine";
-import { InputEvents } from "@needle-tools/engine/engine/engine_input";
-import { getParam, setParamWithoutReload } from "@needle-tools/engine/engine/engine_utils";
+import { InputEvents } from "@needle-tools/engine/src/engine/engine_input";
+import { getParam, setParamWithoutReload } from "@needle-tools/engine/src/engine/engine_utils";
 
 export class SceneSwitcherSample extends Behaviour {
 

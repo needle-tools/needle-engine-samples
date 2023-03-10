@@ -1,6 +1,6 @@
 import { Behaviour, GameObject, LogType, serializeable, showBalloonMessage } from "@needle-tools/engine";
-import { WaitForSeconds } from "@needle-tools/engine/engine/engine_coroutine";
-import { serializeObject } from "@needle-tools/engine/engine/engine_serialization_core";
+import { WaitForSeconds } from "@needle-tools/engine/src/engine/engine_coroutine";
+import { serializeObject } from "@needle-tools/engine/src/engine/engine_serialization_core";
 import { Object3D } from "three";
 
 export class TimedSpawn extends Behaviour {

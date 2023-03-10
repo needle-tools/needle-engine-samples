@@ -1,6 +1,6 @@
 import { Behaviour, serializeable } from "@needle-tools/engine";
-import { setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
-import { getWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
+import { setWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
+import { getWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
 import { Object3D, Vector3 } from "three";
 
 export class MoveOnEvent extends Behaviour {
