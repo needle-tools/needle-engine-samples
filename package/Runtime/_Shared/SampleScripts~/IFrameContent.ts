@@ -20,9 +20,9 @@ export class IFrameContent extends Behaviour {
     @serializeable(Animator)
     animator: Animator | null = null;
 
-    private cssRenderer : CSS3DRenderer;
-    private cssScene : Scene;
-    private cssObj : CSS3DObject;
+    private cssRenderer? : CSS3DRenderer;
+    private cssScene? : Scene;
+    private cssObj? : CSS3DObject;
     private rotate90 : Quaternion = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), Math.PI);
 
     start() {
@@ -39,6 +39,7 @@ export class IFrameContent extends Behaviour {
         // slight delay for opening after page load
         iframe.addEventListener('load', () => {
             setTimeout(() => {
+                console.log("Automatically opening iframe")
                 this.animator?.SetBool("Open", true);
             }, 1000);
         });
@@ -86,11 +87,12 @@ export class IFrameContent extends Behaviour {
         // attach to post_render events to get perfect sync to the camera
         this.context.post_render_callbacks.push(this.onPostRender.bind(this));
         window.addEventListener( 'resize', () => {
-            this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
+            this.cssRenderer?.setSize(window.innerWidth, window.innerHeight);
         });
     }
 
     onPostRender() {
+        if(!this.cssObj || !this.cssRenderer || !this.cssScene) return;
         // sync transforms
         setWorldPosition(this.cssObj, getWorldPosition(this.gameObject));
         setWorldQuaternion(this.cssObj, getWorldQuaternion(this.gameObject));
