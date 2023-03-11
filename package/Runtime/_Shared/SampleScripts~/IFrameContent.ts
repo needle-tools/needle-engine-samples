@@ -57,7 +57,7 @@ export class IFrameContent extends Behaviour {
         div.style.position = "absolute";
         if (this.borderRadius > 0)
             div.style.borderRadius = this.borderRadius + "px";
-        div.style.overflow = "hidden";
+        // div.style.overflow = "hidden";
         div.style.pointerEvents = "initial";
 
         document.body.append(div);
