@@ -16,13 +16,10 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @bevelThickness = 0.005f;
 		public float @bevelSize = 0.004f;
 		public void awake(){}
-		public void onEnable(){}
-		public void onDisable(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
 		public void loadFont(){}
 		public void refreshText(){}
-		public void markDirty(){}
-		public void waitForEndOfFrame(){}
-		public void createGeometryText(){}
 	}
 }
 
