@@ -123,6 +123,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &399676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 399677}
+  - component: {fileID: 399678}
+  m_Layer: 0
+  m_Name: CustomData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &399677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399676}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1526562593}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &399678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ca3e46f381f6ee3ae681476a224fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SerializedDataSample,
+    Needle.Tiny.Samples $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-399678-0
+  myData:
+    myStringField: Hello
+    myNumberField: 5
+    myBooleanField: 1
+    subData:
+      subString: Test
+      subNumber: 29
 --- !u!1 &110024134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,7 +1354,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-1526562592-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!4 &1526562593
 Transform:
@@ -1321,6 +1371,7 @@ Transform:
   - {fileID: 1290005928}
   - {fileID: 2120999431}
   - {fileID: 1839906124}
+  - {fileID: 399677}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2374,7 +2425,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-2031275769-0
-  compilerDirectory: Library/Samples/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &2031275770
 MonoBehaviour:
   m_ObjectHideFlags: 0

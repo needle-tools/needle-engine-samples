@@ -1,17 +1,19 @@
-﻿import { TypeStore } from "@needle-tools/engine/engine/engine_typestore"
+﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { ClickToOpenWebsite } from "../ClickToOpenWebsite.ts";
-import { Clock } from "../Clock.ts";
-import { HtmlButtonMesh } from "../HtmlButtonMesh.ts";
-import { TextMesh } from "../TextGeometry.ts";
-import { TextGeometry } from "../TextGeometry.ts";
-import { DisplayCameraView } from "../TVScreen.ts";
+import { ClickToOpenWebsite } from "../ClickToOpenWebsite";
+import { Clock } from "../Clock";
+import { HtmlButtonMesh } from "../HtmlButtonMesh";
+import { SerializedDataSample } from "../SerializedDataSample";
+import { TextMesh } from "../TextGeometry";
+import { TextGeometry } from "../TextGeometry";
+import { DisplayCameraView } from "../TVScreen";
 
 // Register types
 TypeStore.add("ClickToOpenWebsite", ClickToOpenWebsite);
 TypeStore.add("Clock", Clock);
 TypeStore.add("HtmlButtonMesh", HtmlButtonMesh);
+TypeStore.add("SerializedDataSample", SerializedDataSample);
 TypeStore.add("TextMesh", TextMesh);
 TypeStore.add("TextGeometry", TextGeometry);
 TypeStore.add("DisplayCameraView", DisplayCameraView);
