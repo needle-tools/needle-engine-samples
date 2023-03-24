@@ -8,8 +8,11 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class HotspotManager : UnityEngine.MonoBehaviour
 	{
 		public Needle.Typescript.GeneratedComponents.HotspotBehaviour @hotspotTemplate;
+		public bool @forceSingleActive = true;
 		public Needle.Typescript.GeneratedComponents.HotspotManager @Instance;
 		public void awake(){}
+		public void registerHotspot(Needle.Typescript.GeneratedComponents.HotspotBehaviour @hotspot){}
+		public void onSelect(Needle.Typescript.GeneratedComponents.HotspotBehaviour @hotspot){}
 	}
 }
 

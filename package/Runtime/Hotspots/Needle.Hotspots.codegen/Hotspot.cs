@@ -9,7 +9,6 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public string @text = "Hotspot";
 		public string @content = "Content";
-		// public RGBAColor @color; → Could not resolve C# type
 		public void start(){}
 		public void destroy(){}
 	}
