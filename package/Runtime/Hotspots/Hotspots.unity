@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2094875757}
-  m_IndirectSpecularColor: {r: 0.8941217, g: 0.91217685, b: 0.864426, a: 1}
+  m_IndirectSpecularColor: {r: 0.89226145, g: 0.910078, b: 0.8638536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,54 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &26485931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 26485932}
+  - component: {fileID: 26485933}
+  m_Layer: 0
+  m_Name: Hotspot 4
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &26485932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26485931}
+  m_LocalRotation: {x: -0, y: 0.9563534, z: -0, w: -0.2922126}
+  m_LocalPosition: {x: -5.14, y: 5.43, z: -9.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 525716181}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 213.981, z: 0}
+--- !u!114 &26485933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26485931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98849229d3a46393e940e7ed61df106d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Hotspot, Needle.Engine-Samples.Runtime
+    $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-26485933-0
+  titleText: Balcony
+  contentText: Which goes all around the house. You are free to enjoy both the sunrise
+    and the sunset.
+  viewAngle: 80
 --- !u!1 &56644376
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +311,7 @@ MonoBehaviour:
   titleText: Balcony
   contentText: Which goes all around the house. You are free to enjoy both the sunrise
     and the sunset.
-  viewAngle: 66
+  viewAngle: 80
 --- !u!1 &212764576
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +827,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 500358785998473ebf998f05dc20b650, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-410607717-0
   Glitch: {fileID: 2073664178}
 --- !u!114 &410607718
 MonoBehaviour:
@@ -792,7 +841,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5efdf98d290b7b94e855869f4901eda3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.EditorSync.NeedleEditorSync, Needle.Engine.EditorSync
+    $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-410607718-0
   enabled: 1
   components: 1
   materials: 1
@@ -808,7 +858,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b98ea17d00d4b13963c594067a209be, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Shaders.SkyboxExportSettings, Needle.Engine.Shaders
+    $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-410607719-0
   <SkyboxResolution>k__BackingField: 64
   <HDR>k__BackingField: 1
 --- !u!1001 &415127825
@@ -1019,7 +1070,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498933276}
-  m_LocalRotation: {x: 0.03190228, y: -0.90796113, z: 0.070327036, w: 0.41187748}
+  m_LocalRotation: {x: 0.03190236, y: -0.90796113, z: 0.070327, w: 0.41187742}
   m_LocalPosition: {x: 97.062256, y: 24.814117, z: 84.968925}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1045,7 +1096,7 @@ MonoBehaviour:
   enableDamping: 1
   dampingFactor: 0.1
   enableZoom: 1
-  minZoom: 50
+  minZoom: 20
   maxZoom: 200
   enablePan: 1
   lookAtConstraint: {fileID: 498933282}
@@ -1134,6 +1185,7 @@ Transform:
   - {fileID: 1958154578}
   - {fileID: 2099570365}
   - {fileID: 199970015}
+  - {fileID: 26485932}
   - {fileID: 625361988}
   - {fileID: 5312381281347341796}
   - {fileID: 647463983}
@@ -1193,8 +1245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83950b79d6b4899885197326596ffd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.CanvasData, Needle.Engine
-    $ GlobalObjectId_V1-2-d7b759df25c617b428144ad559984d08-967016149-0
-  renderOnTop: 0
+    $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-585828419-0
+  renderOnTop: 1
   doubleSided: 0
   castShadows: 0
   receiveShadows: 0
@@ -1209,7 +1261,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.GraphicRaycaster, UnityEngine.UI $ GlobalObjectId_V1-2-d7b759df25c617b428144ad559984d08-967016146-0
+  m_EditorClassIdentifier: UnityEngine.UI.GraphicRaycaster, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-585828420-0
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
   m_BlockingMask:
@@ -1226,7 +1278,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.CanvasScaler, UnityEngine.UI $ GlobalObjectId_V1-2-d7b759df25c617b428144ad559984d08-967016147-0
+  m_EditorClassIdentifier: UnityEngine.UI.CanvasScaler, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-585828421-0
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
@@ -1543,7 +1595,7 @@ Transform:
   - {fileID: 895800802}
   - {fileID: 1193705774}
   m_Father: {fileID: 525716181}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &647463982
 PrefabInstance:
@@ -1554,7 +1606,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3910990755373119420, guid: 2390aeb31ae08b24bb2f0b8f30a754f1, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 2390aeb31ae08b24bb2f0b8f30a754f1, type: 3}
       propertyPath: m_LocalScale.x
@@ -2171,7 +2223,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832529342}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 15.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2096945232}
@@ -2241,7 +2293,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.Image, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-865617285-0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
   m_RaycastTarget: 1
@@ -2622,7 +2674,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1095922720-0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
@@ -3546,7 +3598,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1736379723-0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
@@ -3749,7 +3801,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.Button, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1784300132-0
   m_Navigation:
     m_Mode: 3
     m_WrapAround: 0
@@ -3793,7 +3845,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.Image, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1784300133-0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -4153,7 +4205,7 @@ MonoBehaviour:
   titleText: Garage
   contentText: Large garage for 3 vehicles. There's a double garage on the other
     side.
-  viewAngle: 55.5
+  viewAngle: 80
 --- !u!1001 &1983884076
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4817,7 +4869,7 @@ MonoBehaviour:
   titleText: Stone patio
   contentText: Modern and great for barbecuing. Additionally can be decorated with
     outdoor     furniture.
-  viewAngle: 53.5
+  viewAngle: 80
 --- !u!1 &2120810533
 GameObject:
   m_ObjectHideFlags: 0
@@ -5093,7 +5145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7213884913567718408, guid: 3e571d63a7744834288624f9682647c1, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7213884913567718408, guid: 3e571d63a7744834288624f9682647c1, type: 3}
       propertyPath: m_LocalPosition.x

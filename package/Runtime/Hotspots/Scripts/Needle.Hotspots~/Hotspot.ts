@@ -30,10 +30,8 @@ export class Hotspot extends Behaviour {
         this.instance = GameObject.instantiate(HotspotManager.Instance.hotspotTemplate.gameObject, options);
         this.hotspot = this.instance?.getComponent(HotspotBehaviour);
         if (this.hotspot) {
-            GameObject.setActive(this.hotspot.gameObject, false);
             GameObject.setActive(this.hotspot.gameObject, true);
             this.hotspot.init(this);
-
             HotspotManager.Instance.registerHotspot(this.hotspot);
         }
     }
@@ -90,7 +88,6 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         if (this.label)
         {
             this.label.text = hotspot.titleText;
-            console.log(this.label.raycastTarget);
             this.label.raycastTarget = true;
         }
         if (this.content)
@@ -213,6 +210,9 @@ export class HotspotManager extends Behaviour {
     awake() 
     {
         HotspotManager.Instance = this;
+        this.hotspotTemplate.gameObject.position.set(0, 0, 0);
+        this.hotspotTemplate.gameObject.scale.set(1, 1, 1);
+        this.hotspotTemplate.gameObject.quaternion.identity();
         this.hotspotTemplate.gameObject.removeFromParent();
         GameObject.setActive(this.hotspotTemplate.gameObject, false);
     }
