@@ -26,6 +26,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Physics Basic](https://engine.needle.tools/samples/basic-physics) | Simple physics scene with objects changing colors on collision | <img src="package/Editor/Screenshots/BasicPhysics.jpg" height="200"/>
 | [Physics Playground](https://engine.needle.tools/samples/physics-cannon/) | Rigidbodies, Colliders, Triggers | <img src="package/Editor/Screenshots/Cannon Playground.jpg" height="200"/>
 | [Portal Rendering](https://engine.needle.tools/samples/stencil-portals) | Using stencil buffers | <img src="package/Editor/Screenshots/Stencils.jpg" height="200"/>
+| [Post Processing](https://engine.needle.tools/samples/postprocessing) | PostProcessing with DoF, Bloom, SSAO and more | <img src="package/Editor/Screenshots/PostProcessing.jpg" height="200"/>
 | [Product Scrollytelling](https://engine.needle.tools/samples/scrollytelling/) | Lnyx R1 scrolling website | <img src="package/Editor/Screenshots/Scrollytelling.jpg" height="200"/>
 | [Screensharing](https://engine.needle.tools/samples/screensharing) | WebRTC and Streaming | <img src="package/Editor/Screenshots/Screensharing.jpg" height="200"/>
 | [Shaders](https://engine.needle.tools/samples/custom-shaders) | Exporting Unity Shaders to the web | <img src="package/Editor/Screenshots/CustomShader.png" height="200"/>
