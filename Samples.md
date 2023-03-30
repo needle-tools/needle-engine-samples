@@ -43,4 +43,5 @@ This is a list of all samples in this package. You can also find them in the Uni
 | Reflection Probes |  | 
 | Shader Test |  | 
 | Video Player |  | 
+| Vue Project Sample |  | 
 
