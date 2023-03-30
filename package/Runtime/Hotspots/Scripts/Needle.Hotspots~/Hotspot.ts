@@ -88,7 +88,6 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         if (this.label)
         {
             this.label.text = hotspot.titleText;
-            this.label.raycastTarget = true;
         }
         if (this.content)
             this.content.text = hotspot.contentText;
@@ -102,9 +101,6 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
 
         if(this.selected)
             HotspotManager.Instance.onSelect(this);
-
-        if (this.canvas)
-            this.canvas.renderOnTop = this.selected
     }
 
     deselect() {
@@ -192,10 +188,16 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         const stateAlpha = Mathf.lerp(1 - goal2, goal2, t2);
 
         if (this.contentCanvasGroup) 
+        {
             this.contentCanvasGroup.alpha = Math.min(angleAlpha, stateAlpha);
+            this.contentCanvasGroup.interactable = this.selected;
+        }
         
         if (this.headerCanvasGroup)
+        {
             this.headerCanvasGroup.alpha = angleAlpha;
+            this.headerCanvasGroup.interactable = this.isVisible;
+        }
     }
 }
 
