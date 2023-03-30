@@ -114,6 +114,9 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         }
     }
 
+    private static _tempVector1 = new Vector3();
+    private static _tempVector2 = new Vector3();
+
     onBeforeRender(frame: XRFrame | null): void {
         
         if(this.hotspot == null)
@@ -147,13 +150,13 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         this.gameObject.scale.set(scale, scale, scale);
 
         // shift towards camera a bit
-        const vectorTowardsCameraInGameObjectSpace = this.gameObject.worldToLocal(cam.position.clone()).normalize().multiplyScalar(this.zOffset);
+        const vectorTowardsCameraInGameObjectSpace = this.gameObject.worldToLocal(HotspotBehaviour._tempVector1.copy(cam.position)).normalize().multiplyScalar(this.zOffset);
         if (this.shift) 
             this.shift.position.set(vectorTowardsCameraInGameObjectSpace.x, vectorTowardsCameraInGameObjectSpace.y, vectorTowardsCameraInGameObjectSpace.z);
 
         // handle visiblity angle
-        const camFwd = cam.getWorldDirection(new Vector3());
-        const hotspotFwd = this.hotspot!.gameObject.getWorldDirection(new Vector3());
+        const camFwd = cam.getWorldDirection(HotspotBehaviour._tempVector1);
+        const hotspotFwd = this.hotspot!.gameObject.getWorldDirection(HotspotBehaviour._tempVector2);
         hotspotFwd.negate(); //invert the vector
         
         const angle = Mathf.toDegrees(camFwd.angleTo(hotspotFwd));
