@@ -24,8 +24,6 @@ namespace Needle.Typescript.GeneratedComponents
 
         public override void OnInspectorGUI()
         {
-            GUILayout.Label("Contents");
-
             serializedObject.Update();
 
             titleProperty.stringValue = EditorGUILayout.TextField(titleProperty.stringValue);
@@ -35,7 +33,7 @@ namespace Needle.Typescript.GeneratedComponents
             contentProperty.stringValue = EditorGUILayout.TextArea(contentProperty.stringValue, GUILayout.Height(80));
             EditorStyles.textField.wordWrap = oldState;
 
-            GUILayout.Label("Angles");
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
             viewAngleProperty.floatValue = EditorGUILayout.Slider("View angle: ", viewAngleProperty.floatValue, 0, 180);
 
