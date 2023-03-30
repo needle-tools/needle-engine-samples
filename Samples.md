@@ -13,6 +13,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Deferred Textures](https://engine.needle.tools/samples/progressive-textures) | Faster load times, smaller payloads | <img src="package/Editor/Screenshots/ProgressiveLoading.jpg" height="200"/>
 | [Device Sensors](https://engine.needle.tools/samples/device-sensors/) | Orientation Sensor Access | <img src="package/Editor/Screenshots/DeviceSensors.png" height="200"/>
 | [Ground Projection](https://engine.needle.tools/samples/groundprojection) | Floor projection from environment maps | <img src="package/Editor/Screenshots/GroundProjection.jpg" height="200"/>
+| [Hotspots](https://engine.needle.tools/samples/hotspots) | Annotate 3D content | <img src="package/Editor/Screenshots/Hotspots.jpg" height="200"/>
 | [HTML AR Overlay](https://engine.needle.tools/samples/ar-overlay/) | Custom DOM Overlays in AR | <img src="package/Editor/Screenshots/AROverlay.jpg" height="200"/>
 | [HTML Custom Layout](https://engine.needle.tools/samples/html-custom-layout) | Custom DOM Layout | <img src="package/Editor/Screenshots/CustomLayout.jpg" height="200"/>
 | [HTML Custom XR Buttons](https://engine.needle.tools/samples/html-custom-xr-buttons) | AR and VR buttons can be customized for your app. | <img src="package/Editor/Screenshots/HTMLCustomXRButtons.png" height="200"/>
