@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Hotspot, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-26485933-0
-  titleText: Balcony
+  titleText: Balcony # 2
   contentText: Which goes all around the house. You are free to enjoy both the sunrise
     and the sunset.
   viewAngle: 80
@@ -987,6 +987,7 @@ GameObject:
   - component: {fileID: 498933280}
   - component: {fileID: 498933281}
   - component: {fileID: 498933282}
+  - component: {fileID: 498933283}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1137,6 +1138,21 @@ LookAtConstraint:
   m_Sources:
   - sourceTransform: {fileID: 1769319379}
     weight: 1
+--- !u!114 &498933283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498933276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693de1e48d1f0764d9bc83022f353103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraSkyboxData, Needle.Engine
+    $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-498933283-0
+  backgroundBlurriness: 0.3
+  backgroundIntensity: 1
 --- !u!1 &525716179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,12 +1184,61 @@ Transform:
   - {fileID: 2099570365}
   - {fileID: 199970015}
   - {fileID: 26485932}
+  - {fileID: 528345213}
   - {fileID: 625361988}
   - {fileID: 5312381281347341796}
   - {fileID: 647463983}
   m_Father: {fileID: 1379746829}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &528345212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 528345213}
+  - component: {fileID: 528345214}
+  m_Layer: 0
+  m_Name: Hotspot 5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &528345213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528345212}
+  m_LocalRotation: {x: -0.30401018, y: 0.7733757, z: 0.20351851, w: 0.51773363}
+  m_LocalPosition: {x: 10.24, y: 1.26, z: -7.21}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 525716181}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: -39.02, y: 119.372, z: -19.511}
+--- !u!114 &528345214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528345212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98849229d3a46393e940e7ed61df106d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Hotspot, Needle.Engine-Samples.Runtime
+    $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-528345214-0
+  titleText: Patio
+  contentText: Relax on the Patio surrounded by trees. Perfect for a barbeque with
+    friends!f
+  viewAngle: 60
 --- !u!1 &585828417
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,7 +1642,7 @@ Transform:
   - {fileID: 895800802}
   - {fileID: 1193705774}
   m_Father: {fileID: 525716181}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &647463982
 PrefabInstance:
@@ -1588,7 +1653,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3910990755373119420, guid: 2390aeb31ae08b24bb2f0b8f30a754f1, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 2390aeb31ae08b24bb2f0b8f30a754f1, type: 3}
       propertyPath: m_LocalScale.x
@@ -5127,7 +5192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7213884913567718408, guid: 3e571d63a7744834288624f9682647c1, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7213884913567718408, guid: 3e571d63a7744834288624f9682647c1, type: 3}
       propertyPath: m_LocalPosition.x
