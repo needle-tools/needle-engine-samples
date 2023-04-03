@@ -10,6 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.GameObject @target;
 		public float @followStrength = 1f;
 		public void OnEnable(){}
+		public void start(){}
 		public void update(){}
 	}
 }

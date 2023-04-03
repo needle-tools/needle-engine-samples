@@ -11,19 +11,24 @@ export class SidescrollerCharacter extends Behaviour {
     @serializable()
     speed: number = 1;
 
-    @serializable()
-    leftKey: string = "ArrowLeft";
-    @serializable()
-    rightKey: string = "ArrowRight";
-    @serializable()
-    upKey: string = "ArrowUp";
-    @serializable()
-    downKey: string = "ArrowDown";
-
     private dir: number = 1;
     private animator: Animator | null = null;
+    private gamepadIndex: number | null = null;
+
     onEnable() {
         this.animator = this.gameObject.getComponent(Animator);
+    }
+
+    start() {
+        window.addEventListener("gamepadconnected", (e) => {
+            // https://w3c.github.io/gamepad/#remapping
+            // we're always using the last connected gamepad here
+            if (e.gamepad.mapping == "standard") this.gamepadIndex = e.gamepad.index; 
+        });
+
+        window.addEventListener("gamepaddisconnected", (e) => {
+            if (this.gamepadIndex == e.gamepad.index) this.gamepadIndex = null;
+        });
     }
 
     inputs = {
@@ -41,16 +46,18 @@ export class SidescrollerCharacter extends Behaviour {
         this.inputs.horizontal.value = 0;
         this.inputs.vertical.value = 0;
 
+        this.handleKeyboard();
+        this.handleGamepad();
         if (this.context.input.getTouchesPressedCount() == 1) {
-            this.handleKeyboard();
             this.handlePointer();
-            this.dir = this.inputs.horizontal.value < 0 ? -1 : 1;
         }
         
         pos.x += this.inputs.horizontal.value * moveAmount;
         pos.z -= this.inputs.vertical.value * moveAmount;
 
         haveMovement = this.inputs.horizontal.value != 0 || this.inputs.vertical.value != 0;
+        if (haveMovement)
+            this.dir = this.inputs.horizontal.value < 0 ? -1 : 1;
 
         this.animator?.setBool("Moving", haveMovement);
         rot.y = this.dir < 0 ? 0 : Math.PI;
@@ -84,6 +91,20 @@ export class SidescrollerCharacter extends Behaviour {
                 this.inputs.vertical.value += 1;
             }
         }
+    }
+
+    private handleGamepad() {
+        if (this.gamepadIndex === null) return;
+        const gamepad = navigator.getGamepads()[this.gamepadIndex];
+        if (!gamepad) return;
+
+        // Gamepads usually return small values all the time - they're not perfectly centered.
+        // So a "deadzone" is used to ignore small values.
+        const deadzone = 0.25;
+        if (Math.abs(gamepad.axes[0]) > deadzone)
+            this.inputs.horizontal.value += gamepad.axes[0] * 1.5;
+        if (Math.abs(gamepad.axes[1]) > deadzone)
+            this.inputs.vertical.value -= gamepad.axes[1] * 1.5;
     }
 
     private handleKeyboard() {
