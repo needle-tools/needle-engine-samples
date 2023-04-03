@@ -1,4 +1,4 @@
-import { Animator, Behaviour, serializable } from "@needle-tools/engine";
+import { Animator, AudioSource, Behaviour, Mathf, serializable } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -13,10 +13,12 @@ export class SidescrollerCharacter extends Behaviour {
 
     private dir: number = 1;
     private animator: Animator | null = null;
+    private audio: AudioSource | null = null;
     private gamepadIndex: number | null = null;
 
     onEnable() {
         this.animator = this.gameObject.getComponent(Animator);
+        this.audio = this.gameObject.getComponentInChildren(AudioSource);
     }
 
     start() {
@@ -59,8 +61,11 @@ export class SidescrollerCharacter extends Behaviour {
         if (haveMovement)
             this.dir = this.inputs.horizontal.value < 0 ? -1 : 1;
 
-        this.animator?.setBool("Moving", haveMovement);
         rot.y = this.dir < 0 ? 0 : Math.PI;
+        if (this.animator)
+            this.animator.setBool("Moving", haveMovement);
+        if (this.audio) 
+            this.audio.volume = Mathf.lerp(this.audio.volume, haveMovement ? 1 : 0, this.context.time.deltaTime * 20) * 0.5;
     }
 
     private handleKeyboardAxis(negative: string, positive: string, value: InputValue) {
