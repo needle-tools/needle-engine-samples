@@ -1,7 +1,6 @@
 import { Behaviour, Camera, GameObject, serializable, SpriteRenderer } from "@needle-tools/engine";
 import { Mathf } from "@needle-tools/engine/src/engine/engine_math";
-import { Vector3 } from "three";
-import { SidescrollerCharacter } from "./SidescrollerCharacter";
+import { Vector2, Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -26,9 +25,39 @@ export class SidescrollerCamera extends Behaviour {
     }
 
     private alignedTargetPosition: Vector3 = new Vector3();
-    update() {
+
+    private handleMouseWheel() {
         const wheelChange = this.context.input.getMouseWheelDeltaY();
         this.targetY += wheelChange * 0.04;
+    }
+
+    private hadDataLastFrame = false;
+    private lengthLastFrame = 0;
+    private handlePinch() {
+        if (this.context.input.getTouchesPressedCount() == 2) {
+            
+            const delta0 = this.context.input.getPointerPosition(0)!;
+            const delta1 = this.context.input.getPointerPosition(1)!;
+            const lengthThisFrame = delta0.distanceTo(delta1);
+
+            if (this.hadDataLastFrame) {
+                const delta = lengthThisFrame - this.lengthLastFrame;
+                this.targetY -= delta * 1;
+            }
+
+            this.lengthLastFrame = lengthThisFrame;
+            this.hadDataLastFrame = true;
+        }
+        else {
+            this.hadDataLastFrame = false;
+        }
+    }
+
+    update() {
+
+        this.handleMouseWheel();
+        this.handlePinch();
+
         const minY = 1;
         const maxY = 40;
         if (this.targetY < minY) this.targetY = minY;
@@ -46,7 +75,15 @@ export class SidescrollerCamera extends Behaviour {
             this.alignedTargetPosition.x = p.x;
             this.alignedTargetPosition.y = 1;
             this.gameObject.lookAt(this.alignedTargetPosition);
-            if (this.cam) this.cam.fieldOfView = Mathf.lerp(18, 9, Mathf.inverseLerp(minY, maxY, p.y));
+
+            // field of view is designed for 16:9
+            // so we need to adjust it depending on the aspect ratio
+            let aspectCorrection = 1;
+            const aspect = this.context.domWidth / this.context.domHeight;
+            if (aspect < 1)
+                aspectCorrection = 2.0;
+
+            if (this.cam) this.cam.fieldOfView = Mathf.lerp(18, 9, Mathf.inverseLerp(minY, maxY, p.y)) * aspectCorrection;
 
             for (const renderer of this.renderers) {
                 renderer.gameObject.quaternion.copy(this.gameObject.quaternion);

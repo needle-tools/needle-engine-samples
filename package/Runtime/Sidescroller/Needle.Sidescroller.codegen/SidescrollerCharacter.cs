@@ -13,6 +13,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public string @upKey = "ArrowUp";
 		public string @downKey = "ArrowDown";
 		public void OnEnable(){}
+		// public undefined @inputs; → Could not resolve C# type
 		public void lateUpdate(){}
 	}
 }
