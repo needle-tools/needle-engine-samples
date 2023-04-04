@@ -19,6 +19,11 @@ export class SidescrollerCharacter extends Behaviour {
     onEnable() {
         this.animator = this.gameObject.getComponent(Animator);
         this.audio = this.gameObject.getComponentInChildren(AudioSource);
+
+        // ensure touch actions don't accidentally scroll/refresh the page
+        this.context.domElement.style.userSelect = "none";
+        this.context.domElement.style.touchAction = "none";
+        this.context.renderer.domElement.style.touchAction = "none";
     }
 
     start() {

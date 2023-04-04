@@ -659,6 +659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 169181154}
   - component: {fileID: 169181153}
+  - component: {fileID: 169181155}
   m_Layer: 0
   m_Name: MyScene
   m_TagString: Untagged
@@ -698,6 +699,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &169181155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169181152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dce5de862cb5b9c2270d01f62a19f61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SidescrollerInfo,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-3719e789feffd334fa254b84409e4581-169181155-0
 --- !u!1 &204113146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,7 +1870,6 @@ GameObject:
   - component: {fileID: 505680642}
   - component: {fileID: 505680641}
   - component: {fileID: 505680640}
-  - component: {fileID: 505680643}
   - component: {fileID: 505680645}
   m_Layer: 0
   m_Name: Export Info
@@ -1894,7 +1907,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-3719e789feffd334fa254b84409e4581-505680641-0
   DirectoryName: Library/Needle/Sample
   AutoExport: 1
-  Dependencies: []
+  Dependencies:
+  - Name: needle.sidescroller
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Sidescroller/Needle.Sidescroller.npmdef
+    Guid: 9a4c2f9d6bc3f4646b896ddd43e8a548
 --- !u!4 &505680642
 Transform:
   m_ObjectHideFlags: 0
@@ -1909,25 +1925,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &505680643
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 505680639}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f76b03ed805eab946a36c54736680ceb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &505680645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1941,7 +1938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-3719e789feffd334fa254b84409e4581-505680645-0
-  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
+  FTPServer: {fileID: 11400000, guid: 7d5827dc3b4d15c449967bb504a45640, type: 2}
   Path: /sidescroller
 --- !u!1 &512557492
 GameObject:
