@@ -5,9 +5,10 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class PrefabSceneSwitcherSample : UnityEngine.MonoBehaviour
+	public partial class DisableEnvironmentLight : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform[] @scenes;
+		public void OnEnable(){}
+		public void OnDisable(){}
 	}
 }
 
