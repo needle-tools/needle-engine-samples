@@ -1,8 +1,8 @@
 import { AssetReference, Behaviour, GameObject, serializeable, showBalloonMessage } from "@needle-tools/engine";
 import { InputEvents } from "@needle-tools/engine/src/engine/engine_input";
-import { getParam, setParamWithoutReload } from "@needle-tools/engine/src/engine/engine_utils";
+import { getParam, isMobileDevice, setParamWithoutReload } from "@needle-tools/engine/src/engine/engine_utils";
 
-export class SceneSwitcherSample extends Behaviour {
+export class PrefabSceneSwitcherSample extends Behaviour {
 
     @serializeable(AssetReference)
     scenes?: AssetReference[];
@@ -11,9 +11,16 @@ export class SceneSwitcherSample extends Behaviour {
     private currentScene: AssetReference | undefined = undefined;
 
     start() {
-        setInterval(() => {
-            showBalloonMessage("Press \"a\" or \"d\" keys to switch between the scenes or use the numbers 1 2 3");
-        }, 3000);
+
+        if (isMobileDevice()) {
+            showBalloonMessage("Automatically switching between scenes on mobile every 5 seconds");
+            setInterval(() => this.selectNext(), 5000);
+        }
+        else {
+            setInterval(() => {
+                showBalloonMessage("Press \"a\" or \"d\" keys to switch between the scenes or use the numbers 1 2 3");
+            }, 3000);
+        }
 
         this.context.input.addEventListener(InputEvents.KeyDown, (e: any) => {
             if (!this.scenes) return;

@@ -5,7 +5,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class SceneSwitcherSample : UnityEngine.MonoBehaviour
+	public partial class PrefabSceneSwitcherSample : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.Transform[] @scenes;
 		public void start(){}
