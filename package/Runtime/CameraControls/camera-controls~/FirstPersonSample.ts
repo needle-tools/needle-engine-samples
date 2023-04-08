@@ -17,14 +17,6 @@ export class FirstPersonSample extends Behaviour {
     onEnable(): void {
 
         if (!this._cameraControls) {
-            // const intermediateParent = new THREE.Object3D();
-            // intermediateParent.add(this.gameObject);
-            // intermediateParent.position.copy(this.gameObject.position);
-
-            const EPS = 1e-5;
-            // in order to archive FPS look, set EPSILON for the distance to the center
-            // this.gameObject.position.set(0, 0, EPS);
-
             const cameraControls = this._cameraControls = new CameraControls(this.gameObject, this.context.domElement);
             cameraControls.minDistance = cameraControls.maxDistance = 1;
             cameraControls.azimuthRotateSpeed = - 0.3; // negative value to invert rotation direction
