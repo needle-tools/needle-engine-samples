@@ -21,9 +21,11 @@ export class FirstPersonSample extends Behaviour {
             cameraControls.minDistance = cameraControls.maxDistance = 1;
             cameraControls.azimuthRotateSpeed = - 0.3; // negative value to invert rotation direction
             cameraControls.polarRotateSpeed = - 0.3; // negative value to invert rotation direction
+            cameraControls.minZoom = .7;
+            cameraControls.maxZoom = 2;
             cameraControls.mouseButtons.wheel = CameraControls.ACTION.ZOOM;
             cameraControls.touches.two = CameraControls.ACTION.TOUCH_ZOOM_TRUCK;
-            cameraControls.setTarget(0, 1, .0001);
+            this.move(.0001);
         }
     }
 
@@ -37,15 +39,20 @@ export class FirstPersonSample extends Behaviour {
     private onHandleInput() {
 
         if (!this._cameraControls) return;
-
         const speed = 5;
         const t = this.context.time.deltaTime * speed;
 
         if (this.context.input.isKeyPressed(KeyCode.KEY_W)) {
-            this.updatePosition(1 * t);
+            this.move(1 * t);
         }
         else if (this.context.input.isKeyPressed(KeyCode.KEY_S)) {
-            this.updatePosition(-1 * t);
+            this.move(-1 * t);
+        }
+        else if(this.context.input.isKeyPressed(KeyCode.KEY_E)) {
+            this.move(0, 1 * t);
+        }
+        else if(this.context.input.isKeyPressed(KeyCode.KEY_Q)) {
+            this.move(0, -1 * t);
         }
         if (this.context.input.isKeyPressed(KeyCode.KEY_A)) {
             this._cameraControls.truck(-1 * t, 0);
@@ -55,12 +62,20 @@ export class FirstPersonSample extends Behaviour {
         }
     }
 
-    private updatePosition(forwardFactor: number) {
+    private move(forwardFactor: number, upFactor: number = 0) {
         if (!this._cameraControls) return;
-        
+
+        if(forwardFactor == 0) forwardFactor = .000001;
+
         const dir = this.forward.multiplyScalar(forwardFactor);
-        const p = this.gameObject.position.add(dir);
-        this._cameraControls.setPosition(p.x, p.y, p.z);
+        const newPosition = this.gameObject.position.add(dir);
+
+        if (upFactor != 0) {
+            const up = this.up.multiplyScalar(upFactor);
+            newPosition.add(up);
+        }
+
+        this._cameraControls.setPosition(newPosition.x, newPosition.y, newPosition.z);
 
         const world = this.worldPosition;
         if (forwardFactor > 0)
