@@ -1,8 +1,9 @@
-import { Behaviour, DropListener, getOrAddComponent, Animation, OrbitControls, getComponent, CharacterControllerInput, GameObject, serializable, AssetReference, Animator } from "@needle-tools/engine";
+import { Behaviour, CharacterControllerInput, GameObject, AssetReference, Animator } from "@needle-tools/engine";
 import { PlayerState } from "@needle-tools/engine/src/engine-components-experimental/networking/PlayerSync";
 import { syncField } from "@needle-tools/engine/src/engine/engine_networking_auto";
 import { IGameObject } from "@needle-tools/engine/src/engine/engine_types";
 import { SyncedAnimator } from "./SyncedAnimator";
+import { Object3D } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -81,18 +82,16 @@ export class CharacterSwitcher extends Behaviour {
                     GameObject.addComponent(go, sync);
                 }
 
-                // Currently add component is not synced so we dont have a synced guid for this component SOOOOO syncField doesnt work
-                // const newAnimator = GameObject.addNewComponent(go, SyncedAnimator);
-                // console.log(newAnimator.guid);
-
                 // does not seem necessary when dropping files, but is necessary for AssetReference.instantiate
                 if (this.previousGo) GameObject.destroy(this.previousGo);
                 this.previousGo = go;
 
                 // ensure raycasting onto characters is disabled (can be slow)
-                go.traverse((g) => {
+                go.traverse((g: Object3D) => {
+                    if (!g.isMesh) return;
                     g.layers.disableAll();
                     g.layers.set(2);
+                    console.log("Setting layers to 2", g)
                 });
             }
         }
