@@ -4,6 +4,7 @@
 import { ClickToOpenWebsite } from "../ClickToOpenWebsite";
 import { Clock } from "../Clock";
 import { HtmlButtonMesh } from "../HtmlButtonMesh";
+import { SerializedDataSample } from "../SerializedDataSample";
 import { TextMesh } from "../TextGeometry";
 import { TextGeometry } from "../TextGeometry";
 import { DisplayCameraView } from "../TVScreen";
@@ -12,6 +13,7 @@ import { DisplayCameraView } from "../TVScreen";
 TypeStore.add("ClickToOpenWebsite", ClickToOpenWebsite);
 TypeStore.add("Clock", Clock);
 TypeStore.add("HtmlButtonMesh", HtmlButtonMesh);
+TypeStore.add("SerializedDataSample", SerializedDataSample);
 TypeStore.add("TextMesh", TextMesh);
 TypeStore.add("TextGeometry", TextGeometry);
 TypeStore.add("DisplayCameraView", DisplayCameraView);

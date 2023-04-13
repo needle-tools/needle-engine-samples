@@ -7,12 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class SceneSwitcherSample : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform[] @scenes;
-		public void start(){}
-		public void selectNext(){}
-		public void selectPrev(){}
-		public void select(float @index){}
-		public void switchScene(UnityEngine.Transform @scene){}
+		public UnityEditor.SceneAsset[] @scenes;
 	}
 }
 

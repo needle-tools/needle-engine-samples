@@ -1,27 +1,35 @@
 import { AssetReference, Behaviour, GameObject, serializeable, showBalloonMessage } from "@needle-tools/engine";
 import { InputEvents } from "@needle-tools/engine/src/engine/engine_input";
-import { getParam, setParamWithoutReload } from "@needle-tools/engine/src/engine/engine_utils";
+import { getParam, isMobileDevice, setParamWithoutReload } from "@needle-tools/engine/src/engine/engine_utils";
 
-export class SceneSwitcherSample extends Behaviour {
+export abstract class BaseSceneSwitcher extends Behaviour {
 
-    @serializeable(AssetReference)
-    scenes?: AssetReference[];
+    // This is abstract just so we can show off the difference for how to serialize Prefabs and Scenes
+    // See the two classes below this BaseSceneSwitcher class
+    abstract get sceneAssets(): AssetReference[] | undefined;
 
     private currentIndex: number = -1;
     private currentScene: AssetReference | undefined = undefined;
 
     start() {
-        setInterval(() => {
-            showBalloonMessage("Press \"a\" or \"d\" keys to switch between the scenes or use the numbers 1 2 3");
-        }, 3000);
+
+        if (isMobileDevice()) {
+            showBalloonMessage("Automatically switching between scenes on mobile every 5 seconds");
+            setInterval(() => this.selectNext(), 5000);
+        }
+        else {
+            setInterval(() => {
+                showBalloonMessage("Press \"a\" or \"d\" keys to switch between the scenes or use the numbers 1 2 3");
+            }, 3000);
+        }
 
         this.context.input.addEventListener(InputEvents.KeyDown, (e: any) => {
-            if (!this.scenes) return;
+            if (!this.sceneAssets) return;
             const key = e.key;
             if (!key) return;
             const index = parseInt(key) - 1;
             if (index >= 0) {
-                if (index < this.scenes.length) {
+                if (index < this.sceneAssets.length) {
                     this.select(index);
                 }
             }
@@ -41,7 +49,12 @@ export class SceneSwitcherSample extends Behaviour {
             const index = parseInt(level as string);
             this.select(index);
         }
-        else this.select(0);
+        else if (typeof level === "number") {
+            this.select(level);
+        }
+        else {
+            this.select(0);
+        }
     }
 
     selectNext() {
@@ -53,10 +66,10 @@ export class SceneSwitcherSample extends Behaviour {
     }
 
     select(index: number) {
-        if (!this.scenes?.length) return;
-        if (index < 0) index = this.scenes.length - 1;
-        if (index >= this.scenes.length) index = 0;
-        const scene = this.scenes[index];
+        if (!this.sceneAssets?.length) return;
+        if (index < 0) index = this.sceneAssets.length - 1;
+        if (index >= this.sceneAssets.length) index = 0;
+        const scene = this.sceneAssets[index];
         this.switchScene(scene);
     }
 
@@ -64,7 +77,7 @@ export class SceneSwitcherSample extends Behaviour {
         if (scene === this.currentScene) return;
         if (this.currentScene)
             GameObject.remove(this.currentScene.asset);
-        const index = this.currentIndex = this.scenes?.indexOf(scene) ?? -1;
+        const index = this.currentIndex = this.sceneAssets?.indexOf(scene) ?? -1;
         this.currentScene = scene;
         await scene.loadAssetAsync();
         if (!scene.asset) return;
@@ -75,4 +88,35 @@ export class SceneSwitcherSample extends Behaviour {
             setParamWithoutReload("level", index.toString());
         }
     }
+}
+
+/** switcher using prefabs (you can assign Prefabs in Unity to the scenes array ) */
+//@type UnityEngine.MonoBehaviour
+export class PrefabSceneSwitcherSample extends BaseSceneSwitcher {
+
+    get sceneAssets(): AssetReference[] | undefined {
+        return this.scenes;
+    }
+
+    @serializeable(AssetReference)
+    scenes?: AssetReference[];
+
+}
+
+
+/** Implementation that tells the componnet compiler to generate a SceneAsset array
+ * (you can assign Scenes in Unity to the scenes array)
+ * 
+ */
+//@type UnityEngine.MonoBehaviour
+export class SceneSwitcherSample extends BaseSceneSwitcher {
+
+    get sceneAssets(): AssetReference[] | undefined {
+        return this.scenes;
+    }
+
+    //@type UnityEditor.SceneAsset[]
+    @serializeable(AssetReference)
+    scenes?: AssetReference[];
+
 }

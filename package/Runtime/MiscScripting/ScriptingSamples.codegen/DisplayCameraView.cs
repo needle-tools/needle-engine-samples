@@ -15,7 +15,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @visibleDuration = 1f;
 		public float @viewIndex = 0f;
 		public void onBeforeRender(){}
-		public void enableNextCamera(){}
 	}
 }
 

@@ -1,6 +1,6 @@
 import { Behaviour, PlayableDirector, serializeable } from "@needle-tools/engine";
-import { WaitForSeconds } from "@needle-tools/engine/engine/engine_coroutine";
-import { Mathf } from "@needle-tools/engine/engine/engine_math";
+import { WaitForSeconds } from "@needle-tools/engine/src/engine/engine_coroutine";
+import { Mathf } from "@needle-tools/engine/src/engine/engine_math";
 
 // Documentation → https://docs.needle.tools/scripting
 
