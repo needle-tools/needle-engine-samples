@@ -170,7 +170,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-100908520-0
   DirectoryName: Library/Needle/Sample
   AutoExport: 1
-  Dependencies: []
+  Dependencies:
+  - Name: needle.spatialaudio
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/SpatialAudio/Needle.SpatialAudio.npmdef
+    Guid: 12b514c7bd72e7542a18379e6e308d11
 --- !u!4 &100908521
 Transform:
   m_ObjectHideFlags: 0
@@ -185,6 +188,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &129884905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 129884906}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &129884906
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129884905}
+  m_LocalRotation: {x: -0.000000014901159, y: -0.000000029802319, z: 0.0000000074505797, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0.734}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1773860142}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &147928115
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +230,8 @@ GameObject:
   - component: {fileID: 147928116}
   - component: {fileID: 147928118}
   - component: {fileID: 147928119}
+  - component: {fileID: 147928120}
+  - component: {fileID: 147928121}
   m_Layer: 0
   m_Name: MyScene
   m_TagString: Untagged
@@ -271,6 +306,36 @@ MonoBehaviour:
   createVRButton: 1
   createARButton: 1
   handModelPath: 
+--- !u!114 &147928120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147928115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42798c1a37db46409660e69421ebdd09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
+    $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-147928120-0
+--- !u!114 &147928121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147928115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfea129d004f43eb9d634d08f64d3b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SpatialAudioUI,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-147928121-0
+  centerPoints:
+  - {fileID: 1745608471}
+  - {fileID: 875641784}
+  - {fileID: 1773860143}
 --- !u!1001 &159813407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -357,6 +422,7 @@ GameObject:
   - component: {fileID: 278439873}
   - component: {fileID: 278439872}
   - component: {fileID: 278439871}
+  - component: {fileID: 278439874}
   m_Layer: 0
   m_Name: Horn
   m_TagString: Untagged
@@ -376,6 +442,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2106178369}
+  - {fileID: 1745608470}
   m_Father: {fileID: 147928117}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 16.02, z: 0}
@@ -399,8 +466,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.27
-  MaxDistance: 1.0586541
+  MinDistance: 0.3813609
+  MaxDistance: 1.1965708
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -524,6 +591,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278439869}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &278439874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278439869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.EventSystems.EventTrigger, UnityEngine.UI
+    $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-278439874-0
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1745608471}
+          m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.OrbitControlsView,
+            Needle.Engine-Samples.Runtime
+          m_MethodName: setView
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &650891737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -691,6 +789,36 @@ Transform:
   m_Father: {fileID: 147928117}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &781349341
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 781349342}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &781349342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781349341}
+  m_LocalRotation: {x: -0.000000014901159, y: -0.000000029802319, z: 0.0000000074505797, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 875641783}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &869960923
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +874,7 @@ Camera:
     height: 1
   near clip plane: 0.05
   far clip plane: 30
-  field of view: 75
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -871,6 +999,52 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-869960930-0
   backgroundBlurriness: 1
   backgroundIntensity: 0.2
+--- !u!1 &875641782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 875641783}
+  - component: {fileID: 875641784}
+  m_Layer: 0
+  m_Name: View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &875641783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875641782}
+  m_LocalRotation: {x: 0.24431074, y: -0.22093077, z: 0.05796654, w: 0.9424128}
+  m_LocalPosition: {x: 0.215, y: 0.419, z: -0.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 781349342}
+  m_Father: {fileID: 1337634475}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &875641784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875641782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86fd0319602caf24db9013f88d234641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.OrbitControlsView,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-875641784-0
+  lookAt: {fileID: 781349341}
 --- !u!1 &1189523347
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,6 +1075,36 @@ Transform:
   m_Father: {fileID: 147928117}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1307158065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1307158066}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1307158066
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307158065}
+  m_LocalRotation: {x: -0.000000014901159, y: -0.000000029802319, z: 0.0000000074505797, w: 1}
+  m_LocalPosition: {x: -0, y: -0, z: 0.706}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1745608470}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1337634474
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,6 +1117,7 @@ GameObject:
   - component: {fileID: 1337634478}
   - component: {fileID: 1337634477}
   - component: {fileID: 1337634476}
+  - component: {fileID: 1337634479}
   m_Layer: 0
   m_Name: Keyboard
   m_TagString: Untagged
@@ -932,6 +1137,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 159813408}
+  - {fileID: 875641783}
   m_Father: {fileID: 147928117}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 25.734, z: 0}
@@ -955,8 +1161,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.42
-  MaxDistance: 1.1581464
+  MinDistance: 0.65497804
+  MaxDistance: 1.3894727
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -1080,6 +1286,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337634474}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1337634479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337634474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.EventSystems.EventTrigger, UnityEngine.UI
+    $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-1337634479-0
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 875641784}
+          m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.OrbitControlsView,
+            Needle.Engine-Samples.Runtime
+          m_MethodName: setView
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1508709946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,6 +1329,7 @@ GameObject:
   - component: {fileID: 1508709950}
   - component: {fileID: 1508709949}
   - component: {fileID: 1508709948}
+  - component: {fileID: 1508709951}
   m_Layer: 0
   m_Name: Sax
   m_TagString: Untagged
@@ -1111,6 +1349,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 650891738}
+  - {fileID: 1773860142}
   m_Father: {fileID: 147928117}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1134,8 +1373,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.3
-  MaxDistance: 1.0175726
+  MinDistance: 0.4237044
+  MaxDistance: 1.2652822
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -1259,6 +1498,129 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508709946}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1508709951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508709946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.EventSystems.EventTrigger, UnityEngine.UI
+    $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-1508709951-0
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1773860143}
+          m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.OrbitControlsView,
+            Needle.Engine-Samples.Runtime
+          m_MethodName: setView
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!1 &1745608469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1745608470}
+  - component: {fileID: 1745608471}
+  m_Layer: 0
+  m_Name: View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1745608470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745608469}
+  m_LocalRotation: {x: 0.0812628, y: -0.5271356, z: 0.051413905, w: 0.84432286}
+  m_LocalPosition: {x: 0.898, y: 0.216, z: -0.183}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1307158066}
+  m_Father: {fileID: 278439870}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1745608471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745608469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86fd0319602caf24db9013f88d234641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.OrbitControlsView,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-1745608471-0
+  lookAt: {fileID: 1307158065}
+--- !u!1 &1773860141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1773860142}
+  - component: {fileID: 1773860143}
+  m_Layer: 0
+  m_Name: View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1773860142
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773860141}
+  m_LocalRotation: {x: 0.14323503, y: -0.084307045, z: 0.012842402, w: 0.9860077}
+  m_LocalPosition: {x: 0.012, y: 0.267, z: -0.681}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 129884906}
+  m_Father: {fileID: 1508709947}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1773860143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773860141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86fd0319602caf24db9013f88d234641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.OrbitControlsView,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-1773860143-0
+  lookAt: {fileID: 129884905}
 --- !u!1001 &2106178368
 PrefabInstance:
   m_ObjectHideFlags: 0
