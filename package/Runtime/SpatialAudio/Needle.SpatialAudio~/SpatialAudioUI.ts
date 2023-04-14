@@ -84,25 +84,23 @@ export class SpatialAudioUI extends Behaviour {
         this.context.domElement.appendChild(this.element);
         this.context.domElement.appendChild(this.styleElement);
 
-        this.element.querySelector('.left')?.addEventListener('click', () => {
-            this.changeIndex(-1);
-        });
-
-        this.element.querySelector('.right')?.addEventListener('click', () => {
-            this.changeIndex(1);
-        });
-
-        this.element.querySelector('.name')?.addEventListener('click', () => {
-            this.changeIndex(1);
-        });
+        // add event listeners to buttons and also to the text to make it easier to click
+        this.element.querySelector('.left')?.addEventListener('click', () => { this.changeIndex(-1); });
+        this.element.querySelector('.right')?.addEventListener('click', () => { this.changeIndex(1); });
+        this.element.querySelector('.name')?.addEventListener('click', () => { this.changeIndex(1); });
 
         // detect swipe gesture to swipe next/previous
         this._touchstart = this.touchstart.bind(this);
         this.context.domElement.addEventListener('pointerdown', this._touchstart);
         this._touchend = this.touchend.bind(this);
         this.context.domElement.addEventListener('pointerup', this._touchend);
+
+        // arrow keys work too
+        this._keydown = this.keydown.bind(this);
+        document.addEventListener('keydown', this._keydown);
     }
 
+    // find the current center point and change to the next one
     private changeIndex(change: -1 | 1) {
         let index = this.centerPoints.indexOf(this.currentCenterPoint!);
         index += change;
@@ -123,6 +121,7 @@ export class SpatialAudioUI extends Behaviour {
     private camPos = new Vector3();
     private currentCenterPoint: OrbitControlsView | null = null;
 
+    // find the closest center point to the camera and update the UI
     update() {
         const cam = this.context.mainCamera;
         getWorldPosition(cam, this.camPos);
@@ -144,10 +143,13 @@ export class SpatialAudioUI extends Behaviour {
         }
     }
 
+    // helpers for swipe and keyboard events
+
     private startX = 0;
     private startTime = 0;
     private _touchstart;
     private _touchend;
+    private _keydown;
 
     private touchstart(e) {
         this.startX = e.clientX;
@@ -167,6 +169,14 @@ export class SpatialAudioUI extends Behaviour {
             } else {
                 this.changeIndex(1);
             }
+        }
+    }
+
+    private keydown(e) {
+        if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+            this.changeIndex(-1);
+        } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+            this.changeIndex(1);
         }
     }
 }
