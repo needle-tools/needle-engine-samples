@@ -8,7 +8,7 @@ Visit **[engine.needle.tools/samples](https://engine.needle.tools/samples)** for
 ## Installing the samples  
 1) Download the [samples package](https://engine.needle.tools/downloads/unity/samples)
 2) Open the package in the Unity Editor (you can double click the downloaded `.unitypackage`) 
-3) Open `Needle Engine/Explore Samples` to open the Needle Engine Samples window
+3) Use the menu item `Needle Engine/Explore Samples` to open the Needle Engine Samples window
 
 # Contact ✒️
 <b>[🌵 needle — tools for unity](https://needle.tools)</b> • 
