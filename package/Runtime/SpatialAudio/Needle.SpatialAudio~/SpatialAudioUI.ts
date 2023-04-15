@@ -12,11 +12,24 @@ export class SpatialAudioUI extends Behaviour {
 
     private template() {
         return /*html*/`
-            <div class="spatial-audio-ui">
-                <button class="left">‹</button>
-                <p class="name">Instrument</p>
-                <span>Swipe or tap to change</span>
-                <button class="right">›</button>
+            <div>
+                <div class="spatial-audio-ui">
+                    <button class="left">‹</button>
+                    <p class="name">Instrument</p>
+                    <span>Swipe or tap to change</span>
+                    <button class="right">›</button>
+                </div>
+
+                <div class="explainer">
+                    <div>
+                        <h1>Spatial Audio</h1>
+                        <p>Sound on! 🔊</p>
+                        <p>This sample demonstrates how to use spatial audio in <a href="https://needle.tools">Needle Engine</a>. Audio sources can be placed in 3D, and your camera position influences how loud they are.</p>
+                        <p>You can move around the scene in the browser, open the page on your phone and try it in Augmented Reality, or in Virtual Reality on a VR headset.</p>
+                        <button class="start">Start exploring</button><br/>
+                        <a class="start-quest button small" target="_blank">Open on Quest</a>
+                    </div>
+                </div>
             </div>
         `;
     }
@@ -67,6 +80,56 @@ export class SpatialAudioUI extends Behaviour {
                 width: 200px;
                 text-align: center;
             }
+
+            .explainer {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                color: white;
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .explainer h1 {
+                text-transform: uppercase;
+                font-weight: 400;
+            }
+
+            .explainer > div {
+                max-width: min(94vw, 500px);
+            }
+
+            .explainer a {
+                color: #b9f026;
+                text-decoration: none;
+            }
+
+            .explainer button, .explainer a.button {
+                background: white;
+                color: black;
+                border: none;
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                outline: none;
+                transition: transform 0.2s;
+                border-radius: 0.5rem;
+                margin: 2rem;
+            }
+
+            .explainer button.small, .explainer a.button.small {
+                padding: 0.5rem 2rem;
+                background: #ccc;
+            }
+
+            .explainer button:hover, .explainer a.button:hover {
+                cursor: pointer;
+                transform: scale(1.1);
+            }
         `;
     }
     
@@ -89,6 +152,16 @@ export class SpatialAudioUI extends Behaviour {
         this.element.querySelector('.right')?.addEventListener('click', () => { this.changeIndex(1); });
         this.element.querySelector('.name')?.addEventListener('click', () => { this.changeIndex(1); });
 
+        // hide the explainer when the user clicks the start button
+        this.element.querySelector('.start')?.addEventListener('click', () => {
+            this.element.querySelector('.explainer')?.remove();
+        });
+
+        // open the page on the quest when the user clicks the button
+        const questLink = this.element.querySelector('.start-quest') as HTMLAnchorElement;
+        const url = new URL(window.location.href);
+        questLink.href = `https://www.oculus.com/open_url/?url=${encodeURIComponent(url.toString())}`;
+        
         // detect swipe gesture to swipe next/previous
         this._touchstart = this.touchstart.bind(this);
         this.context.domElement.addEventListener('pointerdown', this._touchstart);
