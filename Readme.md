@@ -5,10 +5,10 @@
 This repository contains sample scenes for [Needle Engine](https://docs.needle.tools)   
 Visit **[engine.needle.tools/samples](https://engine.needle.tools/samples)** for live previews.
 
-## Get Started  
-1) Clone this repository
-2) Open any Unity project inside the ``projects`` subfolder of this repository
-3) NOTE: All samples are in **Packages/Needle Engine Sample Assets/Runtime**
+## Installing the samples  
+1) Download the [samples package](https://engine.needle.tools/downloads/unity/samples)
+2) Open the package in the Unity Editor (you can double click the downloaded `.unitypackage`) 
+3) Use the menu item `Needle Engine/Explore Samples` to open the Needle Engine Samples window
 
 # Contact ✒️
 <b>[🌵 needle — tools for unity](https://needle.tools)</b> • 
