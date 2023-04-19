@@ -284,16 +284,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
-    $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-706762907-0
+    $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-706762907-0
   autoRotate: 0
   autoRotateSpeed: -1
-  enableKeys: 1
+  enableKeys: 0
   enableDamping: 1
   dampingFactor: 0.1
   enableZoom: 1
-  minZoom: 7
+  minZoom: 4.5
   maxZoom: 13
-  enablePan: 0
+  enablePan: 1
   lookAtConstraint: {fileID: 706762909}
   middleClickToFocus: 0
   doubleClickToFocus: 0
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalCameraData,
-    Unity.RenderPipelines.Universal.Runtime $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-706762908-0
+    Unity.RenderPipelines.Universal.Runtime $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-706762908-0
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
@@ -361,7 +361,6 @@ GameObject:
   - component: {fileID: 784234924}
   - component: {fileID: 784234923}
   - component: {fileID: 784234925}
-  - component: {fileID: 784234926}
   - component: {fileID: 784234927}
   m_Layer: 0
   m_Name: Export
@@ -381,7 +380,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 986a3a93ac16ec0428d8989979ec0966, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-784234923-0
+  m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-784234923-0
   DirectoryName: Library/Needle/Sample
   AutoExport: 1
   Dependencies:
@@ -414,23 +413,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 438e3fec673b477cbc6d39ba011bf158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
-    $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-784234925-0
+    $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-784234925-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
---- !u!114 &784234926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 500358785998473ebf998f05dc20b650, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
-    $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-784234926-0
-  Glitch: {fileID: 1911445426}
 --- !u!114 &784234927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,9 +427,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  FTPServer: {fileID: 0}
-  Path: /
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-784234927-0
+  FTPServer: {fileID: 11400000, guid: 7d5827dc3b4d15c449967bb504a45640, type: 2}
+  Path: /stencil-portals
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &943584602
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,7 +475,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.Rendering.Volume, Unity.RenderPipelines.Core.Runtime
+    $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-943584604-0
   isGlobal: 1
   priority: 1
   blendDistance: 0
@@ -509,7 +498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1211803452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,7 +510,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-49068307165cdb346a242c48a6528235-1211803452-0
+  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-1211803452-0
   enableVR: 1
   enableAR: 1
   defaultAvatar: {fileID: 0}
@@ -595,7 +584,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa3493724830445e9abb470aad0aec1e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-1597275519-0
+  m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-1597275519-0
   SuppressExport: 0
   EmbedSkybox: 1
 --- !u!114 &1597275520
@@ -610,7 +599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42798c1a37db46409660e69421ebdd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
-    $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-1597275520-0
+    $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-1597275520-0
 --- !u!114 &1597275521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,7 +612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d486f15de1d234da162ec54633ab10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
-    $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-1597275521-0
+    $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-1597275521-0
   arScale: 10
   invertForward: 0
 --- !u!1 &1609064305
@@ -747,7 +736,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3225d95c7c8cbe54e87c6e0f2667faef, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.StencilLayerHelper, Needle.Engine-Samples.Runtime
+    $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-1802031446-0
 --- !u!4 &1802031447
 Transform:
   m_ObjectHideFlags: 0
@@ -762,19 +752,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1911445426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9722be1d85e14bc3a725c1a2e279cd7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProjectName: 
 --- !u!1 &1911484112
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,7 +781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c0317e0632e6c47bb855ee99f95544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SceneRenderPipeline, Unity.RenderPipelines.Core.Runtime
-    $ GlobalObjectId_V1-2-ba8dcab7354163b43918cd7209408ae6-1911484113-0
+    $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-1911484113-0
   renderPipelineAsset: {fileID: 11400000, guid: 86bb4c07bca38b84787d43d8482190ba, type: 2}
 --- !u!4 &1911484114
 Transform:
@@ -1151,6 +1128,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8575813152034230154, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-8575813152034230154-8575813152740418545
+      objectReference: {fileID: 0}
     - target: {fileID: 8575813152034230155, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
@@ -1198,6 +1179,11 @@ PrefabInstance:
     - target: {fileID: 8575813152664972522, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -183.75095
+      objectReference: {fileID: 0}
+    - target: {fileID: 8575813152740418548, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: Needle.Typescript.GeneratedComponents.TimeUI, Needle.Engine-Samples.Runtime
+        $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-8575813152740418548-8575813152740418545
       objectReference: {fileID: 0}
     - target: {fileID: 8575813152769499193, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
       propertyPath: m_Pivot.x
@@ -1279,6 +1265,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 143.39995
       objectReference: {fileID: 0}
+    - target: {fileID: 8575813153654008851, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-8575813153654008851-8575813152740418545
+      objectReference: {fileID: 0}
     - target: {fileID: 8575813153898342512, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1358,6 +1348,10 @@ PrefabInstance:
     - target: {fileID: 8575813153917676293, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 200.69995
+      objectReference: {fileID: 0}
+    - target: {fileID: 8575813153929426758, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-8575813153929426758-8575813152740418545
       objectReference: {fileID: 0}
     - target: {fileID: 8575813153929426759, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
       propertyPath: m_Pivot.y
