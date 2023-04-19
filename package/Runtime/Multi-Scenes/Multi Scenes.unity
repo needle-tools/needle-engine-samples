@@ -123,36 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &284856214
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 284856215}
-  m_Layer: 0
-  m_Name: LookAt
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &284856215
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284856214}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1458125670}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &784234927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +138,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-784234927-0
   FTPServer: {fileID: 11400000, guid: db88b202e93acf046bbcaaf467a56c99, type: 2}
   Path: /dynamically-load-scenes
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &1132596502
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +168,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132596502}
-  m_LocalRotation: {x: 0.097788066, y: -0.8736338, z: 0.19678175, w: 0.43414113}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.091816, y: 3.6271122, z: 4.6157355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -254,7 +226,7 @@ LookAtConstraint:
   m_IsContraintActive: 1
   m_IsLocked: 0
   m_Sources:
-  - sourceTransform: {fileID: 284856215}
+  - sourceTransform: {fileID: 0}
     weight: 1
 --- !u!114 &1132596506
 MonoBehaviour:
@@ -396,8 +368,21 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   AutoExport: 1
   Dependencies:
+  - Name: needle.hotspots
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Hotspots/Scripts/Needle.Hotspots.npmdef
+    Guid: f28a022fa2c4fd44ab2f75edcae75ab6
+  - Name: particlestestscripts
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Particles/ParticlesTestScripts.npmdef
+    Guid: 71621ede96876cf4c9b8edbb107e121e
+  - Name: ui-button-sample
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/UI Button/UI Button
+      Sample.npmdef
+    Guid: dc8a15046937e4145bd4af5e5e9da423
+  - Name: '@needle-tools/needle-engine-samples'
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/MiscScripting/ScriptingSamples.npmdef
+    Guid: cc223f395bcc21a4bac45ed9a770a804
   - Name: samplescripts
-    VersionOrPath: Packages/com.needle.sample-assets/Runtime/_Shared/SampleScripts.npmdef
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &1212603240
 Transform:
@@ -425,7 +410,7 @@ GameObject:
   - component: {fileID: 1458125669}
   - component: {fileID: 1597275520}
   - component: {fileID: 1597275521}
-  - component: {fileID: 1597275522}
+  - component: {fileID: 1458125671}
   m_Layer: 0
   m_Name: SceneRoot
   m_TagString: Untagged
@@ -459,10 +444,32 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1132596503}
-  - {fileID: 284856215}
+  - {fileID: 2036288650}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1458125671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458125668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2938273b1a364736b73df79395a0c934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.SceneSwitcher, Needle.Engine
+    $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-1458125671-0
+  scenes:
+  - asset: {fileID: 102900000, guid: 4e4791ec7b488bb4599825a551430b73, type: 3}
+  - asset: {fileID: 102900000, guid: 37b057fe12700594a9a1fbe1c047e8de, type: 3}
+  - asset: {fileID: 102900000, guid: 56a0b2b8e68befd429282b4fc6416c5a, type: 3}
+  - asset: {fileID: 102900000, guid: 1685dd0588f85134399712328496fab1, type: 3}
+  queryParameterName: scene
+  useHistory: 1
+  useKeyboard: 1
+  useSwipe: 1
 --- !u!1 &1591123022
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,24 +544,6 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-1597275521-0
   arScale: 1
   invertForward: 0
---- !u!114 &1597275522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458125668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee5a591df8e0247e5c6bd89efc0933d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SceneSwitcherSample,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-1597275522-0
-  scenes:
-  - {fileID: 102900000, guid: 4e4791ec7b488bb4599825a551430b73, type: 3}
-  - {fileID: 102900000, guid: 37b057fe12700594a9a1fbe1c047e8de, type: 3}
-  - {fileID: 102900000, guid: 56a0b2b8e68befd429282b4fc6416c5a, type: 3}
-  - {fileID: 102900000, guid: 1685dd0588f85134399712328496fab1, type: 3}
 --- !u!114 &1911445426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,3 +557,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProjectName: needle-multi-scene-sample
+--- !u!1 &2036288649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2036288650}
+  - component: {fileID: 2036288651}
+  m_Layer: 0
+  m_Name: SceneNumber
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2036288650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036288649}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1458125670}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2036288651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036288649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dac76b175ab47e24c47d4f4d28ffb27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.TextGeometry, Needle.Tiny.Samples
+    $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-2036288651-0
+  text: gfdgdg
+  characterSpacing: 1
+  curveSegments: 4
+  extrudeEnabled: 1
+  extrudeHeight: 0.01
+  bevelEnabled: 1
+  bevelThickness: 0.005
+  bevelSize: 0.004
