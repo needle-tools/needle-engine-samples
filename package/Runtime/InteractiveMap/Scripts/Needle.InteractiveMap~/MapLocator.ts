@@ -7,30 +7,67 @@ import { Vector3, Shape, ShapeGeometry, MeshBasicMaterial, Mesh, DoubleSide, Cir
 
 export class MapLocator extends Behaviour {
 
-    private doc: HTMLElement;
-    private template: string = `
-        <div style="position: absolute; left: 10px; top: 10px; z-index: 1000;">
+    private element: HTMLElement;
+    private styleElement: HTMLStyleElement;
+
+    private template() {
+        return /*html*/`
+        <div id="map-ui">
             <button id="locate" style="font-size:2em;">Locate me</button><br/>
             <form id="search"><input type="text" id="searchInfo" placeholder="Enter location"><input type="submit" value="Find"/></form><br/>
             <p id="status"></p>
             <a id="map-link" target="_blank"></a>
         </div>
-    `;
+    `}
+
+    private style() {
+        return /*css*/`
+        #map-ui {
+            position: absolute; 
+            left: 10px; 
+            top: 10px; 
+            z-index: 1000;
+        }
+
+        #status, #map-link {
+            font-size: 1em;
+            font-family: monospace;
+        }
+
+        #map-ui button {
+            font-size: 2em;
+            border-radius: 10px;
+            outline: none;
+            border: 0;
+            background: #fff;
+            transition: transform 0.2s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+
+        #map-ui button:hover {
+            transform: scale(1.05);
+        }
+    `}
 
     onEnable(): void {
         // spawn the template
         const template = document.createElement("template");
         template.innerHTML = this.template;
-        this.doc = template.content.firstElementChild!.cloneNode(true) as HTMLElement;
-        document.body.prepend(this.doc);
-        console.log(this.doc);
+        this.element = template.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        document.body.prepend(this.element);
+        
+        this.styleElement = document.createElement("style");
+        this.styleElement.innerHTML = this.style();
+        this.element.prepend(this.styleElement);
 
-        this.doc.querySelector("#locate")?.addEventListener("click", this.geoFindMe.bind(this));
-        this.doc.querySelector("#search")?.addEventListener("submit", this.searchLocation.bind(this));
+        this.element.querySelector("#locate")?.addEventListener("click", this.geoFindMe.bind(this));
+        this.element.querySelector("#search")?.addEventListener("submit", this.searchLocation.bind(this));
     }
 
     onDisable(): void {
-        this.doc.remove();
+        this.element.remove();
+        this.styleElement.remove();
     }
 
     private lastMesh: Mesh;
@@ -44,7 +81,7 @@ export class MapLocator extends Behaviour {
             this.currentWatchId = undefined;
         }
 
-        const query = (this.doc.querySelector("#searchInfo") as HTMLInputElement).value;
+        const query = (this.element.querySelector("#searchInfo") as HTMLInputElement).value;
         if (!query) return;
 
         // get next closest residential area from openstreetmap
@@ -147,18 +184,23 @@ export class MapLocator extends Behaviour {
 
             status.textContent = "";
             mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
-            mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+            mapLink.innerHTML = `Latitude: ${latitude}°<br/>Longitude: ${longitude}°`;
             status.innerText = `Timestamp: ${timestampToTime(position.timestamp)}\nAccuracy: ${position.coords.accuracy?.toFixed(2)}m\nAltitude: ${position.coords.altitude}, Altitude Accuracy: ${position.coords.altitudeAccuracy?.toFixed(2)}\nHeading: ${position.coords.heading}`;
 
             const converted = latLongToNormalized(latitude, longitude);
             object.position.copy(converted);
-            console.log("New position data.", position.coords, position.timestamp);
+            // console.log("New position data.", position.coords, position.timestamp);
             
             if (!haveMatchedCameraOnce) {
                 haveMatchedCameraOnce = true;
                 const orbitControls = GameObject.findObjectOfType(OrbitControls)!;
-                object.scale.set(0.001, 0.001, 0.001);
+                object.scale.set(0.00001, 0.00001, 0.00001);
+                
+                const min = orbitControls.controls.minDistance;
+                const max = orbitControls.controls.maxDistance;
                 orbitControls.fitCameraToObjects([object]);
+                orbitControls.controls.minDistance = min;
+                orbitControls.controls.maxDistance = max;
             }
         }
 
@@ -197,7 +239,7 @@ export class MapLocator extends Behaviour {
         getWorldPosition(this.gameObject, this.objectWp);
 
         const distance = this.cameraWp.distanceTo(this.objectWp);
-        const scale = distance * 0.00666;
+        const scale = distance * 0.01;
         this.gameObject.scale.set(scale, scale, scale);
 
         camera.near = 0.0001 * distance;

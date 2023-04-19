@@ -1,5 +1,5 @@
 import { Behaviour } from "@needle-tools/engine";
-import { OpenStreetMapsProvider } from "geo-three";
+import { LODFrustum, LODRaycast, OpenStreetMapsProvider } from "geo-three";
 import { MapView } from "geo-three";
 import { Object3D, Vector3 } from "three";
 
