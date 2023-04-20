@@ -1,5 +1,5 @@
 import { Behaviour, GameObject, MeshCollider, serializable, WebXR } from "@needle-tools/engine";
-import { WebXREvent } from "@needle-tools/engine/src/engine-components/WebXR";
+import { WebXREvent } from "@needle-tools/engine";
 import { BufferAttribute, BufferGeometry, Object3D, Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting

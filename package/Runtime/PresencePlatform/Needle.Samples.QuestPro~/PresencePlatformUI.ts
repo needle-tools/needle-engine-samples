@@ -1,5 +1,5 @@
 import { Behaviour, GameObject, WebXR } from "@needle-tools/engine";
-import { isQuest } from "@needle-tools/engine/src/engine/engine_utils";
+import { isQuest } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 
