@@ -1,8 +1,8 @@
-import { Behaviour } from "@needle-tools/engine/src/engine-components/Component";
+import { Behaviour } from "@needle-tools/engine";
 import * as THREE from "three";
-import { Camera } from "@needle-tools/engine/src/engine-components/Camera";
-import * as utils from "@needle-tools/engine/src/engine/engine_utils";
-import { serializeable } from "@needle-tools/engine/src/engine/engine_serialization_decorator";
+import { Camera } from "@needle-tools/engine";
+import * as utils from "@needle-tools/engine";
+import { serializeable } from "@needle-tools/engine";
 const disableRT = utils.getParam("disableRT"); 
 
 export class DisplayCameraView extends Behaviour {

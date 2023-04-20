@@ -1,5 +1,5 @@
 import { Behaviour, GameObject, IPointerClickHandler, PointerEventData, Renderer, serializable } from "@needle-tools/engine";
-import { syncField } from "@needle-tools/engine/src/engine/engine_networking_auto";
+import { syncField } from "@needle-tools/engine";
 import { Color } from "three"
 
 

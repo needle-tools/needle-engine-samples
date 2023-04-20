@@ -1,7 +1,7 @@
-import { Behaviour } from "@needle-tools/engine/src/engine-components/Component";
-import { EventList } from "@needle-tools/engine/src/engine-components/EventList";
-import { RGBAColor } from "@needle-tools/engine/src/engine-components/js-extensions/RGBAColor";
-import { serializeable } from "@needle-tools/engine/src/engine/engine_serialization_decorator";
+import { Behaviour } from "@needle-tools/engine";
+import { EventList } from "@needle-tools/engine";
+import { RGBAColor } from "@needle-tools/engine";
+import { serializeable } from "@needle-tools/engine";
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
 

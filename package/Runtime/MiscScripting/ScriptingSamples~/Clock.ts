@@ -1,5 +1,5 @@
-import { Behaviour } from "@needle-tools/engine/src/engine-components/Component";
-import { serializeable } from "@needle-tools/engine/src/engine/engine_serialization_decorator";
+import { Behaviour } from "@needle-tools/engine";
+import { serializeable } from "@needle-tools/engine";
 import * as THREE from "three";
 
 export class Clock extends Behaviour {

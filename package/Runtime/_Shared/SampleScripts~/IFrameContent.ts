@@ -2,7 +2,7 @@ import { Animator, Behaviour, serializeable } from "@needle-tools/engine";
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 import { Scene, Quaternion, Vector3 } from 'three';
 import { setWorldQuaternion, setWorldPosition, getWorldPosition, getWorldQuaternion } from "@needle-tools/engine/src/engine/engine_three_utils";
-import { getParam } from "@needle-tools/engine/src/engine/engine_utils";
+import { getParam } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 

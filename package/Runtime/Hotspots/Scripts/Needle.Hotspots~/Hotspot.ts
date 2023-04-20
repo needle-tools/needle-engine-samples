@@ -1,5 +1,5 @@
 import {  Behaviour, Button, Canvas, CanvasGroup, GameObject, InstantiateOptions, Mathf, serializable, Text } from "@needle-tools/engine";
-import { IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler } from "@needle-tools/engine/src/engine-components/ui/PointerEvents";
+import { IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler } from "@needle-tools/engine";
 import { getWorldPosition, getWorldQuaternion, getWorldScale, setWorldQuaternion } from "@needle-tools/engine/src/engine/engine_three_utils";
 import { Vector3 } from "three";
 
