@@ -32,7 +32,15 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
         const material = this.renderer.sharedMaterial;
         const index = this.materials.indexOf(material);
         const nextIndex = (index + 1) % this.materials.length;
-        this.renderer.sharedMaterial = this.materials[nextIndex];
+
+        const newMat = this.materials[nextIndex];
+        this.renderer.sharedMaterial = newMat;
+        if ("_renderOrder" in newMat) {
+            this.renderer.renderOrder = [newMat._renderOrder];
+        }
+        else {
+            this.renderer.renderOrder = [0];
+        }
     }
 
     private blockerMaterial() {
@@ -41,6 +49,7 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
         material.depthWrite = true;
         material.alphaTest = 0.5;
         material.opacity = 1;
+        material["_renderOrder"] = -100;
         return material;
     }
 
