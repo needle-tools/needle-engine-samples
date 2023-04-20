@@ -1,6 +1,6 @@
 import { Animator, Behaviour, GameObject, serializable } from "@needle-tools/engine";
-import { PlayerState } from "@needle-tools/engine/src/engine-components-experimental/networking/PlayerSync";
-import { syncField } from "@needle-tools/engine/src/engine/engine_networking_auto";
+import { PlayerState } from "@needle-tools/engine";
+import { syncField } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 

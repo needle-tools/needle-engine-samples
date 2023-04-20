@@ -1,5 +1,5 @@
 import { AssetReference, Behaviour, DropListener, GameObject, serializable } from "@needle-tools/engine";
-import { PlayerState } from "@needle-tools/engine/src/engine-components-experimental/networking/PlayerSync";
+import { PlayerState } from "@needle-tools/engine";
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { CharacterSwitcher } from "./CharacterSwitcher";
 

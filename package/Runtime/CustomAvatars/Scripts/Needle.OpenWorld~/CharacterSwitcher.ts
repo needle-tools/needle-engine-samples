@@ -1,7 +1,7 @@
 import { Behaviour, CharacterControllerInput, GameObject, AssetReference, Animator } from "@needle-tools/engine";
-import { PlayerState } from "@needle-tools/engine/src/engine-components-experimental/networking/PlayerSync";
-import { syncField } from "@needle-tools/engine/src/engine/engine_networking_auto";
-import { IGameObject } from "@needle-tools/engine/src/engine/engine_types";
+import { PlayerState } from "@needle-tools/engine";
+import { syncField } from "@needle-tools/engine";
+import { IGameObject } from "@needle-tools/engine";
 import { SyncedAnimator } from "./SyncedAnimator";
 import { Object3D } from "three";
 

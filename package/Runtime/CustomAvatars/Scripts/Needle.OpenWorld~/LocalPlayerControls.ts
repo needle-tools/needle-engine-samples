@@ -1,6 +1,6 @@
 import { SyncedTransform } from "@needle-tools/engine";
 import { Behaviour, CharacterControllerInput, GameObject, serializeable } from "@needle-tools/engine";
-import { PlayerStateOwnerChangedArgs, PlayerState, PlayerStateEvent, PlayerStateEventCallback } from "@needle-tools/engine/src/engine-components-experimental/networking/PlayerSync";
+import { PlayerStateOwnerChangedArgs, PlayerState, PlayerStateEvent, PlayerStateEventCallback } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting 
  
