@@ -58,7 +58,7 @@ export class LightmapConfigurations extends Behaviour {
 
     private _didSwitchLightTime?: number;
 
-    pingPong: boolean = true;
+    pingPong: boolean = false;
 
     //@type System.Collections.Generic.List<UnityEngine.Texture2D>
     @serializeable(Texture)
