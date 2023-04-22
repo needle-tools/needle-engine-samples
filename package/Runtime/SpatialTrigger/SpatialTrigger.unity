@@ -366,7 +366,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-652168556-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!4 &652168557
 Transform:
@@ -419,6 +418,7 @@ GameObject:
   - component: {fileID: 822809848}
   - component: {fileID: 822809849}
   - component: {fileID: 822809845}
+  - component: {fileID: 822809850}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -586,6 +586,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-822809849-0
+--- !u!135 &822809850
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822809842}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &916620857
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +773,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PhysicsTrigger,
     Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-1197622689-0
-  triggerObjects: []
+  triggerObjects:
+  - {fileID: 822809842}
   onEnter:
     m_PersistentCalls:
       m_Calls:
@@ -809,7 +823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.BoxGizmo, Needle.Engine $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-1197622691-0
   objectBounds: 0
-  color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  color: {r: 0.5432009, g: 1, b: 0.015686274, a: 1}
   isGizmo: 0
 --- !u!1 &1203524988
 GameObject:
@@ -999,7 +1013,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-1261386488-0
-  compilerDirectory: Library/Samples/SpatialTrigger/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &1261386489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,7 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986a3a93ac16ec0428d8989979ec0966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-1261386489-0
-  DirectoryName: Library/Samples/SpatialTrigger
+  DirectoryName: Library/Needle/Sample
   AutoExport: 1
   Dependencies:
   - Name: samplescripts
@@ -1045,8 +1060,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-bc26eabbe5592844d824eeb82f17df18-1261386491-0
-  FTPServer: {fileID: 11400000, guid: 10155bc195d376643abaefe881d45c5e, type: 2}
+  FTPServer: {fileID: 11400000, guid: 24ec55f7625cbea428362c0007db2a03, type: 2}
   Path: /spatial-triggers/
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &1273898214
 GameObject:
   m_ObjectHideFlags: 0
