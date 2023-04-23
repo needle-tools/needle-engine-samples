@@ -133,8 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 50144412}
   - component: {fileID: 50144413}
+  - component: {fileID: 50144414}
   m_Layer: 0
-  m_Name: Moving parent
+  m_Name: Remote Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,12 +148,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50144411}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
-  m_Father: {fileID: 889594832}
-  m_RootOrder: 5
+  m_Father: {fileID: 1377675047}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &50144413
 Animator:
@@ -173,6 +174,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &50144414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50144411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9afd8f60d04233227fedc500a7807891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelRef: {fileID: 8897093224900880590, guid: fd26959c2974344448405156df043781, type: 3}
+  parent: {fileID: 50144411}
 --- !u!1 &393625139
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 438e3fec673b477cbc6d39ba011bf158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  compilerDirectory: Library/Needle/DynamicContent/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/DynamicContent/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &393625141
 MonoBehaviour:
@@ -219,7 +234,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DirectoryName: Library/Needle/DynamicContent
   AutoExport: 1
-  Dependencies: []
+  Dependencies:
+  - Name: DynamicContent
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/DynamicContent/Scripts/DynamicContent.npmdef
+    Guid: d744fcb853a61214eb5f3c7e57138c8d
 --- !u!4 &393625142
 Transform:
   m_ObjectHideFlags: 0
@@ -371,14 +389,11 @@ Transform:
   m_Children:
   - {fileID: 1841108907}
   - {fileID: 686781981}
-  - {fileID: 1576243377}
-  - {fileID: 1385261295}
-  - {fileID: 966947260}
-  - {fileID: 50144412}
+  - {fileID: 1377675047}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &966947259
+--- !u!1 &1377675046
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -386,43 +401,31 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 966947260}
-  - component: {fileID: 966947261}
+  - component: {fileID: 1377675047}
   m_Layer: 0
-  m_Name: Remote Object
+  m_Name: Remote Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &966947260
+--- !u!4 &1377675047
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966947259}
+  m_GameObject: {fileID: 1377675046}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1576243377}
+  - {fileID: 1385261295}
+  - {fileID: 50144412}
   m_Father: {fileID: 889594832}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &966947261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966947259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9afd8f60d04233227fedc500a7807891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  url: https://github.com/KhronosGroup/glTF-Sample-Models/blob/master/2.0/ToyCar/glTF-Binary/ToyCar.glb
-  parent: {fileID: 50144411}
 --- !u!1 &1385261294
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,7 +437,6 @@ GameObject:
   - component: {fileID: 1385261295}
   - component: {fileID: 1385261299}
   - component: {fileID: 1385261298}
-  - component: {fileID: 1385261297}
   - component: {fileID: 1385261296}
   m_Layer: 0
   m_Name: Remote Texture
@@ -450,12 +452,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385261294}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5347, z: 1}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0.557, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children: []
-  m_Father: {fileID: 889594832}
-  m_RootOrder: 3
+  m_Father: {fileID: 1377675047}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1385261296
 MonoBehaviour:
@@ -469,21 +471,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1eef2cdb48870dbec5e190f67a68cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Unity_2021.svg/799px-Unity_2021.svg.png
+  imageRef:
+    Texture: {fileID: 2800000, guid: f3a639d39976c544c8777499d423690f, type: 3}
   targetMaterial: {fileID: 2100000, guid: 6810eb71f2a96214298fc95d521882aa, type: 2}
---- !u!65 &1385261297
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385261294}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1385261298
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -557,12 +547,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576243376}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 889594832}
-  m_RootOrder: 2
+  m_Father: {fileID: 1377675047}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1576243378
 MonoBehaviour:

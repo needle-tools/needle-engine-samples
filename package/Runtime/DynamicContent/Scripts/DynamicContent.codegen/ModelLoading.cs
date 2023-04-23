@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class ModelLoading : UnityEngine.MonoBehaviour
 	{
+		public UnityEngine.Transform @modelRef;
 		public UnityEngine.GameObject @parent;
 		public void start(){}
 	}

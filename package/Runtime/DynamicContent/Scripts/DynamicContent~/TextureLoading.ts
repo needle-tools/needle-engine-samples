@@ -1,10 +1,13 @@
-import { Behaviour, serializable } from "@needle-tools/engine";
+import { Behaviour, ImageReference, serializable } from "@needle-tools/engine";
 import { Material, TextureLoader, sRGBEncoding, Vector2, RepeatWrapping } from "three";
+
+// For other formats then SDR images please refere to the three.js documentation
+// https://threejs.org/docs/#api/en/loaders/TextureLoader
 
 export class TextureLoading extends Behaviour {
 
-    @serializable()
-    url : string = "https://needle.tools/assets/needle-logo-256.97639e82.png";
+    @serializable(ImageReference)
+    imageRef?: ImageReference;
 
     @serializable(Material)
     targetMaterial?: Material;
@@ -13,7 +16,9 @@ export class TextureLoading extends Behaviour {
 
         const loader = new TextureLoader();
 
-        const texture = loader.load(this.url);
+        const url = this.imageRef?.url || "";
+
+        const texture = loader.load(url);
 
         //Texture needs to be flipped vertically
         texture.repeat = new Vector2(1, -1); 
@@ -21,7 +26,7 @@ export class TextureLoading extends Behaviour {
         //The Y axis wrapping has to be enabled
         texture.wrapT = RepeatWrapping; 
 
-        //Default encoding is Linear, we need to set it to sRGB
+        //Default encoding is Linear
         texture.encoding = sRGBEncoding;
 
         if(this.targetMaterial)

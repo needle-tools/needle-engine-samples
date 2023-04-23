@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class TextureLoading : UnityEngine.MonoBehaviour
 	{
-		public string @url = "https://needle.tools/assets/needle-logo-256.97639e82.png";
+		public Needle.Engine.ImageReference @imageRef;
 		public UnityEngine.Material @targetMaterial;
 		public void start(){}
 	}
