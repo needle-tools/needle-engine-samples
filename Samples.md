@@ -7,6 +7,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | Sample | Description | Preview | 
 | --- | --- | --- |
 | [Animated Properties](https://engine.needle.tools/samples/animated-properties) | Powerful animation capabilities. Animate material values, scripts, objects. <br/><kbd>Physics</kbd> <kbd>Animation</kbd> <kbd>Rendering</kbd>| <img src="package/Editor/Screenshots/AnimatedProperties.jpg" height="200"/>
+| [AnimatorController](https://engine.needle.tools/samples/animatorcontroller) | Simple animator controller to transition between two states and play a sound effect (no code) <br/><kbd>Animation</kbd>| <img src="package/Editor/Screenshots/AnimatorController.jpg" height="200"/>
 | [Canvas UI](https://engine.needle.tools/samples/ui-button) | Create 3D UIs with Canvas <br/><kbd>UI</kbd>| <img src="package/Editor/Screenshots/UIButton.jpg" height="200"/>
 | [Collaborative Sandbox](https://engine.needle.tools/samples/sandbox) | Networking, WebXR, Drag & Duplicate <br/><kbd>Networking</kbd> <kbd>XR</kbd>| <img src="package/Editor/Screenshots/Sandbox.jpg" height="200"/>
 | [Custom Hands](https://engine.needle.tools/samples/custom-hands/) | Custom hand models in WebXR <br/><kbd>XR</kbd>| <img src="package/Editor/Screenshots/CustomHands.jpg" height="200"/>
@@ -29,20 +30,38 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Portal Rendering](https://engine.needle.tools/samples/stencil-portals) | Using stencil buffers <br/><kbd>Rendering</kbd>| <img src="package/Editor/Screenshots/Stencils.jpg" height="200"/>
 | [Post Processing](https://engine.needle.tools/samples/postprocessing) | PostProcessing with DoF, Bloom, SSAO and more <br/><kbd>Rendering</kbd> <kbd>PostProcessing</kbd>| <img src="package/Editor/Screenshots/PostProcessing.jpg" height="200"/>
 | [Product Scrollytelling](https://engine.needle.tools/samples/scrollytelling/) | Lnyx R1 scrolling website <br/><kbd>Rendering</kbd> <kbd>Animation</kbd>| <img src="package/Editor/Screenshots/Scrollytelling.jpg" height="200"/>
+| [Room Tracking & Passthrough](https://engine.needle.tools/samples/presence-platform/) | Physics, Passthrough, Walls and Furniture on Quest / Quest Pro <br/><kbd>XR</kbd> <kbd>Interaction</kbd>| <img src="package/Editor/Screenshots/PresencePlatformRoomTracking.jpg" height="200"/>
 | [Screensharing](https://engine.needle.tools/samples/screensharing) | WebRTC and Streaming <br/><kbd>Networking</kbd>| <img src="package/Editor/Screenshots/Screensharing.jpg" height="200"/>
 | [Shaders](https://engine.needle.tools/samples/custom-shaders) | Exporting Unity Shaders to the web <br/><kbd>Rendering</kbd>| <img src="package/Editor/Screenshots/CustomShader.jpg" height="200"/>
 | [Shadow Catcher](https://engine.needle.tools/samples/shadow-catcher) | Render additive or masked transparent shadows, great for AR <br/><kbd>Rendering</kbd> <kbd>XR</kbd>| <img src="package/Editor/Screenshots/ShadowCatcher.jpg" height="200"/>
 | [Sidescroller](https://engine.needle.tools/samples/sidescroller) | Sidescroller with desktop, touch and gamepad inputs, using sprites. <br/><kbd>Games</kbd> <kbd>Interaction</kbd> <kbd>Scripting</kbd>| <img src="package/Editor/Screenshots/Sidescroller.jpg" height="200"/>
+| [Spatial Audio](https://engine.needle.tools/samples/spatial-audio/) | Placing audio sources in 3D with spatial falloff <br/><kbd>Audio</kbd> <kbd>XR</kbd>| <img src="package/Editor/Screenshots/SpatialAudio.jpg" height="200"/>
 | [Spatial Triggers](https://engine.needle.tools/samples/spatial-triggers/) | Reactive Zones and Events <br/><kbd>Physics</kbd> <kbd>Scripting</kbd>| <img src="package/Editor/Screenshots/SpatialTrigger.jpg" height="200"/>
 | [Spritesheet Animation](https://engine.needle.tools/samples/spritesheet/) | Animate Sprites using AnimationClips <br/><kbd>Rendering</kbd>| <img src="package/Editor/Screenshots/Spritesheet.jpg" height="200"/>
 | [Third-Person Controller](https://engine.needle.tools/samples/character-controller) | Characters, Animations and Controls <br/><kbd>Animation</kbd> <kbd>Games</kbd>| <img src="package/Editor/Screenshots/CharacterController.jpg" height="200"/>
+| AR Occluders |  <br/>| 
+| Basic Auto Networking |  <br/>| 
 | Custom Shaders | Shader Graph export and custom properties <br/><kbd>Rendering</kbd>| 
 | Fonts and Text | Displaying text, rich text, font families <br/><kbd>UI</kbd>| 
+| Interactive Map |  <br/>| 
 | JavaScript Interop | Communication between Needle Engine and external javascript <br/><kbd>Scripting</kbd> <kbd>Frameworks</kbd>| 
 | Joints | Connections between physical objects <br/><kbd>Physics</kbd>| 
+| Lightmap Baker |  <br/>| 
+| Mesh Lines |  <br/>| 
+| Multi Scenes |  <br/>| 
+| Netlify |  <br/>| 
+| Npm Def Collection |  <br/>| 
 | Particle Bursts | Emitting particles on interaction <br/><kbd>Rendering</kbd> <kbd>Scripting</kbd>| 
+| Product 1 |  <br/>| 
+| Product 2 |  <br/>| 
+| Product Flyover |  <br/>| 
 | Reflection Probes | Custom reflections for specific objects <br/><kbd>Rendering</kbd>| 
+| Scene 1 Simple |  <br/>| 
+| Scene 2 With Fog |  <br/>| 
+| Scene 3 Lightmap |  <br/>| 
+| Scene 4 |  <br/>| 
 | Scripting Snippets | Various scripts and helpers to understand custom components <br/><kbd>Scripting</kbd>| 
+| Switchable Walls |  <br/>| 
 | Video Playback | Displaying videos, codecs, transparency <br/><kbd>Rendering</kbd>| 
 | Visibility and State | Visibility, enabled/disabled, hierarchy <br/><kbd>Rendering</kbd> <kbd>Scripting</kbd>| 
 | Vue.js Integration | Integration with the Vue.js web framework. <br/><kbd>UI</kbd> <kbd>Frameworks</kbd>| 
