@@ -426,6 +426,7 @@ GameObject:
   - component: {fileID: 784234923}
   - component: {fileID: 784234925}
   - component: {fileID: 784234926}
+  - component: {fileID: 784234927}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -491,6 +492,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-e5267d04fa46959479eb7b113fca8a24-784234926-0
   Glitch: {fileID: 1911445426}
+--- !u!114 &784234927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-e5267d04fa46959479eb7b113fca8a24-784234927-0
+  FTPServer: {fileID: 11400000, guid: 24ec55f7625cbea428362c0007db2a03, type: 2}
+  Path: /animatorcontroller
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1001 &791039603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -646,11 +664,119 @@ MonoBehaviour:
           m_StringArgument: Toggle
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 791039608}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &791039607 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -5644133064174452605, guid: 0be32ccbe7b2c4f4b8f161f6bfe2fa65, type: 3}
   m_PrefabInstance: {fileID: 791039603}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &791039608
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791039605}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a3573ef762a794e4486e908d342ac8ef, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1597275517
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,4 +1048,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9722be1d85e14bc3a725c1a2e279cd7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectName: 
+  ProjectName: conscious-emerald-meter
