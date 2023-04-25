@@ -4,6 +4,7 @@
 import { Cannon } from "../Cannon";
 import { RandomColor } from "../ChangeColor";
 import { ChangeColorOnCollision } from "../ChangeColorOnCollision";
+import { IncreaseShaderSpeedOverTime } from "../ChangeCustomShaderProperty";
 import { DisableEnvironmentLight } from "../DisableEnvironment";
 import { EmitParticlesOnClick } from "../EmitParticlesOnClick";
 import { HTMLButtonClick } from "../HTMLButtonEvent";
@@ -27,6 +28,7 @@ import { ToggleVisibility } from "../VisibilitySamples";
 TypeStore.add("Cannon", Cannon);
 TypeStore.add("RandomColor", RandomColor);
 TypeStore.add("ChangeColorOnCollision", ChangeColorOnCollision);
+TypeStore.add("IncreaseShaderSpeedOverTime", IncreaseShaderSpeedOverTime);
 TypeStore.add("DisableEnvironmentLight", DisableEnvironmentLight);
 TypeStore.add("EmitParticlesOnClick", EmitParticlesOnClick);
 TypeStore.add("HTMLButtonClick", HTMLButtonClick);
