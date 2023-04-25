@@ -5,12 +5,11 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class ModelLoading : UnityEngine.MonoBehaviour
+	public partial class SkyboxWrapper : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.GameObject @parent;
+		public Needle.Engine.Components.RemoteSkybox @remoteSkybox;
 		public void load(){}
 		public void loadFromParam(){}
-		public void downloadAndApply(string @url){}
 	}
 }
 

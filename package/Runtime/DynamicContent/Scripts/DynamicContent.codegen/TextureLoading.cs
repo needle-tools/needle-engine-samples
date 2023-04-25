@@ -7,8 +7,10 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class TextureLoading : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Material @targetMaterial;
-		public void start(){}
+		public UnityEngine.Renderer @targetRenderer;
+		public void load(){}
+		public void loadFromParam(){}
+		public void downloadAndApply(string @url){}
 	}
 }
 
