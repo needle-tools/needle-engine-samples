@@ -3,6 +3,7 @@ import {
   EventList,
   GameObject,
   serializable,
+  syncField,
 } from "@needle-tools/engine";
 
 export class Configurator extends Behaviour {
@@ -22,6 +23,7 @@ export class Configurator extends Behaviour {
   onHideUnityEvent?: EventList;
 
   // @nonSerialized
+  @syncField(Configurator.prototype.onIndexChanged)
   public currentIndex: number = 0;
 
   // @nonSerialized
@@ -47,34 +49,20 @@ export class Configurator extends Behaviour {
   }
 
   public next() {
-    this.currentIndex += 1;
-    if (this.currentIndex >= this.selectionCount) {
-      if (this.loopSelection) this.currentIndex = 0;
-      else this.currentIndex = this.selectionCount - 1;
-    }
-
-    this.applyState();
+    this.setIndex(this.currentIndex + 1);
   }
 
   public previous() {
-    this.currentIndex -= 1;
-    if (this.currentIndex < 0) {
-      if (this.loopSelection) this.currentIndex = this.selectionCount - 1;
-      else this.currentIndex = 0;
-    }
-
-    this.applyState();
+    this.setIndex(this.currentIndex - 1);
   }
 
   public setIndex(index: number) {
-    if (index < 0 || index >= this.selectionCount) return;
-
-    this.currentIndex = index;
-
+    if(index < 0) index = this.selectionCount - 1;
+    this.currentIndex = index % this.selectionCount;
     this.applyState();
   }
 
-  applyState() {}
+  applyState(){}
 
   onShow() {
     this.onShowUnityEvent?.invoke();
@@ -82,5 +70,11 @@ export class Configurator extends Behaviour {
 
   onHide() {
     this.onHideUnityEvent?.invoke();
+  }
+
+  // called from syncField, we do this here because applyState is overriden by subclasses
+  // and this way syncField is calling the overriden methods
+  private onIndexChanged(){
+    this.applyState();
   }
 }
