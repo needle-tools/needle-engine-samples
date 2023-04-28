@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 393625141}
   - component: {fileID: 393625140}
   - component: {fileID: 393625143}
+  - component: {fileID: 393625144}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -451,7 +452,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 438e3fec673b477cbc6d39ba011bf158, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
+    $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-393625140-0
   compilerDirectory: Library/Needle/DynamicContent/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &393625141
@@ -465,7 +467,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 986a3a93ac16ec0428d8989979ec0966, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-393625141-0
   DirectoryName: Library/Needle/DynamicContent
   AutoExport: 1
   Dependencies:
@@ -497,8 +499,26 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 500358785998473ebf998f05dc20b650, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-393625143-0
   Glitch: {fileID: 959743117}
+--- !u!114 &393625144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393625139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-393625144-0
+  FTPServer: {fileID: 11400000, guid: 24ec55f7625cbea428362c0007db2a03, type: 2}
+  Path: /dynamic-content
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &462077757
 GameObject:
   m_ObjectHideFlags: 0
