@@ -8,6 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class SkyboxWrapper : UnityEngine.MonoBehaviour
 	{
 		public Needle.Engine.Components.RemoteSkybox @remoteSkybox;
+		public void start(){}
 		public void load(){}
 		public void loadFromParam(){}
 	}

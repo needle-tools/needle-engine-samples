@@ -1,11 +1,14 @@
-import { Behaviour, RemoteSkybox, getComponent, getParam, serializable } from "@needle-tools/engine";
+import { Behaviour, RemoteSkybox, getComponent, getParam, serializable, setParamWithoutReload } from "@needle-tools/engine";
 
-const param = getParam("skybox");
 
 export class SkyboxWrapper extends Behaviour {
 
     @serializable(RemoteSkybox)
     remoteSkybox?: RemoteSkybox;
+
+    start(): void {
+        this.loadFromParam();   
+    }
 
     public load() {
 
@@ -14,14 +17,15 @@ export class SkyboxWrapper extends Behaviour {
 
     public loadFromParam() {
 
-        const url = param as string;
+        const url = getParam("skybox") as string;
 
-        if(url != null && url != "")
+        if (url != null && url != "")
             this.apply(url);
     }
 
     private apply(url: string) {
-        
+
         this.remoteSkybox?.setSkybox(url);
+        setParamWithoutReload("skybox", url);
     }
 }

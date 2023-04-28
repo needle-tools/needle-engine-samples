@@ -1,34 +1,37 @@
-import { AssetReference, Behaviour, GameObject, getParam, serializable } from "@needle-tools/engine";
-
-const param = getParam("model");
+import { AssetReference, Behaviour, GameObject, getParam, serializable, setParamWithoutReload } from "@needle-tools/engine";
+import { Object3D } from "three";
 
 export class ModelLoading extends Behaviour {
 
     @serializable(GameObject)
     parent?: GameObject;
 
-    private currentObject : GameObject | null = null;
+    private currentObject: GameObject | null = null;
+
+    start(){
+        this.loadFromParam();
+    }
 
     load() {
 
         this.downloadAndApply("https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Embedded/DamagedHelmet.gltf");
     }
 
-    loadFromParam() { 
+    loadFromParam() {
 
-        const url = param as string
-        if(url && url != "")
+        const url = getParam("model") as string
+        if (url && url != "")
             this.downloadAndApply(url);
     }
 
-    downloadAndApply(url: string) {
+    async downloadAndApply(url: string) {
+        const asset = AssetReference.getOrCreate(this.sourceId ?? url, url, this.context);
 
-        const asset = AssetReference.getOrCreate(url, url, this.context);
+        const instance = await asset.instantiate(this.parent) as GameObject;
 
-        asset.instantiate(this.parent)
-             .then(obj => {
-                this.currentObject?.destroy();
-                this.currentObject = obj as GameObject
-             });
+        this.currentObject?.destroy();
+        this.currentObject = instance;
+
+        setParamWithoutReload("model", url);
     }
 }
