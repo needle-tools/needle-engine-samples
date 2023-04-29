@@ -40,4 +40,9 @@ iPhone model
 Author: Imagigoo
 Source: https://sketchfab.com/3d-models/apple-iphone-14-pro-pack-free-2893bdaefdf946ab92ffd04ecfba843b
 License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+
+Stylized planet
+Author: cmzw
+Source: https://sketchfab.com/3d-models/stylized-planet-789725db86f547fc9163b00f302c3e70
+License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 ```
