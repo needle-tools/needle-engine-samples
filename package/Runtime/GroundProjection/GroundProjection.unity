@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26354244, g: 0.20579164, b: 0.15471639, a: 1}
+  m_IndirectSpecularColor: {r: 0.26354218, g: 0.20579134, b: 0.1547163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -279,7 +279,6 @@ GameObject:
   - component: {fileID: 784234923}
   - component: {fileID: 784234925}
   - component: {fileID: 784234926}
-  - component: {fileID: 784234927}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -329,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-784234925-0
-  compilerDirectory: Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &784234926
 MonoBehaviour:
@@ -345,20 +344,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-784234926-0
   Glitch: {fileID: 1911445426}
---- !u!114 &784234927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c0317e0632e6c47bb855ee99f95544, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SceneRenderPipeline, Unity.RenderPipelines.Core.Runtime
-    $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-784234927-0
-  renderPipelineAsset: {fileID: 11400000, guid: 4f326a26ea5a9634ba48145c20ac6ada, type: 2}
 --- !u!1 &832372436
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,12 +388,103 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.RemoteSkybox, Needle.Engine $
     GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-832372438-0
-  url: /assets/small_hangar_01_2k.jpg
+  url: small_hangar_01_2k.jpg
   local:
     Texture: {fileID: 8900000, guid: d2122f857ea1411498d8976778b0c74e, type: 3}
   allowDrop: 1
   background: 1
   environment: 1
+--- !u!1 &1166832236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1166832238}
+  - component: {fileID: 1166832237}
+  m_Layer: 0
+  m_Name: Render Pipeline
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1166832237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166832236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c0317e0632e6c47bb855ee99f95544, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderPipelineAsset: {fileID: 11400000, guid: 06490ab4b8eafb74799dad84e3f7359e, type: 2}
+--- !u!4 &1166832238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166832236}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1446530360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1446530362}
+  - component: {fileID: 1446530361}
+  m_Layer: 0
+  m_Name: Meta
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1446530361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446530360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: Ground Projectio sample (Needle Engine)
+    description: Floor projection from environment maps
+    image: {fileID: 2800000, guid: 9d02d6363b39dbc46af9a218941043ef, type: 3}
+--- !u!4 &1446530362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446530360}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1489104154
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,7 +898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9722be1d85e14bc3a725c1a2e279cd7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectName: 
+  ProjectName: discreet-superficial-law
 --- !u!4 &1289165311449512719 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4608629947157000579, guid: 7212237e21eef644ca7f692d184f3ca0, type: 3}
