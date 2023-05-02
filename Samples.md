@@ -10,6 +10,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [AnimatorController](https://engine.needle.tools/samples/animatorcontroller) | Simple animator controller to transition between two states and play a sound effect (no code) <br/><kbd>Animation</kbd>| <img src="package/Editor/Screenshots/AnimatorController.jpg" height="200"/>
 | [Canvas UI](https://engine.needle.tools/samples/ui-button) | Create 3D UIs with Canvas <br/><kbd>UI</kbd>| <img src="package/Editor/Screenshots/UIButton.jpg" height="200"/>
 | [Collaborative Sandbox](https://engine.needle.tools/samples/sandbox) | Networking, WebXR, Drag & Duplicate <br/><kbd>Networking</kbd> <kbd>XR</kbd>| <img src="package/Editor/Screenshots/Sandbox.jpg" height="200"/>
+| [Configurator](https://engine.needle.tools/samples/configurator/) | Changing objects and materials via script. <br/>| <img src="package/Editor/Screenshots/Configurator.jpg" height="200"/>
 | [Custom Hands](https://engine.needle.tools/samples/custom-hands/) | Custom hand models in WebXR <br/><kbd>XR</kbd>| <img src="package/Editor/Screenshots/CustomHands.jpg" height="200"/>
 | [Deferred Textures](https://engine.needle.tools/samples/progressive-textures) | Faster load times, smaller payloads <br/><kbd>Rendering</kbd> <kbd>Performance</kbd>| <img src="package/Editor/Screenshots/ProgressiveLoading.jpg" height="200"/>
 | [Device Sensors](https://engine.needle.tools/samples/device-sensors/) | Orientation Sensor Access <br/><kbd>Scripting</kbd>| <img src="package/Editor/Screenshots/DeviceSensors.jpg" height="200"/>
@@ -32,6 +33,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Product Scrollytelling](https://engine.needle.tools/samples/scrollytelling/) | Lnyx R1 scrolling website <br/><kbd>Rendering</kbd> <kbd>Animation</kbd>| <img src="package/Editor/Screenshots/Scrollytelling.jpg" height="200"/>
 | [Room Tracking & Passthrough](https://engine.needle.tools/samples/presence-platform/) | Physics, Passthrough, Walls and Furniture on Quest / Quest Pro <br/><kbd>XR</kbd> <kbd>Interaction</kbd>| <img src="package/Editor/Screenshots/PresencePlatformRoomTracking.jpg" height="200"/>
 | [Screensharing](https://engine.needle.tools/samples/screensharing) | WebRTC and Streaming <br/><kbd>Networking</kbd>| <img src="package/Editor/Screenshots/Screensharing.jpg" height="200"/>
+| [Screenspace UI](https://engine.needle.tools/samples/screenspace-ui/) |  <br/><kbd>UI</kbd>| <img src="package/Editor/Screenshots/Screenspace UI Wide.jpg" height="200"/>
 | [Shaders](https://engine.needle.tools/samples/custom-shaders) | Exporting Unity Shaders to the web <br/><kbd>Rendering</kbd>| <img src="package/Editor/Screenshots/CustomShader.jpg" height="200"/>
 | [Shadow Catcher](https://engine.needle.tools/samples/shadow-catcher) | Render additive or masked transparent shadows, great for AR <br/><kbd>Rendering</kbd> <kbd>XR</kbd>| <img src="package/Editor/Screenshots/ShadowCatcher.jpg" height="200"/>
 | [Sidescroller](https://engine.needle.tools/samples/sidescroller) | Sidescroller with desktop, touch and gamepad inputs, using sprites. <br/><kbd>Games</kbd> <kbd>Interaction</kbd> <kbd>Scripting</kbd>| <img src="package/Editor/Screenshots/Sidescroller.jpg" height="200"/>
@@ -42,6 +44,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | AR Occluders |  <br/>| 
 | Basic Auto Networking |  <br/>| 
 | Custom Shaders | Shader Graph export and custom properties <br/><kbd>Rendering</kbd>| 
+| [Dynamic Content](https://engine.needle.tools/samples/dynamic-content) |  <br/><kbd>Scripting</kbd> <kbd>Frameworks</kbd>| 
 | Fonts and Text | Displaying text, rich text, font families <br/><kbd>UI</kbd>| 
 | Interactive Map |  <br/>| 
 | JavaScript Interop | Communication between Needle Engine and external javascript <br/><kbd>Scripting</kbd> <kbd>Frameworks</kbd>| 
