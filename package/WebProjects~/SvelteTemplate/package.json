@@ -1,0 +1,28 @@
+{
+  "name": "my-needle-engine-package",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite --host",
+    "build:dev": "vite build",
+    "build:production": "npm run build:dev && npm run gltf:transform",
+    "gltf:transform": "npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline"
+  },
+  "dependencies": {
+	  "@needle-tools/engine": "^3.3.0-alpha",
+	  "three": "npm:@needle-tools/three@0.146.8"
+	},
+  "devDependencies": {
+	  "@needle-tools/helper": "^0.7.2",
+	  "@types/three": "0.146.0",
+	  "@vitejs/plugin-basic-ssl": "^0.1.2",
+	  "typescript": "^5.0.2",
+	  "vite": "^4.2.0",
+	  "vite-plugin-compression": "^0.5.1",
+	  "@sveltejs/vite-plugin-svelte": "^2.0.4",
+	  "@tsconfig/svelte": "^4.0.1",
+	  "svelte": "^3.55.1",
+	  "svelte-check": "^3.1.4",
+	  "svelte-preprocess": "^5.0.3"
+	}
+}
