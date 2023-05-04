@@ -1,5 +1,5 @@
 import { Behaviour, GameObject, Gizmos, ParticleSystem, serializeable, showBalloonMessage, showBalloonWarning } from "@needle-tools/engine";
-import { InputEvents } from "@needle-tools/engine/src/engine/engine_input";
+import { InputEvents } from "@needle-tools/engine";
 import { setWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
 
 export class EmitParticlesOnClick extends Behaviour {

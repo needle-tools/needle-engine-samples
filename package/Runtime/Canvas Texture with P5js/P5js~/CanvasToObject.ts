@@ -14,9 +14,9 @@ export class CanvasToObject extends Behaviour {
         this._canvasTexture = tex;
 
         for (const rend of this.renderers) {
-            if (rend?.material) {
-                rend.material["map"] = tex;
-                rend.material.transparent = true;
+            if (rend?.sharedMaterial) {
+                rend.sharedMaterial["map"] = tex;
+                rend.sharedMaterial.transparent = true;
             }
         }
     }

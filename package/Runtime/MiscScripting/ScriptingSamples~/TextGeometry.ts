@@ -2,8 +2,8 @@ import { Color, Group, Object3D, BufferGeometry, DoubleSide, Material, Mesh, Mes
 import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry as ThreeTextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { Behaviour } from '@needle-tools/engine/src/engine-components/Component';
-import { serializeable } from "@needle-tools/engine/src/engine/engine_serialization_decorator";
-import { FrameEvent } from "@needle-tools/engine/src/engine/engine_setup";
+import { serializeable } from "@needle-tools/engine";
+import { FrameEvent } from "@needle-tools/engine";
 
 
 // @dont-generate-component

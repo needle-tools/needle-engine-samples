@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class MoveOnEvent : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.Transform @target;
-		public void MoveNow(){}
+		public void moveNow(){}
 		public void update(){}
 	}
 }

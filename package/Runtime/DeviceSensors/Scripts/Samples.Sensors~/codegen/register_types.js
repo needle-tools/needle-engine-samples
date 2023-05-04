@@ -1,7 +1,7 @@
-﻿import { TypeStore } from "@needle-tools/engine/engine/engine_typestore"
+﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { SensorAccess } from "../SensorAccess.ts";
+import { SensorAccess } from "../SensorAccess";
 
 // Register types
 TypeStore.add("SensorAccess", SensorAccess);

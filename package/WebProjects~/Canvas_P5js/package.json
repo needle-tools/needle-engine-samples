@@ -1,0 +1,45 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "scripts": {
+	  "start": "vite --host",
+	  "build:dev": "tsc && vite build && npm run copy-files",
+	  "build:production": "npm run build:dev && npm run gltf:transform",
+	  "serve": "vite preview",
+	  "copy-files": "copy-files-from-to",
+	  "gltf:transform": "npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline"
+	},
+  "dependencies": {
+	  "@needle-tools/engine": "^3.3.0-alpha",
+	  "three": "npm:@needle-tools/three@0.146.8",
+	  "p5js": "file:./../../Runtime/Canvas Texture with P5js/P5js~"
+	},
+  "devDependencies": {
+	  "@needle-tools/needle-component-compiler": "^1.9.3",
+	  "@types/three": "0.146.0",
+	  "@vitejs/plugin-basic-ssl": "^0.1.2",
+	  "copy-files-from-to": "^3.2.2",
+	  "typescript": "^4.5.5",
+	  "vite": "^3.1.4",
+	  "vite-plugin-compression": "^0.5.1",
+	  "@needle-tools/helper": "^0.7.2"
+	},
+  "copyFiles": [
+    {
+      "from": "assets/**/*.*",
+      "to": "dist/assets/"
+    },
+    {
+      "from": "node_modules/@needle-tools/engine/src/include/**/*.*",
+      "to": "dist/include/"
+    },
+    {
+      "from": "node_modules/@needle-tools/engine/src/include/**/*.*",
+      "to": "./include/"
+    },
+    {
+      "from": "include/**/*.*",
+      "to": "dist/include/"
+    }
+  ]
+}

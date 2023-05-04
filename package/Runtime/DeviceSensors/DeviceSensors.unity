@@ -218,51 +218,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 162293895}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &389322847
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 389322849}
-  - component: {fileID: 389322848}
-  m_Layer: 0
-  m_Name: RenderPipeline
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &389322848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389322847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c0317e0632e6c47bb855ee99f95544, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SceneRenderPipeline, Unity.RenderPipelines.Core.Runtime
-    $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-389322848-0
-  renderPipelineAsset: {fileID: 11400000, guid: 4f326a26ea5a9634ba48145c20ac6ada, type: 2}
---- !u!4 &389322849
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389322847}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.50189334, y: -0.22804081, z: 0.47358656}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &626105691
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +556,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-733584893-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!4 &733584894
 Transform:
@@ -619,7 +573,7 @@ Transform:
   - {fileID: 706068931}
   - {fileID: 1523401799}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &733584895
 MonoBehaviour:
@@ -666,7 +620,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-740623227-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &740623228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,6 +669,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-740623230-0
   FTPServer: {fileID: 11400000, guid: 10155bc195d376643abaefe881d45c5e, type: 2}
   Path: /device-sensors/
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &878778393
 GameObject:
   m_ObjectHideFlags: 0

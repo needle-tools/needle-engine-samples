@@ -1,5 +1,5 @@
 import { Behaviour, Camera, GameObject, serializable, SpriteRenderer } from "@needle-tools/engine";
-import { Mathf } from "@needle-tools/engine/src/engine/engine_math";
+import { Mathf } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting

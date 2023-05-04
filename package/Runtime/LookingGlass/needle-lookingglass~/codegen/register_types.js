@@ -1,8 +1,8 @@
-﻿import { TypeStore } from "@needle-tools/engine/engine/engine_typestore"
+﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { LookingGlass } from "../LookingGlass.ts";
-import { SingleFileDrop } from "../SingleFileDrop.ts";
+import { LookingGlass } from "../LookingGlass";
+import { SingleFileDrop } from "../SingleFileDrop";
 
 // Register types
 TypeStore.add("LookingGlass", LookingGlass);

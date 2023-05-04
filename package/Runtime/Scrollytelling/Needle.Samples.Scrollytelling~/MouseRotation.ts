@@ -1,5 +1,5 @@
 import { Behaviour } from "@needle-tools/engine";
-import { Mathf } from "@needle-tools/engine/src/engine/engine_math";
+import { Mathf } from "@needle-tools/engine";
 
 
 

@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 // NEEDLE_CODEGEN_START
 // auto generated code - do not edit directly
 
@@ -12,3 +14,5 @@ namespace Needle.Typescript.GeneratedComponents
 }
 
 // NEEDLE_CODEGEN_END
+
+#endif

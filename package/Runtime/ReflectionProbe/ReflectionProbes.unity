@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: d38b587196874b04ea32bf0a071e01b0, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.52388406, g: 0.6796649, b: 0.7687166, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -307,7 +307,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692315834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.313, y: 0, z: 0}
+  m_LocalPosition: {x: -1.199, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1597275518}
@@ -441,7 +441,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706762903}
-  m_LocalRotation: {x: 0.0071576606, y: 0.9774458, z: -0.20837751, w: 0.033575587}
+  m_LocalRotation: {x: 0.0071576578, y: 0.9774458, z: -0.20837744, w: 0.033575587}
   m_LocalPosition: {x: -0.28063428, y: 1.8267537, z: 4.080062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -538,6 +538,7 @@ GameObject:
   - component: {fileID: 784234923}
   - component: {fileID: 784234925}
   - component: {fileID: 784234926}
+  - component: {fileID: 784234927}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -587,7 +588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-f514d1d331c449849a0dc16a6a1fc75c-784234925-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &784234926
 MonoBehaviour:
@@ -603,6 +604,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-f514d1d331c449849a0dc16a6a1fc75c-784234926-0
   Glitch: {fileID: 1911445426}
+--- !u!114 &784234927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FTPServer: {fileID: 11400000, guid: 2384b453ca9716c478ee078edf1279d7, type: 2}
+  Path: /reflection-probes
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &1429726917
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,7 +755,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-f514d1d331c449849a0dc16a6a1fc75c-1597275519-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!114 &1597275520
 MonoBehaviour:

@@ -10,7 +10,7 @@ export class MoveOnEvent extends Behaviour {
 
     private targetPoint?: Vector3;
 
-    MoveNow() {
+    moveNow() {
 
         console.log("Moving now", this);
 

@@ -1,6 +1,6 @@
-import { Behaviour } from "@needle-tools/engine/src/engine-components/Component";
-import { PointerEventData, IPointerEventHandler } from "@needle-tools/engine/src/engine-components/ui/PointerEvents";
-import { WebXRController, ControllerEvents } from "@needle-tools/engine/src/engine-components/WebXRController";
+import { Behaviour } from "@needle-tools/engine";
+import { PointerEventData, IPointerEventHandler } from "@needle-tools/engine";
+import { WebXRController, ControllerEvents } from "@needle-tools/engine";
 
 export class ClickToOpenWebsite extends Behaviour implements IPointerEventHandler {
 

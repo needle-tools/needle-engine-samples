@@ -183,7 +183,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -1002,7 +1002,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-26c5b48b522fc5b479db57be2d275c44-1142793835-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!4 &1142793836
 Transform:
@@ -1106,6 +1105,7 @@ GameObject:
   - component: {fileID: 1834845065}
   - component: {fileID: 1834845064}
   - component: {fileID: 1834845067}
+  - component: {fileID: 1834845068}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1120,7 +1120,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834845062}
-  m_LocalRotation: {x: 0.076949425, y: 0.09329377, z: -0.0071891085, w: 0.9926346}
+  m_LocalRotation: {x: 0.0610059, y: 0.106215775, z: -0.0065290937, w: 0.99244845}
   m_LocalPosition: {x: -1.6575608, y: 3.7065907, z: -7.655183}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1149,7 +1149,7 @@ MonoBehaviour:
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  lookAtConstraint: {fileID: 1834845068}
   middleClickToFocus: 1
   doubleClickToFocus: 0
 --- !u!81 &1834845065
@@ -1237,6 +1237,25 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1183024399 &1834845068
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834845062}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 1085682196}
+    weight: 1
 --- !u!1 &1884537885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,6 +1369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-26c5b48b522fc5b479db57be2d275c44-2061693511-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &2061693512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1412,3 +1432,5 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-26c5b48b522fc5b479db57be2d275c44-2061693515-0
   FTPServer: {fileID: 11400000, guid: db88b202e93acf046bbcaaf467a56c99, type: 2}
   Path: ui-button
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0

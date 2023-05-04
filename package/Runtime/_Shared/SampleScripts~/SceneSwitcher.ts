@@ -1,6 +1,6 @@
 import { AssetReference, Behaviour, GameObject, serializeable, showBalloonMessage } from "@needle-tools/engine";
-import { InputEvents } from "@needle-tools/engine/src/engine/engine_input";
-import { getParam, isMobileDevice, setParamWithoutReload } from "@needle-tools/engine/src/engine/engine_utils";
+import { InputEvents } from "@needle-tools/engine";
+import { getParam, isMobileDevice, setParamWithoutReload } from "@needle-tools/engine";
 
 export abstract class BaseSceneSwitcher extends Behaviour {
 
