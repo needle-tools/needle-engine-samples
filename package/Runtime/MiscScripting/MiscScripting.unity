@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: d38b587196874b04ea32bf0a071e01b0, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.52388406, g: 0.6796649, b: 0.7687166, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -167,13 +167,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SerializedDataSample,
     Needle.Tiny.Samples $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-399678-0
-  myData:
-    myStringField: Hello
-    myNumberField: 5
-    myBooleanField: 1
-    subData:
-      subString: Test
-      subNumber: 29
 --- !u!1 &110024134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,6 +1235,19 @@ Transform:
   m_Father: {fileID: 1526562593}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1471017692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9722be1d85e14bc3a725c1a2e279cd7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProjectName: jagged-beryl-polo
 --- !u!1 &1517707174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1889,6 +1895,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.TransformGizmo, Needle.Engine
     $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-1678481114-0
   isGizmo: 0
+  translationSnap: 1
+  rotationSnapAngle: 15
+  scaleSnap: 0.25
 --- !u!1 &1803397397
 GameObject:
   m_ObjectHideFlags: 0
@@ -2405,6 +2414,8 @@ GameObject:
   - component: {fileID: 2031275771}
   - component: {fileID: 2031275770}
   - component: {fileID: 2031275769}
+  - component: {fileID: 2031275772}
+  - component: {fileID: 2031275773}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -2425,7 +2436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-2031275769-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &2031275770
 MonoBehaviour:
@@ -2459,6 +2470,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2031275772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031275768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FTPServer: {fileID: 11400000, guid: 2384b453ca9716c478ee078edf1279d7, type: 2}
+  Path: /scripting-snippets
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
+--- !u!114 &2031275773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031275768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 500358785998473ebf998f05dc20b650, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Glitch: {fileID: 1471017692}
 --- !u!1 &2063934550
 GameObject:
   m_ObjectHideFlags: 0
