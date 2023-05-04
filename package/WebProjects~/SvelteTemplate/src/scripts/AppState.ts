@@ -1,1 +1,0 @@
-type AppState = "menu" | "map" | "timeline" | "closeup";

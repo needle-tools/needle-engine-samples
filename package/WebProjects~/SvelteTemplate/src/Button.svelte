@@ -16,6 +16,7 @@ button {
     border: 1px solid rgba(75, 75, 75, 0.25);
     font-family: sans-serif;
     font-size: inherit;
+    margin: 2px 4px;
 }
 
 button:hover {

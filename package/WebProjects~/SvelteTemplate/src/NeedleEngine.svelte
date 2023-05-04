@@ -4,7 +4,6 @@ import { CameraSpot } from "./scripts/CameraSpot";
 import { StateManager } from "./scripts/StateManager";
 
 // exposed state - can be bound from outside components
-export let appState: AppState = "menu";
 export let cameraSpots: Array<CameraSpot> = [];
 export let selectedSpot: CameraSpot | null = null;
 
@@ -36,9 +35,12 @@ $: if (selectedSpot != lastSelectedSpot) {
     lastSelectedSpot = selectedSpot;
 }
 
+// example for dispatching a custom event
+/*
 $: {
     stateManager?.dispatchEvent(new CustomEvent(StateManager.StateChangedEvent, { detail: appState }));
 }
+*/
 
 </script>
 

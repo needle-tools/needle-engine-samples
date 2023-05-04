@@ -20,7 +20,7 @@ let expanded = true;
 
 div.group {
     background-color: rgba(255, 255, 255, 0.795);
-    border-radius: 40px;
+    border-radius: 20px;
     padding: 6px;
     margin: 6px;
 }

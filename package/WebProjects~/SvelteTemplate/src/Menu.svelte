@@ -4,32 +4,16 @@ import Button from "./Button.svelte";
 import Group from "./Group.svelte";
 import { CameraSpot } from "./scripts/CameraSpot";
 
-export let appState: AppState = "menu";
 export let cameraSpots: Array<CameraSpot> = [];
 export let selectedSpot: CameraSpot | null = null;
 
 let foldoutIsOpen = false;
-let counter = 0;
-
-function wasClicked(_evt: MouseEvent) {
-    foldoutIsOpen = !foldoutIsOpen;
-    counter++;
-}
 
 </script>
 
-<div class="container">    
+<div class="container">
     <Group>
-        <span slot="label">Hello</span>
-        <Button on:click={wasClicked}>Click Me</Button>
-
-        <Button on:click={() => appState = "menu"}>Menu</Button>
-        <Button on:click={() => appState = "map"}>Map</Button>
-        <Button on:click={() => appState = "closeup"}>Closeup</Button>
-    </Group>
-
-    <Group>
-        <span slot="label">Menu</span>
+        <span slot="label" class="uppercase">Menu</span>
         {#each cameraSpots as spot}
             <Button on:click={() => selectedSpot = spot}>{spot.name}</Button>
         {/each}
@@ -38,11 +22,8 @@ function wasClicked(_evt: MouseEvent) {
     {#if selectedSpot || foldoutIsOpen}
     <Group>
         {#if selectedSpot}
-        <h2>Selected: {selectedSpot.name}</h2>
-        {/if}
-
-        {#if foldoutIsOpen}
-        <h3>Test: {counter}</h3>
+        <h4 class="uppercase">Current selection</h4>
+        <h2>{selectedSpot.name}</h2>
         {/if}
     </Group>
     {/if}
@@ -58,6 +39,16 @@ div.container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.uppercase {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8em;
+}
+
+h2, h4 {
+    margin: 5px;
 }
 
 </style>
