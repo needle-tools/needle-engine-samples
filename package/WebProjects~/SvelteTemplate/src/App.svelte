@@ -1,7 +1,7 @@
 <script lang="ts">
 import NeedleEngine from "./NeedleEngine.svelte";
-import { CameraSpot } from "./scripts/CameraSpot";
 import Menu from "./Menu.svelte";
+import { CameraSpot } from "needle.sveltesample/CameraSpot";
 
 let cameraSpots: Array<CameraSpot> = [];
 let selectedSpot: CameraSpot | null = null;

@@ -2,7 +2,7 @@
 
 import Button from "./Button.svelte";
 import Group from "./Group.svelte";
-import { CameraSpot } from "./scripts/CameraSpot";
+import { CameraSpot } from "needle.sveltesample/CameraSpot";
 
 export let cameraSpots: Array<CameraSpot> = [];
 export let selectedSpot: CameraSpot | null = null;
