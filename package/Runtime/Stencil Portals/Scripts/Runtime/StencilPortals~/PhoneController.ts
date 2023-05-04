@@ -1,5 +1,5 @@
-import { IPointerClickHandler } from "@needle-tools/engine/src/engine-components/ui/PointerEvents";
-import { Animator, Behaviour, serializable } from "@needle-tools/engine/src/needle-engine";
+import { IPointerClickHandler } from "@needle-tools/engine";
+import { Animator, Behaviour, serializable } from "@needle-tools/engine";
 
 export class PhoneControoler extends Behaviour implements IPointerClickHandler{
 
