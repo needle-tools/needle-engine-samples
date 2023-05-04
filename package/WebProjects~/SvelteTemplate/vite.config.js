@@ -5,14 +5,18 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig(async ({ command }) => {
     const { needlePlugins, useGzip, loadConfig } = await import("@needle-tools/engine/plugins/vite/index.js");
-    const needleConfig = await loadConfig();
+    const needleConfig = await loadConfig(); 
     return {
         base: "./",
         plugins: [
             basicSsl(),
             useGzip(needleConfig) ? viteCompression({ deleteOriginFile: true }) : null,
             needlePlugins(command, needleConfig),
-            svelte({}),
+            svelte({
+                experimental: {
+                    inspector: true,
+                }
+            }),
         ],
         server: {
             https: true,
@@ -20,7 +24,7 @@ export default defineConfig(async ({ command }) => {
                 'https://localhost:3000': 'https://localhost:3000'
             },
             strictPort: true,
-            port: 3000,
+            port: 3000
         },
         build: {
             outDir: "./dist",
