@@ -33,7 +33,8 @@ public class AssetChecks
         "Hidden/UnityGLTF/",
         "Skybox/",
         "GUI/Text Shader",
-        "Needle/Shadow Catcher"
+        "Needle/Shadow Catcher",
+        "VR/SpatialMapping/Occlusion",
     };
 
     private static readonly string[] AllowedMaterialGuids = new string[]
