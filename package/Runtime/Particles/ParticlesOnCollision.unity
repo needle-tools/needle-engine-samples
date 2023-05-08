@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5807586, g: 0.5784314, b: 0.5807586, a: 1}
+  m_IndirectSpecularColor: {r: 0.58098614, g: 0.5788611, b: 0.58098614, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -203,10 +203,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2063723886}
   - {fileID: 1426510604}
   - {fileID: 1976674403}
   - {fileID: 759086105}
-  - {fileID: 2063723886}
   - {fileID: 1038479302}
   - {fileID: 1773181168}
   - {fileID: 83274414}
@@ -569,7 +569,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-9446a08b11ecd5a40b4575a8534b4f8c-784234923-0
   DirectoryName: Library/Needle/Sample
   AutoExport: 1
-  Dependencies: []
+  Dependencies:
+  - Name: particlestestscripts
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Particles/ParticlesTestScripts.npmdef
+    Guid: 71621ede96876cf4c9b8edbb107e121e
 --- !u!4 &784234924
 Transform:
   m_ObjectHideFlags: 0
@@ -597,7 +600,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-9446a08b11ecd5a40b4575a8534b4f8c-784234925-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &784234926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,6 +631,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-9446a08b11ecd5a40b4575a8534b4f8c-784234927-0
   FTPServer: {fileID: 11400000, guid: bf9deebb62975da4bad665f61a683a62, type: 2}
   Path: /particles-on-collision
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1001 &931577953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -840,9 +846,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-9446a08b11ecd5a40b4575a8534b4f8c-1211803452-0
   enableVR: 1
   enableAR: 1
+  defaultAvatar: {fileID: 0}
   createVRButton: 1
   createARButton: 1
-  defaultAvatar: {fileID: 0}
   handModelPath: 
 --- !u!4 &1211803453
 Transform:
@@ -1082,7 +1088,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-9446a08b11ecd5a40b4575a8534b4f8c-1597275519-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!114 &1597275520
 MonoBehaviour:
@@ -1467,7 +1472,7 @@ Transform:
   m_LocalScale: {x: 5, y: 0.3139142, z: 5}
   m_Children: []
   m_Father: {fileID: 180157640}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2063723887
 BoxCollider:
