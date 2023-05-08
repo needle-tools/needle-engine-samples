@@ -1,12 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Needle.Engine.Utils;
-using Needle.Typescript.GeneratedComponents;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace Needle.MultiLightmaps
 {
