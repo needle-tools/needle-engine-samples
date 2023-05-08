@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class SerializedDataSample : UnityEngine.MonoBehaviour
 	{
-		// public CustomData | undefined @myData; → Could not resolve C# type
+		public CustomData @myData;
 		public void OnEnable(){}
 	}
 }
