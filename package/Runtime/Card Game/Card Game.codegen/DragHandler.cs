@@ -5,11 +5,8 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class Cards : UnityEngine.MonoBehaviour
+	public partial class DragHandler : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform @prefab;
-		public UnityEngine.Transform @container;
-		public void awake(){}
 	}
 }
 
