@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1856812634208264129}
   - component: {fileID: 8890607255169499126}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Card Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,9 +122,14 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bda6716fa51bb8eedc3ff70ce7603646, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Card, Needle.Engine-Samples.Runtime
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Card, Needle.CardGame
     $ GlobalObjectId_V1-1-b372a0c4f66309f4c9bea11a68b63416-8890607255169499126-0
   rendering: {fileID: 5621575858930131760}
+  model:
+    Image:
+      Texture: {fileID: 0}
+    Model:
+      asset: {fileID: 0}
 --- !u!1 &3534018620853649323
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,6 +141,7 @@ GameObject:
   - component: {fileID: 5621575858930131760}
   - component: {fileID: 9135560928317134230}
   - component: {fileID: 4926777578941562114}
+  - component: {fileID: 354662322109312773}
   m_Layer: 5
   m_Name: Visual
   m_TagString: Untagged
@@ -190,7 +196,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dee7b4f3c1571ed41a5178b2c7ffbf8d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9749f0b30e69e2c4ab7aad99587da9fc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -200,3 +206,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &354662322109312773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3534018620853649323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI.Outline, UnityEngine.UI $ GlobalObjectId_V1-0-00000000000000000000000000000000-0-0
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 3, y: 3}
+  m_UseGraphicAlpha: 1

@@ -2,6 +2,7 @@
 
 // Import types
 import { Card } from "../Card";
+import { CardModel } from "../Deck";
 import { Deck } from "../Deck";
 import { DragHandler } from "../DragHandler";
 import { DropZone } from "../DropZone";
@@ -9,6 +10,7 @@ import { GameManager } from "../GameManager";
 
 // Register types
 TypeStore.add("Card", Card);
+TypeStore.add("CardModel", CardModel);
 TypeStore.add("Deck", Deck);
 TypeStore.add("DragHandler", DragHandler);
 TypeStore.add("DropZone", DropZone);

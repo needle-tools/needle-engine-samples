@@ -1,6 +1,7 @@
 import { Behaviour, Canvas, CanvasGroup, GameObject, IPointerEventHandler, PointerEventData, RectTransform, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 import { DragHandler } from "./DragHandler";
+import { CardModel } from "./Deck";
 
 const canvasGroup: CanvasGroup = new CanvasGroup();
 canvasGroup.interactable = false;
@@ -11,11 +12,18 @@ export class Card extends Behaviour implements IPointerEventHandler {
     @serializable(RectTransform)
     rendering!: RectTransform;
 
+    @serializable(CardModel)
+    model?: CardModel;
+
     private _isDragging: boolean = false;
     private _originalParent: Object3D | undefined;
 
     get rt() {
         return this.rendering;
+    }
+
+    onDestroy(): void {
+        GameObject.destroy(this.rt.gameObject)
     }
 
     awake(): void {
@@ -45,7 +53,8 @@ export class Card extends Behaviour implements IPointerEventHandler {
         this._isDragging = false;
         DragHandler.cancel(this);
         GameObject.removeComponent(canvasGroup)!;
-        if (this._originalParent) {
+        this.context.input.setCursorNormal();
+        if (this._originalParent && !this.destroyed) {
             this.rt?.anchoredPosition.set(0, 0, 0);
             this._originalParent.add(this.rt.gameObject);
         }
