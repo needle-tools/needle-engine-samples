@@ -4,7 +4,6 @@ import { Card } from "./Card";
 
 export class DropZone extends Behaviour implements IPointerEventHandler {
 
-    private _lastInstance: GameObject | null = null;
 
     @serializable(Image)
     image!: Image;
@@ -16,13 +15,21 @@ export class DropZone extends Behaviour implements IPointerEventHandler {
 
     onEnable(): void {
         DragHandler.instance.onStartDragging.addEventListener(this.onDragStart);
+        DragHandler.instance.onEndDragging.addEventListener(this.onDragEnd);
+    }
+
+    onDisable(): void {
+        DragHandler.instance.onStartDragging.removeEventListener(this.onDragStart);
+        DragHandler.instance.onEndDragging.removeEventListener(this.onDragEnd);
     }
 
     onDragStart = () => {
         this.image.raycastTarget = true;
+        this.image.color.alpha = .1;
     }
-
-    onPointerEnter(_args: PointerEventData) {
+    onDragEnd = () => {
+        this.image.raycastTarget = false;
+        this.image.color.alpha = 0;
     }
 
     onPointerMove(_args: PointerEventData) {
@@ -31,25 +38,13 @@ export class DropZone extends Behaviour implements IPointerEventHandler {
     }
 
     onPointerUp(_args: PointerEventData) {
-        console.log(DragHandler.data)
         this.image.raycastTarget = false;
-        const card = DragHandler.data;
-        if (card instanceof Card) this.onDrop(card);
+        DragHandler.drop();
     }
 
     onPointerExit(_args: PointerEventData) {
-        this.image.color.alpha = 0;
-    }
-
-    private async onDrop(card: Card) {
-        this._lastInstance?.destroy();
-        GameObject.destroy(card.gameObject);
-
-        if (card?.model) {
-            const model = card.model;
-            this._lastInstance = await model.model.instantiate() as GameObject;
-            this._lastInstance.lookAt(this.context.mainCameraComponent!.worldPosition)
-        }
+        if (DragHandler.data) this.image.color.alpha = .1;
+        else this.image.color.alpha = 0;
     }
 
 }

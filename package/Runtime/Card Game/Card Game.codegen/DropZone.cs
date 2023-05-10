@@ -10,8 +10,9 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.UI.Image @image;
 		public void awake(){}
 		public void OnEnable(){}
+		public void OnDisable(){}
 		// public undefined @onDragStart; → Could not resolve C# type
-		public void onPointerEnter(UnityEngine.EventSystems.PointerEventData @_args){}
+		// public undefined @onDragEnd; → Could not resolve C# type
 		public void onPointerMove(UnityEngine.EventSystems.PointerEventData @_args){}
 		public void onPointerUp(UnityEngine.EventSystems.PointerEventData @_args){}
 		public void onPointerExit(UnityEngine.EventSystems.PointerEventData @_args){}

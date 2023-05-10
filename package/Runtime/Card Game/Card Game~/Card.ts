@@ -51,7 +51,7 @@ export class Card extends Behaviour implements IPointerEventHandler {
     onPointerUp(e: PointerEventData) {
         e.use();
         this._isDragging = false;
-        DragHandler.cancel(this);
+        DragHandler.cancel();
         GameObject.removeComponent(canvasGroup)!;
         this.context.input.setCursorNormal();
         if (this._originalParent && !this.destroyed) {

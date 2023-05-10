@@ -6,6 +6,9 @@ export class DragHandler {
     onStartDragging: EventList = new EventList();
 
     @serializable(EventList)
+    onEndDragging: EventList = new EventList();
+
+    @serializable(EventList)
     onDrop: EventList = new EventList();
 
     private static _instance: DragHandler;
@@ -26,14 +29,15 @@ export class DragHandler {
         this.instance.onStartDragging?.invoke();
     }
 
-    static cancel(obj: any) {
-        if (obj === this._data)
-            this._data = null;
+    static cancel() {
+        if (this._data === null) return;
+        this._data = null;
+        this.instance.onEndDragging?.invoke();
     }
 
     static drop() {
         const data = this._data;
-        this._data = null;
+        this.cancel();
         this.instance.onDrop?.invoke(data);
     }
 
