@@ -10,11 +10,12 @@ export class CardModel {
     @serializable(AssetReference)
     model!: AssetReference;
 
-    @serializable(Animation)
-    idle?: Animation;
+    idleAnimation?: string;
 
     async createTexture() {
-        return this.image.createTexture();
+        if (this.image)
+            return this.image.createTexture();
+        return null;
     }
 }
 
@@ -23,6 +24,7 @@ export type DeckInitializeCallback = (deck: Deck) => void;
 export class Deck extends Behaviour {
 
     private static _onInitialize: DeckInitializeCallback[] = [];
+    private static _createdCards: CardModel[] = [];
 
     static onInitialize(cb: DeckInitializeCallback) {
         this._onInitialize.push(cb);
@@ -32,6 +34,7 @@ export class Deck extends Behaviour {
         const card = new CardModel();
         card.model = new AssetReference(model);
         card.image = new ImageReference(cardImage);
+        this._createdCards.push(card);
         return card;
     }
 
@@ -42,7 +45,7 @@ export class Deck extends Behaviour {
     container!: Object3D;
 
     @serializable(CardModel)
-    cardModels: CardModel[] = [];
+    private cardModels: CardModel[] = [];
 
     awake(): void {
         const ch = this.container.children;
@@ -53,6 +56,10 @@ export class Deck extends Behaviour {
         for (const cb of Deck._onInitialize) {
             cb(this);
         }
+        for (const card of Deck._createdCards) {
+            this.cardModels.push(card);
+        }
+        Deck._createdCards.length = 0;
     }
 
     update(): void {
@@ -62,13 +69,13 @@ export class Deck extends Behaviour {
     }
 
     private _creatingACard = false;
-    // private i: number = 0;
+    private i: number = 0;
 
     async createCard() {
         if (this._creatingACard) return;
         this._creatingACard = true;
-        const index = Math.floor(Math.random() * this.cardModels.length);
-        // const index = this.i++ % this.cardModels.length;
+        // const index = Math.floor(Math.random() * this.cardModels.length);
+        const index = this.i++ % this.cardModels.length;
         const instance = await this.prefab?.instantiate(this.container!) as GameObject;
         const card = getComponent(instance, Card) as Card;
         const model = this.cardModels[index];
@@ -77,12 +84,19 @@ export class Deck extends Behaviour {
         if (visual) {
             const image = visual.gameObject.getComponentInChildren(Image) as Image;
             image.image = await model.createTexture();
-            image.color.set(0xffffff);
+            if (image.image)
+                image.color.set(0xffffff);
             if (image.shadowComponent)
                 image.shadowComponent.scale.y *= -1;
         }
         if (card.text) {
-            card.text.text = model.model.uri;
+            let name = model.model.uri.split("/").pop();
+            if (name) {
+                name = name.split(".")[0];
+                card.text.text = name;
+            }
+            else
+                card.text.text = model.model.uri;
         }
         this._creatingACard = false;
     }

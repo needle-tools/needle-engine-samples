@@ -26,7 +26,7 @@ export class Creature extends Behaviour {
 
     health: number = 100;
 
-    private _animations: Map<string, AnimationAction> = new Map();
+    private _animations: Map<string | DefaulAnimationTypes, AnimationAction> = new Map();
     private _mixer: AnimationMixer | null = null;
     private _isInIdle: boolean = false;
 
@@ -36,13 +36,25 @@ export class Creature extends Behaviour {
             this._mixer.addEventListener("finished", this.onAnimationFinished);
         }
 
+        console.log("Initialize creature", card, this);
+
         if (gltf && gltf.animations.length > 0) {
             for (const anim of gltf.animations) {
                 const action = this._mixer.clipAction(anim);
                 action[$animationKey] = anim.name;
-                this._animations.set(anim.name, action);
+                let key = anim.name;
+
+                console.log(key);
+                if (key === card.idleAnimation) {
+                    key = DefaulAnimationTypes.Idle;
+                }
+                // else if (key.endsWith("_Idle"))
+                //     key = DefaulAnimationTypes.Idle;
+
+                this._animations.set(key, action);
             }
         }
+        else console.warn("No animations found in gltf", gltf);
 
         this.playAnimation(DefaulAnimationTypes.Idle, true);
     }
@@ -57,7 +69,6 @@ export class Creature extends Behaviour {
         if (typeof name !== "string") {
             name = DefaulAnimationTypes[name];
         }
-        console.log("PLAY", name);
         const action = this._animations.get(name);
         if (action) {
             for (const act of this._animations.values()) {
@@ -65,11 +76,14 @@ export class Creature extends Behaviour {
                 act.fadeOut(.3);
             }
             if (action.isRunning()) return;
+            console.log("PLAY", name);
             this._isInIdle = loop;
             action.fadeIn(.3);
-            action.clampWhenFinished = true;
             if (loop) action.setLoop(LoopRepeat, -1);
-            else action.setLoop(LoopOnce, 0);
+            else {
+                action.setLoop(LoopOnce, 0);
+            }
+            action.clampWhenFinished = !loop;
             action.stop();
             action.play();
         }

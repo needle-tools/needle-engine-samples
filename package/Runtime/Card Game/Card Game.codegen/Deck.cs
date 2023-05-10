@@ -26,7 +26,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public void createCard(string @model, string @cardImage){}
 		public UnityEngine.Transform @prefab;
 		public UnityEngine.Transform @container;
-		public CardModel[] @cardModels = new CardModel[]{ };
 		public void awake(){}
 		public void start(){}
 		public void update(){}

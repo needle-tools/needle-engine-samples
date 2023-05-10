@@ -21,7 +21,9 @@ export class GameManager extends Behaviour {
         if (card?.model) {
             const model = card.model;
             this._lastInstance = await model.model.instantiate() as GameObject;
-            this._lastInstance.lookAt(this.context.mainCameraComponent!.worldPosition);
+            const pos = this.context.mainCameraComponent!.worldPosition;
+            pos.y = this._lastInstance.position.y;
+            this._lastInstance.lookAt(pos);
 
             const creature = this._lastInstance.getOrAddComponent(Creature)
             creature.initialize(model, model.model.rawAsset as GLTF);
