@@ -1,0 +1,23 @@
+{
+  "name": "my-needle-engine-project",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "vite --host",
+    "build:dev": "vite build",
+    "build:production": "npm run build:dev && npm run gltf:transform",
+    "gltf:transform": "npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline"
+  },
+  "dependencies": {
+	  "@needle-tools/engine": "file:C:/git/needle-tiny-playground/modules/needle-tiny/js/package~",
+	  "three": "npm:@needle-tools/three@0.146.8",
+	  "@needle-tools/card-game-sample": "file:./../../Runtime/Card Game/Card Game~"
+	},
+  "devDependencies": {
+	  "@needle-tools/helper": "^0.7.4",
+	  "@types/three": "0.146.0",
+	  "@vitejs/plugin-basic-ssl": "^1.0.1",
+	  "typescript": "^5.0.4",
+	  "vite": "^4.3.4",
+	  "vite-plugin-compression": "^0.5.1"
+	}
+}

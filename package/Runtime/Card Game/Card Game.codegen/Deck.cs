@@ -2,12 +2,14 @@
 
 using System;
 using Needle.Engine;
+using UnityEngine;
 
 [Serializable]
 public class CardModel
 {
 	public ImageReference Image;
-	public AssetReference Model;
+	[FileReferenceType(typeof(GameObject), ".glb", ".prefab", ".gltf")]
+	public FileReference Model;
 }
 
 
@@ -20,11 +22,13 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Deck : UnityEngine.MonoBehaviour
 	{
+		public void onInitialize(object @cb){}
+		public void createCard(string @model, string @cardImage){}
 		public UnityEngine.Transform @prefab;
-		public Needle.Engine.ImageReference[] @textures = new Needle.Engine.ImageReference[]{ };
-		public CardModel[] @cardModels = new CardModel[]{ };
 		public UnityEngine.Transform @container;
+		public CardModel[] @cardModels = new CardModel[]{ };
 		public void awake(){}
+		public void start(){}
 		public void update(){}
 		public void createCard(){}
 	}

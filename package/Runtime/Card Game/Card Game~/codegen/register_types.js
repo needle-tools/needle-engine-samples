@@ -2,6 +2,7 @@
 
 // Import types
 import { Card } from "../Card";
+import { Creature } from "../Creature";
 import { CardModel } from "../Deck";
 import { Deck } from "../Deck";
 import { DragHandler } from "../DragHandler";
@@ -10,6 +11,7 @@ import { GameManager } from "../GameManager";
 
 // Register types
 TypeStore.add("Card", Card);
+TypeStore.add("Creature", Creature);
 TypeStore.add("CardModel", CardModel);
 TypeStore.add("Deck", Deck);
 TypeStore.add("DragHandler", DragHandler);

@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.RectTransform @rendering;
 		public CardModel @model;
+		public UnityEngine.UI.Text @text;
 		public void onDestroy(){}
 		public void awake(){}
 		public void onPointerDown(UnityEngine.EventSystems.PointerEventData @e){}

@@ -1,7 +1,7 @@
-import { Behaviour, Canvas, CanvasGroup, GameObject, IPointerEventHandler, PointerEventData, RectTransform, serializable } from "@needle-tools/engine";
+import { Behaviour, Canvas, CanvasGroup, GameObject, IPointerEventHandler, PointerEventData, RectTransform, Text, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 import { DragHandler } from "./DragHandler";
-import { CardModel } from "./Deck";
+import { type CardModel } from "./Deck";
 
 const canvasGroup: CanvasGroup = new CanvasGroup();
 canvasGroup.interactable = false;
@@ -12,8 +12,10 @@ export class Card extends Behaviour implements IPointerEventHandler {
     @serializable(RectTransform)
     rendering!: RectTransform;
 
-    @serializable(CardModel)
     model?: CardModel;
+
+    @serializable(Text)
+    text?: Text;
 
     private _isDragging: boolean = false;
     private _originalParent: Object3D | undefined;

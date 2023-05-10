@@ -4,3 +4,6 @@
 
 // Learn more about npm definition packages: 
 // https://docs.needle.tools/npmdef
+
+
+export { Deck, CardModel } from "./Deck";
