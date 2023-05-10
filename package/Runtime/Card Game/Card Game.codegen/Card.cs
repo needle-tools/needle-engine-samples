@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class Card : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.RectTransform @rendering;
-		public CardModel @model;
+		// public CardModel @model; → Could not resolve C# type
 		public UnityEngine.UI.Text @text;
 		public void onDestroy(){}
 		public void awake(){}

@@ -1,18 +1,3 @@
-
-
-using System;
-using Needle.Engine;
-using UnityEngine;
-
-[Serializable]
-public class CardModel
-{
-	public ImageReference Image;
-	[FileReferenceType(typeof(GameObject), ".glb", ".prefab", ".gltf")]
-	public FileReference Model;
-}
-
-
 // NEEDLE_CODEGEN_START
 // auto generated code - do not edit directly
 
