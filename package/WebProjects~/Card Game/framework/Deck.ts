@@ -44,6 +44,7 @@ export class Deck extends Behaviour {
     @serializable(Object3D)
     container!: Object3D;
 
+    //@serializeField
     @serializable(CardModel)
     private cardModels: CardModel[] = [];
 

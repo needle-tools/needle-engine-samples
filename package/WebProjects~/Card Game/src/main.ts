@@ -6,10 +6,10 @@ import { CardModel, Deck } from "@needle-tools/card-game-sample"
 // insert custom cards
 
 Deck.onInitialize(deck => {
-    const armabee = Deck.createCard("./cards/Armabee.gltf", "");
+    const armabee = Deck.createCard("./cards/Armabee.gltf", "./cards/Armabee.jpg");
     armabee.idleAnimation = "Flying_Idle";
     
-    const ghost = Deck.createCard("./cards/Ghost.gltf", "");
+    const ghost = Deck.createCard("./cards/Ghost.gltf", "./cards/Ghost.jpg");
     ghost.idleAnimation = "Flying_Idle";
 
     // this gltf has some "non-standard" animation names
