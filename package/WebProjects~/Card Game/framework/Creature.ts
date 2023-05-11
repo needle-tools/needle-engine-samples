@@ -21,17 +21,30 @@ export enum DefaulAnimationTypes {
     Attack = "Bite_Front",
 }
 
-const $animationKey = Symbol("animationName")
+const $animationKey = Symbol("animationName");
+
+export class CreatureState {
+
+    readonly guid!: string;
+    health: number = 100;
+
+    constructor(guid: string) {
+        this.guid = guid;
+    }
+}
 
 export class Creature extends Behaviour {
 
-    health: number = 100;
+    state: CreatureState | null = null;
 
     private _animations: Map<string | DefaulAnimationTypes, AnimationAction> = new Map();
     private _mixer: AnimationMixer | null = null;
     private _isInIdle: boolean = false;
 
-    initialize(card: CardModel, gltf: GLTF) {
+    initialize(id: string, card: CardModel, gltf: GLTF) {
+        const state = new CreatureState(id);
+        this.state = state;
+
         if (!this._mixer) {
             this._mixer = new AnimationMixer(this.gameObject);
             this._mixer.addEventListener("finished", this.onAnimationFinished);
@@ -49,7 +62,8 @@ export class Creature extends Behaviour {
                 action[$animationKey] = anim.name;
                 let key = anim.name;
 
-                console.log(key);
+                if (debug)
+                    console.log(key);
                 if (key === card.idleAnimation) {
                     key = DefaulAnimationTypes.Idle;
                 }

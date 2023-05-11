@@ -4,6 +4,10 @@ import { Card } from "./Card";
 
 
 export class CardModel {
+    get id() {
+        return this.model?.uri ?? "";
+    }
+
     @serializable(ImageReference)
     image!: ImageReference;
 
@@ -24,6 +28,7 @@ export type DeckInitializeCallback = (deck: Deck) => void;
 export class Deck extends Behaviour {
 
     minCards: number = 3;
+    isActive: boolean = false;
 
     private static _onInitialize: DeckInitializeCallback[] = [];
     private static _createdCards: CardModel[] = [];
@@ -62,17 +67,16 @@ export class Deck extends Behaviour {
         console.log(this.cardModels);
     }
 
-    onDisable(): void {
-        console.warn("onDisable");
-    }
-
     update(): void {
         for (const card of Deck._createdCards) {
             this.cardModels.push(card);
         }
         Deck._createdCards.length = 0;
-        if (this.container.children.length < this.minCards) {
-            this.createCard();
+
+        if (this.isActive) {
+            if (this.container.children.length < this.minCards) {
+                this.createCard();
+            }
         }
     }
 
@@ -109,4 +113,7 @@ export class Deck extends Behaviour {
         this._creatingACard = false;
     }
 
+    getModel(id: string) {
+        return this.cardModels.find(c => c.id === id);
+    }
 }

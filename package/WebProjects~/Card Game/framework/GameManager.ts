@@ -1,11 +1,11 @@
-import { AnimatorController, BehaviorExtension, Behaviour, CanvasGroup, GameObject, RoomEvents, SyncedRoom, getIp, getIpAndLocation, serializable, showBalloonMessage } from "@needle-tools/engine";
-import { Card } from "./Card";
-import { DragHandler } from "./DragHandler";
-import { Creature, GLTF } from "./Creature";
+import { Behaviour, CanvasGroup, GameObject, RoomEvents, Text, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 import { Deck } from "./Deck";
+import { Player } from "./Player";
+import { BattleManager } from "./BattleManager";
 
 export class GameModel {
+    readonly guid: string = "game-state";
     players: string[] = [];
 }
 
@@ -27,15 +27,15 @@ export class GameManager extends Behaviour {
         GameManager._instance = this;
     }
 
+    @serializable(BattleManager)
+    battleManager!: BattleManager;
 
+    @serializable(Text)
+    debugText: Text | null = null;
 
     @serializable(CanvasGroup)
     joinGameUI?: CanvasGroup;
 
-    @serializable(Deck)
-    deck?: Deck;
-
-    private _lastInstance: GameObject | null = null;
     private _currentGameModel: GameModel | null = null;
 
     get canJoinGame() {
@@ -47,18 +47,15 @@ export class GameManager extends Behaviour {
 
 
     onEnable() {
-        if (this.deck) {
-            this.deck.enabled = false;
-        }
         this.updateUI(this.canJoinGame);
-        DragHandler.instance.onDrop.addEventListener(this.onDrop);
         this.context.connection.beginListen(RoomEvents.JoinedRoom, this.onLocalUserJoinedRoom);
+        this.context.connection.beginListen(RoomEvents.UserLeftRoom, this.testIfAllPlayersAreConnected);
         this.context.connection.beginListen("join-game", this.onRequestedJoinGame);
         this.context.connection.beginListen("game-updated", this.onGameUpdated);
     }
     onDisable(): void {
-        DragHandler.instance.onDrop.removeEventListener(this.onDrop);
         this.context.connection.stopListen(RoomEvents.JoinedRoom, this.onLocalUserJoinedRoom);
+        this.context.connection.stopListen(RoomEvents.UserLeftRoom, this.testIfAllPlayersAreConnected);
         this.context.connection.stopListen("join-game", this.onRequestedJoinGame);
         this.context.connection.stopListen("game-updated", this.onGameUpdated);
     }
@@ -68,25 +65,6 @@ export class GameManager extends Behaviour {
         if (!this.canJoinGame) return;
         if (this.context.connection.connectionId)
             this.joinGame(this.context.connection.connectionId);
-    }
-
-    private onDrop = (card: Card) => {
-        this._lastInstance?.destroy();
-        GameObject.destroy(card.gameObject);
-        this.createCreature(card);
-    }
-
-    private async createCreature(card: Card) {
-        if (card?.model) {
-            const model = card.model;
-            this._lastInstance = await model.model.instantiate() as GameObject;
-            const pos = this.context.mainCameraComponent!.worldPosition;
-            pos.y = this._lastInstance.position.y;
-            this._lastInstance.lookAt(pos);
-
-            const creature = this._lastInstance.getOrAddComponent(Creature)
-            creature.initialize(model, model.model.rawAsset as GLTF);
-        }
     }
 
     private joinGame(userId: string) {
@@ -109,8 +87,27 @@ export class GameManager extends Behaviour {
     private onGameUpdated = async (e: GameModel) => {
         console.log("onGameUpdated", e);
         this._currentGameModel = e;
+        this.testIfAllPlayersAreConnected();
         this.updateUI(this.canJoinGame);
         this.updatePlayers();
+    }
+
+    private testIfAllPlayersAreConnected() {
+        if (this.context.connection.isConnected && this._currentGameModel?.players) {
+            let stateChanged = false;
+            for (let i = this._currentGameModel.players.length - 1; i >= 0; i--) {
+                const id = this._currentGameModel.players[i];
+                if (this.context.connection.userIsInRoom(id) === false) {
+                    stateChanged = true;
+                    this._currentGameModel.players.splice(i, 1);
+                    console.log("Player is not in room anymore", id);
+                }
+            }
+            if (stateChanged) {
+                this.context.connection.send("game-updated", this._currentGameModel);
+            }
+        }
+        this.updateUI(this.canJoinGame);
     }
 
     private onLocalUserJoinedRoom = async () => {
@@ -132,6 +129,11 @@ export class GameManager extends Behaviour {
             // this.joinGameUI.blocksRaycasts = visible;
             // this.joinGameUI.interactable = visible;
         }
+
+        if (this.debugText) {
+            this.debugText.text = "";
+            this.debugText.text = "Players: " + (this._currentGameModel?.players.length || 0);
+        }
     }
 
     private updatePlayers() {
@@ -142,7 +144,6 @@ export class GameManager extends Behaviour {
             if (!player) {
                 player = new Player();
                 player.id = id;
-                player.manager = this;
                 this.players.push(player);
                 this.gameObject.addComponent(player);
             }
@@ -154,34 +155,12 @@ export class GameManager extends Behaviour {
                 player.destroy();
             }
         }
+
+        if (this.players.length === 2) {
+            this.battleManager.startBattle(this.players);
+        }
     }
 
 
     private players: Player[] = [];
-}
-
-
-export class Player extends Behaviour {
-
-    @serializable()
-    id!: string;
-
-    @serializable(Behaviour)
-    manager!: GameManager;
-
-    get isLocal() {
-        return this.id === this.context.connection.connectionId
-    }
-
-
-    start() {
-        console.log(this, this.isLocal);
-    }
-
-
-    onEnable(): void {
-        if (this.isLocal) {
-            this.manager.deck!.enabled = true;
-        }
-    }
 }

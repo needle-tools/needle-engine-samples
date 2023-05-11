@@ -1,7 +1,9 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
+import { BattleManager } from "../BattleManager";
 import { Card } from "../Card";
+import { CreatureState } from "../Creature";
 import { Creature } from "../Creature";
 import { CardModel } from "../Deck";
 import { Deck } from "../Deck";
@@ -9,10 +11,12 @@ import { DragHandler } from "../DragHandler";
 import { DropZone } from "../DropZone";
 import { GameModel } from "../GameManager";
 import { GameManager } from "../GameManager";
-import { Player } from "../GameManager";
+import { Player } from "../Player";
 
 // Register types
+TypeStore.add("BattleManager", BattleManager);
 TypeStore.add("Card", Card);
+TypeStore.add("CreatureState", CreatureState);
 TypeStore.add("Creature", Creature);
 TypeStore.add("CardModel", CardModel);
 TypeStore.add("Deck", Deck);

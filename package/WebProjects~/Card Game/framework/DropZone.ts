@@ -3,8 +3,6 @@ import { DragHandler } from "./DragHandler";
 import { Card } from "./Card";
 
 export class DropZone extends Behaviour implements IPointerEventHandler {
-
-
     @serializable(Image)
     image!: Image;
 

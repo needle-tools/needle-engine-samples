@@ -7,8 +7,8 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Creature : UnityEngine.MonoBehaviour
 	{
-		public float @health = 100f;
-		public void initialize(CardModel @card, object @gltf){}
+		// public CreatureState | null @state; → Could not resolve C# type
+		public void initialize(string @id, CardModel @card, object @gltf){}
 		public void onDestroy(){}
 		public void playAnimation(string @name, bool @loop){}
 		public void onBeforeRender(object @_frame){}
