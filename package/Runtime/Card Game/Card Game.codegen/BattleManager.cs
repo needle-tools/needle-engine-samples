@@ -13,6 +13,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void startBattle(Needle.Typescript.GeneratedComponents.Player[] @players){}
+		public void endBattle(){}
 	}
 }
 

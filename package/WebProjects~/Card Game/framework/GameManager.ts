@@ -47,6 +47,7 @@ export class GameManager extends Behaviour {
 
 
     onEnable() {
+        console.log("ENABLE GAME MANAGER")
         this.updateUI(this.canJoinGame);
         this.context.connection.beginListen(RoomEvents.JoinedRoom, this.onLocalUserJoinedRoom);
         this.context.connection.beginListen(RoomEvents.UserLeftRoom, this.testIfAllPlayersAreConnected);
@@ -54,6 +55,7 @@ export class GameManager extends Behaviour {
         this.context.connection.beginListen("game-updated", this.onGameUpdated);
     }
     onDisable(): void {
+        console.warn("DISABLE GAME MANAGER");
         this.context.connection.stopListen(RoomEvents.JoinedRoom, this.onLocalUserJoinedRoom);
         this.context.connection.stopListen(RoomEvents.UserLeftRoom, this.testIfAllPlayersAreConnected);
         this.context.connection.stopListen("join-game", this.onRequestedJoinGame);
@@ -62,7 +64,10 @@ export class GameManager extends Behaviour {
 
     requestJoinGame() {
         this.updateUI(false);
-        if (!this.canJoinGame) return;
+        if (!this.canJoinGame) {
+            console.warn("Can't join game");
+            return;
+        }
         if (this.context.connection.connectionId)
             this.joinGame(this.context.connection.connectionId);
     }
@@ -73,11 +78,10 @@ export class GameManager extends Behaviour {
         }
         if (this._currentGameModel.players.length < 2) {
             this._currentGameModel.players.push(userId);
-            console.log("Send updated", this._currentGameModel);
+            console.log("Send updated", this._currentGameModel, this.context.connection.isConnected);
             this.context.connection.send("game-updated", this._currentGameModel);
         }
-        this.updateUI(this.canJoinGame);
-        this.updatePlayers();
+        this.updateState();
     }
 
     private onRequestedJoinGame = async (e: JoinGameModel) => {
@@ -87,6 +91,10 @@ export class GameManager extends Behaviour {
     private onGameUpdated = async (e: GameModel) => {
         console.log("onGameUpdated", e);
         this._currentGameModel = e;
+        this.updateState();
+    }
+
+    private updateState() {
         this.testIfAllPlayersAreConnected();
         this.updateUI(this.canJoinGame);
         this.updatePlayers();
@@ -105,9 +113,9 @@ export class GameManager extends Behaviour {
             }
             if (stateChanged) {
                 this.context.connection.send("game-updated", this._currentGameModel);
+                this.updateState();
             }
         }
-        this.updateUI(this.canJoinGame);
     }
 
     private onLocalUserJoinedRoom = async () => {
@@ -132,7 +140,11 @@ export class GameManager extends Behaviour {
 
         if (this.debugText) {
             this.debugText.text = "";
-            this.debugText.text = "Players: " + (this._currentGameModel?.players.length || 0);
+            const playerCount = (this._currentGameModel?.players.length || 0);
+            this.debugText.text = "Players: " + playerCount;
+            if (playerCount < 2) {
+                this.debugText.text += "\nWaiting for players...";
+            }
         }
     }
 
@@ -147,17 +159,25 @@ export class GameManager extends Behaviour {
                 this.players.push(player);
                 this.gameObject.addComponent(player);
             }
+            else {
+                console.warn("Player already exists", player.id, player.destroyed);
+            }
         }
         for (let i = this.players.length - 1; i >= 0; i--) {
             const player = this.players[i];
             if (!this._currentGameModel.players.includes(player.id)) {
                 this.players.splice(i, 1);
                 player.destroy();
+                console.log("Removed player:", player.id)
             }
         }
 
         if (this.players.length === 2) {
-            this.battleManager.startBattle(this.players);
+            if (!this.battleManager.isInBattle)
+                this.battleManager.startBattle(this.players);
+        }
+        else {
+            this.battleManager.endBattle();
         }
     }
 

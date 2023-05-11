@@ -10,6 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public string @id;
 		public Needle.Typescript.GeneratedComponents.Deck @deck;
 		public void setActiveCreate(Needle.Typescript.GeneratedComponents.Creature @creatue){}
+		public void onDestroy(){}
 	}
 }
 

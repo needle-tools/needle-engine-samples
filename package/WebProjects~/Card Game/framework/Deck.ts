@@ -64,7 +64,17 @@ export class Deck extends Behaviour {
         for (const cb of Deck._onInitialize) {
             cb(this);
         }
-        console.log(this.cardModels);
+    }
+
+    activate() {
+        this.isActive = true;
+    }
+    deactivate() {
+        this.isActive = false;
+        for (const card of this._activeCards) {
+            GameObject.destroy(card.gameObject);
+        }
+        this._activeCards.length = 0;
     }
 
     update(): void {
@@ -77,11 +87,19 @@ export class Deck extends Behaviour {
             if (this.container.children.length < this.minCards) {
                 this.createCard();
             }
+            for (let i = 0; i < this._activeCards.length; i++) {
+                const card = this._activeCards[i];
+                if (card.destroyed) {
+                    this._activeCards.splice(i, 1);
+                    i--;
+                }
+            }
         }
     }
 
     private _creatingACard = false;
     private i: number = 0;
+    private _activeCards: Card[] = [];
 
     async createCard() {
         if (this._creatingACard) return;
@@ -90,6 +108,7 @@ export class Deck extends Behaviour {
         // const index = this.i++ % this.cardModels.length;
         const instance = await this.prefab?.instantiate(this.container!) as GameObject;
         const card = getComponent(instance, Card) as Card;
+        this._activeCards.push(card);
         const model = this.cardModels[index];
         card.model = model;
         const visual = card.rendering;

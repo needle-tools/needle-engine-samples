@@ -16,10 +16,18 @@ export class Player extends Behaviour {
         return this.id === this.context.connection.connectionId
     }
 
+    get isConnected() {
+        return this.context.connection.userIsInRoom(this.id);
+    }
+
     private activeCreature: Creature | null = null;
 
     setActiveCreate(creatue: Creature) {
         if (this.activeCreature) GameObject.destroy(this.activeCreature.gameObject);
         this.activeCreature = creatue;
+    }
+
+    onDestroy(): void {
+        if (this.activeCreature) GameObject.destroy(this.activeCreature.gameObject);
     }
 }

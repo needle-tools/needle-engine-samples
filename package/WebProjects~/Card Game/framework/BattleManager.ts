@@ -20,7 +20,13 @@ export class BattleManager extends Behaviour {
     @serializable(Object3D)
     creaturePositions: Object3D[] = [];
 
+    get isInBattle() {
+        return this._activePlayers !== null;
+    }
+
     private _players: Player[] = [];
+    private _activePlayers: Player[] | null = null;
+    private _spawnEvents: Map<string, SpawnedCreateModel> = new Map();
 
     awake(): void {
         if (!this.deck) {
@@ -38,9 +44,29 @@ export class BattleManager extends Behaviour {
     }
 
     startBattle(players: Player[]) {
+        console.log("Start battle")
         this._players = players;
+        this._activePlayers = [...players]
         const hasLocalPlayer = players.find(p => p.isLocal);
-        this.deck.isActive = hasLocalPlayer !== undefined;
+        // check if the local player is participating:
+        if (hasLocalPlayer) this.deck.activate();
+        else this.deck.deactivate();
+        // for (const spawn of this._spawnEvents.values()) {
+        //     this.onSpawnCreature(spawn);
+        // }
+        this._spawnEvents.clear();
+    }
+    endBattle() {
+        const local = this._players.find(p => p.isLocal);
+        if (!local || !local.isConnected) {
+            this.deck.deactivate();
+        }
+        if (!this._activePlayers) return;
+        console.log("End battle")
+        for (const pl of this._activePlayers) {
+            GameObject.destroy(pl);
+        }
+        this._activePlayers = null;
     }
 
     private onDrop = (card: Card) => {
@@ -50,6 +76,7 @@ export class BattleManager extends Behaviour {
             this.createCreature(card, localPlayer.id);
     }
 
+    private _requestedCreature: Map<string, CardModel> = new Map();
     private async createCreature(card: Card | CardModel, playerId: string) {
 
         if (card instanceof Card) {
@@ -58,7 +85,12 @@ export class BattleManager extends Behaviour {
         const player = this._players.find(p => p.id === playerId)!;
 
         if (card && player) {
+            this._requestedCreature.set(playerId, card);
             const instance = await card.model.instantiate() as GameObject;
+            if (this._requestedCreature.get(playerId) !== card) {
+                GameObject.destroy(instance);
+                return;
+            }
             // const pos = this.context.mainCameraComponent!.worldPosition;
             // pos.y = instance.position.y;
             // instance.lookAt(pos);
@@ -80,16 +112,17 @@ export class BattleManager extends Behaviour {
 
     private sendSpawnCreature(player: Player, card: CardModel) {
         const model: SpawnedCreateModel = {
-            guid: player.id,
+            guid: "creature-" + this._activePlayers?.indexOf(player),
             playerId: player.id,
             cardId: card.id
         }
+        this._spawnEvents.set(model.guid, model);
         this.context.connection.send("spawn-creature", model)
     }
 
     private onSpawnCreature = (data: SpawnedCreateModel) => {
 
-        if (this._players.length === 0) return;
+        this._spawnEvents.set(data.guid, data);
 
         console.log("Spawn creature", data);
         const card = this.deck.getModel(data.cardId);

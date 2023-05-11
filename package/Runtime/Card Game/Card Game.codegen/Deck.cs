@@ -31,6 +31,8 @@ namespace Needle.Typescript.GeneratedComponents
 		private CardModel[] @cardModels = new CardModel[]{ };
 		public void awake(){}
 		public void start(){}
+		public void activate(){}
+		public void deactivate(){}
 		public void update(){}
 		public void createCard(){}
 		public void getModel(string @id){}
