@@ -23,6 +23,8 @@ export type DeckInitializeCallback = (deck: Deck) => void;
 
 export class Deck extends Behaviour {
 
+    minCards: number = 3;
+
     private static _onInitialize: DeckInitializeCallback[] = [];
     private static _createdCards: CardModel[] = [];
 
@@ -57,14 +59,19 @@ export class Deck extends Behaviour {
         for (const cb of Deck._onInitialize) {
             cb(this);
         }
+        console.log(this.cardModels);
+    }
+
+    onDisable(): void {
+        console.warn("onDisable");
+    }
+
+    update(): void {
         for (const card of Deck._createdCards) {
             this.cardModels.push(card);
         }
         Deck._createdCards.length = 0;
-    }
-
-    update(): void {
-        if (this.container.children.length < 7) {
+        if (this.container.children.length < this.minCards) {
             this.createCard();
         }
     }
@@ -75,8 +82,8 @@ export class Deck extends Behaviour {
     async createCard() {
         if (this._creatingACard) return;
         this._creatingACard = true;
-        // const index = Math.floor(Math.random() * this.cardModels.length);
-        const index = this.i++ % this.cardModels.length;
+        const index = Math.floor(Math.random() * this.cardModels.length);
+        // const index = this.i++ % this.cardModels.length;
         const instance = await this.prefab?.instantiate(this.container!) as GameObject;
         const card = getComponent(instance, Card) as Card;
         const model = this.cardModels[index];

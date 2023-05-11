@@ -1,8 +1,9 @@
 import { Behaviour, getParam } from "@needle-tools/engine";
-import { AnimationClip, AnimationMixer, AnimationAction, AnimationActionLoopStyles, LoopOnce, LoopRepeat } from "three";
+import { AnimationClip, AnimationMixer, AnimationAction, AnimationActionLoopStyles, LoopOnce, LoopRepeat, Mesh } from "three";
 import { CardModel } from "./Deck";
 
 const randomAnimation = getParam("randomanim");
+const debug = getParam("debugcreatures");
 
 export declare type GLTF = {
     animations: AnimationClip[];
@@ -35,6 +36,10 @@ export class Creature extends Behaviour {
             this._mixer = new AnimationMixer(this.gameObject);
             this._mixer.addEventListener("finished", this.onAnimationFinished);
         }
+
+        this.gameObject.traverse(o => {
+            if (o instanceof Mesh) o.castShadow = true;
+        })
 
         console.log("Initialize creature", card, this);
 
@@ -76,7 +81,8 @@ export class Creature extends Behaviour {
                 act.fadeOut(.3);
             }
             if (action.isRunning()) return;
-            console.log("PLAY", name);
+            if (debug)
+                console.log("PLAY", name);
             this._isInIdle = loop;
             action.fadeIn(.3);
             if (loop) action.setLoop(LoopRepeat, -1);

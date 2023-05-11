@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, IGameObject, IPointerEnterHandler, IPointerEventHandler, Image, PointerEventData, isDestroyed, serializable } from "@needle-tools/engine";
+import { Behaviour, CanvasGroup, GameObject, IGameObject, IPointerEnterHandler, IPointerEventHandler, Image, PointerEventData, isDestroyed, serializable } from "@needle-tools/engine";
 import { DragHandler } from "./DragHandler";
 import { Card } from "./Card";
 
@@ -8,9 +8,12 @@ export class DropZone extends Behaviour implements IPointerEventHandler {
     @serializable(Image)
     image!: Image;
 
+    private cg!: CanvasGroup;
+
     awake(): void {
-        this.image.color.alpha = 0;
-        this.image.raycastTarget = false;
+        this.cg = this.gameObject.getOrAddComponent(CanvasGroup);
+        this.cg.alpha = 0;
+        this.cg.blocksRaycasts = false;
     }
 
     onEnable(): void {
@@ -24,27 +27,27 @@ export class DropZone extends Behaviour implements IPointerEventHandler {
     }
 
     onDragStart = () => {
-        this.image.raycastTarget = true;
-        this.image.color.alpha = .1;
+        this.cg.blocksRaycasts = true;
+        this.cg.alpha = .5;
     }
     onDragEnd = () => {
-        this.image.raycastTarget = false;
-        this.image.color.alpha = 0;
+        this.cg.blocksRaycasts = false;
+        this.cg.alpha = 0;
     }
 
     onPointerMove(_args: PointerEventData) {
         const isDragging = DragHandler.data !== null;
-        this.image.color.alpha = isDragging ? .2 : 0;
+        this.cg.alpha = isDragging ? 1 : 0;
     }
 
     onPointerUp(_args: PointerEventData) {
-        this.image.raycastTarget = false;
+        this.cg.blocksRaycasts = false;
         DragHandler.drop();
     }
 
     onPointerExit(_args: PointerEventData) {
-        if (DragHandler.data) this.image.color.alpha = .1;
-        else this.image.color.alpha = 0;
+        if (DragHandler.data) this.cg.alpha = .5;
+        else this.cg.alpha = 0;
     }
 
 }
