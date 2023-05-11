@@ -1,10 +1,11 @@
 import { Behaviour, GameObject, serializable } from "@needle-tools/engine";
 import { DragHandler } from "./DragHandler";
-import { Card } from "./Card";
+import { Card, CardModel } from "./Card";
 import { Creature, GLTF } from "./Creature";
-import { CardModel, Deck } from "./Deck";
+import { Deck } from "./Deck";
 import { Player } from "./Player";
 import { Object3D } from "three";
+import { CreatureUI } from "./CreatureUI";
 
 declare type SpawnedCreateModel = {
     guid: string;
@@ -28,10 +29,14 @@ export class BattleManager extends Behaviour {
     private _activePlayers: Player[] | null = null;
     private _spawnEvents: Map<string, SpawnedCreateModel> = new Map();
 
+    private _creatureUITemplate: GameObject | undefined = undefined;
+
     awake(): void {
         if (!this.deck) {
             console.error("Deck is not set");
         }
+        this._creatureUITemplate = GameObject.findObjectOfType(CreatureUI)?.gameObject;
+        if (this._creatureUITemplate) this._creatureUITemplate.visible = false;
     }
 
     onEnable() {
@@ -101,6 +106,7 @@ export class BattleManager extends Behaviour {
             instance.lookAt(nextPosition);
 
             const creature = instance.getOrAddComponent(Creature)
+            creature.isLocallyOwned = player.isLocal;
             creature.initialize(card.id + "@" + playerId, card, card.model.rawAsset as GLTF);
 
             if (player.isLocal) {

@@ -6,4 +6,5 @@
 // https://docs.needle.tools/npmdef
 
 
-export { Deck, CardModel } from "./Deck";
+export { Deck } from "./Deck";
+export { CardModel } from "./Card"

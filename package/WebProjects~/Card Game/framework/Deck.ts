@@ -1,27 +1,7 @@
 import { AssetReference, Behaviour, Camera, GameObject, Image, ImageReference, getComponent, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
-import { Card } from "./Card";
+import { Card, CardModel } from "./Card";
 
-
-export class CardModel {
-    get id() {
-        return this.model?.uri ?? "";
-    }
-
-    @serializable(ImageReference)
-    image!: ImageReference;
-
-    @serializable(AssetReference)
-    model!: AssetReference;
-
-    idleAnimation?: string;
-
-    async createTexture() {
-        if (this.image)
-            return this.image.createTexture();
-        return null;
-    }
-}
 
 export type DeckInitializeCallback = (deck: Deck) => void;
 

@@ -1,6 +1,6 @@
-import { Behaviour, getParam } from "@needle-tools/engine";
+import { Behaviour, IPointerClickHandler, IPointerEventHandler, ObjectRaycaster, PointerEventData, __internalNotifyObjectDestroyed, getParam, showBalloonMessage } from "@needle-tools/engine";
 import { AnimationClip, AnimationMixer, AnimationAction, AnimationActionLoopStyles, LoopOnce, LoopRepeat, Mesh } from "three";
-import { CardModel } from "./Deck";
+import { CardModel } from "./Card";
 
 const randomAnimation = getParam("randomanim");
 const debug = getParam("debugcreatures");
@@ -27,15 +27,38 @@ export class CreatureState {
 
     readonly guid!: string;
     health: number = 100;
+    status: string = "";
 
     constructor(guid: string) {
         this.guid = guid;
     }
 }
 
-export class Creature extends Behaviour {
+declare type AnimationEvent = {
+    creatureId: string;
+    animationId: string;
+}
+
+export class Creature extends Behaviour implements IPointerEventHandler {
+
+    onPointerEnter(_: PointerEventData) {
+        if (this.isLocallyOwned)
+            this.context.input.setCursorPointer();
+    }
+    onPointerExit(_: PointerEventData) {
+        if (this.isLocallyOwned)
+            this.context.input.setCursorNormal()
+    }
+    onPointerClick(_: PointerEventData) {
+        if (this.isLocallyOwned) {
+            console.log("Creature clicked", this);
+            this.testPlayRandomAnimation();
+        }
+    }
+
 
     state: CreatureState | null = null;
+    isLocallyOwned: boolean = false;
 
     private _animations: Map<string | DefaulAnimationTypes, AnimationAction> = new Map();
     private _mixer: AnimationMixer | null = null;
@@ -44,6 +67,8 @@ export class Creature extends Behaviour {
     initialize(id: string, card: CardModel, gltf: GLTF) {
         const state = new CreatureState(id);
         this.state = state;
+
+        this.gameObject.addNewComponent(ObjectRaycaster);
 
         if (!this._mixer) {
             this._mixer = new AnimationMixer(this.gameObject);
@@ -76,15 +101,25 @@ export class Creature extends Behaviour {
         else console.warn("No animations found in gltf", gltf);
 
         this.playAnimation(DefaulAnimationTypes.Idle, true);
+
+        this.context.connection.beginListen("creature-animation", this.onCreatureAnimation);
     }
 
     onDestroy(): void {
+        this.context.connection.stopListen("creature-animation", this.onCreatureAnimation);
         if (this._mixer) {
             this._mixer.removeEventListener("finished", this.onAnimationFinished);
         }
     }
 
-    playAnimation(name: string | DefaulAnimationTypes, loop: boolean = false) {
+    private onCreatureAnimation = (data: AnimationEvent) => {
+        if (data.creatureId === this.state?.guid) {
+            console.log("Creature animation", data)
+            this.playAnimation(data.animationId);
+        }
+    };
+
+    playAnimation(name: string | DefaulAnimationTypes, loop: boolean = false, send: boolean = false) {
         if (typeof name !== "string") {
             name = DefaulAnimationTypes[name];
         }
@@ -106,6 +141,10 @@ export class Creature extends Behaviour {
             action.clampWhenFinished = !loop;
             action.stop();
             action.play();
+
+            if (send) {
+                this.context.connection.send("creature-animation", { creatureId: this.state?.guid, animationId: name })
+            }
         }
     }
 
@@ -115,12 +154,28 @@ export class Creature extends Behaviour {
         }
 
         if (this._isInIdle && randomAnimation) {
-            if (Math.random() < .01) this.playAnimation(DefaulAnimationTypes.Attack, false);
-            if (Math.random() > 0.99) this.playAnimation(DefaulAnimationTypes.Dance, false);
+            if (Math.random() < .01)
+                this.testPlayRandomAnimation();
         }
     }
 
     private onAnimationFinished = (_) => {
         this.playAnimation(DefaulAnimationTypes.Idle, true)
     };
+
+    private testPlayRandomAnimation() {
+        const i = Math.random();
+        let sum = 0;
+        for (const key of this._animations.keys()) {
+            if (sum >= i) {
+                showBalloonMessage("PLAY: " + key + " (" + this.context.time.frame + ")");
+                this.playAnimation(key, undefined, true);
+                break;
+            }
+
+            sum += 1 / this._animations.size;
+        }
+    }
 }
+
+

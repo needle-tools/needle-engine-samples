@@ -1,11 +1,13 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
+import { Ability } from "../Ability";
 import { BattleManager } from "../BattleManager";
+import { CardModel } from "../Card";
 import { Card } from "../Card";
 import { CreatureState } from "../Creature";
 import { Creature } from "../Creature";
-import { CardModel } from "../Deck";
+import { CreatureUI } from "../CreatureUI";
 import { Deck } from "../Deck";
 import { DragHandler } from "../DragHandler";
 import { DropZone } from "../DropZone";
@@ -14,11 +16,13 @@ import { GameManager } from "../GameManager";
 import { Player } from "../Player";
 
 // Register types
+TypeStore.add("Ability", Ability);
 TypeStore.add("BattleManager", BattleManager);
+TypeStore.add("CardModel", CardModel);
 TypeStore.add("Card", Card);
 TypeStore.add("CreatureState", CreatureState);
 TypeStore.add("Creature", Creature);
-TypeStore.add("CardModel", CardModel);
+TypeStore.add("CreatureUI", CreatureUI);
 TypeStore.add("Deck", Deck);
 TypeStore.add("DragHandler", DragHandler);
 TypeStore.add("DropZone", DropZone);

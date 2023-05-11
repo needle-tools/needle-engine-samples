@@ -1,11 +1,34 @@
-import { Behaviour, Canvas, CanvasGroup, GameObject, IPointerEventHandler, PointerEventData, RectTransform, Text, serializable } from "@needle-tools/engine";
+import { AssetReference, Behaviour, Canvas, CanvasGroup, GameObject, IPointerEventHandler, ImageReference, PointerEventData, RectTransform, Text, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 import { DragHandler } from "./DragHandler";
-import { type CardModel } from "./Deck";
+import { type Ability } from "./Ability";
 
 const canvasGroup: CanvasGroup = new CanvasGroup();
 canvasGroup.interactable = false;
 canvasGroup.blocksRaycasts = false;
+
+export class CardModel {
+    get id() {
+        return this.model?.uri ?? "";
+    }
+
+    @serializable(ImageReference)
+    image!: ImageReference;
+
+    @serializable(AssetReference)
+    model!: AssetReference;
+
+    idleAnimation?: string;
+
+    abilities: Ability[] = [];
+
+    async createTexture() {
+        if (this.image)
+            return this.image.createTexture();
+        return null;
+    }
+}
+
 
 export class Card extends Behaviour implements IPointerEventHandler {
 
