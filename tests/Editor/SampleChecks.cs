@@ -1,10 +1,14 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Needle.Engine.Samples;
+using pfc.Analysis;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -131,6 +135,137 @@ namespace SampleChecks
             Assert.IsNotEmpty(sample.Description, "No description");
             Assert.IsNotEmpty(sample.Tags, "No tags");
             Assert.True(sample.Scene, "No scene assigned");
+        }
+
+        static string[] GetDependencies(Object obj)
+        {
+            // get path of scene
+            var path = AssetDatabase.GetAssetPath(obj);
+            
+            // get all dependencies of scene
+            var dependencies = AssetDatabase.GetDependencies(path, true);
+            
+            // we can ignore all dependencies that are from com.unity packages (and org.khronos packages?)
+            dependencies = dependencies
+                .Where(dependency => 
+                    !dependency.StartsWith("Packages/com.unity") && 
+                    !dependency.StartsWith("Packages/org.khronos"))
+                .ToArray();
+            
+            return dependencies;
+        }
+
+        [Test]
+        public void DependencySizeBelow10MB()
+        {
+            // get path of scene
+            var dependencies = GetDependencies(sample.Scene);
+            
+            // summarize file size of all of them
+            var size = dependencies.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
+            
+            // check if below 10 MB
+            var sizeInMb = size / 1024f / 1024f;
+            AssertFileSize(sizeInMb, 10, dependencies.ToList(), "Dependency size is too large");
+            Debug.Log($"Dependency size: {sizeInMb:F2} MB");
+        }
+
+        [Test]
+        public void DependenciesInsideKnownPackages()
+        {
+            // get path of scene
+            var dependencies = GetDependencies(sample.Scene);
+            
+            // allowed:
+            var allowedPackagePaths = new[] {
+                "Packages/com.needle.engine-samples",
+                "Packages/com.needle.engine-exporter",
+                "Packages/com.unity.render-pipelines.universal",
+                "Packages/com.unity.render-pipelines.core",
+                "Packages/org.khronos.unitygltf",
+            };
+            
+            dependencies = dependencies
+                .Where(dependency => !allowedPackagePaths.Any(dependency.StartsWith))
+                .ToArray();
+            
+            Assert.IsEmpty(dependencies, $"Some dependencies are outside allowed packages ({dependencies.Length}):\n{string.Join("\n", dependencies)}");
+        }
+
+        [Test]
+        public void MissingReferencesTest()
+        {
+            var path = AssetDatabase.GetAssetPath(sample.Scene);
+            EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+
+            var options = new Options
+            {
+                IncludeEmptyEvents = true,
+                IncludeMissingMethods = true,
+                IncludeUnsetMethods = true
+            };
+            var scanner = new SceneScanner(options);
+            if (scanner.FindMissingReferences())
+            {
+                // log them nicely
+                var missingReferences = scanner.SceneRoots;
+                var sb = new StringBuilder();
+
+                foreach (var container in missingReferences)
+                    container.Value.FormatAsLog(sb);
+                
+                Assert.Fail("Missing References:\n" + sb);
+            }
+        }
+
+        [Test]
+        public void FolderSizeBelow10MB()
+        {
+            var path = AssetDatabase.GetAssetPath(sample.Scene);
+            
+            // walk up until the parent is the "runtime" folder
+            var di = new DirectoryInfo(path);
+            while (true)
+            {
+                if (di.Parent == null)
+                    break;
+                if (di.Parent.Name == "Runtime")
+                    break;
+                di = di.Parent;
+            }
+            
+            // summarize file size of all of them
+            var fileInfos = di.GetFiles("*.*", SearchOption.AllDirectories);
+            var size = fileInfos.Sum(file => file.Exists ? file.Length : 0);
+            
+            // runtime folder asset: 17ecbeb2072245a44ad506ab94d30db5
+            var packageFolderPath = Path.GetDirectoryName(Path.GetFullPath(AssetDatabase.GUIDToAssetPath("17ecbeb2072245a44ad506ab94d30db5")));
+            
+            var files = fileInfos.Select(fi =>
+            {
+                // convert to package-relative path, we know all files are inside the Samples package here.
+                var f = fi.FullName;
+                if (f.StartsWith(packageFolderPath))
+                    f = f.Substring(packageFolderPath.Length + 1);
+                f = f.Replace("\\", "/");
+                return "Packages/com.needle.engine-samples/" + f;
+            }).ToList();
+            
+            // check if below 10 MB
+            var sizeInMb = size / 1024f / 1024f;
+            AssertFileSize(sizeInMb, 10, files, "Folder size is too large");
+            Debug.Log($"Folder size: {sizeInMb:F2} MB");
+        }
+
+        private void AssertFileSize(float sizeInMb, float allowedSize, List<string> files, string message)
+        {
+            Assert.LessOrEqual(sizeInMb, allowedSize,
+                $"{message}: {sizeInMb:F2} MB. List of files ({files.Count}): \n" + string.Join("\n",
+                    files
+                        .Select(x => (path: x, fileInfo: new FileInfo(x)))
+                        .OrderByDescending(f => f.fileInfo.Length)
+                        .Select(fi => $"[{(fi.fileInfo.Length / 1024f / 1024f):F2} MB] {fi.path}")
+                ));
         }
     }
 }
