@@ -113,6 +113,14 @@ export class BattleManager extends Behaviour {
                 this.sendSpawnCreature(player, card);
             }
             player.setActiveCreate(creature);
+
+            if (this._creatureUITemplate) {
+                this._creatureUITemplate.visible = true;
+                const ui = GameObject.instantiate(this._creatureUITemplate)!;
+                this._creatureUITemplate.visible = false;
+                const creatureUI = ui!.getComponent(CreatureUI) as CreatureUI;
+                creatureUI.setCreature(creature);
+            }
         }
     }
 

@@ -152,6 +152,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1515519863}
+  - {fileID: 214178813}
   m_Father: {fileID: 775287903}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -174,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CreatureUI, Needle.CardGame
     $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-6793268-0
   creature: {fileID: 0}
+  health: {fileID: 0}
 --- !u!1001 &50900992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -435,6 +437,97 @@ MonoBehaviour:
   Length: 1
   DepthTest: 1
   IsGizmo: 1
+--- !u!1 &214178812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 214178813}
+  - component: {fileID: 214178815}
+  - component: {fileID: 214178814}
+  - component: {fileID: 214178816}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &214178813
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214178812}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.1669, y: 2.1669, z: 2.1669}
+  m_Children: []
+  m_Father: {fileID: 6793267}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &214178814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214178812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI.Image, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-214178814-0
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.019607844}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &214178815
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214178812}
+  m_CullTransparentMesh: 1
+--- !u!114 &214178816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214178812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI.Outline, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-214178816-0
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 3, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!114 &231497893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -949,6 +1042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 806518227}
   - component: {fileID: 806518226}
+  - component: {fileID: 806518228}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -988,6 +1082,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &806518228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806518225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 141c4525abe049cc8376792dfeed6718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.AxesHelper, Needle.Engine $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-806518228-0
+  Length: 1
+  DepthTest: 1
+  IsGizmo: 0
 --- !u!1 &855496742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,7 +1140,7 @@ Transform:
   m_GameObject: {fileID: 855496742}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 20.000042, z: 1.0000052}
+  m_LocalScale: {x: 20, y: 20.000063, z: 1.0000079}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -1155,8 +1264,8 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_Camera: {fileID: 706762905}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1481,18 +1590,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
-    m_MaxSize: 40
+    m_MaxSize: 60
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Health
+  m_Text: 100
 --- !u!222 &1515519865
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2001,7 +2110,7 @@ Transform:
   m_GameObject: {fileID: 1766474544}
   m_LocalRotation: {x: 0.38935024, y: 0.8612654, z: 0.30693802, w: 0.111433364}
   m_LocalPosition: {x: 5.8, y: 2.39, z: -7.13}
-  m_LocalScale: {x: 1.0000472, y: 1, z: 1.0000461}
+  m_LocalScale: {x: 1.0000511, y: 1, z: 1.0000501}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5

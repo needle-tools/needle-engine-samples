@@ -8,7 +8,9 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class CreatureUI : UnityEngine.MonoBehaviour
 	{
 		public Needle.Typescript.GeneratedComponents.Creature @creature;
-		public void awake(){}
+		public UnityEngine.UI.Text @health;
+		public void setCreature(Needle.Typescript.GeneratedComponents.Creature @creature){}
+		public void update(){}
 	}
 }
 
