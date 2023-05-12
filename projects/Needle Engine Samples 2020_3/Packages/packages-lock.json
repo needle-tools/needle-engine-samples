@@ -40,8 +40,8 @@
       "url": "https://packages.needle.tools"
     },
     "com.needle.engine-exporter": {
-      "version": "3.5.0-exp",
-      "depth": 0,
+      "version": "3.5.3-exp",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.needle.csharp-to-typescript": "0.1.0",
@@ -63,14 +63,16 @@
       "depth": 0,
       "source": "local",
       "dependencies": {
-        "com.needle.engine-exporter": "2.67.18"
+        "com.needle.engine-exporter": "3.5.3-exp"
       }
     },
     "com.needle.engine-tests": {
       "version": "file:../../../tests",
       "depth": 0,
       "source": "local",
-      "dependencies": {}
+      "dependencies": {
+        "com.needle.missing-component-info": "1.4.0"
+      }
     },
     "com.needle.missing-component-info": {
       "version": "1.3.0",
