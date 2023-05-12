@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Needle.Engine.Samples;
-using pfc.Analysis;
+using Needle.MissingReferences;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -158,7 +157,6 @@ namespace SampleChecks
         [Test]
         public void DependencySizeBelow10MB()
         {
-            // get path of scene
             var dependencies = GetDependencies(sample.Scene);
             
             // summarize file size of all of them
@@ -173,20 +171,19 @@ namespace SampleChecks
         [Test]
         public void DependenciesInsideKnownPackages()
         {
-            // get path of scene
             var dependencies = GetDependencies(sample.Scene);
             
-            // allowed:
-            var allowedPackagePaths = new[] {
+            var allowedPaths = new[] {
                 "Packages/com.needle.engine-samples",
                 "Packages/com.needle.engine-exporter",
                 "Packages/com.unity.render-pipelines.universal",
                 "Packages/com.unity.render-pipelines.core",
                 "Packages/org.khronos.unitygltf",
+                "Packages/com.needle.engine-internal-assets/Needle FTP Server.asset"
             };
             
             dependencies = dependencies
-                .Where(dependency => !allowedPackagePaths.Any(dependency.StartsWith))
+                .Where(dependency => !allowedPaths.Any(dependency.StartsWith))
                 .ToArray();
             
             Assert.IsEmpty(dependencies, $"Some dependencies are outside allowed packages ({dependencies.Length}):\n{string.Join("\n", dependencies)}");
@@ -198,7 +195,7 @@ namespace SampleChecks
             var path = AssetDatabase.GetAssetPath(sample.Scene);
             EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
 
-            var options = new Options
+            var options = new SceneScanner.Options
             {
                 IncludeEmptyEvents = true,
                 IncludeMissingMethods = true,

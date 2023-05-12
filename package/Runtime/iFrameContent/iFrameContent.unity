@@ -460,7 +460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &461441119
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -473,10 +473,11 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &726969743
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +587,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-945eb68e334310f439e8b25083f3b2f0-1502977980-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!4 &1502977981
 Transform:
@@ -653,7 +653,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-945eb68e334310f439e8b25083f3b2f0-1852762879-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &1852762880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,8 +700,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-945eb68e334310f439e8b25083f3b2f0-1852762882-0
-  FTPServer: {fileID: 11400000, guid: 10155bc195d376643abaefe881d45c5e, type: 2}
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /iframe-content/
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &1888473022
 GameObject:
   m_ObjectHideFlags: 0

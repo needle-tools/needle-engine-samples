@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.02882883, g: 0.034257263, b: 0.14947166, a: 1}
+  m_IndirectSpecularColor: {r: 0.028840398, g: 0.034281906, b: 0.14953303, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -581,7 +581,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-549bb028f55a3384998207088a9aae41-784234925-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &784234926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,8 +610,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-549bb028f55a3384998207088a9aae41-784234927-0
-  FTPServer: {fileID: 11400000, guid: db88b202e93acf046bbcaaf467a56c99, type: 2}
-  Path: spritesheet
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
+  Path: /spritesheet
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &1040705884
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,7 +910,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-549bb028f55a3384998207088a9aae41-1597275519-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!114 &1597275520
 MonoBehaviour:
@@ -1398,7 +1400,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &2094452975
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1411,7 +1413,8 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
