@@ -36,7 +36,11 @@ export class BattleManager extends Behaviour {
             console.error("Deck is not set");
         }
         this._creatureUITemplate = GameObject.findObjectOfType(CreatureUI)?.gameObject;
-        if (this._creatureUITemplate) this._creatureUITemplate.visible = false;
+        if (this._creatureUITemplate) {
+            // HACK: todo need to fix positioning when this is disabled
+            this._creatureUITemplate.scale.set(0, 0, 0);
+            // this._creatureUITemplate.visible = false;
+        }
     }
 
     onEnable() {
@@ -116,6 +120,7 @@ export class BattleManager extends Behaviour {
 
             if (this._creatureUITemplate) {
                 this._creatureUITemplate.visible = true;
+                this._creatureUITemplate.scale.set(1, 1, 1);
                 const ui = GameObject.instantiate(this._creatureUITemplate)!;
                 this._creatureUITemplate.visible = false;
                 const creatureUI = ui!.getComponent(CreatureUI) as CreatureUI;

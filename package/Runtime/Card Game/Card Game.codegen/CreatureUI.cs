@@ -9,6 +9,8 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public Needle.Typescript.GeneratedComponents.Creature @creature;
 		public UnityEngine.UI.Text @health;
+		public UnityEngine.Transform @circle;
+		public void awake(){}
 		public void setCreature(Needle.Typescript.GeneratedComponents.Creature @creature){}
 		public void update(){}
 	}

@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 100, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6793268
@@ -176,6 +176,7 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-6793268-0
   creature: {fileID: 0}
   health: {fileID: 0}
+  circle: {fileID: 214178813}
 --- !u!1001 &50900992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -450,7 +451,7 @@ GameObject:
   - component: {fileID: 214178814}
   - component: {fileID: 214178816}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1042,7 +1043,6 @@ GameObject:
   m_Component:
   - component: {fileID: 806518227}
   - component: {fileID: 806518226}
-  - component: {fileID: 806518228}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -1082,21 +1082,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &806518228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806518225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 141c4525abe049cc8376792dfeed6718, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.AxesHelper, Needle.Engine $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-806518228-0
-  Length: 1
-  DepthTest: 1
-  IsGizmo: 0
 --- !u!1 &855496742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1125,7 @@ Transform:
   m_GameObject: {fileID: 855496742}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 20.000063, z: 1.0000079}
+  m_LocalScale: {x: 20, y: 20.000095, z: 1.0000119}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -1543,7 +1528,7 @@ GameObject:
   - component: {fileID: 1515519865}
   - component: {fileID: 1515519864}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2110,7 +2095,7 @@ Transform:
   m_GameObject: {fileID: 1766474544}
   m_LocalRotation: {x: 0.38935024, y: 0.8612654, z: 0.30693802, w: 0.111433364}
   m_LocalPosition: {x: 5.8, y: 2.39, z: -7.13}
-  m_LocalScale: {x: 1.0000511, y: 1, z: 1.0000501}
+  m_LocalScale: {x: 1.0000573, y: 1, z: 1.0000561}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
