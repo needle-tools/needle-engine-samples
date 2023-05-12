@@ -9,6 +9,9 @@ export class CreatureUI extends Behaviour {
     creature: Creature | null = null;
 
     @serializable(Text)
+    creatureName?: Text;
+
+    @serializable(Text)
     health?: Text;
 
     @serializable(Object3D)
@@ -26,13 +29,15 @@ export class CreatureUI extends Behaviour {
         // this.rt.anchoredPosition.set(0, 0, 0);
         this.gameObject.position.copy(creature.gameObject.position).multiplyScalar(100);
         this.creature = creature;
+        if (this.creatureName)
+            this.creatureName.text = creature.name;
     }
 
     update(): void {
 
         // if (this.health)
         //     this.health.text = this.creature?.state?.health.toString() ?? "";
-        const scale = Math.sin(this.context.time.time * 10) * .1 + this._initialScale;
+        const scale = Math.sin(this.context.time.time * 5) * .05 + this._initialScale;
         this.circle.scale.set(scale, scale, scale);
 
         if (this.creature?.destroyed) {

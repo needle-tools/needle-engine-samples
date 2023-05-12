@@ -56,7 +56,6 @@ export class Creature extends Behaviour implements IPointerEventHandler {
         }
     }
 
-
     state: CreatureState | null = null;
     isLocallyOwned: boolean = false;
 
@@ -67,6 +66,7 @@ export class Creature extends Behaviour implements IPointerEventHandler {
     initialize(id: string, card: CardModel, gltf: GLTF) {
         const state = new CreatureState(id);
         this.state = state;
+        this.name = card.name;
 
         this.gameObject.addNewComponent(ObjectRaycaster);
 
