@@ -1,4 +1,4 @@
-import { AssetReference, Behaviour, Camera, GameObject, Image, ImageReference, getComponent, serializable } from "@needle-tools/engine";
+import { AssetReference, Behaviour, Camera, GameObject, Image, ImageReference, RectTransform, getComponent, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 import { Card, CardModel } from "./Card";
 
@@ -48,6 +48,7 @@ export class Deck extends Behaviour {
 
     activate() {
         this.isActive = true;
+        this.initializeDeck();
     }
     deactivate() {
         this.isActive = false;
@@ -64,9 +65,6 @@ export class Deck extends Behaviour {
         Deck._createdCards.length = 0;
 
         if (this.isActive) {
-            if (this.container.children.length < this.minCards) {
-                this.createCard();
-            }
             for (let i = 0; i < this._activeCards.length; i++) {
                 const card = this._activeCards[i];
                 if (card.destroyed) {
@@ -77,13 +75,26 @@ export class Deck extends Behaviour {
         }
     }
 
-    private _creatingACard = false;
-    private i: number = 0;
     private _activeCards: Card[] = [];
 
+    initializeDeck() {
+        for (const active of this._activeCards) {
+            GameObject.destroy(active.gameObject);
+        }
+        this._activeCards.length = 0;
+        for (let i = 0; i < this.minCards; i++) {
+            this.createCard();
+        }
+    }
+
+    addToDeck(card: Card) {
+        card.gameObject.visible = true;
+        console.log(card.gameObject.position);
+        // card.gameObject.position.set(0, 0, 0);
+        // this.container.add(card.gameObject);
+    }
+
     async createCard() {
-        if (this._creatingACard) return;
-        this._creatingACard = true;
         const index = Math.floor(Math.random() * this.cardModels.length);
         // const index = this.i++ % this.cardModels.length;
         const instance = await this.prefab?.instantiate(this.container!) as GameObject;
@@ -109,7 +120,6 @@ export class Deck extends Behaviour {
             else
                 card.text.text = model.model.uri;
         }
-        this._creatingACard = false;
     }
 
     getModel(id: string) {

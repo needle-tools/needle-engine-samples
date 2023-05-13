@@ -12,6 +12,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.UI.Text @text;
 		public void onDestroy(){}
 		public void awake(){}
+		public void start(){}
 		public void onPointerDown(UnityEngine.EventSystems.PointerEventData @e){}
 		public void onPointerUp(UnityEngine.EventSystems.PointerEventData @e){}
 		public void update(){}

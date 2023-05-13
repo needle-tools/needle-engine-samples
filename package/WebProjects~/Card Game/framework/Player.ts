@@ -12,7 +12,14 @@ export class Player extends Behaviour {
     @serializable(Behaviour)
     deck!: Deck;
 
+    private _isLocal: boolean | undefined;
+
+    set isLocal(isLocal: boolean) {
+        this._isLocal = isLocal;
+    }
+
     get isLocal() {
+        if (this._isLocal !== undefined) return this._isLocal;
         return this.id === this.context.connection.connectionId
     }
 

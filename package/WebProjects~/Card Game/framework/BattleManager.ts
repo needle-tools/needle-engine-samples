@@ -1,7 +1,7 @@
 import { Behaviour, GameObject, serializable } from "@needle-tools/engine";
 import { DragHandler } from "./DragHandler";
 import { Card, CardModel } from "./Card";
-import { Creature, GLTF } from "./Creature";
+import { Creature, CreatureState, GLTF } from "./Creature";
 import { Deck } from "./Deck";
 import { Player } from "./Player";
 import { Object3D } from "three";
@@ -11,6 +11,9 @@ declare type SpawnedCreateModel = {
     guid: string;
     playerId: string;
     cardId: string;
+}
+declare type CreatureDiedModel = {
+    creatureId: string;
 }
 
 export class BattleManager extends Behaviour {
@@ -28,8 +31,8 @@ export class BattleManager extends Behaviour {
     private _players: Player[] = [];
     private _activePlayers: Player[] | null = null;
     private _spawnEvents: Map<string, SpawnedCreateModel> = new Map();
-
     private _creatureUITemplate: GameObject | undefined = undefined;
+    private _cardStats: Map<Card, CreatureState> = new Map();
 
     awake(): void {
         if (!this.deck) {
@@ -38,18 +41,20 @@ export class BattleManager extends Behaviour {
         this._creatureUITemplate = GameObject.findObjectOfType(CreatureUI)?.gameObject;
         if (this._creatureUITemplate) {
             // HACK: todo need to fix positioning when this is disabled
-            this._creatureUITemplate.scale.set(0, 0, 0);
-            // this._creatureUITemplate.visible = false;
+            // this._creatureUITemplate.scale.set(0, 0, 0);
+            this._creatureUITemplate.visible = false;
         }
     }
 
     onEnable() {
         DragHandler.instance.onDrop.addEventListener(this.onDrop);
         this.context.connection.beginListen("spawn-creature", this.onSpawnCreature);
+        this.context.connection.beginListen("creature-died", this.onCreatureDiedRemote);
     }
     onDisable(): void {
         DragHandler.instance.onDrop.removeEventListener(this.onDrop);
         this.context.connection.stopListen("spawn-creature", this.onSpawnCreature);
+        this.context.connection.stopListen("creature-died", this.onCreatureDiedRemote);
     }
 
     startBattle(players: Player[]) {
@@ -78,40 +83,59 @@ export class BattleManager extends Behaviour {
         this._activePlayers = null;
     }
 
+    private _previousCreature: Card | null = null;
+
     private onDrop = (card: Card) => {
-        GameObject.destroy(card.gameObject);
+        // if (!this._cardStats.has(card)) {
+        //     this._cardStats.set(card, card.creature!.state);
+        // }
+        if (this._previousCreature) {
+            this.deck?.addToDeck(this._previousCreature);
+        }
+        this._previousCreature = card;
+        card.gameObject.visible = false;
+        // card.gameObject.removeFromParent();
         const localPlayer = this._players.find(p => p.isLocal);
-        if (localPlayer)
+        if (localPlayer) {
             this.createCreature(card, localPlayer.id);
+        }
     }
 
-    private _requestedCreature: Map<string, CardModel> = new Map();
-    private async createCreature(card: Card | CardModel, playerId: string) {
+    /** used to determine if the creature currently being instantiated is still the last requested */
+    private _lastRequestedCreature: Map<string, CardModel> = new Map();
+    private _activeCreatures: Map<string, Creature> = new Map();
 
+    private async createCreature(card: Card | CardModel, playerId: string) {
         if (card instanceof Card) {
             card = card.model!;
         }
         const player = this._players.find(p => p.id === playerId)!;
 
         if (card && player) {
-            this._requestedCreature.set(playerId, card);
-            const instance = await card.model.instantiate() as GameObject;
-            if (this._requestedCreature.get(playerId) !== card) {
+            this._lastRequestedCreature.set(playerId, card);
+            const index = this._players.indexOf(player);
+            const posIndex = index % this.creaturePositions.length;
+            const targetPosition = this.creaturePositions[posIndex].position;
+
+            const instance = await card.model.instantiate({ position: targetPosition }) as GameObject;
+            if (this._lastRequestedCreature.get(playerId) !== card) {
                 GameObject.destroy(instance);
                 return;
             }
             // const pos = this.context.mainCameraComponent!.worldPosition;
             // pos.y = instance.position.y;
             // instance.lookAt(pos);
-            const index = this._players.indexOf(player);
-            const posIndex = index % this.creaturePositions.length;
-            instance.position.copy(this.creaturePositions[posIndex].position);
+            // instance.position.copy(targetPosition);
             const nextPosition = this.creaturePositions[(posIndex + 1) % this.creaturePositions.length].position;
             instance.lookAt(nextPosition);
 
             const creature = instance.getOrAddComponent(Creature)
             creature.isLocallyOwned = player.isLocal;
-            creature.initialize(card.id + "@" + playerId, card, card.model.rawAsset as GLTF);
+            creature.addEventListener("died", this.onCreatureDied)
+            const creatureGuid = card.id + "@" + playerId;
+            creature.guid = creatureGuid;
+            creature.initialize(creatureGuid, card, card.model.rawAsset as GLTF);
+            this._activeCreatures.set(creatureGuid, creature);
 
             if (player.isLocal) {
                 this.sendSpawnCreature(player, card);
@@ -140,7 +164,6 @@ export class BattleManager extends Behaviour {
     }
 
     private onSpawnCreature = (data: SpawnedCreateModel) => {
-
         this._spawnEvents.set(data.guid, data);
 
         console.log("Spawn creature", data);
@@ -151,4 +174,28 @@ export class BattleManager extends Behaviour {
         else
             console.error("Card not found", data.cardId);
     };
+
+
+    private onCreatureDied = (evt: CustomEvent<Creature>) => {
+        const creature = evt.detail;
+        creature.gameObject.destroy();
+        if (creature.isLocallyOwned) {
+            this.context.connection.send<CreatureDiedModel>("creature-died", {
+                creatureId: creature.guid
+            });
+        }
+    }
+
+    private onCreatureDiedRemote = (evt: CreatureDiedModel) => {
+        console.log("Creature died remote", evt);
+        this.onKillCreature(evt.creatureId);
+    }
+
+    private onKillCreature(guid: string) {
+        const creature = this._activeCreatures.get(guid);
+        if (creature) {
+            this._activeCreatures.delete(guid);
+            creature.die();
+        }
+    }
 }

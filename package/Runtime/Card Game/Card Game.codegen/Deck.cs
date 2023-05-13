@@ -34,6 +34,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public void activate(){}
 		public void deactivate(){}
 		public void update(){}
+		public void initializeDeck(){}
+		public void addToDeck(Needle.Typescript.GeneratedComponents.Card @card){}
 		public void createCard(){}
 		public void getModel(string @id){}
 	}

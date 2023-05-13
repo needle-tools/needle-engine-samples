@@ -36,7 +36,7 @@ export class GameManager extends Behaviour {
     @serializable(CanvasGroup)
     joinGameUI?: CanvasGroup;
 
-    private _currentGameModel: GameModel | null = null;
+    private _currentGameModel: GameModel = new GameModel();
 
     get canJoinGame() {
         if (this._currentGameModel === null) return true;
@@ -44,7 +44,6 @@ export class GameManager extends Behaviour {
             return false;
         return this._currentGameModel.players.length < 2;
     }
-
 
     onEnable() {
         console.log("ENABLE GAME MANAGER")
@@ -63,6 +62,7 @@ export class GameManager extends Behaviour {
     }
 
     requestJoinGame() {
+        console.log("Request join game")
         this.updateUI(false);
         if (!this.canJoinGame) {
             console.warn("Can't join game");
@@ -70,12 +70,13 @@ export class GameManager extends Behaviour {
         }
         if (this.context.connection.connectionId)
             this.joinGame(this.context.connection.connectionId);
+
+        if (!this.context.connection.isConnected) {
+            this.updatePlayers();
+        }
     }
 
     private joinGame(userId: string) {
-        if (this._currentGameModel === null) {
-            this._currentGameModel = new GameModel();
-        }
         if (this._currentGameModel.players.length < 2) {
             this._currentGameModel.players.push(userId);
             console.log("Send updated", this._currentGameModel, this.context.connection.isConnected);
@@ -172,9 +173,19 @@ export class GameManager extends Behaviour {
             }
         }
 
-        if (this.players.length === 2) {
-            if (!this.battleManager.isInBattle)
+        console.log("Players:", this.players.length, this.players);
+        let requiredPlayers = 2;
+        if (!this.context.connection.isConnected) {
+            requiredPlayers = 1;
+            const mockPlayer = new Player();
+            mockPlayer.isLocal = true;
+            this.players.push(mockPlayer);
+        }
+
+        if (this.players.length === requiredPlayers) {
+            if (!this.battleManager.isInBattle) {
                 this.battleManager.startBattle(this.players);
+            }
         }
         else {
             this.battleManager.endBattle();

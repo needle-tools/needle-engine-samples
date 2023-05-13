@@ -10,10 +10,15 @@ namespace Needle.Typescript.GeneratedComponents
 		public void onPointerEnter(UnityEngine.EventSystems.PointerEventData @_){}
 		public void onPointerExit(UnityEngine.EventSystems.PointerEventData @_){}
 		public void onPointerClick(UnityEngine.EventSystems.PointerEventData @_){}
-		// public CreatureState | null @state; → Could not resolve C# type
+		// public CreatureState @state; → Could not resolve C# type
 		public bool @isLocallyOwned = false;
 		public void initialize(string @id, CardModel @card, object @gltf){}
+		public void awake(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
+		public void update(){}
 		public void onDestroy(){}
+		public void die(){}
 		public void playAnimation(string @name, bool @loop, bool @send){}
 		public void onBeforeRender(object @_frame){}
 	}

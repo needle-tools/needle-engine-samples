@@ -1,6 +1,8 @@
-import { Behaviour, IPointerClickHandler, IPointerEventHandler, ObjectRaycaster, PointerEventData, __internalNotifyObjectDestroyed, getParam, showBalloonMessage } from "@needle-tools/engine";
+import { Behaviour, IPointerClickHandler, IPointerEventHandler, ObjectRaycaster, PointerEventData, __internalNotifyObjectDestroyed, getParam, showBalloonMessage, syncField } from "@needle-tools/engine";
 import { AnimationClip, AnimationMixer, AnimationAction, AnimationActionLoopStyles, LoopOnce, LoopRepeat, Mesh } from "three";
 import { CardModel } from "./Card";
+import { type BattleManager } from "./BattleManager";
+import { sync } from "@needle-tools/engine";
 
 const randomAnimation = getParam("randomanim");
 const debug = getParam("debugcreatures");
@@ -24,15 +26,61 @@ export enum DefaulAnimationTypes {
 const $animationKey = Symbol("animationName");
 
 export class CreatureState {
-
     readonly guid!: string;
-    health: number = 100;
-    status: string = "";
+    private readonly _creature: Creature;
+    private _health: number = 100;
+    private readonly _statusEffects: string[] = [];
 
-    constructor(guid: string) {
+    get statusEffects() {
+        return this._statusEffects;
+    }
+
+    isDead() {
+        return this._health <= 0;
+    }
+
+    get health() {
+        return this._health;
+    }
+
+    set health(value: number) {
+        if (value === this._health) return;
+        const prev = this._health;
+        this._health = value;
+        if (this._health <= 0) {
+            this._health = 0;
+            this._creature.die();
+        }
+        else {
+            if (prev > this._health) {
+                this._creature.playAnimation(DefaulAnimationTypes.HitRecieve);
+            }
+            this._creature.context.connection.send("creature-health-" + this.guid, this._health);
+        }
+    }
+
+    constructor(guid: string, creature: Creature) {
         this.guid = guid;
+        this._creature = creature;
+    }
+
+    onEnable() {
+        this._creature.context.connection.beginListen("creature-health-" + this.guid, this.onHealthChanged);
+    }
+
+    onDisable() {
+        this._creature.context.connection.stopListen("creature-health-" + this.guid, this.onHealthChanged);
+    }
+
+    private onHealthChanged = (val) => {
+        this.health = val;
     }
 }
+
+
+
+
+
 
 declare type AnimationEvent = {
     creatureId: string;
@@ -56,24 +104,20 @@ export class Creature extends Behaviour implements IPointerEventHandler {
         }
     }
 
-    state: CreatureState | null = null;
+
+    state!: CreatureState;
     isLocallyOwned: boolean = false;
 
     private _animations: Map<string | DefaulAnimationTypes, AnimationAction> = new Map();
-    private _mixer: AnimationMixer | null = null;
+    private _mixer!: AnimationMixer;
     private _isInIdle: boolean = false;
 
     initialize(id: string, card: CardModel, gltf: GLTF) {
-        const state = new CreatureState(id);
+        const state = new CreatureState(id, this);
         this.state = state;
         this.name = card.name;
-
-        this.gameObject.addNewComponent(ObjectRaycaster);
-
-        if (!this._mixer) {
-            this._mixer = new AnimationMixer(this.gameObject);
-            this._mixer.addEventListener("finished", this.onAnimationFinished);
-        }
+        this.guid = id;
+        this.state.onEnable();
 
         this.gameObject.traverse(o => {
             if (o instanceof Mesh) o.castShadow = true;
@@ -102,7 +146,29 @@ export class Creature extends Behaviour implements IPointerEventHandler {
 
         this.playAnimation(DefaulAnimationTypes.Idle, true);
 
+        // just for testing
+        this.gameObject.addNewComponent(ObjectRaycaster);
+    }
+    awake(): void {
+        this._mixer = new AnimationMixer(this.gameObject);
+    }
+    onEnable(): void {
+        this.state?.onEnable();
         this.context.connection.beginListen("creature-animation", this.onCreatureAnimation);
+        this._mixer.addEventListener("finished", this.onAnimationFinished);
+    }
+    onDisable(): void {
+        this.state.onDisable();
+        this.context.connection.stopListen("creature-animation", this.onCreatureAnimation);
+        this._mixer.removeEventListener("finished", this.onAnimationFinished);
+    }
+
+    private _lastHit: number = 0;
+    update(): void {
+        if (this.isLocallyOwned && Math.random() > .9 && (this.context.time.time - this._lastHit) > .5) {
+            this._lastHit = this.context.time.time;
+            this.state.health -= Math.random() * 30;
+        }
     }
 
     onDestroy(): void {
@@ -110,6 +176,11 @@ export class Creature extends Behaviour implements IPointerEventHandler {
         if (this._mixer) {
             this._mixer.removeEventListener("finished", this.onAnimationFinished);
         }
+    }
+
+    die() {
+        this.state.health = 0;
+        this.dispatchEvent(new CustomEvent<Creature>("died", { detail: this }));
     }
 
     private onCreatureAnimation = (data: AnimationEvent) => {

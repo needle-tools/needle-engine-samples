@@ -177,7 +177,7 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-6793268-0
   creature: {fileID: 0}
   creatureName: {fileID: 1955961949}
-  health: {fileID: 0}
+  health: {fileID: 1515519864}
   circle: {fileID: 214178813}
 --- !u!1001 &50900992
 PrefabInstance:
@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 58162031}
   - component: {fileID: 58162033}
   - component: {fileID: 58162032}
+  - component: {fileID: 58162034}
   m_Layer: 5
   m_Name: Deck
   m_TagString: Untagged
@@ -394,6 +395,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58162029}
   m_CullTransparentMesh: 1
+--- !u!114 &58162034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58162029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI.Outline, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-58162034-0
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.36862746}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &206440524
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,6 +606,85 @@ MonoBehaviour:
   Length: 1
   DepthTest: 1
   IsGizmo: 1
+--- !u!1 &265385631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265385632}
+  - component: {fileID: 265385634}
+  - component: {fileID: 265385633}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &265385632
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265385631}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1305087311}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &265385633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265385631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-265385633-0
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Create Arena
+--- !u!222 &265385634
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265385631}
+  m_CullTransparentMesh: 1
 --- !u!1 &284856214
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,7 +1222,7 @@ Transform:
   m_GameObject: {fileID: 855496742}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 20.000105, z: 1.0000131}
+  m_LocalScale: {x: 20, y: 20.000156, z: 1.0000196}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -1275,6 +1370,7 @@ RectTransform:
   m_Children:
   - {fileID: 733884081}
   - {fileID: 1946852303}
+  - {fileID: 1305087311}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1300,6 +1396,167 @@ MonoBehaviour:
   doubleSided: 1
   castShadows: 0
   receiveShadows: 0
+--- !u!1 &1305087310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1305087311}
+  - component: {fileID: 1305087314}
+  - component: {fileID: 1305087313}
+  - component: {fileID: 1305087312}
+  - component: {fileID: 1305087315}
+  m_Layer: 5
+  m_Name: OpenRoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1305087311
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305087310}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 265385632}
+  m_Father: {fileID: 1073425329}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 129.49121, y: 37.3945}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1305087312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305087310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI.Button, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-1305087312-0
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
+    m_HighlightedColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+    m_PressedColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1305087313}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1724472960}
+        m_TargetAssemblyTypeName: Needle.Engine.Components.SyncedRoom, Needle.Engine
+        m_MethodName: tryJoinRandomRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1305087310}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1305087313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305087310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI.Image, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-1305087313-0
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1305087314
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305087310}
+  m_CullTransparentMesh: 1
+--- !u!114 &1305087315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305087310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI.Outline, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-1305087315-0
+  m_EffectColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 0.5}
+  m_EffectDistance: {x: 3, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1439184658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,6 +2115,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 58162030}
     m_Modifications:
+    - target: {fileID: 354662322109312773, guid: b372a0c4f66309f4c9bea11a68b63416, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: UnityEngine.UI.Outline, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-354662322109312773-1634970499
+      objectReference: {fileID: 0}
     - target: {fileID: 1856812634208264128, guid: b372a0c4f66309f4c9bea11a68b63416, type: 3}
       propertyPath: m_EditorClassIdentifier
       value: UnityEngine.UI.Button, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-1856812634208264128-1634970499
@@ -1950,6 +2211,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3634067496859023786, guid: b372a0c4f66309f4c9bea11a68b63416, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-3634067496859023786-1634970499
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926777578941562114, guid: b372a0c4f66309f4c9bea11a68b63416, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: UnityEngine.UI.Image, UnityEngine.UI $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-4926777578941562114-1634970499
+      objectReference: {fileID: 0}
     - target: {fileID: 8890607255169499126, guid: b372a0c4f66309f4c9bea11a68b63416, type: 3}
       propertyPath: m_EditorClassIdentifier
       value: Needle.Typescript.GeneratedComponents.Card, Needle.CardGame $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-8890607255169499126-1634970499
@@ -1992,7 +2261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.SyncedRoom, Needle.Engine $ GlobalObjectId_V1-2-241375b2b35a480478d5fc8d7c1bd272-1724472960-0
   roomName: Card Game
   urlParameterName: arena
-  joinRandomRoom: 1
+  joinRandomRoom: 0
   requireRoomParameter: 0
   autoRejoin: 1
 --- !u!4 &1724472961
@@ -2097,7 +2366,7 @@ Transform:
   m_GameObject: {fileID: 1766474544}
   m_LocalRotation: {x: 0.38935024, y: 0.8612654, z: 0.30693802, w: 0.111433364}
   m_LocalPosition: {x: 5.8, y: 2.39, z: -7.13}
-  m_LocalScale: {x: 1.0000591, y: 1, z: 1.0000579}
+  m_LocalScale: {x: 1.0000683, y: 1, z: 1.0000675}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5

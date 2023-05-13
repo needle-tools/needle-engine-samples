@@ -34,9 +34,8 @@ export class CreatureUI extends Behaviour {
     }
 
     update(): void {
-
-        // if (this.health)
-        //     this.health.text = this.creature?.state?.health.toString() ?? "";
+        if (this.health)
+            this.health.text = this.creature?.state?.health.toFixed(0).toString() ?? "";
         const scale = Math.sin(this.context.time.time * 5) * .05 + this._initialScale;
         this.circle.scale.set(scale, scale, scale);
 
