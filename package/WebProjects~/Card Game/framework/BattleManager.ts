@@ -1,6 +1,7 @@
 import { Behaviour, GameObject, serializable } from "@needle-tools/engine";
 import { DragHandler } from "./DragHandler";
-import { Card, CardModel } from "./Card";
+import { Card } from "./Card";
+import { CardModel } from "./CardModel";
 import { Creature, CreatureState, GLTF } from "./Creature";
 import { Deck } from "./Deck";
 import { Player } from "./Player";

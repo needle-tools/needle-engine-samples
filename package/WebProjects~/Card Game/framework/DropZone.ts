@@ -1,6 +1,5 @@
 import { Behaviour, CanvasGroup, GameObject, IGameObject, IPointerEnterHandler, IPointerEventHandler, Image, PointerEventData, isDestroyed, serializable } from "@needle-tools/engine";
 import { DragHandler } from "./DragHandler";
-import { Card } from "./Card";
 
 export class DropZone extends Behaviour implements IPointerEventHandler {
     @serializable(Image)

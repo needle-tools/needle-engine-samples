@@ -1,5 +1,6 @@
 
 using System;
+using Needle.CardGame;
 using Needle.Engine;
 using UnityEngine;
 
@@ -7,8 +8,11 @@ using UnityEngine;
 public class CardModel
 {
 	public ImageReference Image;
+
 	[FileReferenceType(typeof(GameObject), ".glb", ".prefab", ".gltf")]
 	public FileReference Model;
+
+	public Ability[] Abilities;
 } 
 
 

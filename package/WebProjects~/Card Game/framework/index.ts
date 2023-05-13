@@ -7,4 +7,4 @@
 
 
 export { Deck } from "./Deck";
-export { CardModel } from "./Card"
+export { CardModel } from "./CardModel"

@@ -1,8 +1,6 @@
-import { Behaviour, IPointerClickHandler, IPointerEventHandler, ObjectRaycaster, PointerEventData, __internalNotifyObjectDestroyed, getParam, showBalloonMessage, syncField } from "@needle-tools/engine";
-import { AnimationClip, AnimationMixer, AnimationAction, AnimationActionLoopStyles, LoopOnce, LoopRepeat, Mesh } from "three";
-import { CardModel } from "./Card";
-import { type BattleManager } from "./BattleManager";
-import { sync } from "@needle-tools/engine";
+import { Behaviour, IPointerEventHandler, ObjectRaycaster, PointerEventData, __internalNotifyObjectDestroyed, getParam, showBalloonMessage } from "@needle-tools/engine";
+import { AnimationClip, AnimationMixer, AnimationAction, LoopOnce, LoopRepeat, Mesh } from "three";
+import { CardModel } from "./CardModel";
 
 const randomAnimation = getParam("randomanim");
 const debug = getParam("debugcreatures");

@@ -1,6 +1,5 @@
 import { Behaviour, CanvasGroup, GameObject, RoomEvents, Text, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
-import { Deck } from "./Deck";
 import { Player } from "./Player";
 import { BattleManager } from "./BattleManager";
 

@@ -24,6 +24,14 @@ export class CreatureUI extends Behaviour {
         this._initialScale = this.circle.scale.x;
     }
 
+    onEnable(): void {
+        
+    }
+
+    onDisable(): void {
+        
+    }
+
     async setCreature(creature: Creature) {
         // await delay(300);
         // this.rt.anchoredPosition.set(0, 0, 0);

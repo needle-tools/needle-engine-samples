@@ -12,6 +12,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.UI.Text @health;
 		public UnityEngine.Transform @circle;
 		public void awake(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
 		public void setCreature(Needle.Typescript.GeneratedComponents.Creature @creature){}
 		public void update(){}
 	}

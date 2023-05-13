@@ -1,4 +1,3 @@
-import { CardModel } from "./Card";
 import { type CreatureState } from "./Creature";
 
 const defaultPerform = Promise.resolve();

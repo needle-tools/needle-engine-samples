@@ -1,6 +1,7 @@
 import { AssetReference, Behaviour, Camera, GameObject, Image, ImageReference, RectTransform, getComponent, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
-import { Card, CardModel } from "./Card";
+import { Card } from "./Card";
+import { CardModel } from "./CardModel";
 
 
 export type DeckInitializeCallback = (deck: Deck) => void;
@@ -38,6 +39,7 @@ export class Deck extends Behaviour {
     awake(): void {
         const ch = this.container.children;
         for (let i = ch.length - 1; i >= 0; i--) GameObject.destroy(ch[i]);
+        console.log(this);
     }
 
     start() {

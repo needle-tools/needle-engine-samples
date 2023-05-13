@@ -1,43 +1,11 @@
-import { AssetReference, Behaviour, Canvas, CanvasGroup, GameObject, IPointerEventHandler, ImageReference, PointerEventData, RectTransform, Text, serializable } from "@needle-tools/engine";
+import { Behaviour, CanvasGroup, GameObject, IPointerEventHandler, PointerEventData, RectTransform, Text, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 import { DragHandler } from "./DragHandler";
-import { type Ability } from "./Ability";
+import { type CardModel } from "./CardModel";
 
 const canvasGroup: CanvasGroup = new CanvasGroup();
 canvasGroup.interactable = false;
 canvasGroup.blocksRaycasts = false;
-
-export class CardModel {
-    private _name?: string;
-    get name() {
-        if (this._name !== undefined) return this._name;
-        let name = this.model?.uri?.split("/").pop();
-        if (name) {
-            name = name.split(".")[0];
-            return this._name = name;
-        }
-        return this.model.uri;
-    }
-
-    get id() {
-        return this.model?.uri ?? "";
-    }
-
-    @serializable(ImageReference)
-    image!: ImageReference;
-
-    @serializable(AssetReference)
-    model!: AssetReference;
-
-    idleAnimation?: string;
-    abilities: Ability[] = [];
-
-    async createTexture() {
-        if (this.image)
-            return this.image.createTexture();
-        return null;
-    }
-}
 
 
 export class Card extends Behaviour implements IPointerEventHandler {

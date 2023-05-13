@@ -3,8 +3,8 @@
 // Import types
 import { Ability } from "../Ability";
 import { BattleManager } from "../BattleManager";
-import { CardModel } from "../Card";
 import { Card } from "../Card";
+import { CardModel } from "../CardModel";
 import { CreatureState } from "../Creature";
 import { Creature } from "../Creature";
 import { CreatureUI } from "../CreatureUI";
@@ -18,8 +18,8 @@ import { Player } from "../Player";
 // Register types
 TypeStore.add("Ability", Ability);
 TypeStore.add("BattleManager", BattleManager);
-TypeStore.add("CardModel", CardModel);
 TypeStore.add("Card", Card);
+TypeStore.add("CardModel", CardModel);
 TypeStore.add("CreatureState", CreatureState);
 TypeStore.add("Creature", Creature);
 TypeStore.add("CreatureUI", CreatureUI);
