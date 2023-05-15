@@ -1,19 +1,17 @@
 // https://nextjs.org/docs/getting-started/react-essentials#the-use-client-directive
 'use client'
-// 
-// export * from "@needle-tools/engine";
-// import dynamic from 'next/dynamic';
-import { useEffect } from "react";
-
+import "./generated/gen.js";
 const isServer = () => typeof window === `undefined`;
 
 // client only
 import "@needle-tools/engine"
 
+
 export default function NeedleEngine({ ...props }) {
+
   return (
     <>
-      {!isServer() && <needle-engine {...props} src="./next.glb"></needle-engine>}
+      {!isServer() && <needle-engine {...props}></needle-engine>}
     </>
   );
 }
