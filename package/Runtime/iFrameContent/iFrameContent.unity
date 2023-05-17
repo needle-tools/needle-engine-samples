@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.74870116, g: 0.61826795, b: 0.59117955, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -460,7 +460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &461441119
 Animator:
-  serializedVersion: 5
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -473,11 +473,10 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &726969743
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +632,7 @@ GameObject:
   - component: {fileID: 1852762880}
   - component: {fileID: 1852762879}
   - component: {fileID: 1852762882}
+  - component: {fileID: 1852762883}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -704,6 +704,22 @@ MonoBehaviour:
   Path: /iframe-content/
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &1852762883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852762878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: iframe Content
+    description: Displaying external web pages in 3D
+    image: {fileID: 2800000, guid: 265411ec72a134e48a1e6bdbb6a0dcfb, type: 3}
 --- !u!1 &1888473022
 GameObject:
   m_ObjectHideFlags: 0

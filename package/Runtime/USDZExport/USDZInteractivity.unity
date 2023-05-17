@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8916737, g: 0.83979285, b: 0.7978969, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -864,6 +864,7 @@ GameObject:
   - component: {fileID: 186070969}
   - component: {fileID: 186070968}
   - component: {fileID: 186070971}
+  - component: {fileID: 186070972}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -932,6 +933,22 @@ MonoBehaviour:
   Path: /usdz-interactivity
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &186070972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186070967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: QuickLook Interactions
+    description: Various interactive examples compatible with iOS AR
+    image: {fileID: 2800000, guid: 6606c706a72555f4c8f5719a25c38ea0, type: 3}
 --- !u!1 &191979070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,13 +1609,14 @@ MonoBehaviour:
   objectToExport: {fileID: 0}
   autoExportAnimations: 0
   interactive: 1
-  exportFileName: Needle
-  overlay:
+  customBranding:
     CheckoutTitle: 
     CheckoutSubtitle: 
     CallToAction: 
     CallToActionURL: 
-  customUsdzFile: 
+  exportFileName: Needle
+  customUsdzFile:
+    File: {fileID: 0}
 --- !u!114 &589197792
 MonoBehaviour:
   m_ObjectHideFlags: 0
