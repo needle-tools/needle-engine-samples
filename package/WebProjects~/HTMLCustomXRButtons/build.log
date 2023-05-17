@@ -1,0 +1,67 @@
+
+> my-project@1.0.0 build:production
+> npm run build:dev && npm run gltf:transform C:\Program Files\KTX-Software\bin
+
+
+> my-project@1.0.0 build:dev
+> vite build
+
+[needle-alias] ProjectDirectory: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/
+[36mvite v4.3.5 [32mbuilding for production...[36m[39m
+[needle-copy-files] - Copy engine include to E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/include
+Needle Engine version: 3.5.6-alpha
+transforming...
+Applying license: pro
+[32m✓[39m 373 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32massets/logo-b18cd8df.svg     [39m[1m[2m    3.22 kB[22m[1m[22m[2m │ gzip:     0.98 kB[22m
+[2mdist/[22m[32mindex.html                   [39m[1m[2m    7.12 kB[22m[1m[22m[2m │ gzip:     4.61 kB[22m
+[2mdist/[22m[32massets/favicon-8d99ceea.ico  [39m[1m[2m   15.09 kB[22m[1m[22m
+[2mdist/[22m[35massets/index-092a986e.css    [39m[1m[2m    2.63 kB[22m[1m[22m[2m │ gzip:     1.60 kB[22m
+[2mdist/[22m[36massets/index-9847b9d1.js     [39m[1m[33m4,218.66 kB[39m[22m[2m │ gzip: 1,360.99 kB[22m
+[needle-copy-files] - Copy engine include to E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/include
+[needle-copy-files] - Copy assets to dist/assets
+[needle-copy-files] - Copy include to dist/include
+[32m✓ built in 10.10s[39m
+
+> my-project@1.0.0 gltf:transform
+> npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline C:\Program Files\KTX-Software\bin
+
+
+> @needle-tools/gltf-build-pipeline@1.1.0 transform
+> node index.mjs C:\Program Files\KTX-Software\bin
+
+INFO: Run progressive transform: C:\Program Files\nodejs\node.exe,E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons\node_modules\@needle-tools\gltf-build-pipeline\make-progressive.mjs,C:\Program Files\KTX-Software\bin
+INFO: Using build directory from needle.config.json: dist
+INFO: Resolved path: dist -> E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/dist
+Make progressive: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/dist/assets/DefaultAvatar.glb
+Progressive transform finished in 0.0 sec.
+Make progressive: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/dist/assets/myScene.glb
+Progressive transform finished in 0.0 sec.
+INFO: Using build directory from needle.config.json: dist
+INFO: Resolved path: dist -> E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/dist
+→ Begin packing: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/dist/assets/DefaultAvatar.glb
+→ Begin packing: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/dist/assets/myScene.glb
+INFO: Environment variable 'NEEDLE_TOKTX' not set. Use 'NEEDLE_TOKTX' to specify the directory of the toktx installation (path/to/bin)
+toktx: Found KTX-Software v4.1.0-rc3.
+prune: No unused properties found.
+prune: Complete.
+dedup: Found 0 duplicates among 1 indices.
+dedup: Found 0 duplicates among 5 attributes.
+dedup: Found 0 duplicates among 0 animation accessors.
+dedup: Complete.
+weld: Complete.
+[KHR_draco_mesh_compression] Compression options: {"method":1,"encodeSpeed":5,"decodeSpeed":5,"quantizationBits":{"POSITION":14,"NORMAL":10,"COLOR":8,"TEX_COORD":12,"GENERIC":12},"quantizationVolume":"mesh"}
+[KHR_draco_mesh_compression] Compressed 2 primitives.
+prune: No unused properties found.
+prune: Complete.
+dedup: Found 0 duplicates among 2 indices.
+dedup: Found 0 duplicates among 12 attributes.
+dedup: Found 0 duplicates among 0 animation accessors.
+dedup: Complete.
+weld: Complete.
+[KHR_draco_mesh_compression] Compression options: {"method":1,"encodeSpeed":5,"decodeSpeed":5,"quantizationBits":{"POSITION":14,"NORMAL":10,"COLOR":8,"TEX_COORD":12,"GENERIC":12},"quantizationVolume":"mesh"}
+[KHR_draco_mesh_compression] Compressed 2 primitives.
+← Compressing done in 0.1 sec, 0.0 MB → 0.0 MB (GPU: 0.0 MB textures): DefaultAvatar.glb at E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/dist/assets/DefaultAvatar.glb
+← Compressing done in 0.1 sec, 0.3 MB → 0.1 MB (GPU: 0.0 MB textures): myScene.glb at E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/dist/assets/myScene.glb
