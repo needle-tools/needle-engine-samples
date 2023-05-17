@@ -22,11 +22,11 @@ export class SpatialAudioUI extends Behaviour {
 
                 <div class="explainer">
                     <div>
-                        <h1>Spatial Audio</h1>
+                        <h1 class="ignore-landscape">Spatial Audio</h1>
                         <p>Sound on! 🔊</p>
                         <p>This sample demonstrates how to use spatial audio in <a href="https://needle.tools">Needle Engine</a>. Audio sources can be placed in 3D, and your camera position influences how loud they are.</p>
                         <p>You can move around the scene in the browser, open the page on your phone and try it in Augmented Reality, or in Virtual Reality on a VR headset.</p>
-                        <button class="start">Start exploring</button><br/>
+                        <button class="start">Start exploring</button><br class="ignore-landscape"/>
                         <a class="start-quest button small" target="_blank">Open on Quest</a>
                     </div>
                 </div>
@@ -66,7 +66,6 @@ export class SpatialAudioUI extends Behaviour {
                 font-size: 1rem;
                 color: white;
                 opacity: 0.3;
-                left: 65px;
                 top: 0px;
                 text-align: center;
             }
@@ -77,8 +76,8 @@ export class SpatialAudioUI extends Behaviour {
                 margin: 0 1rem;
                 margin-top: 0.6rem;
                 text-transform: uppercase;
-                width: 200px;
                 text-align: center;
+                position: relative;
             }
 
             .explainer {
@@ -90,6 +89,7 @@ export class SpatialAudioUI extends Behaviour {
                 text-align: center;
                 color: white;
                 backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -107,6 +107,7 @@ export class SpatialAudioUI extends Behaviour {
             .explainer a {
                 color: #b9f026;
                 text-decoration: none;
+                white-space: nowrap;
             }
 
             .explainer button, .explainer a.button {
@@ -129,6 +130,12 @@ export class SpatialAudioUI extends Behaviour {
             .explainer button:hover, .explainer a.button:hover {
                 cursor: pointer;
                 transform: scale(1.1);
+            }
+
+            @media (max-height: 450px) {
+                .ignore-landscape {
+                    display: none;
+                }
             }
         `;
     }
