@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -423,6 +423,7 @@ GameObject:
   - component: {fileID: 740796537}
   - component: {fileID: 740796536}
   - component: {fileID: 740796539}
+  - component: {fileID: 740796540}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -494,6 +495,22 @@ MonoBehaviour:
   Path: /interactive-map
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &740796540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740796535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: Interactive Map
+    description: Openstreetmap.org integration in 3D
+    image: {fileID: 2800000, guid: c8e45c2b909c92448a41f3b5842a3188, type: 3}
 --- !u!1 &1062683071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,7 +1257,7 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-fb0f95cde5663294186a7d7dcd3f89fd-1727622768-0
 --- !u!95 &1727622769
 Animator:
-  serializedVersion: 5
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1253,11 +1270,10 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1836866011
 GameObject:
   m_ObjectHideFlags: 0

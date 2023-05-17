@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0037571285, g: 0.019176994, b: 0.03442753, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1871,6 +1871,7 @@ GameObject:
   - component: {fileID: 505680641}
   - component: {fileID: 505680640}
   - component: {fileID: 505680645}
+  - component: {fileID: 505680643}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -1925,6 +1926,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &505680643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505680639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: Sidescroller
+    description: Sidescroller with desktop, touch and gamepad inputs, using sprites.
+    image: {fileID: 2800000, guid: d9932ac66b4410c4f83bbdfd3cf52204, type: 3}
 --- !u!114 &505680645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5294,7 +5311,7 @@ GameObject:
   m_IsActive: 1
 --- !u!95 &1477152418
 Animator:
-  serializedVersion: 5
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5307,11 +5324,10 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &1477152419
 SpriteRenderer:
   m_ObjectHideFlags: 0
