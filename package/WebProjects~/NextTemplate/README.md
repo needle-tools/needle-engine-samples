@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) adding the `needle-engine` web component.
+
 
 ## Getting Started
 
@@ -21,6 +22,22 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Needle Engine
+This project is a minimal example of adding `needle-engine` to a nextjs project
+
+- `needle-config.json`  
+  Added the `baseUrl` config to `./assets` to change codegen (`src/generated/gen`) to point to the next.js local server relative url
+- `next.config.js`  
+  Include the nextjs plugin which handles `transpilePackages`, webpack `defines` and licensing
+- `src/needleEngine.tsx`  
+  This is a simple next component for including the `needle-engine` web component. 
+  make sure to also add the type declarations from `src/declarations.d.ts`  
+- `src/pages/index.tsx`  
+  Import the component to run client-side:  
+  ```tsx
+  const NeedleEngine = dynamic(() => import('../needleEngine'), { ssr: false })
+  ```   
 
 ## Learn More
 
