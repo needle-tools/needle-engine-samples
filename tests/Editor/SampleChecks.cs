@@ -10,6 +10,9 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
+
+using Object = UnityEngine.Object;
 
 namespace SampleChecks
 {
@@ -125,9 +128,16 @@ namespace SampleChecks
             Assert.True(sample.Thumbnail, "No thumbnail");
             
             var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(sample.Thumbnail));
-            
+
             // check if it's non power of two
-            Assert.True(importer is TextureImporter textureImporter && textureImporter.npotScale == TextureImporterNPOTScale.None, "Thumbnail is not power of two");
+            bool validImport = importer is TextureImporter textureImporter && textureImporter.npotScale == TextureImporterNPOTScale.None;
+
+            int w = sample.Thumbnail.width;
+            int h = sample.Thumbnail.height;
+            bool textureIsPOT = (w != 0 && (w & (w - 1)) == 0) &&
+                                (h != 0 && (h & (h - 1)) == 0);
+            
+            Assert.True(validImport || textureIsPOT, "Thumbnail is power of two. (results in bad aspect ratio)");
             
             // check for description
             Assert.IsNotEmpty(sample.DisplayNameOrName, "No Display Name");
@@ -215,6 +225,11 @@ namespace SampleChecks
             }
         }
 
+        readonly string[] ignoreSizeFolderNames =
+        {
+            "node_modules",
+        };
+
         [Test]
         public void FolderSizeBelow10MB()
         {
@@ -231,8 +246,12 @@ namespace SampleChecks
                 di = di.Parent;
             }
             
-            // summarize file size of all of them
+            // get files and filter them based on a blacklist
             var fileInfos = di.GetFiles("*.*", SearchOption.AllDirectories);
+            fileInfos = fileInfos.Where(x => !ignoreSizeFolderNames.Any(ignoredFolder => x.FullName.Contains(ignoredFolder)))
+                                 .ToArray();
+
+            // calculate total file size
             var size = fileInfos.Sum(file => file.Exists ? file.Length : 0);
             
             // runtime folder asset: 17ecbeb2072245a44ad506ab94d30db5
