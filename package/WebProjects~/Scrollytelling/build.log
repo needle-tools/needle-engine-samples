@@ -1,6 +1,6 @@
 
 > my-project@1.0.0 build:production
-> npm run build:dev && npm run gltf:transform C:\Program Files\KTX-Software\bin
+> npm run build:dev && npm run gltf:transform
 
 
 > my-project@1.0.0 build:dev
@@ -9,16 +9,16 @@
 [needle-alias] ProjectDirectory: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/
 [36mvite v3.2.6 [32mbuilding for production...[36m[39m
 [needle-copy-files] - Copy engine include to E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/include
-Needle Engine version: 3.5.6-alpha
+Needle Engine version: 3.5.9-alpha.2
 transforming...
 Applying license: pro
-[32m✓[39m 375 modules transformed.
+[32m✓[39m 376 modules transformed.
 rendering chunks...
 [90m[37m[2mdist/[22m[90m[39m[32massets/favicon.8d99ceea.ico  [39m [2m14.73 KiB[22m
 [90m[37m[2mdist/[22m[90m[39m[32massets/logo.b18cd8df.svg     [39m [2m3.14 KiB[22m
-[90m[37m[2mdist/[22m[90m[39m[32mindex.html                   [39m [2m3.64 KiB[22m
+[90m[37m[2mdist/[22m[90m[39m[32mindex.html                   [39m [2m3.68 KiB[22m
 [90m[37m[2mdist/[22m[90m[39m[35massets/index.a5d374aa.css    [39m [2m1.58 KiB / gzip: 0.70 KiB[22m
-[90m[37m[2mdist/[22m[90m[39m[36massets/index.76830554.js     [39m [33m4130.75 KiB / gzip: 1330.09 KiB[39m
+[90m[37m[2mdist/[22m[90m[39m[36massets/index.1cedac95.js     [39m [33m4133.38 KiB / gzip: 1330.43 KiB[39m
 [needle-copy-files] - Copy engine include to E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/include
 [needle-copy-files] - Copy assets to dist/assets
 [needle-copy-files] - Copy include to dist/include
@@ -55,6 +55,7 @@ Starting copy operation in "default" mode:
  ✓ Already exists include/three-mesh-ui-assets/enter.png
  ✓ Already exists include/three-mesh-ui-assets/shift.png
  ✓ Already exists dist/include/poster.webp
+ ✓ Already exists dist/include/Scrollytelling.jpg
  ✓ Already exists dist/include/console/ConsoleReroute.js
  ✓ Already exists dist/include/draco/draco_decoder.js
  ✓ Already exists dist/include/draco/draco_decoder.wasm
@@ -69,13 +70,13 @@ Starting copy operation in "default" mode:
  ✓ Already exists dist/include/three-mesh-ui-assets/shift.png
 
 > my-project@1.0.0 gltf:transform
-> npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline C:\Program Files\KTX-Software\bin
+> npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline
 
 
-> @needle-tools/gltf-build-pipeline@1.1.0 transform
-> node index.mjs C:\Program Files\KTX-Software\bin
+> @needle-tools/gltf-build-pipeline@1.1.1 transform
+> node index.mjs
 
-INFO: Run progressive transform: C:\Program Files\nodejs\node.exe,E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling\node_modules\@needle-tools\gltf-build-pipeline\make-progressive.mjs,C:\Program Files\KTX-Software\bin
+INFO: Run progressive transform: C:\Program Files\nodejs\node.exe,E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling\node_modules\@needle-tools\gltf-build-pipeline\make-progressive.mjs
 INFO: Using build directory from needle.config.json: dist
 INFO: Resolved path: dist -> E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/dist
 Make progressive: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/dist/assets/madeWithNeedle.glb
@@ -91,9 +92,8 @@ toktx: Found KTX-Software v4.1.0-rc3.
 > Using cached texture  [0] – 55 KB
 prune: No unused properties found.
 prune: Complete.
-dedup: Found 0 duplicates among 0 indices.
-dedup: Found 0 duplicates among 0 attributes.
-dedup: Found 0 duplicates among 0 animation accessors.
+dedup: Found 0 duplicates among 0 accessors.
+dedup: Complete.
 dedup: Complete.
 weld: Complete.
 [KHR_draco_mesh_compression] Compression options: {"method":1,"encodeSpeed":5,"decodeSpeed":5,"quantizationBits":{"POSITION":14,"NORMAL":10,"COLOR":8,"TEX_COORD":12,"GENERIC":12},"quantizationVolume":"mesh"}
@@ -102,12 +102,11 @@ weld: Complete.
 > Using cached texture needle-website.png [1] – 0 KB
 prune: No unused properties found.
 prune: Complete.
-dedup: Found 2 duplicates among 27 indices.
-dedup: Found 4 duplicates among 111 attributes.
-dedup: Found 51 duplicates among 116 animation accessors.
+dedup: Found 57 duplicates among 254 accessors.
+dedup: Complete.
 dedup: Complete.
 weld: Complete.
 [KHR_draco_mesh_compression] Compression options: {"method":1,"encodeSpeed":5,"decodeSpeed":5,"quantizationBits":{"POSITION":14,"NORMAL":10,"COLOR":8,"TEX_COORD":12,"GENERIC":12},"quantizationVolume":"mesh"}
 [KHR_draco_mesh_compression] Compressed 27 primitives.
-← Compressing done in 0.2 sec, 0.3 MB → 0.1 MB (GPU: 5.3 MB textures): image_0_2800000_afd8574eacbd3c54cb156ec364f3bbd0.glb at E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/dist/assets/image_0_2800000_afd8574eacbd3c54cb156ec364f3bbd0.glb
-← Compressing done in 0.2 sec, 1.3 MB → 0.7 MB (GPU: 0.3 MB textures): madeWithNeedle.glb at E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/dist/assets/madeWithNeedle.glb
+← Compressing done in 0.3 sec, 0.3 MB → 0.1 MB (GPU: 5.3 MB textures): image_0_2800000_afd8574eacbd3c54cb156ec364f3bbd0.glb at E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/dist/assets/image_0_2800000_afd8574eacbd3c54cb156ec364f3bbd0.glb
+← Compressing done in 0.3 sec, 1.3 MB → 0.7 MB (GPU: 0.3 MB textures): madeWithNeedle.glb at E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\Scrollytelling/dist/assets/madeWithNeedle.glb
