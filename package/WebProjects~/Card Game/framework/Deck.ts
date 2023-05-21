@@ -29,15 +29,15 @@ export class Deck extends Behaviour {
     @serializable(AssetReference)
     prefab?: AssetReference;
 
-    @serializable(Object3D)
-    container!: Object3D;
+    @serializable(RectTransform)
+    container!: RectTransform;
 
     //@serializeField
     @serializable(CardModel)
     private cardModels: CardModel[] = [];
 
     awake(): void {
-        const ch = this.container.children;
+        const ch = this.container.gameObject.children;
         for (let i = ch.length - 1; i >= 0; i--) GameObject.destroy(ch[i]);
         console.log(this);
     }
@@ -99,7 +99,7 @@ export class Deck extends Behaviour {
     async createCard() {
         const index = Math.floor(Math.random() * this.cardModels.length);
         // const index = this.i++ % this.cardModels.length;
-        const instance = await this.prefab?.instantiate(this.container!) as GameObject;
+        const instance = await this.prefab?.instantiate(this.container!.gameObject) as GameObject;
         const card = getComponent(instance, Card) as Card;
         this._activeCards.push(card);
         const model = this.cardModels[index];

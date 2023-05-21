@@ -30,7 +30,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public void onInitialize(object @cb){}
 		public void createCard(string @model, string @cardImage){}
 		public UnityEngine.Transform @prefab;
-		public UnityEngine.Transform @container;
+		public UnityEngine.RectTransform @container;
 		[UnityEngine.SerializeField]
 		private CardModel[] @cardModels = new CardModel[]{ };
 		public void awake(){}
