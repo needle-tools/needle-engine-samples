@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8916433, g: 0.83977413, b: 0.7979011, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 46432180}
   - component: {fileID: 46432179}
   - component: {fileID: 46432182}
+  - component: {fileID: 46432183}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -186,7 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-28fc51c374dec6740b6b34b648a64644-46432179-0
-  compilerDirectory: Library/ARShadows7/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &46432180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,8 +234,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-28fc51c374dec6740b6b34b648a64644-46432182-0
-  FTPServer: {fileID: 11400000, guid: 10155bc195d376643abaefe881d45c5e, type: 2}
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /shadow-catcher
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
+--- !u!114 &46432183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46432178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: Shadow Catcher
+    description: Render additive or masked transparent shadows, great for AR
+    image: {fileID: 2800000, guid: 096dd5a2306c96e47877b38b2d8a3873, type: 3}
 --- !u!1 &299177313
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,7 +850,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-28fc51c374dec6740b6b34b648a64644-1219450059-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!4 &1219450060
 Transform:
@@ -879,9 +898,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-28fc51c374dec6740b6b34b648a64644-1219450062-0
   enableVR: 0
   enableAR: 1
+  defaultAvatar: {fileID: 0}
   createVRButton: 0
   createARButton: 1
-  defaultAvatar: {fileID: 0}
   handModelPath: 
 --- !u!1 &1296517667
 GameObject:

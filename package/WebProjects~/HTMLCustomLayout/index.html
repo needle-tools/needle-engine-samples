@@ -103,7 +103,9 @@
       background-color: rgba(255,255,255);
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 768px),
+           screen and (max-height: 1000px)
+     {
       .headline {
         font-size: 1.5em;
         margin-top: 2em;
@@ -146,8 +148,7 @@
   </div>
 
   <script type="module">
-    import { Camera } from '@needle-tools/engine';
-    import { ClearFlags } from '@needle-tools/engine/engine-components/Camera';
+    import { Camera, ClearFlags } from '@needle-tools/engine';
 
     const contentContainer = document.querySelector('div.content');
     const btnTransparent = document.querySelector('.btn-transparent');

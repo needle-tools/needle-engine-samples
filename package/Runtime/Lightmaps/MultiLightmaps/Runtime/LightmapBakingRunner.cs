@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+
 using System.IO;
 using System.Threading.Tasks;
 using Needle.Engine.Codegen;
@@ -38,7 +39,9 @@ namespace Needle.MultiLightmaps
 				// TODO: multi lightmap objects dont work like that
 				Debug.Log("Lightmapping done: " + name);
 				var arr = LightmapSettings.lightmaps;
+#pragma warning disable 0162
 				for (var index = 0; index < arr.Length; index++)
+#pragma warning restore 0162
 				{
 					var lm = arr[index];
 					var color = lm.lightmapColor;
@@ -88,3 +91,5 @@ namespace Needle.MultiLightmaps
 		}
 	}
 }
+
+#endif

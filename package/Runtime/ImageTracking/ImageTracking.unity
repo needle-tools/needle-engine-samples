@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4574594, g: 0.45591688, b: 0.4574594, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -765,7 +765,7 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-cbf4489e1f7cfe44a8c739a511b0e4c7-577633983-0
   TrackedImages:
   - Image:
-      Texture: {fileID: 2800000, guid: c74c466451171db4fb655d2d4dd09609, type: 3}
+      File: {fileID: 2800000, guid: c74c466451171db4fb655d2d4dd09609, type: 3}
     WidthInMeters: 0.21
     Object:
       asset: {fileID: 1384266629}
@@ -1023,12 +1023,15 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-cbf4489e1f7cfe44a8c739a511b0e4c7-891339958-0
   objectToExport: {fileID: 1384266630}
   autoExportAnimations: 1
-  exportFileName: Needle
-  overlay:
+  interactive: 1
+  customBranding:
     CheckoutTitle: 
     CheckoutSubtitle: 
     CallToAction: 
     CallToActionURL: 
+  exportFileName: Needle
+  customUsdzFile:
+    File: {fileID: 0}
 --- !u!1001 &969571448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2096,6 +2099,7 @@ GameObject:
   - component: {fileID: 1739218768}
   - component: {fileID: 1739218767}
   - component: {fileID: 1739218770}
+  - component: {fileID: 1739218771}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -2164,6 +2168,22 @@ MonoBehaviour:
   Path: /image-tracking
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &1739218771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739218766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: Image Tracking
+    description: Placing content on images
+    image: {fileID: 2800000, guid: 5c484e94806dc044fb3a909899a67af5, type: 3}
 --- !u!1 &1913951372
 GameObject:
   m_ObjectHideFlags: 0

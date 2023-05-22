@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2094875757}
-  m_IndirectSpecularColor: {r: 0.89226145, g: 0.910078, b: 0.8638536, a: 1}
+  m_IndirectSpecularColor: {r: 0.8941217, g: 0.91217685, b: 0.864426, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -786,6 +786,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -3910990755373119420, guid: e1a12dcaed0991a49be3d5eeaf53b05f, type: 3}
   m_PrefabInstance: {fileID: 384026878}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &384026880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8771091787928289351, guid: e1a12dcaed0991a49be3d5eeaf53b05f, type: 3}
+  m_PrefabInstance: {fileID: 384026878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &384026881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384026880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385d14bf62e962549a8aeb84fdd6bad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisibleIn: 29
 --- !u!1 &410607713
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,7 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-410607714-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &410607715
 MonoBehaviour:
@@ -882,7 +900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-410607718-0
-  FTPServer: {fileID: 11400000, guid: 24ec55f7625cbea428362c0007db2a03, type: 2}
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /hotspots
   OverrideGzipCompression: 1
   UseGzipCompression: 0
@@ -1118,8 +1136,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 5
-  far clip plane: 300
+  near clip plane: 0.5
+  far clip plane: 200
   field of view: 35
   orthographic: 0
   orthographic size: 5
@@ -1145,7 +1163,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498933276}
-  m_LocalRotation: {x: 0.03190236, y: -0.90796113, z: 0.070327, w: 0.41187742}
+  m_LocalRotation: {x: 0.03190228, y: -0.90796113, z: 0.070327036, w: 0.41187748}
   m_LocalPosition: {x: 97.062256, y: 24.814117, z: 84.968925}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1172,7 +1190,7 @@ MonoBehaviour:
   dampingFactor: 0.1
   enableZoom: 1
   minZoom: 20
-  maxZoom: 200
+  maxZoom: 150
   enablePan: 1
   lookAtConstraint: {fileID: 498933282}
   middleClickToFocus: 1
@@ -2546,7 +2564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI.Image, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-865617285-0
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3888,7 +3906,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1625843378-0
   meta:
     title: Hotspots
     description: Annotate 3D content
@@ -4296,7 +4314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1786409565-0
-  arScale: 100
+  arScale: 20
   invertForward: 0
 --- !u!1001 &1799565675
 PrefabInstance:

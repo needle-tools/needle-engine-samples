@@ -1,0 +1,53 @@
+
+> my-needle-engine-project@1.0.0 build:production
+> npm run build:dev && npm run gltf:transform
+
+
+> my-needle-engine-project@1.0.0 build:dev
+> vite build
+
+[needle-alias] ProjectDirectory: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout/
+[36mvite v4.3.8 [32mbuilding for production...[36m[39m
+[needle-copy-files] - Copy engine include to E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout/include
+Needle Engine version: 3.5.9-alpha.2
+transforming...
+Applying license: pro
+[32m✓[39m 372 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32massets/logo-b18cd8df.svg     [39m[1m[2m    3.22 kB[22m[1m[22m[2m │ gzip:     0.98 kB[22m
+[2mdist/[22m[32mindex.html                   [39m[1m[2m    4.42 kB[22m[1m[22m[2m │ gzip:     1.60 kB[22m
+[2mdist/[22m[32massets/favicon-8d99ceea.ico  [39m[1m[2m   15.09 kB[22m[1m[22m
+[2mdist/[22m[35massets/index-2d9a57e5.css    [39m[1m[2m    0.99 kB[22m[1m[22m[2m │ gzip:     0.48 kB[22m
+[2mdist/[22m[36massets/index-13d39a99.js     [39m[1m[33m4,221.92 kB[39m[22m[2m │ gzip: 1,361.57 kB[22m
+[needle-copy-files] - Copy engine include to E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout/include
+[needle-copy-files] - Copy assets to dist/assets
+[needle-copy-files] - Copy include to dist/include
+[32m✓ built in 10.35s[39m
+
+> my-needle-engine-project@1.0.0 gltf:transform
+> npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline
+
+
+> @needle-tools/gltf-build-pipeline@1.1.0 transform
+> node index.mjs
+
+INFO: Run progressive transform: C:\Program Files\nodejs\node.exe,E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout\node_modules\@needle-tools\gltf-build-pipeline\make-progressive.mjs
+INFO: Using build directory from needle.config.json: dist
+INFO: Resolved path: dist -> E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout/dist
+Make progressive: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout/dist/assets/myScene.glb
+Progressive transform finished in 0.0 sec.
+INFO: Using build directory from needle.config.json: dist
+INFO: Resolved path: dist -> E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout/dist
+→ Begin packing: E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout/dist/assets/myScene.glb
+INFO: Environment variable 'NEEDLE_TOKTX' not set. Use 'NEEDLE_TOKTX' to specify the directory of the toktx installation (path/to/bin)
+toktx: Found KTX-Software v4.1.0-rc3.
+prune: No unused properties found.
+prune: Complete.
+dedup: Found 0 duplicates among 40 accessors.
+dedup: Complete.
+dedup: Complete.
+weld: Complete.
+[KHR_draco_mesh_compression] Compression options: {"method":1,"encodeSpeed":5,"decodeSpeed":5,"quantizationBits":{"POSITION":14,"NORMAL":10,"COLOR":8,"TEX_COORD":12,"GENERIC":12},"quantizationVolume":"mesh"}
+[KHR_draco_mesh_compression] Compressed 6 primitives.
+← Compressing done in 0.1 sec, 0.5 MB → 0.1 MB (GPU: 0.0 MB textures): myScene.glb at E:\Dvlp\Prjs\Work\Needle\Modules\needle-engine-samples\package\WebProjects~\HTMLCustomLayout/dist/assets/myScene.glb

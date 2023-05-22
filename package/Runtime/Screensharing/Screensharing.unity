@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.49863726, g: 0.4968549, b: 0.49863726, a: 1}
+  m_IndirectSpecularColor: {r: 0.49863416, g: 0.49685475, b: 0.49863416, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -830,10 +830,10 @@ VideoPlayer:
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 36051220d63023b40922ac169d83ca0c, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 7590187894558110392}
-  m_TargetMaterialProperty: _BaseMap
+  m_TargetMaterialProperty: baseColorTexture
   m_RenderMode: 3
   m_AspectRatio: 2
   m_DataSource: 0
@@ -943,10 +943,10 @@ VideoPlayer:
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 36051220d63023b40922ac169d83ca0c, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 140531349}
-  m_TargetMaterialProperty: _MainTex
+  m_TargetMaterialProperty: baseColorTexture
   m_RenderMode: 3
   m_AspectRatio: 2
   m_DataSource: 0
@@ -1380,6 +1380,7 @@ GameObject:
   - component: {fileID: 784234926}
   - component: {fileID: 784234927}
   - component: {fileID: 784234928}
+  - component: {fileID: 784234929}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -1429,7 +1430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-404faf10c46d0cf499cd01f6a999997a-784234925-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &784234926
 MonoBehaviour:
@@ -1458,7 +1459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-404faf10c46d0cf499cd01f6a999997a-784234927-0
-  FTPServer: {fileID: 11400000, guid: 24ec55f7625cbea428362c0007db2a03, type: 2}
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /screensharing
   OverrideGzipCompression: 1
   UseGzipCompression: 0
@@ -1477,6 +1478,22 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-404faf10c46d0cf499cd01f6a999997a-784234928-0
   <SkyboxResolution>k__BackingField: 128
   <HDR>k__BackingField: 1
+--- !u!114 &784234929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-404faf10c46d0cf499cd01f6a999997a-784234929-0
+  meta:
+    title: Screensharing
+    description: WebRTC and Streaming
+    image: {fileID: 2800000, guid: d040e473ab0e43e42846ffebbacf97d7, type: 3}
 --- !u!1 &806518225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1866,10 +1883,10 @@ VideoPlayer:
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 36051220d63023b40922ac169d83ca0c, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 1448016578}
-  m_TargetMaterialProperty: _MainTex
+  m_TargetMaterialProperty: baseColorTexture
   m_RenderMode: 3
   m_AspectRatio: 2
   m_DataSource: 0
@@ -3137,7 +3154,7 @@ MonoBehaviour:
     GlobalObjectId_V1-2-404faf10c46d0cf499cd01f6a999997a-2011716687-0
   url: 
   local:
-    Texture: {fileID: 0}
+    File: {fileID: 0}
   allowDrop: 1
   background: 1
   environment: 1

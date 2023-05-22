@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6192141, g: 0.69999945, b: 0.7067927, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -647,6 +647,7 @@ GameObject:
   - component: {fileID: 446718515}
   - component: {fileID: 446718516}
   - component: {fileID: 446718517}
+  - component: {fileID: 446718518}
   m_Layer: 0
   m_Name: MyScene
   m_TagString: Untagged
@@ -685,6 +686,7 @@ Transform:
   - {fileID: 1118234818}
   - {fileID: 344752610}
   - {fileID: 2065859171}
+  - {fileID: 1066477656}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -735,12 +737,29 @@ MonoBehaviour:
   objectToExport: {fileID: 0}
   autoExportAnimations: 0
   interactive: 1
-  exportFileName: Needle
-  overlay:
+  customBranding:
     CheckoutTitle: 
     CheckoutSubtitle: 
     CallToAction: 
     CallToActionURL: 
+  exportFileName: Needle
+  customUsdzFile:
+    File: {fileID: 0}
+--- !u!114 &446718518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446718512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d486f15de1d234da162ec54633ab10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
+    $ GlobalObjectId_V1-2-e40d6f427cb271d479d0d5a8f2a3cfb7-446718518-0
+  arScale: 1
+  invertForward: 0
 --- !u!1 &455449547
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +872,7 @@ GameObject:
   - component: {fileID: 544602419}
   - component: {fileID: 544602422}
   - component: {fileID: 544602423}
+  - component: {fileID: 544602424}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -891,8 +911,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 30
   field of view: 35
   orthographic: 0
   orthographic size: 5
@@ -918,7 +938,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544602418}
-  m_LocalRotation: {x: 0.013872268, y: -0.9846374, z: 0.14730342, w: 0.09272885}
+  m_LocalRotation: {x: 0.012805509, y: -0.9861576, z: 0.13742194, w: 0.091893986}
   m_LocalPosition: {x: 0.17, y: 0.9, z: 2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -981,9 +1001,28 @@ MonoBehaviour:
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  lookAtConstraint: {fileID: 544602424}
   middleClickToFocus: 1
   doubleClickToFocus: 1
+--- !u!1183024399 &544602424
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544602418}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 1066477656}
+    weight: 1
 --- !u!1 &631688197
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,6 +1948,36 @@ Transform:
   - {fileID: 133515480}
   m_Father: {fileID: 1604879625}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1066477655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1066477656}
+  m_Layer: 0
+  m_Name: LookTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1066477656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066477655}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.3, y: 0.177, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 446718514}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1117670746
 GameObject:
@@ -3576,6 +3645,7 @@ GameObject:
   - component: {fileID: 1779251226}
   - component: {fileID: 1779251225}
   - component: {fileID: 1779251228}
+  - component: {fileID: 1779251229}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -3644,6 +3714,22 @@ MonoBehaviour:
   Path: /usdz-characters
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &1779251229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779251224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: QuickLook Characters
+    description: Character controller that works in iOS AR too
+    image: {fileID: 2800000, guid: 44973102360982543ab4ba4d91303703, type: 3}
 --- !u!1 &1873988598
 GameObject:
   m_ObjectHideFlags: 0
@@ -3668,7 +3754,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873988598}
-  m_LocalRotation: {x: 0.06893783, y: -0.014963497, z: -0.0010345533, w: -0.9975082}
+  m_LocalRotation: {x: -0.49466178, y: 0.012248659, z: 0.006924228, w: 0.8689717}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

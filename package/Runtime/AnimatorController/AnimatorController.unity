@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028398, g: 0.22571537, b: 0.30692396, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -456,7 +456,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706762903}
-  m_LocalRotation: {x: 0.03485864, y: 0.96424115, z: -0.2057702, w: 0.16334793}
+  m_LocalRotation: {x: 0.034858625, y: 0.96424115, z: -0.2057701, w: 0.16334793}
   m_LocalPosition: {x: -1.0536103, y: 2.0204701, z: 3.0204797}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -554,6 +554,7 @@ GameObject:
   - component: {fileID: 784234925}
   - component: {fileID: 784234926}
   - component: {fileID: 784234927}
+  - component: {fileID: 784234928}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -632,10 +633,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-e5267d04fa46959479eb7b113fca8a24-784234927-0
-  FTPServer: {fileID: 11400000, guid: 24ec55f7625cbea428362c0007db2a03, type: 2}
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /animatorcontroller
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &784234928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: AnimatorController
+    description: Simple animator controller to transition between two states and
+      play a sound effect (no code)
+    image: {fileID: 2800000, guid: b5ee8d6197e82b643866dc2d1eca7b9a, type: 3}
 --- !u!1001 &791039603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1003,7 +1021,7 @@ MonoBehaviour:
     GlobalObjectId_V1-2-e5267d04fa46959479eb7b113fca8a24-1597275522-0
   url: https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/burnt_warehouse_1k.exr
   local:
-    Texture: {fileID: 0}
+    File: {fileID: 0}
   allowDrop: 1
   background: 1
   environment: 1

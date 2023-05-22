@@ -4,6 +4,18 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2023-05-10
+- add USDZ Interactivity / Characters samples
+- add Configurator sample
+- add Image Tracking sample
+- add Musical Instrument sample
+- add room tracking/passthrough sample
+- add External Content sample
+- add Interactive Map sample
+- add Netlify Deployment sample
+- add Portal rendering sample
+- update Video Playback sample
+
 ## [0.6.0] - 2023-04-11
 - add PostProcessing sample
 - add Sidescroller sample

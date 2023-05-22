@@ -28,6 +28,8 @@ export class Hotspot extends Behaviour {
         const options = new InstantiateOptions();
         options.parent = this.gameObject;
         this.instance = GameObject.instantiate(HotspotManager.Instance.hotspotTemplate.gameObject, options);
+        this.instance.removeFromParent();
+        this.gameObject.add(this.instance);
         this.hotspot = this.instance?.getComponent(HotspotBehaviour);
         if (this.hotspot) {
             GameObject.setActive(this.hotspot.gameObject, true);

@@ -387,6 +387,8 @@ GameObject:
   - component: {fileID: 784234923}
   - component: {fileID: 784234925}
   - component: {fileID: 784234926}
+  - component: {fileID: 784234927}
+  - component: {fileID: 784234928}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -452,6 +454,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-784234926-0
   Glitch: {fileID: 1911445426}
+--- !u!114 &784234927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-784234927-0
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
+  Path: /groundprojection
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
+--- !u!114 &784234928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-784234928-0
+  meta:
+    title: Ground Projection
+    description: Floor projection from environment maps
+    image: {fileID: 2800000, guid: 9d02d6363b39dbc46af9a218941043ef, type: 3}
 --- !u!1 &832372436
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +533,7 @@ MonoBehaviour:
     GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-832372438-0
   url: small_hangar_01_2k.jpg
   local:
-    Texture: {fileID: 8900000, guid: d2122f857ea1411498d8976778b0c74e, type: 3}
+    File: {fileID: 8900000, guid: d2122f857ea1411498d8976778b0c74e, type: 3}
   allowDrop: 1
   background: 1
   environment: 1

@@ -434,6 +434,7 @@ GameObject:
   - component: {fileID: 393625140}
   - component: {fileID: 393625143}
   - component: {fileID: 393625144}
+  - component: {fileID: 393625145}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -454,7 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-393625140-0
-  compilerDirectory: Library/Needle/DynamicContent/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &393625141
 MonoBehaviour:
@@ -473,6 +474,9 @@ MonoBehaviour:
   Dependencies:
   - Name: DynamicContent
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/DynamicContent/Scripts/DynamicContent.npmdef
+    Guid: d744fcb853a61214eb5f3c7e57138c8d
+  - Name: '@needle-tools/external-content-samples'
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/ExternalContent/Scripts/Needle.Samples.ExternalContent.npmdef
     Guid: d744fcb853a61214eb5f3c7e57138c8d
 --- !u!4 &393625142
 Transform:
@@ -515,10 +519,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-393625144-0
-  FTPServer: {fileID: 11400000, guid: 24ec55f7625cbea428362c0007db2a03, type: 2}
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /dynamic-content
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &393625145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393625139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-393625145-0
+  meta:
+    title: External Content
+    description: Download textures & models from external sources
+    image: {fileID: 2800000, guid: 8f1c0495cec2bf445b0e553e2178e336, type: 3}
 --- !u!1 &462077757
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,7 +1014,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.GraphicRaycaster, UnityEngine.UI $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-689729387-0
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
   m_BlockingMask:
@@ -1011,7 +1031,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.CanvasScaler, UnityEngine.UI $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-689729388-0
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
@@ -1529,7 +1549,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.EventSystems.StandaloneInputModule, UnityEngine.UI
+    $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-1022825701-0
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -1548,7 +1569,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.EventSystems.EventSystem, UnityEngine.UI $
+    GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-1022825702-0
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
@@ -2048,7 +2070,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-1363021818-0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
@@ -2070,7 +2092,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: <i>Mind that certain function won't work with adblock</i>
+  m_Text: Mind that certain function won't work with adblock
 --- !u!222 &1363021819
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2530,7 +2552,7 @@ MonoBehaviour:
     GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-1576243378-0
   url: https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/dam_wall_1k.exr
   local:
-    Texture: {fileID: 0}
+    File: {fileID: 0}
   allowDrop: 0
   background: 1
   environment: 1
@@ -2663,7 +2685,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-1719133899-0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
@@ -2685,9 +2707,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<i>param name</i>
+  m_Text: 'param name
 
-    <b>texture</b>'
+    texture'
 --- !u!222 &1719133900
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3101,7 +3123,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-1879977184-0
+  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-1719133899-0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
@@ -3123,9 +3145,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<i>param name</i>
+  m_Text: 'param name
 
-    <b>skybox</b>'
+    skybox'
 --- !u!222 &1879977185
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3182,7 +3204,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-b78185ceafd3953409f8517ba3e15483-1719133899-0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
@@ -3204,9 +3226,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<i>param name</i>
+  m_Text: 'param name
 
-    <b>model</b>'
+    model'
 --- !u!222 &1992181299
 CanvasRenderer:
   m_ObjectHideFlags: 0

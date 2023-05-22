@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.52388406, g: 0.6796649, b: 0.7687166, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -566,6 +566,7 @@ GameObject:
   - component: {fileID: 784234925}
   - component: {fileID: 784234926}
   - component: {fileID: 784234927}
+  - component: {fileID: 784234928}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -645,11 +646,28 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  FTPServer: {fileID: 11400000, guid: 2384b453ca9716c478ee078edf1279d7, type: 2}
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+    $ GlobalObjectId_V1-2-3ff99836b61ba9f4fac090280307530b-784234927-0
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /object-visibility
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &784234928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: Visibility and State
+    description: Visibility, enabled/disabled, hierarchy
+    image: {fileID: 2800000, guid: 1ede100281d13ab43832dc2c80aed2de, type: 3}
 --- !u!1 &806518225
 GameObject:
   m_ObjectHideFlags: 0

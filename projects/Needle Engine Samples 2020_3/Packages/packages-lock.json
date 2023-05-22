@@ -40,12 +40,12 @@
       "url": "https://packages.needle.tools"
     },
     "com.needle.engine-exporter": {
-      "version": "3.4.0-exp",
+      "version": "3.5.9-pre",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.needle.csharp-to-typescript": "0.1.0",
-        "org.khronos.unitygltf": "2.0.1-exp",
+        "org.khronos.unitygltf": "2.0.3-exp",
         "com.unity.modules.animation": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0",
         "com.unity.modules.uielements": "1.0.0",
@@ -63,18 +63,20 @@
       "depth": 0,
       "source": "local",
       "dependencies": {
-        "com.needle.engine-exporter": "2.67.18"
+        "com.needle.engine-exporter": "3.5.3-exp"
       }
     },
     "com.needle.engine-tests": {
       "version": "file:../../../tests",
       "depth": 0,
       "source": "local",
-      "dependencies": {}
+      "dependencies": {
+        "com.needle.missing-component-info": "1.4.1"
+      }
     },
     "com.needle.missing-component-info": {
-      "version": "1.3.0",
-      "depth": 0,
+      "version": "1.4.1",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://package.openupm.com"
@@ -224,7 +226,7 @@
       }
     },
     "org.khronos.unitygltf": {
-      "version": "2.0.1-exp",
+      "version": "2.0.3-exp",
       "depth": 1,
       "source": "registry",
       "dependencies": {

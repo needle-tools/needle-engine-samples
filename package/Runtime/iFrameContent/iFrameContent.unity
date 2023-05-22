@@ -586,7 +586,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-945eb68e334310f439e8b25083f3b2f0-1502977980-0
   SuppressExport: 0
-  SmartExport: 0
   EmbedSkybox: 1
 --- !u!4 &1502977981
 Transform:
@@ -633,6 +632,7 @@ GameObject:
   - component: {fileID: 1852762880}
   - component: {fileID: 1852762879}
   - component: {fileID: 1852762882}
+  - component: {fileID: 1852762883}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -653,7 +653,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-945eb68e334310f439e8b25083f3b2f0-1852762879-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/engine/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
+  Debug: 0
 --- !u!114 &1852762880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,8 +700,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-945eb68e334310f439e8b25083f3b2f0-1852762882-0
-  FTPServer: {fileID: 11400000, guid: 10155bc195d376643abaefe881d45c5e, type: 2}
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /iframe-content/
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
+--- !u!114 &1852762883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852762878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: iframe Content
+    description: Displaying external web pages in 3D
+    image: {fileID: 2800000, guid: 265411ec72a134e48a1e6bdbb6a0dcfb, type: 3}
 --- !u!1 &1888473022
 GameObject:
   m_ObjectHideFlags: 0

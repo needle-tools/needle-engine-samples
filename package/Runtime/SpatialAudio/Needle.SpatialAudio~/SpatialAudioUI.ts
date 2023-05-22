@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, OrbitControls, serializable } from "@needle-tools/engine";
 import { OrbitControlsView } from "./OrbitControlsView";
 import { getWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
 import { Vector3 } from "three";
@@ -9,6 +9,9 @@ export class SpatialAudioUI extends Behaviour {
 
     @serializable(OrbitControlsView)
     centerPoints: OrbitControlsView[] = [];
+
+    @serializable(OrbitControls)
+    orbitControls?: OrbitControls;
 
     private template() {
         return /*html*/`
@@ -22,11 +25,11 @@ export class SpatialAudioUI extends Behaviour {
 
                 <div class="explainer">
                     <div>
-                        <h1>Spatial Audio</h1>
+                        <h1 class="ignore-landscape">Spatial Audio</h1>
                         <p>Sound on! 🔊</p>
                         <p>This sample demonstrates how to use spatial audio in <a href="https://needle.tools">Needle Engine</a>. Audio sources can be placed in 3D, and your camera position influences how loud they are.</p>
                         <p>You can move around the scene in the browser, open the page on your phone and try it in Augmented Reality, or in Virtual Reality on a VR headset.</p>
-                        <button class="start">Start exploring</button><br/>
+                        <button class="start">Start exploring</button><br class="ignore-landscape"/>
                         <a class="start-quest button small" target="_blank">Open on Quest</a>
                     </div>
                 </div>
@@ -45,6 +48,7 @@ export class SpatialAudioUI extends Behaviour {
                 justify-content: center;
                 transform: translateX(-50%);
                 vertical-align: middle;
+                min-width: 100%; /* to avoid text wrapping */
             }
 
             .spatial-audio-ui button {
@@ -66,7 +70,6 @@ export class SpatialAudioUI extends Behaviour {
                 font-size: 1rem;
                 color: white;
                 opacity: 0.3;
-                left: 65px;
                 top: 0px;
                 text-align: center;
             }
@@ -77,8 +80,8 @@ export class SpatialAudioUI extends Behaviour {
                 margin: 0 1rem;
                 margin-top: 0.6rem;
                 text-transform: uppercase;
-                width: 200px;
                 text-align: center;
+                position: relative;
             }
 
             .explainer {
@@ -90,6 +93,7 @@ export class SpatialAudioUI extends Behaviour {
                 text-align: center;
                 color: white;
                 backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -107,6 +111,7 @@ export class SpatialAudioUI extends Behaviour {
             .explainer a {
                 color: #b9f026;
                 text-decoration: none;
+                white-space: nowrap;
             }
 
             .explainer button, .explainer a.button {
@@ -130,11 +135,21 @@ export class SpatialAudioUI extends Behaviour {
                 cursor: pointer;
                 transform: scale(1.1);
             }
+
+            @media (max-height: 450px) {
+                .ignore-landscape {
+                    display: none;
+                }
+            }
+
+            span {
+                text-overflow: ;
+            }
         `;
     }
     
-    private element: HTMLElement;
-    private styleElement: HTMLStyleElement;
+    private element?: HTMLElement;
+    private styleElement?: HTMLStyleElement;
 
     onEnable() {
         const template = document.createElement('template');
@@ -154,7 +169,7 @@ export class SpatialAudioUI extends Behaviour {
 
         // hide the explainer when the user clicks the start button
         this.element.querySelector('.start')?.addEventListener('click', () => {
-            this.element.querySelector('.explainer')?.remove();
+            this.element?.querySelector('.explainer')?.remove();
         });
 
         // open the page on the quest when the user clicks the button
@@ -185,8 +200,8 @@ export class SpatialAudioUI extends Behaviour {
     }
 
     onDisable() {
-        this.element.remove();
-        this.styleElement.remove();
+        this.element?.remove();
+        this.styleElement?.remove();
         this.context.domElement.removeEventListener('pointerdown', this._touchstart);
         this.context.domElement.removeEventListener('pointerup', this._touchend);
     }
@@ -196,8 +211,13 @@ export class SpatialAudioUI extends Behaviour {
 
     // find the closest center point to the camera and update the UI
     update() {
-        const cam = this.context.mainCamera;
-        getWorldPosition(cam, this.camPos);
+
+        // get orbit origin of the camera instead of its position
+        if(this.orbitControls && this.orbitControls.controls)
+            this.camPos = this.orbitControls.controls.target;
+
+        /* const cam = this.context.mainCamera; */
+        /* getWorldPosition(pos, this.camPos); */
 
         let closest: OrbitControlsView | null = null;
         let closestDistance = Infinity;
@@ -212,7 +232,8 @@ export class SpatialAudioUI extends Behaviour {
 
         if (closest !== this.currentCenterPoint && closest) {
             this.currentCenterPoint = closest;
-            this.element.querySelector('.name')!.textContent = closest.gameObject.parent.name;
+            if(this.element && closest.gameObject.parent)
+                this.element.querySelector('.name')!.textContent = closest.gameObject.parent.name;
         }
     }
 

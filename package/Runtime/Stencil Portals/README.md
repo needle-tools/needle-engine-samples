@@ -32,6 +32,12 @@ All logic is defined in the URP asset (the renderer) which defines when and how 
 
 Also to note, if you assign a content layer to your objects they'll disappear right away and are only visible while looking through a mask. So this means the effect should work right away in the editor. If it doesn't it means something went wrong. Please double-check everything or seek help on our discord.
 
+
+## Important notice
+
+- The stencil is supported only on URP
+- Doesn't work well with post processing such as bloom
+
 ---
 
 ## Attribution

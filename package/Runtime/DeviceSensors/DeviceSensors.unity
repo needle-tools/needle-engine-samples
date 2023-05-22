@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.74870116, g: 0.61826795, b: 0.59117955, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -600,6 +600,7 @@ GameObject:
   - component: {fileID: 740623228}
   - component: {fileID: 740623227}
   - component: {fileID: 740623230}
+  - component: {fileID: 740623231}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -667,10 +668,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-740623230-0
-  FTPServer: {fileID: 11400000, guid: 10155bc195d376643abaefe881d45c5e, type: 2}
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
   Path: /device-sensors/
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &740623231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740623226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meta:
+    title: Device Sensors
+    description: Orientation Sensor Access
+    image: {fileID: 2800000, guid: 40f33c1d0ca75b042abde1fba3bdf0ce, type: 3}
 --- !u!1 &878778393
 GameObject:
   m_ObjectHideFlags: 0
