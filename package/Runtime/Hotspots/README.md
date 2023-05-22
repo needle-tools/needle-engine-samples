@@ -31,11 +31,6 @@ Author: Andriy Shekh
 Source: https://sketchfab.com/3d-models/pine-tree-e52769d653cd4e52a4acff3041961e65
 License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 
-360° Panorama mapped onto a sphere
-Author: CHRIS .capycoil
-Source: https://sketchfab.com/3d-models/360-panorama-mapped-onto-a-sphere-511e40baf29147769ae30d7e19fc9431
-License: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
-
 Trees Low Poly
 Author: Igor_K.
 Source: https://sketchfab.com/3d-models/trees-low-poly-1d2dcca2ccb1496c85b7cc5789a2a261
