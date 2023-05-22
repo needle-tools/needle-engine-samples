@@ -786,6 +786,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -3910990755373119420, guid: e1a12dcaed0991a49be3d5eeaf53b05f, type: 3}
   m_PrefabInstance: {fileID: 384026878}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &384026880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8771091787928289351, guid: e1a12dcaed0991a49be3d5eeaf53b05f, type: 3}
+  m_PrefabInstance: {fileID: 384026878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &384026881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384026880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385d14bf62e962549a8aeb84fdd6bad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisibleIn: 29
 --- !u!1 &410607713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,8 +1136,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 5
-  far clip plane: 300
+  near clip plane: 0.5
+  far clip plane: 200
   field of view: 35
   orthographic: 0
   orthographic size: 5
@@ -1172,7 +1190,7 @@ MonoBehaviour:
   dampingFactor: 0.1
   enableZoom: 1
   minZoom: 20
-  maxZoom: 200
+  maxZoom: 150
   enablePan: 1
   lookAtConstraint: {fileID: 498933282}
   middleClickToFocus: 1
@@ -2546,7 +2564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI.Image, UnityEngine.UI $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-865617285-0
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3888,7 +3906,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1625843378-0
   meta:
     title: Hotspots
     description: Annotate 3D content
@@ -4296,7 +4314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1786409565-0
-  arScale: 100
+  arScale: 20
   invertForward: 0
 --- !u!1001 &1799565675
 PrefabInstance:
