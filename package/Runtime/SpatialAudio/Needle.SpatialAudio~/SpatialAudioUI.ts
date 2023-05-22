@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, OrbitControls, serializable } from "@needle-tools/engine";
 import { OrbitControlsView } from "./OrbitControlsView";
 import { getWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
 import { Vector3 } from "three";
@@ -9,6 +9,9 @@ export class SpatialAudioUI extends Behaviour {
 
     @serializable(OrbitControlsView)
     centerPoints: OrbitControlsView[] = [];
+
+    @serializable(OrbitControls)
+    orbitControls?: OrbitControls;
 
     private template() {
         return /*html*/`
@@ -45,6 +48,7 @@ export class SpatialAudioUI extends Behaviour {
                 justify-content: center;
                 transform: translateX(-50%);
                 vertical-align: middle;
+                min-width: 100%; /* to avoid text wrapping */
             }
 
             .spatial-audio-ui button {
@@ -137,11 +141,15 @@ export class SpatialAudioUI extends Behaviour {
                     display: none;
                 }
             }
+
+            span {
+                text-overflow: ;
+            }
         `;
     }
     
-    private element: HTMLElement;
-    private styleElement: HTMLStyleElement;
+    private element?: HTMLElement;
+    private styleElement?: HTMLStyleElement;
 
     onEnable() {
         const template = document.createElement('template');
@@ -161,7 +169,7 @@ export class SpatialAudioUI extends Behaviour {
 
         // hide the explainer when the user clicks the start button
         this.element.querySelector('.start')?.addEventListener('click', () => {
-            this.element.querySelector('.explainer')?.remove();
+            this.element?.querySelector('.explainer')?.remove();
         });
 
         // open the page on the quest when the user clicks the button
@@ -192,8 +200,8 @@ export class SpatialAudioUI extends Behaviour {
     }
 
     onDisable() {
-        this.element.remove();
-        this.styleElement.remove();
+        this.element?.remove();
+        this.styleElement?.remove();
         this.context.domElement.removeEventListener('pointerdown', this._touchstart);
         this.context.domElement.removeEventListener('pointerup', this._touchend);
     }
@@ -203,8 +211,13 @@ export class SpatialAudioUI extends Behaviour {
 
     // find the closest center point to the camera and update the UI
     update() {
-        const cam = this.context.mainCamera;
-        getWorldPosition(cam, this.camPos);
+
+        // get orbit origin of the camera instead of its position
+        if(this.orbitControls && this.orbitControls.controls)
+            this.camPos = this.orbitControls.controls.target;
+
+        /* const cam = this.context.mainCamera; */
+        /* getWorldPosition(pos, this.camPos); */
 
         let closest: OrbitControlsView | null = null;
         let closestDistance = Infinity;
@@ -219,7 +232,8 @@ export class SpatialAudioUI extends Behaviour {
 
         if (closest !== this.currentCenterPoint && closest) {
             this.currentCenterPoint = closest;
-            this.element.querySelector('.name')!.textContent = closest.gameObject.parent.name;
+            if(this.element && closest.gameObject.parent)
+                this.element.querySelector('.name')!.textContent = closest.gameObject.parent.name;
         }
     }
 
