@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.8916737, g: 0.83979285, b: 0.7978969, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -944,7 +944,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-186070972-0
   meta:
     title: QuickLook Interactions
     description: Various interactive examples compatible with iOS AR
@@ -1547,6 +1547,7 @@ GameObject:
   - component: {fileID: 589197790}
   - component: {fileID: 589197789}
   - component: {fileID: 589197792}
+  - component: {fileID: 589197793}
   - component: {fileID: 589197791}
   - component: {fileID: 589197794}
   m_Layer: 0
@@ -1635,6 +1636,21 @@ MonoBehaviour:
   createVRButton: 0
   createARButton: 1
   handModelPath: 
+--- !u!114 &589197793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589197788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d486f15de1d234da162ec54633ab10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
+    $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-589197793-0
+  arScale: 1
+  invertForward: 0
 --- !u!114 &589197794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3096,7 +3112,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalLightData,
+    Unity.RenderPipelines.Universal.Runtime $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-1332632229-0
   m_UsePipelineSettings: 1
 --- !u!1 &1441614450
 GameObject:
@@ -4414,7 +4431,7 @@ MeshFilter:
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!95 &1967200969
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4427,10 +4444,11 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1982638464
 GameObject:
   m_ObjectHideFlags: 0
