@@ -21,6 +21,7 @@ import { SceneSwitcherSample } from "../SceneSwitcher";
 import { StartPosition } from "../StartPosition";
 import { AutoReset } from "../StartPosition";
 import { TimedSpawn } from "../TimedSpawn";
+import { Variatns } from "../Variants";
 import { ResetPositionOnInterval } from "../VisibilitySamples";
 import { ToggleVisibility } from "../VisibilitySamples";
 
@@ -45,5 +46,6 @@ TypeStore.add("SceneSwitcherSample", SceneSwitcherSample);
 TypeStore.add("StartPosition", StartPosition);
 TypeStore.add("AutoReset", AutoReset);
 TypeStore.add("TimedSpawn", TimedSpawn);
+TypeStore.add("Variatns", Variatns);
 TypeStore.add("ResetPositionOnInterval", ResetPositionOnInterval);
 TypeStore.add("ToggleVisibility", ToggleVisibility);
