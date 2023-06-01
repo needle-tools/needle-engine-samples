@@ -12,10 +12,7 @@ export class MediapipeHands extends Behaviour {
     private _handLandmarker!: HandLandmarker;
 
     async awake() {
-
-        showBalloonMessage("Enable your webcam and wave your hands to see the magic!<br/><br/>Sample scene by <a href='https://twitter.com/llllkatjallll/status/1659280435023605773'>Katja Rempel</a>")
-
-        showBalloonMessage("")
+        showBalloonMessage("Initializing mediapipe...")
 
         const vision = await FilesetResolver.forVisionTasks(
             // path/to/wasm/root
@@ -47,6 +44,7 @@ export class MediapipeHands extends Behaviour {
         const video = this._video;
         if (video.currentTime !== this._lastVideoTime) {
             let startTimeMs = performance.now();
+            showBalloonMessage("<strong>Control the spheres with one or two hands</strong>!<br/><br/>Sample scene by <a href='https://twitter.com/llllkatjallll/status/1659280435023605773'>Katja Rempel</a>")
             const detections = this._handLandmarker.detectForVideo(video, startTimeMs);
             this.processResults(detections);
             this._lastVideoTime = video.currentTime;
@@ -55,7 +53,6 @@ export class MediapipeHands extends Behaviour {
     }
 
     private processResults(results: HandLandmarkerResult) {
-
         const hand1 = results.landmarks[0];
         // check if we have even one hand
         if (!hand1) return;
