@@ -1,1 +1,1 @@
-﻿import "./Mediapipe"
+﻿import "./MediapipeHands"
