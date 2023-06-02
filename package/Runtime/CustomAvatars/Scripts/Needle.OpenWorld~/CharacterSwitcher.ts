@@ -10,7 +10,7 @@ import { Object3D } from "three";
 export class CharacterSwitcher extends Behaviour {
 
     // Won't work for dropping new files but would work for local presets + URLs
-    @syncField("characterUriChanged")
+    @syncField(CharacterSwitcher.prototype.characterUriChanged)
     private characterUri: string = "0";
 
     private previousGo: IGameObject | undefined;
@@ -20,7 +20,12 @@ export class CharacterSwitcher extends Behaviour {
             console.log("received new uri: " + newUri);
 
             // TODO I believe this needs to be undefined but the signature doesn't allow it (the method inside does)
-            const assetReference = AssetReference.getOrCreate(this.sourceId!, newUri, this.context);
+
+            // need to check if newUri is already relative to this.sourceId or not
+            // for now we just strip "assets/" from the beginning
+            // if (newUri.startsWith("assets/")) newUri = newUri.substr("assets/".length);
+
+            const assetReference = AssetReference.getOrCreate("", newUri, this.context);
             this.replaceCharacter(assetReference);
         }
     }
