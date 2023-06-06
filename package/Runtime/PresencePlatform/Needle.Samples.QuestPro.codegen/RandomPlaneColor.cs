@@ -5,7 +5,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class RandomColor : UnityEngine.MonoBehaviour
+	public partial class RandomPlaneColor : UnityEngine.MonoBehaviour
 	{
 		public void awake(){}
 	}

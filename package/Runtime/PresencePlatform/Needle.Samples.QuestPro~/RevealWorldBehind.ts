@@ -1,4 +1,4 @@
-import { Behaviour, IPointerClickHandler, Renderer, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, IPointerClickHandler, Renderer, WebXRPlaneTracking, serializable } from "@needle-tools/engine";
 import { Material, MeshBasicMaterial } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -17,6 +17,23 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
     private renderer: Renderer | null = null;
 
     start() {
+
+        // Quest Browser 27.2+ (June 2023) ships with experimental support for "semanticLabel" on XRPlanes
+        // Needs to have "WebXR Experimental Settings" turned on in chrome://flags
+        // See also https://immersive-web.github.io/real-world-meshing/#mesh
+        const tracker = GameObject.findObjectOfType(WebXRPlaneTracking);
+        if (tracker) {
+            const planes = tracker.trackedPlanes;
+            for (const plane of planes) {
+                //@ts-ignore
+                if (plane.mesh === this.gameObject) {
+                    const data = plane.xrPlane;
+                    //@ts-ignore
+                    console.log("this plane is part of a ", data.semanticLabel);
+                }
+            }
+        }
+
         this.renderer = this.gameObject.getComponent(Renderer);
         // append our current material to the list
         if (this.renderer) {

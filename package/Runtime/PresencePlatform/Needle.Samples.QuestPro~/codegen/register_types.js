@@ -3,11 +3,11 @@
 // Import types
 import { NetworkedQuads } from "../NetworkedQuads";
 import { PresencePlatformUI } from "../PresencePlatformUI";
-import { RandomColor } from "../RandomColor";
+import { RandomPlaneColor } from "../RandomPlaneColor";
 import { RevealWorldBehind } from "../RevealWorldBehind";
 
 // Register types
 TypeStore.add("NetworkedQuads", NetworkedQuads);
 TypeStore.add("PresencePlatformUI", PresencePlatformUI);
-TypeStore.add("RandomColor", RandomColor);
+TypeStore.add("RandomPlaneColor", RandomPlaneColor);
 TypeStore.add("RevealWorldBehind", RevealWorldBehind);

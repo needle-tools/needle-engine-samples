@@ -3,7 +3,7 @@ import { MeshStandardMaterial } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
-export class RandomColor extends Behaviour {
+export class RandomPlaneColor extends Behaviour {
 
     awake() {
         const r = this.gameObject.getComponent(Renderer);
