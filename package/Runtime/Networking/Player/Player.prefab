@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4541726535401666759}
+  - component: {fileID: 705124391}
   - component: {fileID: -4188794697467736459}
   - component: {fileID: -7385691179726424656}
-  - component: {fileID: 705124391}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -34,6 +34,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &705124391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4541726535401666756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79de14f91942e05af24c4809eee2b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Player, Needle.Engine-Samples.Runtime
+    $ GlobalObjectId_V1-2-375db29c7005fb54587043b09654568b-705124391-0
+  playerState: {fileID: -4188794697467736459}
+  syncedTransform: {fileID: -7385691179726424656}
+  mainRenderer: {fileID: 4541726536617972775}
+  speed: 5
 --- !u!114 &-4188794697467736459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,21 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.SyncedTransform, Needle.Engine
     $ GlobalObjectId_V1-1-f78dc863674d0064e8fd0487448ce05d-11061052893983126960-0
-  fastMode: 0
---- !u!114 &705124391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4541726535401666756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d79de14f91942e05af24c4809eee2b33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Player, Needle.Engine-Samples.Runtime
-    $ GlobalObjectId_V1-2-375db29c7005fb54587043b09654568b-705124391-0
-  speed: 5
+  fastMode: 1
 --- !u!1 &4541726536617972771
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +90,6 @@ GameObject:
   - component: {fileID: 4541726536617972774}
   - component: {fileID: 4541726536617972775}
   - component: {fileID: 4541726536617972772}
-  - component: {fileID: 4541726536617972773}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -171,17 +173,3 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4541726536617972773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4541726536617972771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c8358387f781f6d57f64f7828e0d871, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
-    $ GlobalObjectId_V1-2-375db29c7005fb54587043b09654568b-1904735428-0
-  applyOnStart: 1
