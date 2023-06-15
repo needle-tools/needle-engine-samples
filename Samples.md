@@ -23,9 +23,12 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Screensharing](https://engine.needle.tools/samples/screensharing) | WebRTC and Streaming <br/><kbd>Networking</kbd>| <img src="package/Editor/Screenshots/Screensharing.jpg" height="200"/>
 | [Spatial Audio](https://engine.needle.tools/samples/spatial-audio/) | Placing audio sources in 3D with spatial falloff <br/><kbd>Audio</kbd> <kbd>XR</kbd> <kbd>iOS AR</kbd>| <img src="package/Editor/Screenshots/SpatialAudio.jpg" height="200"/>
 | [Third-Person Controller](https://engine.needle.tools/samples/character-controller) | Characters, Animations and Controls <br/><kbd>Animation</kbd> <kbd>Games</kbd>| <img src="package/Editor/Screenshots/Third-Person Controller.jpg" height="200"/>
-| Netlify | Deploy projects made with Needle to Netlify <br/><kbd>Deployment</kbd>| <img src="package/Editor/Screenshots/Netlify.jpg" height="200"/>
+| [Netlify](https://needle-engine-netlify-sample.netlify.app/) | Deploy projects made with Needle to Netlify <br/><kbd>Deployment</kbd>| <img src="package/Editor/Screenshots/Netlify.jpg" height="200"/>
+| NextJS | Integration with the NextJS framework. <br/>| <img src="package/Editor/Screenshots/NextJSProjectSample.jpg" height="200"/>
+| [Svelte integration](https://engine.needle.tools/samples/svelte-project-sample) | Integration with the Svelte web framework. <br/>| <img src="package/Editor/Screenshots/SvelteProjectSample.jpg" height="200"/>
 | [Vue.js Integration](https://engine.needle.tools/samples/vue-project-sample/) | Integration with the Vue.js web framework. <br/><kbd>UI</kbd> <kbd>Frameworks</kbd>| <img src="package/Editor/Screenshots/VueProjectSample.jpg" height="200"/>
 | [iframe Content](https://engine.needle.tools/samples/iframe-content/?url=https://www.youtube.com/embed/puWNRrG4MCg) | Displaying external web pages in 3D <br/><kbd>Rendering</kbd>| <img src="package/Editor/Screenshots/iFrameContent.jpg" height="200"/>
+| MediaPipe Hands | Control the scene with your hands <br/>| <img src="package/Editor/Screenshots/MediaPipeHands.jpg" height="200"/>
 | [Physics Playground](https://engine.needle.tools/samples/physics-cannon/) | Rigidbodies, Colliders, Triggers <br/><kbd>Physics</kbd> <kbd>Interaction</kbd>| <img src="package/Editor/Screenshots/Cannon Playground.jpg" height="200"/>
 | [Portal Rendering](https://engine.needle.tools/samples/stencil-portals) | Using stencil buffers <br/><kbd>Rendering</kbd>| <img src="package/Editor/Screenshots/StencilPortal.jpg" height="200"/>
 | [QuickLook Configurator](https://engine.needle.tools/samples/usdz-product) | Configure your product in quicklook <br/><kbd>Rendering</kbd>| <img src="package/Editor/Screenshots/USDZProduct.jpg" height="200"/>
