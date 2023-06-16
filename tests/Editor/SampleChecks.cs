@@ -46,17 +46,20 @@ namespace SampleChecks
             // HTTP Header Only Request
             var request = new UnityEngine.Networking.UnityWebRequest(sampleLiveUrl, "HEAD");
             request.timeout = 5;
+
             var operation = request.SendWebRequest();
             while (!operation.isDone)
+            {
                 await Task.Yield();
-            
+            }
+
             Debug.Log("Response Code from " + sampleLiveUrl + ": " + request.responseCode);
             
             Assert.That(request.responseCode, Is.EqualTo(200), "Sample is not live: " + sample.name);
         }
 
         [Ignore("Can't reliably detect version of deployed projects yet")] 
-        // [Test]
+        //[Test]
         public async Task VersionIsNotTooOld()
         {
             // fetch the HTML page
@@ -203,8 +206,20 @@ namespace SampleChecks
         public void MissingReferencesTest()
         {
             var path = AssetDatabase.GetAssetPath(sample.Scene);
-            EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
 
+            // create new unique path in Assets to copy the scene to
+            var sceneName = Path.GetFileName(path);
+            var newTempPath = $"Assets/{Guid.NewGuid()}_{sceneName}";
+
+            AssetDatabase.CopyAsset(path, newTempPath);
+
+            // open the temp scene
+            EditorSceneManager.OpenScene(newTempPath, OpenSceneMode.Single); 
+
+            // remove the temp copy of the opened scene
+            AssetDatabase.DeleteAsset(newTempPath);
+
+            //perform scans on the opened scene
             var options = new SceneScanner.Options
             {
                 IncludeEmptyEvents = true,
@@ -223,6 +238,7 @@ namespace SampleChecks
                 
                 Assert.Fail("Missing References:\n" + sb);
             }
+
         }
 
         readonly string[] ignoreSizeFolderNames =
