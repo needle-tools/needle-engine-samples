@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.UI.Text @chatLabel;
 		public UnityEngine.UI.InputField @inputField;
+		public bool @reselectInputAfterSend = true;
 		public void awake(){}
 		public void updateText(string @text){}
 		public void addTextAndClear(string @text){}

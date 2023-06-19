@@ -19,6 +19,9 @@ export class Chat extends Behaviour {
     @serializable(InputField)
     inputField?: InputField;
 
+    @serializable()
+    reselectInputAfterSend: boolean = true;
+
     awake(): void {
         // generate random user name if not set
         if(!this.userName)
@@ -33,12 +36,21 @@ export class Chat extends Behaviour {
     }
 
     addTextAndClear(text: string) {
+
+        if(text === "")
+            return;
+
         // append new line with user name to the chat text and update UI
         this.chatText += `\n${this.userName}: ${text}`;
         this.updateText(this.chatText);
 
         if(this.inputField) {
 
+            this.inputField.clear();
+
+            if(this.reselectInputAfterSend)
+                this.inputField.select();
+                
             //this.inputField.text = "";
 
             // TODO: report
