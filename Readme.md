@@ -1,23 +1,36 @@
-![colorbar](https://user-images.githubusercontent.com/5083203/180309860-542e6882-163c-4e11-9555-2c669ad72472.png)
 
-# Needle Engine Samples
+<br/>
+<p align="center">
+    <img width="120" src="https://engine.needle.tools/branding/needle-logo.png" alt="logo" />
+</p>
+<h2 align="center">
+     Needle Engine
+</h2>
 
-This repository contains sample scenes for [Needle Engine](https://docs.needle.tools)   
-Visit **[engine.needle.tools/samples](https://engine.needle.tools/samples)** for live previews.
+<div align="center">
+  
+[![Version](https://img.shields.io/npm/v/@needle-tools/engine?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/@needle-tools/engine)
+[![Downloads](https://img.shields.io/npm/dt/@needle-tools/engine.svg?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/@needle-tools/engine)
+[![Discord Shield](https://img.shields.io/discord/717429793926283276?style=flat&colorA=000000&colorB=000000&label=discord&logo=discord&logoColor=ffffff)](https://discord.needle.tools)
+  
+</div>
 
-# How to get the samples?
+<div align="center">
+  
+[Getting Started](https://docs.needle.tools/getting-started) — [Download Samples](https://engine.needle.tools/downloads/unity/samples) — [Documentation](https://engine.needle.tools/docs)
 
-## In a Unity project with Needle Engine
-1) Open the **Samples Window** (Located at the top bar in `Needle Engine/Explore Samples`)
-2) Follow instructions there
+</div>
 
-
-## In a Unity project **without** Needle Engine
+## In a new Unity project *without* Needle Engine
 1) Download the [samples package](https://engine.needle.tools/downloads/unity/samples)
 2) Open the package in the Unity Editor (you can double click the downloaded `.unitypackage`) 
 3) Use the menu item `Needle Engine/Explore Samples` to open the Needle Engine Samples window
 
-# Starting from scratch?
+## In a Unity project with Needle Engine already installed
+1) Open the **Samples Window** (Located at the top bar in `Needle Engine/Explore Samples`)
+2) Follow instructions there
+
+## Starting from scratch?
 We recommend reading the [getting started](https://engine.needle.tools/docs/getting-started.html) guide
 
 # Contact ✒️
