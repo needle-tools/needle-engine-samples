@@ -19,4 +19,4 @@ jobs:
             curl -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.DISPATCH_TOKEN }}" \
             --request POST \
-            --data '{"event_type": "updated_docs", "client_payload": { "foo": "bar" }}' https://api.github.com/repos/${{ matrix.repo }}/dispatches
+            --data '{"event_type": "updated_docs", "client_payload": { "reason": "updated samples" }}' https://api.github.com/repos/${{ matrix.repo }}/dispatches
