@@ -1,0 +1,22 @@
+name: Rebuild_Docs
+on:
+  push:
+    branches: [docs/code-marker]
+
+jobs:
+  dispatch:
+    name: Dispatch
+    env:
+      PACKAGES_TO_UPGRADE: ${{ needs.run_publish.outputs.packages }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ['needle-tools/needle-engine-support']
+    timeout-minutes: 5
+    steps:
+      - name: Dispatch to workflows
+        run: |
+            curl -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Authorization: token ${{ secrets.DISPATCH_TOKEN }}" \
+            --request POST \
+            --data '{"event_type": "updated_docs", "client_payload": { "foo": "bar" }}' https://api.github.com/repos/${{ matrix.repo }}/dispatches
