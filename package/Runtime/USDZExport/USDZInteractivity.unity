@@ -2153,6 +2153,7 @@ GameObject:
   - component: {fileID: 514986720}
   - component: {fileID: 514986721}
   - component: {fileID: 514986722}
+  - component: {fileID: 514986723}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2247,7 +2248,7 @@ MonoBehaviour:
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  lookAtConstraint: {fileID: 514986723}
   middleClickToFocus: 1
   doubleClickToFocus: 1
 --- !u!114 &514986721
@@ -2299,6 +2300,25 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-514986722-0
   backgroundBlurriness: 1
   backgroundIntensity: 1
+--- !u!1183024399 &514986723
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514986716}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 0
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 1820057699}
+    weight: 1
 --- !u!1 &571258582
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,6 +2542,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 514986719}
+  - {fileID: 1820057699}
   - {fileID: 1332632228}
   - {fileID: 1785707870}
   m_Father: {fileID: 0}
