@@ -40,13 +40,6 @@ export default defineConfig(async ({ command }) => {
             outDir: "./dist",
             emptyOutDir: true,
             keepNames: true,
-        },
-
-        resolve: {
-            alias: {
-                'three': () => path.resolve(__dirname, 'node_modules/three'),
-                '@needle-tools/engine': () => path.resolve(__dirname, 'node_modules/@needle-tools/engine'),
-            }
         }
     }
 });

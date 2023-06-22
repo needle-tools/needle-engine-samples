@@ -1,3 +1,5 @@
+// TODO: remove this and replace it with the @needle-tools/engine core SceneSwitcher
+
 import { AssetReference, Behaviour, GameObject, serializeable, showBalloonMessage } from "@needle-tools/engine";
 import { InputEvents } from "@needle-tools/engine";
 import { getParam, isMobileDevice, setParamWithoutReload } from "@needle-tools/engine";

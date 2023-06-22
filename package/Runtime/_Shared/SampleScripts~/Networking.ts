@@ -1,10 +1,10 @@
-import { Behaviour, GameObject, IPointerClickHandler, PointerEventData, Renderer, serializable } from "@needle-tools/engine";
-import { syncField } from "@needle-tools/engine";
+// START MARKER network color change
+import { Behaviour, IPointerClickHandler, PointerEventData, Renderer, serializable, syncField } from "@needle-tools/engine";
 import { Color } from "three"
-
 
 export class Networking_ClickToChangeColor extends Behaviour implements IPointerClickHandler {
 
+    // START MARKER network color change syncField
     /** syncField does automatically send a property value when it changes */
     @syncField(Networking_ClickToChangeColor.prototype.onColorChanged)
     @serializable(Color)
@@ -16,6 +16,7 @@ export class Networking_ClickToChangeColor extends Behaviour implements IPointer
             this.color = new Color(this.color);
         this.setColorToMaterials();
     }
+    // END MARKER network color change syncField
 
     /** called when the object is clicked and does generate a random color */
     onPointerClick(_: PointerEventData) {
@@ -43,3 +44,4 @@ export class Networking_ClickToChangeColor extends Behaviour implements IPointer
     }
 
 }
+// END MARKER network color change

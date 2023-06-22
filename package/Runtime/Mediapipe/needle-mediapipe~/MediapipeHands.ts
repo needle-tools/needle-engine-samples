@@ -1,7 +1,7 @@
+// START MARKER using mediapipe with hands
 import { FilesetResolver, HandLandmarker, HandLandmarkerResult, NormalizedLandmark } from "@mediapipe/tasks-vision";
 import { Behaviour, Mathf, serializable, showBalloonMessage } from "@needle-tools/engine";
 import { ParticleSphere } from "./ParticleSphere";
-
 
 export class MediapipeHands extends Behaviour {
 
@@ -88,3 +88,4 @@ export class MediapipeHands extends Behaviour {
         video.srcObject = stream;
     }
 }
+// END MARKER using mediapipe with hands

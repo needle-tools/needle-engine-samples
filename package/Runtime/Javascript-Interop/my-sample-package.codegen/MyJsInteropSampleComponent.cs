@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class MyJsInteropSampleComponent : UnityEngine.MonoBehaviour
 	{
+		public void sampleMethod(){}
 	}
 }
 
