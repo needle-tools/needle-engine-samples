@@ -1,10 +1,10 @@
+ // START MARKER disable environment light
 import { Behaviour } from "@needle-tools/engine";
-
 import { Texture } from "three";
 
 export class DisableEnvironmentLight extends Behaviour {
 
-    private _previousEnvironmentTexture: Texture | undefined = undefined;
+    private _previousEnvironmentTexture: Texture | null = null;
 
     onEnable(): void {
         this._previousEnvironmentTexture = this.context.scene.environment;
@@ -15,3 +15,4 @@ export class DisableEnvironmentLight extends Behaviour {
         this.context.scene.environment = this._previousEnvironmentTexture;
     }
 }
+// END MARKER disable environment light

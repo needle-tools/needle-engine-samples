@@ -1,15 +1,15 @@
+ // START MARKER modify custom shader material property
 import { Behaviour, serializable } from "@needle-tools/engine";
 import { Material } from "three";
 
-declare type MyCustomShaderMaterial = Material & {
+declare type MyCustomShaderMaterial = {
     _Speed: number;
 };
 
 export class IncreaseShaderSpeedOverTime extends Behaviour {
 
-    //@type UnityEngine.Material
     @serializable(Material)
-    myMaterial?: MyCustomShaderMaterial;
+    myMaterial?: Material & MyCustomShaderMaterial;
 
     update() {
         if (this.myMaterial) {
@@ -19,3 +19,4 @@ export class IncreaseShaderSpeedOverTime extends Behaviour {
         }
     }
 }
+ // END MARKER modify custom shader material property

@@ -11,7 +11,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Events.UnityEvent @onClick = new UnityEngine.Events.UnityEvent();
 		public void OnEnable(){}
 		public void OnDisable(){}
-		public void click(){}
 	}
 }
 
