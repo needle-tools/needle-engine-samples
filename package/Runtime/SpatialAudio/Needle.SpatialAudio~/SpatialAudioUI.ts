@@ -159,8 +159,8 @@ export class SpatialAudioUI extends Behaviour {
         this.styleElement = document.createElement('style');
         this.styleElement.innerHTML = this.style();
 
-        this.context.domElement.appendChild(this.element);
-        this.context.domElement.appendChild(this.styleElement);
+        this.context.appendHTMLElement(this.element);
+        this.context.appendHTMLElement(this.styleElement);
 
         // add event listeners to buttons and also to the text to make it easier to click
         this.element.querySelector('.left')?.addEventListener('click', () => { this.changeIndex(-1); });
