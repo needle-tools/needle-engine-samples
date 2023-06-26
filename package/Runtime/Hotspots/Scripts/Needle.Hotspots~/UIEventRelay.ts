@@ -2,7 +2,7 @@ import {
     IPointerEventHandler, IPointerDownHandler,
     IPointerUpHandler, IPointerEnterHandler, 
     IPointerExitHandler, IPointerClickHandler 
-} from "@needle-tools/engine/src/engine-components/ui/PointerEvents";
+} from "@needle-tools/engine";
 
 import { Behaviour, serializable, Text } from "@needle-tools/engine";
 import { Object3D } from "three";
