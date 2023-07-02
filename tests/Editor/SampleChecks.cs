@@ -97,7 +97,7 @@ namespace SampleChecks
             Debug.Log("Version: " + version);
             if (!isSemver)
             {
-                Assert.Inconclusive("Version not detected. Used Needle Engine version may not expose a version.");
+                Assert.Inconclusive("Version not detected in the HTML meta tags of the live sample. That usually means the used Needle Engine version is too old.");
             }
             else
             {
