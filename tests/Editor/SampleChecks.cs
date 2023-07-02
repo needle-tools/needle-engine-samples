@@ -188,19 +188,33 @@ namespace SampleChecks
         {
             var path = AssetDatabase.GetAssetPath(sample.Scene);
 
-            // create new unique path in Assets to copy the scene to
-            var sceneName = Path.GetFileName(path);
-            var newTempPath = $"Assets/{Guid.NewGuid()}_{sceneName}";
+            // immutable scenes can't be opened (e.g. from installed sample package)
+            // so we're making a mutable copy here to run tests on it.
+            // to simplify things, we're always making a copy right now.
+            var sceneIsImmutableAndNeedsCopy = true;
+            var scenePath = path;
+            
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (sceneIsImmutableAndNeedsCopy)
+            {
+                // create new unique path in Assets to copy the scene to
+                var sceneName = Path.GetFileName(path);
+                scenePath = $"Assets/{Guid.NewGuid()}_{sceneName}";
 
-            AssetDatabase.CopyAsset(path, newTempPath);
-
+                AssetDatabase.CopyAsset(path, scenePath);
+            }
+            
             // open the temp scene
-            EditorSceneManager.OpenScene(newTempPath, OpenSceneMode.Single); 
+            EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single); 
 
-            // remove the temp copy of the opened scene
-            AssetDatabase.DeleteAsset(newTempPath);
-
-            //perform scans on the opened scene
+            // remove the mutable copy of the immutable scene
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (sceneIsImmutableAndNeedsCopy)
+            {
+                AssetDatabase.DeleteAsset(scenePath);
+            }
+            
+            // perform scans on the opened scene
             var options = new SceneScanner.Options
             {
                 IncludeEmptyEvents = true,
@@ -219,7 +233,6 @@ namespace SampleChecks
                 
                 Assert.Fail("Missing References:\n" + sb);
             }
-
         }
 
         readonly string[] ignoreSizeFolderNames =
