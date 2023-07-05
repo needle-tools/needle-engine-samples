@@ -1,3 +1,4 @@
+// START MARKER Play Audio On Collision
 import { AudioSource, Behaviour, serializeable } from "@needle-tools/engine";
 
 export class PlayAudioOnCollision extends Behaviour {
@@ -8,3 +9,4 @@ export class PlayAudioOnCollision extends Behaviour {
         this.audioSource?.play();
     }
 }
+// END MARKER Play Audio On Collision

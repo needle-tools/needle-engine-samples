@@ -1,3 +1,4 @@
+// START MARKER Change Color On Collision
 import { Behaviour, Collision, Renderer } from "@needle-tools/engine";
 import{ Color } from "three";
 
@@ -41,4 +42,4 @@ export class ChangeColorOnCollision extends Behaviour {
     // onCollisionStay(_col: Collision)
     // onCollisionExit(_col: Collision)
 }
-
+// END MARKER Change Color On Collision

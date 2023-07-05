@@ -1,6 +1,6 @@
 import { Behaviour, Collider, Collision, EventList, GameObject, serializeable } from "@needle-tools/engine";
 
-
+// START MARKER Physics Collision Relay
 export class PhysicsCollision extends Behaviour {
 
     @serializeable(EventList)
@@ -32,10 +32,11 @@ export class PhysicsCollision extends Behaviour {
             console.log("EXIT", col);
         this.onExit?.invoke(col);
     }
-
 }
+// END MARKER Physics Collision Relay
 
 
+// START MARKER Physics Trigger Relay
 export class PhysicsTrigger extends Behaviour {
 
     @serializeable(GameObject)
@@ -64,5 +65,5 @@ export class PhysicsTrigger extends Behaviour {
         if(this.triggerObjects && this.triggerObjects.length > 0 && !this.triggerObjects?.includes(col.gameObject)) return;
         this.onExit?.invoke();
     }
-
 }
+// END MARKER Physics Trigger Relay

@@ -1,5 +1,5 @@
-import { Behaviour, serializeable } from "@needle-tools/engine";
-import { Renderer } from "@needle-tools/engine";
+// START MARKER Set Random Color
+import { Behaviour, serializeable, Renderer } from "@needle-tools/engine";
 import { Color } from "three";
 
 export class RandomColor extends Behaviour {
@@ -35,3 +35,4 @@ export class RandomColor extends Behaviour {
         }
     }
 }
+// END MARKER Set Random Color

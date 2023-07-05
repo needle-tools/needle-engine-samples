@@ -1,6 +1,5 @@
-import { Behaviour, GameObject, Gizmos, ParticleSystem, getParam, serializeable, showBalloonMessage, showBalloonWarning } from "@needle-tools/engine";
-import { InputEvents } from "@needle-tools/engine";
-import { setWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
+// START MARKER Emit Particles On Click
+import { InputEvents, setWorldPosition, Behaviour, GameObject, Gizmos, ParticleSystem, getParam, serializeable, showBalloonMessage, showBalloonWarning } from "@needle-tools/engine";
 
 const debug = getParam("sample_debugParticlesOnClick");
 
@@ -28,3 +27,4 @@ export class EmitParticlesOnClick extends Behaviour {
         });
     }
 }
+// END MARKER Emit Particles On Click

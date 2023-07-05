@@ -1,3 +1,4 @@
+// START MARKER Auto Reset
 import { Behaviour, Collider, GameObject, Rigidbody, serializeable } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
@@ -5,7 +6,6 @@ export class StartPosition extends Behaviour {
 
     //@nonSerialized
     startPosition?: Vector3;
-
 
     start() {
         this.updateStartPosition();
@@ -22,7 +22,7 @@ export class StartPosition extends Behaviour {
     }
 }
 
-
+/** Reset to start position when object is exiting the collider */
 export class AutoReset extends StartPosition {
 
     @serializeable(Collider)
@@ -39,3 +39,4 @@ export class AutoReset extends StartPosition {
         }
     }
 }
+// END MARKER Auto Reset
