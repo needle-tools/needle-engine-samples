@@ -1,5 +1,5 @@
-import { Behaviour, GameObject, LogType, serializeable, showBalloonMessage } from "@needle-tools/engine";
-import { WaitForSeconds } from "@needle-tools/engine";
+// START MARKER Timed Spawn
+import { Behaviour, GameObject, LogType, serializeable, showBalloonMessage, WaitForSeconds } from "@needle-tools/engine";
 
 export class TimedSpawn extends Behaviour {
     @serializeable(GameObject)
@@ -30,3 +30,4 @@ export class TimedSpawn extends Behaviour {
         }
     }
 }
+// END MARKER Timed Spawn
