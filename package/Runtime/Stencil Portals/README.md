@@ -1,6 +1,6 @@
 # Stencil sample
 
-Stencil masking is a technique used for making unrealistic spaces which do not make sense in real life (There are other use cases as well). A good example of this is being utilized in a game called [Antichamber](https://en.wikipedia.org/wiki/Antichamber).
+Stencil masking is a technique that can be used for making unrealistic spaces which do not make sense in real life. A good example of this is being utilized in a game called [Antichamber](https://en.wikipedia.org/wiki/Antichamber) where a [non-euclidean](https://en.wikipedia.org/wiki/Non-Euclidean_geometry) space is achieved thanks to stencil masks.
 
 This works by including extra information for every pixel on the screen. Any model that is being rendered can access or write to that information. 
 
@@ -28,7 +28,7 @@ World_3_Content
 
 These layers are not part of your project by default. You can find an autosetup tool in the root of the scene that will help you with adding them (Setup - Layer names).
 
-All logic is defined in the URP asset (the renderer) which defines when and how a certain layer is rendered (`"URP/Sample Stencial URP Renderer"`). So if the effect DOESN'T work, it is most likely because the correct URP asset is not being used, please double check that you use the provided URP Asset (`"URP/Sample Stencial URP Settings"`). 
+All logic is defined in the URP asset (the renderer) which defines when and how a certain layer is rendered (`"URP/Sample Stencial URP Renderer"`). So if the effect DOESN'T work, it is most likely because the correct URP asset is not being used, please double check that you use the provided URP Asset (`"URP/Sample Stencial URP Settings"`). It has to be assigned in the `Project Settings/Graphics` and not override by the `Project Settings/Quality`.
 
 Also to note, if you assign a content layer to your objects they'll disappear right away and are only visible while looking through a mask. So this means the effect should work right away in the editor. If it doesn't it means something went wrong. Please double-check everything or seek help on our discord.
 

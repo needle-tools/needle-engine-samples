@@ -1,6 +1,6 @@
 # Progressive Loading
 
-is a technique that reduces the __initial download__ size by making the first download with simplified textures. Afterwards, it makes a second additional download that updates these textures to their full size. 
+Is a technique that reduces the __initial download__ size by making the first download with simplified textures. Afterwards, it makes another additional download that updates these textures with higher resolution ones. This process is repeated until the full resolution is reached.
 
 This allows users to enjoy your content faster.
 

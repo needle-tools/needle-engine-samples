@@ -3,7 +3,7 @@
 The Animator Controller is a state machine for animations. This way you can define that from a given animation you can transition to another ONLY under certain conditions.
 
 Often these conditions are:
- - Trigger - "One use ticked"
+ - Trigger - "One-use ticket"
     - Example: "Jump" or "Attack"
  - Boolean - "true or false state"
     - Example: "IsGrounded" or "IsAttacking"
@@ -18,7 +18,7 @@ You can open this Animator Controller asset located at `AnimatorController/Asset
 
 Mind that you can click on the states and the transitions to see *their settings* in the inspector.
 
-Very important is not to forget about animation loop time which means if the animation we'll be looping or will hang on the last frame. You can set the `loop time` boolean directly on an animation file or in the animation tab of the model import settings.
+Very important is to not forget about animation loop time. In other words if the animation will be looping or if it will stop at the last frame and hang there. You can set the `loop time` boolean directly on an animation file or in the animation tab of the model import settings. For looping animations such as walking, you want to set it to true. But for animation such as close door, you don't want the door to be endlessly closing.
 
 For example here in this sample, we don't want any looping, therefore both the animations have the loop time disabled. 
 

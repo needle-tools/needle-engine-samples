@@ -6,4 +6,4 @@ On the **Text** component you can select what font asset you want to use. There 
 
 You can import a font by adding the *.ttf or *.otf file into your project.  
 
-Mind that the **font style** is procedural and is not tied to the font and its variants.
+Mind that to make the **font styles** work, it is required to have an adequate version of the font, such as `Ariel-bold`, which is not part of the project. You need to supply your own.
