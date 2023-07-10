@@ -1,4 +1,4 @@
-import {  Behaviour, Button, Canvas, CanvasGroup, GameObject, InstantiateOptions, Mathf, serializable, Text } from "@needle-tools/engine";
+import {  Behaviour, Button, Canvas, CanvasGroup, GameObject, Gizmos, InstantiateOptions, Mathf, serializable, showBalloonMessage, Text } from "@needle-tools/engine";
 import { IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler } from "@needle-tools/engine";
 import { getWorldPosition, getWorldQuaternion, getWorldScale, setWorldQuaternion } from "@needle-tools/engine";
 import { Vector3 } from "three";
@@ -15,9 +15,6 @@ export class Hotspot extends Behaviour {
 
     @serializable()
     viewAngle: number = 40;
-
-    /* @serializable(RGBAColor)
-    color: RGBAColor = new RGBAColor(1, 1, 1, 1); */
 
     private instance: GameObject | null = null;
     private hotspot?: HotspotBehaviour | null | undefined;
@@ -39,12 +36,11 @@ export class Hotspot extends Behaviour {
     }
 
     destroy() {
-        // destroy the hotspot here
-        if (this.instance) {
-            GameObject.destroy(this.instance);
-            this.instance = null;
-            this.hotspot = null;
-        }
+        if (!this.instance) return;
+
+        GameObject.destroy(this.instance);
+        this.instance = null;
+        this.hotspot = null;
     }
 }
 
@@ -56,11 +52,13 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
     @serializable(Text)
     content?: Text;
 
-    @serializable(GameObject)
-    shift?: GameObject;
+    // OPTIONAL forward shifting
+    
+    // @serializable(GameObject)
+    // shift?: GameObject;
 
-    @serializable()
-    zOffset!: number;
+    // @serializable()
+    // zOffset!: number;
 
     @serializable()
     contentFadeDuration!: number;
@@ -88,9 +86,7 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
     init(hotspot: Hotspot) {
         this.hotspot = hotspot;
         if (this.label)
-        {
             this.label.text = hotspot.titleText;
-        }
         if (this.content)
             this.content.text = hotspot.contentText;
 
@@ -117,19 +113,20 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
 
     onBeforeRender(frame: XRFrame | null): void {
         
-        if(this.hotspot == null)
-            return;
+        if (!this.hotspot) return;
+        if (!this.gameObject.parent) return;
 
-        // TODO use the XR camera (e.g. left eye) when we're in XR and have a frame
         const cam = this.context.mainCamera;
-
-        if(cam == null)
-            return;
+        if(cam == null) return;
 
         // use camera rotation directly
-        const camRotation = getWorldQuaternion(cam);
-        setWorldQuaternion(this.gameObject, camRotation);
-        
+        if (this.context.isInVR) {
+            this.gameObject.lookAt(getWorldPosition(cam));
+        } else {
+            const camRotation = getWorldQuaternion(cam);
+            setWorldQuaternion(this.gameObject, camRotation);
+        }
+
         if (frame) {
             // TODO prevent roll in XR
             // calculate global up vector and (0,1,0) and create the quaternion rotation between them, 
@@ -141,25 +138,36 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         const parentScale = getWorldScale(this.gameObject.parent!);
         const cameraScale = getWorldScale(cam);
         /* console.log(cameraScale) */
-        const worldPosition = getWorldPosition(this.gameObject);
-        const inCameraSpace = cam.worldToLocal(worldPosition);
-        const distance = inCameraSpace.z * cameraScale.x;
-        const scale = -0.06 * distance / parentScale.x * cameraScale.x; // scale factor is heuristic, could also be exposed
+        const worldPosition = getWorldPosition(this.gameObject).clone();
+        const inCameraSpace = worldPosition.clone();
+        cam.worldToLocal(inCameraSpace);
+        const distance = -1 * inCameraSpace.z * cameraScale.x;
+
+        // from a certain point, FOV doesn't appear larger anymore
+        // (e.g. in a VR headset the size of hotspots should be the same no matter
+        // 70° or 90° or 150° field of view since that is behind me)
+        // May look nicer with some limiting function that is not linear
+        const clampedFov = Mathf.clamp(cam.fov, 0, 70);
+        // TODO we may want hotspots to become a bit smaller the further away they are, feels "too big" in VR
+        // keep constant screensize independent of fov
+        const multiplier = 0.25 * Math.tan(clampedFov * Mathf.Deg2Rad / 2);
+
+        const scale = multiplier * distance / parentScale.x; // scale factor is heuristic, could also be exposed
         this.gameObject.scale.set(scale, scale, scale);
 
-        // shift towards camera a bit
-        const vectorTowardsCameraInGameObjectSpace = this.gameObject.worldToLocal(HotspotBehaviour._tempVector1.copy(cam.position)).normalize().multiplyScalar(this.zOffset);
-        if (this.shift) 
-            this.shift.position.set(vectorTowardsCameraInGameObjectSpace.x, vectorTowardsCameraInGameObjectSpace.y, vectorTowardsCameraInGameObjectSpace.z);
-
+        // OPTIONAL shift towards camera a bit
+        // const vectorTowardsCameraInGameObjectSpace = this.gameObject.worldToLocal(HotspotBehaviour._tempVector1.copy(cam.position)).normalize().multiplyScalar(this.zOffset);
+        // if (this.shift) 
+        //     this.shift.position.set(vectorTowardsCameraInGameObjectSpace.x, vectorTowardsCameraInGameObjectSpace.y, vectorTowardsCameraInGameObjectSpace.z);
+        
         // handle visiblity angle
         const camFwd = cam.getWorldDirection(HotspotBehaviour._tempVector1);
         const hotspotFwd = this.hotspot!.gameObject.getWorldDirection(HotspotBehaviour._tempVector2);
-        hotspotFwd.negate(); //invert the vector
+        hotspotFwd.negate();
         
         const angle = Mathf.toDegrees(camFwd.angleTo(hotspotFwd));
 
-        const newIsVisible = angle < this.hotspot.viewAngle;
+        const newIsVisible = angle < this.hotspot.viewAngle ;
         if (newIsVisible != this.isVisible) 
         {
             this.hotspotFadeTimestamp = this.context.time.time;
