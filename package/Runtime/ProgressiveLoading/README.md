@@ -1,12 +1,9 @@
 # Progressive Loading
 
-Is a technique that reduces the __initial download__ size by making the first download with simplified textures. Afterwards, it makes another additional download that updates these textures with higher resolution ones. This process is repeated until the full resolution is reached.
+Is a technique that reduces the __initial download size__ by making the first download with lower-resolution textures.   
+Higher resolution textures are being downloaded on demand when they become visible on screen for the first time.  
 
-This allows users to enjoy your content faster.
-
-Often on fast connections, this lack of quality on start is negligible. 
-
-You can also hide the texture "pop-in" into a screen fade-in.
+This allows initial content to be loaded fast and display 3d content as early as possible which is an important factor on websites when it comes to user retention. Keeping the initial loading time low to render content quickly is key and progressive texture loading helps a great deal with that.
 
 ---
 
