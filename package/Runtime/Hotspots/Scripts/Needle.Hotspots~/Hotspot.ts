@@ -97,7 +97,7 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         this.selected = !this.selected;
         this.contentFadeTimestamp = this.context.time.time;
 
-        if(this.selected)
+        if(this.selected && HotspotManager.Instance)
             HotspotManager.Instance.onSelect(this);
     }
 
@@ -120,8 +120,15 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         if(cam == null) return;
 
         // use camera rotation directly
-        if (this.context.isInVR) {
-            this.gameObject.lookAt(getWorldPosition(cam));
+        if (this.context.isInXR) {
+            const lookFrom = getWorldPosition(cam);
+            this.gameObject.lookAt(lookFrom);
+            // check if we're on a screen (not immersive) - then we should aim to render camera plane aligned
+            const arSessionOnAScreen = this.context.xrSession.interactionMode === "screen-space";
+            if (arSessionOnAScreen) {
+                const forwardPoint = lookFrom.sub(this.forward);
+                this.gameObject.lookAt(forwardPoint);
+            }
         } else {
             const camRotation = getWorldQuaternion(cam);
             setWorldQuaternion(this.gameObject, camRotation);
@@ -147,9 +154,9 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         // (e.g. in a VR headset the size of hotspots should be the same no matter
         // 70° or 90° or 150° field of view since that is behind me)
         // May look nicer with some limiting function that is not linear
-        const clampedFov = Mathf.clamp(cam.fov, 0, 70);
         // TODO we may want hotspots to become a bit smaller the further away they are, feels "too big" in VR
-        // keep constant screensize independent of fov
+        // Keep constant screensize independent of fov
+        const clampedFov = Mathf.clamp(cam.fov, 0, 70);
         const multiplier = 0.25 * Math.tan(clampedFov * Mathf.Deg2Rad / 2);
 
         const scale = multiplier * distance / parentScale.x; // scale factor is heuristic, could also be exposed
@@ -166,6 +173,7 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         hotspotFwd.negate();
         
         const angle = Mathf.toDegrees(camFwd.angleTo(hotspotFwd));
+        // this.label.text = angle.toFixed(1) + " deg";
 
         const newIsVisible = angle < this.hotspot.viewAngle ;
         if (newIsVisible != this.isVisible) 
@@ -246,7 +254,7 @@ export class HotspotManager extends Behaviour {
 
         for (const h of this.activeHotspots) 
         {
-            if (h !== hotspot)
+            if (h !== hotspot && h)
                 h.deselect();
         }
     }
