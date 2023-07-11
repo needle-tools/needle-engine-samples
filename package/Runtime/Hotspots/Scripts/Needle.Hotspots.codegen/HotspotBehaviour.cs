@@ -9,8 +9,6 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.UI.Text @label;
 		public UnityEngine.UI.Text @content;
-		public UnityEngine.GameObject @shift;
-		public float @zOffset;
 		public float @contentFadeDuration;
 		public float @hotspotFadeDuration;
 		public UnityEngine.Canvas @canvas;

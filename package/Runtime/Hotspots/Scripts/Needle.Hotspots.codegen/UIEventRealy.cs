@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class UIEventRealy : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform[] @targets = new UnityEngine.Transform[]{ };
+		public UnityEngine.GameObject[] @targets = new UnityEngine.GameObject[]{ };
 		public void start(){}
 		public void onPointerEnter(){}
 		public void onPointerExit(){}
