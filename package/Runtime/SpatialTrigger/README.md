@@ -24,4 +24,4 @@ While also mind a limitation that the spatial trigger doesn't support rotation a
 - Finally, hook your OnEnter, OnStay and OnExit events based on your concept.
 
 ## Note
-For more complex collision detection with more complex shapes, please use rigidbodies with [onCollisionEnter or onTriggerEnter](https://engine.needle.tools/docs/scripting.html#component-architecture)
+When you are using Physics in your project or are dealing with more more complex shapes you can also use rigidbodies with [onTriggerEnter/onTriggerStay/onTriggerExit](https://engine.needle.tools/docs/scripting.html#component-architecture)
