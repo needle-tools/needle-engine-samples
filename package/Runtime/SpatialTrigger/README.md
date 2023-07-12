@@ -14,8 +14,8 @@ You can find a use for such a system in multiple use cases, such as:
 - Create a new game object and add the `SpatialTrigger` component. 
 - Choose a layer that the trigger will react to.
 
-Currently, the size can be driven only with a mesh on the spatial trigger. Otherwise, it is 1,1,1 box.
-Mind a limitation that the spatial trigger doesn't support rotation.
+Currently, the size can be driven with a mesh on the spatial trigger. Otherwise, it is a 1,1,1 box, but you can scale the object to fit your preferred dimensions.
+While also mind a limitation that the spatial trigger doesn't support rotation and has to be world aligned.
 
 ### Create a receiver
 
