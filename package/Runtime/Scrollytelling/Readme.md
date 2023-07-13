@@ -1,18 +1,17 @@
 # Scrollytelling
 
-"Scrollytelling" is a powerful way how to enjoy a 3D scene on the web just by scrolling.
-
-Defining what moves and when is quite simple, thanks to Unity's animation ecosystem. Since "scrollytelling" is fundamentally one big animation that is controlled by your scroll wheel.
+This sample show's how to use Unity's powerful Timeline system to control 3D content on the web by scrolling through the website. 
 
 ## Usage
 
-Add the `ScrollTimeline` component to your scene and define the timeline asset.
+- Add a `PlayableDirector` and assign a timeline
+- Add the `ScrollTimeline` component and assign the PlayableDirector that you want to be controlled by scrolling
 
 ## Useful references
 
-Unity's intro to [timelines](https://learn.unity.com/tutorial/introduction-to-timeline-2019-3#5f8fa52dedbc2a284332bd38).
+- For more information, refer to [the documentation](https://engine.needle.tools/docs/features-overview.html#timeline)
+- Unity's intro to [timelines](https://learn.unity.com/tutorial/introduction-to-timeline-2019-3#5f8fa52dedbc2a284332bd38)
 
-For more information, refer to [the documentation](https://engine.needle.tools/docs/features-overview.html#timeline).
 
 ## Notes and attributions
 The sample is not officially affiliated with Lynx.
