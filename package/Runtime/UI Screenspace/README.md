@@ -1,20 +1,21 @@
 # UI
 
-Unity has a ui system refered to as ugui that utilizes gameobjects and components on them. To not be missplaced with the other UI system refer to as UI Toolkit.
+These samples showcase the export of Unity's UGUI system to the web. 
 
-UGUI utilizes a simple set of anchoring rules that you can [find here](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/UIBasicLayout.html).
+## UI Types
 
-A canvas can be world space or screen space. 
-
-## Canvas types
-### World Space canvas
+### WorldSpace UI
 You can add the CanvasData component to define how your 3D canvas should act in the 3D world.
 
-#### Screen space canvas
+### Screenspace UI
 Is fundamentally an overlay so it will always be shown ontop of your scene.
 
-## Components
-There is only a initial subset of UI components supported, please refer to [the official list](https://engine.needle.tools/docs/component-reference.html#ui).
+## Font Export
+Needle Engine automatically exports the font that is assigned in the *Text* component to the web. You can assign any of your own fonts.
 
-## Font
-TODO: move from Fonts dedicated sample
+Note: By default a character texture with all ASII characters and all characters found in the scene is generated. You can extend this list by either adding the `Font Addition Characters` component to your scene or by editing the Font asset and explictly assign the characters that should be exported.
+
+## Further Information
+UGUI utilizes a simple set of anchoring rules that you can [find here](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/UIBasicLayout.html).
+
+Please also refer to the [list of supported components](https://engine.needle.tools/docs/component-reference.html#ui)
