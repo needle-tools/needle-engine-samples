@@ -6,7 +6,9 @@
         "UnityEditor.TestRunner",
         "UnityGLTFEditor",
         "Needle.Engine.Samples.Editor",
-        "Needle.MissingReferences"
+        "Needle.MissingReferences",
+        "Unity.ShaderGraph.Editor",
+        "Unity.RenderPipelines.Universal.Editor"
     ],
     "includePlatforms": [
         "Editor"
@@ -21,6 +23,12 @@
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "10.0.0",
+            "define": "URP_10_OR_NEWER"
+        }
+    ],
     "noEngineReferences": false
 }

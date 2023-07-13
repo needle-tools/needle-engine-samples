@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using Needle;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -10,9 +13,12 @@ public class AssetChecks
     {
         [Test]
         public void SampleModelsUseUnityGltfImporter() => ModelsUseUnityGltfImporter(SamplePackage);
-        
+
         [Test]
         public void SampleModelsUseAllowedMaterials() => MaterialsUseAllowedShaders(SamplePackage);
+            
+        [Test]
+        public void SampleShadersAreCorrect() => ShadersUseCorrectTargets(SamplePackage);
     }
 
     public class Engine
@@ -22,6 +28,9 @@ public class AssetChecks
 
         [Test]
         public void EngineModelsUseAllowedMaterials() => MaterialsUseAllowedShaders(EnginePackage);
+
+        [Test]
+        public void EngineShadersAreCorrect() => ShadersUseCorrectTargets(EnginePackage);
     }
     
     private const string samplePackageJsonGuid = "fd17907bb2ad1444d9c584fde3e7715b";
@@ -125,7 +134,40 @@ public class AssetChecks
         }
     }
 
-    [Test]
+    private static void ShadersUseCorrectTargets(string assetFolder)
+    {
+        var shaderFiles = AssetDatabase.FindAssets("t:Shader", new[] { assetFolder });
+        var problems = new List<string>();
+        Debug.Log($"Checking {shaderFiles.Length} shaders in {assetFolder}");
+        foreach (var shaderFile in shaderFiles)
+        {
+            var shaderPath = AssetDatabase.GUIDToAssetPath(shaderFile);
+            var shaderName = Path.GetFileNameWithoutExtension(shaderPath);
+            if (!shaderPath.EndsWith(".shadergraph")) continue;
+            
+            var supportedTargets = ShaderGraphInternals.GetTargetsFromGraph(shaderPath);
+
+            var hasAnyProblems = false;
+            if (supportedTargets.BiRP != ShaderGraphInternals.TargetsInfo.TargetType.Unlit)
+            {
+                hasAnyProblems = true;
+                problems.Add($"[BiRP] Shader \"{shaderName}\"\n    Expected: {ShaderGraphInternals.TargetsInfo.TargetType.Unlit}    Actual: {supportedTargets.BiRP}");
+            }
+
+            if (supportedTargets.URP != ShaderGraphInternals.TargetsInfo.TargetType.Unlit)
+            {
+                hasAnyProblems = true;
+                problems.Add($"[URP]  Shader \"{shaderName}\"\n    Expected: {ShaderGraphInternals.TargetsInfo.TargetType.Unlit}    Actual: {supportedTargets.URP}");
+            }
+           
+            if (hasAnyProblems)
+                Debug.Log("Shader isn't configured correctly: " + shaderPath, AssetDatabase.LoadAssetAtPath<Shader>(shaderPath));
+            
+        }
+        Assert.AreEqual(0, problems.Count, string.Join("\n", problems) + "\n\nProblems:");
+    }
+
+    // [Test]
     public void ScenesHaveNoMissingAssets()
     {
         // check with Missing Component info from parsed scene assets
