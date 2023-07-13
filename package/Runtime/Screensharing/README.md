@@ -1,10 +1,11 @@
 # Screensharing
 
-Simple way how to share your screen or a camera with other users. The main addition is to be able to project that feed onto a 3D model and not just your screen.
+*Your own Zoom* with Needle Engine:  
 
-## Useage
+Share your screen, a window or a camera (like your webcam) with other connected users.   
+Screensharing also includes audio sharing.
 
-`ScreenCapture` component that requires `VideoPlayer` components. That defines how the feed will be displayed.
+## Usage
 
-## Voice
-There is `Voip` component that you can use as well.
+The `ScreenCapture` component requires a `VideoPlayer` component which defines where or how your video will be rendered.  
+
