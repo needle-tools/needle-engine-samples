@@ -46,7 +46,7 @@ export class Networking_ClickToChangeColor extends Behaviour implements IPointer
 }
 // END MARKER network color change
 
-
+// START MARKER network syncfield array
 export class Networking_StringArray extends Behaviour {
 
 
@@ -87,3 +87,4 @@ export class Networking_StringArray extends Behaviour {
         showBalloonMessage("<strong>> Sent</strong> \"" + currentTime + "\", we now have " + this.myArray.length + " elements")
     }
 }
+// END MARKER network syncfield array
