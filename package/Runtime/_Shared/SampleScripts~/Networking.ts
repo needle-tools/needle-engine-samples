@@ -55,7 +55,7 @@ export class Networking_StringArray extends Behaviour {
 
     awake(): void {
         showBalloonMessage("Open this window in another browser tab/window to see the networking in action...");
-        
+
         this.context.connection.beginListen(RoomEvents.JoinedRoom, async () => {
             console.log("Will append a new value every 10 seconds")
             setInterval(this.updateArray, 10000);
@@ -85,6 +85,50 @@ export class Networking_StringArray extends Behaviour {
         this.myArray = this.myArray;
 
         showBalloonMessage("<strong>> Sent</strong> \"" + currentTime + "\", we now have " + this.myArray.length + " elements")
+    }
+}
+// END MARKER network syncfield array
+
+
+
+// START MARKER network syncfield array
+class MyObject {
+    name: string = "";
+    // @syncField(MyObject.prototype.onChanged) < currently not supported
+    age: number = 0;
+}
+
+export class Networking_Object extends Behaviour {
+
+    @syncField(Networking_Object.prototype.onObjectChanged)
+    private myObject: MyObject = new MyObject();
+
+    @syncField()
+    private _mockAge : number = 0;
+
+    awake(): void {
+        showBalloonMessage("Open this window in another browser tab/window to see the networking in action...");
+
+        this.context.connection.beginListen(RoomEvents.JoinedRoom, async () => {
+            // Wait for a tick until the state has been restored
+            await delay(1);
+            this.updateObject();
+        })
+    }
+
+
+    private onObjectChanged() {
+        console.log("< Received object", this.myObject);
+        showBalloonMessage("<strong>< Received</strong> \"" + this.myObject.name + "\" is " + this.myObject.age + " years old")
+    }
+
+    private updateObject = () => {
+        this.myObject.name = this.context.connection.connectionId!;
+        this._mockAge += 1;
+        this.myObject.age = this._mockAge;
+        this.myObject = this.myObject;
+        console.log("> Updated", this.myObject);
+        showBalloonMessage("<strong>> Sent</strong> \"" + this.myObject.name + "\" is " + this.myObject.age + " years old")
     }
 }
 // END MARKER network syncfield array
