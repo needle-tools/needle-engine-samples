@@ -1,5 +1,5 @@
 // START MARKER network color change
-import { Behaviour, IPointerClickHandler, PointerEventData, Renderer, serializable, syncField } from "@needle-tools/engine";
+import { Behaviour, IPointerClickHandler, PointerEventData, Renderer, RoomEvents, delay, serializable, showBalloonMessage, syncField } from "@needle-tools/engine";
 import { Color } from "three"
 
 export class Networking_ClickToChangeColor extends Behaviour implements IPointerClickHandler {
@@ -8,7 +8,7 @@ export class Networking_ClickToChangeColor extends Behaviour implements IPointer
     /** syncField does automatically send a property value when it changes */
     @syncField(Networking_ClickToChangeColor.prototype.onColorChanged)
     @serializable(Color)
-    color: Color;
+    color!: Color;
 
     private onColorChanged() {
         // syncField will network the color as a number, so we need to convert it back to a Color when we receive it
@@ -45,3 +45,45 @@ export class Networking_ClickToChangeColor extends Behaviour implements IPointer
 
 }
 // END MARKER network color change
+
+
+export class Networking_StringArray extends Behaviour {
+
+
+    @syncField(Networking_StringArray.prototype.onArrayChanged)
+    private myArray: string[] = [];
+
+    awake(): void {
+        showBalloonMessage("Open this window in another browser tab/window to see the networking in action...");
+        
+        this.context.connection.beginListen(RoomEvents.JoinedRoom, async () => {
+            console.log("Will append a new value every 10 seconds")
+            setInterval(this.updateArray, 10000);
+            await delay(100);
+            this.updateArray();
+        })
+    }
+
+
+    private onArrayChanged() {
+        console.log("< Received array", this.myArray[this.myArray.length - 1], this.myArray);
+        showBalloonMessage("<strong>< Received</strong> \"" + this.myArray[this.myArray.length - 1] + "\", we now have " + this.myArray.length + " elements")
+    }
+
+    private updateArray = () => {
+        const currentTime = new Date().toLocaleTimeString();
+        console.log("> Update array", currentTime);
+
+        // Just for demonstration we clear the array when we reach 10 entries
+        if (this.myArray.length > 10) {
+            console.log("Clearing array because we have reached 10 entries")
+            this.myArray.length = 0;
+        }
+
+        this.myArray.push(currentTime);
+        // Assigning the array to itself will trigger the syncField
+        this.myArray = this.myArray;
+
+        showBalloonMessage("<strong>> Sent</strong> \"" + currentTime + "\", we now have " + this.myArray.length + " elements")
+    }
+}
