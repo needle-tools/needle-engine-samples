@@ -53,7 +53,7 @@ export class MapLocator extends Behaviour {
     onEnable(): void {
         // spawn the template
         const template = document.createElement("template");
-        template.innerHTML = this.template;
+        template.innerHTML = this.template();
         this.element = template.content.firstElementChild!.cloneNode(true) as HTMLElement;
         document.body.prepend(this.element);
         
@@ -147,11 +147,11 @@ export class MapLocator extends Behaviour {
         }
         this.lastMesh = mesh;
 
-        const min = orbitControls.controls.minDistance;
-        const max = orbitControls.controls.maxDistance;
-        orbitControls.fitCameraToObjects([mesh]);
-        orbitControls.controls.minDistance = min;
-        orbitControls.controls.maxDistance = max;
+        const min = orbitControls.controls!.minDistance;
+        const max = orbitControls.controls!.maxDistance;
+        orbitControls.fitCamera([mesh]);
+        orbitControls.controls!.minDistance = min;
+        orbitControls.controls!.maxDistance = max;
 
         const status = document.querySelector("#status") as HTMLDivElement;
         const mapLink = document.querySelector("#map-link") as HTMLAnchorElement;
@@ -196,11 +196,11 @@ export class MapLocator extends Behaviour {
                 const orbitControls = GameObject.findObjectOfType(OrbitControls)!;
                 object.scale.set(0.00001, 0.00001, 0.00001);
                 
-                const min = orbitControls.controls.minDistance;
-                const max = orbitControls.controls.maxDistance;
-                orbitControls.fitCameraToObjects([object]);
-                orbitControls.controls.minDistance = min;
-                orbitControls.controls.maxDistance = max;
+                const min = orbitControls.controls!.minDistance;
+                const max = orbitControls.controls!.maxDistance;
+                orbitControls.fitCamera([object]);
+                orbitControls.controls!.minDistance = min;
+                orbitControls.controls!.maxDistance = max;
             }
         }
 
