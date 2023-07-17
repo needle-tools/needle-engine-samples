@@ -25,7 +25,7 @@
     }
 
     body {
-      background: linear-gradient(0deg, #62D399 0%, #D7DB0A 100%);
+      background: linear-gradient(0deg, #c4d3d0 0%, #e8fff4 100%);
       height: 100%;
       background-repeat: no-repeat;
       background-attachment: fixed;
@@ -51,18 +51,18 @@
     }
 
     .content.small {
-      width: 50vw;
-      height: 50vh;
+      width: 40vw;
+      height: 60vh;
     }
 
     .content.wide {
-      width: 90vw;
-      height: 70vh;
+      width: 80vw;
+      height: 80vh;
     }
 
     needle-engine {
       position: relative;
-      border-radius: 30px;
+      border-radius: 2em;
       overflow:hidden;
       box-shadow: 5px 5px 20px 0px rgb(8 52 2 / 32%);
       flex-grow: 1;
@@ -75,32 +75,31 @@
 
     .overlay-container {    
       position: absolute;
-      left: -2.5%;
-      bottom: -15%;
-      background-color: #02022B99;
-      border-radius: 30px;
+      left: -5%;
+      bottom: -18%;
+      background-color: #1a695ce3;
+      border-radius: 1em;
       padding: 10px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.2);
-      box-shadow: 0 0 3px rgba(0,0,0,.4);
+      backdrop-filter: blur(2px);
+      box-shadow: 0px 0px 20px 0px rgba(245, 245, 245, 0.2);
+      border: 2px solid rgba(21, 59, 45, 0.185);
     }
 
     .overlay-container button {
       display:block;
       font-size: 2em;
-      padding: 0.5em 1em;
-      border-radius: 20px;
-      -webkit-border-radius: 20px;
-      border:1px solid #02022B;
+      padding: 0.2em .4em;
+      border-radius: .3em;
       color: black;
+      border: none;
       margin:10px;
-      box-shadow: inset 0 0 5px rgba(0,0,0,.4);
-      background-color: rgba(200,200,200);
+      background-color: rgba(255,255,255);
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
     }
     .overlay-container button:hover {
       cursor: pointer;
-      box-shadow: inset 0 0 6px rgba(0,0,0,1);
-      background-color: rgba(255,255,255);
+      background-color: rgb(46, 161, 127);
+      color: white;
     }
 
     @media screen and (max-width: 768px),
@@ -137,12 +136,12 @@
 
   <div class="container">
     <div class="content">
-      <h1 class="headline">&lt;needle-engine&gt; is a HTML Element ✌<br/>You can style and position it like any other element.</h1>
+      <h1 class="headline">&lt;needle-engine&gt; is a custom HTML Element<br/>You can style and position it like any other element.</h1>
       <needle-engine></needle-engine>
       <p class="overlay-container">
         <button class="btn-transparent">Make Background Transparent</button>
-        <button class="btn-small">Small Size</button>
-        <button class="btn-toggle-visible">Hide 🐱‍👤</button>
+        <button class="btn-small">Set Size Small</button>
+        <button class="btn-toggle-visible">Hide HTML Element</button>
       </p>
     </div>
   </div>
@@ -170,14 +169,14 @@
       if (contentContainer.classList.contains('small')) {
         contentContainer.classList.remove('small');
         contentContainer.classList.add('wide');
-        btnSmall.innerText = 'Default Size';
+        btnSmall.innerText = 'Set Default Size';
       } else if (contentContainer.classList.contains('wide')) {
         contentContainer.classList.remove('small');
         contentContainer.classList.remove('wide');
-        btnSmall.innerText = 'Small Size';
+        btnSmall.innerText = 'Set Size Small';
       } else {
         contentContainer.classList.add('small');
-        btnSmall.innerText = 'Wide Size';
+        btnSmall.innerText = 'Set Size Big';
       }
     });
 
@@ -187,11 +186,11 @@
       if (needleEngine.style.visibility === 'hidden') {
         needleEngine.style.visibility = 'visible';
         needleEngine.style.display = 'block';
-        btnToggleVisibility.innerText = 'Hide 🐱‍👤';
+        btnToggleVisibility.innerText = 'Hide HTML Element';
       } else {
         needleEngine.style.visibility = 'hidden';
         needleEngine.style.display = 'none';
-        btnToggleVisibility.innerText = 'Show 👀';
+        btnToggleVisibility.innerText = 'Show HTML Element';
       }
     });
   </script>
