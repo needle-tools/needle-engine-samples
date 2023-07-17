@@ -730,6 +730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 577633982}
   - component: {fileID: 577633983}
+  - component: {fileID: 577633984}
   m_Layer: 0
   m_Name: Image Tracking
   m_TagString: Untagged
@@ -772,6 +773,19 @@ MonoBehaviour:
       asset: {fileID: 1384266629}
     CreateObjectInstance: 0
     ImageDoesNotMove: 0
+--- !u!114 &577633984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577633981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458c0a08751ce1b9a79551193ece9367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ImageTrackingDownloadUI,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-cbf4489e1f7cfe44a8c739a511b0e4c7-577633984-0
 --- !u!1 &652927524
 GameObject:
   m_ObjectHideFlags: 0
@@ -2138,7 +2152,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-cbf4489e1f7cfe44a8c739a511b0e4c7-1739218768-0
   DirectoryName: Library/Needle/Sample
   AutoExport: 1
-  Dependencies: []
+  Dependencies:
+  - Name: samplescripts
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &1739218769
 Transform:
   m_ObjectHideFlags: 0
