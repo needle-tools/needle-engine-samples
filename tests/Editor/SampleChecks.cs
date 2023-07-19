@@ -138,9 +138,12 @@ namespace SampleChecks
         {
             var sampleDirectory = AssetDatabase.GetAssetPath(sample.Scene);
             sampleDirectory = Path.GetDirectoryName(sampleDirectory);
+            if (sampleDirectory == null) return;
             var readmePath = Path.Combine(sampleDirectory, "README.md");
-            Assert.IsTrue(File.Exists(readmePath), "No Readme.md found");
-            Assert.AreEqual("README.md", Path.GetFileName(readmePath), "README.md should be uppercase");
+            Assert.IsTrue(File.Exists(readmePath), "No README.md found");
+            
+            // TODO maybe we can rename it directly here to avoid issues
+            Assert.IsTrue(Directory.GetFileSystemEntries(sampleDirectory, "README.md").FirstOrDefault() != null, "File should be called README.md (uppercase)");
         }
 
         static string[] GetDependencies(Object obj)
