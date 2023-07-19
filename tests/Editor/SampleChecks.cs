@@ -31,6 +31,7 @@ namespace SampleChecks
     internal class @_
     {
         private readonly SampleInfo sample;
+        private const string PublicInfoCategoryName = "Docs and Deployments";
         
         public @_(SampleInfo sampleInfo)
         {
@@ -38,6 +39,7 @@ namespace SampleChecks
         }
         
         [Test]
+        [Category(PublicInfoCategoryName)]
         public async Task IsLive()
         {
             var sampleLiveUrl = sample.LiveUrl;
@@ -51,8 +53,6 @@ namespace SampleChecks
             while (!operation.isDone)
                 await Task.Yield();
 
-            Debug.Log("Response Code from " + sampleLiveUrl + ": " + request.responseCode);
-            
             Assert.That(request.responseCode, Is.EqualTo(200), "Sample is not live: " + sample.name);
         }
 
@@ -61,6 +61,7 @@ namespace SampleChecks
         private const int RequiredMinorVersion = 4;
         
         [Test]
+        [Category(PublicInfoCategoryName)]
         public async Task VersionIsNotTooOld()
         {
             // fetch the HTML page
@@ -107,6 +108,7 @@ namespace SampleChecks
         }
 
         [Test]
+        [Category(PublicInfoCategoryName)]
         public void HasValidInfo()
         {
             Assert.True(sample.Thumbnail, "No thumbnail");
@@ -128,6 +130,20 @@ namespace SampleChecks
             Assert.IsNotEmpty(sample.Description, "No description");
             Assert.IsNotEmpty(sample.Tags, "No tags");
             Assert.True(sample.Scene, "No scene assigned");
+        }
+
+        [Test]
+        [Category(PublicInfoCategoryName)]
+        public void HasReadme()
+        {
+            var sampleDirectory = AssetDatabase.GetAssetPath(sample.Scene);
+            sampleDirectory = Path.GetDirectoryName(sampleDirectory);
+            if (sampleDirectory == null) return;
+            var readmePath = Path.Combine(sampleDirectory, "README.md");
+            Assert.IsTrue(File.Exists(readmePath), "No README.md found");
+            
+            // TODO maybe we can rename it directly here to avoid issues
+            Assert.IsTrue(Directory.GetFileSystemEntries(sampleDirectory, "README.md").FirstOrDefault() != null, "File should be called README.md (uppercase)");
         }
 
         static string[] GetDependencies(Object obj)
@@ -235,7 +251,7 @@ namespace SampleChecks
             }
         }
 
-        readonly string[] ignoreSizeFolderNames =
+        private readonly string[] ignoreSizeFolderNames =
         {
             "node_modules",
         };

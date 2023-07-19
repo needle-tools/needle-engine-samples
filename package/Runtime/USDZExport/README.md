@@ -6,7 +6,7 @@ Apple's quicklook is an application to preview files such as photos, pdfs and ot
 
 And since the software that is displaying and controlling that USDZ is not our application, there's a natural limit that you can't execute any code to control how that scene behaves. Luckily there is a limited API to animate and move objects.
 
-# Eveywhere Actions
+# Everywhere Actions
 
 On Android, on the other hand, a standard called WebXR is supported, which means the AR experience is running directly inside our application and so we can control anything in the scene.
 
@@ -16,12 +16,16 @@ To be able to have a cross-platform experience, there are [Everywhere Actions](h
 
 ## USDZ Interactivity
 
-Showcases the basic actions in isolated use cases. The scene contains text to describe it.
+Showcases the basic actions in isolated use cases.
 
 ## USDZ Characters
 
-With a clever way of using relative moving, you are able to make minigames with characters like these. It is a wonderful way to showcase your character animations.
+By using relative movement actions, you are able to make minigames with characters like these that work everywhere, including iOS AR.
 
 ## USDZ Product
 
-Simple configurator showcasing that high-quality assets look great even in QuickLook.
+Simple configurator showcasing high-quality assets and materials for both the web and automatic conversion to QuickLook / USDZ.
+
+## Musical Instrument
+
+Demonstrates animation and audio playback on click.
