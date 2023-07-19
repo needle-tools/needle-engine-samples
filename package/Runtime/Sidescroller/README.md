@@ -1,25 +1,18 @@
 # Sidescroller
 
-A minigame showcasing 2D animated character in 2.5D environment.
+A minigame showcasing Sprite rendering and an animated character in a 2.5D environment.
 
-Features woth noticing are:
-- Gamepad support
+## Features
+
+- Sprite and spritesheet rendering
+- Sprite animation through Animator
+- Gamepad, keyboard, and touch input support
+- Fluently switching between top and side views
 - Footsteps audio
-
-
-For explenation of other individual features, please refer to the other samples or the documentation.
 
 ## Attributions
 
-### Forest Ambience. 
-Author: Augmentality (Brandon Morris)  
-https://opengameart.org/content/creepy-forest-f
-
-### Footsteps. Author: Blender Foundation  
-https://opengameart.org/content/grass-foot-step-sounds-yo-frankie
-
-### Mage: 
-https://craftpix.net/freebies/free-wizard-sprite-sheets-pixel-art/
-
-### Forest Spritesheet: 
-CC0, by Needle
+- [Forest Ambience by Augmentality (Brandon Morris](https://opengameart.org/content/creepy-forest-f)
+- [Footsteps by Blender Foundation](https://opengameart.org/content/grass-foot-step-sounds-yo-frankie)
+- [Mage](https://craftpix.net/freebies/free-wizard-sprite-sheets-pixel-art/)
+- [Forest Spritesheet, CC0](https://needle.tools)

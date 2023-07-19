@@ -1,19 +1,28 @@
 # Custom XR Hands
 
-Tracked hands are a great way how to make your experience immersive! 
+Tracked hands are a great way how to make your experience immersive! Needle supports custom hand models that will be used when the target device supports hand tracking. Quest, Quest Pro, Pico 4, Hololens 2, ... support WebXR hand tracking.
 
-Your custom hand model needs the correct rig to be supported. Please refer to the example models in the scene under the `Hands` gameobject.
+[Monster Hands](https://monster-hands.needle.tools) uses this approach to render custom models for both left and right hand.
 
----
+## Requirements
 
-Custom hands are implemented via the WebXR component. In there, you need to specify a runtime path to a directory that contains your build hand models.
+Custom hands require a specific GameObject structure and/or Bone setup. One approach to making new ones is to modify the default hand models – see "External Hand Assets" below on how to download them.  
+This allows you to keep the entire rigging information intact. 
 
-This means that you need to create two .glb files that contain your left and right hand. The simplest is to add your hands to your scene, disable them and add a `GltfObject` component the same way as it is done in this sample. Adding the component results in the scene splitting into three glbs. One is the main .glb, and then there are left and right hand .glb
+## Setup
 
-It is important that the name of the hand gameobjects that have the `GltfObject` component is exactly lowercase `right` or `left`. Currently, the system will find the resulting .glbs by its name.
+Custom hands are configured via the `WebXR` component. In there, you specify a runtime path to a directory that contains your custom hand models.
 
-So when we build the project, we end up with three .glb files in the `dist/assets/` folder. 
+This means that you need to create two `.glb` files that contain your left and right hand. 
 
-That means in the WebXR component, we specify to search for the .glbs at path `/`. That means the current directory from the perspective of the runtime.
+This sample is set up in a way that you can directly edit the hands from the scene. The setup is as follows:
+- add your hands to your scene
+- name the GameObjects `left` and `right`
+- disable them and add a `GltfObject` component
+Adding the component results in the scene getting exported as three separate files – the main `.glb`, `right.glb` and `left.glb`. 
+- specify the custom hands path in the `WebXR` component as `/`.
 
-You can also supply a URL to your hands, and that's exactly what happens when you set the path to an empty string. That results in this [url](https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles/generic-hand/) of default hands.
+## External Hand Assets
+
+You can also supply a URL to the hands files. By default, hands are fetched from the `webxr-input-profiles` repository:  
+https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles/generic-hand/

@@ -1,7 +1,7 @@
 # AR Occluders
 
-Gives you the ability to punch a hole through the scene and display the background only. In the context of XR, that would be the camera feed/pass-through.
+Occluders are typically used in AR applications to provide a better integration between a virtual scene and a real-world environment.
 
-It works through a shader that denies any other objects to appear on that part of the screen, and the background is the only thing that is rendered before that. 
+For this, objects are rendered early into the depth buffer to "occlude" objects behind them, but without rendering color information, so that the camera background or backdrop is visible instead.  
 
-You can define a shape of the occlusion by the mesh you use with the occlusion material.
+This sample demonstrates using AR occluders. The Presence Platform samples show another typical usecase for occluding walls/tables in AR.

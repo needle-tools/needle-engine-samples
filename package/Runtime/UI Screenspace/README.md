@@ -1,21 +1,21 @@
-# UI
+# User Interfaces
 
-These samples showcase the export of Unity's UGUI system to the web. 
+These samples showcase the translation of Unity's UGUI system to Needle Engine components. 
 
-## UI Types
+## Types of UI rendering
 
-### WorldSpace UI
-You can add the CanvasData component to define how your 3D canvas should act in the 3D world.
+### Worldspace UI
+Worldspace UIs are used to place UI elements in the 3D world. They are rendered as part of the scene and can be occluded by other objects. 
+You can add a `CanvasData` component to define how your 3D canvas should act in the 3D world.
 
 ### Screenspace UI
-Is fundamentally an overlay so it will always be shown ontop of your scene.
+Screenspace UIs are an alternative to HTML and allow you to place UI elements right on the screen. You can anchor them to the screen edges or to other UI elements.  
 
 ## Font Export
-Needle Engine automatically exports the font that is assigned in the *Text* component to the web. You can assign any of your own fonts.
+Font files referenced from `Text` components (legacy - not TMPro at the moment) are automatically converted for use in Needle Engine.
 
-Note: By default a character texture with all ASII characters and all characters found in the scene is generated. You can extend this list by either adding the `Font Addition Characters` component to your scene or by editing the Font asset and explictly assign the characters that should be exported.
+By default, all ASCII characters and all characters found in the scene are exported and available at runtime. If you plan to change text dynamically, you can add the `Font Addition Characters` component to your scene and specify additional characters, or by editing the Font asset and explictly assigning the characters that should be exported.  
 
-## Further Information
-UGUI utilizes a simple set of anchoring rules that you can [find here](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/UIBasicLayout.html).
+## Learn More
 
-Please also refer to the [list of supported components](https://engine.needle.tools/docs/component-reference.html#ui)
+Read about [supported UI components](https://engine.needle.tools/docs/component-reference.html#ui) in our docs.

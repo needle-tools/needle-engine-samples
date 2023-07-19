@@ -1,10 +1,8 @@
 # Shadow catcher
 
-It is used on a plane that is fully transparent except on the parts where a shadow is cast.   
-This is especially helpful in a scene where we want to ground our objects, but we do not control the content below our objects or generally the background.
+In AR applications it's often desired to ground objects into the real world. Shadows are an effective way of doing so. To cast shadows onto the "real world", Shadow Catchers are used - invisible meshes that can still receive shadows.
 
-The most applicable case is in XR, where the background is the camera feed.   
-This way, your objects make the illusion that they are grounded and a part of the scene. 
+Depending on your application, different types of Shadow Catchers are available. "Additive" mode works great with spot lights, while "Masked" mode is suitable for directional lights. You can also layer multiple shadow catchers over each other to achieve different effects.  
 
 ## Usage
 
