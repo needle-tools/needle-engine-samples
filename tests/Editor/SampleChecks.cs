@@ -11,7 +11,8 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Networking;
 using System;
-
+using Needle.Engine;
+using Needle.Engine.Deployment;
 using Object = UnityEngine.Object;
 
 namespace SampleChecks
@@ -199,8 +200,7 @@ namespace SampleChecks
             Assert.IsEmpty(dependencies, $"Some dependencies are outside allowed packages ({dependencies.Length}):\n{string.Join("\n", dependencies)}");
         }
 
-        [Test]
-        public void MissingReferencesTest()
+        private void OpenSceneAndCopyIfNeeded()
         {
             var path = AssetDatabase.GetAssetPath(sample.Scene);
 
@@ -229,6 +229,12 @@ namespace SampleChecks
             {
                 AssetDatabase.DeleteAsset(scenePath);
             }
+        }
+
+        [Test]
+        public void MissingReferencesTest()
+        {
+            OpenSceneAndCopyIfNeeded();
             
             // perform scans on the opened scene
             var options = new SceneScanner.Options
@@ -249,6 +255,35 @@ namespace SampleChecks
                 
                 Assert.Fail("Missing References:\n" + sb);
             }
+        }
+
+        [Test]
+        public void DeploymentSetupCorrect()
+        {
+            OpenSceneAndCopyIfNeeded();
+            
+            // perform scans on the opened scene
+            var deployToFtps = Object.FindObjectsOfType<DeployToFTP>();
+            Assert.LessOrEqual(1, deployToFtps.Length, "More than one DeployToFTP component found");
+
+            var first = deployToFtps.FirstOrDefault();
+            if (first)
+            {
+                var oopsStaging = first.Path.IndexOf("staging", StringComparison.OrdinalIgnoreCase) >= 0;
+                Assert.IsFalse(oopsStaging, "DeplyToFTP component has staging path in it");
+            }
+            
+            // find all types that are DeploymentComponents
+            var deploymentTypes = TypeCache.GetTypesWithAttribute<DeploymentComponentAttribute>();
+            var allDeploymentComponentsInScene = new List<MonoBehaviour>();
+            foreach (var deploymentType in deploymentTypes)
+            {
+                var components = Object.FindObjectsOfType(deploymentType) as MonoBehaviour[];
+                if (components == null) continue;
+                allDeploymentComponentsInScene.AddRange(components);
+            }
+            
+            Assert.AreEqual(1, allDeploymentComponentsInScene.Count, "Not exactly one deployment component found: " + string.Join(", ", allDeploymentComponentsInScene.Select(x => x.GetType().Name)));
         }
 
         private readonly string[] ignoreSizeFolderNames =
