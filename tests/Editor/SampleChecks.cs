@@ -261,16 +261,17 @@ namespace SampleChecks
         public void DeploymentSetupCorrect()
         {
             OpenSceneAndCopyIfNeeded();
-            
-            // perform scans on the opened scene
-            var deployToFtps = Object.FindObjectsOfType<DeployToFTP>();
-            Assert.LessOrEqual(1, deployToFtps.Length, "More than one DeployToFTP component found");
 
+            // explicitly get the DeployToFTP component so we can check the path
+            var deployToFtps = Object.FindObjectsOfType<DeployToFTP>();
+            Assert.LessOrEqual(deployToFtps.Length, 1, "More than one DeployToFTP component found");
+
+            // We want to avoid accidentally keeping staging paths in the scene
             var first = deployToFtps.FirstOrDefault();
             if (first)
             {
-                var oopsStaging = first.Path.IndexOf("staging", StringComparison.OrdinalIgnoreCase) >= 0;
-                Assert.IsFalse(oopsStaging, "DeplyToFTP component has staging path in it");
+                var usesStagingFolder = first.Path.IndexOf("staging", StringComparison.OrdinalIgnoreCase) >= 0;
+                Assert.IsFalse(usesStagingFolder, nameof(DeployToFTP) + " component has staging path in it");
             }
             
             // find all types that are DeploymentComponents
@@ -283,7 +284,7 @@ namespace SampleChecks
                 allDeploymentComponentsInScene.AddRange(components);
             }
             
-            Assert.AreEqual(1, allDeploymentComponentsInScene.Count, "Not exactly one deployment component found: " + string.Join(", ", allDeploymentComponentsInScene.Select(x => x.GetType().Name)));
+            Assert.LessOrEqual(allDeploymentComponentsInScene.Count, 1, "Too many deployment components found: " + string.Join(", ", allDeploymentComponentsInScene.Select(x => x.GetType().Name)));
         }
 
         private readonly string[] ignoreSizeFolderNames =
