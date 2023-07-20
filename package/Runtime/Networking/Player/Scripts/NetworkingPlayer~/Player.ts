@@ -1,5 +1,5 @@
-import { Behaviour, Mathf, PlayerState, Renderer, SyncedTransform, serializable } from "@needle-tools/engine";
-import { Color, Material, MathUtils, MeshStandardMaterial } from "three";
+import { Behaviour, PlayerState, Renderer, SyncedTransform, serializable } from "@needle-tools/engine";
+import { Color, MeshStandardMaterial } from "three";
 
 export class Player extends Behaviour {
 
@@ -14,25 +14,22 @@ export class Player extends Behaviour {
     
     speed: number = 5;
 
-    isOwner(): boolean { 
-        if(!this.playerState || !this.playerState.owner)
-            return false;
-
-        return this.playerState.owner == this.context.connection.connectionId;
+    // wrapper to clean the code so we don't have to check if playerState is null
+    isLocalPlayer() {
+        return this.playerState?.isLocalPlayer || false;
     }
-
+    
     start() {
         if(!this.playerState || !this.mainRenderer)
             return;
 
-        if(this.syncedTransform && this.isOwner()) {
+        // Synced transform synchronizes position, rotation and scale. But has to be manually enabled to determine who the owner is.
+        if(this.syncedTransform && this.isLocalPlayer()) {
             this.syncedTransform.requestOwnership();
         }
 
-        const netID = this.playerState.owner
-        if(!netID)
-            return;
-
+        // set the color of the player based on the netID (this means the color is calculated on each client but with the same result for same players)
+        const netID = this.playerState.owner ?? "";
         const mat = this.mainRenderer.sharedMaterial as MeshStandardMaterial;
         if(mat) {
             const coloredMat = new MeshStandardMaterial();
@@ -43,27 +40,30 @@ export class Player extends Behaviour {
 
             this.mainRenderer.sharedMaterial = coloredMat;
         }
+
+        // sample: set random position on the map 
+        if(this.isLocalPlayer()) {
+            this.gameObject.position.x = Math.random() * 5 - 2.5;
+            this.gameObject.position.z = Math.random() * 5 - 2.5;
+        }
     }
 
-    update(): void {
-        if(!this.playerState || !this.playerState.owner) {
-            return;
-        }
-
-        if(this.isOwner()) {
+    update() {
+        // only if we are the local player we are allowed to gather input and move the player
+        if(this.isLocalPlayer()) {
             const input = this.context.input;
             const dt = this.context.time.deltaTime;
 
-            if (input.isKeyPressed("ArrowLeft")) {
+            if (input.isKeyPressed("ArrowLeft") || input.isKeyPressed("a")) {
                 this.gameObject.position.x -= this.speed * dt;
             }
-            if (input.isKeyPressed("ArrowRight")) {
+            if (input.isKeyPressed("ArrowRight") || input.isKeyPressed("d")) {
                 this.gameObject.position.x += this.speed * dt;
             }
-            if (input.isKeyPressed("ArrowUp")) {
+            if (input.isKeyPressed("ArrowUp") || input.isKeyPressed("w")) {
                 this.gameObject.position.z -= this.speed * dt;
             }
-            if (input.isKeyPressed("ArrowDown")) {
+            if (input.isKeyPressed("ArrowDown") || input.isKeyPressed("s")) {
                 this.gameObject.position.z += this.speed * dt;
             }
         }
