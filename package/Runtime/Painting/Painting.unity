@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 22652771}
   - component: {fileID: 22652772}
   - component: {fileID: 22652773}
+  - component: {fileID: 22652774}
   m_Layer: 0
   m_Name: Painting
   m_TagString: Untagged
@@ -281,6 +282,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.NeedleEngineModules, Needle.Engine.Common
     $ GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-22652773-0
   PhysicsEngine: 0
+--- !u!114 &22652774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22652765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9f87ef0433c3e6ade15f9e3b0d8009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CustomUSDSettings,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-22652774-0
 --- !u!1 &40076869
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,7 +574,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-492380015-0
   DirectoryName: Library/Needle/Sample
   AutoExport: 1
-  Dependencies: []
+  Dependencies:
+  - Name: needle.customusdzbehaviours
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/USDZCustomBehaviours/Needle.CustomUSDZBehaviours.npmdef
+    Guid: ff74c38cc3bdff34a98f333737a8b54b
 --- !u!4 &492380016
 Transform:
   m_ObjectHideFlags: 0
