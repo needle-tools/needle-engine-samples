@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2353276613886993358
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
+--- !u!114 &-1425580857461611238
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 0
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -7,9 +33,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Floor
+  m_Name: PBRProperties-Cutout
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
-  m_ShaderKeywords: _TEXTURE_TRANSFORM_ON _VERTEX_COLORS_ON
+  m_ShaderKeywords: _VERTEX_COLORS_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,7 +46,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: ce998e69a107bef42b6439be5675c009, type: 3}
+        m_Texture: {fileID: 2800000, guid: b645c6c818cdf184ab191ef7f8840f57, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -40,11 +66,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 53b896693a35c554980d91590cbd5df6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ce998e69a107bef42b6439be5675c009, type: 3}
+        m_Texture: {fileID: 2800000, guid: b645c6c818cdf184ab191ef7f8840f57, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -64,8 +90,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - baseColorTexture:
-        m_Texture: {fileID: 2800000, guid: 8ddf8ef9a306cd547a920261d6a42953, type: 3}
-        m_Scale: {x: 12, y: 5}
+        m_Texture: {fileID: 2800000, guid: b645c6c818cdf184ab191ef7f8840f57, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - emissiveTexture:
         m_Texture: {fileID: 0}
@@ -120,7 +146,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
     - _CLEARCOAT: 0
@@ -132,13 +158,14 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _GlossMapScale: 0
-    - _Glossiness: 0
-    - _GlossyReflections: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
     - _IRIDESCENCE: 0
     - _Metallic: 0
+    - _Mode: 1
     - _OcclusionStrength: 1
-    - _Parallax: 0.005
+    - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SPECULAR: 0
@@ -147,13 +174,14 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TEXTURE_TRANSFORM: 1
+    - _TEXTURE_TRANSFORM: 0
+    - _UVSec: 0
     - _VERTEX_COLORS: 1
     - _VOLUME_ON: 0
     - _VOLUME_TRANSMISSION: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - alphaCutoff: -0.5
+    - alphaCutoff: 0
     - attenuationDistance: 0.001
     - baseColorTextureRotation: 0
     - baseColorTextureTexCoord: 0
@@ -164,9 +192,9 @@ Material:
     - iridescenceIor: 1.3
     - iridescenceThicknessMaximum: 400
     - iridescenceThicknessMinimum: 100
-    - metallicFactor: 0
-    - normalScale: 1
-    - occlusionStrength: 1
+    - metallicFactor: 1
+    - normalScale: 0.492
+    - occlusionStrength: 0.387
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
     - roughnessFactor: 1
@@ -176,23 +204,10 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
-    - baseColorFactor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+    - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
     - emissiveFactor: {r: 0, g: 0, b: 0, a: 1}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &3268493551106577672
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4
