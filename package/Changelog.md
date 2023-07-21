@@ -4,6 +4,19 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2023-07-21
+- updated Needle Engine to ``
+- add AR Camera Background sample
+- add Media Pipe sample
+- add Multi Lightmaps sample
+- add Next.js sample
+- add Svelte sample
+- add Texture Details sample
+- add Networking samples
+- add Everywhere Configurator sample
+- update Animated Properties and Animated Materials samples
+- update Hotspots sample with cross-platform support
+
 ## [0.7.0] - 2023-05-10
 - add USDZ Interactivity / Characters samples
 - add Configurator sample
@@ -19,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.6.0] - 2023-04-11
 - add PostProcessing sample
 - add Sidescroller sample
-- add Vuejs sample
+- add Vue.js sample
 - add Hotspots sample
 - add Multi-Scene sample
 
