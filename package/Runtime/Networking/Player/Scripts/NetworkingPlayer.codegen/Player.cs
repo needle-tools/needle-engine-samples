@@ -10,6 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public Needle.Engine.Components.PlayerState @playerState;
 		public Needle.Engine.Components.SyncedTransform @syncedTransform;
 		public UnityEngine.Renderer @mainRenderer;
+		public UnityEngine.UI.Text @nameLabel;
 		public float @speed = 5f;
 		public void isLocalPlayer(){}
 		public void start(){}

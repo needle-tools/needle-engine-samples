@@ -1,4 +1,4 @@
-import { Behaviour, PlayerState, Renderer, SyncedTransform, serializable } from "@needle-tools/engine";
+import { Behaviour, PlayerState, Renderer, SyncedTransform, serializable, Text } from "@needle-tools/engine";
 import { Color, MeshStandardMaterial } from "three";
 
 export class Player extends Behaviour {
@@ -11,6 +11,9 @@ export class Player extends Behaviour {
 
     @serializable(Renderer)
     mainRenderer?: Renderer;
+
+    @serializable(Text)
+    nameLabel?: Text;
     
     speed: number = 5;
 
@@ -45,6 +48,11 @@ export class Player extends Behaviour {
         if(this.isLocalPlayer()) {
             this.gameObject.position.x = Math.random() * 5 - 2.5;
             this.gameObject.position.z = Math.random() * 5 - 2.5;
+        }
+
+        // set the name label
+        if(this.nameLabel) {
+            this.nameLabel.text = `${this.playerState.owner!}\n${this.playerState.isLocalPlayer ? "<color=#ff715e>Local</color>" : "Remote"}`;
         }
     }
 
