@@ -89,6 +89,8 @@ public class AssetChecks
         // load all model files in the folder where the asset for GUID packageJsonGuid is located
         // load via AssetDatabase.Find
         var modelFiles = AssetDatabase.FindAssets("t:GameObject", new[] { assetFolder });
+        var errors = new List<(string, Object)>();
+
         // iterate over model files and check if they use the correct importer (UnityGltf)
         foreach (var modelFile in modelFiles)
         {
@@ -109,10 +111,17 @@ public class AssetChecks
 #if UNITY_2022_1_OR_NEWER
                     if (importerOverride == null) continue; // Bug in 2022.1+: doesn't actually return the specified override, instead always returns null
 #endif
-                    Debug.LogError($"Model {Path.GetFileName(modelPath)} uses the wrong importer, should use " + typeof(UnityGLTF.GLTFImporter) + ". Uses: " + importer.GetType() + ". Override: " + importerOverride, asset);
+                    errors.Add(($"Model {Path.GetFileName(modelPath)} uses the wrong importer, should use " + typeof(UnityGLTF.GLTFImporter) + ". Uses: " + importer.GetType() + ". Override: " + importerOverride, asset));
                 }
             }
             // Debug.Log(Path.GetFileName(importer.assetPath) + ", " + importer, importer);
+        }
+
+        if (errors.Any())
+        {
+            foreach (var e in errors)
+                Debug.LogError(e.Item1, e.Item2);
+            Assert.Fail($"Found {errors.Count} importers with invalid importer settings");
         }
     }
     
@@ -120,6 +129,7 @@ public class AssetChecks
     {
         // find all materials in the same folder
         var materialFiles = AssetDatabase.FindAssets("t:Material", new[] { assetFolder });
+        var errors = new List<(string, Object)>();
         // iterate over material files and check if they use the correct shader (PBRGraph) or are subassets
         foreach (var materialFile in materialFiles)
         {
@@ -129,8 +139,15 @@ public class AssetChecks
 
             if (!MaterialIsAllowed(material))
             {
-                Debug.LogError(Path.GetFileName(materialPath) + ", subasset: " + isSubAsset + ", shader: " + material.shader + ", guid: " + materialFile, material);
+                errors.Add((Path.GetFileName(materialPath) + ", subasset: " + isSubAsset + ", shader: " + material.shader + ", guid: " + materialFile, material));
             }
+        }
+
+        if (errors.Any())
+        {
+            foreach (var e in errors)
+                Debug.LogError(e.Item1, e.Item2);
+            Assert.Fail($"Found {errors.Count} materials with invalid shaders");
         }
     }
 
