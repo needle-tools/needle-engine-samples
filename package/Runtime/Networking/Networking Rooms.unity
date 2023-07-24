@@ -511,6 +511,7 @@ Transform:
   - {fileID: 589967693}
   - {fileID: 1696292524}
   - {fileID: 627926527}
+  - {fileID: 2079879426}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -994,6 +995,9 @@ MonoBehaviour:
   - Name: networkingrooms
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/Networking/Rooms/Scripts/NetworkingRooms.npmdef
     Guid: 5cf09e73381668949befdb30625d8ae2
+  - Name: samplescripts
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &712786060
 Transform:
   m_ObjectHideFlags: 0
@@ -1022,7 +1026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-36d7f66027060fe40ab7cb2c58337db5-712786061-0
   FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: staging/networking_rooms
+  Path: /networking_rooms
   OverrideGzipCompression: 1
   UseGzipCompression: 0
 --- !u!1 &1142847459
@@ -1591,6 +1595,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041110928}
   m_CullTransparentMesh: 1
+--- !u!1 &2079879425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2079879426}
+  - component: {fileID: 2079879427}
+  m_Layer: 0
+  m_Name: Instructions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2079879426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079879425}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 415869613}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2079879427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079879425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7fcf189c1d89f0d42f86e4554d90e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ShowBalloonMessage,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-36d7f66027060fe40ab7cb2c58337db5-2079879427-0
+  text: Enter a room name and join.
 --- !u!1 &2086668598
 GameObject:
   m_ObjectHideFlags: 0

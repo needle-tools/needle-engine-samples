@@ -1,5 +1,5 @@
-import { Behaviour, PlayerState, Renderer, SyncedTransform, serializable, Text } from "@needle-tools/engine";
-import { Color, MeshStandardMaterial } from "three";
+import { Behaviour, PlayerState, Renderer, SyncedTransform, serializable, Text, RaycastOptions, Gizmos } from "@needle-tools/engine";
+import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three";
 
 export class Player extends Behaviour {
 
@@ -15,7 +15,16 @@ export class Player extends Behaviour {
     @serializable(Text)
     nameLabel?: Text;
     
+    @serializable()
     speed: number = 5;
+
+    private currentGoal = new Vector3();
+    private pointerPos = new Vector2();
+    private options = new RaycastOptions();
+
+    private tempVec1 = new Vector3();
+    private tempVec2 = new Vector3();
+
 
     // wrapper to clean the code so we don't have to check if playerState is null
     isLocalPlayer() {
@@ -45,10 +54,7 @@ export class Player extends Behaviour {
         }
 
         // sample: set random position on the map 
-        if(this.isLocalPlayer()) {
-            this.gameObject.position.x = Math.random() * 5 - 2.5;
-            this.gameObject.position.z = Math.random() * 5 - 2.5;
-        }
+        this.currentGoal = new Vector3(Math.random() * 5 - 2.5, 0, Math.random() * 5 - 2.5);
 
         // set the name label
         if(this.nameLabel) {
@@ -60,19 +66,38 @@ export class Player extends Behaviour {
         // only if we are the local player we are allowed to gather input and move the player
         if(this.isLocalPlayer()) {
             const input = this.context.input;
+            const cam = this.context.mainCamera;
             const dt = this.context.time.deltaTime;
+            const physics = this.context.physics;
 
-            if (input.isKeyPressed("ArrowLeft") || input.isKeyPressed("a")) {
-                this.gameObject.position.x -= this.speed * dt;
+            // reach a goal
+            this.tempVec1.copy(this.currentGoal);
+            this.tempVec2.copy(this.gameObject.position);
+            const vecToGoal = this.tempVec1.sub(this.tempVec2);
+            const distanceToTravel = this.speed * dt;
+            if(vecToGoal.length() < distanceToTravel)
+                this.gameObject.position.copy(this.currentGoal);
+            else
+                this.gameObject.translateOnAxis(vecToGoal.normalize(), distanceToTravel);
+
+            // save pointer position on pointer down
+            if(input.getPointerDown(0)) {
+                const pos = input.getPointerPosition(0);
+                if(pos)
+                    this.pointerPos.copy(pos);
             }
-            if (input.isKeyPressed("ArrowRight") || input.isKeyPressed("d")) {
-                this.gameObject.position.x += this.speed * dt;
-            }
-            if (input.isKeyPressed("ArrowUp") || input.isKeyPressed("w")) {
-                this.gameObject.position.z -= this.speed * dt;
-            }
-            if (input.isKeyPressed("ArrowDown") || input.isKeyPressed("s")) {
-                this.gameObject.position.z += this.speed * dt;
+
+            // compare the pointer down and pointer up positions to determine if we clicked or dragged
+            // and perform a raycast
+            if(input.getPointerUp(0) && cam) {
+                const currPointerPos = input.getPointerPosition(0) || new Vector2();
+                if(currPointerPos.distanceTo(this.pointerPos) < 40) {   
+                    
+                    const results = physics.raycast(this.options);
+                    if(results.length > 0) {
+                        this.currentGoal = results[0].point;
+                    }
+                }
             }
         }
     }
