@@ -32,8 +32,19 @@ export class Player extends Behaviour {
     }
     
     start() {
-        if(!this.playerState || !this.mainRenderer)
+        if(!this.playerState) return;
+
+        console.log(this.playerState.hasOwner);
+        if(this.playerState.hasOwner)
+            this.initialize();
+        else
+            this.playerState.onFirstOwnerChangeEvent.addEventListener(() => this.initialize());
+    }
+
+    initialize() {
+        if(!this.playerState || !this.mainRenderer) {
             return;
+        }
 
         // Synced transform synchronizes position, rotation and scale. But has to be manually enabled to determine who the owner is.
         if(this.syncedTransform && this.isLocalPlayer()) {
