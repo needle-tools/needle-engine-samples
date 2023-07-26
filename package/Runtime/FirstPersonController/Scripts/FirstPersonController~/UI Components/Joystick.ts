@@ -1,6 +1,8 @@
 import { Behaviour, EventList, IPointerDownHandler, IPointerMoveHandler, IPointerUpHandler, Input, Mathf, PointerEventData, Rect, RectTransform, isMobileDevice, serializable } from "@needle-tools/engine";
 import { Vector2, Vector3 } from "three";
 
+// TODO: improve joystick works only while anchored to bottom left corner, otherwise we can't calculate the origin correctly
+// If something changed we need to test it and reimplement this!
 export class Joystick extends Behaviour implements IPointerDownHandler, IPointerUpHandler
 {
     @serializable(RectTransform)
@@ -41,7 +43,6 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
     private pointerID: number = -1;
 
     awake() {
-
         if(this.joystick) 
             this.joyInitPos?.copy(this.joystick.anchoredPosition);
     }
@@ -54,7 +55,6 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
 
         if(this.isDragging)
         {
-
             const input = this.context.input;
             const mousePos = input.getPointerPosition(this.pointerID);
             
@@ -62,7 +62,7 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
                 return;
             }
             
-/*             const v = new Vector3();
+            /*const v = new Vector3();
             v.x = mousePos.x;
             v.y = mousePos.y;
 
@@ -98,7 +98,6 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
                         this.joyState.clampLength(0, 1);
                     }
 
-                    console.log(this.joyState);
                     this.onValueChanged.invoke(this.joyState);
                 }
     
@@ -109,19 +108,20 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
     }
 
     onPointerDown(args: PointerEventData) {
+        if(this.isDragging || args.pointerId === undefined)
+            return;
+
         this.isDragging = true;
 
         this.pointerID = args.pointerId!;
+        console.log("Joy: down");
     }
 
     onPointerUp(args: PointerEventData) {
-        this.isDragging = false;
-    }
-
-/*     onPointerMove(args: PointerEventData) {
-        if(!this.isDragging || args.pointerId == undefined)
+        if(!this.isDragging || args.pointerId !== this.pointerID)
             return;
 
-       
-    } */
+        this.isDragging = false;
+        console.log("Joy: up");
+    }
 }

@@ -14,7 +14,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @clickDeadzone = 15f;
 		public void onPointerDown(UnityEngine.EventSystems.PointerEventData @args){}
 		public void onPointerUp(UnityEngine.EventSystems.PointerEventData @args){}
-		public void onPointerMove(UnityEngine.EventSystems.PointerEventData @args){}
+		public void update(){}
 	}
 }
 

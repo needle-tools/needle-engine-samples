@@ -1,7 +1,7 @@
 import { Behaviour,EventList,IPointerDownHandler, IPointerMoveHandler, IPointerUpHandler, Input, Mathf, PointerEventData, Rect, RectTransform, isMobileDevice, serializable } from "@needle-tools/engine";
 import { Vector2, Vector3 } from "three";
 
-export class Touchpad extends Behaviour implements IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler
+export class Touchpad extends Behaviour implements IPointerDownHandler, IPointerUpHandler
 {
     @serializable(RectTransform)
     touchArea?: RectTransform;
@@ -18,58 +18,57 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
     @serializable()
     clickDeadzone: number = 15;
 
+    private currentPointer;
     private isDragging;
     private dragStartPos: Vector2 = new Vector2();
 
     onPointerDown(args: PointerEventData) {
-        this.isDragging = true;
-        
-        const input = this.context.input;
+        if(this.isDragging || args.pointerId === undefined)
+            return;
 
-        if(args.pointerId != undefined) {
-            this.dragStartPos.copy(input.getPointerPosition(args.pointerId)!);
-        }
+        this.isDragging = true;
+            
+        const input = this.context.input;
+        this.dragStartPos.copy(input.getPointerPosition(args.pointerId)!);
+        this.currentPointer = args.pointerId;
     }
 
     onPointerUp(args: PointerEventData) {
-        if(args.pointerId != undefined)
-        {
-            const drag = this.getCurrentDrag(args.pointerId);
-            
-            if (drag.length() < this.clickDeadzone) {
-                this.onClick.invoke();
-            }
-        }
+        if(!this.isDragging && args.pointerId === undefined)
+            return;
 
         this.isDragging = false;
+
+        const drag = this.getCurrentDrag(this.currentPointer);
+        if (drag.length() < this.clickDeadzone) {
+            this.onClick.invoke();
+        }
     }
 
-    onPointerMove(args: PointerEventData) {
-        if((!this.isDragging) || args.pointerId == undefined) {
+    update() {
+        if(!this.isDragging)
             return;
-        }
 
         const input = this.context.input;
-        const mousePosDelta = input.getPointerPositionDelta(args.pointerId);
+        const mousePosDelta = input.getPointerPositionDelta(this.currentPointer);
 
-        const drag = this.getCurrentDrag(args.pointerId);
+        const drag = this.getCurrentDrag(this.currentPointer);
 
-        if(mousePosDelta && drag.length() > this.clickDeadzone)
-        {
+        if(mousePosDelta && drag.length() > this.clickDeadzone) {
             mousePosDelta.multiplyScalar(this.sensitivity);
             this.onDrag.invoke(mousePosDelta);
         }
     }
 
+    private tempVector = new Vector2();
     private getCurrentDrag(pointerID: number): Vector2 {
-
         if(!this.isDragging) {
             return new Vector2();
         }
 
         const input = this.context.input;
-        const currentPos = input.getPointerPosition(pointerID)?.clone() || new Vector2();
-        const drag = currentPos.sub(this.dragStartPos);
+        this.tempVector.copy(input.getPointerPosition(pointerID)!);
+        const drag = this.tempVector.sub(this.dragStartPos);
 
         return drag;
     }
