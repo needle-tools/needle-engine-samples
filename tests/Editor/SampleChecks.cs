@@ -203,6 +203,7 @@ namespace SampleChecks
         private void OpenSceneAndCopyIfNeeded()
         {
             var path = AssetDatabase.GetAssetPath(sample.Scene);
+            Assert.IsTrue(File.Exists(path), "Scene file doesn't exist");
 
             // immutable scenes can't be opened (e.g. from installed sample package)
             // so we're making a mutable copy here to run tests on it.
