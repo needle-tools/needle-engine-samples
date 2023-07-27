@@ -23,7 +23,7 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
     private dragStartPos: Vector2 = new Vector2();
 
     onPointerDown(args: PointerEventData) {
-        if(this.isDragging || args.pointerId === undefined)
+        if (this.isDragging || args.pointerId === undefined)
             return;
 
         this.isDragging = true;
@@ -31,11 +31,15 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
         const input = this.context.input;
         this.dragStartPos.copy(input.getPointerPosition(args.pointerId)!);
         this.currentPointer = args.pointerId;
+
+        args.use();
     }
 
     onPointerUp(args: PointerEventData) {
-        if(!this.isDragging && args.pointerId === undefined)
+        if (!this.isDragging || args.pointerId !== this.currentPointer)
             return;
+
+        console.log("onPointerUp", args.pointerId, this.currentPointer)
 
         this.isDragging = false;
 
@@ -43,10 +47,12 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
         if (drag.length() < this.clickDeadzone) {
             this.onClick.invoke();
         }
+
+        args.use();
     }
 
     update() {
-        if(!this.isDragging)
+        if (!this.isDragging)
             return;
 
         const input = this.context.input;
@@ -54,7 +60,7 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
 
         const drag = this.getCurrentDrag(this.currentPointer);
 
-        if(mousePosDelta && drag.length() > this.clickDeadzone) {
+        if (mousePosDelta && drag.length() > this.clickDeadzone) {
             mousePosDelta.multiplyScalar(this.sensitivity);
             this.onDrag.invoke(mousePosDelta);
         }
@@ -62,7 +68,7 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
 
     private tempVector = new Vector2();
     private getCurrentDrag(pointerID: number): Vector2 {
-        if(!this.isDragging) {
+        if (!this.isDragging) {
             return new Vector2();
         }
 

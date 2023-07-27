@@ -43,22 +43,22 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
     private pointerID: number = -1;
 
     awake() {
-        if(this.joystick) 
+        if (this.joystick) 
             this.joyInitPos?.copy(this.joystick.anchoredPosition);
     }
 
     update(): void {
-        if(this.joystick) {
+        if (this.joystick) {
             const target = this.isDragging ? this.joyPos : this.joyInitPos;
             this.joystick.anchoredPosition.lerp(target, this.visualSmoothing * this.context.time.deltaTime);
         }
 
-        if(this.isDragging)
+        if (this.isDragging)
         {
             const input = this.context.input;
             const mousePos = input.getPointerPosition(this.pointerID);
             
-            if(!this.touchArea || !this.joystick || !mousePos) {
+            if (!this.touchArea || !this.joystick || !mousePos) {
                 return;
             }
             
@@ -73,7 +73,7 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
             const rect = this.touchArea["rect"] as Rect;
             const origin = this.touchArea["position"] as Vector2;
 
-            if(rect && origin)
+            if (rect && origin)
             {
                 this.mousepos.copy(mousePos);
                 this.mousepos.y = this.context.domHeight - this.mousepos.y; //invert the Y axis
@@ -86,15 +86,15 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
                 this.joyState.copy(this.joyPos);
                 this.joyState.multiplyScalar(this.scale);
 
-                if(this.invertX)
+                if (this.invertX)
                     this.joyState.x *= -1;
-                if(this.invertY)
+                if (this.invertY)
                     this.joyState.y *= -1;
     
-                if(this.joyState.length() > this.deadzone)
+                if (this.joyState.length() > this.deadzone)
                 {
                     this.joyState.multiplyScalar(this.sensitivity);
-                    if(this.clampOutput) {
+                    if (this.clampOutput) {
                         this.joyState.clampLength(0, 1);
                     }
 
@@ -108,20 +108,20 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
     }
 
     onPointerDown(args: PointerEventData) {
-        if(this.isDragging || args.pointerId === undefined)
+        if (this.isDragging || args.pointerId === undefined)
             return;
 
         this.isDragging = true;
-
         this.pointerID = args.pointerId!;
-        console.log("Joy: down");
+        
+        args.use();
     }
 
     onPointerUp(args: PointerEventData) {
-        if(!this.isDragging || args.pointerId !== this.pointerID)
+        if (!this.isDragging || args.pointerId !== this.pointerID)
             return;
 
         this.isDragging = false;
-        console.log("Joy: up");
+        args.use();
     }
 }
