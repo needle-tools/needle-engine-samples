@@ -2981,7 +2981,7 @@ GameObject:
   - component: {fileID: 1477258133}
   - component: {fileID: 1477258134}
   - component: {fileID: 1477258135}
-  - component: {fileID: 1477258136}
+  - component: {fileID: 1477258137}
   m_Layer: 0
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -3036,7 +3036,7 @@ MonoBehaviour:
     Needle.Samples.PostProcessing $ GlobalObjectId_V1-2-6f11602d2f40d164385e7346fa7d9244-1477258135-0
   post: {fileID: 1477258134}
   autoFocus: 1
---- !u!114 &1477258136
+--- !u!114 &1477258137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3045,17 +3045,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1477258132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0955e75fbedced44b54eb802a49deeb, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ff83fca07d14be8b6c861ebbd41ce85, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.PostProcessing.ScreenSpaceAmbientOcclusionN8,
-    Needle.Engine $ GlobalObjectId_V1-2-6f11602d2f40d164385e7346fa7d9244-1477258136-0
-  gammaCorrection: 1
-  intensity: 1
+  m_EditorClassIdentifier: Needle.Engine.Components.PostProcessing.ScreenSpaceAmbientOcclusion,
+    Needle.Engine $ GlobalObjectId_V1-2-6f11602d2f40d164385e7346fa7d9244-1477258137-0
+  intensity: 2
   falloff: 1
-  aoRadius: 5
-  screenspaceRadius: 0
+  samples: 9
   color: {r: 0, g: 0, b: 0, a: 1}
-  quality: 2
+  luminanceInfluence: 0.7
 --- !u!1001 &1484785081
 PrefabInstance:
   m_ObjectHideFlags: 0
