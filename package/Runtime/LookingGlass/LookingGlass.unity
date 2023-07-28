@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.057983212, g: 0.057758685, b: 0.057983212, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -210,6 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-81a6ba71797791c4ba356a609ed5d319-111422525-0
+  showGizmo: 1
+  useViewAngle: 1
 --- !u!114 &111422526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +386,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-81a6ba71797791c4ba356a609ed5d319-311356877-0
+  showGizmo: 1
+  useViewAngle: 1
 --- !u!4 &311356878 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3910990755373119420, guid: 9e8141a86b75494439477208a33b6d49, type: 3}
@@ -476,6 +480,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-81a6ba71797791c4ba356a609ed5d319-486081470-0
+  showGizmo: 1
+  useViewAngle: 1
 --- !u!114 &486081471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,7 +902,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-6f5202caf3abd364eafd07a9a8108377-784234927-0
   meta:
     title: Looking Glass
     description: 3D Holographic Display - look.glass
@@ -988,6 +994,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-81a6ba71797791c4ba356a609ed5d319-1173111682-0
+  showGizmo: 1
+  useViewAngle: 1
 --- !u!114 &1173111683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1143,6 +1151,7 @@ GameObject:
   - component: {fileID: 1597275520}
   - component: {fileID: 1597275521}
   - component: {fileID: 1597275522}
+  - component: {fileID: 1597275523}
   m_Layer: 0
   m_Name: SceneRoot
   m_TagString: Untagged
@@ -1230,6 +1239,20 @@ MonoBehaviour:
   trackballX: -10
   trackballY: 20
   targetDiam: 2
+--- !u!114 &1597275523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597275517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004aa0d8fd504f24b2e499a972c59f33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.NeedleEngineModules, Needle.Engine.Common
+    $ GlobalObjectId_V1-2-6f5202caf3abd364eafd07a9a8108377-1597275523-0
+  PhysicsEngine: 1
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0

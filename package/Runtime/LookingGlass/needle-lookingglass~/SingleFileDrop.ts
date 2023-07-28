@@ -51,6 +51,6 @@ export class SingleFileDrop extends Behaviour {
         p.style.color = 'white';
         
         div.appendChild(p);
-        this.context.domElement.appendChild(div);
+        this.context.domElement.shadowRoot.appendChild(div);
     }
 }

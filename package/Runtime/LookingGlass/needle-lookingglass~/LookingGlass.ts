@@ -31,7 +31,7 @@ export class LookingGlass extends Behaviour {
         btnGroup.appendChild(this.makeButton("Learn More", "https://look.glass"));
         btnGroup.appendChild(this.makeButton("Buy ($40 off)", "https://lookingglass.refr.cc/needle"));
 
-        this.context.domElement.appendChild(btnGroup);
+        this.context.domElement.shadowRoot.appendChild(btnGroup);
 
         const config = LookingGlassConfig;
         console.log(config)
