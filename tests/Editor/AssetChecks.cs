@@ -19,6 +19,9 @@ public class AssetChecks
             
         [Test]
         public void SampleShadersAreCorrect() => ShadersUseCorrectTargets(SamplePackage);
+
+        [Test]
+        public void NoEmptyFolders() => NoEmptyFoldersFound(SamplePackage);
     }
 
     public class Engine
@@ -31,11 +34,60 @@ public class AssetChecks
 
         [Test]
         public void EngineShadersAreCorrect() => ShadersUseCorrectTargets(EnginePackage);
+
+        [Test]
+        public void NoEmptyFolders() => NoEmptyFoldersFound(EnginePackage);
     }
     
     private const string samplePackageJsonGuid = "fd17907bb2ad1444d9c584fde3e7715b";
     private const string enginePackageJsonGuid = "041e32dc0df5f4641b30907afb5926e6";
 
+    private static void GetFolders(string path, List<DirectoryInfo> results)
+    {
+        var di = new DirectoryInfo(path);
+        if (!di.Exists)
+            return;
+            
+        results.Add(di);
+            
+        try {
+            foreach (var directory in di.GetDirectories())
+            {
+                if (SampleChecks.SampleChecks.ignoreSizeFolderNames.Any(ignoredFolder => directory.FullName.Contains(ignoredFolder)))
+                    continue;
+                
+                GetFolders(directory.FullName, results);
+            }
+        } catch {
+            // ignored
+        }
+    }
+    
+    private static void NoEmptyFoldersFound(string assetFolder)
+    {
+        var folders = new List<DirectoryInfo>();
+        GetFolders(assetFolder, folders);
+        var emptyFolders = new List<DirectoryInfo>();
+        
+        foreach (var folder in folders)
+        {
+            try {
+                if (folder.GetFiles().Length == 0 && folder.GetDirectories().Length == 0)
+                    emptyFolders.Add(folder);
+            } catch {
+                // ignored
+            }
+        }
+
+        if (emptyFolders.Count <= 0) return;
+        
+        var sb = new StringBuilder();
+        sb.AppendLine("Empty folders found:");
+        foreach (var emptyFolder in emptyFolders)
+            sb.AppendLine(emptyFolder.FullName);
+        Assert.Fail(sb.ToString());
+    }
+    
     private static readonly string[] AllowedShaderNames = new string[]
     {
         "UnityGLTF/",
@@ -55,6 +107,13 @@ public class AssetChecks
     private static bool MaterialIsAllowed(Material material)
     {
         if (!material || !material.shader) return false;
+        
+        // check if material is ready and properly compiled
+        if (!material.shader.isSupported)
+        {
+            Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, material, "{0}", "Material is not supported: " + material.name);
+            return false;
+        }
 
         // these are fine - they are known to export correctly.
         if (AllowedShaderNames.Any(shaderName => material.shader.name.StartsWith(shaderName)))
