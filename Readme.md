@@ -17,7 +17,7 @@
 
 <div align="center">
   
-[Getting Started](https://docs.needle.tools/getting-started) — [Download Samples](https://engine.needle.tools/downloads/unity/samples) — [Documentation](https://engine.needle.tools/docs)
+[Explore Live Samples](https://engine.needle.tools/samples) — [Getting Started](https://docs.needle.tools/getting-started) — [Download Samples](https://engine.needle.tools/downloads/unity/samples) — [Documentation](https://engine.needle.tools/docs)
 
 </div>
 
@@ -34,8 +34,6 @@
 We recommend reading the [getting started](https://engine.needle.tools/docs/getting-started.html) guide
 
 # Contact ✒️
-<b>[🌵 needle — tools for unity](https://needle.tools)</b> • 
+<b>[🌵 needle — tools for creators](https://needle.tools)</b> • 
 [@NeedleTools](https://twitter.com/NeedleTools) • 
-[@marcel_wiessler](https://twitter.com/marcel_wiessler) • 
-[@hybridherbst](https://twitter.com/hybridherbst) • 
 [Needle Discord](https://discord.needle.tools)
