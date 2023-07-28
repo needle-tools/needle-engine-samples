@@ -203,6 +203,7 @@ namespace SampleChecks
         private void OpenSceneAndCopyIfNeeded()
         {
             var path = AssetDatabase.GetAssetPath(sample.Scene);
+            Assert.IsTrue(File.Exists(path), "Scene file doesn't exist");
 
             // immutable scenes can't be opened (e.g. from installed sample package)
             // so we're making a mutable copy here to run tests on it.
@@ -287,11 +288,32 @@ namespace SampleChecks
             Assert.LessOrEqual(allDeploymentComponentsInScene.Count, 1, "Too many deployment components found: " + string.Join(", ", allDeploymentComponentsInScene.Select(x => x.GetType().Name)));
         }
 
-        private readonly string[] ignoreSizeFolderNames =
+        private static readonly string[] ignoreSizeFolderNames =
         {
             "node_modules",
         };
 
+        private static void GetFiles(string path, List<FileInfo> results)
+        {
+            var di = new DirectoryInfo(path);
+            if (!di.Exists)
+                return;
+            
+            results.AddRange(di.GetFiles());
+            
+            try {
+                foreach (var directory in di.GetDirectories())
+                {
+                    if (ignoreSizeFolderNames.Any(ignoredFolder => directory.FullName.Contains(ignoredFolder)))
+                        continue;
+                    
+                    GetFiles(directory.FullName, results);
+                }
+            } catch {
+                // ignore
+            }
+        }
+        
         [Test]
         public void FolderSizeBelow10MB()
         {
@@ -309,9 +331,11 @@ namespace SampleChecks
             }
             
             // get files and filter them based on a blacklist
-            var fileInfos = di.GetFiles("*.*", SearchOption.AllDirectories);
-            fileInfos = fileInfos.Where(x => !ignoreSizeFolderNames.Any(ignoredFolder => x.FullName.Contains(ignoredFolder)))
-                                 .ToArray();
+            var fileInfos = new List<FileInfo>();
+            GetFiles(di.FullName, fileInfos);
+            fileInfos = fileInfos
+                .Where(x => !ignoreSizeFolderNames.Any(ignoredFolder => x.FullName.Contains(ignoredFolder)))
+                .ToList();
 
             // calculate total file size
             var size = fileInfos.Sum(file => file.Exists ? file.Length : 0);
