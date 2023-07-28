@@ -1,19 +1,19 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { Ability } from "../Ability";
-import { BattleManager } from "../BattleManager";
-import { Card } from "../Card";
-import { CardModel } from "../CardModel";
-import { CreatureState } from "../Creature";
-import { Creature } from "../Creature";
-import { CreatureUI } from "../CreatureUI";
-import { Deck } from "../Deck";
-import { DragHandler } from "../DragHandler";
-import { DropZone } from "../DropZone";
-import { GameModel } from "../GameManager";
-import { GameManager } from "../GameManager";
-import { Player } from "../Player";
+import { Ability } from "../Ability.js";
+import { BattleManager } from "../BattleManager.js";
+import { Card } from "../Card.js";
+import { CardModel } from "../CardModel.js";
+import { CreatureState } from "../Creature.js";
+import { Creature } from "../Creature.js";
+import { CreatureUI } from "../CreatureUI.js";
+import { Deck } from "../Deck.js";
+import { DragHandler } from "../DragHandler.js";
+import { DropZone } from "../DropZone.js";
+import { GameModel } from "../GameManager.js";
+import { GameManager } from "../GameManager.js";
+import { Player } from "../Player.js";
 
 // Register types
 TypeStore.add("Ability", Ability);
