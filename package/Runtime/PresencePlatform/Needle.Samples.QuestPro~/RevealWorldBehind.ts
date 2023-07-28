@@ -29,18 +29,25 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
                 if (plane.mesh === this.gameObject) {
                     const data = plane.xrPlane;
                     //@ts-ignore
-                    console.log("this plane is part of a ", data.semanticLabel);
+                    console.log("this plane is part of a " + data.semanticLabel);
                 }
             }
         }
 
         this.renderer = this.gameObject.getComponent(Renderer);
+        if (!this.renderer) return;
+
+        const m = this.renderer.sharedMaterial.clone() as MeshBasicMaterial ;
+        this.renderer.sharedMaterial = m;
+
+        m.color.setHex(Math.random() * 0xffffff);
+
         // append our current material to the list
         if (this.renderer) {
-            this.materials.push(this.renderer.sharedMaterial);
-            this.materials.push(this.blockerMaterial());
-            this.materials.push(this.wireframeMaterial());
+            this.materials = [...this.materials, this.renderer.sharedMaterial, this.blockerMaterial(), this.wireframeMaterial()];
         }
+
+        GameObject.setActive(this.gameObject, true);
     }
 
     onPointerClick() {
@@ -53,10 +60,10 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
         const newMat = this.materials[nextIndex];
         this.renderer.sharedMaterial = newMat;
         if ("_renderOrder" in newMat) {
-            this.renderer.renderOrder = [newMat._renderOrder];
+            this.gameObject.renderOrder = newMat._renderOrder;
         }
         else {
-            this.renderer.renderOrder = [0];
+            this.gameObject.renderOrder = 0;
         }
     }
 
@@ -64,9 +71,8 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
         const material = new MeshBasicMaterial();
         material.colorWrite = false;
         material.depthWrite = true;
-        material.alphaTest = 0.5;
-        material.opacity = 1;
-        material["_renderOrder"] = -100;
+        material.transparent = false;
+        material["_renderOrder"] = -1000;
         return material;
     }
 
@@ -74,8 +80,7 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
         const material = new MeshBasicMaterial();
         material.colorWrite = true;
         material.depthWrite = false;
-        material.alphaTest = 0.5;
-        material.opacity = 1;
+        material.transparent = false;
         material.wireframe = true;
         return material;
     }
