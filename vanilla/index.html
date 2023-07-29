@@ -4,14 +4,12 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="favicon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>Made with Needle</title>
-
+    <title>🌵 Made with Needle</title>
     <!-- CSS -->
     <style>
         body {
             margin: 0;
         }
-
         needle-engine {
             position: absolute;
             display: block;
@@ -19,32 +17,11 @@
             height: 100%;
         }
     </style>
-
-    <!-- parcel require must currently defined somewhere for peerjs -->
-    <script> var parcelRequire; </script>
-
-    <!-- importmap -->
-    <script type="importmap">
-        {
-          "imports": {
-            "three":  "https://unpkg.com/three/build/three.module.js",
-            "three/": "https://unpkg.com/three/"
-          }
-        }
-    </script>
     <!-- import needle-engine -->
     <script type="module" src="https://unpkg.com/@needle-tools/engine@3.11.0-beta/dist/needle-engine.min.js"></script>
 </head>
 
 <body>
-    <needle-engine src="myScene.glb" loadfinished="onLoaded"></needle-engine>
+    <needle-engine src="myScene.glb" camera-controls></needle-engine>
 </body>
-
-<script>
-    // This is called when needle-engine has loaded. See the loadfinished attribute in needle-engine tag.
-    function onLoaded(ctx) {
-        console.log("Loading a glb file finished 😎");
-        console.log("This is the scene: ", ctx.scene);
-    }
-</script>
 </html>
