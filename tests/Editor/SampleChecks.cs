@@ -195,7 +195,7 @@ namespace SampleChecks
                 "Packages/com.unity.render-pipelines.universal",
                 "Packages/com.unity.render-pipelines.core",
                 "Packages/org.khronos.unitygltf",
-                "Packages/com.needle.dev-assets/Needle FTP Server.asset"
+                "Packages/com.needle.dev-assets/Needle Samples FTP.asset"
             };
             
             dependencies = dependencies
