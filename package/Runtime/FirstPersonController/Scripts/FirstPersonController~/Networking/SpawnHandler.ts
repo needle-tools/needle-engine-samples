@@ -24,8 +24,7 @@ export class SpawnHandler extends Behaviour {
 
     private downVector = new Vector3(0, -1, 0);
 
-    // @nonSerialized
-    handlePlayerSpawn(obj: Object3D) {
+    handlePlayerSpawn(obj: GameObject) { 
         //shuffle spawnspots
         this.spawnPoints.sort(() => Math.random() - 0.5);
 

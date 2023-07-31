@@ -1,11 +1,11 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { FirstPersonController } from "../FirstPersonCharacter";
-import { PointerLock } from "../LockPointer";
-import { SpawnHandler } from "../Networking/SpawnHandler";
-import { Joystick } from "../UI Components/Joystick";
-import { Touchpad } from "../UI Components/Touchpad";
+import { FirstPersonController } from "../FirstPersonCharacter.js";
+import { PointerLock } from "../LockPointer.js";
+import { SpawnHandler } from "../Networking/SpawnHandler.js";
+import { Joystick } from "../UI Components/Joystick.js";
+import { Touchpad } from "../UI Components/Touchpad.js";
 
 // Register types
 TypeStore.add("FirstPersonController", FirstPersonController);

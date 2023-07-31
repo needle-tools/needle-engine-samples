@@ -11,18 +11,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.UI.Button @jumpButton;
 		public Needle.Typescript.GeneratedComponents.Touchpad @lookTouchpad;
 		public Needle.Typescript.GeneratedComponents.Joystick @moveJoystick;
+		public void handlePlayerSpawn(UnityEngine.GameObject @obj){}
 	}
 }
 
 // NEEDLE_CODEGEN_END
-
-
-
-namespace Needle.Typescript.GeneratedComponents
-{
-	public partial class SpawnHandler : UnityEngine.MonoBehaviour
-	{
-		public void handlePlayerSpawn() { }
-
-    }
-}
