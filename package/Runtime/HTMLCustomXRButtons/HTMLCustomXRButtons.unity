@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.057948448, g: 0.057748586, b: 0.057948448, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 362793852}
   - component: {fileID: 362793851}
+  - component: {fileID: 362793853}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -212,10 +213,31 @@ Transform:
   m_LocalRotation: {x: 0.4878329, y: 0.45194277, z: 0.56555057, w: 0.48776972}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1696033061}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -2.023, y: -276.639, z: -263.354}
+--- !u!114 &362793853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362793850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1001 &825969985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -304,6 +326,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.73, y: 1.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1696033061}
   m_RootOrder: 1
@@ -341,7 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-6d35115f0b3856747b249df7640272df-1072521942-0
-  compilerDirectory: H:\git\needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\HTMLCustomXRButtons/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Packages/com.needle.engine-samples/WebProjects~/HTMLCustomXRButtons/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &1072521943
 MonoBehaviour:
@@ -371,6 +394,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -403,7 +427,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-6d35115f0b3856747b249df7640272df-1072521946-0
   meta:
     title: HTML Custom XR Buttons
     description: AR and VR buttons can be customized for your app.
@@ -418,6 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1173569454}
   - component: {fileID: 1173569455}
+  - component: {fileID: 1173569456}
   m_Layer: 0
   m_Name: Directional Light (1)
   m_TagString: Untagged
@@ -435,6 +460,7 @@ Transform:
   m_LocalRotation: {x: -0.242157, y: 0.40517366, z: 0.8801656, w: 0.0500281}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1696033061}
   m_RootOrder: 3
@@ -501,6 +527,26 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1173569456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173569453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1577903630
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,9 +626,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577903630}
-  m_LocalRotation: {x: 0.012342736, y: -0.9874958, z: 0.10178233, w: 0.119750574}
+  m_LocalRotation: {x: 0.012342835, y: -0.9874957, z: 0.10178221, w: 0.11975075}
   m_LocalPosition: {x: 1.946, y: 2.19, z: 4.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1696033061}
   m_RootOrder: 0
@@ -706,6 +753,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1577903633}
   - {fileID: 871953966}
@@ -801,6 +849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1959953293}
   - component: {fileID: 1959953294}
+  - component: {fileID: 1959953296}
   - component: {fileID: 1959953295}
   m_Layer: 0
   m_Name: WebXR
@@ -819,6 +868,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1696033061}
   m_RootOrder: 4
@@ -854,3 +904,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CustomXRButtons,
     Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-6d35115f0b3856747b249df7640272df-1959953295-0
+--- !u!114 &1959953296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959953292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a86a2db1f5d20489f1387bdc57b5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.USDZExporter, Needle.Engine $
+    GlobalObjectId_V1-2-6d35115f0b3856747b249df7640272df-1959953296-0
+  objectToExport: {fileID: 0}
+  allowCreateQuicklookButton: 0
+  autoExportAnimations: 0
+  interactive: 1
+  customBranding:
+    CheckoutTitle: "\U0001F335 Made with Needle"
+    CheckoutSubtitle: 
+    CallToAction: Learn More
+    CallToActionURL: https://needle.tools
+  exportFileName: Needle
+  customUsdzFile:
+    File: {fileID: 0}
