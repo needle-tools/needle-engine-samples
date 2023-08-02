@@ -22,3 +22,7 @@ Synchronize your player in a multiplayer experience.
 A sample that lets you explore what rooms are and how they work.
 
 [Explore it here.](https://engine.needle.tools/samples/networking_rooms/)
+## Networking Animator
+Synchronized any Aniamtor without any code.
+
+[Explore it here.](https://engine.needle.tools/samples/networking_players/)
