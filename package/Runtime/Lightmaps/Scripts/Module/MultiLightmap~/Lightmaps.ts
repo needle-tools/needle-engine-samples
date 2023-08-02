@@ -143,7 +143,7 @@ export class LightmapConfigurations extends Behaviour {
                 }
             }
             const active = this.settings[index];
-            if (active.emissive) {
+            if (active && active.emissive) {
                 for (const rend of active.emissive) {
                     this.enableRendererEmission(rend);
                 }
