@@ -1,8 +1,8 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { CustomUSDSettings } from "../CustomUSDSettings";
-import { FadeOnProximity } from "../FadeOnProximity";
+import { CustomUSDSettings } from "../CustomUSDSettings.js";
+import { FadeOnProximity } from "../FadeOnProximity.js";
 
 // Register types
 TypeStore.add("CustomUSDSettings", CustomUSDSettings);

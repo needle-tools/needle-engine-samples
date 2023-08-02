@@ -4,9 +4,12 @@ import { Behaviour, GameObject, USDZExporter, WebXR } from "@needle-tools/engine
 
 export class CustomXRButtons extends Behaviour {
 
+    // START MARKER webxr custom buttons
+
     start() {
 
-        // WebXR and USDZExporter have their default buttons disabled in Unity.
+        // WebXR and USDZExporter should have their default buttons
+        // disabled on their components.
 
         const xr = GameObject.findObjectOfType(WebXR)!;
         const usdzExporter = GameObject.findObjectOfType(USDZExporter);
@@ -14,13 +17,13 @@ export class CustomXRButtons extends Behaviour {
         const haveAR = WebXR.IsARSupported;
         const haveVR = WebXR.IsVRSupported;
 
-        // https://webkit.org/blog/8421/viewing-augmented-reality-assets-in-safari-for-ios/
         const a = document.createElement("a");
         const haveQuickLook = a.relList.supports("ar") && usdzExporter;
         
         const startAR = WebXR.createARButton(xr);
         const startVR = WebXR.createVRButton(xr);
 
+        // We're using the AR button both for WebXR AR and QuickLook AR on iOS.
         const arButton = document.querySelector(".ar-button")!;
         if (haveAR) {
             arButton.addEventListener("click", () => { 
@@ -32,15 +35,22 @@ export class CustomXRButtons extends Behaviour {
                 usdzExporter.exportAsync();
             });
         }
-        if (haveAR || haveQuickLook) arButton.classList.add("supported");
-        else arButton.classList.add("not-supported");
 
         const vrButton = document.querySelector(".vr-button")!;
-        if (haveVR)
+        if (haveVR) {
             vrButton.addEventListener("click", () => { 
                 startVR.click();
             });
+        }
+
+        // Give the buttons a style for being supported or not
+
+        if (haveAR || haveQuickLook) arButton.classList.add("supported");
+        else arButton.classList.add("not-supported");
+
         if (haveVR) vrButton.classList.add("supported");
         else vrButton.classList.add("not-supported");
     }
+
+    // END MARKER webxr custom buttons
 }
