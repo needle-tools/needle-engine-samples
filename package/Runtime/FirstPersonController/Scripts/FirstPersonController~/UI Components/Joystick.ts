@@ -17,8 +17,9 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
     @serializable()
     scale: number = 1;
 
+    // @nonSerialized
     @serializable(EventList)
-    onValueChanged: EventList = new EventList();
+    onMove: EventList = new EventList();
 
     @serializable()
     invertX: boolean = false;
@@ -98,7 +99,7 @@ export class Joystick extends Behaviour implements IPointerDownHandler, IPointer
                         this.joyState.clampLength(0, 1);
                     }
 
-                    this.onValueChanged.invoke(this.joyState);
+                    this.onMove.invoke(this.joyState);
                 }
     
                 this.joyPos.clampLength(0, 1);

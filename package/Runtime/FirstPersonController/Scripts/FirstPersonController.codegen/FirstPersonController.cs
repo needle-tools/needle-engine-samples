@@ -33,18 +33,11 @@ namespace Needle.Typescript.GeneratedComponents
 		public void gatherGamepadInput(){}
 		public void getGamepadButtons(object @gamepad, float[] @indexes){}
 		public void sanitzeGamepadAxis(float @input){}
+		public void move(UnityEngine.Vector2 @input){}
 		public void jump(){}
+		public void sprint(bool @state){}
+		public void look(UnityEngine.Vector2 @input){}
 	}
 }
 
 // NEEDLE_CODEGEN_END
-
-namespace Needle.Typescript.GeneratedComponents
-{
-	public partial class FirstPersonController : UnityEngine.MonoBehaviour
-	{
-		public void look() { }
-		public void move() { }
-		public void sprint() { }
-	}
-}

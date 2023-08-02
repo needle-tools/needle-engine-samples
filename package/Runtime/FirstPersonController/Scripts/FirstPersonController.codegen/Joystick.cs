@@ -11,7 +11,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.RectTransform @joystick;
 		public float @visualSmoothing = 1f;
 		public float @scale = 1f;
-		public UnityEngine.Events.UnityEvent @onValueChanged = new UnityEngine.Events.UnityEvent();
 		public bool @invertX = false;
 		public bool @invertY = false;
 		public float @sensitivity = 1f;
@@ -25,3 +24,11 @@ namespace Needle.Typescript.GeneratedComponents
 }
 
 // NEEDLE_CODEGEN_END
+
+namespace Needle.Typescript.GeneratedComponents
+{
+	public partial class Joystick : UnityEngine.MonoBehaviour
+	{
+        public UnityEngine.Events.UnityEvent<UnityEngine.Vector2> @onMove = new UnityEngine.Events.UnityEvent<UnityEngine.Vector2>();
+    }
+}

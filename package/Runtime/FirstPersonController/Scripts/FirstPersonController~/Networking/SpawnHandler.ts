@@ -71,8 +71,8 @@ export class SpawnHandler extends Behaviour {
         const player = (obj as GameObject)?.getComponent(FirstPersonController);
         if(player) {
             this.jumpButton?.onClick?.addEventListener(() => player.jump());
-            this.lookTouchpad?.onDrag?.addEventListener((delta) => player.look(delta));
-            this.moveJoystick?.onValueChanged?.addEventListener((delta) => player.move(delta));
+            this.lookTouchpad?.onMove?.addEventListener((delta) => player.look(delta));
+            this.moveJoystick?.onMove?.addEventListener((delta) => player.move(delta));
         }
     }
 }

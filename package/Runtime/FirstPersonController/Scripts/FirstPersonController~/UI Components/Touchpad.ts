@@ -6,8 +6,9 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
     @serializable(RectTransform)
     touchArea?: RectTransform;
 
+    // @nonSerialized
     @serializable(EventList)
-    onDrag: EventList = new EventList();
+    onMove: EventList = new EventList();
 
     @serializable(EventList)
     onClick: EventList = new EventList();
@@ -62,7 +63,7 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
 
         if (mousePosDelta && drag.length() > this.clickDeadzone) {
             mousePosDelta.multiplyScalar(this.sensitivity);
-            this.onDrag.invoke(mousePosDelta);
+            this.onMove.invoke(mousePosDelta);
         }
     }
 

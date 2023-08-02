@@ -293,7 +293,6 @@ export class FirstPersonController extends Behaviour {
         }
     }
 
-    // @nonSerialized
     move(input: Vector2) {
         this.moveInput = input;
     }
@@ -302,13 +301,13 @@ export class FirstPersonController extends Behaviour {
         this.jumpInput = true;
     }
 
-    // @nonSerialized
     sprint(state: boolean) {
         this.jumpInput = state;
     }
 
-    // Input: delta mouse position
-    // @nonSerialized
+    /**
+     * Input: delta mouse position
+    */ 
     look(input: Vector2) {
         this.lookInput.copy(input);
     }

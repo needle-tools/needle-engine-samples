@@ -8,7 +8,6 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class Touchpad : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.RectTransform @touchArea;
-		public UnityEngine.Events.UnityEvent @onDrag = new UnityEngine.Events.UnityEvent();
 		public UnityEngine.Events.UnityEvent @onClick = new UnityEngine.Events.UnityEvent();
 		public float @sensitivity = 1f;
 		public float @clickDeadzone = 15f;
@@ -19,3 +18,12 @@ namespace Needle.Typescript.GeneratedComponents
 }
 
 // NEEDLE_CODEGEN_END
+
+namespace Needle.Typescript.GeneratedComponents
+{
+	public partial class Touchpad : UnityEngine.MonoBehaviour
+	{
+        public UnityEngine.Events.UnityEvent<UnityEngine.Vector2> @onMove = new UnityEngine.Events.UnityEvent<UnityEngine.Vector2>();
+
+    }
+}
