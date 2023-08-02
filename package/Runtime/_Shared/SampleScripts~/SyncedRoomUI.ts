@@ -23,7 +23,7 @@ export class SyncedRoomUI extends Behaviour {
         }
 
         if(updateLabel && this.connectionLabel) {
-            this.connectionLabel.text = `Room: ${this.roomId}\nPlayers: ${this.playerCount}`;
+            this.connectionLabel.text = `Room: ${this.roomId}\nUsers: ${this.playerCount}`;
         }
     }
 }

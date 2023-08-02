@@ -8,7 +8,6 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class LookAtCamera : UnityEngine.MonoBehaviour
 	{
 		public bool @inverse = false;
-		public void start(){}
 		public void update(){}
 	}
 }
