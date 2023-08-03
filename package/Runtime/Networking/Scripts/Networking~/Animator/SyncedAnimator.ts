@@ -120,12 +120,13 @@ export class SyncedAnimator extends Behaviour {
         // we want to mainatin state, but not report or sync
         const localControl = this.ownershipModel.hasOwnership && this.drivenByAnimator;
 
-        var isDirty = false;
+        var isDirtyState = false;
+        var isDirtyParams = false;
         const state = this.animator.runtimeAnimatorController?.activeState;
         if (this.currentState !== state) {
-            if (debug && localControl) console.log(`Local state: ${this.currentState} --> ${state}`);
+            if (debug && localControl) console.log(`Local state: ${this.currentState?.name} --> ${state?.name}`);
             this.currentState = this.animator.runtimeAnimatorController?.findState(state?.name!)!;
-            isDirty = true;
+            isDirtyState = true;
         }
 
         for (let i = 0; i < this.localParameters.length; i++) {
@@ -133,13 +134,13 @@ export class SyncedAnimator extends Behaviour {
             const prev = this.localParametersLastFrame[i] as Parameter;
 
             if (prev.value !== curr.value) {
-                isDirty = true;
+                isDirtyParams = true;
                 if (debug && localControl) console.log(`Local parameter: ${curr.name} | ${prev.value} --> ${curr.value}`);
             }
         }
 
-        if (isDirty && localControl) {
-            this.createAndSndModel(this.localParameters, this.currentState);
+        if ((isDirtyState || isDirtyParams) && localControl) {
+            this.createAndSndModel(this.localParameters, isDirtyState ? this.currentState : undefined);
         }
 
         this.updateLastFrameParams();
@@ -240,7 +241,7 @@ export class SyncedAnimator extends Behaviour {
 
         // send
         const payload = this.builder.asUint8Array();
-        if (debug) console.log(`SyncAnimator: --> ${payload.length} bytes`);
+        if (debug) console.log(`${this.context.time.time.toFixed(2)} SyncAnimator: --> ${payload.length} bytes`);
         net.sendBinary(payload);
     }
 
@@ -252,7 +253,7 @@ export class SyncedAnimator extends Behaviour {
         if (!this.animator) return;
         if (data.guid() !== this.syncedAnimGuid) return; //payload for another synced animator
 
-        if (debug) console.log(`SyncAnimator: <-- ${data.bb?.bytes().length} bytes`);
+        if (debug) console.log(`${this.context.time.time.toFixed(2)} SyncAnimator: <-- ${data.bb?.bytes().length} bytes`);
 
         for (let i = 0; i < data.valuesLength(); i++) {
             const p = this.localParameters[i];
@@ -280,7 +281,7 @@ export class SyncedAnimator extends Behaviour {
         if (newStateHash !== 0) {
             const newState = this.animator.runtimeAnimatorController?.findState(newStateHash);
             this.remoteState = newState;
-            if (debug) console.log(`Remote state: ${this.currentState?.name} --> ${newState?.name}`);
+            if (debug) console.log(`${this.context.time.time.toFixed(2)} Remote state: ${this.currentState?.name} --> ${newState?.name}`);
         }
     }
 
