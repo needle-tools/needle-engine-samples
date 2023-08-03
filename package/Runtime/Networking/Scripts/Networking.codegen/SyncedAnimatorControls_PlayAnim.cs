@@ -10,7 +10,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Animator @animator;
 		public Needle.Typescript.GeneratedComponents.SyncedAnimator @syncAnimator;
 		public string @animName = "";
-		public bool @useSyncAnimAPI = false;
 		public void onPointerClick(object @_){}
 	}
 }

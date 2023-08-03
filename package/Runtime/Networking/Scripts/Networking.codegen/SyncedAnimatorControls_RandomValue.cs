@@ -10,7 +10,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Animator @animator;
 		public Needle.Typescript.GeneratedComponents.SyncedAnimator @syncAnimator;
 		public string @animParam = "";
-		public bool @useSyncAnimAPI = false;
 		public UnityEngine.UI.Text @valueLabel;
 		// public Parameter @parameter; → Could not resolve C# type
 		public void awake(){}

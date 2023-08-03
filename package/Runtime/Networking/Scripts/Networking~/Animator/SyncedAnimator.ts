@@ -12,22 +12,8 @@ export const SyncedAnimatorIdentifier = "SANI"; // :)
 registerBinaryType(SyncedAnimatorIdentifier, SyncedAnimator_Model.getRootAsSyncedAnimator_Model);
 
 export class SyncedAnimator extends Behaviour {
-    /** 
-     * If true, the animator will be driven by the animator.
-     * So any changes to the animator will be synced to the network.
-     * You need to specify the ownership by calling request ownership on the driving client.
-     * 
-     * If false, the SyncedAnimator API should be used. This is good for owner less concepts.
-    */
-    @serializable()
-    drivenByAnimator: boolean = true;
-
-    // used when drivenByAnimator is true, so the system doesn't feedback on itself.
-    // call requestOwnership on the driving client to take control otherwise changes won't apply.
-    ownershipModel!: OwnershipModel;
-
     // mandatory component on the object
-    private animator?: Animator;
+    private animator!: Animator;
 
     // used for serialization and deserialization. Needed to use SyncedAnimator_Model API.
     private builder!: Builder;
@@ -38,9 +24,6 @@ export class SyncedAnimator extends Behaviour {
     // live parameters that Animator uses
     private localParameters: Parameter[] = [];
 
-    // A saved state of live params for comparision
-    private localParametersLastFrame: Parameter[] = [];
-
     // live state from the animator
     private currentState: State | undefined;
 
@@ -48,13 +31,13 @@ export class SyncedAnimator extends Behaviour {
     private remoteState: State | null | undefined;
 
     // when drivenByAnimator is false and you use the SyncedAnimator API, this marks the state to be synced before animator update.
-    private manualParameterChanges: boolean = false;
-    private manualStateChanges: boolean = false;
+    /* private manualParameterChanges: boolean = false;
+    private manualStateChanges: boolean = false; */
 
     awake() {
         // differentiate between guids in order to save both owner AND anim state
-        this.ownershipModel = new OwnershipModel(this.context.connection, `owner_${this.guid}`);
-        this.syncedAnimGuid = `sani_${this.guid}`;
+        //this.ownershipModel = new OwnershipModel(this.context.connection, `owner_${this.guid}`);
+        this.syncedAnimGuid = `${this.guid}`;
     }
 
     start(): void {
@@ -65,7 +48,6 @@ export class SyncedAnimator extends Behaviour {
 
         this.enabled = this.localParameters !== undefined;
         if (this.enabled) {
-            this.updateLastFrameParams();
             if (this.context.connection.isConnected) {
                 this.onStateRecieved();
             }
@@ -104,9 +86,7 @@ export class SyncedAnimator extends Behaviour {
 
         syncedAnimator.checkForChanges();
         syncedAnimator.applyChanges();
-
-        if (!syncedAnimator.drivenByAnimator)
-            syncedAnimator.dispatchManualChanges();
+        syncedAnimator.dispatchChanges();
     }
 
     /**
@@ -117,33 +97,11 @@ export class SyncedAnimator extends Behaviour {
         if (!this.enabled) return;
         if (!this.animator) return;
 
-        // we want to mainatin state, but not report or sync
-        const localControl = this.ownershipModel.hasOwnership && this.drivenByAnimator;
-
-        var isDirtyState = false;
-        var isDirtyParams = false;
         const state = this.animator.runtimeAnimatorController?.activeState;
         if (this.currentState !== state) {
-            if (debug && localControl) console.log(`Local state: ${this.currentState?.name} --> ${state?.name}`);
+            if (debug) console.log(`Local state: ${this.currentState?.name} --> ${state?.name}`);
             this.currentState = this.animator.runtimeAnimatorController?.findState(state?.name!)!;
-            isDirtyState = true;
         }
-
-        for (let i = 0; i < this.localParameters.length; i++) {
-            const curr = this.localParameters[i] as Parameter;
-            const prev = this.localParametersLastFrame[i] as Parameter;
-
-            if (prev.value !== curr.value) {
-                isDirtyParams = true;
-                if (debug && localControl) console.log(`Local parameter: ${curr.name} | ${prev.value} --> ${curr.value}`);
-            }
-        }
-
-        if ((isDirtyState || isDirtyParams) && localControl) {
-            this.createAndSndModel(this.localParameters, isDirtyState ? this.currentState : undefined);
-        }
-
-        this.updateLastFrameParams();
     }
 
     /**
@@ -152,34 +110,8 @@ export class SyncedAnimator extends Behaviour {
      */
     private applyChanges() {
         if (this.remoteState && this.remoteState !== this.currentState) {
-            this.animator?.play(this.remoteState.hash);
+            this.animator.play(this.remoteState.hash, -1, Number.NEGATIVE_INFINITY, 0.2, true);
             this.remoteState = null;
-        }
-    }
-
-    /**
-     * Updates last frame's parameter state to be compared with current frame.
-     */
-    private updateLastFrameParams() {
-        this.localParametersLastFrame.length = this.localParameters.length;
-
-        for (let i = 0; i < this.localParameters.length; i++) {
-            const curr = this.localParameters[i];
-            const prev = this.localParametersLastFrame[i];
-            if (prev) {
-                prev.name = curr.name;
-                prev.type = curr.type;
-                prev.value = curr.value;
-                prev.hash = curr.hash;
-            }
-            else {
-                this.localParametersLastFrame[i] = {
-                    name: curr.name,
-                    type: curr.type,
-                    value: curr.value,
-                    hash: curr.hash
-                }
-            }
         }
     }
 
@@ -187,13 +119,11 @@ export class SyncedAnimator extends Behaviour {
      * If any explicit SetParamaters / Play calls were issued through the SyncedAnimator and
      * drivenByAnimator is false, this will send the changes to the server.
      */
-    private dispatchManualChanges() {
-        if (!this.manualParameterChanges && !this.manualStateChanges) return;
+    private dispatchChanges() {
+        if (!this.animator.parametersAreDirty && !this.animator.stateIsDirty) return;
 
-        this.createAndSndModel(this.localParameters, this.manualStateChanges ? this.currentState : undefined);
-
-        this.manualParameterChanges = false;
-        this.manualStateChanges = false;
+        // disacrd the state information if the user haven't changed the state. Otherwise the state machine has to choose between a parameter and a direct play call. 
+        this.createAndSndModel(this.localParameters, this.animator.stateIsDirty ? this.currentState : undefined);
     }
 
     private tempValues: number[] = []
@@ -293,60 +223,5 @@ export class SyncedAnimator extends Behaviour {
     private onStateRecieved() {
         const model = this.context.connection.tryGetState(this.guid) as unknown as SyncedAnimator_Model;
         if (model) this.modelRecieved(model);
-    }
-
-    // ------------- API ---------------
-
-    /**
-     * Ownership is need if drivenByAnimator is true. 
-     * Call this method on the driving client so their changes to the animator are synced.
-     */
-    requestOwnership() {
-        if (this.ownershipModel.hasOwnership) return;
-
-        this.ownershipModel.requestOwnership();
-    }
-
-    // Animator API wrapper
-    getBool(name: string | number): boolean {
-        return this.animator?.getBool(name) || false;
-    }
-    setBool(name: string | number, value: boolean) {
-        this.animator?.setBool(name, value);
-        this.manualParameterChanges = true;
-    }
-
-    getFloat(name: string | number): number {
-        return this.animator?.getFloat(name) || 0;
-    }
-    setFloat(name: string | number, value: number) {
-        this.animator?.setFloat(name, value);
-        this.manualParameterChanges = true;
-    }
-
-    getInt(name: string | number): number {
-        return this.animator?.getInteger(name) || 0;
-    }
-    setInt(name: string | number, value: number) {
-        this.animator?.setInteger(name, value);
-        this.manualParameterChanges = true;
-    }
-
-    setTrigger(name: string | number) {
-        this.animator?.setTrigger(name)
-        this.manualParameterChanges = true;
-    }
-    getTrigger(name: string | number): boolean {
-        return this.animator?.getTrigger(name) || false;
-    }
-
-    resetTrigger(name: string | number) {
-        this.animator?.resetTrigger(name)
-        this.manualParameterChanges = true;
-    }
-
-    play(name: string | number) {
-        this.animator?.play(name)
-        this.manualStateChanges = true;
     }
 }
