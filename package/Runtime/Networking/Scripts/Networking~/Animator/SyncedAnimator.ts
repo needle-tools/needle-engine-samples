@@ -110,7 +110,7 @@ export class SyncedAnimator extends Behaviour {
      */
     private applyChanges() {
         if (this.remoteState && this.remoteState !== this.currentState) {
-            this.animator.play(this.remoteState.hash, -1, Number.NEGATIVE_INFINITY, 0.2, true);
+            this.animator.runtimeAnimatorController?.play(this.remoteState.hash);
             this.remoteState = null;
         }
     }
@@ -120,10 +120,10 @@ export class SyncedAnimator extends Behaviour {
      * drivenByAnimator is false, this will send the changes to the server.
      */
     private dispatchChanges() {
-        if (!this.animator.parametersAreDirty && !this.animator.stateIsDirty) return;
+        if (!this.animator.parametersAreDirty && !this.animator.isDirty) return;
 
         // disacrd the state information if the user haven't changed the state. Otherwise the state machine has to choose between a parameter and a direct play call. 
-        this.createAndSndModel(this.localParameters, this.animator.stateIsDirty ? this.currentState : undefined);
+        this.createAndSndModel(this.localParameters, this.animator.isDirty ? this.currentState : undefined);
     }
 
     private tempValues: number[] = []
