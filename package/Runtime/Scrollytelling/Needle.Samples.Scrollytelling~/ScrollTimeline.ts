@@ -10,7 +10,7 @@ export class ScrollTimeline extends Behaviour {
     timeline?: PlayableDirector;
 
     @serializeable()
-    startOffset: number;
+    startOffset: number = 0;
 
     @serializeable()
     lerpSpeed: number = 2.5;
@@ -18,13 +18,13 @@ export class ScrollTimeline extends Behaviour {
     @serializeable()
     startLerpSpeed: number = 0.5;
 
-    private updateTimelineCoroutine: Generator<unknown>;
+    private updateTimelineCoroutine!: Generator<unknown>;
 
     start() {
         const mainCam = this.context.mainCameraComponent;
         if (!mainCam) return;
 
-        const startFov = mainCam.fieldOfView; // designed for 16:9
+        const startFov = mainCam.fieldOfView!; // designed for 16:9
 
         // add resize observer to domElement
         const resizeObserver = new ResizeObserver(_ => {

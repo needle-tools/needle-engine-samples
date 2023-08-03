@@ -1,9 +1,9 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { MouseRotation } from "../MouseRotation";
-import { ScrollTimeline } from "../ScrollTimeline";
-import { ScrollTimeline_2 } from "../ScrollTimeline_2";
+import { MouseRotation } from "../MouseRotation.js";
+import { ScrollTimeline } from "../ScrollTimeline.js";
+import { ScrollTimeline_2 } from "../ScrollTimeline_2.js";
 
 // Register types
 TypeStore.add("MouseRotation", MouseRotation);
