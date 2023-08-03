@@ -1,4 +1,4 @@
-import { Animator, AnimatorControllerParameterType, Parameter, Behaviour, IPointerClickHandler, Mathf, serializable, Text } from "@needle-tools/engine";
+import { Animator, AnimatorControllerParameterType, Parameter, Behaviour, IPointerClickHandler, Mathf, serializable, Text, GameObject } from "@needle-tools/engine";
 import { SyncedAnimator } from "../SyncedAnimator";
 
 export class SyncedAnimatorControls_RandomValue extends Behaviour implements IPointerClickHandler {
@@ -84,5 +84,26 @@ export class SyncedAnimatorControls_PlayAnim extends Behaviour implements IPoint
             this.syncAnimator.play(this.animName);
         else
             this.animator.play(this.animName);
+    }
+}
+
+export class SyncedAnimatorControls_Ownership extends Behaviour {
+    @serializable(SyncedAnimator)
+    syncAnimator?: SyncedAnimator;
+
+    @serializable(GameObject)
+    whenOwned?: GameObject;
+
+    @serializable(GameObject)
+    whenNot?: GameObject;
+
+    update(): void {
+        if(!this.syncAnimator) return;
+        const hasOwnership = this.syncAnimator.ownershipModel.hasOwnership;
+
+        if(this.whenOwned)
+            this.whenOwned.visible = hasOwnership;
+        if(this.whenNot)
+            this.whenNot.visible = !hasOwnership;
     }
 }
