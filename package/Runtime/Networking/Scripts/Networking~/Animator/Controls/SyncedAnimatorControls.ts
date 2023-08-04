@@ -12,6 +12,9 @@ export class SyncedAnimatorControls_RandomValue extends Behaviour implements IPo
     @serializable()
     animParam: string = "";
 
+    @serializable()
+    animParamToDisable: string = "";
+
     @serializable(Text)
     valueLabel?: Text;
 
@@ -24,18 +27,35 @@ export class SyncedAnimatorControls_RandomValue extends Behaviour implements IPo
     }
 
     onPointerClick(_) {
+        if(!this.animator) return;
         if(!this.syncAnimator) return;
         if(!this.parameter) return;
 
         const type = this.parameter.type;
         if(type == AnimatorControllerParameterType.Float) {
-            this.animator?.setFloat(this.animParam, Mathf.random() * 1.5);
-        }
-        if(type == AnimatorControllerParameterType.Int) {
-            this.animator?.setInteger(this.animParam, Math.round(Mathf.random() * 1.5));
+            var state = this.animator.getFloat(this.animParam) + 0.6;
+            if(state >= 1.7)
+                state = 0;
+            this.animator.setFloat(this.animParam, state);
         }
         if(type == AnimatorControllerParameterType.Bool || type == AnimatorControllerParameterType.Trigger) {
-            this.animator?.setBool(this.animParam, !this.parameter.value);
+            this.animator.setBool(this.animParam, !this.parameter.value);
+        }
+
+        if(this.animParamToDisable != "") {
+            const params = this.animator?.runtimeAnimatorController?.model?.parameters;
+            if(!params) return;
+            const otherParam = params.find(p => p.name === this.animParamToDisable)!;
+
+            if(otherParam) {
+                const type = otherParam.type;
+                if(type == AnimatorControllerParameterType.Float || type == AnimatorControllerParameterType.Int) {
+                    this.animator.setFloat(this.animParamToDisable, 0);
+                }
+                else if(type == AnimatorControllerParameterType.Bool || type == AnimatorControllerParameterType.Trigger) {
+                    this.animator.setBool(this.animParamToDisable, false);
+                }
+            }
         }
     }
 
@@ -45,7 +65,7 @@ export class SyncedAnimatorControls_RandomValue extends Behaviour implements IPo
 
         var text = "";
         if(this.parameter.type == AnimatorControllerParameterType.Float || this.parameter.type == AnimatorControllerParameterType.Int) {
-            text = (this.parameter.value as number).toFixed(3);
+            text = (this.parameter.value as number).toFixed(1);
         }
         else {
             text = `${(this.parameter.value as boolean)}`;
