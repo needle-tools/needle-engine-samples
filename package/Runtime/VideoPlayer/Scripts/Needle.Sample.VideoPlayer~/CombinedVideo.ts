@@ -15,7 +15,6 @@ export class CombinedVideo extends Behaviour {
         if(vidTexture == null || this.renderer == null)
             return;
             
-        vidTexture.colorSpace = NoColorSpace;
         this.renderer.sharedMaterial["_VideoTex"] = vidTexture;
     }
 }
