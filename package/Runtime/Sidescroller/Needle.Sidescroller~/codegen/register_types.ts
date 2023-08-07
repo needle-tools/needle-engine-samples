@@ -1,9 +1,9 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { SidescrollerCamera } from "../SidescrollerCamera";
-import { SidescrollerCharacter } from "../SidescrollerCharacter";
-import { SidescrollerInfo } from "../SidescrollerInfo";
+import { SidescrollerCamera } from "../SidescrollerCamera.js";
+import { SidescrollerCharacter } from "../SidescrollerCharacter.js";
+import { SidescrollerInfo } from "../SidescrollerInfo.js";
 
 // Register types
 TypeStore.add("SidescrollerCamera", SidescrollerCamera);

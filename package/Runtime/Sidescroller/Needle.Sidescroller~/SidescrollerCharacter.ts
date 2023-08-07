@@ -59,6 +59,9 @@ export class SidescrollerCharacter extends Behaviour {
             this.handlePointer();
         }
         
+        this.inputs.horizontal.value = Mathf.clamp(this.inputs.horizontal.value, -1, 1);
+        this.inputs.vertical.value = Mathf.clamp(this.inputs.vertical.value, -1, 1);
+
         pos.x += this.inputs.horizontal.value * moveAmount;
         pos.z -= this.inputs.vertical.value * moveAmount;
 
