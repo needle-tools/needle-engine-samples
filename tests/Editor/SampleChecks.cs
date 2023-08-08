@@ -36,7 +36,7 @@ namespace SampleChecks
         [Test]
         public async Task NoDuplicateGzipDeployments()
         {
-            const string validateUrl = "https://engine.needle.tools/samples/validate";
+            const string validateUrl = "https://engine.needle.tools/samples/__validate";
             var request = UnityWebRequest.Get(validateUrl);
             request.timeout = 5;
             
