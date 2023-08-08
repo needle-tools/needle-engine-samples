@@ -11,6 +11,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Networking;
 using System;
+using System.Text.RegularExpressions;
 using Needle.Engine;
 using Needle.Engine.Deployment;
 using Object = UnityEngine.Object;
@@ -31,6 +32,22 @@ namespace SampleChecks
         {
             "node_modules",
         };
+
+        [Test]
+        public async Task NoDuplicateGzipDeployments()
+        {
+            const string validateUrl = "https://engine.needle.tools/samples/validate";
+            var request = UnityWebRequest.Get(validateUrl);
+            request.timeout = 5;
+            
+            var operation = request.SendWebRequest();
+            while (!operation.isDone)
+                await Task.Yield();
+            
+            var result = request.downloadHandler.text;
+            var warningCount = Regex.Matches(result, Regex.Escape("WARNING")).Count;
+            Assert.AreEqual(0, warningCount, "Duplicate index.html and index.html.gz found for " + warningCount + " samples. Please visit " + validateUrl + " to check.\n\n" + result);
+        }
     }
 
     [TestFixtureSource(typeof(SampleChecks), nameof(SampleChecks.GetSamples))]
