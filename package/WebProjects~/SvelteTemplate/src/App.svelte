@@ -10,8 +10,3 @@ let selectedSpot: CameraSpot | null = null;
 
 <NeedleEngine bind:cameraSpots={cameraSpots} bind:selectedSpot={selectedSpot}></NeedleEngine>
 <Menu bind:cameraSpots={cameraSpots} bind:selectedSpot={selectedSpot}></Menu>
-
-
-<style>
-
-</style>

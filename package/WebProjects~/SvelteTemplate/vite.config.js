@@ -12,11 +12,7 @@ export default defineConfig(async ({ command }) => {
             basicSsl(),
             useGzip(needleConfig) ? viteCompression({ deleteOriginFile: true }) : null,
             needlePlugins(command, needleConfig),
-            svelte({
-                experimental: {
-                    inspector: true,
-                }
-            }),
+            svelte({}),
         ],
         server: {
             https: true,
