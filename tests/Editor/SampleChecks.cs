@@ -34,7 +34,7 @@ namespace SampleChecks
         };
 
         [Test]
-        public async Task NoDuplicateGzipDeployments()
+        public async Task NoGzipDeployments()
         {
             const string validateUrl = "https://engine.needle.tools/samples/__validate";
             var request = UnityWebRequest.Get(validateUrl);
@@ -46,7 +46,7 @@ namespace SampleChecks
             
             var result = request.downloadHandler.text;
             var warningCount = Regex.Matches(result, Regex.Escape("WARNING")).Count;
-            Assert.AreEqual(0, warningCount, "Duplicate index.html and index.html.gz found for " + warningCount + " samples. Please visit " + validateUrl + " to check.\n\n" + result);
+            Assert.AreEqual(0, warningCount, "Site incorrectly deployed without GZIP. index.html found for " + warningCount + " samples. Please visit " + validateUrl + " to check.\n\n" + result);
         }
     }
 
