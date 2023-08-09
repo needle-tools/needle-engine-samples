@@ -42,6 +42,10 @@ a:hover {
     color: #4d7716;
 }
 
+main {
+    position: relative;
+}
+
 :global(body) {
     margin: 0;
     padding: 20px;

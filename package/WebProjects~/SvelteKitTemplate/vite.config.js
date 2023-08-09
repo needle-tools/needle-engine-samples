@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import viteCompression from 'vite-plugin-compression';
 import mkcert from 'vite-plugin-mkcert';
 
 
@@ -30,6 +29,9 @@ export default defineConfig(async ({ command }) => {
         ],
         server: {
             port: 3000,
+            fs: {
+                strict: false,
+            },
         },
         build: {
             emptyOutDir: true,

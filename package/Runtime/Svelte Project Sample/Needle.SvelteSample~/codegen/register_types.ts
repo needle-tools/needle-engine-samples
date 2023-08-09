@@ -1,8 +1,8 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { CameraSpot } from "../CameraSpot";
-import { StateManager } from "../StateManager";
+import { CameraSpot } from "../CameraSpot.js";
+import { StateManager } from "../StateManager.js";
 
 // Register types
 TypeStore.add("CameraSpot", CameraSpot);
