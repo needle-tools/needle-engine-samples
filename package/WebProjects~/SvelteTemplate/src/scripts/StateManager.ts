@@ -9,6 +9,6 @@ export class StateManager extends Behaviour {
     start(): void {
         this.addEventListener(StateManager.StateChangedEvent, (e: CustomEvent) => {
             console.log("state changed!", e.detail);
-        });
+        }); 
     }
 }

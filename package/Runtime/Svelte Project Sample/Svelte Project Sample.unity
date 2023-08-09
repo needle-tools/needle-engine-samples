@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6192141, g: 0.69999945, b: 0.7067927, a: 1}
+  m_IndirectSpecularColor: {r: 0.6192141, g: 0.69999945, b: 0.7067928, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 161777160}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50d95e22877a370fc60819e412b4540, type: 3}
+  m_Script: {fileID: 11500000, guid: 88dc85b2b5f9a591d7896a4b8eb461db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraSpot, Assembly-CSharp
     $ GlobalObjectId_V1-2-a0aa50bbe40bcef4b8f263b37e43fdda-161777161-0
@@ -253,6 +253,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1672042217}
   - {fileID: 1133591488}
@@ -362,7 +363,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 951869485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50d95e22877a370fc60819e412b4540, type: 3}
+  m_Script: {fileID: 11500000, guid: 88dc85b2b5f9a591d7896a4b8eb461db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraSpot, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-a0aa50bbe40bcef4b8f263b37e43fdda-951869486-0
@@ -414,10 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-a0aa50bbe40bcef4b8f263b37e43fdda-1039520752-0
   DirectoryName: Packages/com.needle.engine-samples/WebProjects~/SvelteTemplate
   AutoExport: 1
-  Dependencies:
-  - Name: needle.sveltesample
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Svelte Project Sample/Needle.SvelteSample.npmdef
-    Guid: e6b55c7576ebd2b4fbf723ebbbd31e89
+  Dependencies: []
 --- !u!4 &1039520753
 Transform:
   m_ObjectHideFlags: 0
@@ -428,6 +426,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -459,6 +458,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1133591488}
   - component: {fileID: 1133591487}
+  - component: {fileID: 1133591489}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -538,10 +538,31 @@ Transform:
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 782358483}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1133591489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133591486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1001 &1442270882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -630,7 +651,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1442270884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50d95e22877a370fc60819e412b4540, type: 3}
+  m_Script: {fileID: 11500000, guid: 88dc85b2b5f9a591d7896a4b8eb461db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraSpot, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-a0aa50bbe40bcef4b8f263b37e43fdda-1442270885-0
@@ -715,6 +736,7 @@ Transform:
   m_LocalRotation: {x: 0.08805724, y: -0.909314, z: 0.25055984, w: 0.3203339}
   m_LocalPosition: {x: 3.064, y: 2.893, z: 3.659}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 782358483}
   m_RootOrder: 0
@@ -866,7 +888,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1674998131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50d95e22877a370fc60819e412b4540, type: 3}
+  m_Script: {fileID: 11500000, guid: 88dc85b2b5f9a591d7896a4b8eb461db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraSpot, Assembly-CSharp
     $ GlobalObjectId_V1-2-a0aa50bbe40bcef4b8f263b37e43fdda-1674998132-0
@@ -958,7 +980,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1720784148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50d95e22877a370fc60819e412b4540, type: 3}
+  m_Script: {fileID: 11500000, guid: 88dc85b2b5f9a591d7896a4b8eb461db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraSpot, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-a0aa50bbe40bcef4b8f263b37e43fdda-1720784149-0
@@ -989,6 +1011,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2015492597}
   - {fileID: 1720784147}
@@ -1007,7 +1030,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2011333928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f953602bbcf5c194ab66145d9218aafc, type: 3}
+  m_Script: {fileID: 11500000, guid: ff0525b67c7e5feb7c45e29aad1c65dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.StateManager, Assembly-CSharp
     $ GlobalObjectId_V1-2-a0aa50bbe40bcef4b8f263b37e43fdda-2011333930-0
@@ -1099,7 +1122,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2015492598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50d95e22877a370fc60819e412b4540, type: 3}
+  m_Script: {fileID: 11500000, guid: 88dc85b2b5f9a591d7896a4b8eb461db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraSpot, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-a0aa50bbe40bcef4b8f263b37e43fdda-2015492599-0

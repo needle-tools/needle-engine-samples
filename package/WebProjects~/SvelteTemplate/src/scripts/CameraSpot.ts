@@ -8,7 +8,7 @@ export class CameraSpot extends Behaviour implements IPointerClickHandler {
     start() {
         this.startScale = this.gameObject.scale.x;
     }
-
+ 
     deselect() {
         this.gameObject.scale.set(this.startScale, this.startScale, this.startScale);
     }

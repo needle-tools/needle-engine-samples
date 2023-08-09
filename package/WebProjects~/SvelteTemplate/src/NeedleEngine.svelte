@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Context, ContextRegistry, GameObject } from "@needle-tools/engine";
-import { CameraSpot } from "needle.sveltesample/CameraSpot";
-import { StateManager } from "needle.sveltesample/StateManager";
+import { CameraSpot } from "./scripts/CameraSpot";
+import { StateManager } from "./scripts/StateManager";
 
 // exposed state - can be bound from outside components
 export let cameraSpots: Array<CameraSpot> = [];
