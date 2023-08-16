@@ -8,11 +8,13 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class FirstPersonController : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.CharacterController @controller;
-		public UnityEngine.PhysicMaterial @physicalMaterial;
 		public UnityEngine.GameObject @xRotTarget;
 		public float @lookSensitivity = 1f;
-		public float @movementSpeed = 5f;
-		public float @sprintSpeed = 10f;
+		public float @movementSpeed = 50f;
+		public float @sprintSpeed = 80f;
+		public float @stoppingDecay = 7f;
+		public float @maxSpeed = 7f;
+		public float @maxSprintSpeed = 7f;
 		public float @jumpSpeed = 5f;
 		public UnityEngine.Vector2 @xRotClamp = new UnityEngine.Vector2(-89, 89f);
 		public bool @enableTouchInput = true;

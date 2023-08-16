@@ -90,8 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5503133249337396651}
-  - component: {fileID: 5503133249337396649}
   - component: {fileID: 1027208390}
+  - component: {fileID: 5503133249337396649}
   m_Layer: 2
   m_Name: FPS Character
   m_TagString: Untagged
@@ -115,6 +115,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1027208390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5503133249337396652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32309c0f1a55e813d63d804ba412a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.FirstPersonController,
+    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-00000000000000000000000000000000-1027208390-0
+  controller: {fileID: 5503133249337396649}
+  physicalMaterial: {fileID: 13400000, guid: 4e76c69509e93c44b9fc21b3c0a0ff3d, type: 2}
+  xRotTarget: {fileID: 5503133250123964516}
+  lookSensitivity: 1
+  movementSpeed: 50
+  stoppingDecay: 7
+  maxSpeed: 7
+  sprintSpeed: 80
+  jumpSpeed: 5
+  xRotClamp: {x: -89, y: 89}
+  enableTouchInput: 0
+  enableDesktopInput: 1
+  enableGamepadInput: 1
+  gamepadDeadzone: 0.25
+  gamepadLookSensitivity: 50
 --- !u!143 &5503133249337396649
 CharacterController:
   m_ObjectHideFlags: 0
@@ -133,32 +161,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1027208390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5503133249337396652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e32309c0f1a55e813d63d804ba412a8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.FirstPersonController,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-00000000000000000000000000000000-1027208390-0
-  controller: {fileID: 5503133249337396649}
-  physicalMaterial: {fileID: 13400000, guid: 4e76c69509e93c44b9fc21b3c0a0ff3d, type: 2}
-  xRotTarget: {fileID: 5503133250123964516}
-  yRotTarget: {fileID: 5503133249337396652}
-  lookSensitivity: 1
-  movementSpeed: 5
-  jumpSpeed: 5
-  xRotClamp: {x: -89, y: 89}
-  enableTouchInput: 0
-  enableDesktopInput: 1
-  enableGamepadInput: 1
-  gamepadDeadzone: 0.25
-  gamepadLookSensitivity: 50
 --- !u!1 &5503133250123964516
 GameObject:
   m_ObjectHideFlags: 0

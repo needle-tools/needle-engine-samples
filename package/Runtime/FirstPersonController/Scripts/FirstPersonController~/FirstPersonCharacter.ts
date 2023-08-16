@@ -1,4 +1,4 @@
-import { serializable, Mathf, isMobileDevice, SyncedTransform, Camera, PlayerState, CapsuleCollider, PhysicsMaterial, CharacterController, Behaviour } from "@needle-tools/engine";
+import { serializable, Mathf, isMobileDevice, SyncedTransform, Camera, PlayerState, CapsuleCollider, PhysicsMaterial, CharacterController, Behaviour, Rigidbody } from "@needle-tools/engine";
 import { Vector2, Vector3, Object3D, MathUtils } from "three";
 import { PointerLock } from "./LockPointer";
 
@@ -6,10 +6,6 @@ export class FirstPersonController extends Behaviour {
 
     @serializable(CharacterController)
     controller?: CharacterController; 
-
-    // @type UnityEngine.PhysicMaterial
-    @serializable()
-    physicalMaterial?: PhysicsMaterial;
 
     // used for vertical mouse movement. X rotational axis. Most probably the camera object.
     @serializable(Object3D)
@@ -22,10 +18,19 @@ export class FirstPersonController extends Behaviour {
     lookSensitivity: number = 1;
 
     @serializable()
-    movementSpeed: number = 5;
+    movementSpeed: number = 50;
 
     @serializable()
-    sprintSpeed: number = 10;
+    sprintSpeed: number = 80;
+
+    @serializable()
+    stoppingDecay: number = 7;
+
+    @serializable()
+    maxSpeed: number = 7;
+
+    @serializable()
+    maxSprintSpeed: number = 7;
 
     @serializable()
     jumpSpeed: number = 5;
@@ -52,6 +57,7 @@ export class FirstPersonController extends Behaviour {
     gamepadLookSensitivity: number = 50;
 
     protected playerState!: PlayerState;
+    protected rigidbody!: Rigidbody;
 
     public lock!: PointerLock;
 
@@ -70,6 +76,8 @@ export class FirstPersonController extends Behaviour {
     start(): void {
         // networking - get player state
         this.playerState = this.gameObject.getComponent(PlayerState)!;
+        this.rigidbody = this.gameObject.getComponent(Rigidbody)!;
+        
         if(this.isMultiplayer() && !this.playerState.hasOwner) {
             this.playerState.onFirstOwnerChangeEvent.addEventListener(() => this.initialize());
         }
@@ -84,12 +92,6 @@ export class FirstPersonController extends Behaviour {
 
         // rotation Y - get the root object
         this.yRotTarget = this.gameObject;
-
-        // apply physical material
-        const capsule = this.gameObject.getComponent(CapsuleCollider);
-        if(this.physicalMaterial && capsule) {
-            capsule.sharedMaterial = this.physicalMaterial;
-        }
 
         this.isMobile = isMobileDevice();
 
@@ -200,13 +202,12 @@ export class FirstPersonController extends Behaviour {
             this.gatherGamepadInput();
         }
 
-        this.handleMove(this.moveInput, this.jumpInput, this.sprintInput);
+        this.handleMove(this.moveInput, this.jumpInput, this.sprintInput, () => this.jumpInput = false);
         this.handleLookVec(this.lookInput);
 
         // reset input
         this.moveInput.set(0,0);
         this.lookInput.set(0,0);
-        this.jumpInput = false;
         this.sprintInput = false;
     }
 
@@ -229,8 +230,11 @@ export class FirstPersonController extends Behaviour {
             this.moveInput.x += -1;
 
         // get jump, if true keep it true
-        this.jumpInput = this.jumpInput || input.isKeyDown(" ");
-        this.sprintInput = this.sprintInput || input.isKeyPressed("Shift");
+        if(input.isKeyDown(" "))
+            this.jumpInput ||= true;
+        else if(input.isKeyUp(" "))
+            this.jumpInput = false; 
+        this.sprintInput ||= input.isKeyPressed("Shift");
     }
 
     gatherGamepadInput() { 
@@ -258,9 +262,9 @@ export class FirstPersonController extends Behaviour {
         
         // (DualShock 4)
         // X, R3, R1, R2
-        this.jumpInput = this.jumpInput || this.getGamepadButtons(gamepad, [0, 4, 5, 6]);
+        this.jumpInput ||= this.getGamepadButtons(gamepad, [0, 4, 5, 6]);
         // L1, L2
-        this.sprintInput = this.sprintInput || this.getGamepadButtons(gamepad, [7, 11]);
+        this.sprintInput ||= this.getGamepadButtons(gamepad, [7, 11]);
     }
 
     getGamepadButtons(gamepad: Gamepad, indexes: number[]): boolean {
@@ -302,7 +306,7 @@ export class FirstPersonController extends Behaviour {
     }
 
     sprint(state: boolean) {
-        this.jumpInput = state;
+        this.sprintInput = state;
     }
 
     /**
@@ -342,10 +346,11 @@ export class FirstPersonController extends Behaviour {
     private upDir = new Vector3(0,1,0);
     private rightDir = new Vector3();
     private jumpVec = new Vector3();
+    private zeroValue = new Vector3();
 
     // Apply movemnt and jump input
-    protected handleMove(move: Vector2, jump: boolean, sprint: boolean) {
-        if (!this.controller) return;
+    protected handleMove(move: Vector2, jump: boolean, sprint: boolean, onJump?: () => void) {
+        if (!this.controller || !this.rigidbody) return;
 
         const deltaTime = this.context.time.deltaTime;
     
@@ -366,9 +371,6 @@ export class FirstPersonController extends Behaviour {
         const speed = sprint ? this.sprintSpeed: this.movementSpeed;
         this.moveDir.multiplyScalar(speed * deltaTime);
 
-        // move the character controller
-        this.controller.move(this.moveDir);
-
         // handle jump
         if(jump && this.controller.isGrounded) {
             const rb = this.controller.rigidbody;
@@ -376,7 +378,41 @@ export class FirstPersonController extends Behaviour {
             // calculate & apply impulse vector
             this.jumpVec.set(0,1,0);
             this.jumpVec.multiplyScalar(this.jumpSpeed)
+
+            // reset Y velcoity
+            const vel = this.rigidbody.getVelocity();
+            vel.y = 0;
+            this.rigidbody.setVelocity(vel);
+
+            // aplly impulse
             rb.applyImpulse(this.jumpVec);
+
+            // callback
+            onJump?.();
         }
+
+        // move the character controller
+        this.rigidbody.applyImpulse(this.moveDir);
+
+        // is there any move input
+        const isMoving = move.length() > 0.01;
+
+        // clamp max speed while not effecting Y velocity
+        const vel = this.rigidbody.getVelocity();
+        const origY = vel.y;
+
+        // clamp and decay velocity
+        const max = sprint ? this.maxSprintSpeed: this.maxSpeed;
+        vel.y = 0;
+        vel.clampLength(0, max);
+        if(!isMoving) {
+            vel.lerp(this.zeroValue, this.stoppingDecay * deltaTime);
+        }
+
+        // restore Y velocity
+        vel.y = origY;
+
+        // apply adjusted velocity
+        this.rigidbody.setVelocity(vel);
     }
 }
