@@ -1,4 +1,4 @@
-import { Behaviour, serializable } from "@needle-tools/engine";
+import { Behaviour, serializable, setParam, setParamWithoutReload } from "@needle-tools/engine";
 
 export class PerformanceSettings extends Behaviour {
     @serializable()
@@ -11,11 +11,11 @@ export class PerformanceSettings extends Behaviour {
 
     update() {
         if(this._clampFrameRate !== this.clampFrameRate || this._maxFrameRate !== this.maxFrameRate) {
+            const a = this.clampFrameRate ? this.maxFrameRate : undefined;
+            this.context.targetFrameRate = a;
 
-            this.context.targetFrameRate = this.clampFrameRate ? this.maxFrameRate : undefined;
-
-            this.clampFrameRate = this._clampFrameRate;
-            this.maxFrameRate = this._maxFrameRate;
+            this._clampFrameRate = this.clampFrameRate;
+            this._maxFrameRate = this.maxFrameRate;
         }
     }
 }
