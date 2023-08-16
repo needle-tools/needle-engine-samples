@@ -6,11 +6,8 @@ export class PerformanceSettings extends Behaviour {
     private _clampFrameRate: boolean = false;
 
     @serializable()
-    maxFrameRate: number = 60;
+    maxFrameRate: number = 72;
     private _maxFrameRate: number = -1024;
-    
-    start() {
-    }
 
     update() {
         if(this._clampFrameRate !== this.clampFrameRate || this._maxFrameRate !== this.maxFrameRate) {

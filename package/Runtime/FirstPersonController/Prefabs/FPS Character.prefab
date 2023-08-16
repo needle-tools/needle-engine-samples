@@ -92,6 +92,8 @@ GameObject:
   - component: {fileID: 5503133249337396651}
   - component: {fileID: 1027208390}
   - component: {fileID: 5503133249337396649}
+  - component: {fileID: 1027208393}
+  - component: {fileID: 1027208391}
   m_Layer: 2
   m_Name: FPS Character
   m_TagString: Untagged
@@ -129,13 +131,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.FirstPersonController,
     Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-00000000000000000000000000000000-1027208390-0
   controller: {fileID: 5503133249337396649}
-  physicalMaterial: {fileID: 13400000, guid: 4e76c69509e93c44b9fc21b3c0a0ff3d, type: 2}
   xRotTarget: {fileID: 5503133250123964516}
   lookSensitivity: 1
   movementSpeed: 50
-  stoppingDecay: 7
-  maxSpeed: 7
   sprintSpeed: 80
+  stoppingDecay: 7
+  maxSpeed: 6
+  maxSprintSpeed: 10
   jumpSpeed: 5
   xRotClamp: {x: -89, y: 89}
   enableTouchInput: 0
@@ -160,6 +162,36 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &1027208393
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5503133249337396652}
+  serializedVersion: 2
+  m_Mass: 500000
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &1027208391
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5503133249337396652}
+  m_Material: {fileID: 13400000, guid: 4e76c69509e93c44b9fc21b3c0a0ff3d, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5503133250123964516
 GameObject:

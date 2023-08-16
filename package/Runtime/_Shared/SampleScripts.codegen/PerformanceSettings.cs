@@ -8,8 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class PerformanceSettings : UnityEngine.MonoBehaviour
 	{
 		public bool @clampFrameRate = true;
-		public float @maxFrameRate = 60f;
-		public void start(){}
+		public float @maxFrameRate = 72f;
 		public void update(){}
 	}
 }

@@ -943,7 +943,6 @@ GameObject:
   m_Component:
   - component: {fileID: 503258321}
   - component: {fileID: 503258320}
-  - component: {fileID: 503258322}
   m_Layer: 0
   m_Name: Scene
   m_TagString: Untagged
@@ -983,21 +982,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &503258322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503258319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be118480894d4c8ef04ca578031edc88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PerformanceSettings,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-16bf60338bd7b364abd3227832c2997e-503258322-0
-  clampFrameRate: 1
-  maxFrameRate: 300
 --- !u!1 &519573137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1925,18 +1909,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 503258321}
     m_Modifications:
-    - target: {fileID: 1027208390, guid: ec61782f16718cf4c8320a89b609f578, type: 3}
-      propertyPath: maxSpeed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1027208390, guid: ec61782f16718cf4c8320a89b609f578, type: 3}
-      propertyPath: xRotTarget
-      value: 
-      objectReference: {fileID: 1027208392}
-    - target: {fileID: 1027208390, guid: ec61782f16718cf4c8320a89b609f578, type: 3}
-      propertyPath: maxSprintSpeed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 5503133249337396651, guid: ec61782f16718cf4c8320a89b609f578, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1992,58 +1964,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5503133249337396651, guid: ec61782f16718cf4c8320a89b609f578, type: 3}
   m_PrefabInstance: {fileID: 1027208387}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1027208389 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5503133249337396652, guid: ec61782f16718cf4c8320a89b609f578, type: 3}
-  m_PrefabInstance: {fileID: 1027208387}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1027208390 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1027208390, guid: ec61782f16718cf4c8320a89b609f578, type: 3}
   m_PrefabInstance: {fileID: 1027208387}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1027208389}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e32309c0f1a55e813d63d804ba412a8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.FirstPersonController,
     Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-00000000000000000000000000000000-1027208390-0
---- !u!136 &1027208391
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1027208389}
-  m_Material: {fileID: 13400000, guid: 4e76c69509e93c44b9fc21b3c0a0ff3d, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!1 &1027208392 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5503133250123964516, guid: ec61782f16718cf4c8320a89b609f578, type: 3}
-  m_PrefabInstance: {fileID: 1027208387}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &1027208393
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1027208389}
-  serializedVersion: 2
-  m_Mass: 500000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1198858331
 GameObject:
   m_ObjectHideFlags: 0
@@ -2782,7 +2714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-3d69242830986b14f90e2e0f2d94f753-1666012071-0
   FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /staging/first-person-controller-simple
+  Path: /first-person-controller-simple
   OverrideGzipCompression: 1
   UseGzipCompression: 0
 --- !u!1 &1676478119
