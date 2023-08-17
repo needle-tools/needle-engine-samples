@@ -58,6 +58,8 @@ export class FirstPersonController extends Behaviour {
 
     protected playerState!: PlayerState;
     protected rigidbody!: Rigidbody;
+    protected syncedTransform!: SyncedTransform;
+    protected mainCamera!: Camera;
 
     public lock!: PointerLock;
 
@@ -73,24 +75,28 @@ export class FirstPersonController extends Behaviour {
 
     protected gamepadIndex: number | null = null;
 
-    start(): void {
+    awake() {
         // networking - get player state
         this.playerState = this.gameObject.getComponent(PlayerState)!;
         this.rigidbody = this.gameObject.getComponent(Rigidbody)!;
+        this.syncedTransform = this.gameObject.getComponent(SyncedTransform)!;
+        this.mainCamera = this.gameObject.getComponentInChildren(Camera)!;
         
-        if(this.isMultiplayer() && !this.playerState.hasOwner) {
-            this.playerState.onFirstOwnerChangeEvent.addEventListener(() => this.initialize());
+        if (this.isMultiplayer()) {
+            this.playerState.onOwnerChangeEvent.addEventListener(() => this.onOwnerChanged());
         }
         else {
-            this.initialize();
+            this.onOwnerChanged();
         }
     }
 
-    private isInitialized = false;
-    initialize() {
-        this.isInitialized = true;
+    start() {
+        this.calculateYRot();
+    }
 
-        if(this.destroyed) return;
+    private isInitialized = false;
+    protected initialize() {
+        this.isInitialized = true;
 
         // rotation Y - get the root object
         this.yRotTarget = this.gameObject;
@@ -116,35 +122,42 @@ export class FirstPersonController extends Behaviour {
             this.context.domElement.style.touchAction = "none";
             this.context.renderer.domElement.style.touchAction = "none";
         }
+    }
+
+    pointerMoveFn: any = null;
+    gamePadConnFn: any = null;
+    gamePadDisconnFn: any = null;
+    protected registerInput() {
+        this.pointerMoveFn ??= this.onPointerMove.bind(this);
+        this.gamePadConnFn ??= this.onGamepadConnected.bind(this);
+        this.gamePadDisconnFn ??= this.onGamepadDisconnected.bind(this);
 
         // register mouse move events that work while being locked
-        this.context.domElement.removeEventListener("pointermove", this.onPointerMove)
         if(this.enableDesktopInput) {
-            this.context.domElement.addEventListener("pointermove", this.onPointerMove)
+            window.addEventListener("pointermove", this.pointerMoveFn)
         }
 
         // register gamepad events
-        window.addEventListener("gamepadconnected", (e) => {
-            // https://w3c.github.io/gamepad/#remapping
-            // we're always using the last connected gamepad here
-            if (e.gamepad.mapping == "standard") this.gamepadIndex = e.gamepad.index; 
-        });
-
-        window.addEventListener("gamepaddisconnected", (e) => {
-            if (this.gamepadIndex == e.gamepad.index) this.gamepadIndex = null;
-        });
-
-        if(this.isLocalPlayer()) {
-            this.gameObject.getComponent(SyncedTransform)?.requestOwnership();
-        }
-        else {
-            this.setCharacter(false);
-        }
-
-        this.calculateYRot();
+        window.addEventListener("gamepadconnected", this.gamePadConnFn);
+        window.addEventListener("gamepaddisconnected", this.gamePadDisconnFn);
     }
 
-    calculateYRot() { 
+    protected unregisterInput() {
+        window.removeEventListener("pointermove",           this.pointerMoveFn)
+        window.removeEventListener("gamepadconnected",      this.gamePadConnFn);
+        window.removeEventListener("gamepaddisconnected",   this.gamePadDisconnFn);
+    }
+
+    protected onOwnerChanged() {
+        if(this.destroyed) return;
+
+        if(!this.isInitialized)
+            this.initialize();
+
+        this.setRole(this.isLocalPlayer());
+    }
+
+    protected calculateYRot() { 
         //adjust Y to reflect the current rotation
         const charFwd = new Vector3();
         this.yRotTarget?.getWorldDirection(charFwd);
@@ -168,18 +181,28 @@ export class FirstPersonController extends Behaviour {
         return isLocal || !this.isMultiplayer();
     }
 
-    setCharacter(enabled: boolean): void {
+    /**
+     * Enable player to become locally controlled or to remanin passive and expect to be driven
+     */
+    setRole(isLocal: boolean): void {
         if(this.controller) {
-            this.controller.enabled = enabled;
-            this.controller.rigidbody.isKinematic = !enabled;
+            this.controller.enabled = isLocal;
+            this.controller.rigidbody.isKinematic = !isLocal;
         };
-        this.enabled = enabled;
-         
-        // Dirty way of getting a camera, it is recommened to use a reference rather then searching for the component.
-        // Here, it is left out for simplicity.
-        const cam = this.gameObject.getComponentInChildren(Camera);
-        if(cam) {
-            cam.enabled = enabled;
+        this.enabled = isLocal;
+
+        // synchronize transform when enabled
+        if(isLocal) {
+            this.syncedTransform?.requestOwnership();
+            this.registerInput();
+        }
+        else {
+            this.unregisterInput();
+        }
+
+        // disable camera on remote players just to make sure
+        if(this.mainCamera) {
+            this.mainCamera.enabled = isLocal;
         }
     }
 
@@ -213,13 +236,13 @@ export class FirstPersonController extends Behaviour {
         this.sprintInput = false;
     }
 
-    gatherMobileInput() {
+    protected gatherMobileInput() {
         const delta = this.context.input.getPointerPositionDelta(0);
         if (delta)
             this.lookInput.copy(delta);
     }
 
-    gatherDesktopInput() {
+    protected gatherDesktopInput() {
         const input = this.context.input;
 
         if (input.isKeyPressed("s") || input.isKeyPressed("DownArrow"))
@@ -239,7 +262,7 @@ export class FirstPersonController extends Behaviour {
         this.sprintInput ||= input.isKeyPressed("Shift");
     }
 
-    gatherGamepadInput() { 
+    protected gatherGamepadInput() { 
         if (this.gamepadIndex === null) {
             return;
         }
@@ -269,7 +292,7 @@ export class FirstPersonController extends Behaviour {
         this.sprintInput ||= this.getGamepadButtons(gamepad, [7, 11]);
     }
 
-    getGamepadButtons(gamepad: Gamepad, indexes: number[]): boolean {
+    protected getGamepadButtons(gamepad: Gamepad, indexes: number[]): boolean {
         let result = false;
 
         indexes.forEach(index => {
@@ -279,7 +302,7 @@ export class FirstPersonController extends Behaviour {
         return result;
     }
 
-    sanitzeGamepadAxis(input: number): number {
+    protected sanitzeGamepadAxis(input: number): number {
         if(input == null)
             return 0;
 
@@ -289,7 +312,7 @@ export class FirstPersonController extends Behaviour {
         return input;
     }
 
-    protected onPointerMove = (ptr: PointerEvent) => {
+    protected onPointerMove(ptr: PointerEvent) {
         if (ptr instanceof MouseEvent) {
             if (!PointerLock.IsLocked || this.isMobile || !this.enabled)
                 return;
@@ -297,6 +320,18 @@ export class FirstPersonController extends Behaviour {
             // immediately apply input otherwise it gets lost / delayed
             this.handleLookNum(ptr.movementX, ptr.movementY);
         }
+    }
+
+    protected onGamepadConnected(e: GamepadEvent) { 
+        // https://w3c.github.io/gamepad/#remapping
+        // we're always using the last connected gamepad here
+        if (e.gamepad.mapping == "standard") {
+            this.gamepadIndex = e.gamepad.index; 
+        }
+    }
+
+    protected onGamepadDisconnected(e: GamepadEvent) { 
+        if (this.gamepadIndex == e.gamepad.index) this.gamepadIndex = null;
     }
 
     move(input: Vector2) {

@@ -23,18 +23,15 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @gamepadDeadzone = 0.25f;
 		public float @gamepadLookSensitivity = 50f;
 		// public PointerLock @lock; → Could not resolve C# type
+		public void awake(){}
 		public void start(){}
-		public void initialize(){}
-		public void calculateYRot(){}
+		// public any @pointerMoveFn; → Could not resolve C# type
+		// public any @gamePadConnFn; → Could not resolve C# type
+		// public any @gamePadDisconnFn; → Could not resolve C# type
 		public void isMultiplayer(){}
 		public void isLocalPlayer(){}
-		public void setCharacter(bool @enabled){}
+		public void setRole(bool @isLocal){}
 		public void onBeforeRender(){}
-		public void gatherMobileInput(){}
-		public void gatherDesktopInput(){}
-		public void gatherGamepadInput(){}
-		public void getGamepadButtons(object @gamepad, float[] @indexes){}
-		public void sanitzeGamepadAxis(float @input){}
 		public void move(UnityEngine.Vector2 @input){}
 		public void jump(){}
 		public void sprint(bool @state){}
