@@ -1,4 +1,4 @@
-import { Animator, AnimatorControllerParameterType, Behaviour, Parameter, prefix, registerBinaryType, OwnershipModel, getParam, RoomEvents, Text, State, serializable } from "@needle-tools/engine";
+import { Animator, AnimatorControllerParameterType, Behaviour, Parameter, prefix, registerBinaryType, getParam, RoomEvents, State } from "@needle-tools/engine";
 import { SyncedAnimator_Model } from "./SyncedAnimator_Model";
 import { Builder } from "flatbuffers";
 
@@ -36,7 +36,6 @@ export class SyncedAnimator extends Behaviour {
 
     awake() {
         // differentiate between guids in order to save both owner AND anim state
-        //this.ownershipModel = new OwnershipModel(this.context.connection, `owner_${this.guid}`);
         this.syncedAnimGuid = `${this.guid}`;
     }
 
