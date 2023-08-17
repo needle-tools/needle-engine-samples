@@ -18,4 +18,9 @@ export class PerformanceSettings extends Behaviour {
             this._maxFrameRate = this.maxFrameRate;
         }
     }
+
+    setTarget(newTarget: number) {
+        this.maxFrameRate = newTarget;
+        this.clampFrameRate = true;
+    }
 }

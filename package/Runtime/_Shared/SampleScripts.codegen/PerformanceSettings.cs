@@ -10,6 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @clampFrameRate = true;
 		public float @maxFrameRate = 72f;
 		public void update(){}
+		public void setTarget(float @newTarget){}
 	}
 }
 
