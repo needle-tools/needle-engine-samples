@@ -90,6 +90,8 @@ export class FirstPersonController extends Behaviour {
     initialize() {
         this.isInitialized = true;
 
+        if(this.destroyed) return;
+
         // rotation Y - get the root object
         this.yRotTarget = this.gameObject;
 
