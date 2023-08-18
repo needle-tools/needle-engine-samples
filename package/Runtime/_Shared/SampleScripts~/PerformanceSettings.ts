@@ -23,4 +23,8 @@ export class PerformanceSettings extends Behaviour {
         this.maxFrameRate = newTarget;
         this.clampFrameRate = true;
     }
+
+    setClamping(newState: boolean) {
+        this.clampFrameRate = newState;
+    }
 }
