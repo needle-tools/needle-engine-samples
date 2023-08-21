@@ -20,7 +20,6 @@ export class SendMessageExample extends Behaviour {
     }
     
     recieveMessage(receivedModel: SendMessage_Model) { 
-        console.log("recieve message", receivedModel);
         if(this.label)
             this.label.text = receivedModel.message;
     }
