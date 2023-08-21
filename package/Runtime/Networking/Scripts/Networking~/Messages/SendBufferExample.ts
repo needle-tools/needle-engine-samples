@@ -14,10 +14,16 @@ registerBinaryType(msgId, SendBuffer_Model.getRootAsSendBuffer_Model);
 
 export class SendBufferExample extends Behaviour {
     @serializable(Text)
-    label?: Text;
+    msgLabel?: Text;
+
+    @serializable(Text)
+    saveStateLabel?: Text;
+
+    @serializable()
+    saveState: boolean = true;
 
     // we need to store the handler that we register so we can unregister it as well
-    handler?: any;
+    private handler?: any;
 
     onEnable() {
         this.handler ??= this.recieveBuffer.bind(this); //a callback needs to be binded to this instance
@@ -29,8 +35,8 @@ export class SendBufferExample extends Behaviour {
     }
 
     recieveBuffer(receivedModel: SendBuffer_Model) {
-        if(this.label)
-            this.label.text = receivedModel.message() || "";
+        if(this.msgLabel)
+            this.msgLabel.text = receivedModel.message() || "";
     }
 
     sendBuffer() {        
@@ -43,7 +49,7 @@ export class SendBufferExample extends Behaviour {
 
         // create values and save their poistions in the buffer
         const guidOffeset = builder.createString(this.guid);
-        const dontSaveOffset = true; // booleans don't need to be created
+        const dontSaveOffset = !this.saveState; // booleans don't need to be created
         const messageOffset = builder.createString(this.getExampleMessage());
 
         // Add the positions of the previously created values to fit the scheme's structure
@@ -59,5 +65,23 @@ export class SendBufferExample extends Behaviour {
         this.context.connection.sendBinary(payload);
     }
 
+    deleteState() {
+        this.context.connection.sendDeleteRemoteState(this.guid); // delete all state for this component
+    }
+
+    awake() {
+        this.updateSaveStateLabel();
+    }
+
     getExampleMessage() { return `Hello, it is ${new Date(Date.now()).toLocaleTimeString()}!`; }
+
+    toggleSaveState() {
+        this.saveState = !this.saveState;
+        this.updateSaveStateLabel();
+    }
+
+    updateSaveStateLabel() {
+        if(this.saveStateLabel)
+            this.saveStateLabel.text = `Save state: ${this.saveState}`;
+    }
 }

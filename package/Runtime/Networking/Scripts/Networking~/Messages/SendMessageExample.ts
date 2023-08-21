@@ -3,12 +3,18 @@ import { Behaviour, Text, serializable, IModel } from "@needle-tools/engine";
 export class SendMessageExample extends Behaviour {
 
     @serializable(Text)
-    label?: Text;
+    msgLabel?: Text;
+
+    @serializable(Text)
+    saveStateLabel?: Text;
+
+    @serializable()
+    saveState: boolean = true;
 
     private msgId = "SendMessage"; 
 
     // we need to store the handler that we register so we can unregister it as well
-    handler?: any;
+    private handler?: any;
 
     onEnable() {
         this.handler ??= this.recieveMessage.bind(this); //a callback needs to be binded to this instance
@@ -20,21 +26,39 @@ export class SendMessageExample extends Behaviour {
     }
     
     recieveMessage(receivedModel: SendMessage_Model) { 
-        if(this.label)
-            this.label.text = receivedModel.message;
+        if(this.msgLabel)
+            this.msgLabel.text = receivedModel.message;
     }
 
     // local model property, so we don't need to create a new object everytime we want to send a message
     private cachedModel: SendMessage_Model = new SendMessage_Model();
     sendMessage() {
         this.cachedModel.guid = this.guid; // setting guid to the guid of this component ting the data 
-        this.cachedModel.dont_save = true;
+        this.cachedModel.dont_save = !this.saveState;
         this.cachedModel.message = this.getExampleMessage();
 
         this.context.connection.send(this.msgId, this.cachedModel);
     }
 
+    deleteState() {
+        this.context.connection.sendDeleteRemoteState(this.guid); // delete all state for this component
+    }
+
+    awake() {
+        this.updateSaveStateLabel();
+    }
+
     getExampleMessage() { return `Hello, it is ${new Date(Date.now()).toLocaleTimeString()}!`; }
+
+    toggleSaveState() {
+        this.saveState = !this.saveState;
+        this.updateSaveStateLabel();
+    }
+
+    updateSaveStateLabel() {
+        if(this.saveStateLabel)
+            this.saveStateLabel.text = `Save state: ${this.saveState}`;
+    }
 }
 
 // IModel implements the guid and dont_save properties which control the storing state logic on the server.

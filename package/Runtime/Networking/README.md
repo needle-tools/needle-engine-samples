@@ -14,6 +14,10 @@ A simple way how to synchronize actions with a no-code approach.
 Create your simple data structure to synchronize over the network.
 
 [Explore it here.](https://engine.needle.tools/samples/auto-network-object)
+## Networking Messages
+Send JSON and Binary messages and delete stored state from the server.
+
+[Explore it here.](https://engine.needle.tools/samples/networking-messages)
 ## Networking Player
 Synchronize your player in a multiplayer experience.
 
