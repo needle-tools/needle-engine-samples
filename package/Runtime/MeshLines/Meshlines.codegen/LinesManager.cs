@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class LinesManager : UnityEngine.MonoBehaviour
 	{
-		public void startLine(UnityEngine.Transform @parent, object @options){}
+		public void startLine(UnityEngine.GameObject @parent, object @options){}
 		public void updateLine(object @handle, object @args){}
 		public void endLine(object @handle, bool @send){}
 		public void getLine(object @handle){}

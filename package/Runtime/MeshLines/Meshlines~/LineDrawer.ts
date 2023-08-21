@@ -28,12 +28,13 @@ export class LinesDrawer extends Behaviour {
     //@type LinesManager
     @serializable(LinesManager)
     lines!: LinesManager;
+    //@type UnityEngine.Transform[]
     @serializable(Object3D)
     colliders?: THREE.Object3D[];
     alignToSurface: boolean = true;
     addToPaintedObject: boolean = true;
 
-    private orbit?: OrbitControls;
+    //private orbit?: OrbitControls;
 
     start() {
         if (!this.lines) {
@@ -41,7 +42,7 @@ export class LinesDrawer extends Behaviour {
             if (!this.lines)
                 this.lines = GameObject.addNewComponent(this.gameObject, LinesManager);
         }
-        this.orbit = GameObject.findObjectOfType(OrbitControls, this.context) ?? undefined;
+        //this.orbit = GameObject.findObjectOfType(OrbitControls, this.context) ?? undefined;
         this._states["mouse"] = new LineState();
 
 
@@ -67,9 +68,9 @@ export class LinesDrawer extends Behaviour {
     private _isDrawing: boolean = false;
 
     update() {
-        if (this.orbit && this._states["mouse"]) {
-            if (this.orbit) this.orbit.enabled = !this._states["mouse"].isDrawing;
-        }
+        //if (this.orbit && this._states["mouse"]) {
+        //    if (this.orbit) this.orbit.enabled = !this._states["mouse"].isDrawing;
+        //}
         if (!this.context.mainCamera) return;
 
         const multi = this.context.input.getPointerPressedCount() > 1;
