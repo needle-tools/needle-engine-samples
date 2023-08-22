@@ -169,6 +169,17 @@ namespace SampleChecks
             Assert.IsTrue(Directory.GetFileSystemEntries(sampleDirectory, "README.md").FirstOrDefault() != null, "File should be called README.md (uppercase)");
         }
 
+        [Test]
+        [Category(PublicInfoCategoryName)]
+        public void HasReadmeComponent()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var readme = GameObject.FindObjectOfType<Readme>();
+            Assert.IsNotNull(readme);
+            Assert.IsFalse(string.IsNullOrEmpty(readme?.Guid));
+        }
+
         static string[] GetDependencies(Object obj)
         {
             // get path of scene
