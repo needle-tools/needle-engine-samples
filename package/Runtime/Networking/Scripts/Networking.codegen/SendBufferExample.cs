@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.UI.Text @msgLabel;
 		public UnityEngine.UI.Text @saveStateLabel;
+		public UnityEngine.UI.Text @outgoingSizeLabel;
 		public bool @saveState = true;
 		public void OnEnable(){}
 		public void OnDisable(){}
@@ -16,7 +17,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public void sendBuffer(){}
 		public void deleteState(){}
 		public void awake(){}
-		public void getExampleMessage(){}
 		public void toggleSaveState(){}
 		public void updateSaveStateLabel(){}
 	}

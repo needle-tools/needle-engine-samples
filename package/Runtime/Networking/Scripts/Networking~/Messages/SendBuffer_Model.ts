@@ -34,15 +34,20 @@ dontSave():boolean {
   return offset ? !!this.bb!.readInt8(this.bb_pos + offset) : false;
 }
 
-message():string|null
-message(optionalEncoding:flatbuffers.Encoding):string|Uint8Array|null
-message(optionalEncoding?:any):string|Uint8Array|null {
+prefix():string|null
+prefix(optionalEncoding:flatbuffers.Encoding):string|Uint8Array|null
+prefix(optionalEncoding?:any):string|Uint8Array|null {
   const offset = this.bb!.__offset(this.bb_pos, 8);
   return offset ? this.bb!.__string(this.bb_pos + offset, optionalEncoding) : null;
 }
 
+seconds():number {
+  const offset = this.bb!.__offset(this.bb_pos, 10);
+  return offset ? this.bb!.readInt32(this.bb_pos + offset) : 0;
+}
+
 static startSendBuffer_Model(builder:flatbuffers.Builder) {
-  builder.startObject(3);
+  builder.startObject(4);
 }
 
 static addGuid(builder:flatbuffers.Builder, guidOffset:flatbuffers.Offset) {
@@ -53,8 +58,12 @@ static addDontSave(builder:flatbuffers.Builder, dontSave:boolean) {
   builder.addFieldInt8(1, +dontSave, +false);
 }
 
-static addMessage(builder:flatbuffers.Builder, messageOffset:flatbuffers.Offset) {
-  builder.addFieldOffset(2, messageOffset, 0);
+static addPrefix(builder:flatbuffers.Builder, prefixOffset:flatbuffers.Offset) {
+  builder.addFieldOffset(2, prefixOffset, 0);
+}
+
+static addSeconds(builder:flatbuffers.Builder, seconds:number) {
+  builder.addFieldInt32(3, seconds, 0);
 }
 
 static endSendBuffer_Model(builder:flatbuffers.Builder):flatbuffers.Offset {
@@ -70,11 +79,12 @@ static finishSizePrefixedSendBuffer_ModelBuffer(builder:flatbuffers.Builder, off
   builder.finish(offset, undefined, true);
 }
 
-static createSendBuffer_Model(builder:flatbuffers.Builder, guidOffset:flatbuffers.Offset, dontSave:boolean, messageOffset:flatbuffers.Offset):flatbuffers.Offset {
+static createSendBuffer_Model(builder:flatbuffers.Builder, guidOffset:flatbuffers.Offset, dontSave:boolean, prefixOffset:flatbuffers.Offset, seconds:number):flatbuffers.Offset {
   SendBuffer_Model.startSendBuffer_Model(builder);
   SendBuffer_Model.addGuid(builder, guidOffset);
   SendBuffer_Model.addDontSave(builder, dontSave);
-  SendBuffer_Model.addMessage(builder, messageOffset);
+  SendBuffer_Model.addPrefix(builder, prefixOffset);
+  SendBuffer_Model.addSeconds(builder, seconds);
   return SendBuffer_Model.endSendBuffer_Model(builder);
 }
 }

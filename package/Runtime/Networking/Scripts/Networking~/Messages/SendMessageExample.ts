@@ -8,36 +8,42 @@ export class SendMessageExample extends Behaviour {
     @serializable(Text)
     saveStateLabel?: Text;
 
+    @serializable(Text)
+    outgoingSizeLabel?: Text;
+
     @serializable()
     saveState: boolean = true;
 
     private msgId = "SendMessage"; 
 
-    // we need to store the handler that we register so we can unregister it as well
-    private handler?: any;
-
     onEnable() {
-        this.handler ??= this.recieveMessage.bind(this); //a callback needs to be binded to this instance
-        this.context.connection.beginListen(this.msgId, this.handler); 
+        this.context.connection.beginListen(this.msgId, this.recieveMessage); 
     }
 
     onDisable() {
-        this.context.connection.stopListen(this.msgId, this.handler);
+        this.context.connection.stopListen(this.msgId, this.recieveMessage);
     }
     
-    recieveMessage(receivedModel: SendMessage_Model) { 
-        if(this.msgLabel)
-            this.msgLabel.text = receivedModel.message;
+    private recieveMessage = (receivedModel: SendMessage_Model) => {
+        if(this.msgLabel) {
+            this.msgLabel.text = `${receivedModel.prefix} ${receivedModel.seconds}`;
+        }
     }
 
-    // local model property, so we don't need to create a new object everytime we want to send a message
-    private cachedModel: SendMessage_Model = new SendMessage_Model();
     sendMessage() {
-        this.cachedModel.guid = this.guid; // setting guid to the guid of this component ting the data 
-        this.cachedModel.dont_save = !this.saveState;
-        this.cachedModel.message = this.getExampleMessage();
+        const model: SendMessage_Model = {
+            guid: this.guid,
+            dontSave: !this.saveState,
+            prefix: "Hello, it is ",
+            seconds: Math.floor(this.context.time.time),
+        };
 
-        this.context.connection.send(this.msgId, this.cachedModel);
+        this.context.connection.send(this.msgId, model);
+
+        if(this.outgoingSizeLabel) {
+            const payload = new TextEncoder().encode(JSON.stringify(model));
+            this.outgoingSizeLabel.text = `${payload.length} bytes`;
+        }
     }
 
     deleteState() {
@@ -47,8 +53,6 @@ export class SendMessageExample extends Behaviour {
     awake() {
         this.updateSaveStateLabel();
     }
-
-    getExampleMessage() { return `Hello, it is ${new Date(Date.now()).toLocaleTimeString()}!`; }
 
     toggleSaveState() {
         this.saveState = !this.saveState;
@@ -62,17 +66,18 @@ export class SendMessageExample extends Behaviour {
 }
 
 // IModel implements the guid and dont_save properties which control the storing state logic on the server.
-// Mind that you don't have to implement the IModel interface and tha you don't 
+// Mind that you don't have to implement the IModel interface and that you don't 
 class SendMessage_Model implements IModel {
     // Unique id for the message, it is up to us to define how much unique it is. 
-    // Often the usecase is that this represence this instance of SendMessageExample.
-    // So when we reconnect to the session we can potentially ask what was the last state for this specific SendMessageExample instnace.
+    // Often the use case is that this represents this instance of SendMessageExample.
+    // So when we reconnect to the session we can potentially ask what was the last state for this specific SendMessageExample instance.
     guid: string = ""; 
 
     // optional flag which is by default false and thus if not specified the message is stored on the server. 
-    // if true, it is not saved on the server. For this sample we do not utilize the state at all, so the flag is true.
-    dont_save: boolean = true;
+    // if true, it is not saved on the server.
+    dontSave: boolean = false;
 
-    // Our custom payload, more properties can follow. 
-    message: string = "";
+    // Our custom payload
+    prefix: string = "";
+    seconds: number = 0;
 }
