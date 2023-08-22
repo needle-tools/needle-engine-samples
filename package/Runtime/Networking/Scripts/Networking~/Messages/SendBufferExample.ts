@@ -1,6 +1,7 @@
 import { Behaviour, Text, registerBinaryType, serializable } from "@needle-tools/engine";
 import { SendBuffer_Model } from "./SendBuffer_Model";
 import { Builder } from "flatbuffers";
+import { UuidTool } from "uuid-tool";
 
 // NOTICE: to utilize binary messages from a npmdef, you need to install the flatbuffers package @2.0.4 in your project
 
@@ -48,11 +49,10 @@ export class SendBufferExample extends Behaviour {
         // In other words, first, we add unique values and later we define the place they have in the hierarchy.
 
         // maintains a binary buffer that is later sent
-        const builder = new Builder(0);
-        
+        const builder = new Builder(0);        
 
         // create values and save their positions in the buffer
-        const guidOffeset = builder.createString(this.guid);
+        const guidOffeset = SendBuffer_Model.createGuidVector(builder, UuidTool.toBytes(this.guid));
         const dontSave = !this.saveState; // booleans don't need to be created
         const messageOffset = builder.createString("Hello, it is ");
         const seconds = Math.floor(this.context.time.time); // numbers don't need to be created
@@ -92,5 +92,5 @@ export class SendBufferExample extends Behaviour {
     updateSaveStateLabel() {
         if(this.saveStateLabel)
             this.saveStateLabel.text = `Save state: ${this.saveState}`;
-    }
+    }    
 }
