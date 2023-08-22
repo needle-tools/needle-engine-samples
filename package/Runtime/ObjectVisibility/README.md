@@ -5,7 +5,7 @@ This sample shows how to disable objects with their children, single scripts or 
 Setting `gameobject.visible` to `false` will hide the GameObject, it's children and also set the component being used to inactive. It is also possible to only disable rendering of single objects without affecting children by setting `Renderer.enabled` to false.  
 
 For example: 
-```ts 
+```
 const renderer = this.gameObject.getComponent(Renderer); 
 if(renderer) renderer.enabled = false; // < disable rendering for a single object only
 ```

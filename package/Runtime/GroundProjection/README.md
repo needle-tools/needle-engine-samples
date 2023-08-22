@@ -1,6 +1,6 @@
 # Ground Projection sample
 
-[Equirectangular panoramas](https://polyhaven.com/hdris) can be used as a __skyboxes__, which is in fact a big sphere glued to the camera. So based on that, we can create a sphere and change its shape by for example flattening the bottom 40%. In other words, it is a hemisphere with a beveled floor.
+[Equirectangular panorama](https://polyhaven.com/hdris) is a form of projection for 360 photos which are often used as a __skybox__, which is in fact a big sphere glued to the camera. So based on that, we can create our sphere and change its shape by flattening the bottom 40% which results in a hemisphere with a beveled floor. And that is the principle behind Ground Projection.
 
 ### With basic parameters, you can define this deformation and tweak that to your liking:
 
@@ -8,7 +8,7 @@
 - Radius - density of the floor
 - Height - density of the sides
 
-This is a wrapper for [GroundProjectedEnv](https://threejs.org/examples/webgl_materials_envmaps_groundprojected.html) from Three.js
+[GroundProjectedEnv](https://threejs.org/examples/webgl_materials_envmaps_groundprojected.html) from Three.js
 
 ---
 
