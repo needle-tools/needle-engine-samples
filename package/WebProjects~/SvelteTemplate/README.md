@@ -1,1 +1,0 @@
-This is a Svelte project adding the needle-engine web component.
