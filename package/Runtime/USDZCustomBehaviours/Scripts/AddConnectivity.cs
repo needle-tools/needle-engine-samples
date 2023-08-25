@@ -1,21 +1,30 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Needle.Engine.Components;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Needle
 {
     public class AddConnectivity : MonoBehaviour
     {
+        [Tooltip("Will not be hidden on start")]
+        public List<GameObject> startPoints = new List<GameObject>();
         public Material defaultMat;
         [Tooltip("Lower > less faces will be detected / less click targets")]
         public float normalHashMultiplier = 100f;
+        
         private List<GameObject> roots = new List<GameObject>();
         
         [ContextMenu("Set up")]
-        void SetupAll()
+        internal void SetupAll()
         {
+            var temporaryMeshColliders = new List<Collider>();
             roots.Clear();
+            generatedMeshes.Clear();
             var c = transform.childCount;
             for (var i = 0; i < c; i++)
             {
@@ -24,9 +33,12 @@ namespace Needle
                 // check if mc
                 var mc = go.GetComponent<MeshCollider>();
                 if (!mc)
+                {
                     mc = go.AddComponent<MeshCollider>();
-                mc.sharedMesh = go.GetComponent<MeshFilter>().sharedMesh;
-                mc.convex = true;
+                    temporaryMeshColliders.Add(mc);
+                    mc.sharedMesh = go.GetComponent<MeshFilter>().sharedMesh;
+                    mc.convex = true;
+                }
             }
 
             for (var i = 0; i < c; i++)
@@ -36,14 +48,54 @@ namespace Needle
             }
             
             // remove mesh colliders again
-            foreach (var root in roots)
+            foreach (var tempCollider in temporaryMeshColliders)
             {
-                var mc = root.GetComponent<MeshCollider>();
-                if (mc != null)
-                    DestroyImmediate(mc);
+                DestroyImmediate(tempCollider);
+            }
+            
+            generatedMeshes.Clear();
+        }
+
+        [ContextMenu("Clear")]
+        internal void ClearAll()
+        {
+            var c = transform.childCount;
+            for (var i = 0; i < c; i++)
+            {
+                var child = this.transform.GetChild(i);
+                Clear(child.gameObject);
+            }
+            roots.Clear();
+            generatedMeshes.Clear();
+        }
+
+        void Clear(GameObject root)
+        {
+            var components = root.GetComponentsInChildren<Component>();
+            foreach (var c in components)
+            {
+                // created face colliders
+                if (c is Transform && c.name.StartsWith("Face ", StringComparison.Ordinal)) {
+                    DestroyImmediate(c.gameObject);
+                    continue;
+                }
+                
+                // created components
+                if (c is HideOnStart || c is SetActiveOnClick)
+                    DestroyImmediate(c);
             }
         }
         
+        Dictionary<(Mesh, int), Mesh> generatedMeshes = new Dictionary<(Mesh, int), Mesh>();
+
+        int ListHashCode<T>(List<T> list)
+        {
+            int res = 0x2D2816FE;
+            foreach(var item in list)
+                res = res * 31 + (item == null ? 0 : item.GetHashCode());
+            return res;
+        }
+
         void Setup(GameObject root)
         {
             // remove all child components we added before that are not transforms or meshrenderer or meshfilter
@@ -53,22 +105,11 @@ namespace Needle
             
             // future: find coplanar faces from meshes (can be children? added in Blender?) and show the relevant connected piece from there
 
-            var components = root.GetComponentsInChildren<Component>();
-            foreach (var c in components)
-            {
-                if (c is Transform && c.name.StartsWith("Face ", StringComparison.Ordinal)) {
-                    DestroyImmediate(c.gameObject);
-                    continue;
-                }
-                
-                if (c is Transform || c is MeshRenderer || c is MeshFilter || c is AddConnectivity || c is MeshCollider)
-                    continue;
-                
-                DestroyImmediate(c);
-            }
+            Clear(root);
             
             // add HideOnStart component
-            var hideOnStart = root.AddComponent<HideOnStart>();
+            if (!startPoints.Contains(root))
+                root.AddComponent<HideOnStart>();
 
             var mesh = root.GetComponent<MeshFilter>().sharedMesh;
             
@@ -111,18 +152,27 @@ namespace Needle
             foreach (var kvp in trisByNormal)
             {
                 var trisForNormal = kvp.Value;
-                var newMesh = new Mesh();
-                newMeshes.Add(newMesh);
-                newMesh.vertices = trisForNormal.ConvertAll(v => verts[v]).ToArray();
-                newMesh.normals = trisForNormal.ConvertAll(v => normals[v]).ToArray();
-                newMesh.uv = trisForNormal.ConvertAll(v => uv[v]).ToArray();
-                // set indices, just ordered indices for them
-                var indices = new int[trisForNormal.Count];
-                for (var j = 0; j < indices.Length; j++)
-                    indices[j] = j;
-                newMesh.triangles = indices;
-                newMesh.RecalculateNormals();
+                var lookup = (mesh, ListHashCode(trisForNormal));
                 
+                // check if we have this particular mesh already
+                if (!generatedMeshes.TryGetValue(lookup, out var newMesh))
+                {
+                    newMesh = new Mesh();
+                    newMeshes.Add(newMesh); 
+                    newMesh.vertices = trisForNormal.ConvertAll(v => verts[v]).ToArray();
+                    newMesh.normals = trisForNormal.ConvertAll(v => normals[v]).ToArray();
+                    newMesh.uv = trisForNormal.ConvertAll(v => uv[v]).ToArray();
+                    // set indices, just ordered indices for them
+                    var indices = new int[trisForNormal.Count];
+                    for (var j = 0; j < indices.Length; j++)
+                        indices[j] = j;
+                    newMesh.triangles = indices;
+                    newMesh.RecalculateNormals();
+                    newMesh.RecalculateBounds();
+                    
+                    generatedMeshes.Add(lookup, newMesh);
+                }
+
                 // add as child
                 var go = new GameObject("Face " + k++);
                 go.transform.SetParent(root.transform);
@@ -131,7 +181,7 @@ namespace Needle
                 go.transform.localScale = Vector3.one * 1.008f; // push outwards a little
                 go.AddComponent<MeshFilter>().sharedMesh = newMesh;
                 go.AddComponent<MeshRenderer>().sharedMaterial = defaultMat;
-                go.hideFlags = HideFlags.DontSave;
+                // go.hideFlags = HideFlags.DontSave;
                 
                 var faceCenter = Vector3.zero;
                 foreach (var v in newMesh.vertices)
@@ -177,4 +227,56 @@ namespace Needle
             }
         }
     }
+    
+    #if UNITY_EDITOR
+
+    [CustomEditor(typeof(AddConnectivity))]
+    internal class AddConnectivityEditor : Editor
+    {
+        public int childCount = 0;
+        public int hideOnStartCount = 0;
+        public int setActiveOnClickCount = 0;
+
+        private void OnEnable()
+        {
+            var t = target as AddConnectivity;
+            childCount = t.transform.childCount;
+            hideOnStartCount = t.transform.GetComponentsInChildren<HideOnStart>().Length;
+            setActiveOnClickCount = t.transform.GetComponentsInChildren<SetActiveOnClick>().Length;
+        }
+
+        public override void OnInspectorGUI()
+        {
+            var t = target as AddConnectivity;
+            if (!t) return;
+            
+            EditorGUILayout.HelpBox("This component scans all child meshes and creates \"connectivity surfaces\" for them. Each such surface will reveal the object it's connected to on click.", MessageType.Info);
+            
+            if (GUILayout.Button("Create Connectivity"))
+            {
+                t.SetupAll();
+                OnEnable();
+            }
+
+            if (GUILayout.Button("Clear Connectivity"))
+            {
+                t.ClearAll();
+                OnEnable();
+            }
+            EditorGUILayout.Space();
+            
+            GUILayout.Label("Statistics", EditorStyles.boldLabel);
+            GUI.enabled = false; 
+            EditorGUILayout.LabelField("Child Count", childCount.ToString());
+            EditorGUILayout.LabelField("Hidden Objects", hideOnStartCount.ToString());
+            EditorGUILayout.LabelField("Clickable Faces", setActiveOnClickCount.ToString());
+            GUI.enabled = true;
+            EditorGUILayout.Space();
+            
+            GUILayout.Label("Settings", EditorStyles.boldLabel); 
+            DrawDefaultInspector();
+        }
+    }
+    
+    #endif
 }
