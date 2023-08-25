@@ -15,19 +15,24 @@ MonoBehaviour:
   version: 0
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Plane_Body
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
-  m_ShaderKeywords: _CLEARCOAT_ON _VERTEX_COLORS_ON
+  m_ValidKeywords:
+  - _CLEARCOAT_ON
+  - _RECEIVE_SHADOWS_OFF
+  - _VERTEX_COLORS_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -78,6 +83,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     - baseColorTexture:
         m_Texture: {fileID: 2800000, guid: 2252e829e2d3cc3469f7bcf3da7cd32d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - clearcoatRoughnessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 0}
+    - clearcoatTexture:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - emissiveTexture:
@@ -132,6 +145,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
@@ -189,20 +203,42 @@ Material:
     - baseColorTextureTexCoord: 0
     - clearcoatFactor: 1
     - clearcoatRoughnessFactor: 0.108
+    - clearcoatRoughnessTextureRotation: 0
+    - clearcoatRoughnessTextureTexCoord: 0
+    - clearcoatTextureRotation: 0
+    - clearcoatTextureTexCoord: 0
+    - emissiveTextureRotation: 0
+    - emissiveTextureTexCoord: 0
     - ior: 1.5
     - iridescenceFactor: 0
     - iridescenceIor: 1.3
+    - iridescenceTextureRotation: 0
+    - iridescenceTextureTexCoord: 0
     - iridescenceThicknessMaximum: 400
     - iridescenceThicknessMinimum: 100
+    - iridescenceThicknessTextureRotation: 0
+    - iridescenceThicknessTextureTexCoord: 0
     - metallicFactor: 0.168
+    - metallicRoughnessTextureRotation: 0
+    - metallicRoughnessTextureTexCoord: 0
     - normalScale: 0.5
+    - normalTextureRotation: 0
+    - normalTextureTexCoord: 0
     - occlusionStrength: 1
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
     - roughnessFactor: 0.166
+    - specularColorTextureRotation: 0
+    - specularColorTextureTexCoord: 0
     - specularFactor: 1
+    - specularTextureRotation: 0
+    - specularTextureTexCoord: 0
     - thicknessFactor: 0
+    - thicknessTextureRotation: 0
+    - thicknessTextureTexCoord: 0
     - transmissionFactor: 0
+    - transmissionTextureRotation: 0
+    - transmissionTextureTexCoord: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

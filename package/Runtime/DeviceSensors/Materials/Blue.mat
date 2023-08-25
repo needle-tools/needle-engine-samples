@@ -83,6 +83,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - clearcoatRoughnessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 0}
+    - clearcoatTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - emissiveTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -138,6 +146,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
     - _Blend: 0
     - _BumpScale: 1
     - _CLEARCOAT: 0
@@ -156,6 +166,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SPECULAR: 0
@@ -176,20 +187,42 @@ Material:
     - baseColorTextureTexCoord: 0
     - clearcoatFactor: 0
     - clearcoatRoughnessFactor: 0
+    - clearcoatRoughnessTextureRotation: 0
+    - clearcoatRoughnessTextureTexCoord: 0
+    - clearcoatTextureRotation: 0
+    - clearcoatTextureTexCoord: 0
+    - emissiveTextureRotation: 0
+    - emissiveTextureTexCoord: 0
     - ior: 1.5
     - iridescenceFactor: 1
     - iridescenceIor: 1.99
+    - iridescenceTextureRotation: 0
+    - iridescenceTextureTexCoord: 0
     - iridescenceThicknessMaximum: 400
     - iridescenceThicknessMinimum: 100
+    - iridescenceThicknessTextureRotation: 0
+    - iridescenceThicknessTextureTexCoord: 0
     - metallicFactor: 1
+    - metallicRoughnessTextureRotation: 0
+    - metallicRoughnessTextureTexCoord: 0
     - normalScale: 0.918
+    - normalTextureRotation: 0
+    - normalTextureTexCoord: 0
     - occlusionStrength: 1
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
     - roughnessFactor: 0.424
+    - specularColorTextureRotation: 0
+    - specularColorTextureTexCoord: 0
     - specularFactor: 1
+    - specularTextureRotation: 0
+    - specularTextureTexCoord: 0
     - thicknessFactor: 1.18
+    - thicknessTextureRotation: 0
+    - thicknessTextureTexCoord: 0
     - transmissionFactor: 0
+    - transmissionTextureRotation: 0
+    - transmissionTextureTexCoord: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -212,4 +245,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 4
+  version: 5

@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Plant_3_Leaves
   m_Shader: {fileID: -6465566751694194690, guid: 8bc739b14fe811644abb82057b363ba8, type: 3}
-  m_ShaderKeywords: _TEXTURE_TRANSFORM_ON
+  m_ValidKeywords:
+  - _TEXTURE_TRANSFORM_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
@@ -22,6 +24,14 @@ Material:
     - baseColorTexture:
         m_Texture: {fileID: 2800000, guid: fefa2de3b77eece4ebfa1a918121921e, type: 3}
         m_Scale: {x: -1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - clearcoatRoughnessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 0}
+    - clearcoatTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - emissiveTexture:
         m_Texture: {fileID: 0}
@@ -75,10 +85,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
     - _CLEARCOAT: 0
     - _IRIDESCENCE: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
     - _SPECULAR: 0
+    - _Smoothness: 1
     - _TEXTURE_TRANSFORM: 1
     - _VERTEX_COLORS: 0
     - _VOLUME_ON: 0
@@ -89,23 +105,71 @@ Material:
     - baseColorTextureTexCoord: 0
     - clearcoatFactor: 0
     - clearcoatRoughnessFactor: 0
+    - clearcoatRoughnessTextureRotation: 0
+    - clearcoatRoughnessTextureTexCoord: 0
+    - clearcoatTextureRotation: 0
+    - clearcoatTextureTexCoord: 0
+    - emissiveTextureRotation: 0
+    - emissiveTextureTexCoord: 0
     - ior: 1.414
     - iridescenceFactor: 0
     - iridescenceIor: 1.368
+    - iridescenceTextureRotation: 0
+    - iridescenceTextureTexCoord: 0
     - iridescenceThicknessMaximum: 400
     - iridescenceThicknessMinimum: 100
+    - iridescenceThicknessTextureRotation: 0
+    - iridescenceThicknessTextureTexCoord: 0
     - metallicFactor: 0.37
+    - metallicRoughnessTextureRotation: 0
+    - metallicRoughnessTextureTexCoord: 0
     - normalScale: 0.917
+    - normalTextureRotation: 0
+    - normalTextureTexCoord: 0
     - occlusionStrength: 0.437
     - occlusionTextureRotation: 1.58
     - occlusionTextureTexCoord: 0
     - roughnessFactor: 0.464
+    - specularColorTextureRotation: 0
+    - specularColorTextureTexCoord: 0
     - specularFactor: 1
+    - specularTextureRotation: 0
+    - specularTextureTexCoord: 0
     - thicknessFactor: 0
+    - thicknessTextureRotation: 0
+    - thicknessTextureTexCoord: 0
     - transmissionFactor: 0
+    - transmissionTextureRotation: 0
+    - transmissionTextureTexCoord: 0
     m_Colors:
     - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
     - baseColorFactor: {r: 0.62764776, g: 0.7075472, b: 0.26366144, a: 1}
     - emissiveFactor: {r: 0.03, g: 0.03, b: 0.03, a: 0}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &293830312951450182
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
+--- !u!114 &3982009910796989484
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 0
