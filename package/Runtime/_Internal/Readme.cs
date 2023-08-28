@@ -18,6 +18,13 @@ namespace Needle.Engine
         private static GUIStyle _readmeStyle;
         private static GUIContent tempContent;
 
+        private void OnEnable()
+        {
+            GUI.FocusControl("readme");
+        }
+
+        bool hasRenderedAtLeastOnce;
+
         public override void OnInspectorGUI()
         {
             var readme = target as Readme;
@@ -66,12 +73,18 @@ namespace Needle.Engine
                 _readmeStyle.richText = true;
             }
 
+            GUI.SetNextControlName("readme");
+
             tempContent ??= new GUIContent();
             tempContent.text = data;
             var rect = GUILayoutUtility.GetRect(tempContent, _readmeStyle);
             UnityEditor.EditorGUI.SelectableLabel(rect, data, _readmeStyle);
 
+            if (!hasRenderedAtLeastOnce)
+                GUI.FocusControl("readme");
+
             serializedObject.ApplyModifiedProperties();
+            hasRenderedAtLeastOnce = true;
         }
 
         public string ConvertMarkdownToRichText(string markdown)
