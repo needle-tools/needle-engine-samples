@@ -9,14 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - add Line Drawing sample
 - add Networked Animator sample
 - add HTML Pen Data sample (Pencil Sword)
-- add VoxelEditor sample (Everywhere Actions)
+- add Voxel Editor sample (Everywhere Actions)
 - update Networking Player sample with lifecycle events
 - update USDZProduct sample
 - update Svelte and SvelteKit samples
 - update Portrait Painting sample
 - clean up Character Controller sample
 - clean up transparent video sample shader
-- 
 
 ## [0.8.1] - 2023-07-28
 - update Needle Engine to `3.10.7-pre`

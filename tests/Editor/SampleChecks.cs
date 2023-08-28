@@ -49,7 +49,10 @@ namespace SampleChecks
             
             // find all matches for URLs in this: <span class="folderlink"><a href='digital-landscape/'>
             var matches = Regex.Matches(result, "<span class=\"folderlink\"><a href='(?<url>.*?)/'>");
-            var matchList = string.Join("\n", matches.Select(x => x.Groups["url"].Value));
+            var groupValues = new List<string>();
+            foreach (Match match in matches)
+                groupValues.Add(match.Groups["url"].Value);
+            var matchList = string.Join("\n", groupValues);
             Assert.AreEqual(0, warningCount, $"Site incorrectly deployed without GZIP. index.html found for {warningCount} samples. Please visit {validateUrl} to check.\n\n{matchList}\n");
         }
     }
