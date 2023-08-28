@@ -11,12 +11,12 @@ namespace Needle.Engine
 
 #if UNITY_EDITOR
 
-    // TODO: Handle hypertext interaction
     [UnityEditor.CustomEditor(typeof(Readme))]
     public class ReadmeEditor : UnityEditor.Editor
     {
         private string data;
         private static GUIStyle _readmeStyle;
+        private static GUIContent tempContent;
 
         public override void OnInspectorGUI()
         {
@@ -65,8 +65,12 @@ namespace Needle.Engine
                 _readmeStyle.wordWrap = true;
                 _readmeStyle.richText = true;
             }
-            
-            GUILayout.TextArea(data, _readmeStyle);
+
+            tempContent ??= new GUIContent();
+            tempContent.text = data;
+            var rect = GUILayoutUtility.GetRect(tempContent, _readmeStyle);
+            UnityEditor.EditorGUI.SelectableLabel(rect, data, _readmeStyle);
+
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -95,11 +99,11 @@ namespace Needle.Engine
             markdown = Regex.Replace(markdown, @"^\s*-\s+(.+)$", "• $1", RegexOptions.Multiline);
 
             // Convert links
-            markdown = Regex.Replace(markdown, @"\[([^\]]+)\]\(([^\)]+)\)","$1 <a href=\"$2\">$2</a>");
+            markdown = Regex.Replace(markdown, @"\[([^\]]+)\]\(([^\)]+)\)","<a href=\"$2\">$1</a>");
             
             return markdown;
         }
     }
 
 #endif
-}
+        }
