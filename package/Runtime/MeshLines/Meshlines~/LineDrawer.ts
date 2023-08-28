@@ -81,10 +81,7 @@ export class LinesDrawer extends Behaviour {
         const ray = LinesDrawer._raycaster.ray;
         if (!this._isDrawing) {
             if (this.context.input.getPointerDown(0)) {
-                const hit = this.getHit(ray);
-                if (hit) {
-                    this._isDrawing = true;
-                }
+                this._isDrawing = true;
             }
         }
         else if (this.context.input.getPointerUp(0)) {
@@ -128,6 +125,10 @@ export class LinesDrawer extends Behaviour {
             const hit = this.getHit(ray);
             let pt: THREE.Vector3 | null = null;
             let prev = state.prevDistance;
+            if(state.maxDistance === 0) {
+                state.maxDistance = this.context.mainCamera?.getWorldPosition(new Vector3()).length() ?? 0;
+                prev = state.maxDistance;
+            }
             if (hit) {
                 if (!state.currentHandle) {
                     state.maxDistance = hit.distance;
