@@ -22,6 +22,7 @@ export class LinesControl extends Behaviour {
         this.setDrawingMode(this.defaultState);
     }
 
+    // Called via events to switch between line drawing and orbit controls
     setDrawingMode(state: boolean) {
         if(!this.orbit || !this.orbitUI || !this.lines || !this.linesUI) return;
 
@@ -30,7 +31,5 @@ export class LinesControl extends Behaviour {
 
         this.lines.enabled = state;
         this.linesUI.color.a = state ? 0.8 : 0.3;
-
-        console.log("orbit", this.orbit.enabled, "lines", this.lines.enabled);
     }
 }
