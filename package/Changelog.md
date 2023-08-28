@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - update Portrait Painting sample
 - clean up Character Controller sample
 - clean up transparent video sample shader
+- update Needle Engine to `3.12.0-pre.2`
 
 ## [0.8.1] - 2023-07-28
 - update Needle Engine to `3.10.7-pre`
