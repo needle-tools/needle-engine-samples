@@ -46,7 +46,11 @@ namespace SampleChecks
             
             var result = request.downloadHandler.text;
             var warningCount = Regex.Matches(result, Regex.Escape("WARNING")).Count;
-            Assert.AreEqual(0, warningCount, "Site incorrectly deployed without GZIP. index.html found for " + warningCount + " samples. Please visit " + validateUrl + " to check.\n\n" + result);
+            
+            // find all matches for URLs in this: <span class="folderlink"><a href='digital-landscape/'>
+            var matches = Regex.Matches(result, "<span class=\"folderlink\"><a href='(?<url>.*?)/'>");
+            var matchList = string.Join("\n", matches.Select(x => x.Groups["url"].Value));
+            Assert.AreEqual(0, warningCount, $"Site incorrectly deployed without GZIP. index.html found for {warningCount} samples. Please visit {validateUrl} to check.\n\n{matchList}\n");
         }
     }
 
@@ -76,7 +80,7 @@ namespace SampleChecks
             while (!operation.isDone)
                 await Task.Yield();
 
-            Assert.That(request.responseCode, Is.EqualTo(200), "Sample is not live: " + sample.name);
+            Assert.That(request.responseCode, Is.EqualTo(200), "Sample is not live: " + sample.name + " at " + sampleLiveUrl);
         }
 
         // TODO this could be based on the current package version and e.g. only allow 2-3 minor version deviations
