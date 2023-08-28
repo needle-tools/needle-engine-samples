@@ -4,8 +4,22 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2023-08-28
+- add Framerate sample
+- add Line Drawing sample
+- add Networked Animator sample
+- add HTML Pen Data sample (Pencil Sword)
+- add VoxelEditor sample (Everywhere Actions)
+- update Networking Player sample with lifecycle events
+- update USDZProduct sample
+- update Svelte and SvelteKit samples
+- update Portrait Painting sample
+- clean up Character Controller sample
+- clean up transparent video sample shader
+- 
+
 ## [0.8.1] - 2023-07-28
-- updated Needle Engine to `3.10.7-pre`
+- update Needle Engine to `3.10.7-pre`
 
 ## [0.8.0] - 2023-07-28
 - add AR Camera Background sample
