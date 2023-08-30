@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.Rendering.Volume @post;
 		public bool @autoFocus = true;
+		public bool @displayDebugGizmo = true;
 		public void onBeforeRender(){}
 	}
 }

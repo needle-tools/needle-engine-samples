@@ -2,8 +2,6 @@ import { Behaviour, DepthOfField, getParam, Gizmos, Mathf, serializable, Volume 
 import { RaycastOptions } from "@needle-tools/engine";
 import { Vector2 } from "three";
 
-const debug = getParam("debugfocusdistancer");
-
 export class FocusDistancer extends Behaviour {
 
     @serializable(Volume)
@@ -11,6 +9,9 @@ export class FocusDistancer extends Behaviour {
 
     @serializable()
     autoFocus: boolean = true;
+
+    @serializable()
+    displayDebugGizmo: boolean = true;
 
     onBeforeRender(): void {
         if (this.autoFocus || this.context.input.getPointerClicked(0)) {
@@ -28,7 +29,7 @@ export class FocusDistancer extends Behaviour {
                         hits = this.context.physics.raycast();
 
                     if (hits?.length) {
-                        if(debug) {
+                        if(this.displayDebugGizmo) {
                             const gizmoDuration = this.autoFocus ? undefined : 1;
                             Gizmos.DrawWireSphere(hits[0].point, .05, 0x5588dd, gizmoDuration);
                         }
