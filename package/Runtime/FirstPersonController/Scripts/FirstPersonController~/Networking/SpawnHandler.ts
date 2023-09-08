@@ -3,6 +3,7 @@ import { Vector3, Euler, Object3D, Ray, Layers } from "three";
 import { Touchpad } from "../UI Components/Touchpad";
 import { Joystick } from "../UI Components/Joystick";
 import { FirstPersonController } from "../FirstPersonCharacter";
+import { MobileControls } from "../MobileControls";
 
 const debug = getParam("debugspawnhandler")
 
@@ -12,15 +13,8 @@ export class SpawnHandler extends Behaviour {
     @serializable(Object3D)
     spawnPoints: Object3D[] = [];
 
-    // @type UnityEngine.UI.Button
-    @serializable(Button)
-    jumpButton?: Button;
-
-    @serializable(Touchpad)
-    lookTouchpad?: Touchpad;
-
-    @serializable(Joystick)
-    moveJoystick?: Joystick;
+    @serializable(MobileControls)
+    mobileControls?: MobileControls;
 
     private downVector = new Vector3(0, -1, 0);
 
@@ -69,10 +63,8 @@ export class SpawnHandler extends Behaviour {
 
         // hook touch controls to the spawned player
         const player = (obj as GameObject)?.getComponent(FirstPersonController);
-        if(player) {
-            this.jumpButton?.onClick?.addEventListener(() => player.jump());
-            this.lookTouchpad?.onMove?.addEventListener((delta) => player.look(delta));
-            this.moveJoystick?.onMove?.addEventListener((delta) => player.move(delta));
+        if(player && this.mobileControls) {
+            this.mobileControls.bindTo(player);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @movementSensitivity = 1f;
 		public float @lookSensitivity = 5f;
 		public void awake(){}
+		public void bindTo(Needle.Typescript.GeneratedComponents.FirstPersonController @controller){}
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void update(){}
