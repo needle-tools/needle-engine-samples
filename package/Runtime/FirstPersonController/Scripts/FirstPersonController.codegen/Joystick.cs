@@ -16,10 +16,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @sensitivity = 1f;
 		public float @deadzone = 0.1f;
 		public bool @clampOutput = true;
-		public void awake(){}
-		public void update(){}
-		public void onPointerDown(UnityEngine.EventSystems.PointerEventData @args){}
-		public void onPointerUp(UnityEngine.EventSystems.PointerEventData @args){}
+		public void OnDisable(){}
 	}
 }
 
@@ -27,8 +24,8 @@ namespace Needle.Typescript.GeneratedComponents
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class Joystick : UnityEngine.MonoBehaviour
-	{
-        public UnityEngine.Events.UnityEvent<UnityEngine.Vector2> @onMove = new UnityEngine.Events.UnityEvent<UnityEngine.Vector2>();
-    }
+	// public partial class Joystick : UnityEngine.MonoBehaviour
+	// {
+ //        public UnityEngine.Events.UnityEvent<UnityEngine.Vector2> @onMove = new UnityEngine.Events.UnityEvent<UnityEngine.Vector2>();
+ //    }
 }

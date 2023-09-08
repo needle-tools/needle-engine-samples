@@ -53,18 +53,18 @@ export class Touchpad extends Behaviour implements IPointerDownHandler, IPointer
     }
 
     update() {
-        if (!this.isDragging)
-            return;
+        // if (!this.isDragging)
+        //     return;
 
-        const input = this.context.input;
-        const mousePosDelta = input.getPointerPositionDelta(this.currentPointer);
+        // const input = this.context.input;
+        // const mousePosDelta = input.getPointerPositionDelta(this.currentPointer);
 
-        const drag = this.getCurrentDrag(this.currentPointer);
+        // const drag = this.getCurrentDrag(this.currentPointer);
 
-        if (mousePosDelta && drag.length() > this.clickDeadzone) {
-            mousePosDelta.multiplyScalar(this.sensitivity);
-            this.onMove.invoke(mousePosDelta);
-        }
+        // if (mousePosDelta && drag.length() > this.clickDeadzone) {
+        //     mousePosDelta.multiplyScalar(this.sensitivity);
+        //     this.onMove.invoke(mousePosDelta);
+        // }
     }
 
     private tempVector = new Vector2();
