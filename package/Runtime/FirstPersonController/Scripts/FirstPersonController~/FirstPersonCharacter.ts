@@ -140,6 +140,14 @@ export class FirstPersonController extends Behaviour {
         // register gamepad events
         window.addEventListener("gamepadconnected", this.gamePadConnFn);
         window.addEventListener("gamepaddisconnected", this.gamePadDisconnFn);
+
+        // Register pointer event so we can lock the cursor.
+        // We need to request the lock as a direct interaction consequence on Safari, otherwise it will be rejected.
+        window.addEventListener("pointerdown", () => {
+            if(this.enableDesktopInput && !PointerLock.IsLocked && !this.isMobile) {
+                this.lock.lock();
+            }
+        });
     }
 
     protected unregisterInput() {
@@ -208,11 +216,6 @@ export class FirstPersonController extends Behaviour {
 
     onBeforeRender() {       
         if(!this.isInitialized) return;
-
-        // Lock the pointer on desktop if it isn't already locked
-        if (this.enableDesktopInput && !PointerLock.IsLocked && this.context.input.mouseDown && !this.isMobile) {
-            this.lock.lock();
-        }
         
         // Gather built-in input if enabled
         if (this.enableTouchInput && this.isMobile) {
