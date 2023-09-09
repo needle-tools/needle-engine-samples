@@ -14,7 +14,7 @@ export class MobileControls extends Behaviour {
     // See https://github.com/yoannmoinet/nipplejs for all options
     private _movement?: nipplejs.JoystickManager;
     private _look?: nipplejs.JoystickManager;
-    
+
     private _movementIsActive = false;
     private _movementVector!: Vector2;
     private _lookIsActive = false;
@@ -62,27 +62,48 @@ export class MobileControls extends Behaviour {
         this._htmlElements.push(dynamicContainer);
         this._htmlElements.push(staticContainer);
 
+        const pixelThreshold = 10;
         this._movement = nipplejs.create({
             mode: 'static',
             position: { left: '50%', top: '50%' },
-            catchDistance: 100,
+            catchDistance: 1000,
             zone: staticContainer,
-            size: 100
+            size: 130,
         });
         this._movement.on('start', () => { this._movementIsActive = true; });
-        this._movement.on('move', (_, data) => { this._movementVector.set(data.vector.x, data.vector.y).multiplyScalar(this.movementSensitivity); });
+        this._movement.on('move', (_, data) => {
+            if (data.distance > pixelThreshold)
+                this._movementVector.set(data.vector.x, data.vector.y).multiplyScalar(this.movementSensitivity);
+            else this._movementVector.set(0, 0);
+        });
         this._movement.on('end', () => { this._movementIsActive = false; });
 
 
+        const fullRotationSpeedDistance = 130 / 2;
         this._look = nipplejs.create({
             mode: 'dynamic',
-            catchDistance: 1,
+            catchDistance: 1000,
             maxNumberOfNipples: 1,
-            zone: dynamicContainer
+            zone: dynamicContainer,
+            size: 130,
+            color: "#ffffff33",
         });
         this._look.on('start', () => { this._lookIsActive = true; });
-        this._look.on('move', (_, data) => { this._lookVector.set(data.vector.x, data.vector.y * -1).multiplyScalar(this.lookSensitivity); });
-        this._look.on('end', () => { this._lookIsActive = false; });
+        this._look.on('move', (_, data) => {
+            if (data.distance > pixelThreshold)
+                this._lookVector.set(data.vector.x, data.vector.y * -1).multiplyScalar(this.lookSensitivity * data.distance / fullRotationSpeedDistance);
+            else this._lookVector.set(0, 0);
+        });
+        let lastLookEndTime: number = 0;
+        this._look.on('end', () => {
+            this._lookIsActive = false;
+            // double tap to jump:
+            const now = Date.now();
+            if (now - lastLookEndTime < 150) {
+                this.controller?.jump();
+            }
+            lastLookEndTime = now;
+        });
 
     }
 
