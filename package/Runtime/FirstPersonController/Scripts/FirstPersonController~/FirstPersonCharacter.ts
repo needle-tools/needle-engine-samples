@@ -338,7 +338,7 @@ export class FirstPersonController extends Behaviour {
     }
 
     move(input: Vector2) {
-        this.moveInput = input;
+        this.moveInput.copy(input);
     }
 
     jump() {
