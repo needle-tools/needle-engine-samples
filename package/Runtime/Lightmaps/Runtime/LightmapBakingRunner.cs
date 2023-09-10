@@ -39,7 +39,13 @@ namespace Needle.MultiLightmaps
 				// TODO: multi lightmap objects dont work like that
 				Debug.Log("Lightmapping done: " + name);
 				var arr = LightmapSettings.lightmaps;
-#pragma warning disable 0162
+				if (arr.Length > 1)
+				{
+					Debug.LogError(
+						$"Currently only one lightmap per scene is supported (but received {arr.Length}) with the multi-lightmap script. Please adjust your lightmap settings to only produce one lightmap.", caller);
+					return null;
+				}
+#pragma warning disable 0162 
 				for (var index = 0; index < arr.Length; index++)
 #pragma warning restore 0162
 				{

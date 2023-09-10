@@ -105,13 +105,13 @@ namespace Needle.MultiLightmaps
 			await BakeAsync(index);
 		}
 
-		public async Task BakeAsync(int index)
+		public async Task<bool> BakeAsync(int index)
 		{
-			if (index >= this.Configurations.Count) return;
+			if (index >= this.Configurations.Count) return false;
 			var list = new List<IMultiLightmapScript>();
 			ObjectUtils.FindObjectsOfType(list);
 			var config = Configurations[index];
-			if (config == null) return;
+			if (config == null) return false;
 			config.Enable(Configurations);
 			currentlyBaking = config;
 			Debug.Log("Now baking <b>" + config.Name + "</b>");
@@ -119,6 +119,7 @@ namespace Needle.MultiLightmaps
 			config.BakedLightmap = tex;
 			currentlyBaking = null;
 			foreach (var el in list) el.OnBakedLightmap(this, tex, index, Configurations.Count);
+			return tex;
 		}
 #endif
 	}

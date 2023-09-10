@@ -20,8 +20,9 @@ namespace Needle.MultiLightmaps
                         var conf = baker.Configurations[index];
                         if (!conf.BakedLightmap)
                         {
-                            Debug.Log("Baking lightmap for configuration " + conf.Name + " before exporting...");
-                            await baker.BakeAsync(index);
+                            Debug.Log($"Baking lightmap for configuration {index} \"{conf.Name}\" before exporting...");
+                            var res = await baker.BakeAsync(index);
+                            if(!res) Debug.LogError($"Baking lightmap configuration {index} failed. Please check the console for errors", baker);
                         }
                     }
                 }

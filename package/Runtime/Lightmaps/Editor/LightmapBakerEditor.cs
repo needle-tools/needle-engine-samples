@@ -13,10 +13,6 @@ namespace Needle.MultiLightmaps
 			base.OnInspectorGUI();
 			var baker = target as LightmapBaker;
 			if (!baker) return;
-			if (GUILayout.Button("Bake All", GUILayout.Height(50)))
-			{
-				baker.Bake();
-			}
 			EditorGUILayout.LabelField("Toggle Configurations", EditorStyles.boldLabel);
 			for (var index = 0; index < baker.Configurations.Count; index++)
 			{
@@ -30,9 +26,13 @@ namespace Needle.MultiLightmaps
 					if (GUILayout.Button("Bake")) baker.Bake(index);
 				}
 			}
+			if (GUILayout.Button("Bake All", GUILayout.Height(50)))
+			{
+				baker.Bake();
+			}
 			if (!string.IsNullOrEmpty(baker.currentlyBaking?.Name))
 			{
-				EditorGUILayout.LabelField("Currently baking: " + baker.currentlyBaking.Name, EditorStyles.largeLabel);
+				EditorGUILayout.HelpBox($"Currently baking lightmap for \"{baker.currentlyBaking.Name}\". Please wait...", MessageType.Info);
 			}
 			// var lastRect = GUILayoutUtility.GetLastRect();
 			// const int width = 100;
