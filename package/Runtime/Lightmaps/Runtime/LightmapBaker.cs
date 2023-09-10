@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Needle.Engine.Utils;
 using UnityEditor;
 using UnityEngine;
@@ -101,6 +102,11 @@ namespace Needle.MultiLightmaps
 
 		public async void Bake(int index)
 		{
+			await BakeAsync(index);
+		}
+
+		public async Task BakeAsync(int index)
+		{
 			if (index >= this.Configurations.Count) return;
 			var list = new List<IMultiLightmapScript>();
 			ObjectUtils.FindObjectsOfType(list);
@@ -114,7 +120,6 @@ namespace Needle.MultiLightmaps
 			currentlyBaking = null;
 			foreach (var el in list) el.OnBakedLightmap(this, tex, index, Configurations.Count);
 		}
-
 #endif
 	}
 }
