@@ -13,26 +13,31 @@ namespace Needle.MultiLightmaps
 			base.OnInspectorGUI();
 			var baker = target as LightmapBaker;
 			if (!baker) return;
-			EditorGUILayout.LabelField("Toggle Configurations", EditorStyles.boldLabel);
-			for (var index = 0; index < baker.Configurations.Count; index++)
+			EditorGUILayout.LabelField("Actions", EditorStyles.boldLabel);
+			using (new EditorGUI.DisabledScope(Lightmapping.isRunning))
 			{
-				var config = baker.Configurations[index];
-				using (new GUILayout.HorizontalScope())
+				for (var index = 0; index < baker.Configurations.Count; index++)
 				{
-					var label = config.Name;
-					if(baker.currentlyBaking == config) label += " (Baking)";
-					EditorGUILayout.LabelField(label);
-					if (GUILayout.Button("Enable Objects")) config.Enable(baker.Configurations);
-					if (GUILayout.Button("Bake")) baker.Bake(index);
+					var config = baker.Configurations[index];
+					using (new GUILayout.HorizontalScope())
+					{
+						var label = config.Name;
+						if(baker.currentlyBaking == config) label += " (Baking)";
+						else if (!config.BakedLightmap) label += "*"; // mark needs baking
+						EditorGUILayout.LabelField(label);
+						if (GUILayout.Button("Enable Objects")) config.Enable(baker.Configurations);
+						if (GUILayout.Button("Bake")) baker.Bake(index);
+					}
+				}
+				GUILayout.Space(5);
+				if (GUILayout.Button("Bake All", GUILayout.Height(32)))
+				{
+					baker.Bake();
 				}
 			}
-			if (GUILayout.Button("Bake All", GUILayout.Height(50)))
+			if (!string.IsNullOrEmpty(baker.currentlyBaking?.Name) && Lightmapping.isRunning)
 			{
-				baker.Bake();
-			}
-			if (!string.IsNullOrEmpty(baker.currentlyBaking?.Name))
-			{
-				EditorGUILayout.HelpBox($"Currently baking lightmap for \"{baker.currentlyBaking.Name}\". Please wait...", MessageType.Info);
+				EditorGUILayout.HelpBox($"Currently baking lightmap for \"{baker.currentlyBaking.Name}\". Please wait...\nYou can see the status of the lightmap bake in the Unity Progress list in the bottom right corner.", MessageType.Info);
 			}
 			// var lastRect = GUILayoutUtility.GetLastRect();
 			// const int width = 100;
