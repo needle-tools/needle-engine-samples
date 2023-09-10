@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using Needle.Engine.Utils;
+using UnityEditor;
 using UnityEngine;
 
 namespace Needle.MultiLightmaps
 {
 	public class LightmapBaker : MonoBehaviour
 	{
+	
 		private static readonly int[] emissionColorProperties = new int[]
 		{
 			Shader.PropertyToID("_EmissiveColor"),
@@ -66,10 +68,11 @@ namespace Needle.MultiLightmaps
 
 		public List<LightmapConfiguration> Configurations;
 #if UNITY_EDITOR
+
 		private readonly LightmapBakingRunner runner = new LightmapBakingRunner();
 
 		private int bakeId = 0;
-		internal LightmapConfiguration currentlyBaking { get; private set; }
+		public LightmapConfiguration currentlyBaking { get; private set; }
 
 		[ContextMenu(nameof(Bake))]
 		public async void Bake()
@@ -96,7 +99,7 @@ namespace Needle.MultiLightmaps
 			Debug.Log("<b>Finished baking</b>", this);
 		}
 
-		internal async void Bake(int index)
+		public async void Bake(int index)
 		{
 			if (index >= this.Configurations.Count) return;
 			var list = new List<IMultiLightmapScript>();
