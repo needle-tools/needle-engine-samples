@@ -25,6 +25,8 @@ internal class NpmdefChecks
 				{
 					try
 					{
+						// ignore type files
+						if (ts.EndsWith(".d.ts")) continue;
 						var code = File.ReadAllText(ts);
 						if (code.Contains("from \"@needle-tools/engine/"))
 						{
