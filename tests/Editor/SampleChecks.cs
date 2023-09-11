@@ -36,13 +36,15 @@ namespace SampleChecks
         [Test]
         public async Task NoGzipDeployments()
         {
-            const string validateUrl = "https://engine.needle.tools/samples/__validate";
+            const string validateUrl = "https://engine.needle.tools/samples-uploads/__validate"; 
             var request = UnityWebRequest.Get(validateUrl);
             request.timeout = 5;
             
             var operation = request.SendWebRequest();
             while (!operation.isDone)
                 await Task.Yield();
+            
+            Assert.True(request.result == UnityWebRequest.Result.Success, "Can't reach validation endpoint");
             
             var result = request.downloadHandler.text;
             var warningCount = Regex.Matches(result, Regex.Escape("WARNING")).Count;
