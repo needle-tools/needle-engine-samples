@@ -1,10 +1,10 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { Gun } from "../Gun";
-import { ScoreManager } from "../ScoreManager";
-import { Target } from "../Target";
-import { TargetHitPointRenderer } from "../TargetHitPoints";
+import { Gun } from "../Gun.js";
+import { ScoreManager } from "../ScoreManager.js";
+import { Target } from "../Target.js";
+import { TargetHitPointRenderer } from "../TargetHitPoints.js";
 
 // Register types
 TypeStore.add("Gun", Gun);
