@@ -1,5 +1,5 @@
 import { Behaviour, GameObject, OrbitControls, serializable } from "@needle-tools/engine";
-import { getWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
+import { getWorldPosition } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 

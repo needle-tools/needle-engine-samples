@@ -1,5 +1,5 @@
 import { Behaviour, GameObject, OrbitControls, serializable } from "@needle-tools/engine";
-import { getWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
+import { getWorldPosition } from "@needle-tools/engine";
 import { latLongToVector3 as latLongToNormalized } from "./MapView";
 import { Vector3, Shape, ShapeGeometry, MeshBasicMaterial, Mesh, DoubleSide, CircleGeometry } from "three";
 

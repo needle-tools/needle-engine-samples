@@ -1,6 +1,6 @@
 import { Behaviour, GameObject, OrbitControls, serializable } from "@needle-tools/engine";
 import { OrbitControlsView } from "./OrbitControlsView";
-import { getWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
+import { getWorldPosition } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting

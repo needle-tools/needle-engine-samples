@@ -1,5 +1,5 @@
 import { AudioSource, Behaviour, Camera, GameObject, InstantiateOptions, Rigidbody, serializeable } from "@needle-tools/engine";
-import { getWorldScale, setWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
+import { getWorldScale, setWorldPosition } from "@needle-tools/engine";
 import { Object3D, Vector3, Euler } from "three";
 
 

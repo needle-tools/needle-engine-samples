@@ -1,5 +1,5 @@
 import { Behaviour, Collision, Gizmos, ParticleSystem, serializable, showBalloonMessage } from "@needle-tools/engine";
-import { setWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
+import { setWorldPosition } from "@needle-tools/engine";
 import { getParam } from "@needle-tools/engine";
 import { Vector3, Color } from "three";
 

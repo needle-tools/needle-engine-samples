@@ -1,5 +1,5 @@
 import { Behaviour, serializeable } from "@needle-tools/engine";
-import { getWorldPosition, lookAtInverse } from "@needle-tools/engine/src/engine/engine_three_utils";
+import { getWorldPosition, lookAtInverse } from "@needle-tools/engine";
 
 export class LookAtCamera extends Behaviour {
     @serializeable()
