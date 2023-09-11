@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 401887362675486957}
   - component: {fileID: 8472801234392439174}
   - component: {fileID: 8401940449907262373}
-  - component: {fileID: 3271310196983183516}
+  - component: {fileID: 3898548560170418721}
   m_Layer: 5
   m_Name: PlayerStateUI
   m_TagString: Untagged
@@ -31,6 +31,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 414386220304196517}
   m_Father: {fileID: 0}
@@ -119,7 +120,7 @@ MonoBehaviour:
   doubleSided: 1
   castShadows: 0
   receiveShadows: 0
---- !u!114 &3271310196983183516
+--- !u!114 &3898548560170418721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,11 +129,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095677292620436261}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07871a3750cf60f3dfc6ec0cc442e572, type: 3}
+  m_Script: {fileID: 11500000, guid: d6db081035564a29af84317b8dafe597, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.LookAtCamera, Needle.Engine-Samples.Runtime
-    $ GlobalObjectId_V1-0-00000000000000000000000000000000-0-0
-  inverse: 1
+  m_EditorClassIdentifier: Needle.Engine.Components.LookAt, Needle.Engine
+  target: {fileID: 0}
+  invertForward: 1
+  keepUpDirection: 1
+  copyTargetRotation: 0
+  updateInEditor: 0
 --- !u!1 &2506740003922779084
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +166,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5133543573871621636}
   m_RootOrder: 0
