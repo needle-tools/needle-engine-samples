@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Needle.Engine;
 using Needle.Engine.Utils;
 using NUnit.Framework;
@@ -22,10 +23,17 @@ internal class NpmdefChecks
 				var typescriptFiles = Directory.GetFiles(hiddenPackagePath, "*.ts", SearchOption.AllDirectories);
 				foreach (var ts in typescriptFiles)
 				{
-					var code = File.ReadAllText(ts);
-					if (code.Contains("from \"@needle-tools/engine/"))
+					try
 					{
-						Debug.LogError("Invalid import in " + ts.AsLink());
+						var code = File.ReadAllText(ts);
+						if (code.Contains("from \"@needle-tools/engine/"))
+						{
+							Debug.LogError("Invalid import in " + ts.AsLink());
+						}
+					}
+					catch (DirectoryNotFoundException)
+					{
+						// ignore
 					}
 				}
 			}
@@ -54,6 +62,7 @@ internal class NpmdefChecks
 				{
 					if (PackageUtils.TryReadDependencies(packageJson, out var deps, key))
 					{
+						var fixups = new Dictionary<string, string>();
 						foreach (var kvp in deps)
 						{
 							if (PackageUtils.TryGetPath(packageJson, kvp.Value, out var fp))
@@ -64,10 +73,25 @@ internal class NpmdefChecks
 									if(NpmUnityEditorVersions.TryGetRecommendedVersion(kvp.Key, out var version))
 									{
 										possibleFix = "→ You probably want to use " + version + " instead";
+										fixups[kvp.Key] = version;
 									}
-									Debug.LogError("Invalid dependency path " + kvp.Key + ": " + kvp.Value + " in " + packageJson.AsLink() + "\n" + possibleFix);
+									var message = "Invalid dependency path " + kvp.Key + ": " + kvp.Value + " in " +
+									              packageJson.AsLink() + "\n" + possibleFix;
+									if (possibleFix.Length > 0) Debug.LogWarning(message);
+									else Debug.LogError(message);
 								}
 							}
+						}
+						if (fixups.Count > 0)
+						{
+							Debug.Log("Fixing " + fixups.Count + " dependencies in " + packageJson.AsLink());
+							foreach (var fix in fixups)
+							{
+								var cur = deps[fix.Key];
+								Debug.Log("Replace " + fix.Key + " from " + cur + " to " + fix.Value);
+								deps[fix.Key] = fix.Value;
+							}
+							PackageUtils.TryWriteDependencies(packageJson, deps, key);
 						}
 					}
 				}
