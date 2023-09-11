@@ -5,7 +5,7 @@ import { PointerLock } from "./LockPointer";
 export class FirstPersonController extends Behaviour {
 
     @serializable(CharacterController)
-    controller?: CharacterController; 
+    controller?: CharacterController;
 
     // used for vertical mouse movement. X rotational axis. Most probably the camera object.
     @serializable(Object3D)
@@ -57,7 +57,6 @@ export class FirstPersonController extends Behaviour {
     gamepadLookSensitivity: number = 50;
 
     protected playerState!: PlayerState;
-    protected rigidbody!: Rigidbody;
     protected syncedTransform!: SyncedTransform;
     protected mainCamera!: Camera;
 
@@ -65,8 +64,8 @@ export class FirstPersonController extends Behaviour {
 
     protected isMobile: boolean = false;
 
-    protected x : number = 0;
-    protected y : number = 0;
+    protected x: number = 0;
+    protected y: number = 0;
 
     protected lookInput = new Vector2();
     protected moveInput = new Vector2();
@@ -78,10 +77,9 @@ export class FirstPersonController extends Behaviour {
     awake() {
         // networking - get player state
         this.playerState = this.gameObject.getComponent(PlayerState)!;
-        this.rigidbody = this.gameObject.getComponent(Rigidbody)!;
         this.syncedTransform = this.gameObject.getComponent(SyncedTransform)!;
         this.mainCamera = this.gameObject.getComponentInChildren(Camera)!;
-        
+
         if (this.isMultiplayer()) {
             this.playerState.onOwnerChangeEvent.addEventListener(() => this.onOwnerChanged());
         }
@@ -115,7 +113,7 @@ export class FirstPersonController extends Behaviour {
         if (density > 1)
             this.lookSensitivity *= density;
 
-        
+
         if (this.isMobile) {
             // ensure touch actions don't accidentally scroll/refresh the page
             this.context.domElement.style.userSelect = "none";
@@ -133,7 +131,7 @@ export class FirstPersonController extends Behaviour {
         this.gamePadDisconnFn ??= this.onGamepadDisconnected.bind(this);
 
         // register mouse move events that work while being locked
-        if(this.enableDesktopInput) {
+        if (this.enableDesktopInput) {
             window.addEventListener("pointermove", this.pointerMoveFn)
         }
 
@@ -144,34 +142,34 @@ export class FirstPersonController extends Behaviour {
         // Register pointer event so we can lock the cursor.
         // We need to request the lock as a direct interaction consequence on Safari, otherwise it will be rejected.
         window.addEventListener("pointerdown", () => {
-            if(this.enableDesktopInput && !PointerLock.IsLocked && !this.isMobile) {
+            if (this.enableDesktopInput && !PointerLock.IsLocked && !this.isMobile) {
                 this.lock.lock();
             }
         });
     }
 
     protected unregisterInput() {
-        window.removeEventListener("pointermove",           this.pointerMoveFn)
-        window.removeEventListener("gamepadconnected",      this.gamePadConnFn);
-        window.removeEventListener("gamepaddisconnected",   this.gamePadDisconnFn);
+        window.removeEventListener("pointermove", this.pointerMoveFn)
+        window.removeEventListener("gamepadconnected", this.gamePadConnFn);
+        window.removeEventListener("gamepaddisconnected", this.gamePadDisconnFn);
     }
 
     protected onOwnerChanged() {
-        if(this.destroyed) return;
+        if (this.destroyed) return;
 
-        if(!this.isInitialized)
+        if (!this.isInitialized)
             this.initialize();
 
         this.setRole(this.isLocalPlayer());
     }
 
-    protected calculateYRot() { 
+    protected calculateYRot() {
         //adjust Y to reflect the current rotation
         const charFwd = new Vector3();
         this.yRotTarget?.getWorldDirection(charFwd);
         charFwd.y = 0; // flatten
         charFwd.normalize();
-        
+
         // calculate signed angle
         const wFwd = new Vector3(0, 0, 1);
         const wRight = new Vector3(1, 0, 0);
@@ -193,14 +191,14 @@ export class FirstPersonController extends Behaviour {
      * Enable player to become locally controlled or to remanin passive and expect to be driven
      */
     setRole(isLocal: boolean): void {
-        if(this.controller) {
+        if (this.controller) {
             this.controller.enabled = isLocal;
             this.controller.rigidbody.isKinematic = !isLocal;
         };
         this.enabled = isLocal;
 
         // synchronize transform when enabled
-        if(isLocal) {
+        if (isLocal) {
             this.syncedTransform?.requestOwnership();
             this.registerInput();
         }
@@ -209,24 +207,24 @@ export class FirstPersonController extends Behaviour {
         }
 
         // disable camera on remote players just to make sure
-        if(this.mainCamera) {
+        if (this.mainCamera) {
             this.mainCamera.enabled = isLocal;
         }
     }
 
-    onBeforeRender() {       
-        if(!this.isInitialized) return;
-        
+    onBeforeRender() {
+        if (!this.isInitialized) return;
+
         // Gather built-in input if enabled
         if (this.enableTouchInput && this.isMobile) {
             this.gatherMobileInput();
         }
 
-        if(this.enableDesktopInput && PointerLock.IsLocked) {
+        if (this.enableDesktopInput && PointerLock.IsLocked) {
             this.gatherDesktopInput();
         }
 
-        if(this.enableGamepadInput) {
+        if (this.enableGamepadInput) {
             this.gatherGamepadInput();
         }
 
@@ -234,8 +232,8 @@ export class FirstPersonController extends Behaviour {
         this.handleLookVec(this.lookInput);
 
         // reset input
-        this.moveInput.set(0,0);
-        this.lookInput.set(0,0);
+        this.moveInput.set(0, 0);
+        this.lookInput.set(0, 0);
         this.sprintInput = false;
     }
 
@@ -250,22 +248,22 @@ export class FirstPersonController extends Behaviour {
 
         if (input.isKeyPressed("s") || input.isKeyPressed("DownArrow"))
             this.moveInput.y += -1;
-        else if (input.isKeyPressed("w") || input.isKeyPressed("UpArrow")) 
+        else if (input.isKeyPressed("w") || input.isKeyPressed("UpArrow"))
             this.moveInput.y += 1;
-        if (input.isKeyPressed("d") || input.isKeyPressed("RightArrow")) 
+        if (input.isKeyPressed("d") || input.isKeyPressed("RightArrow"))
             this.moveInput.x += 1;
-        else if (input.isKeyPressed("a") || input.isKeyPressed("LeftArrow")) 
+        else if (input.isKeyPressed("a") || input.isKeyPressed("LeftArrow"))
             this.moveInput.x += -1;
 
         // get jump, if true keep it true
-        if(input.isKeyDown(" "))
+        if (input.isKeyDown(" "))
             this.jumpInput ||= true;
-        else if(input.isKeyUp(" "))
-            this.jumpInput = false; 
+        else if (input.isKeyUp(" "))
+            this.jumpInput = false;
         this.sprintInput ||= input.isKeyPressed("Shift");
     }
 
-    protected gatherGamepadInput() { 
+    protected gatherGamepadInput() {
         if (this.gamepadIndex === null) {
             return;
         }
@@ -278,16 +276,16 @@ export class FirstPersonController extends Behaviour {
         const sanitize = this.sanitzeGamepadAxis.bind(this); // sanitize helper method
 
         // TODO: lacking acceleration for look input
-        if(gamepad.axes.length >= 2) { 
+        if (gamepad.axes.length >= 2) {
             this.lookInput.x += sanitize(gamepad.axes[0]) * this.gamepadLookSensitivity;
             this.lookInput.y += sanitize(gamepad.axes[1]) * this.gamepadLookSensitivity;
         }
 
-        if(gamepad.axes.length >= 4) { 
+        if (gamepad.axes.length >= 4) {
             this.moveInput.x += sanitize(gamepad.axes[2]);
             this.moveInput.y += sanitize(-gamepad.axes[3]);
         }
-        
+
         // (DualShock 4)
         // X, R3, R1, R2
         this.jumpInput ||= this.getGamepadButtons(gamepad, [0, 4, 5, 6]);
@@ -301,15 +299,15 @@ export class FirstPersonController extends Behaviour {
         indexes.forEach(index => {
             result = result || gamepad.buttons[index]?.pressed || false;
         });
-        
+
         return result;
     }
 
     protected sanitzeGamepadAxis(input: number): number {
-        if(input == null)
+        if (input == null)
             return 0;
 
-        if(input >= -this.gamepadDeadzone && input <= this.gamepadDeadzone)
+        if (input >= -this.gamepadDeadzone && input <= this.gamepadDeadzone)
             input = 0;
 
         return input;
@@ -325,15 +323,15 @@ export class FirstPersonController extends Behaviour {
         }
     }
 
-    protected onGamepadConnected(e: GamepadEvent) { 
+    protected onGamepadConnected(e: GamepadEvent) {
         // https://w3c.github.io/gamepad/#remapping
         // we're always using the last connected gamepad here
         if (e.gamepad.mapping == "standard") {
-            this.gamepadIndex = e.gamepad.index; 
+            this.gamepadIndex = e.gamepad.index;
         }
     }
 
-    protected onGamepadDisconnected(e: GamepadEvent) { 
+    protected onGamepadDisconnected(e: GamepadEvent) {
         if (this.gamepadIndex == e.gamepad.index) this.gamepadIndex = null;
     }
 
@@ -351,13 +349,13 @@ export class FirstPersonController extends Behaviour {
 
     /**
      * Input: delta mouse position
-    */ 
+    */
     look(input: Vector2) {
         this.lookInput.copy(input);
     }
 
     // apply movement to the targets
-    protected handleLookVec(look: Vector2) { 
+    protected handleLookVec(look: Vector2) {
         this.handleLookNum(look.x, look.y);
     }
 
@@ -371,11 +369,11 @@ export class FirstPersonController extends Behaviour {
         this.y += y;
 
         this.yRotTarget?.setRotationFromAxisAngle(this.upVector, this.y);
-        
+
         // setting the eulers directly since we want to keep a 180 rot on Y axis.
         // setting the rotation via fromAxisAngle results in 0 rot on Y axis.
         // CATION: can cause gimbal lock
-        if(this.xRotTarget) {
+        if (this.xRotTarget) {
             this.xRotTarget.rotation.x = -this.x + Math.PI;
         }
     }
@@ -383,23 +381,23 @@ export class FirstPersonController extends Behaviour {
     // temp vectors to prevent extra alocations
     private moveDir = new Vector3();
     private fwdDir = new Vector3();
-    private upDir = new Vector3(0,1,0);
+    private upDir = new Vector3(0, 1, 0);
     private rightDir = new Vector3();
     private jumpVec = new Vector3();
     private zeroValue = new Vector3();
 
     // Apply movemnt and jump input
     protected handleMove(move: Vector2, jump: boolean, sprint: boolean, onJump?: () => void) {
-        if (!this.controller || !this.rigidbody) return;
+        if (!this.controller) return;
 
         const deltaTime = this.context.time.deltaTime;
-    
+
         // calculate directional vectors
         this.gameObject.getWorldDirection(this.fwdDir);
         this.rightDir.crossVectors(this.upDir, this.fwdDir);
 
         // calculate movement direction
-        this.moveDir.set(0,0,0);
+        this.moveDir.set(0, 0, 0);
 
         this.moveDir.add(this.fwdDir.multiplyScalar(move.y));
         this.moveDir.add(this.rightDir.multiplyScalar(-move.x));
@@ -408,44 +406,44 @@ export class FirstPersonController extends Behaviour {
         this.moveDir.clampLength(0, 1);
 
         // apply speed and delta time so it's framerate independent
-        const speed = sprint ? this.sprintSpeed: this.movementSpeed;
+        const speed = sprint ? this.sprintSpeed : this.movementSpeed;
         this.moveDir.multiplyScalar(speed * deltaTime);
 
-        // handle jump
-        if(jump && this.controller.isGrounded) {
-            const rb = this.controller.rigidbody;
+        const rigidbody = this.controller.rigidbody;
 
+        // handle jump
+        if (jump && this.controller.isGrounded) {
             // calculate & apply impulse vector
-            this.jumpVec.set(0,1,0);
+            this.jumpVec.set(0, 1, 0);
             this.jumpVec.multiplyScalar(this.jumpSpeed)
 
             // reset Y velcoity
-            const vel = this.rigidbody.getVelocity();
+            const vel = rigidbody.getVelocity();
             vel.y = 0;
-            this.rigidbody.setVelocity(vel);
+            rigidbody.setVelocity(vel);
 
             // aplly impulse
-            rb.applyImpulse(this.jumpVec);
+            rigidbody.applyImpulse(this.jumpVec);
 
             // callback
             onJump?.();
         }
 
         // move the character controller
-        this.rigidbody.applyImpulse(this.moveDir);
+        rigidbody.applyImpulse(this.moveDir);
 
         // is there any move input
         const isMoving = move.length() > 0.01;
 
         // clamp max speed while not effecting Y velocity
-        const vel = this.rigidbody.getVelocity();
+        const vel = rigidbody.getVelocity();
         const origY = vel.y;
 
         // clamp and decay velocity
-        const max = sprint ? this.maxSprintSpeed: this.maxSpeed;
+        const max = sprint ? this.maxSprintSpeed : this.maxSpeed;
         vel.y = 0;
         vel.clampLength(0, max);
-        if(!isMoving) {
+        if (!isMoving) {
             vel.lerp(this.zeroValue, this.stoppingDecay * deltaTime);
         }
 
@@ -453,6 +451,6 @@ export class FirstPersonController extends Behaviour {
         vel.y = origY;
 
         // apply adjusted velocity
-        this.rigidbody.setVelocity(vel);
+        rigidbody.setVelocity(vel);
     }
 }
