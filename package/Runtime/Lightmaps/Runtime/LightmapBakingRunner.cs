@@ -49,9 +49,18 @@ namespace Needle.MultiLightmaps
 				for (var index = 0; index < arr.Length; index++)
 #pragma warning restore 0162
 				{
+					// give it a chance to finish writing to disc
+					await Task.Delay(300);
+					// sometimes the asset path is not yet available, so we force a refresh
+					AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 					var lm = arr[index];
 					var color = lm.lightmapColor;
 					var assetPath = AssetDatabase.GetAssetPath(color);
+					if (string.IsNullOrEmpty(assetPath))
+					{
+						Debug.LogError("Lightmap texture could not be found on disc...");
+						return null;
+					}
 					// lm.lightmapColor = color;
 					// arr[index] = lm;
 					var copy = CopyTexture(caller, assetPath, "Lightmap-" + name);
