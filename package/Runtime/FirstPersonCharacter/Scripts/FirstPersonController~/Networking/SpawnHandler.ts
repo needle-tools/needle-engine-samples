@@ -1,14 +1,12 @@
 import { Behaviour, Button, GameObject, Gizmos, RaycastOptions, getParam, randomNumber, serializable } from "@needle-tools/engine";
 import { Vector3, Euler, Object3D, Ray, Layers } from "three";
-import { Touchpad } from "../UI Components/Touchpad";
-import { Joystick } from "../UI Components/Joystick";
 import { FirstPersonController } from "../FirstPersonCharacter";
 import { MobileControls } from "../MobileControls";
 
 const debug = getParam("debugspawnhandler")
 
 export class SpawnHandler extends Behaviour {
-    
+
     //array of Object3D
     @serializable(Object3D)
     spawnPoints: Object3D[] = [];
@@ -18,7 +16,7 @@ export class SpawnHandler extends Behaviour {
 
     private downVector = new Vector3(0, -1, 0);
 
-    handlePlayerSpawn(obj: GameObject) { 
+    handlePlayerSpawn(obj: GameObject) {
         //shuffle spawnspots
         this.spawnPoints.sort(() => Math.random() - 0.5);
 
@@ -39,12 +37,12 @@ export class SpawnHandler extends Behaviour {
 
             options.ray.direction.copy(this.downVector);
 
-            if(debug)
+            if (debug)
                 Gizmos.DrawLine(options.ray.origin, options.ray.origin.clone().add(options.ray.direction.clone().multiplyScalar(options.maxDistance)), 0xff0000, 50, true);
 
             const result = this.context.physics.raycast(options);
-            
-            if(result.length == 0) {
+
+            if (result.length == 0) {
                 spot = element;
                 break;
             }
@@ -53,18 +51,20 @@ export class SpawnHandler extends Behaviour {
         // If there is no valid spawn point, set world 0,0,0
         const pos = spot?.position.clone() || new Vector3();
         const rot = spot?.rotation.clone() || new Euler();
-        
-        if(obj instanceof Object3D) {
+
+        if (obj instanceof Object3D) {
             obj.worldToLocal(pos);
-            
+
             obj.position.copy(pos);
             obj.rotation.copy(rot);
         }
 
         // hook touch controls to the spawned player
         const player = (obj as GameObject)?.getComponent(FirstPersonController);
-        if(player && this.mobileControls) {
-            this.mobileControls.bindTo(player);
+        if (player && this.mobileControls) {
+            this.mobileControls.onLook.addEventListener(v => player.look(v));
+            this.mobileControls.onMove.addEventListener(v => player.move(v));
+            this.mobileControls.onJump.addEventListener(() => player.jump());
         }
     }
 }
