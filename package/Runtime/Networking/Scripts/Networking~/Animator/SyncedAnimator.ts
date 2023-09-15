@@ -1,71 +1,72 @@
-import { Animator, AnimatorControllerParameterType, Behaviour, Parameter, prefix, registerBinaryType, getParam, RoomEvents, State } from "@needle-tools/engine";
-import { SyncedAnimator_Model } from "./SyncedAnimator_Model";
-import { Builder } from "flatbuffers";
-
-// TODO: during runtime, animator model / controller can't be changed
-// TODO: correcting the state machine if it gets out of sync
-// TODO: order of params has to be the same on all clients and can't chagne during runtime
+import { Animator, AnimatorControllerParameterType, Behaviour, Parameter, prefix, getParam, State, AnimatorController } from "@needle-tools/engine";
 
 const debug = getParam("debugsyncanimator");
 
-export const SyncedAnimatorIdentifier = "SANI"; // :)
-registerBinaryType(SyncedAnimatorIdentifier, SyncedAnimator_Model.getRootAsSyncedAnimator_Model);
+export class SyncedAnimator extends Behaviour {    
+    /** 
+     * Unique guid that is consistent over the network
+     * By default, the guid of this component is set, that works if the object is in the scene or from a sync instantiated prefab.
+     * If not, you have to set this manually.
+     * */ 
+    private syncedAnimGuid: string | null = null;
+    // @nonSerialized
+    set SyncedAnimGuid(value: string) { 
+        this.syncedAnimGuid = value;
+        this.registerNetMessage();
+    }
+    // @nonSerialized
+    get SyncedAnimGuid(): string | null { return this.syncedAnimGuid; }
 
-export class SyncedAnimator extends Behaviour {
-    // mandatory component on the object
-    private animator!: Animator;
-
-    // used for serialization and deserialization. Needed to use SyncedAnimator_Model API.
-    private builder!: Builder;
-
-    // guid under which SyncedAnimator_Model will be stored in the server.
-    private syncedAnimGuid: string = "";
+    // live state from the animator
+    private get currentState() {
+        return this.animator?.runtimeAnimatorController?.activeState!;
+    }
 
     // live parameters that Animator uses
     private localParameters: Parameter[] = [];
-
-    // live state from the animator
-    private currentState: State | undefined;
-
-    // state dicated by remote
+    
+        // state dicated by remote
     private remoteState: State | null | undefined;
+    
+    // animator instance that is synchronized
+    private animator!: Animator;
+    private currentController: AnimatorController | null | undefined = null;
+    
+    start(): void {
+        // default value is set if not specified
+        this.SyncedAnimGuid ??= `${this.guid}`;
+        this.enabled = this.localParameters !== undefined;
 
-    // when drivenByAnimator is false and you use the SyncedAnimator API, this marks the state to be synced before animator update.
-    /* private manualParameterChanges: boolean = false;
-    private manualStateChanges: boolean = false; */
-
-    awake() {
-        // differentiate between guids in order to save both owner AND anim state
-        this.syncedAnimGuid = `${this.guid}`;
+        if (!this.enabled) {
+            console.warn("SyncAnimator has to be on an object with an Animator componenet");
+        }
     }
 
-    start(): void {
+    /**
+     * Update interal list parameter list
+     */
+    private onControllerChanged() {
         this.animator = this.gameObject.getComponent(Animator)!;
-        this.localParameters = this.animator?.runtimeAnimatorController?.model?.parameters!;
-
-        this.builder = new Builder(1);
-
-        this.enabled = this.localParameters !== undefined;
-        if (this.enabled) {
-            if (this.context.connection.isConnected) {
-                this.onStateRecieved();
-            }
-        }
-        else
-            console.warn("SyncAnimator has to be on an object with an Animator componenet");
+        this.currentController = this.animator?.runtimeAnimatorController;
+        this.localParameters = this.currentController?.model?.parameters!;
     }
 
     // register to room events
     private onModelRecievedFn: Function | null = null;
-    private onStateRecievedFn: Function | null = null;
-    onEnable() {
-        this.onModelRecievedFn = this.context.connection.beginListenBinary(SyncedAnimatorIdentifier, this.modelRecieved.bind(this));
-        this.onStateRecievedFn = this.context.connection.beginListen(RoomEvents.RoomStateSent, this.onStateRecieved.bind(this));
+
+    private registerNetMessage() { 
+        // unregister
+        if(this.onModelRecievedFn) { 
+            this.context.connection.stopListen(this.syncedAnimGuid!, this.onModelRecievedFn);
+        }
+        // register
+        this.onModelRecievedFn = this.context.connection.beginListen(this.syncedAnimGuid!, this.modelRecieved.bind(this));
     }
 
     onDestroy() {
-        this.context.connection.stopListenBinary(SyncedAnimatorIdentifier, this.onModelRecievedFn);
-        this.context.connection.stopListen(RoomEvents.RoomStateSent, this.onStateRecievedFn);
+        if(this.onModelRecievedFn) {
+            this.context.connection.stopListen(this.syncedAnimGuid!, this.onModelRecievedFn);
+        }
     }
 
     // property used in Prefixed onBeforeRender to exclude SyncedAnimator's onBeforeRender call.
@@ -80,26 +81,20 @@ export class SyncedAnimator extends Behaviour {
         // On Animator the isSyncAnim is not defined so we know that this is the call we want to handle
         if (this.isSyncAnim !== undefined) return;
 
+        
         const syncedAnimator = this.gameObject.getComponent(SyncedAnimator);
         if (!syncedAnimator || !syncedAnimator.enabled) return;
 
-        syncedAnimator.checkForChanges();
-        syncedAnimator.applyChanges();
+        // update
+        syncedAnimator.syncedAnimatorUpdate();
+        syncedAnimator.applyRemoteState();
         syncedAnimator.dispatchChanges();
     }
 
-    /**
-     * Reads state of animator and if it's dirty it sends an update.
-     * drivenByAnimator has to be true.
-     */
-    private checkForChanges() {
-        if (!this.enabled) return;
-        if (!this.animator) return;
-
-        const state = this.animator.runtimeAnimatorController?.activeState;
-        if (this.currentState !== state) {
-            if (debug) console.log(`Local state: ${this.currentState?.name} --> ${state?.name}`);
-            this.currentState = this.animator.runtimeAnimatorController?.findState(state?.name!)!;
+    private syncedAnimatorUpdate() {
+        // check if the controller has changed
+        if (this.currentController !== this.animator?.runtimeAnimatorController) {
+            this.onControllerChanged();
         }
     }
 
@@ -107,7 +102,9 @@ export class SyncedAnimator extends Behaviour {
      * Parameters and state can fight with each other. 
      * This applies state corrections after reading parameters and not after reciving data from the server. 
      */
-    private applyChanges() {
+    private applyRemoteState() {
+        // apply remote state if needed
+        // parameters are applied right on reciving and state is applied a frame later here
         if (this.remoteState && this.remoteState !== this.currentState) {
             this.animator.runtimeAnimatorController?.play(this.remoteState.hash);
             this.remoteState = null;
@@ -115,8 +112,7 @@ export class SyncedAnimator extends Behaviour {
     }
 
     /**
-     * If any explicit SetParamaters / Play calls were issued through the SyncedAnimator and
-     * drivenByAnimator is false, this will send the changes to the server.
+     * Any API calls that are issued to the Animator mark it as dirty. Sync is performed based on that.
      */
     private dispatchChanges() {
         if (!this.animator.parametersAreDirty && !this.animator.isDirty) return;
@@ -154,24 +150,15 @@ export class SyncedAnimator extends Behaviour {
             this.tempValues[i] = value;
         }
 
-        // create values
-        this.builder.clear();
-        var guid = this.builder.createString(this.syncedAnimGuid);
-        var data = SyncedAnimator_Model.createValuesVector(this.builder, this.tempValues);
-
-        // add values
-        SyncedAnimator_Model.startSyncedAnimator_Model(this.builder);
-        SyncedAnimator_Model.addGuid(this.builder, guid);
-        SyncedAnimator_Model.addDontSave(this.builder, false);
-        SyncedAnimator_Model.addValues(this.builder, data);
-        SyncedAnimator_Model.addState(this.builder, state?.hash || 0);
-        const endPos = SyncedAnimator_Model.endSyncedAnimator_Model(this.builder);
-        this.builder.finish(endPos, SyncedAnimatorIdentifier);
+        const data = {
+            guid: this.syncedAnimGuid,
+            values: this.tempValues,
+            state: state?.hash || 0
+        } as SyncedAnimator_Model;
 
         // send
-        const payload = this.builder.asUint8Array();
-        if (debug) console.log(`${this.context.time.time.toFixed(2)} SyncAnimator: --> ${payload.length} bytes`);
-        net.sendBinary(payload);
+        if (debug) console.log(`${this.context.time.time.toFixed(2)} SyncAnimator outgoing message`);
+        net.send(this.guid, data);
     }
 
     /** 
@@ -180,13 +167,11 @@ export class SyncedAnimator extends Behaviour {
     */
     private modelRecieved(data: SyncedAnimator_Model) {
         if (!this.animator) return;
-        if (data.guid() !== this.syncedAnimGuid) return; //payload for another synced animator
+        if (debug) console.log(`${this.context.time.time.toFixed(2)} SyncAnimator incoming message`);
 
-        if (debug) console.log(`${this.context.time.time.toFixed(2)} SyncAnimator: <-- ${data.bb?.bytes().length} bytes`);
-
-        for (let i = 0; i < data.valuesLength(); i++) {
+        for (let i = 0; i < data.values.length; i++) {
             const p = this.localParameters[i];
-            const newValue = data.values(i);
+            const newValue = data.values[i];
             var newParsedValue: number | boolean | string | null = null;
 
             switch (p.type) {
@@ -206,21 +191,18 @@ export class SyncedAnimator extends Behaviour {
             }
         }
 
-        const newStateHash = data.state();
+        const newStateHash = data.state;
         if (newStateHash !== 0) {
             const newState = this.animator.runtimeAnimatorController?.findState(newStateHash);
             this.remoteState = newState;
             if (debug) console.log(`${this.context.time.time.toFixed(2)} Remote state: ${this.currentState?.name} --> ${newState?.name}`);
         }
     }
+}
 
-    /**
-     * Replicate state from the server.
-     * This is crucial when you join a room full of player
-     * and the replicated player are fetching their state to match the animation.
-     */
-    private onStateRecieved() {
-        const model = this.context.connection.tryGetState(this.guid) as unknown as SyncedAnimator_Model;
-        if (model) this.modelRecieved(model);
-    }
+class SyncedAnimator_Model 
+{
+    guid: string = "";
+    values: number[] = [];
+    state: number = 0;
 }
