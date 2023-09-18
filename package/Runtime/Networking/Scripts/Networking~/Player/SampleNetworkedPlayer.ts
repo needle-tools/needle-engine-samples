@@ -75,7 +75,7 @@ export class SampleNetworkedPlayer extends Behaviour {
             else
                 this.gameObject.translateOnAxis(vecToGoal.normalize(), distanceToTravel);
 
-            const reactOnHover = input.getIsMouse(0);
+            const reactOnHover = false; //input.getPointerPositionDelta(0)!.length() > 1;
 
             // save pointer position on pointer down
             if(input.getPointerDown(0)) {
