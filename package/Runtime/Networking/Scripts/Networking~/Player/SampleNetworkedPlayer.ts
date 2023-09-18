@@ -90,8 +90,8 @@ export class SampleNetworkedPlayer extends Behaviour {
                 const currPointerPos = input.getPointerPosition(0) || new Vector2();
                 if(currPointerPos.distanceTo(this.pointerPos) < 40 || reactOnHover) {   
                     const result = physics.raycast();
-                    if(result) {
-                        this.currentGoal = result.point;
+                    if(result && result.collider) {
+                        this.currentGoal.copy(result.point);
                     }
                 }
             }
