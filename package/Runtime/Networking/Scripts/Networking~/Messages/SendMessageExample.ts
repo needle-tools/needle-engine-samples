@@ -16,6 +16,7 @@ export class SendMessageExample extends Behaviour {
 
     private msgId = "SendMessage"; 
 
+    // START MARKER network messages receive
     onEnable() {
         this.context.connection.beginListen(this.msgId, this.recieveMessage); 
     }
@@ -29,7 +30,9 @@ export class SendMessageExample extends Behaviour {
             this.msgLabel.text = `${receivedModel.prefix} ${receivedModel.seconds}`;
         }
     }
+    // END MARKER network messages receive
 
+    // START MARKER network messages send
     sendMessage() {
         const model: SendMessage_Model = {
             guid: this.guid,
@@ -45,6 +48,7 @@ export class SendMessageExample extends Behaviour {
             this.outgoingSizeLabel.text = `${payload.length} bytes`;
         }
     }
+    // END MARKER network messages send
 
     deleteState() {
         this.context.connection.sendDeleteRemoteState(this.guid); // delete all state for this component

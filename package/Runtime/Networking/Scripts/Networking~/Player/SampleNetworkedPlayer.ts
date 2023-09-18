@@ -1,4 +1,4 @@
-import { Behaviour, PlayerState, Renderer, SyncedTransform, serializable, Text, RaycastOptions, Gizmos } from "@needle-tools/engine";
+import { Behaviour, PlayerState, Renderer, SyncedTransform, serializable, Text, RaycastOptions, Gizmos, IPhysicsEngine } from "@needle-tools/engine";
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three";
 
 export class SampleNetworkedPlayer extends Behaviour {
@@ -17,16 +17,9 @@ export class SampleNetworkedPlayer extends Behaviour {
 
     private currentGoal = new Vector3();
     private pointerPos = new Vector2();
-    private options = new RaycastOptions();
 
     private tempVec1 = new Vector3();
     private tempVec2 = new Vector3();
-
-
-    // wrapper to clean the code so we don't have to check if playerState is null
-    isLocalPlayer() {
-        return this.playerState?.isLocalPlayer || false;
-    }
     
     start() {
         if(!this.playerState) return;
@@ -34,7 +27,7 @@ export class SampleNetworkedPlayer extends Behaviour {
         if(this.playerState.hasOwner)
             this.initialize();
         else
-            this.playerState.onFirstOwnerChangeEvent.addEventListener(() => { console.log("let's goo baby!"); this.initialize(); });
+            this.playerState.onFirstOwnerChangeEvent.addEventListener(() => { this.initialize(); });
     }
 
     initialize() {
@@ -43,7 +36,7 @@ export class SampleNetworkedPlayer extends Behaviour {
         }
 
         // Synced transform synchronizes position, rotation and scale. But has to be manually enabled to determine who the owner is.
-        if(this.syncedTransform && this.isLocalPlayer()) {
+        if(this.syncedTransform && this.playerState?.isLocalPlayer) {
             this.syncedTransform.requestOwnership();
         }
 
@@ -61,16 +54,16 @@ export class SampleNetworkedPlayer extends Behaviour {
         }
 
         // sample: set random position on the map 
-        this.currentGoal = new Vector3(Math.random() * 5 - 2.5, 0, Math.random() * 5 - 2.5);
+        this.currentGoal = new Vector3((Math.random() - 0.5) * 2, 0, (Math.random() - 0.5) * 2);
     }
 
     update() {
         // only if we are the local player we are allowed to gather input and move the player
-        if(this.isLocalPlayer()) {
+        if(this.playerState?.isLocalPlayer) {
             const input = this.context.input;
             const cam = this.context.mainCamera;
             const dt = this.context.time.deltaTime;
-            const physics = this.context.physics;
+            const physics = this.context.physics.engine as IPhysicsEngine;
 
             // reach a goal
             this.tempVec1.copy(this.currentGoal);
@@ -82,6 +75,8 @@ export class SampleNetworkedPlayer extends Behaviour {
             else
                 this.gameObject.translateOnAxis(vecToGoal.normalize(), distanceToTravel);
 
+            const reactOnHover = input.getIsMouse(0);
+
             // save pointer position on pointer down
             if(input.getPointerDown(0)) {
                 const pos = input.getPointerPosition(0);
@@ -91,13 +86,12 @@ export class SampleNetworkedPlayer extends Behaviour {
 
             // compare the pointer down and pointer up positions to determine if we clicked or dragged
             // and perform a raycast
-            if(input.getPointerUp(0) && cam) {
+            if((reactOnHover || input.getPointerUp(0)) && cam) {
                 const currPointerPos = input.getPointerPosition(0) || new Vector2();
-                if(currPointerPos.distanceTo(this.pointerPos) < 40) {   
-                    
-                    const results = physics.raycast(this.options);
-                    if(results.length > 0) {
-                        this.currentGoal = results[0].point;
+                if(currPointerPos.distanceTo(this.pointerPos) < 40 || reactOnHover) {   
+                    const result = physics.raycast();
+                    if(result) {
+                        this.currentGoal = result.point;
                     }
                 }
             }

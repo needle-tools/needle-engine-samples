@@ -13,7 +13,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @saveState = true;
 		public void OnEnable(){}
 		public void OnDisable(){}
-		public void recieveBuffer(object @receivedModel){}
 		public void sendBuffer(){}
 		public void deleteState(){}
 		public void awake(){}
