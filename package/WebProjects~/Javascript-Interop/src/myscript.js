@@ -1,16 +1,16 @@
-// START MARKER javascript interop external script
 import { NeedleEngine } from "@needle-tools/engine";
 
-// you can do the following to import exports from your package
-// this can be done from a javascript module file
-import { myJsInteropMethod, MyJsInteropSampleComponent } from "my-sample-package"
+import { ExampleManager, getRandomPower } from "javascript-interop";
 
-myJsInteropMethod();
+NeedleEngine.addContextCreatedCallback(() => {
+    const interactButton = document.getElementById("interact");
+    const manager = ExampleManager.instance;
 
-// We have to wait for Needle Engine to be ready
-// Otherwise the static instance migth not be assigned yet
-// Because it's a component :)
-NeedleEngine.addContextCreatedCallback(()=>{
-    MyJsInteropSampleComponent.instance.sampleMethod();
-})
-// END MARKER javascript interop external script
+    if(!interactButton) return;
+
+    interactButton.textContent = `Interact with ${manager.objects.length} objects`;
+    
+    interactButton.addEventListener("click", ()=>{
+        manager.interact(getRandomPower());
+    });
+});

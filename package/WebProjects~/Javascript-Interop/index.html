@@ -16,18 +16,17 @@
   <meta name="url" content="http://needle.tools">
 
   <link rel="stylesheet" href="./src/styles/style.css">
-  <script type="module">
-    import * as ext from "my-sample-package";
-    console.log("this is what the sample package exports", ext);
-  </script>
   <script type="module" src="./src/generated/gen.js"></script>
   <script type="module" src="./src/main.ts"></script>
   <script type="module" src="./src/myscript.js"></script>
 </head>
 
 <body>
-
-  <needle-engine></needle-engine>
+  <needle-engine>
+    <div class="controls-wrapper">
+      <button id="interact">Interact</button>
+    </div>
+  </needle-engine>
 </body>
 
 </html>
