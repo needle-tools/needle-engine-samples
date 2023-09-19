@@ -1,6 +1,7 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
+import { AspectRatioFitterUI } from "../AspectRatioFitterUI.js";
 import { Cannon } from "../Cannon.js";
 import { RandomColor } from "../ChangeColor.js";
 import { ChangeColorOnCollision } from "../ChangeColorOnCollision.js";
@@ -12,7 +13,6 @@ import { EnforceParameters } from "../EnforceParameters.js";
 import { HTMLButtonClick } from "../HTMLButtonEvent.js";
 import { IFrameContent } from "../IFrameContent.js";
 import { ImageTrackingDownloadUI } from "../ImageTrackingDownloadUI.js";
-import { LookAtCamera } from "../LookAtCamera.js";
 import { Networking_ClickToChangeColor } from "../Networking.js";
 import { Networking_StringArray } from "../Networking.js";
 import { Networking_Object } from "../Networking.js";
@@ -34,6 +34,7 @@ import { ResetPositionOnInterval } from "../VisibilitySamples.js";
 import { ToggleVisibility } from "../VisibilitySamples.js";
 
 // Register types
+TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
 TypeStore.add("Cannon", Cannon);
 TypeStore.add("RandomColor", RandomColor);
 TypeStore.add("ChangeColorOnCollision", ChangeColorOnCollision);
@@ -45,7 +46,6 @@ TypeStore.add("EnforceParameters", EnforceParameters);
 TypeStore.add("HTMLButtonClick", HTMLButtonClick);
 TypeStore.add("IFrameContent", IFrameContent);
 TypeStore.add("ImageTrackingDownloadUI", ImageTrackingDownloadUI);
-TypeStore.add("LookAtCamera", LookAtCamera);
 TypeStore.add("Networking_ClickToChangeColor", Networking_ClickToChangeColor);
 TypeStore.add("Networking_StringArray", Networking_StringArray);
 TypeStore.add("Networking_Object", Networking_Object);
