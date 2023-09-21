@@ -1,124 +1,67 @@
-// TODO: remove this and replace it with the @needle-tools/engine core SceneSwitcher
+// START MARKER SceneSwitcher event listener
+import { Animator, Behaviour, delay, ISceneEventListener, serializable } from "@needle-tools/engine";
 
-import { AssetReference, Behaviour, GameObject, serializeable, showBalloonMessage } from "@needle-tools/engine";
-import { InputEvents } from "@needle-tools/engine";
-import { getParam, isMobileDevice, setParamWithoutReload } from "@needle-tools/engine";
+/** Put this in the root of your loading scene. 
+ * It will be called by the SceneSwitcher when the scene has been loaded
+ * And before a scene is unloaded - you can implement your own listener by implementing the ISceneEventListener interface
+ * This example script creates a HTML loading screen with a logo in the center  
+ * and sets a boolean parameter on an animator while the scene is being loaded which can be used to hide and show the loading scene
+ * but also to animate some content while the scene is being loaded
+*/
+export class SceneRoot extends Behaviour implements ISceneEventListener {
 
-export abstract class BaseSceneSwitcher extends Behaviour {
+    @serializable(Animator)
+    animator?: Animator;
 
-    // This is abstract just so we can show off the difference for how to serialize Prefabs and Scenes
-    // See the two classes below this BaseSceneSwitcher class
-    abstract get sceneAssets(): AssetReference[] | undefined;
+    private _htmlElement?: HTMLElement;
 
-    private currentIndex: number = -1;
-    private currentScene: AssetReference | undefined = undefined;
+    async sceneOpened(): Promise<void> {
+        // We can notify an animator here to start playing a loading animation
+        this.animator?.setBool("SceneOpen", true);
 
-    start() {
-
-        if (isMobileDevice()) {
-            showBalloonMessage("Automatically switching between scenes on mobile every 5 seconds");
-            setInterval(() => this.selectNext(), 5000);
-        }
-        else {
-            setInterval(() => {
-                showBalloonMessage("Press \"a\" or \"d\" keys to switch between the scenes or use the numbers 1 2 3");
-            }, 3000);
-        }
-
-        this.context.input.addEventListener(InputEvents.KeyDown, (e: any) => {
-            if (!this.sceneAssets) return;
-            const key = e.key;
-            if (!key) return;
-            const index = parseInt(key) - 1;
-            if (index >= 0) {
-                if (index < this.sceneAssets.length) {
-                    this.select(index);
-                }
-            }
-            switch (e.key) {
-                case "d":
-                    this.selectNext();
-                    break;
-                case "a":
-                    this.selectPrev();
-                    break;
-            }
-        });
-
-        // try restore the level from the url
-        const level = getParam("level");
-        if (typeof level === "string") {
-            const index = parseInt(level as string);
-            this.select(index);
-        }
-        else if (typeof level === "number") {
-            this.select(level);
-        }
-        else {
-            this.select(0);
-        }
+        this._htmlElement = this._getHtmlElement();
+        this.context.domElement.appendChild(this._htmlElement);
+        // you can also add it behind your scene (make sure your camera is set to SolidColor with transparent alpha)
+        // this.context.domElement.parentElement?.prepend(this._htmlElement);
     }
 
-    selectNext() {
-        this.select(this.currentIndex + 1);
+    async sceneClosing(): Promise<void> {
+        // Not necessary, just so that the loading scene is visible for some time
+        await delay(1000);
+        // We then tell an animator that loading has finished
+        this.animator?.setBool("SceneOpen", false);
+        // Some arbitrary delay
+        await delay(1000);
+        // Make sure to remove your HTML overlay
+        this._htmlElement?.remove();
     }
 
-    selectPrev() {
-        this.select(this.currentIndex - 1);
-    }
-
-    select(index: number) {
-        if (!this.sceneAssets?.length) return;
-        if (index < 0) index = this.sceneAssets.length - 1;
-        if (index >= this.sceneAssets.length) index = 0;
-        const scene = this.sceneAssets[index];
-        this.switchScene(scene);
-    }
-
-    async switchScene(scene: AssetReference) {
-        if (scene === this.currentScene) return;
-        if (this.currentScene)
-            GameObject.remove(this.currentScene.asset);
-        const index = this.currentIndex = this.sceneAssets?.indexOf(scene) ?? -1;
-        this.currentScene = scene;
-        await scene.loadAssetAsync();
-        if (!scene.asset) return;
-        if (this.currentIndex === index) {
-            showBalloonMessage(`Switched to scene ${index + 1}`);
-            GameObject.add(scene.asset, this.gameObject);
-            // save the loaded level as an url parameter
-            setParamWithoutReload("level", index.toString());
+    private _getHtmlElement() {
+        if (!this._htmlElement) {
+            // Instead of creating an HTML element here in code you could also query an existing element from the DOM
+            // for example using this._htmlElement = document.querySelector("#scene-loading-screen")
+            // and then setting this element active/adding or removing it from the DOM
+            this._htmlElement = document.createElement("div");
+            this._htmlElement.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                // backdrop-filter: blur(10px);
+            `;
+            const logo = document.createElement("img");
+            logo.src = "https://engine.needle.tools/branding/needle-logo.png";
+            // logo.style.cssText = `
+            //     width: 50%;
+            //     height: auto;
+            // `;
+            this._htmlElement.appendChild(logo);
         }
+        return this._htmlElement;
     }
 }
-
-/** switcher using prefabs (you can assign Prefabs in Unity to the scenes array ) */
-//@type UnityEngine.MonoBehaviour
-export class PrefabSceneSwitcherSample extends BaseSceneSwitcher {
-
-    get sceneAssets(): AssetReference[] | undefined {
-        return this.scenes;
-    }
-
-    @serializeable(AssetReference)
-    scenes?: AssetReference[];
-
-}
-
-
-/** Implementation that tells the componnet compiler to generate a SceneAsset array
- * (you can assign Scenes in Unity to the scenes array)
- * 
- */
-//@type UnityEngine.MonoBehaviour
-export class SceneSwitcherSample extends BaseSceneSwitcher {
-
-    get sceneAssets(): AssetReference[] | undefined {
-        return this.scenes;
-    }
-
-    //@type UnityEditor.SceneAsset[]
-    @serializeable(AssetReference)
-    scenes?: AssetReference[];
-
-}
+// END MARKER SceneSwitcher event listener
