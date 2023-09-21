@@ -1,4 +1,4 @@
-import { Behaviour, Rigidbody, randomNumber, serializable, showBalloonMessage } from "@needle-tools/engine";
+import { Behaviour, Mathf, Rigidbody, WaitForSeconds, randomNumber, serializable, showBalloonMessage } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
 export class ExampleManager extends Behaviour {
@@ -14,6 +14,12 @@ export class ExampleManager extends Behaviour {
     constructor() {
         super();
         ExampleManager._instance = this;
+
+        // @ts-ignore
+        const ui = window.UI;
+        if(ui.interactButton instanceof HTMLElement) {
+            ui.interactButton.onclick = () => { console.log("Needle has used the UI Object to get the button reference!"); };
+        }
     }
 
     private tempVec = new Vector3(0, 0, 0);
@@ -29,7 +35,6 @@ export class ExampleManager extends Behaviour {
             obj.setAngularVelocity(this.calculateVector(power));
         });
     }
-
 }
 
 // this method is exported inside the package.json main file

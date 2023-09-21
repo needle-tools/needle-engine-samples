@@ -1,0 +1,83 @@
+
+> my-project@1.0.0 build:production
+> npm run build:dev && npm run gltf:transform
+
+
+> my-project@1.0.0 build:dev
+> vite build
+
+▲ [WARNING] "sample" is not a valid value for the "type" field [package.json]
+
+    ../../package.json:5:10:
+      5 │   "type": "sample",
+        ╵           ~~~~~~~~
+
+  The "type" field must be set to either "commonjs" or "module".
+
+[needle-alias] ProjectDirectory: D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration/
+[36mvite v3.2.6 [32mbuilding for production...[36m[39m
+[needle-copy-files] - Copy engine include to D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration/include
+Needle Engine version: 3.18.0
+transforming...
+Applying license: pro
+[32m✓[39m 382 modules transformed.
+rendering chunks...
+[90m[37m[2mdist/[22m[90m[39m[32massets/favicon.8d99ceea.ico                    [39m [2m14.73 KiB[22m
+[90m[37m[2mdist/[22m[90m[39m[32mindex.html                                     [39m [2m1.63 KiB[22m
+[90m[37m[2mdist/[22m[90m[39m[36massets/GLTFLoaderAnimationPointer.d4a6e29a.js  [39m [2m7.95 KiB / gzip: 2.69 KiB[22m
+[90m[37m[2mdist/[22m[90m[39m[36massets/index.c15f09c3.js                       [39m [2m9.28 KiB / gzip: 2.43 KiB[22m
+[90m[37m[2mdist/[22m[90m[39m[35massets/index.73528100.css                      [39m [2m1.60 KiB / gzip: 0.75 KiB[22m
+[90m[37m[2mdist/[22m[90m[39m[36massets/index.8b200335.js                       [39m [33m4370.47 KiB / gzip: 1428.57 KiB[39m
+[33m
+(!) Some chunks are larger than 500 KiB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/guide/en/#outputmanualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[needle-copy-files] - Copy engine include to D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration/include
+[needle-copy-files] - Copy assets to dist/assets
+[needle-copy-files] - Copy include to dist/include
+
+✨ [vite-plugin-compression]:algorithm=gzip - compressed file successfully: 
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/assets/index.73528100.css.gz                           1.60kb / gzip: 0.75kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/assets/GLTFLoaderAnimationPointer.d4a6e29a.js.gz       7.95kb / gzip: 2.69kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/assets/index.c15f09c3.js.gz                            9.28kb / gzip: 2.43kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/include/three/ARButton.js.gz                           5.76kb / gzip: 1.86kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/index.html.gz                                          1.64kb / gzip: 0.67kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/include/three/DragControls.js.gz                       6.25kb / gzip: 1.24kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/include/three/EXT_mesh_gpu_instancing_exporter.js.gz   1.51kb / gzip: 0.65kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/include/draco/draco_wasm_wrapper.js.gz                 57.50kb / gzip: 11.54kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/include/three/VRButton.js.gz                           4.21kb / gzip: 1.48kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/include/ktx2/basis_transcoder.js.gz                    60.90kb / gzip: 15.37kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/include/draco/draco_decoder.js.gz                      702.58kb / gzip: 143.83kb
+dist/D:/Needle/needle-engine-dev/modules/needle-engine-samples/package/WebProjects~/FrontendIntegration/assets/index.8b200335.js.gz                            4370.48kb / gzip: 1425.69kb
+
+
+
+> my-project@1.0.0 gltf:transform
+> npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline
+
+
+> @needle-tools/gltf-build-pipeline@1.1.0 transform
+> node index.mjs
+
+INFO: Run progressive transform: C:\Program Files\nodejs\node.exe,D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration\node_modules\@needle-tools\gltf-build-pipeline\make-progressive.mjs
+INFO: Using build directory from needle.config.json: dist
+INFO: Resolved path: dist -> D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration/dist
+Make progressive: D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration/dist/assets/sceneRoot.glb
+textureResize: Skipping, no settings found
+textureResize: Skipping, unsupported texture type "image/exr".
+Progressive transform finished in 0.0 sec.
+INFO: Using build directory from needle.config.json: dist
+INFO: Resolved path: dist -> D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration/dist
+→ Begin packing: D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration/dist/assets/sceneRoot.glb
+toktx: Found KTX-Software v4.1.0-rc3.
+> Using cached texture Default-Checker-Gray [0] – 1 KB
+prune: No unused properties found.
+prune: Complete.
+dedup: Found 0 duplicates among 17 accessors.
+dedup: Complete.
+dedup: Complete.
+weld: Complete.
+[KHR_draco_mesh_compression] Compression options: {"method":1,"encodeSpeed":5,"decodeSpeed":5,"quantizationBits":{"POSITION":14,"NORMAL":10,"COLOR":8,"TEX_COORD":12,"GENERIC":12},"quantizationVolume":"mesh"}
+[KHR_draco_mesh_compression] Compressed 3 primitives.
+← Compressing done in 0.1 sec, 0.1 MB → 0.1 MB (GPU: 0.0 MB textures): sceneRoot.glb at D:\Needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\FrontendIntegration/dist/assets/sceneRoot.glb

@@ -619,7 +619,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1472726469}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &291167153
 GameObject:
@@ -1084,7 +1084,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1472726469}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &445075139
 MonoBehaviour:
@@ -1348,7 +1348,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1472726469}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &706762907
 MonoBehaviour:
@@ -1460,11 +1460,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986a3a93ac16ec0428d8989979ec0966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-9418790b34c9f884d99dec74061b32fb-784234923-0
-  DirectoryName: Packages/com.needle.engine-samples/WebProjects~/Javascript-Interop
+  DirectoryName: Packages/com.needle.engine-samples/WebProjects~/FrontendIntegration
+  RemoteUrl: 
   AutoExport: 1
   Dependencies:
-  - Name: javascript-interop
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Javascript-Interop/Needle.Samples.JavascriptInterop.npmdef
+  - Name: frontend-integration
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/FrontendIntegration/Needle.Samples.FrontendIntegration.npmdef
     Guid: ce524f0a82e6a774888f8833f267876a
 --- !u!4 &784234924
 Transform:
@@ -1494,7 +1495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-9418790b34c9f884d99dec74061b32fb-784234925-0
-  compilerDirectory: Packages/com.needle.engine-samples/WebProjects~/Javascript-Interop/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Packages/com.needle.engine-samples/WebProjects~/FrontendIntegration/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &784234927
 MonoBehaviour:
@@ -1510,7 +1511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-9418790b34c9f884d99dec74061b32fb-784234927-0
   FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /Javascript-Interop
+  Path: /frontend-integration
   OverrideGzipCompression: 1
   UseGzipCompression: 0
 --- !u!114 &784234928
@@ -1526,59 +1527,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-9418790b34c9f884d99dec74061b32fb-784234928-0
   meta:
-    title: JavaScript Interop
+    title: Frontend Integration
     description: Communication between Needle Engine and external javascript
-    image: {fileID: 2800000, guid: 8ebe60f41bef6c548aa6fd250cc246cd, type: 3}
---- !u!1 &806518225
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 806518227}
-  - component: {fileID: 806518226}
-  m_Layer: 0
-  m_Name: Grid
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &806518226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806518225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9ba56a0a7b775340a115f4c712abd91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.GridHelper, Needle.Engine $ GlobalObjectId_V1-2-49068307165cdb346a242c48a6528235-806518226-0
-  isGizmo: 0
-  size: 10
-  divisions: 10
-  offset: -0.001
-  color0: {r: 0.25, g: 0.25, b: 0.25, a: 1}
-  color1: {r: 0.18, g: 0.18, b: 0.18, a: 1}
---- !u!4 &806518227
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806518225}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1472726469}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+    image: {fileID: 2800000, guid: fdd46bf5a8a3bd6418446ba9029b8429, type: 3}
 --- !u!1 &897068980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,6 +1644,104 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897068980}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &954992305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 954992306}
+  - component: {fileID: 954992309}
+  - component: {fileID: 954992308}
+  - component: {fileID: 954992307}
+  m_Layer: 0
+  m_Name: Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &954992306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954992305}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.8485844, y: 3.8485844, z: 3.8485844}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1472726469}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &954992307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954992305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e821103f3bbad7e4aafb1f92fb077a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.ShadowCatcher, Needle.Engine
+  mode: 0
+  shadowColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!23 &954992308
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954992305}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 26ff8c4b7896bac4a8b87c1336ea2263, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &954992309
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954992305}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1034403046
 GameObject:
   m_ObjectHideFlags: 0
@@ -2267,12 +2316,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 806518227}
   - {fileID: 706762906}
   - {fileID: 284856215}
   - {fileID: 1609064307}
   - {fileID: 1691608572}
   - {fileID: 445075138}
+  - {fileID: 954992306}
   m_Father: {fileID: 1597275518}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2479,6 +2528,7 @@ GameObject:
   - component: {fileID: 1609064307}
   - component: {fileID: 1609064306}
   - component: {fileID: 1609064308}
+  - component: {fileID: 1609064309}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -2555,13 +2605,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609064305}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 2.39, z: -3.31}
+  m_LocalRotation: {x: -0.5293009, y: 0.32023317, z: -0.22525373, w: -0.7526965}
+  m_LocalPosition: {x: 9.024411, y: 37.56332, z: -8.651607}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1472726469}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1609064308
 MonoBehaviour:
@@ -2584,6 +2634,25 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!114 &1609064309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609064305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0929a0e2816040a49b0d2f687e715e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.LightShadowData, Needle.Engine
+  shadowWidth: 30
+  shadowHeight: 30
+  shadowDistance: 60
+  shadowResolution: 2048
+  shadowBias: 0.00001
+  shadowNormalBias: 0.015
+  _overrideShadowBiasSettings: 1
 --- !u!1 &1625479154
 GameObject:
   m_ObjectHideFlags: 0
@@ -2733,7 +2802,7 @@ Transform:
   - {fileID: 343467440}
   - {fileID: 2039879956}
   m_Father: {fileID: 1472726469}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1810012772
 GameObject:

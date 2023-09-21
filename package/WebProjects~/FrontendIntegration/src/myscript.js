@@ -1,9 +1,14 @@
 import { NeedleEngine } from "@needle-tools/engine";
 
-import { ExampleManager, getRandomPower } from "javascript-interop";
+import { ExampleManager, getRandomPower } from "frontend-integration";
+
+const interactButton = document.getElementById("interact");
+
+window.UI = {
+    interactButton: interactButton
+};
 
 NeedleEngine.addContextCreatedCallback(() => {
-    const interactButton = document.getElementById("interact");
     const manager = ExampleManager.instance;
 
     if(!interactButton) return;

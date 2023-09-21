@@ -76,9 +76,12 @@ needle-engine.presentation-mode .hide-in-presentation {
 }
 
 .controls-wrapper {
+    width: calc(100% - 100px);
+    height: calc(100% - 100px);
     display: flex;
     justify-content: center;
-    padding-top: 1em;
+    align-items: flex-end;
+    padding: 50px;
 }
 
 #interact, button {
@@ -89,23 +92,17 @@ needle-engine.presentation-mode .hide-in-presentation {
     box-sizing: border-box;
     outline: 10px;
     color: #FFFFFF;
-    /* display: flex; */
-    /* font-family: Phantomsans, sans-serif; */
     font-size: 20px;
-    /* justify-content: center; */
     line-height: 1em;
     max-width: 100%;
     min-width: 140px;
     padding: 19px 24px;
     text-decoration: none;
-    /* user-select: none; */
-    /* -webkit-user-select: none; */
-    /* touch-action: manipulation; */
-    /* white-space: nowrap; */
-    /* cursor: pointer; */
     filter: brightness(100%);
+    overflow: hidden;
 
     transition: filter 0.15s ease-in-out;
+    cursor: pointer;
 }
 
 #interact:hover {
@@ -113,5 +110,5 @@ needle-engine.presentation-mode .hide-in-presentation {
 }
 
 #interact:active {
-    filter: brightness(90%)
+    filter: brightness(90%);
 }
