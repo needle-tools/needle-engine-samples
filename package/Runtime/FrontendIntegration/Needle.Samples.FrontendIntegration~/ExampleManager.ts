@@ -1,43 +1,60 @@
 import { Behaviour, Mathf, Rigidbody, WaitForSeconds, randomNumber, serializable, showBalloonMessage } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
+// This class is a Behaviour, which means it can be attached to a GameObject
+// and has a lifecycle (onEnable, start, onDisable, update, lateUpdate etc.)
 export class ExampleManager extends Behaviour {
 
+    // These references can be set inside the Editor integration
     @serializable(Rigidbody)
     objects: Rigidbody[] = [];
 
-    static get instance() {
-        return this._instance;
+    private ui?: HTMLElement;
+    setReferenceToHTMLElement(element: HTMLElement) {
+        // We now have a reference to the button, and can listen to events, modify it directly, keep it for later, etc.
+        // "HTMLElement" is a type that comes from the browser, not from Needle Engine.
+        this.ui = element;
+
+        // Register to events on the HTML element
+        this.ui.addEventListener("pointerover", () => {
+            console.log("Hovered over the element!");
+        });
     }
-    private static _instance: ExampleManager;
 
-    constructor() {
-        super();
-        ExampleManager._instance = this;
+    interact(power: number) {
+        // Apply a force to all objects based on where they are
+        this.objects.forEach(obj => {
+            obj.setVelocity(this.getRandomUnitVector(power));
+            obj.setAngularVelocity(this.getRandomUnitVector(power));
+        });
 
-        // @ts-ignore
-        const ui = window.UI;
-        if(ui.interactButton instanceof HTMLElement) {
-            ui.interactButton.onclick = () => { console.log("Needle has used the UI Object to get the button reference!"); };
-        }
+        // Approach 1: We can directly modify the HTML element from here, e.g. add a class
+        this.ui?.classList.add("active");
+        setTimeout(() => {
+            // we remove the class again after some delay
+            this.ui?.classList.remove("active");
+        }, 500);
+
+        // Approach 2: We can dispatch an event that other code can listen to
+        this.dispatchEvent(new CustomEvent("interact", {
+            detail: {
+                objects: this.objects 
+            } 
+        }));
     }
 
     private tempVec = new Vector3(0, 0, 0);
-    private calculateVector(power: number): Vector3 {
-        this.tempVec.set(randomNumber(-1, 1), randomNumber(-1, 1), randomNumber(-1, 1)); //create a random unit vector
+    private getRandomUnitVector(power: number): Vector3 {
+        // create a random unit vector
+        this.tempVec.set(randomNumber(-1, 1), randomNumber(-1, 1), randomNumber(-1, 1)); 
         this.tempVec.normalize();
-        this.tempVec.multiplyScalar(power); //multiply by power
+        // multiply by power
+        this.tempVec.multiplyScalar(power);
         return this.tempVec;
-    }
-    interact(power: number) {
-        this.objects.forEach(obj => {
-            obj.setVelocity(this.calculateVector(power));
-            obj.setAngularVelocity(this.calculateVector(power));
-        });
     }
 }
 
-// this method is exported inside the package.json main file
+// This method is exported so that it can be used by other scripts
 export function getRandomPower() {
     return randomNumber(1, 10);
 }

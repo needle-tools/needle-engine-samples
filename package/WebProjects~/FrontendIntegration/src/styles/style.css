@@ -75,13 +75,12 @@ needle-engine.presentation-mode .hide-in-presentation {
     display: none !important;
 }
 
-.controls-wrapper {
-    width: calc(100% - 100px);
-    height: calc(100% - 100px);
+.align-to-bottom {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
-    padding: 50px;
+    bottom: 50px;
+    position: absolute;
+    width: 100%;
 }
 
 #interact, button {
@@ -101,7 +100,7 @@ needle-engine.presentation-mode .hide-in-presentation {
     filter: brightness(100%);
     overflow: hidden;
 
-    transition: filter 0.15s ease-in-out;
+    transition: filter 0.15s ease-in-out, transform 0.15s ease-in-out;
     cursor: pointer;
 }
 
@@ -111,4 +110,8 @@ needle-engine.presentation-mode .hide-in-presentation {
 
 #interact:active {
     filter: brightness(90%);
+}
+
+#interact.active {
+    transform: scale(1.3);
 }

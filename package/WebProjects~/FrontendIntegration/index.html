@@ -17,13 +17,70 @@
 
   <link rel="stylesheet" href="./src/styles/style.css">
   <script type="module" src="./src/generated/gen.js"></script>
-  <script type="module" src="./src/main.ts"></script>
-  <script type="module" src="./src/myscript.js"></script>
+
+  <script type="module" lang="ts">
+    import "@needle-tools/engine";
+    
+    // Import components, types, methods from the Needle Engine core
+    import { GameObject, NeedleEngine } from "@needle-tools/engine";
+
+    // Import components, types, methods from packages in your project ("NpmDefs" in Needle Engine)
+    import { ExampleManager, getRandomPower } from "frontend-integration";
+
+    // This sample shows communication between the DOM (HTML) and the scene (Needle Engine) in both directions.
+    // In a typical application, you'd probably want to keep responsibilities in one place - e.g. the UI components
+    // should either be modified from here, or from inside the ExampleManager component, to keep things clean.
+
+    NeedleEngine.addContextCreatedCallback(evt => {
+        // Find our manager object in the scene
+        const manager = GameObject.findObjectOfType(ExampleManager, evt.context);
+        
+        // Find our HTML button in the document ("DOM")
+        const interactButton = document.getElementById("interact");
+
+        // We can adjust HTML elements directly
+        interactButton.textContent = `Interact with ${manager.objects.length} objects`;
+        
+        // We can set up event listeners on HTML elements to notify scene objects.
+        // The 'click' event is dispatched by the browser when the button gets clicked.
+        interactButton.addEventListener("click", () => {
+            // We can also call methods that are exported from our scene components
+            const randomPower = getRandomPower();
+
+            // Call a method on a specific object in the scene
+            manager.interact(randomPower);
+        });
+
+        // ... and the other way around, we can set up event listeners on scene objects to adjust the UI
+        // The 'interact' event is dispatched by the manager object when objects get interacted with – see ExampleManager.ts
+        manager.addEventListener("interact", evt => {
+            // We can pass data back here, in this case we get a list of all objects that were interacted with
+            const interactedWithObjects = evt.detail.objects;
+
+            // do something in the DOM
+            interactButton.textContent = `Move!`;
+            
+            // Log something (useful for debugging)
+            console.log("Interacted with", interactedWithObjects);
+
+            // Wait a moment and reset our button text
+            setTimeout(() => {
+                interactButton.textContent = `Interact with ${manager.objects.length} objects`;
+            }, 500);
+        });
+
+        // We can also pass a reference to our HTML elements to scene objects,
+        // in case they want to modify them directly.
+        manager.setReferenceToHTMLElement(interactButton);
+    });
+  </script>
 </head>
 
 <body>
+  <!-- The needle-engine element. Your scene is rendered into this. -->
   <needle-engine>
-    <div class="controls-wrapper">
+    <div class="align-to-bottom">
+      <!-- A UI element in the document. The "id" attribute makes it accessible from code. -->
       <button id="interact">Interact</button>
     </div>
   </needle-engine>
