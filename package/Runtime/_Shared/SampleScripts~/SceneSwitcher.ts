@@ -1,5 +1,5 @@
-// START MARKER SceneSwitcher event listener
-import { Animator, Behaviour, delay, ISceneEventListener, serializable } from "@needle-tools/engine";
+// START MARKER SceneSwitcher event listener loading
+import { Animator, Behaviour, delay, EventList, ISceneEventListener, isDevEnvironment, serializable, showBalloonError } from "@needle-tools/engine";
 
 /** Put this in the root of your loading scene. 
  * It will be called by the SceneSwitcher when the scene has been loaded
@@ -8,7 +8,7 @@ import { Animator, Behaviour, delay, ISceneEventListener, serializable } from "@
  * and sets a boolean parameter on an animator while the scene is being loaded which can be used to hide and show the loading scene
  * but also to animate some content while the scene is being loaded
 */
-export class SceneRoot extends Behaviour implements ISceneEventListener {
+export class LoadingSceneRoot extends Behaviour implements ISceneEventListener {
 
     @serializable(Animator)
     animator?: Animator;
@@ -64,4 +64,29 @@ export class SceneRoot extends Behaviour implements ISceneEventListener {
         return this._htmlElement;
     }
 }
-// END MARKER SceneSwitcher event listener
+// END MARKER SceneSwitcher event listener loading
+
+
+
+
+/** Called by the SceneSwitcher if this component is found on a root scene object */
+export class SceneLoadingEvents extends Behaviour implements ISceneEventListener {
+
+    @serializable(EventList)
+    opened?: EventList;
+
+    @serializable(EventList)
+    closing?: EventList;
+
+    sceneOpened(): Promise<void> {
+        if (isDevEnvironment()) console.log("Scene opened", this.name);
+        this.opened?.invoke();
+        return Promise.resolve();
+    }
+
+    sceneClosing(): Promise<void> {
+        if (isDevEnvironment()) console.log("Scene closing", this.name);
+        this.closing?.invoke();
+        return Promise.resolve();
+    }
+}

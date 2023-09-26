@@ -5,7 +5,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class SceneRoot : UnityEngine.MonoBehaviour
+	public partial class LoadingSceneRoot : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.Animator @animator;
 		public void sceneOpened(){}
