@@ -39,15 +39,15 @@
         const interactButton = document.getElementById("interact");
 
         // We can adjust HTML elements directly
-        interactButton.textContent = `Interact with ${manager.objects.length} objects`;
+        interactButton.textContent = `Interact with ${manager.objectsCount} objects`;
         
         // We can set up event listeners on HTML elements to notify scene objects.
         // The 'click' event is dispatched by the browser when the button gets clicked.
         interactButton.addEventListener("click", () => {
 
             // We can adjust HTML elements directly
-            interactButton.textContent = `Interact with ${manager.objects.length} objects`;
-            
+            interactButton.textContent = `Interact with ${manager.objectsCount} objects`;
+
             // We can also call methods that are exported from our scene components
             const randomPower = getRandomPower();
 
@@ -69,7 +69,7 @@
 
             // Wait a moment and reset our button text
             setTimeout(() => {
-                interactButton.textContent = `Interact with ${manager.objects.length} objects`;
+                interactButton.textContent = `Interact with ${manager.objectsCount} objects`;
             }, 500);
         });
 
