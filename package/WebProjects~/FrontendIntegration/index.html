@@ -44,6 +44,10 @@
         // We can set up event listeners on HTML elements to notify scene objects.
         // The 'click' event is dispatched by the browser when the button gets clicked.
         interactButton.addEventListener("click", () => {
+
+            // We can adjust HTML elements directly
+            interactButton.textContent = `Interact with ${manager.objects.length} objects`;
+            
             // We can also call methods that are exported from our scene components
             const randomPower = getRandomPower();
 

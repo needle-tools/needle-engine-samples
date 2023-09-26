@@ -5,9 +5,13 @@ import { Vector3 } from "three";
 // and has a lifecycle (onEnable, start, onDisable, update, lateUpdate etc.)
 export class ExampleManager extends Behaviour {
 
-    // These references can be set inside the Editor integration
-    @serializable(Rigidbody)
-    objects: Rigidbody[] = [];
+    private objects: Rigidbody[] = [];
+
+    get objectsCount() { return this.objects.length; }
+
+    awake(){
+        this.objects = this.gameObject.getComponentsInChildren(Rigidbody);
+    }
 
     private ui?: HTMLElement;
     setReferenceToHTMLElement(element: HTMLElement) {
@@ -22,6 +26,7 @@ export class ExampleManager extends Behaviour {
     }
 
     interact(power: number) {
+        this.objects = this.gameObject.getComponentsInChildren(Rigidbody);
         // Apply a force to all objects based on where they are
         this.objects.forEach(obj => {
             obj.setVelocity(this.getRandomUnitVector(power));

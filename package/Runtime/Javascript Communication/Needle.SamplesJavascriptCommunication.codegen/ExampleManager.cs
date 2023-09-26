@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class ExampleManager : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Rigidbody[] @objects = new UnityEngine.Rigidbody[]{ };
+		public void awake(){}
 		public void setReferenceToHTMLElement(object @element){}
 		public void interact(float @power){}
 	}
