@@ -14,10 +14,10 @@ export class PlayerStateUI extends Behaviour {
         if(this.playerState.hasOwner)
             this.updateLabel();
         else 
-            this.playerState.onFirstOwnerChangeEvent.addEventListener(() => this.updateLabel());
+            this.playerState.onFirstOwnerChangeEvent.addEventListener(this.updateLabel);
     }
 
-    updateLabel() {
+    private updateLabel = () => {
         if(this.label && this.playerState) {
             this.label.text = `${this.playerState.owner!}\n${this.playerState.isLocalPlayer ? "<color=#ff715e>Local</color>" : "Remote"}`;
         }

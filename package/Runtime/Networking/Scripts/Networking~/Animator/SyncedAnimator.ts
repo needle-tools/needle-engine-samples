@@ -11,6 +11,7 @@ export class SyncedAnimator extends Behaviour {
     private syncedAnimGuid: string | null = null;
     // @nonSerialized
     set SyncedAnimGuid(value: string) { 
+        this.unregisterNetMessage();
         this.syncedAnimGuid = value;
         this.registerNetMessage();
     }
@@ -52,21 +53,15 @@ export class SyncedAnimator extends Behaviour {
     }
 
     // register to room events
-    private onModelRecievedFn: Function | null = null;
-
-    private registerNetMessage() { 
-        // unregister
-        if(this.onModelRecievedFn) { 
-            this.context.connection.stopListen(this.syncedAnimGuid!, this.onModelRecievedFn);
-        }
-        // register
-        this.onModelRecievedFn = this.context.connection.beginListen(this.syncedAnimGuid!, this.modelRecieved.bind(this));
+    private registerNetMessage() {
+        this.context.connection.beginListen(this.syncedAnimGuid!, this.modelRecieved);
+    }
+    private unregisterNetMessage() { 
+        this.context.connection.stopListen(this.syncedAnimGuid!, this.modelRecieved);
     }
 
     onDestroy() {
-        if(this.onModelRecievedFn) {
-            this.context.connection.stopListen(this.syncedAnimGuid!, this.onModelRecievedFn);
-        }
+        this.unregisterNetMessage();
     }
 
     // property used in Prefixed onBeforeRender to exclude SyncedAnimator's onBeforeRender call.
@@ -165,7 +160,7 @@ export class SyncedAnimator extends Behaviour {
      * Called when a model is recieved from the server.
      * It drives the animator based on the provided model.
     */
-    private modelRecieved(data: SyncedAnimator_Model) {
+    private modelRecieved = (data: SyncedAnimator_Model) => {
         if (!this.animator) return;
         if (debug) console.log(`${this.context.time.time.toFixed(2)} SyncAnimator incoming message`);
 

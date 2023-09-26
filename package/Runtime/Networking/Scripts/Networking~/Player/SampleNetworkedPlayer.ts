@@ -27,10 +27,10 @@ export class SampleNetworkedPlayer extends Behaviour {
         if(this.playerState.hasOwner)
             this.initialize();
         else
-            this.playerState.onFirstOwnerChangeEvent.addEventListener(() => { this.initialize(); });
+            this.playerState.onFirstOwnerChangeEvent.addEventListener(this.initialize);
     }
 
-    initialize() {
+    initialize = () => {
         if(!this.playerState || !this.mainRenderer) {
             return;
         }

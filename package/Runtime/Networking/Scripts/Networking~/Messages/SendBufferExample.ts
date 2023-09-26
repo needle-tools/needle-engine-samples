@@ -28,7 +28,7 @@ export class SendBufferExample extends Behaviour {
     onEnable() {
         this.context.connection.beginListenBinary(msgId, this.recieveBuffer); 
     }
-
+    
     onDisable() {
         this.context.connection.stopListenBinary(msgId, this.recieveBuffer);
     }

@@ -10,7 +10,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public Needle.Engine.Components.PlayerState @playerState;
 		public UnityEngine.UI.Text @label;
 		public void start(){}
-		public void updateLabel(){}
 	}
 }
 
