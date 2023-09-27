@@ -7,8 +7,9 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Cannon : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform @prefab;
+		public UnityEngine.GameObject @prefab;
 		public UnityEngine.AudioSource @audioSource;
+		public float @strength = 10f;
 		public void start(){}
 		public void update(){}
 	}
