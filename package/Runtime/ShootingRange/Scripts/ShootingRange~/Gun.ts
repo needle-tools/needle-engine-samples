@@ -7,7 +7,7 @@ import { Target } from "./Target";
 const debug = getParam("debugfps");
 
 class GunEffects {
-    
+
     @serializable(AudioSource)
     fireSound?: AudioSource;
 
@@ -25,13 +25,13 @@ class GunEffects {
 }
 
 class GunStats {
-    
+
     @serializable()
     fireRate: number = 0.1;
 }
 
 class GunReferences {
-    
+
     // refrences - physics
     @serializable(Object3D)
     raycastReference?: Object3D;
@@ -47,7 +47,7 @@ class GunAnimation {
 
     @serializable()
     fireAnimation: string = "Fire";
-} 
+}
 
 
 export enum GunInputEnum {
@@ -60,16 +60,16 @@ export enum GunInputEnum {
 export class Gun extends Behaviour {
 
     @serializable(GunEffects)
-    effects! : GunEffects;
+    effects!: GunEffects;
 
     @serializable(GunStats)
-    stats! : GunStats;
+    stats!: GunStats;
 
     @serializable(GunReferences)
-    references! : GunReferences;
+    references!: GunReferences;
 
     @serializable(GunAnimation)
-    animation! : GunAnimation;
+    animation!: GunAnimation;
 
     @serializable()
     vrHideControllers: boolean = true;
@@ -88,34 +88,28 @@ export class Gun extends Behaviour {
 
     // input
     @serializable()
-    gunInput: GunInputEnum = 0; 
-
-/*  @serializable(Object3D)
-    bobRoot?: Object3D;
-
-    @serializable()
-    bobAmount: number = 0.1; */
+    gunInput: GunInputEnum = 0;
 
     // reporting events 
     @serializable(EventList)
     onHitTarget!: EventList;
-    
+
     @serializable(EventList)
     onMiss!: EventList;
-    
+
     private lastPosition = new Vector3(0, 0, 0);
     private currentPosition = new Vector3(0, 0, 0);
-    
+
     private characterGunPosition = new Vector3(0, 0, 0);
     private characterGunRotation = new Quaternion(0, 0, 0, 1);
-    
+
     // raycast
     private raycastWorldDirection = new Vector3();
     private raycastWorldOrigin = new Vector3();
     private isVR: boolean = false;
-    
+
     private parentOnStart?: Object3D;
-    private webXR? : WebXR;
+    private webXR?: WebXR;
 
     awake() {
         this.gameObject.getWorldPosition(this.lastPosition);
@@ -130,14 +124,14 @@ export class Gun extends Behaviour {
     }
 
     update(): void {
-        if(this.webXR && this.isVR !== this.webXR.IsInVR) {
+        if (this.webXR && this.isVR !== this.webXR.IsInVR) {
             this.isVR = this.webXR.IsInVR;
             this.onVRChanged(this.isVR);
         }
     }
     onBeforeRender(): void {
 
-        if(this.references.raycastReference) {
+        if (this.references.raycastReference) {
 
             this.references.raycastReference.getWorldPosition(this.raycastWorldOrigin);
             this.references.raycastReference.getWorldDirection(this.raycastWorldDirection);
@@ -145,27 +139,29 @@ export class Gun extends Behaviour {
 
         let wPos = new Vector3();
         this.gameObject.getWorldPosition(wPos);
-        
-        if(this.webXR) {
-            
+
+        if (this.webXR) {
+
             const isLeftHand = this.gunInput == GunInputEnum.Left;
             const controller = isLeftHand ? this.webXR.LeftController : this.webXR.RightController;
 
-            if(this.isVR && controller != null) {
+            if (this.isVR && controller != null) {
 
-                controller.controller.getWorldQuaternion(this.gameObject.quaternion);
                 controller.controller.getWorldPosition(this.gameObject.position);
-                //controller.controller.getWorldScale(this.gameObject.scale);
-
+                this.gameObject.quaternion.copy(controller.rayRotation);
+                
                 this.gameObject.rotateY(Math.PI); // ugly, but FWD is inverted
+                
+                if(controller.hand.visible) {
+                    this.gameObject.rotateZ(Math.PI); 
+                }
 
-                if(controller.isUsingHands)
-                {
+                if (controller.isUsingHands) {
                     const negate = isLeftHand ? 1 : -1;
                     this.gameObject.rotateZ(Math.PI * 0.5 * negate);
                 }
-    
-                if(controller.selectionDown) {
+
+                if (controller.selectionDown) {
                     this.fire();
                 }
             }
@@ -174,22 +170,20 @@ export class Gun extends Behaviour {
 
     onVRChanged(isVR: boolean) {
 
-        if(!this.webXR)
+        if (!this.webXR)
             return;
 
-        console.log(`VR changed: ${isVR}`);
-
         this.gameObject.parent?.remove(this.gameObject);
-        if(isVR) //enter VR
+        if (isVR) //enter VR
         {
             this.webXR.Controllers.forEach(c => {
 
                 c.showRaycastLine = false;
 
-                if(this.vrHideControllers)
+                if (this.vrHideControllers)
                     c.controllerModel.visible = false;
 
-                if(this.vrHideHands)
+                if (this.vrHideHands)
                     c.handPointerModel.visible = false;
             });
 
@@ -202,25 +196,25 @@ export class Gun extends Behaviour {
             this.parentOnStart?.add(this.gameObject);
             this.gameObject.position.copy(this.characterGunPosition);
             this.gameObject.quaternion.copy(this.characterGunRotation);
-            this.gameObject.scale.set(1,1,1);
+            this.gameObject.scale.set(1, 1, 1);
         }
     }
 
     // subrscribe to input events
     onEnable() {
-        if(this.enableDesktopInput) {
+        if (this.enableDesktopInput) {
             this.context.domElement.addEventListener('click', this.onMouseClick);
         }
-        if(this.enableMobileInput) {
+        if (this.enableMobileInput) {
             this.context.domElement.addEventListener('touchend', this.onTouchEnd);
         }
     }
 
     onDisable() {
-        if(this.enableDesktopInput) {
+        if (this.enableDesktopInput) {
             this.context.domElement.removeEventListener('click', this.onMouseClick);
         }
-        if(this.enableMobileInput) {
+        if (this.enableMobileInput) {
             this.context.domElement.removeEventListener('touchend', this.onTouchEnd);
         }
     }
@@ -250,7 +244,7 @@ export class Gun extends Behaviour {
     }
 
     private fireTimeStamp = -999; // big value that the user can shoot at time 0
-    
+
     fireManual() {
         this.fire();
     }
@@ -262,9 +256,9 @@ export class Gun extends Behaviour {
         this.fireTimeStamp = t; // save the time of a successful fire
         const hit = this.firePhysically(ignoreMiss);
         if (ignoreMiss && !hit) return;
-            this.fireVisually(hit);
+        this.fireVisually(hit);
     }
-    
+
     fireVisually(hitPoint: Vector3 | null) {
         // fire anim
         this.animation.gunAnimator?.play(this.animation.fireAnimation);
@@ -275,10 +269,8 @@ export class Gun extends Behaviour {
         this.effects.fireSound?.stop();
         this.effects.fireSound?.play();
 
-        // TODO: move into visual effects method
         // Setup hit particle effect: 
         if (this.effects.impactEffect && this.raycastWorldOrigin && hitPoint) {
-
             setWorldPosition(this.effects.impactEffect.gameObject, hitPoint);
 
             // play the effect
