@@ -9,6 +9,8 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.ParticleSystem[] @particleSystems = new UnityEngine.ParticleSystem[]{ };
 		public void awake(){}
+		public void update(){}
+		public void spawnParticlesAt(UnityEngine.Vector3 @pos){}
 	}
 }
 
