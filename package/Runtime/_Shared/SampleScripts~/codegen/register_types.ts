@@ -6,6 +6,7 @@ import { Cannon } from "../Cannon.js";
 import { RandomColor } from "../ChangeColor.js";
 import { ChangeColorOnCollision } from "../ChangeColorOnCollision.js";
 import { IncreaseShaderSpeedOverTime } from "../ChangeCustomShaderProperty.js";
+import { DebugLOD } from "../DebugLOD.js";
 import { DepthOfFieldController } from "../DepthOfFieldController.js";
 import { DisableEnvironmentLight } from "../DisableEnvironment.js";
 import { EmitParticlesOnClick } from "../EmitParticlesOnClick.js";
@@ -33,6 +34,7 @@ import { TimedSpawn } from "../TimedSpawn.js";
 import { VideoBackground } from "../VideoBackground.js";
 import { ResetPositionOnInterval } from "../VisibilitySamples.js";
 import { ToggleVisibility } from "../VisibilitySamples.js";
+import { WireframeMaterial } from "../WireframeMaterial.js";
 
 // Register types
 TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
@@ -40,6 +42,7 @@ TypeStore.add("Cannon", Cannon);
 TypeStore.add("RandomColor", RandomColor);
 TypeStore.add("ChangeColorOnCollision", ChangeColorOnCollision);
 TypeStore.add("IncreaseShaderSpeedOverTime", IncreaseShaderSpeedOverTime);
+TypeStore.add("DebugLOD", DebugLOD);
 TypeStore.add("DepthOfFieldController", DepthOfFieldController);
 TypeStore.add("DisableEnvironmentLight", DisableEnvironmentLight);
 TypeStore.add("EmitParticlesOnClick", EmitParticlesOnClick);
@@ -67,3 +70,4 @@ TypeStore.add("TimedSpawn", TimedSpawn);
 TypeStore.add("VideoBackground", VideoBackground);
 TypeStore.add("ResetPositionOnInterval", ResetPositionOnInterval);
 TypeStore.add("ToggleVisibility", ToggleVisibility);
+TypeStore.add("WireframeMaterial", WireframeMaterial);
