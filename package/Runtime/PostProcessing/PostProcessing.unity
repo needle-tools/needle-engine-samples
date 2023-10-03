@@ -1458,6 +1458,7 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-6f11602d2f40d164385e7346fa7d9244-706762907-0
   autoRotate: 1
   autoRotateSpeed: -0.3
+  autoFit: 0
   enableKeys: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -1675,12 +1676,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-6f11602d2f40d164385e7346fa7d9244-784234923-0
   DirectoryName: Library/Needle/Sample
+  RemoteUrl: 
   AutoExport: 1
   Dependencies:
   - Name: needle.samples.postprocessing
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/PostProcessing/Needle.Samples.PostProcessing.npmdef
     Guid: 347a720fb04e51c49af00961058d3071
-  - Name: samplescripts
+  - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &784234924
@@ -2138,7 +2140,7 @@ Transform:
   - {fileID: 1971138567}
   - {fileID: 1574264513}
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &969208506
 MonoBehaviour:
@@ -2334,71 +2336,8 @@ Transform:
   m_Children:
   - {fileID: 5483926022662570040}
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1 &1211803451
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1211803453}
-  - component: {fileID: 1211803452}
-  - component: {fileID: 1211803454}
-  m_Layer: 0
-  m_Name: XR
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1211803452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211803451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-d541a43e59ef6e94b8483da1bfc954ea-1211803452-0
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
-  createVRButton: 1
-  createARButton: 1
-  handModelPath: 
---- !u!4 &1211803453
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211803451}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.36957884, y: -0.029338408, z: -0.32284284}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1597275518}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1211803454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211803451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dbed295924245ab9fc25c3df3bcff02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXRSync, Needle.Engine $ GlobalObjectId_V1-2-d541a43e59ef6e94b8483da1bfc954ea-1211803454-0
 --- !u!1001 &1212400329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2960,7 +2899,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1459212023
 MonoBehaviour:
@@ -3052,7 +2991,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1477258134
 MonoBehaviour:
@@ -3451,7 +3390,6 @@ Transform:
   m_Children:
   - {fileID: 1786657970}
   - {fileID: 1365103855}
-  - {fileID: 1211803453}
   - {fileID: 1459212022}
   - {fileID: 1139443096}
   - {fileID: 1477258133}
