@@ -1,1 +1,0 @@
-Make sure to open the lightmap scene ("Scene 3 Lightmap") and bake the lightmaps in Unity (go to Window/Rendering/Lighting for baking)
