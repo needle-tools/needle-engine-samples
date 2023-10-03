@@ -4,6 +4,17 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.11.0] - 2023-10-04
+- add Shooting Range
+- add Javascript Communication
+- add Level of detail (LOD)
+- add Product Flyvoer
+- add React Sample
+- add Networking Room data - unreleased sample
+- add First Person Controller - Singleplayer to live samples
+- add HTML touch controls to First Person Controller samples
+- update Multi-Scene content 
+
 ## [0.10.0] - 2023-09-11
 - add Digital Landscape sample
 - add React sample
