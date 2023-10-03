@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.91883284, g: 0.8736439, b: 0.83098125, a: 1}
+  m_IndirectSpecularColor: {r: 0.91866046, g: 0.8734773, b: 0.830791, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -149,6 +149,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 367337686}
   m_RootOrder: 1
@@ -180,6 +181,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 706762906}
   - {fileID: 284856215}
@@ -282,6 +284,7 @@ Transform:
   m_LocalRotation: {x: -0.0063510644, y: -0.9451524, z: -0.018410519, w: 0.32604855}
   m_LocalPosition: {x: 7.9739795, y: 1.5859716, z: 10.182131}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 367337686}
   m_RootOrder: 0
@@ -301,6 +304,7 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-706762907-0
   autoRotate: 0
   autoRotateSpeed: -1
+  autoFit: 0
   enableKeys: 0
   enableDamping: 1
   dampingFactor: 0.1
@@ -397,6 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-784234923-0
   DirectoryName: Library/Needle/Sample
+  RemoteUrl: 
   AutoExport: 1
   Dependencies:
   - Name: stencilportals
@@ -412,6 +417,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2.672, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -491,6 +497,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
   m_RootOrder: 2
@@ -508,7 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.Rendering.Volume, Unity.RenderPipelines.Core.Runtime
     $ GlobalObjectId_V1-2-01c53b9b68d767443a2973d34bcf1dce-943584604-0
-  isGlobal: 1
+  m_IsGlobal: 1
   priority: 1
   blendDistance: 0
   weight: 1
@@ -558,6 +565,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.36957884, y: 0.020661592, z: -0.32284284}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
   m_RootOrder: 0
@@ -567,6 +575,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8575813153898342512, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
   m_PrefabInstance: {fileID: 8575813152740418545}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1388558288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1388558289}
+  - component: {fileID: 1388558290}
+  m_Layer: 0
+  m_Name: XR Rig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1388558289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388558288}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0.061, z: 3.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1597275518}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1388558290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388558288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
 --- !u!1 &1398181111
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,6 +646,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
   m_RootOrder: 3
@@ -645,12 +698,14 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1211803453}
   - {fileID: 1609064307}
   - {fileID: 943584603}
   - {fileID: 1398181112}
   - {fileID: 367337686}
+  - {fileID: 1388558289}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -693,6 +748,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1609064307}
   - component: {fileID: 1609064306}
+  - component: {fileID: 1609064308}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -772,10 +828,32 @@ Transform:
   m_LocalRotation: {x: -0.12767664, y: -0.8639592, z: 0.4028709, w: -0.2738034}
   m_LocalPosition: {x: 0, y: 2.39, z: -3.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -215.169, z: 0}
+--- !u!114 &1609064308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609064305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalLightData,
+    Unity.RenderPipelines.Universal.Runtime
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1802031445
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +894,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5847594, y: 2.4996128, z: 0.9681751}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -861,6 +940,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -905,6 +985,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -916,6 +997,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 367337686}
     m_Modifications:
+    - target: {fileID: 1234963685, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394837118960021877, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7071742841877975956, guid: 1342eb9d5a3be2240ab35214b54dd0ae, type: 3}
       propertyPath: m_IsActive
       value: 1
