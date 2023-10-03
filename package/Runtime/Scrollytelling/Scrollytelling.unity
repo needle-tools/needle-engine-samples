@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.92665017, g: 0.8810544, b: 0.8380568, a: 1}
+  m_IndirectSpecularColor: {r: 0.926476, g: 0.88088715, b: 0.8378648, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -150,6 +150,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 3
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.EventSystems.StandaloneInputModule, UnityEngine.UI
     $ GlobalObjectId_V1-2-b9fe30db803400c448a13702599e6e77-175758458-0
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -236,6 +238,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 0
@@ -250,6 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 203534420}
   - component: {fileID: 203534419}
+  - component: {fileID: 203534421}
   m_Layer: 0
   m_Name: Spot Light (1)
   m_TagString: Untagged
@@ -329,10 +333,31 @@ Transform:
   m_LocalRotation: {x: 0.7395478, y: 0.091266945, z: 0.59601456, w: 0.29917568}
   m_LocalPosition: {x: -0.713, y: -0.046000004, z: 0.108}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 160.505, y: -83.267, z: -31.434021}
+--- !u!114 &203534421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203534418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &455340341
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,6 +387,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 9
@@ -472,6 +498,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1050133064}
   m_Father: {fileID: 0}
@@ -503,8 +530,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92a86a2db1f5d20489f1387bdc57b5aa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.Export.USDZExporter, Needle.Engine
-    $ GlobalObjectId_V1-2-b9fe30db803400c448a13702599e6e77-622914240-0
+  m_EditorClassIdentifier: Needle.Engine.Components.USDZExporter, Needle.Engine
   objectToExport: {fileID: 767174361}
   allowCreateQuicklookButton: 1
   autoExportAnimations: 1
@@ -604,6 +630,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &967157226
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,6 +641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 967157228}
   - component: {fileID: 967157227}
+  - component: {fileID: 967157229}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -693,10 +721,31 @@ Transform:
   m_LocalRotation: {x: 0.21491173, y: -0.82569814, z: 0.15302037, w: 0.49861842}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 27.841, y: -121.038, z: -13.226}
+--- !u!114 &967157229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967157226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1022592791
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +772,7 @@ Transform:
   m_LocalRotation: {x: -0.027986743, y: -0.0047141006, z: 0.000737123, w: 0.9995969}
   m_LocalPosition: {x: 0.0325, y: -0.024800003, z: 0.12320001}
   m_LocalScale: {x: 1.0088259, y: 0.907073, z: 1.0625116}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1406488416}
   - {fileID: 1265201952}
@@ -755,6 +805,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 175758460}
   - {fileID: 1237325442}
@@ -810,6 +861,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -865,7 +917,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1
+  far clip plane: 10
   field of view: 30
   orthographic: 0
   orthographic size: 5
@@ -894,6 +946,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0.489}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 1
@@ -960,6 +1013,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 4.6566118e-10, z: 2.9103824e-11, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.054455422, y: 0.039952908, z: 0.051703934}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1022592792}
   m_RootOrder: 1
@@ -975,6 +1029,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1046,7 +1101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-b9fe30db803400c448a13702599e6e77-1296487681-0
-  compilerDirectory: H:\git\needle\needle-engine-dev\modules\needle-engine-samples\package\WebProjects~\Scrollytelling/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Packages/com.needle.engine-samples/WebProjects~/Scrollytelling/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &1296487682
 MonoBehaviour:
@@ -1061,6 +1116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-b9fe30db803400c448a13702599e6e77-1296487682-0
   DirectoryName: Packages/com.needle.engine-samples/WebProjects~/Scrollytelling
+  RemoteUrl: 
   AutoExport: 1
   Dependencies:
   - Name: needle.samples.scrollytelling
@@ -1076,6 +1132,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1108,7 +1165,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
   meta:
     title: Product Scrollytelling
     description: Lnyx R1 scrolling website
@@ -1140,6 +1197,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.131}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 2
@@ -1164,6 +1222,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1406488415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,6 +1251,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 4.6566118e-10, z: 2.9103824e-11, w: 1}
   m_LocalPosition: {x: -0.06423684, y: 0.000019547228, z: -0.00008572937}
   m_LocalScale: {x: 0.054455422, y: 0.039952908, z: 0.051703934}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1022592792}
   m_RootOrder: 0
@@ -1207,6 +1267,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1272,6 +1333,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 6
@@ -1289,7 +1351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.Rendering.Volume, Unity.RenderPipelines.Core.Runtime
     $ GlobalObjectId_V1-2-b9fe30db803400c448a13702599e6e77-1559428898-0
-  isGlobal: 1
+  m_IsGlobal: 1
   priority: 0
   blendDistance: 0
   weight: 1
@@ -1322,6 +1384,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 767174361}
   m_Father: {fileID: 1050133064}
@@ -1361,6 +1424,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1818885286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1371,6 +1435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1818885288}
   - component: {fileID: 1818885287}
+  - component: {fileID: 1818885289}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -1450,10 +1515,31 @@ Transform:
   m_LocalRotation: {x: 0.86964107, y: 0.020909859, z: -0.49311385, w: 0.011223574}
   m_LocalPosition: {x: 0.48, y: -0.002000004, z: 0.561}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 177.699, y: 59.08, z: -1.4509888}
+--- !u!114 &1818885289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818885286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1830922556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,6 +1568,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1050133064}
   m_RootOrder: 10
