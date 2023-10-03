@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-784234927-0
   FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /staging/dynamically-load-scenes
+  Path: /dynamically-load-scenes
   OverrideGzipCompression: 1
   UseGzipCompression: 0
 --- !u!1 &1132596502
@@ -291,6 +291,7 @@ GameObject:
   - component: {fileID: 1212603239}
   - component: {fileID: 1212603238}
   - component: {fileID: 784234927}
+  - component: {fileID: 1212603241}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -347,6 +348,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1212603241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212603236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
+  meta:
+    title: Multi Scenes (dynamic loading)
+    description: Lazy load and switch scenes
+    image: {fileID: 2800000, guid: 8206daabdfa15ac4883a80c059dbbd35, type: 3}
 --- !u!1 &1458125668
 GameObject:
   m_ObjectHideFlags: 0
