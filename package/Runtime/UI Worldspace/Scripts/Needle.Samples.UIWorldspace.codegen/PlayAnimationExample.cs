@@ -5,11 +5,10 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class MoveOnEvent : UnityEngine.MonoBehaviour
+	public partial class PlayAnimationExample : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform @target;
-		public void moveNow(){}
-		public void update(){}
+		public UnityEngine.Animation @animation;
+		public void play(float @index){}
 	}
 }
 
