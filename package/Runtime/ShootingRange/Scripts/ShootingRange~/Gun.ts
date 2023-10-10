@@ -309,6 +309,8 @@ export class Gun extends Behaviour {
                     this.onHitTarget?.invoke(this, target);
                     return hit.point;
                 }
+            }
+            if(!ignoreMiss) {
                 return hit.point;
             }
         }
