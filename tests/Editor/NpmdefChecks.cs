@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Needle.Engine;
 using Needle.Engine.Utils;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 internal class NpmdefChecks
@@ -20,7 +22,9 @@ internal class NpmdefChecks
 			var hiddenPackagePath = fileInfo.Directory?.FullName + "/" + Path.GetFileNameWithoutExtension(fileInfo.Name) + "~";
 			if (Directory.Exists(hiddenPackagePath))
 			{
-				var typescriptFiles = Directory.GetFiles(hiddenPackagePath, "*.ts", SearchOption.AllDirectories);
+				var files = new List<FileInfo>();
+				SampleChecks._.GetFiles(hiddenPackagePath, files);
+				var typescriptFiles = files.Where(x => x.Extension == ".ts").Select(x => x.FullName).ToList();
 				foreach (var ts in typescriptFiles)
 				{
 					try

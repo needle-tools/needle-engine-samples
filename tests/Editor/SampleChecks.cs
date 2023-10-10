@@ -14,6 +14,7 @@ using System;
 using System.Text.RegularExpressions;
 using Needle.Engine;
 using Needle.Engine.Deployment;
+using Needle.Engine.Projects;
 using Object = UnityEngine.Object;
 
 namespace SampleChecks
@@ -68,6 +69,22 @@ namespace SampleChecks
         public @_(SampleInfo sampleInfo)
         {
             sample = sampleInfo;
+        }
+
+        const string AutoGenerateBeforeTestsKey = nameof(TempProject) + "_" + nameof(TempProject.AllowAutoGenerate) + "_BeforeTests";
+        
+        [SetUp]
+        public void Setup()
+        {
+            SessionState.SetBool(AutoGenerateBeforeTestsKey, TempProject.AllowAutoGenerate);
+            TempProject.AllowAutoGenerate = false;
+        }
+        
+        [TearDown]
+        public void TearDown()
+        {
+            TempProject.AllowAutoGenerate = SessionState.GetBool(AutoGenerateBeforeTestsKey, true);
+            SessionState.EraseBool(AutoGenerateBeforeTestsKey);
         }
         
         [Test]
@@ -183,10 +200,12 @@ namespace SampleChecks
         public void HasReadmeComponent()
         {
             OpenSceneAndCopyIfNeeded();
-
-            var readme = GameObject.FindObjectOfType<Readme>();
+            
+            var readme = Object.FindObjectOfType<Readme>();
             Assert.IsNotNull(readme);
-            Assert.IsFalse(string.IsNullOrEmpty(readme?.Guid));
+            Assert.IsFalse(string.IsNullOrEmpty(readme.Guid));
+            // Assert.IsTrue(readme.CompareTag("EditorOnly"), "Readme component should be tagged as EditorOnly.");
+            Assert.AreEqual(1, readme.gameObject.GetComponents<Component>().Length - 1, "Readme GameObject has too many components, should only have Readme");
         }
 
         static string[] GetDependencies(Object obj)
@@ -330,7 +349,7 @@ namespace SampleChecks
             Assert.LessOrEqual(allDeploymentComponentsInScene.Count, 1, "Too many deployment components found: " + string.Join(", ", allDeploymentComponentsInScene.Select(x => x.GetType().Name)));
         }
 
-        private static void GetFiles(string path, List<FileInfo> results)
+        internal static void GetFiles(string path, List<FileInfo> results)
         {
             var di = new DirectoryInfo(path);
             if (!di.Exists)
