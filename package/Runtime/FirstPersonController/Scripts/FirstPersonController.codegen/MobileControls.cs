@@ -11,10 +11,13 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @movementSensitivity = 1f;
 		public float @lookSensitivity = 5f;
 		public float @maxDoubleTapDelay = 200f;
+		public UnityEngine.Color @moveJoyColor;
+		public UnityEngine.Color @lookJoyColor;
 		public void awake(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void update(){}
+		public void getRGBAColorString(UnityEngine.Color @color){}
 	}
 }
 

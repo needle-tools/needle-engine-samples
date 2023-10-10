@@ -1,6 +1,6 @@
-import { Behaviour, EventList, isMobileDevice, serializable } from "@needle-tools/engine";
+import { Behaviour, EventList, RGBAColor, isMobileDevice, serializable } from "@needle-tools/engine";
 import nipplejs from "nipplejs";
-import { Vector2 } from "three";
+import { Vector2, Color } from "three";
 
 export class MobileControls extends Behaviour {
 
@@ -8,6 +8,14 @@ export class MobileControls extends Behaviour {
     movementSensitivity: number = 1;
     lookSensitivity: number = 5;
     maxDoubleTapDelay: number = 200;
+
+    // @type UnityEngine.Color
+    @serializable(RGBAColor)
+    moveJoyColor!: RGBAColor;
+
+    // @type UnityEngine.Color
+    @serializable(RGBAColor)
+    lookJoyColor!: RGBAColor;
 
     // @nonSerialized
     @serializable(EventList)
@@ -22,15 +30,15 @@ export class MobileControls extends Behaviour {
     onLook: EventList = new EventList();
 
     // See https://github.com/yoannmoinet/nipplejs for all options
-    private _movement?: nipplejs.JoystickManager;
-    private _look?: nipplejs.JoystickManager;
+    protected _movement?: nipplejs.JoystickManager;
+    protected _look?: nipplejs.JoystickManager;
 
-    private _movementIsActive = false;
-    private _movementVector!: Vector2;
-    private _lookIsActive = false;
-    private _lookVector!: Vector2;
+    protected _movementIsActive = false;
+    protected _movementVector!: Vector2;
+    protected _lookIsActive = false;
+    protected _lookVector!: Vector2;
 
-    private _htmlElements: HTMLElement[] = [];
+    protected _htmlElements: HTMLElement[] = [];
 
     awake(): void {
         this._lookVector = new Vector2();
@@ -77,6 +85,7 @@ export class MobileControls extends Behaviour {
             catchDistance: 1000,
             zone: staticContainer,
             size: 130,
+            color: this.getRGBAColorString(this.moveJoyColor),
             fadeTime: 0,
         });
         this._movement.on('start', () => { this._movementIsActive = true; });
@@ -95,7 +104,7 @@ export class MobileControls extends Behaviour {
             maxNumberOfNipples: 1,
             zone: dynamicContainer,
             size: 130,
-            color: "#ffffff33",
+            color: this.getRGBAColorString(this.lookJoyColor),
             fadeTime: 0,
         });
         this._look.on('start', () => { this._lookIsActive = true; });
@@ -134,5 +143,9 @@ export class MobileControls extends Behaviour {
             this.onLook?.invoke(this._lookVector);
         }
 
+    }
+
+    getRGBAColorString(color: RGBAColor): string {
+        return `rgba(${color.r * 255}, ${color.g * 255}, ${color.b * 255}, ${color.a})`;
     }
 }

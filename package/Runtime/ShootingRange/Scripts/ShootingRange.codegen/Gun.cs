@@ -25,7 +25,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public void onVRChanged(bool @isVR){}
 		public void OnEnable(){}
 		public void OnDisable(){}
-		public void fireManual(){}
+		public void fireWithMiss(){}
+		public void fireIgnoreMiss(){}
 		public void fire(bool @applyFireRate, bool @ignoreMiss){}
 		public void fireVisually(UnityEngine.Vector3 @hitPoint){}
 		public void firePhysically(bool @ignoreMiss){}

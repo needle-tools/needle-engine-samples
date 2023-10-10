@@ -203,19 +203,19 @@ export class Gun extends Behaviour {
     // subrscribe to input events
     onEnable() {
         if (this.enableDesktopInput) {
-            this.context.domElement.addEventListener('click', this.onMouseClick);
+            window.addEventListener('click', this.onMouseClick);
         }
         if (this.enableMobileInput) {
-            this.context.domElement.addEventListener('touchend', this.onTouchEnd);
+            window.addEventListener('touchend', this.onTouchEnd);
         }
     }
 
     onDisable() {
         if (this.enableDesktopInput) {
-            this.context.domElement.removeEventListener('click', this.onMouseClick);
+            window.removeEventListener('click', this.onMouseClick);
         }
         if (this.enableMobileInput) {
-            this.context.domElement.removeEventListener('touchend', this.onTouchEnd);
+            window.removeEventListener('touchend', this.onTouchEnd);
         }
     }
 
@@ -228,16 +228,21 @@ export class Gun extends Behaviour {
         const dy = y - this._lastTouchEndPoint.y;
         this._lastTouchEndPoint.set(x, y);
         const dist = Math.sqrt(dx * dx + dy * dy);
+
+        console.log("touch end", event);
         if (dist < 15) {
             this.fire();
-            return;
+            console.log("tap finger");
         }
-
-        if (event.touches.length <= 0)
-            return this.fire(false, true);
+        if (event.touches.length <= 0) { // last finger 
+            this.fire(true, true);
+            console.log("last finger");
+        }
     }
 
     private onMouseClick = (event: MouseEvent) => {
+        if(isMobileDevice()) return; // ignore desktop input on mobile
+
         if (event.button != this.gunInput) // if not the correct mouse button, abort
             return;
         this.fire();
@@ -245,8 +250,12 @@ export class Gun extends Behaviour {
 
     private fireTimeStamp = -999; // big value that the user can shoot at time 0
 
-    fireManual() {
-        this.fire();
+    fireWithMiss() {
+        this.fire(true, false);
+    }
+
+    fireIgnoreMiss() {
+        this.fire(true, true);
     }
 
     fire(applyFireRate: boolean = true, ignoreMiss: boolean = false) {
@@ -255,7 +264,7 @@ export class Gun extends Behaviour {
             return;
         this.fireTimeStamp = t; // save the time of a successful fire
         const hit = this.firePhysically(ignoreMiss);
-        if (ignoreMiss && !hit) return;
+        if(ignoreMiss && !hit) return; // abort miss
         this.fireVisually(hit);
     }
 
@@ -302,17 +311,12 @@ export class Gun extends Behaviour {
                 }
                 return hit.point;
             }
-            else if (!ignoreMiss) {
-                // hit something that is not a target
-                this.onMiss?.invoke(this);
-                return hit.point;
-            }
         }
-        else if (!ignoreMiss) {
-            // shot in thin air
+
+        if (!ignoreMiss) { // miss            
             this.onMiss?.invoke(this);
-            return null;
         }
+
         return null;
     }
 }
