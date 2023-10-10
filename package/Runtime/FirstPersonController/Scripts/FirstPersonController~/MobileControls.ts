@@ -77,6 +77,7 @@ export class MobileControls extends Behaviour {
             catchDistance: 1000,
             zone: staticContainer,
             size: 130,
+            fadeTime: 0,
         });
         this._movement.on('start', () => { this._movementIsActive = true; });
         this._movement.on('move', (_, data) => {
@@ -95,6 +96,7 @@ export class MobileControls extends Behaviour {
             zone: dynamicContainer,
             size: 130,
             color: "#ffffff33",
+            fadeTime: 0,
         });
         this._look.on('start', () => { this._lookIsActive = true; });
         this._look.on('move', (_, data) => {
