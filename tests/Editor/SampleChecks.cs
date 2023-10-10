@@ -204,7 +204,7 @@ namespace SampleChecks
             var readme = Object.FindObjectOfType<Readme>();
             Assert.IsNotNull(readme);
             Assert.IsFalse(string.IsNullOrEmpty(readme.Guid));
-            // Assert.IsTrue(readme.CompareTag("EditorOnly"), "Readme component should be tagged as EditorOnly.");
+            Assert.IsTrue(readme.CompareTag("EditorOnly"), "Readme component should be tagged as EditorOnly.");
             Assert.AreEqual(1, readme.gameObject.GetComponents<Component>().Length - 1, "Readme GameObject has too many components, should only have Readme");
         }
 
