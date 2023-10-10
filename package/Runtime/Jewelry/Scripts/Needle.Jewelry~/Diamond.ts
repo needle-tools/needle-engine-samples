@@ -1,4 +1,4 @@
-import { Behaviour, isQuest } from "@needle-tools/engine";
+import { Behaviour, GameObject, USDZExporter, isQuest, serializable } from "@needle-tools/engine";
 import { Context } from "@needle-tools/engine";
 import { isiOS, isMobileDevice } from "@needle-tools/engine";
 import { Object, ShaderMaterial, Vector2, Color, Mesh, BufferGeometry } from "three"
@@ -9,12 +9,34 @@ import { shaderStructs, MeshBVHUniformStruct, MeshBVH, SAH } from "three-mesh-bv
 
 export class Diamond extends Behaviour {
 
+	@serializable()
+	disableOnMobile: boolean = false;
+
 	async start() {
 
-        if (Diamond.isMobile()) return;
+		// If we are exporting to usdz, we need to swap the diamond for the original,
+		// as iOS QuickLook does not support custom shaders
+		const usdzExporter = GameObject.findObjectOfType(USDZExporter);
+		if (usdzExporter) {
+			usdzExporter.addEventListener("before-export", () => {
+				if (!this.original || !this.customDiamond) return;
+				this.customDiamond.parent.add(this.original);
+				this.customDiamond.parent.remove(this.customDiamond);
+			});
+			usdzExporter.addEventListener("after-export", () => {
+				if (!this.original || !this.customDiamond) return;
+				this.original.parent.add(this.customDiamond);
+				this.original.parent.remove(this.original);
+			});
+		}
+
+        if (this.disableOnMobile && Diamond.isMobile()) return;
 
 		const obj = Diamond.create(this.context, this.gameObject);
 		const parent = this.gameObject.parent;
+		this.original = this.gameObject;
+		this.customDiamond = obj;
+		
 		this.gameObject.removeFromParent();
 		parent?.add(obj);
 		obj.position.copy(this.gameObject.position);
@@ -28,6 +50,9 @@ export class Diamond extends Behaviour {
 
 	private static _diamondMaterial: ShaderMaterial | undefined;
 	private static _mesh: Map<BufferGeometry, MeshBVH> = new Map();
+
+	private original: Object;
+	private customDiamond: Object;
 
 	//@nonSerialized
 	static create(context: Context, obj: Object): Object {
@@ -58,12 +83,13 @@ export class Diamond extends Behaviour {
         }
 	}
 
-    // TODO switch to https://github.com/pmndrs/drei/blob/master/src/core/MeshRefractionMaterial.tsx
+    // Diamond custom shader. Could also switch to https://github.com/pmndrs/drei/blob/master/src/core/MeshRefractionMaterial.tsx
 
 	//@nonSerialized
 	static getDiamondMaterial(context: Context): ShaderMaterial {
 		if (this._diamondMaterial) return this._diamondMaterial;
 
+		// simplify features for mobile devices to save performance
         const bounces = this.isMobile() ? 2 : 3;
         const fastChroma = this.isMobile() ? true : false;
         const aberrationStrength = this.isMobile() ? 0.0 : 0.02;

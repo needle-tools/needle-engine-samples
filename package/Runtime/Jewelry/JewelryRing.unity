@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8285394, g: 0.8224486, b: 0.84237176, a: 1}
+  m_IndirectSpecularColor: {r: 0.83443934, g: 0.824093, b: 0.8454254, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -147,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 189657135}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.445, z: 0}
+  m_LocalPosition: {x: 0, y: 0.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -195,7 +195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 4d0699e7db120714aaa34a6641244135, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.644
+      value: 2.039
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 4d0699e7db120714aaa34a6641244135, type: 3}
       propertyPath: m_LocalPosition.z
@@ -278,6 +278,82 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Diamond, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-ef02bffc2c9043d40b0a324be262325e-1272996738-0
+  disableOnMobile: 0
+--- !u!1 &1319505701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1319505703}
+  - component: {fileID: 1319505702}
+  - component: {fileID: 1319505704}
+  m_Layer: 0
+  m_Name: XR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1319505702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319505701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine
+  enableVR: 1
+  enableAR: 1
+  defaultAvatar: {fileID: 0}
+  createVRButton: 1
+  createARButton: 1
+  handModelPath: 
+--- !u!4 &1319505703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319505701}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1319505704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319505701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a86a2db1f5d20489f1387bdc57b5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.USDZExporter, Needle.Engine
+  objectToExport: {fileID: 0}
+  allowCreateQuicklookButton: 1
+  autoExportAnimations: 0
+  interactive: 1
+  customBranding:
+    CheckoutTitle: "\U0001F335 Made with Needle"
+    CheckoutSubtitle: 
+    CallToAction: Learn More
+    CallToActionURL: https://needle.tools
+  exportFileName: Needle
+  customUsdzFile:
+    File: {fileID: 0}
 --- !u!1 &1486746961
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +366,7 @@ GameObject:
   - component: {fileID: 1486746964}
   - component: {fileID: 1486746963}
   m_Layer: 0
-  m_Name: Fake
+  m_Name: OuterParts
   m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,6 +437,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486746961}
   m_Mesh: {fileID: -3377666128252530325, guid: 4d0699e7db120714aaa34a6641244135, type: 3}
+--- !u!1 &1505219373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1505219375}
+  - component: {fileID: 1505219374}
+  m_Layer: 0
+  m_Name: XRRig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1505219374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505219373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+--- !u!4 &1505219375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505219373}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.000000044703484}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!1001 &1537693821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -378,7 +498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 497045c30faf14d2994b217ead46f8a5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.395
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 497045c30faf14d2994b217ead46f8a5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -386,7 +506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 497045c30faf14d2994b217ead46f8a5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.99999595
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 497045c30faf14d2994b217ead46f8a5, type: 3}
       propertyPath: m_LocalRotation.x
@@ -394,7 +514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 497045c30faf14d2994b217ead46f8a5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.0028679708
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 497045c30faf14d2994b217ead46f8a5, type: 3}
       propertyPath: m_LocalRotation.z
@@ -406,7 +526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 497045c30faf14d2994b217ead46f8a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 0.329
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 497045c30faf14d2994b217ead46f8a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -433,7 +553,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1576656164}
   - component: {fileID: 1576656165}
-  - component: {fileID: 1576656166}
   m_Layer: 0
   m_Name: Volume
   m_TagString: Untagged
@@ -474,22 +593,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 943aa8e554b445041b727630a42e8e5a, type: 2}
---- !u!114 &1576656166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1576656163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86154a0b6c4eddbecb9b707163041b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.DepthOfFieldController,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-ef02bffc2c9043d40b0a324be262325e-1576656166-0
-  apertureMultiplier: 1.98
-  focalLength: 0.001
-  focusDistanceCutoff: 1.46
 --- !u!1 &1625788023
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,13 +673,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625788023}
-  m_LocalRotation: {x: 0.05162578, y: -0.93961984, z: 0.16391206, w: 0.29594287}
-  m_LocalPosition: {x: 5.316, y: 2.893, z: 7.602}
-  m_LocalScale: {x: 1.000006, y: 1.0000014, z: 1.00001}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0.05160407, y: -0.93962693, z: 0.16382936, w: 0.29597}
+  m_LocalPosition: {x: 0.4516339, y: 0.35941416, z: 0.6457806}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1625788027
 MonoBehaviour:
@@ -727,9 +830,6 @@ MonoBehaviour:
   - Name: needle.jewelry
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/Jewelry/Scripts/Needle.Jewelry.npmdef
     Guid: 16c11121e3de92b4bb05183f7772902f
-  - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
-    Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &1982933255
 Transform:
   m_ObjectHideFlags: 0
@@ -800,12 +900,12 @@ Transform:
   m_GameObject: {fileID: 2049127150}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.08, y: 0.08, z: 0.08}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1272996736}
   - {fileID: 1537693822}
   - {fileID: 189657136}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

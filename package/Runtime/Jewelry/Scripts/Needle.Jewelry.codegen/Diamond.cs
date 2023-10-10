@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Diamond : UnityEngine.MonoBehaviour
 	{
+		public bool @disableOnMobile = false;
 		public void start(){}
 	}
 }
