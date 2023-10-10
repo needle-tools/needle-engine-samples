@@ -4,16 +4,20 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.11.0] - 2023-10-04
-- add Shooting Range
-- add Javascript Communication
-- add Level of detail (LOD)
-- add Product Flyvoer
-- add React Sample
+## [0.11.0] - 2023-10-10
+- add Shooting Range sample
+- add Javascript Communication sample
+- add Level of detail (LOD) sample
+- add Product Flyover sample
+- add React sample
 - add Networking Room data - unreleased sample
-- add First Person Controller - Singleplayer to live samples
+- add First Person Controller - Single Player
 - add HTML touch controls to First Person Controller samples
-- update Multi-Scene content 
+- add Diamond Ring sample
+- change UIButton sample to Worldspace UI sample
+- update Multi-Scene content
+- update sample tags
+- update Needle Engine to `3.19.8`
 
 ## [0.10.0] - 2023-09-11
 - add Digital Landscape sample
