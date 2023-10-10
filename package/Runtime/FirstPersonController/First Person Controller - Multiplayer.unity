@@ -6418,12 +6418,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-3d69242830986b14f90e2e0f2d94f753-1666012067-0
   DirectoryName: Library/Needle/Sample
+  RemoteUrl: 
   AutoExport: 1
   Dependencies:
   - Name: firstpersoncontroller
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/FirstPersonController/Scripts/FirstPersonController.npmdef
     Guid: ee750e073bd25fc4eb89db0ca44c0416
-  - Name: samplescripts
+  - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
   - Name: networking
@@ -7931,9 +7932,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.MobileControls,
     Needle.Engine-Samples.Runtime
-  controller: {fileID: 0}
+  onlyMobile: 1
   movementSensitivity: 1
   lookSensitivity: 3
+  maxDoubleTapDelay: 200
+  onJump:
+    m_PersistentCalls:
+      m_Calls: []
+  onLook:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  moveJoyColor: {r: 1, g: 1, b: 1, a: 0.3}
+  lookJoyColor: {r: 1, g: 1, b: 1, a: 0.3}
 --- !u!1 &2017850307
 GameObject:
   m_ObjectHideFlags: 0

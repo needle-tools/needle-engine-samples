@@ -11,8 +11,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @movementSensitivity = 1f;
 		public float @lookSensitivity = 5f;
 		public float @maxDoubleTapDelay = 200f;
-		public UnityEngine.Color @moveJoyColor;
-		public UnityEngine.Color @lookJoyColor;
 		public void awake(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
@@ -30,5 +28,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Events.UnityEvent @onJump;
         public UnityEngine.Events.UnityEvent<UnityEngine.Vector2> @onLook;
         public UnityEngine.Events.UnityEvent<UnityEngine.Vector2> @onMove;
-	}
+
+        public UnityEngine.Color @moveJoyColor = new UnityEngine.Color(1, 1, 1, 0.3f);
+		public UnityEngine.Color @lookJoyColor = new UnityEngine.Color(1, 1, 1, 0.3f);
+    }
 }

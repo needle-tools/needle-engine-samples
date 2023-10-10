@@ -9,11 +9,11 @@ export class MobileControls extends Behaviour {
     lookSensitivity: number = 5;
     maxDoubleTapDelay: number = 200;
 
-    // @type UnityEngine.Color
+    // @nonSerialized
     @serializable(RGBAColor)
     moveJoyColor!: RGBAColor;
 
-    // @type UnityEngine.Color
+    // @nonSerialized
     @serializable(RGBAColor)
     lookJoyColor!: RGBAColor;
 
@@ -41,6 +41,8 @@ export class MobileControls extends Behaviour {
     protected _htmlElements: HTMLElement[] = [];
 
     awake(): void {
+        console.log(this.moveJoyColor);
+
         this._lookVector = new Vector2();
         this._movementVector = new Vector2();
     }
