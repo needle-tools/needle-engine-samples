@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 18726892}
   - component: {fileID: 18726893}
   - component: {fileID: 18726894}
+  - component: {fileID: 18726895}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -151,6 +152,7 @@ Transform:
   m_LocalRotation: {x: 0.58836174, y: -0.45218506, z: 0.01301932, w: 0.67021614}
   m_LocalPosition: {x: 1.08, y: 4.18, z: -2.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1504981973}
   m_RootOrder: 2
@@ -237,6 +239,26 @@ MonoBehaviour:
   shadowBias: 0.00001
   shadowNormalBias: 0.015
   _overrideShadowBiasSettings: 1
+--- !u!114 &18726895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18726891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1001 &200508065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -348,6 +370,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0.05, y: 0, z: -2.41}
   m_LocalScale: {x: 25.12577, y: 29.970499, z: 29.970499}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1504981973}
   m_RootOrder: 8
@@ -386,6 +409,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -734,6 +758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-c8b78dedb0a5c52409be12274acec209-1063343116-0
   DirectoryName: Packages/com.needle.engine-samples/WebProjects~/HTMLCustomLayout
+  RemoteUrl: 
   AutoExport: 1
   Dependencies: []
 --- !u!4 &1063343117
@@ -746,6 +771,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -795,7 +821,7 @@ GameObject:
   - component: {fileID: 1374991661}
   m_Layer: 0
   m_Name: README
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -823,6 +849,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -869,6 +896,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1762021519}
   - {fileID: 1961991033}
@@ -977,6 +1005,7 @@ Transform:
   m_LocalRotation: {x: 0.13520718, y: -0.6553035, z: 0.120829664, w: 0.733278}
   m_LocalPosition: {x: 5.724619, y: 2.8092225, z: -3.1549547}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1504981973}
   m_RootOrder: 0
@@ -994,8 +1023,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-c8b78dedb0a5c52409be12274acec209-1762021520-0
+  enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
+  autoFit: 0
   enableKeys: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -1085,6 +1116,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.61, z: -2.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1504981973}
   m_RootOrder: 1
