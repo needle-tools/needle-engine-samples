@@ -27,9 +27,9 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
             for (const plane of planes) {
                 //@ts-ignore
                 if (plane.mesh === this.gameObject) {
-                    const data = plane.xrPlane;
+                    const data = plane.xrData;
                     //@ts-ignore
-                    console.log("this plane is part of a " + data.semanticLabel);
+                    console.log("this mesh is part of a " + data.semanticLabel);
                 }
             }
         }
