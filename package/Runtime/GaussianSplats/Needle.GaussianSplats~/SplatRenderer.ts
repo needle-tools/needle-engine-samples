@@ -37,6 +37,8 @@ export class SplatRenderer extends Behaviour {
     }
 }
 
+const maxSize = 2048;
+
 // Slightly adjusted version from https://github.com/quadjr/aframe-gaussian-splatting
 // AFRAME.registerComponent("gaussian_splatting", {
 class GaussianSplatRenderer {
@@ -59,15 +61,15 @@ gaussian_splatting = {
 		this.textureReady = false;
 		this.object.frustumCulled = false;
 
-		this.centerAndScaleData = new Float32Array(4096 * 4096 * 4);
-		this.covAndColorData = new Uint32Array(4096 * 4096 * 4);
-		this.centerAndScaleTexture = new THREE.DataTexture(this.centerAndScaleData, 4096, 4096, THREE.RGBAFormat, THREE.FloatType);
+		this.centerAndScaleData = new Float32Array(maxSize * maxSize * 4);
+		this.covAndColorData = new Uint32Array(maxSize * maxSize * 4);
+		this.centerAndScaleTexture = new THREE.DataTexture(this.centerAndScaleData, maxSize, maxSize, THREE.RGBAFormat, THREE.FloatType);
 		this.centerAndScaleTexture.needsUpdate = true;
-		this.covAndColorTexture = new THREE.DataTexture(this.covAndColorData, 4096, 4096, THREE.RGBAIntegerFormat, THREE.UnsignedIntType);
+		this.covAndColorTexture = new THREE.DataTexture(this.covAndColorData, maxSize, maxSize, THREE.RGBAIntegerFormat, THREE.UnsignedIntType);
 		this.covAndColorTexture.internalFormat = "RGBA32UI";
 		this.covAndColorTexture.needsUpdate = true;
 
-		let splatIndexArray = new Uint32Array(4096 * 4096);
+		let splatIndexArray = new Uint32Array(maxSize * maxSize);
 		const splatIndexes = new THREE.InstancedBufferAttribute(splatIndexArray, 1, false);
 		splatIndexes.setUsage(THREE.DynamicDrawUsage);
 
@@ -120,7 +122,7 @@ gaussian_splatting = {
 				}
 
 				void main () {
-					ivec2 texPos = ivec2(splatIndex%uint(4096),splatIndex/uint(4096));
+					ivec2 texPos = ivec2(splatIndex%uint(2048),splatIndex/uint(2048));
 					vec4 centerAndScaleData = texelFetch(centerAndScaleTexture, texPos, 0);
 
 					vec4 center = vec4(centerAndScaleData.xyz, 1);
@@ -324,9 +326,9 @@ gaussian_splatting = {
 		});
 	},
 	pushDataBuffer: function(buffer, vertexCount) {
-		if(this.loadedVertexCount + vertexCount > 4096*4096){
-			console.log("vertexCount limited to 4096*4096", vertexCount);
-			vertexCount = 4096*4096 - this.loadedVertexCount;
+		if(this.loadedVertexCount + vertexCount > maxSize*maxSize){
+			console.log("vertexCount limited to maxSize*maxSize", vertexCount);
+			vertexCount = maxSize*maxSize - this.loadedVertexCount;
 		}
 		if(vertexCount <= 0){
 			return;
@@ -403,16 +405,16 @@ gaussian_splatting = {
 		while(vertexCount > 0){
 			let width = 0;
 			let height = 0;
-			let xoffset = (this.loadedVertexCount%4096);
-			let yoffset = Math.floor(this.loadedVertexCount/4096);
-			if(this.loadedVertexCount%4096 != 0){
-				width = Math.min(4096, xoffset + vertexCount) - xoffset;
+			let xoffset = (this.loadedVertexCount%maxSize);
+			let yoffset = Math.floor(this.loadedVertexCount/maxSize);
+			if(this.loadedVertexCount%maxSize != 0){
+				width = Math.min(maxSize, xoffset + vertexCount) - xoffset;
 				height = 1;
-			}else if(Math.floor(vertexCount/4096) > 0){
-				width = 4096;
-				height = Math.floor(vertexCount/4096);
+			}else if(Math.floor(vertexCount/maxSize) > 0){
+				width = maxSize;
+				height = Math.floor(vertexCount/maxSize);
 			}else{
-				width = vertexCount%4096;
+				width = vertexCount%maxSize;
 				height = 1;
 			}
 
