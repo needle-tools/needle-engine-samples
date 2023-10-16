@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class SplatRenderer : UnityEngine.MonoBehaviour
 	{
 		public string @path = "";
-		public UnityEngine.Vector4 @cutout;
+		public UnityEngine.GameObject @cutout;
 		public void start(){}
 		public void update(){}
 	}
