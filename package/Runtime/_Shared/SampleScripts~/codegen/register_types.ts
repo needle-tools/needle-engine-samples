@@ -38,6 +38,7 @@ import { VideoBackground } from "../VideoBackground.js";
 import { ResetPositionOnInterval } from "../VisibilitySamples.js";
 import { ToggleVisibility } from "../VisibilitySamples.js";
 import { WireframeMaterial } from "../WireframeMaterial.js";
+import { XRLifecycleEvents } from "../XRLifecycleEvents.js";
 
 // Register types
 TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
@@ -77,3 +78,4 @@ TypeStore.add("VideoBackground", VideoBackground);
 TypeStore.add("ResetPositionOnInterval", ResetPositionOnInterval);
 TypeStore.add("ToggleVisibility", ToggleVisibility);
 TypeStore.add("WireframeMaterial", WireframeMaterial);
+TypeStore.add("XRLifecycleEvents", XRLifecycleEvents);

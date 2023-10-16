@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6192141, g: 0.69999945, b: 0.7067927, a: 1}
+  m_IndirectSpecularColor: {r: 0.6192141, g: 0.69999945, b: 0.7067928, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,95 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &320006889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 320006890}
+  - component: {fileID: 320006891}
+  m_Layer: 0
+  m_Name: XRRig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &320006890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320006889}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &320006891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320006889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+--- !u!1 &525552089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 525552091}
+  - component: {fileID: 525552090}
+  m_Layer: 0
+  m_Name: Readme
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &525552090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525552089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
+  Guid: 2506087d5d69ebf4c8020c3b735c3639
+--- !u!4 &525552091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525552089}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &700669867
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +369,7 @@ GameObject:
   - component: {fileID: 751531970}
   - component: {fileID: 751531969}
   - component: {fileID: 751531971}
+  - component: {fileID: 751531972}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -345,7 +435,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.GltfExport, Needle.Engine
   binary: 1
   objects:
-  - {fileID: 1085164096}
+  - {fileID: 320006889}
+--- !u!114 &751531972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751531968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7dfa288ba5f3dec4037c8fb4858022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.XRLifecycleEvents,
+    Needle.Engine-Samples.Runtime
+  onSessionStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1687472727}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onSessionEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &777222128
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +479,7 @@ GameObject:
   - component: {fileID: 777222130}
   - component: {fileID: 777222129}
   m_Layer: 2
-  m_Name: Cube
+  m_Name: MeshTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -493,7 +614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.WebXRPlaneTracking, Needle.Engine
   dataTemplate: {fileID: 777222128}
   initiateRoomCaptureIfNoData: 1
-  usePlaneData: 0
+  usePlaneData: 1
   useMeshData: 1
 --- !u!114 &1085164098
 MonoBehaviour:
@@ -703,5 +824,10 @@ MonoBehaviour:
 --- !u!1 &1687472726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8771091787928289351, guid: 122846705c9c3014591b2e47ee7e00c5, type: 3}
+  m_PrefabInstance: {fileID: 1687472723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1687472727 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -109004011050179549, guid: 122846705c9c3014591b2e47ee7e00c5, type: 3}
   m_PrefabInstance: {fileID: 1687472723}
   m_PrefabAsset: {fileID: 0}
