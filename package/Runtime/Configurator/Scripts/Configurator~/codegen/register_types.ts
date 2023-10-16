@@ -1,12 +1,12 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { ConfigurationElement } from "../ConfigurationElement";
-import { Configurator } from "../Configurator";
-import { ConfiguratorControls } from "../ConfiguratorControls";
-import { MaterialConfigurator } from "../MaterialConfigurator";
-import { ObjectConfigurator } from "../ObjectConfigurator";
-import { SyncConfiguratorTransform } from "../SyncConfiguratorTransform";
+import { ConfigurationElement } from "../ConfigurationElement.js";
+import { Configurator } from "../Configurator.js";
+import { ConfiguratorControls } from "../ConfiguratorControls.js";
+import { MaterialConfigurator } from "../MaterialConfigurator.js";
+import { ObjectConfigurator } from "../ObjectConfigurator.js";
+import { SyncConfiguratorTransform } from "../SyncConfiguratorTransform.js";
 
 // Register types
 TypeStore.add("ConfigurationElement", ConfigurationElement);
