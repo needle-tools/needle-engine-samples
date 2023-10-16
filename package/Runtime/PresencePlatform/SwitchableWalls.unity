@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26354218, g: 0.20579134, b: 0.1547163, a: 1}
+  m_IndirectSpecularColor: {r: 0.26350212, g: 0.20570299, b: 0.15469706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -767,7 +767,7 @@ MonoBehaviour:
   - Name: needle.samples.questpro
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/PresencePlatform/Needle.Samples.QuestPro.npmdef
     Guid: 900e16aff70d5c44eb92f9c980c1cfb2
-  - Name: samplescripts
+  - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &991630713
@@ -1268,9 +1268,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e83a058a037174904c93aa1d47397a49, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.WebXRPlaneTracking, Needle.Engine $ GlobalObjectId_V1-2-00000000000000000000000000000000-1615788723-0
-  planeTemplate: {fileID: 1740756390}
-  initiateRoomCaptureIfNoPlanes: 1
+  m_EditorClassIdentifier: Needle.Engine.WebXRPlaneTracking, Needle.Engine
+  dataTemplate: {fileID: 1740756390}
+  initiateRoomCaptureIfNoData: 1
+  usePlaneData: 1
+  useMeshData: 1
 --- !u!114 &1615788724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1285,7 +1287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-00000000000000000000000000000000-1615788724-0
   enableVR: 0
   enableAR: 1
-  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
+  defaultAvatar: {fileID: 0}
   createVRButton: 0
   createARButton: 1
   handModelPath: 
