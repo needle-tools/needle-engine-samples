@@ -16,6 +16,7 @@ using Needle.Engine;
 using Needle.Engine.Deployment;
 using Needle.Engine.Projects;
 using Object = UnityEngine.Object;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SampleChecks
 {
@@ -106,8 +107,10 @@ namespace SampleChecks
         }
 
         // TODO this could be based on the current package version and e.g. only allow 2-3 minor version deviations
+        // 3.19.8 - fixes scrollbar flicker
         private const int RequiredMajorVersion = 3;
-        private const int RequiredMinorVersion = 4;
+        private const int RequiredMinorVersion = 19;
+        private const int RequiredPatchVersion = 8;
         
         [Test]
         [Category(PublicInfoCategoryName)]
@@ -141,7 +144,7 @@ namespace SampleChecks
             var patch = match.Groups["patch"].Value;    
             var pre = match.Groups["suffix"].Value;
             
-            // TODO proper SemVer check
+            
             var isSemver = !string.IsNullOrEmpty(major) && !string.IsNullOrEmpty(minor) && !string.IsNullOrEmpty(patch);
 
             Debug.Log("Version: " + version);
@@ -151,8 +154,23 @@ namespace SampleChecks
             }
             else
             {
-                Assert.GreaterOrEqual(int.Parse(major), RequiredMajorVersion, "Version is too old: " + version);
-                Assert.GreaterOrEqual(int.Parse(minor), RequiredMinorVersion, "Version is too old: " + version);
+                var majorValue = int.Parse(major);
+                var minorValue = int.Parse(minor);
+                var patchValue = int.Parse(patch);
+
+                var errorMsg = $"Version is too old {version} and expected {RequiredMajorVersion}.{RequiredMinorVersion}.{RequiredPatchVersion}";
+
+                // TODO proper SemVer check
+                Assert.GreaterOrEqual(majorValue, RequiredMajorVersion, errorMsg);
+
+                if (majorValue == RequiredMajorVersion)
+                {
+                    Assert.GreaterOrEqual(minorValue, RequiredMinorVersion, errorMsg);
+                    if(minorValue == RequiredMinorVersion)
+                    {
+                        Assert.GreaterOrEqual(patchValue, RequiredPatchVersion, errorMsg);
+                    }
+                }
             }
         }
 
