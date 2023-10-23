@@ -1,5 +1,4 @@
-import {  Behaviour, Button, Canvas, CanvasGroup, GameObject, Gizmos, InstantiateOptions, Mathf, serializable, showBalloonMessage, Text } from "@needle-tools/engine";
-import { IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler } from "@needle-tools/engine";
+import { Behaviour, Button, Canvas, CanvasGroup, GameObject, Gizmos, InstantiateOptions, Mathf, serializable, showBalloonMessage, Text } from "@needle-tools/engine";
 import { getWorldPosition, getWorldQuaternion, getWorldScale, setWorldQuaternion } from "@needle-tools/engine";
 import { Vector3, PerspectiveCamera } from "three";
 
@@ -47,7 +46,7 @@ export class Hotspot extends Behaviour {
     }
 }
 
-export class HotspotBehaviour extends Behaviour implements IPointerClickHandler {
+export class HotspotBehaviour extends Behaviour {
     
     @serializable(Text)
     label?: Text;
@@ -94,9 +93,11 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
             this.content.text = hotspot.contentText;
 
         this.button = this.gameObject.getComponentInChildren(Button);
+        console.log(this.button?.guid);
+        this.button?.onClick?.addEventListener(this.onButtonClicked.bind(this));
     }
     
-    onPointerClick() {
+    onButtonClicked() {
         this.selected = !this.selected;
         this.contentFadeTimestamp = this.context.time.time;
 
@@ -160,6 +161,7 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         // May look nicer with some limiting function that is not linear
         // TODO we may want hotspots to become a bit smaller the further away they are, feels "too big" in VR
         // Keep constant screensize independent of fov
+        // @ts-ignore
         const clampedFov = Mathf.clamp(cam.fov, 0, 70);
         const multiplier = 0.25 * Math.tan(clampedFov * Mathf.Deg2Rad / 2);
 

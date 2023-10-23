@@ -1,10 +1,10 @@
 ﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { Hotspot } from "../Hotspot";
-import { HotspotBehaviour } from "../Hotspot";
-import { HotspotManager } from "../Hotspot";
-import { UIEventRealy } from "../UIEventRelay";
+import { Hotspot } from "../Hotspot.js";
+import { HotspotBehaviour } from "../Hotspot.js";
+import { HotspotManager } from "../Hotspot.js";
+import { UIEventRealy } from "../UIEventRelay.js";
 
 // Register types
 TypeStore.add("Hotspot", Hotspot);

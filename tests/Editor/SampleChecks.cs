@@ -443,5 +443,20 @@ namespace SampleChecks
                         .Select(fi => $"[{(fi.fileInfo.Length / 1024f / 1024f):F2} MB] {fi.path}")
                 ));
         }
+
+        [Test]
+        public void ValidNPMDefReferences()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var info = Object.FindObjectOfType<ExportInfo>();
+            Assert.IsNotNull(info);
+
+            info.Dependencies.ForEach(x =>
+            {
+                var path = AssetDatabase.GUIDToAssetPath(x.Guid);
+                Assert.IsNotEmpty(path, $"Npmdef called \"{x.Name}\" is referenced with missing guid");
+            });
+        }
     }
 }
