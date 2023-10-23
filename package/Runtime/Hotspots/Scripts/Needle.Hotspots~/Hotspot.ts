@@ -93,7 +93,6 @@ export class HotspotBehaviour extends Behaviour {
             this.content.text = hotspot.contentText;
 
         this.button = this.gameObject.getComponentInChildren(Button);
-        console.log(this.button?.guid);
         this.button?.onClick?.addEventListener(this.onButtonClicked.bind(this));
     }
     
