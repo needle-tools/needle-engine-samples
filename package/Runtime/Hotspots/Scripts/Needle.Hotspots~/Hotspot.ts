@@ -1,7 +1,7 @@
 import {  Behaviour, Button, Canvas, CanvasGroup, GameObject, Gizmos, InstantiateOptions, Mathf, serializable, showBalloonMessage, Text } from "@needle-tools/engine";
 import { IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler } from "@needle-tools/engine";
 import { getWorldPosition, getWorldQuaternion, getWorldScale, setWorldQuaternion } from "@needle-tools/engine";
-import { Vector3 } from "three";
+import { Vector3, PerspectiveCamera } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -25,13 +25,16 @@ export class Hotspot extends Behaviour {
         const options = new InstantiateOptions();
         options.parent = this.gameObject;
         this.instance = GameObject.instantiate(HotspotManager.Instance.hotspotTemplate.gameObject, options);
-        this.instance.removeFromParent();
-        this.gameObject.add(this.instance);
-        this.hotspot = this.instance?.getComponent(HotspotBehaviour);
-        if (this.hotspot) {
-            GameObject.setActive(this.hotspot.gameObject, true);
-            this.hotspot.init(this);
-            HotspotManager.Instance.registerHotspot(this.hotspot);
+        if(!this.instance) console.error("No hotspot template assigned to HotspotManager!")
+        else {
+            this.instance.removeFromParent();
+            this.gameObject.add(this.instance);
+            this.hotspot = this.instance?.getComponent(HotspotBehaviour);
+            if (this.hotspot) {
+                GameObject.setActive(this.hotspot.gameObject, true);
+                this.hotspot.init(this);
+                HotspotManager.Instance.registerHotspot(this.hotspot);
+            }
         }
     }
 
@@ -124,6 +127,7 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
             const lookFrom = getWorldPosition(cam);
             this.gameObject.lookAt(lookFrom);
             // check if we're on a screen (not immersive) - then we should aim to render camera plane aligned
+            //@ts-ignore
             const arSessionOnAScreen = this.context.xrSession.interactionMode === "screen-space";
             if (arSessionOnAScreen) {
                 const forwardPoint = lookFrom.sub(this.forward);
