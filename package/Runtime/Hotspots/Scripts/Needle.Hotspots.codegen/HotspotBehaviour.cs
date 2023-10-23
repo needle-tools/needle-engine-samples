@@ -15,7 +15,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.CanvasGroup @contentCanvasGroup;
 		public UnityEngine.CanvasGroup @headerCanvasGroup;
 		public void init(Needle.Typescript.GeneratedComponents.Hotspot @hotspot){}
-		public void onPointerClick(){}
+		public void onButtonClicked(){}
 		public void deselect(){}
 		public void onBeforeRender(object @frame){}
 		public void applyFade(){}

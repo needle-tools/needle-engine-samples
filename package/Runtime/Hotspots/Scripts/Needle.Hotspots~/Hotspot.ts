@@ -1,5 +1,4 @@
-import {  Behaviour, Button, Canvas, CanvasGroup, GameObject, Gizmos, InstantiateOptions, Mathf, serializable, showBalloonMessage, Text } from "@needle-tools/engine";
-import { IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler } from "@needle-tools/engine";
+import { Behaviour, Button, Canvas, CanvasGroup, GameObject, Gizmos, InstantiateOptions, Mathf, serializable, showBalloonMessage, Text } from "@needle-tools/engine";
 import { getWorldPosition, getWorldQuaternion, getWorldScale, setWorldQuaternion } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
@@ -24,7 +23,7 @@ export class Hotspot extends Behaviour {
         // instantiate a hotspot here
         const options = new InstantiateOptions();
         options.parent = this.gameObject;
-        this.instance = GameObject.instantiate(HotspotManager.Instance.hotspotTemplate.gameObject, options);
+        this.instance = GameObject.instantiate(HotspotManager.Instance.hotspotTemplate.gameObject, options)!;
         this.instance.removeFromParent();
         this.gameObject.add(this.instance);
         this.hotspot = this.instance?.getComponent(HotspotBehaviour);
@@ -44,7 +43,7 @@ export class Hotspot extends Behaviour {
     }
 }
 
-export class HotspotBehaviour extends Behaviour implements IPointerClickHandler {
+export class HotspotBehaviour extends Behaviour {
     
     @serializable(Text)
     label?: Text;
@@ -91,9 +90,11 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
             this.content.text = hotspot.contentText;
 
         this.button = this.gameObject.getComponentInChildren(Button);
+        console.log(this.button?.guid);
+        this.button?.onClick?.addEventListener(this.onButtonClicked.bind(this));
     }
     
-    onPointerClick() {
+    onButtonClicked() {
         this.selected = !this.selected;
         this.contentFadeTimestamp = this.context.time.time;
 
@@ -124,6 +125,7 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
             const lookFrom = getWorldPosition(cam);
             this.gameObject.lookAt(lookFrom);
             // check if we're on a screen (not immersive) - then we should aim to render camera plane aligned
+            // @ts-ignore
             const arSessionOnAScreen = this.context.xrSession.interactionMode === "screen-space";
             if (arSessionOnAScreen) {
                 const forwardPoint = lookFrom.sub(this.forward);
@@ -156,6 +158,7 @@ export class HotspotBehaviour extends Behaviour implements IPointerClickHandler 
         // May look nicer with some limiting function that is not linear
         // TODO we may want hotspots to become a bit smaller the further away they are, feels "too big" in VR
         // Keep constant screensize independent of fov
+        // @ts-ignore
         const clampedFov = Mathf.clamp(cam.fov, 0, 70);
         const multiplier = 0.25 * Math.tan(clampedFov * Mathf.Deg2Rad / 2);
 
