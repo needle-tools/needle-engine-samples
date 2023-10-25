@@ -1,5 +1,5 @@
 import { Behaviour, LODGroup, Text, serializable } from "@needle-tools/engine";
-import { Vector3, LOD } from "three";
+import { Vector3, LOD, Mesh} from "three";
 
 export class DebugLOD extends Behaviour {
 
@@ -19,19 +19,34 @@ export class DebugLOD extends Behaviour {
         const dist = this.tempVec1.distanceTo(this.tempVec2);
 
         const handlers = this.lodGroup["_lodsHandler"] as Array<LOD>;
-        if(handlers) {
-            let msg: string | null = null;
-            handlers.forEach((lod) => { 
-                const lvl = lod.levels[lod.getCurrentLevel()]!;
-                if(!lvl.object.name.includes("Cull")) {
-                    msg = `${lvl.object.name.replace(/_/g, " ")}\n${lvl.distance.toFixed(2)}`;
-                }
-            })
+        let msg: string | null = null;
+        handlers?.forEach((lod) => { 
+            const lowerLvl = lod.levels[lod.getCurrentLevel()]!;
+            const upperLvl = lod.levels.at(lod.getCurrentLevel() + 1);
+            let stats: string | null = null;
+            if(lowerLvl.object instanceof Mesh) {
+                const attributes = lowerLvl.object.geometry.attributes;
+                const vertexCount = Math.floor(attributes.position?.count || 0);
+                const triangleCount = Math.floor((attributes.index?.count || vertexCount) / 3);
+                stats = `Triangles: ${triangleCount}, Vertices: ${vertexCount}`;
+            }
 
-            if(!msg)
-                msg = ` \nculled`;
+            const name = lowerLvl.object.name.replace(/_/g, "");
+            if(!lowerLvl.object.name.includes("Cull")) {
+                msg = "";
+                if(stats)
+                    msg += `${stats}\n`;
 
-            this.text!.text = `${msg}\n${dist.toFixed(2)}`;
-        }
+                msg += `${lowerLvl.distance.toFixed(1)} / ${dist.toFixed(1)}`;
+
+                if(upperLvl)
+                    msg += ` / ${upperLvl.distance.toFixed(1)}`;
+            }
+        });
+
+        if(!msg)
+            msg = "culled";
+
+        this.text!.text = msg;
     }
 }

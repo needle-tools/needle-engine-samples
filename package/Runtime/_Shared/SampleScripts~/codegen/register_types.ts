@@ -2,6 +2,7 @@
 
 // Import types
 import { AspectRatioFitterUI } from "../AspectRatioFitterUI.js";
+import { CameraGoal } from "../CameraGoal.js";
 import { Cannon } from "../Cannon.js";
 import { RandomColor } from "../ChangeColor.js";
 import { ChangeColorOnCollision } from "../ChangeColorOnCollision.js";
@@ -11,7 +12,6 @@ import { DepthOfFieldController } from "../DepthOfFieldController.js";
 import { DisableEnvironmentLight } from "../DisableEnvironment.js";
 import { EmitParticlesOnClick } from "../EmitParticlesOnClick.js";
 import { EnforceParameters } from "../EnforceParameters.js";
-import { ExportGltf } from "../ExportGltf.js";
 import { HTMLButtonClick } from "../HTMLButtonEvent.js";
 import { HTMLMenu } from "../HTMLMenu.js";
 import { IFrameContent } from "../IFrameContent.js";
@@ -42,6 +42,7 @@ import { XRLifecycleEvents } from "../XRLifecycleEvents.js";
 
 // Register types
 TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
+TypeStore.add("CameraGoal", CameraGoal);
 TypeStore.add("Cannon", Cannon);
 TypeStore.add("RandomColor", RandomColor);
 TypeStore.add("ChangeColorOnCollision", ChangeColorOnCollision);
@@ -51,7 +52,6 @@ TypeStore.add("DepthOfFieldController", DepthOfFieldController);
 TypeStore.add("DisableEnvironmentLight", DisableEnvironmentLight);
 TypeStore.add("EmitParticlesOnClick", EmitParticlesOnClick);
 TypeStore.add("EnforceParameters", EnforceParameters);
-TypeStore.add("ExportGltf", ExportGltf);
 TypeStore.add("HTMLButtonClick", HTMLButtonClick);
 TypeStore.add("HTMLMenu", HTMLMenu);
 TypeStore.add("IFrameContent", IFrameContent);
