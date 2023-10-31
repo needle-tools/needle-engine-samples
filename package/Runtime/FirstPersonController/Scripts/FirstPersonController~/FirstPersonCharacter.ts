@@ -422,7 +422,7 @@ export class FirstPersonController extends Behaviour {
             vel.y = 0;
             rigidbody.setVelocity(vel);
 
-            // aplly impulse
+            // apply impulse
             rigidbody.applyImpulse(this.jumpVec);
 
             // callback
@@ -432,9 +432,6 @@ export class FirstPersonController extends Behaviour {
         // move the character controller
         rigidbody.applyImpulse(this.moveDir);
 
-        // is there any move input
-        const isMoving = move.length() > 0.01;
-
         // clamp max speed while not effecting Y velocity
         const vel = rigidbody.getVelocity();
         const origY = vel.y;
@@ -443,9 +440,6 @@ export class FirstPersonController extends Behaviour {
         const max = sprint ? this.maxSprintSpeed : this.maxSpeed;
         vel.y = 0;
         vel.clampLength(0, max);
-        if (!isMoving) {
-            vel.lerp(this.zeroValue, this.stoppingDecay * deltaTime);
-        }
 
         // restore Y velocity
         vel.y = origY;
