@@ -28,6 +28,8 @@ export class SampleNetworkedPlayer extends Behaviour {
             this.initialize();
         else
             this.playerState.onFirstOwnerChangeEvent.addEventListener(this.initialize);
+
+            this.currentGoal.copy(this.gameObject.position);
     }
 
     initialize = () => {
@@ -52,9 +54,6 @@ export class SampleNetworkedPlayer extends Behaviour {
 
             this.mainRenderer.sharedMaterial = coloredMat;
         }
-
-        // sample: set random position on the map 
-        this.currentGoal = new Vector3((Math.random() - 0.5) * 2, 0, (Math.random() - 0.5) * 2);
     }
 
     update() {

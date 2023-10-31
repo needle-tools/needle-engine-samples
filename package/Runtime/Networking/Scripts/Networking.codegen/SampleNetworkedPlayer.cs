@@ -12,7 +12,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Renderer @mainRenderer;
 		public float @speed = 5f;
 		public void start(){}
-		public void onDestroy(){}
 		// public undefined @initialize; → Could not resolve C# type
 		public void update(){}
 	}

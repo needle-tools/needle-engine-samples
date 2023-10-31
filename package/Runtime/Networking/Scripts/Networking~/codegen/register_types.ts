@@ -10,6 +10,7 @@ import { SendMessageExample } from "../Messages/SendMessageExample.js";
 import { TriggerEventListOnClick } from "../Messages/TriggerEventListOnClick.js";
 import { PlayerStateUI } from "../Player/PlayerStateUI.js";
 import { SampleNetworkedPlayer } from "../Player/SampleNetworkedPlayer.js";
+import { SpawnSpotHandler } from "../Player/SpawnSpotHandler.js";
 import { RoomData } from "../Rooms/RoomData.js";
 import { RoomManager } from "../Rooms/RoomManager.js";
 
@@ -23,5 +24,6 @@ TypeStore.add("SendMessageExample", SendMessageExample);
 TypeStore.add("TriggerEventListOnClick", TriggerEventListOnClick);
 TypeStore.add("PlayerStateUI", PlayerStateUI);
 TypeStore.add("SampleNetworkedPlayer", SampleNetworkedPlayer);
+TypeStore.add("SpawnSpotHandler", SpawnSpotHandler);
 TypeStore.add("RoomData", RoomData);
 TypeStore.add("RoomManager", RoomManager);
