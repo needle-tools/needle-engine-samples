@@ -22,7 +22,7 @@ export class XRControllerInputDebugger extends Behaviour {
             controller.enableDefaultControls = false;
             controller.enableRaycasts = false;
 
-            let text = `Controller: ${controller.input?.handedness}\n`;
+            let text = `Controller: ${controller.input?.handedness} (${controller.index})\n`;
 
             text += `\nSimple input:\n`;
             text += `Selection: ${controller.selectionPressed}\n`;
