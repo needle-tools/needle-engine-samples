@@ -16,7 +16,6 @@ using Needle.Engine;
 using Needle.Engine.Deployment;
 using Needle.Engine.Projects;
 using Object = UnityEngine.Object;
-using System.Diagnostics.Eventing.Reader;
 
 namespace SampleChecks
 {
