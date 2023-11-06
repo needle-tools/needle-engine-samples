@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.91866046, g: 0.8734773, b: 0.830791, a: 1}
+  m_IndirectSpecularColor: {r: 0.91866046, g: 0.8734774, b: 0.8307909, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -406,7 +406,7 @@ MonoBehaviour:
   AutoExport: 1
   Dependencies:
   - Name: stencilportals
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Stencil Portals 2/Scripts/StencilPortals.npmdef
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Stencil Portals/Scripts/Runtime/StencilPortals.npmdef
     Guid: c1d8440c02a760d4a9dcf620240eb67a
 --- !u!4 &784234924
 Transform:
@@ -739,6 +739,7 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-bd465658213b0f24faa101d0816b5a7a-1786409565-0
   arScale: 10
   invertForward: 0
+  arTouchTransform: 0
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,6 +911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1911484114}
   - component: {fileID: 1911484113}
+  - component: {fileID: 1911484115}
   m_Layer: 0
   m_Name: RP
   m_TagString: EditorOnly
@@ -946,6 +948,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1911484115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911484112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 850d5bef05a67c443afca18b3a926435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.NeedsURP, Needle.Engine-Samples.Runtime
 --- !u!1 &2100537132
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,7 +988,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
   Guid: 01c53b9b68d767443a2973d34bcf1dce
 --- !u!4 &2100537134
 Transform:
