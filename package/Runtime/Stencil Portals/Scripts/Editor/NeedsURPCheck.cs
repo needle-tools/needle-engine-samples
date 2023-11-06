@@ -18,7 +18,7 @@ namespace Needle
 				if (needsUrpComponent)
 				{
 					if (!GraphicsSettings.currentRenderPipeline ||
-					    GraphicsSettings.currentRenderPipeline.GetType().Name.Contains("Universal", StringComparison.InvariantCultureIgnoreCase) == false)
+					    GraphicsSettings.currentRenderPipeline.GetType().Name.Contains("Universal") == false)
 					{
 						EditorGUIUtility.PingObject(needsUrpComponent);
 						throw new Exception(
