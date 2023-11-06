@@ -4,6 +4,11 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.13.0] - 2023-11-06
+- fixes to FirstPersonController, Hotspots, Multi-Scenes, Networking, Stencil Portals, UI, sample scripts
+- update required Unity version to 2021.3.9f1
+- update Needle Engine to `3.22.6`
+
 ## [0.12.0] - 2023-10-16
 - add Gaussian Splatting sample
 - add XR Mesh Tracking sample (e.g. on Quest 3)
