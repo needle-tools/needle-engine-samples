@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: f0fe2ff02a3cbde40ac60243cd454a43, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: c1b3fae95bc7e4e15bbb314f445312a2, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4573754, g: 0.45574576, b: 0.4573754, a: 1}
+  m_IndirectSpecularColor: {r: 0.7321616, g: 0.7321616, b: 0.7321616, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -134,18 +134,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProductCameraRig
       objectReference: {fileID: 0}
-    - target: {fileID: 5984530875210680252, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.201
-      objectReference: {fileID: 0}
-    - target: {fileID: 5984530875210680252, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.309
-      objectReference: {fileID: 0}
-    - target: {fileID: 5984530875210680252, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.194
-      objectReference: {fileID: 0}
     - target: {fileID: 5984530875474521815, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_EditorClassIdentifier
       value: UnityEngine.Rendering.Universal.UniversalAdditionalCameraData, Unity.RenderPipelines.Universal.Runtime
@@ -165,24 +153,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984530875474521833, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99937916
+      value: 0.9995862
       objectReference: {fileID: 0}
     - target: {fileID: 5984530875474521833, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.033826087
+      value: -0.028764162
       objectReference: {fileID: 0}
     - target: {fileID: 5984530875474521833, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.009851599
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5984530875474521833, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00033344806
-      objectReference: {fileID: 0}
-    - target: {fileID: 5984530876355009984, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
-      propertyPath: m_EditorClassIdentifier
-      value: Needle.Typescript.GeneratedComponents.ScrollTimeline_2, Needle.Engine-Samples.Runtime
-        $ GlobalObjectId_V1-2-d3faddbb672fc794197d7ba8a9961519-5984530876355009984-190309058
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6035976695974062099, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_RootOrder
@@ -310,6 +293,7 @@ GameObject:
   - component: {fileID: 1005146040}
   - component: {fileID: 1005146039}
   - component: {fileID: 1005146041}
+  - component: {fileID: 1005146042}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -388,7 +372,8 @@ Transform:
   m_GameObject: {fileID: 1005146038}
   m_LocalRotation: {x: -0.26620767, y: -0.6644022, z: 0.2786332, w: -0.64036465}
   m_LocalPosition: {x: -0.93, y: 1.73, z: 0.03}
-  m_LocalScale: {x: 1.000001, y: 1.000001, z: 1.0000015}
+  m_LocalScale: {x: 1.0000021, y: 1.000001, z: 1.0000036}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -413,6 +398,26 @@ MonoBehaviour:
   shadowBias: 0.00001
   shadowNormalBias: 0.015
   _overrideShadowBiasSettings: 1
+--- !u!114 &1005146042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005146038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1324263768
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +461,8 @@ Transform:
   m_GameObject: {fileID: 1324263768}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2.000001, z: 2.000001}
+  m_LocalScale: {x: 2, y: 2.0000033, z: 2.0000033}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -480,6 +486,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -540,7 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.Rendering.Volume, Unity.RenderPipelines.Core.Runtime
     $ GlobalObjectId_V1-2-d3faddbb672fc794197d7ba8a9961519-2128331716-0
-  isGlobal: 1
+  m_IsGlobal: 1
   priority: 0
   blendDistance: 0
   weight: 1
@@ -552,9 +559,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2128331715}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4

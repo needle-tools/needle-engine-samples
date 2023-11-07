@@ -59,7 +59,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5984530875210680254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.201, y: 0.309, z: 0.194}
+  m_LocalPosition: {x: 0, y: 1.576, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 5984530875474521815}
   - component: {fileID: 5984530875474521813}
   - component: {fileID: 5984530875474521814}
+  - component: {fileID: 3953447811288197800}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -188,10 +189,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-d3faddbb672fc794197d7ba8a9961519-5984530875474521832-190309058
+  autoFit: 0
   enableRotate: 0
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
   enableKeys: 0
   enableDamping: 1
   dampingFactor: 0.1
@@ -202,6 +203,7 @@ MonoBehaviour:
   lookAtConstraint: {fileID: 5984530875474521813}
   middleClickToFocus: 0
   doubleClickToFocus: 0
+  allowInterrupt: 1
 --- !u!114 &5984530875474521815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +278,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3953447811288197800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5984530875474521836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693de1e48d1f0764d9bc83022f353103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraSkyboxData, Needle.Engine
+  backgroundBlurriness: 0.862
+  backgroundIntensity: 1
 --- !u!1 &5984530876355009987
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +302,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5984530876355009986}
   - component: {fileID: 5984530876355009985}
-  - component: {fileID: 5984530876355009984}
   m_Layer: 0
   m_Name: Timeline
   m_TagString: Untagged
@@ -320,7 +335,7 @@ PlayableDirector:
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 114079a0b32510d43940d05c27cca8c3, type: 2}
   m_InitialState: 1
-  m_WrapMode: 1
+  m_WrapMode: 0
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
@@ -332,19 +347,3 @@ PlayableDirector:
     value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
---- !u!114 &5984530876355009984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5984530876355009987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6127b58ab441be5873960b61547ced66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ScrollTimeline_2,
-    Needle.Engine-Samples.Runtime $ GlobalObjectId_V1-2-f82ee043c07e1c44f9fbbfab957220c3-348961271-0
-  timeline: {fileID: 5984530876355009985}
-  scrollSpeed: 0.5
-  lerpSpeed: 2.5
