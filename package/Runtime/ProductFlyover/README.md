@@ -1,3 +1,3 @@
 # Product Flyover
 
-Using Scrollytelling with Multi-Scenes lets you divide and present your content easier without the restraint on the total size.
+The animation in these scenes is driven by a timeline and animated in Unity. The example uses Signal Events and a SceneSwitcher component to change between different product and Unity scenes without using custom code.
