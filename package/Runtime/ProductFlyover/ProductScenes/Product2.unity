@@ -139,6 +139,14 @@ PrefabInstance:
       value: UnityEngine.Rendering.Universal.UniversalAdditionalCameraData, Unity.RenderPipelines.Universal.Runtime
         $ GlobalObjectId_V1-2-d3faddbb672fc794197d7ba8a9961519-5984530875474521815-190309058
       objectReference: {fileID: 0}
+    - target: {fileID: 5984530875474521832, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
+      propertyPath: enableDamping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984530875474521832, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
+      propertyPath: allowInterrupt
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5984530875474521833, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -169,12 +177,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984530876355009985, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_SceneBindings.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5984530876355009985, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_SceneBindings.Array.data[3].key
       value: 
       objectReference: {fileID: -5887163398911241484, guid: 114079a0b32510d43940d05c27cca8c3, type: 2}
+    - target: {fileID: 5984530876355009985, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
+      propertyPath: m_SceneBindings.Array.data[4].key
+      value: 
+      objectReference: {fileID: 5959491428635180705, guid: 114079a0b32510d43940d05c27cca8c3, type: 2}
+    - target: {fileID: 5984530876355009985, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
+      propertyPath: m_SceneBindings.Array.data[4].value
+      value: 
+      objectReference: {fileID: 1005146043}
     - target: {fileID: 6035976695974062099, guid: efa9cc15bb5d2e84d94ada85f7ff5933, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -302,6 +318,7 @@ GameObject:
   - component: {fileID: 1005146039}
   - component: {fileID: 1005146041}
   - component: {fileID: 1005146042}
+  - component: {fileID: 1005146043}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -378,14 +395,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1005146038}
-  m_LocalRotation: {x: -0.26620767, y: -0.6644022, z: 0.2786332, w: -0.64036465}
+  m_LocalRotation: {x: -0.26831907, y: -0.6595125, z: 0.27660042, w: -0.64539933}
   m_LocalPosition: {x: -0.93, y: 1.73, z: 0.03}
-  m_LocalScale: {x: 1.0000026, y: 1.000001, z: 1.0000045}
+  m_LocalScale: {x: 1.0000029, y: 1.000001, z: 1.000005}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 45.332, y: -267.995, z: -0.254}
+  m_LocalEulerAnglesHint: {x: 0.001511957, y: 359.7673, z: 0.2353881}
 --- !u!114 &1005146041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,7 +434,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalLightData,
+    Unity.RenderPipelines.Universal.Runtime
   m_Version: 1
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
@@ -426,6 +444,27 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!95 &1005146043
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005146038}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1324263768
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +508,7 @@ Transform:
   m_GameObject: {fileID: 1324263768}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2.0000043, z: 2.0000043}
+  m_LocalScale: {x: 2, y: 2.0000062, z: 2.0000062}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
