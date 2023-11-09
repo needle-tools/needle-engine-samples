@@ -1,6 +1,6 @@
 import { AudioSource, Behaviour, GameObject, InstantiateOptions, Rigidbody, WebXR, serializeable } from "@needle-tools/engine";
 import { setWorldPosition } from "@needle-tools/engine";
-import { Object3D,  Vector3, Quaternion } from "three";
+import { Object3D, Vector3, Quaternion } from "three";
 
 export class Cannon extends Behaviour {
 
@@ -12,6 +12,9 @@ export class Cannon extends Behaviour {
 
     @serializeable()
     strength: number = 10;
+
+    @serializeable()
+    maxInstances: number = 10;
 
     private _instances: THREE.Object3D[] = [];
     private _index: number = -1;
@@ -72,7 +75,7 @@ export class Cannon extends Behaviour {
 
         // create a new instance from the prefab if we dont have enough yet
         // we cache previously created prefabs so we dont spawn infinite objects
-        if (this._instances.length < 5) {
+        if (this._instances.length < this.maxInstances) {
             const opts = new InstantiateOptions();
             opts.position = origin;
             const prefabInstance = GameObject.instantiate(this.prefab, opts);

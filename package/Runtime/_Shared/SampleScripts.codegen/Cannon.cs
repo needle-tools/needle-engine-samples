@@ -10,6 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.GameObject @prefab;
 		public UnityEngine.AudioSource @audioSource;
 		public float @strength = 10f;
+		public float @maxInstances = 10f;
 		public void start(){}
 		public void update(){}
 	}
