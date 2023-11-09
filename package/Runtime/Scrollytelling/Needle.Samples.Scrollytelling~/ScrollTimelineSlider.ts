@@ -23,7 +23,7 @@ export class ScrollTimelineSlider extends Behaviour {
             this._slider.min = "0";
             this._slider.max = this.timeline.duration.toString();
             this._slider.step = "0.0001";
-            this._slider.value = this.timeline.time.toString();
+            this._slider.value = (this.timeline.duration * .2).toString();
             this._slider.style.cssText = `
             position: absolute;
             bottom: 8%;
@@ -41,6 +41,9 @@ export class ScrollTimelineSlider extends Behaviour {
             // Make sure the timeline doesnt automatically play - we want to control this from the slider
             this.timeline.pause();
             this.timeline.playOnAwake = false;
+            // let's evaluate once
+            this.timeline.time = parseFloat(this._slider!.value);
+            this.timeline.evaluate();
         }
         this.context.domElement.appendChild(this._slider!);
     }
