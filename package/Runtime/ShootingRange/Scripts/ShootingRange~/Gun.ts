@@ -206,6 +206,7 @@ export class Gun extends Behaviour {
             window.addEventListener('click', this.onMouseClick);
         }
         if (this.enableMobileInput) {
+            window.addEventListener('touchstart', this.onTouchStart);
             window.addEventListener('touchend', this.onTouchEnd);
         }
     }
@@ -215,28 +216,35 @@ export class Gun extends Behaviour {
             window.removeEventListener('click', this.onMouseClick);
         }
         if (this.enableMobileInput) {
+            window.removeEventListener('touchend', this.onTouchStart);
             window.removeEventListener('touchend', this.onTouchEnd);
         }
     }
 
-    private _lastTouchEndPoint = new Vector2();
+    private _touchStart = new Vector2();
+    private onTouchStart = (event: TouchEvent) => { 
+        const started = event.changedTouches[0];
+        const x = started.clientX;
+        const y = started.clientY;
+
+        this._touchStart.set(x, y);
+    }
+
     private onTouchEnd = (event: TouchEvent) => {
         const ended = event.changedTouches[0];
         const x = ended.clientX;
         const y = ended.clientY;
-        const dx = x - this._lastTouchEndPoint.x;
-        const dy = y - this._lastTouchEndPoint.y;
-        this._lastTouchEndPoint.set(x, y);
+        const dx = x - this._touchStart.x;
+        const dy = y - this._touchStart.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         console.log("touch end", event);
-        if (dist < 15) {
-            this.fire();
-            console.log("tap finger");
+        if(dist > 15) {
+            this.fireIgnoreMiss();
         }
-        if (event.touches.length <= 0) { // last finger 
-            this.fire(true, true);
-            console.log("last finger");
+        
+        if (dist < 15 && event.touches.length <= 0) { // last finger 
+            this.fireWithMiss();
         }
     }
 
