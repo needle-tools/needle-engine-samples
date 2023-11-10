@@ -84,6 +84,8 @@ export class CommonAvatar extends CharacterModule {
 
     // can't be moduleOnBeforeRender because it needs to run after the animator
     onBeforeRender(): void {
+        if(!this.character || !this.character.isInitialized || !this.character.isLocalPlayer) return; // disable the override in multiplayer
+
         if (this.currentPerson != undefined && this.originalHeadScale != undefined) {
             // apply scale every frame since animation's pose contains scale as well (?)
             this.headBone?.scale.copy(this.currentPerson == PersonMode.FirstPerson ? this.zeroScale : this.originalHeadScale)
