@@ -25,7 +25,7 @@ Create your simple data structure to synchronize over the network.
 ## Networking Messages
 Send JSON and Binary messages and delete stored state from the server.
 
-[Explore it here.](https://engine.needle.tools/samples/networking-messages)
+[Explore it here.](https://engine.needle.tools/samples-uploads/networking-messages)
 
 ## Networking Player
 Synchronize your player in a multiplayer experience.
