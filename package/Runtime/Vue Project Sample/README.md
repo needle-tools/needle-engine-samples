@@ -1,6 +1,6 @@
 # Vue.js Integration
 
-This sample demonstrates how to integrate the [Vue.js](https://vuejs.org/) frontend framework and a Needle scene. The [vuejs project template](https://github.com/needle-engine/vuejs-sample) is hosted and downloaded from github.  
+This sample demonstrates how to integrate the [Vue.js](https://vuejs.org/) frontend framework with Needle Engine. The [vuejs project template](https://github.com/needle-engine/vuejs-sample) is hosted and downloaded from github.  
 
 In this sample the needle engine web component is added to the [App.vue](https://github.com/needle-engine/vuejs-sample/blob/0d0e5b265c5dd26a65148fa3a94a0d1d5191e441/src/App.vue#L26) component. The content of the 3D scene integrates seamlessly with the web components: content uses zIndex to be either rendered in front or behind the 3D content.
 
