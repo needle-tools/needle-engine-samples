@@ -5,6 +5,9 @@ export class Lift extends Behaviour {
     @serializable()
     speed: number = 1;
 
+    @serializable()
+    cycleOffset: number = 0;
+
     @serializable(Vector3)
     offset: Vector3 = new Vector3(0, 1, 0);
 
@@ -20,7 +23,7 @@ export class Lift extends Behaviour {
     update(): void {
         const time = this.context.time.time;
 
-        const t = (Math.sin(time * this.speed) + 1) / 2;
+        const t = (Math.sin((time * this.speed) + this.cycleOffset) + 1) / 2;
         this.tempVec.copy(this.startPos);
         this.tempVec.lerp(this.endPos, MathUtils.smoothstep(t, 0, 1));
 
