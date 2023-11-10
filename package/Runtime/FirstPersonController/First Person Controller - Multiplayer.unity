@@ -1237,7 +1237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 163177334}
   - component: {fileID: 163177336}
-  - component: {fileID: 163177335}
+  - component: {fileID: 163177337}
   m_Layer: 0
   m_Name: Player Networking
   m_TagString: Untagged
@@ -1261,31 +1261,6 @@ Transform:
   m_Father: {fileID: 503258321}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &163177335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 163177333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8230a81bda14e05f6404555ff91f25fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SpawnHandler, Needle.Engine-Samples.Runtime
-    $ GlobalObjectId_V1-2-02ce15c59a3b504499e013beac450d92-1990773343-0
-  spawnPoints:
-  - {fileID: 1529145222}
-  - {fileID: 1509204802}
-  - {fileID: 1464773683}
-  - {fileID: 1442964477}
-  - {fileID: 1458208241}
-  - {fileID: 120354486}
-  - {fileID: 1503345512}
-  - {fileID: 1839034217}
-  mobileControls: {fileID: 2017710847}
-  autoRespawn: 1
-  autoRespawnLimitY: -10
 --- !u!114 &163177336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1298,12 +1273,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f2446c0938cd4429fa031921c01587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.PlayerSync, Needle.Engine $ GlobalObjectId_V1-2-02ce15c59a3b504499e013beac450d92-1990773342-0
-  asset: {fileID: 2736908959819577950, guid: 408dd47400dbb3646a9c85ec21eef9ca, type: 3}
+  asset: {fileID: 5991398224157749792, guid: 369d1bdfb36dd3d47aa34dbff3fc62a9, type: 3}
   onPlayerSpawned:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 163177335}
-        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.SpawnHandler,
+      - m_Target: {fileID: 163177337}
+        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.SpawnSpotHandler,
           Needle.Engine-Samples.Runtime
         m_MethodName: handlePlayerSpawn
         m_Mode: 0
@@ -1315,6 +1290,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &163177337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163177333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933baf789ec1adff350d88f160d759e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SpawnSpotHandler,
+    Needle.Engine-Samples.Runtime
+  spawnPoints:
+  - {fileID: 1529145222}
+  - {fileID: 1509204802}
+  - {fileID: 1464773683}
+  - {fileID: 1442964477}
+  - {fileID: 1458208241}
+  - {fileID: 120354486}
+  - {fileID: 1503345512}
+  - {fileID: 1839034217}
+  offsetForError: 1
 --- !u!1 &195469299
 GameObject:
   m_ObjectHideFlags: 0
@@ -2132,7 +2130,6 @@ GameObject:
   m_Component:
   - component: {fileID: 503258321}
   - component: {fileID: 503258320}
-  - component: {fileID: 503258322}
   m_Layer: 0
   m_Name: Scene
   m_TagString: Untagged
@@ -2169,26 +2166,9 @@ Transform:
   - {fileID: 519573138}
   - {fileID: 1990773340}
   - {fileID: 163177334}
-  - {fileID: 2017710846}
-  - {fileID: 588265431}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &503258322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503258319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be118480894d4c8ef04ca578031edc88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PerformanceSettings,
-    Needle.Engine-Samples.Runtime
-  clampFrameRate: 0
-  maxFrameRate: 144
 --- !u!1 &519573137
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,8 +2382,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalLightData,
-    Unity.RenderPipelines.Universal.Runtime
+  m_EditorClassIdentifier: 
   m_Version: 1
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
@@ -2606,56 +2585,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581259595}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &588265430
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 588265431}
-  - component: {fileID: 588265432}
-  m_Layer: 0
-  m_Name: NeedleMenu
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &588265431
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588265430}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 503258321}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &588265432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588265430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
-  _position: 1
-  ShowNeedleLogo: 1
-  CreateFullscreenButton: 0
-  CreateMuteButton: 0
-  CreateQRCodeButton: 1
-  ShowSpatialMenu: 1
 --- !u!1 &702405386
 GameObject:
   m_ObjectHideFlags: 0
@@ -6490,17 +6419,16 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
-  AutoCompress: 1
   Dependencies:
-  - Name: firstpersoncontroller
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/FirstPersonController/Scripts/FirstPersonController.npmdef
-    Guid: ee750e073bd25fc4eb89db0ca44c0416
   - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
   - Name: networking
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/Networking/Scripts/Networking.npmdef
     Guid: f5f841d7349973a40a7466d20037c65a
+  - Name: characters
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Character Framework/Scripts/Characters.npmdef
+    Guid: 5bf69724a45954a4bbb4f8327cf2c4c8
 --- !u!4 &1666012068
 Transform:
   m_ObjectHideFlags: 0
@@ -6532,7 +6460,6 @@ MonoBehaviour:
   AllowProgressiveLoading: 1
   UseMaxSize: 1
   MaxSize: 128
-  GenerateLODs: 1
 --- !u!114 &1666012071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7356,7 +7283,7 @@ Transform:
   m_GameObject: {fileID: 1856590026}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 40}
+  m_LocalScale: {x: 1000, y: 1000, z: 1000}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 519573138}
@@ -7765,8 +7692,6 @@ MonoBehaviour:
   joinRandomRoom: 1
   requireRoomParameter: 0
   autoRejoin: 1
-  createJoinButton: 0
-  createViewOnlyButton: 0
 --- !u!1 &2003209296
 GameObject:
   m_ObjectHideFlags: 0
@@ -7961,66 +7886,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006458682}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2017710845
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2017710846}
-  - component: {fileID: 2017710847}
-  m_Layer: 0
-  m_Name: MobileControls
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2017710846
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017710845}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 503258321}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2017710847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017710845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87485d3e6e6a4af25ec077829aa667d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.MobileControls,
-    Needle.Engine-Samples.Runtime
-  onlyMobile: 1
-  movementSensitivity: 1
-  lookSensitivity: 3
-  maxDoubleTapDelay: 200
-  onJump:
-    m_PersistentCalls:
-      m_Calls: []
-  onLook:
-    m_PersistentCalls:
-      m_Calls: []
-  onMove:
-    m_PersistentCalls:
-      m_Calls: []
-  moveJoyColor: {r: 1, g: 1, b: 1, a: 0.3}
-  lookJoyColor: {r: 1, g: 1, b: 1, a: 0.3}
 --- !u!1 &2017850307
 GameObject:
   m_ObjectHideFlags: 0
