@@ -10,17 +10,17 @@ Synchronized any Aniamtor without any code.
 ## Auto Network (@syncField)
 Showcases how to synchronize an array of strings. The purpose here is to educate on the [@syncField decorator](https://engine.needle.tools/docs/reference/typescript-decorators.html#examples) and that it also supports arrays (as well as strings, bools, numbers...)
 
-[Explore it here.](https://engine.needle.tools/samples/auto-network-array/)
+[Explore it here.](https://engine.needle.tools/samples-uploads/auto-network-array/)
 
 ## Auto Network Click
 A simple way how to synchronize actions with a no-code approach.
 
-[Explore it here.](https://engine.needle.tools/samples/auto-network-click)
+[Explore it here.](https://engine.needle.tools/samples-uploads/auto-network-click)
 
 ## Auto Network Object
 Create your simple data structure to synchronize over the network.
 
-[Explore it here.](https://engine.needle.tools/samples/auto-network-object)
+[Explore it here.](https://engine.needle.tools/samples-uploads/auto-network-object)
 
 ## Networking Messages
 Send JSON and Binary messages and delete stored state from the server.
