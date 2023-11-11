@@ -4,6 +4,7 @@ import { Vector3, Vector2, Quaternion, MathUtils, Box3 } from "three";
 
 import { Character } from "../Framework/Character";
 import { CharacterCamera } from "./CharacterCamera";
+import { CharacterPhysics_Scheme, CommonCharacterInput_Scheme } from "../Framework/CharacterState";
 
 export enum PersonMode {
     FirstPerson,
@@ -86,7 +87,7 @@ export class PersonCamera extends CharacterCamera {
         this.origin.copy(this.character.gameObject.position);
 
         // garther input
-        const inputState = this.frameState;
+        const inputState = this.frameState as CommonCharacterInput_Scheme;
         let x = inputState.lookDeltaX ?? 0;
         let y = inputState.lookDeltaY ?? 0;
         const scroll = inputState.scrollDeltaY ?? 0;
@@ -177,7 +178,7 @@ export class PersonCamera extends CharacterCamera {
             this.character.gameObject.quaternion.setFromAxisAngle(this.refUp, this.y);
 
         // populate character direction
-        const state = this.state;
+        const state = this.state as CharacterPhysics_Scheme;
         state.characterDirection ??= new Vector3();
 
         if (this._person == PersonMode.FirstPerson)
@@ -215,7 +216,7 @@ export class PersonCamera extends CharacterCamera {
     handleFOVBoost() {
         if (!this.enableFOVBoost || this.person == PersonMode.FirstPerson) return;
 
-        const physicsState = this.state;
+        const physicsState = this.state as CharacterPhysics_Scheme;
         const speed = physicsState.characterSpeed ?? 0;
         const deltaTime = this.context.time.deltaTime;
 

@@ -3,6 +3,7 @@ import { serializable } from "@needle-tools/engine";
 import { CharacterModule, CharacterModuleType } from "../Framework/CharacterModule";
 import { Character } from "../Framework/Character";
 import { PointerLock } from "./PointerLock";
+import { CommonCharacterInput_Scheme } from "../Framework/CharacterState";
 
 
 /** Gather inputs for movement, look, jump, sprint and zoom */
@@ -50,8 +51,8 @@ export class DesktopCharacterInput extends CharacterModule {
     }
 
     moduleEarlyUpdate(): void {
-        const input = this.context.input
-        const state = this.frameState;
+        const input = this.context.input;
+        const state = this.frameState as CommonCharacterInput_Scheme;
 
         // jump & sprint
         state.jump ||= this.areKeysPressed(this.jumpKeys);

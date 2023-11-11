@@ -5,6 +5,7 @@ import { Object3D, Vector2 } from "three";
 import { CharacterModule, CharacterModuleType } from "../Framework/CharacterModule";
 import { Character } from "../Framework/Character";
 import { Joystick } from "./Joystick";
+import { CommonCharacterInput_Scheme } from "../Framework/CharacterState";
 
 /** Gather inputs for movement, look, jump, sprint and zoom */
 export class MobileCharacterInput extends CharacterModule {
@@ -51,8 +52,8 @@ export class MobileCharacterInput extends CharacterModule {
     private lastPinchMagnitude = -1;
     private isPinching = false;
     moduleEarlyUpdate(): void {
-        const state = this.frameState;
         const input = this.context.input;
+        const state = this.frameState as CommonCharacterInput_Scheme;
 
         // move
         state.sprint ??= false;

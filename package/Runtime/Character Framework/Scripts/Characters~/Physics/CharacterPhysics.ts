@@ -4,6 +4,7 @@ import { Vector3, Quaternion } from "three";
 
 import { CharacterModule, CharacterModuleType } from "../Framework/CharacterModule";
 import { Character } from "../Framework/Character";
+import { CharacterPhysics_Scheme, CommonCharacterInput_Scheme } from "../Framework/CharacterState";
 
 
 export enum CharacterPhysics_MovementMode {
@@ -144,7 +145,7 @@ export class CharacterPhysics extends CharacterModule {
 
     moduleUpdate(): void {
         if (!this.controller) return;
-        const state = this.frameState;
+        const state = this.frameState as CommonCharacterInput_Scheme;
 
         const x = state.moveDeltaX ?? 0;
         const y = state.moveDeltaY ?? 0;
@@ -167,7 +168,7 @@ export class CharacterPhysics extends CharacterModule {
     handleMove(x: number, y: number, jump: boolean, speed: number, onJump?: () => void) {
         if (!this.controller) return;
 
-        const state = this.state;
+        const state = this.state as CharacterPhysics_Scheme;
         const deltaTime = this.context.time.deltaTime;
 
         const rigidbody = this.controller.rigidbody;
