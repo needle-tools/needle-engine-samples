@@ -1,6 +1,6 @@
 import { Vector3 } from "three";
 
-export class CharacterPhysicsState {
+export class CharacterPhysics_Scheme {
     characterIsGrounded?: boolean;
     characterIsJumping?: boolean;
     characterDirection?: Vector3;
@@ -13,7 +13,7 @@ export class CharacterPhysicsState {
 }
 
 
-export class CommonCharacterInputState {
+export class CommonCharacterInput_Scheme {
     moveDeltaX?: number;
     moveDeltaY?: number;
     lookDeltaX?: number;
@@ -23,7 +23,7 @@ export class CommonCharacterInputState {
     sprint?: boolean;
     isCursorLocked?: boolean;
 
-    static anyInput(state: CommonCharacterInputState): boolean {
+    static anyInput(state: CommonCharacterInput_Scheme): boolean {
         return (state.moveDeltaX ?? 0) != 0 ||
             (state.moveDeltaY ?? 0) != 0 ||
             (state.lookDeltaX ?? 0) != 0 ||
@@ -37,4 +37,4 @@ export class CommonCharacterInputState {
 /**
  * Blackboard for modules to transfer data and expose API
  */
-export type CharacterState = CharacterPhysicsState & CommonCharacterInputState;
+export type CharacterState = Object;

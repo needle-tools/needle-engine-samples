@@ -1,5 +1,6 @@
 import { Animator, serializable } from "@needle-tools/engine";
 import { CharacterModule, CharacterModuleType } from "../Framework/CharacterModule";
+import { CharacterPhysics_Scheme } from "../Framework/CharacterState";
 
 // TODO: REMAKE with animation component (?)
 /** Drives animator based on CharacterPhysics module */
@@ -44,7 +45,7 @@ export class CommonCharacterAnimations extends CharacterModule {
     moduleOnBeforeRender() {
         if(!this.animator) return;
 
-        const physicsState = this.state;
+        const physicsState = this.state as CharacterPhysics_Scheme;
         const time = this.context.time;
 
         // reset hasJumped

@@ -1,6 +1,7 @@
 import { AudioSource, Mathf, serializable } from "@needle-tools/engine";
 import { MathUtils } from "three";
 import { CharacterModule, CharacterModuleType } from "../Framework/CharacterModule";
+import { CharacterPhysics_Scheme } from "../Framework/CharacterState";
 
 declare type AudioClip = string;
 
@@ -38,7 +39,7 @@ export class CommonCharacterAudio extends CharacterModule {
     moduleOnBeforeRender(): void {
         if (!this.footstepSource) return;
 
-        const physicsState = this.state;
+        const physicsState = this.state as CharacterPhysics_Scheme;
         const time = this.context.time;
 
         if (physicsState.characterSpeed != null && physicsState.characterSpeed > 0.1) {
