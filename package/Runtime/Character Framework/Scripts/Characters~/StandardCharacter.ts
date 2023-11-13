@@ -36,6 +36,9 @@ export class StandardCharacter extends Character {
     @serializable()
     enableSprint: boolean = true;
 
+    @serializable()
+    enableLineOfSight: boolean = true;
+
     protected camera?: PersonCamera;
     protected physics?: CharacterPhysics;
     protected avatar?: CommonAvatar;
@@ -74,6 +77,7 @@ export class StandardCharacter extends Character {
             if(this.camera) {
                 this.camera.offset.x = this.headSide;
                 this.camera.offset.y = this.headHeight;
+                this.camera.enableLineOfSight = this.enableLineOfSight;
             }
 
             if(this.audio) {

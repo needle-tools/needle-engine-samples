@@ -15,7 +15,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @headHeight = 1.6f;
 		public float @headSide = 1f;
 		public bool @enableSprint = true;
-		public float @characterHeight = 1.8f;
+		public bool @enableLineOfSight = true;
 		public void awake(){}
 		public void intialize(bool @findModules){}
 		public void update(){}
