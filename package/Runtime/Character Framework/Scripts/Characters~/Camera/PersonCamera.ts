@@ -20,7 +20,7 @@ export class PersonCamera extends CharacterCamera {
     startDistance: number = 4;
 
     @serializable()
-    offset: Vector3 = new Vector3();
+    offset: Vector3 = new Vector3(0, 1.6, 0);
 
     //@tooltip Clamp the up-down rotation of the camera
     @serializable()
@@ -54,7 +54,10 @@ export class PersonCamera extends CharacterCamera {
     zoomSmoothing: number = 10;
 
     @serializable()
-    savePositionOffset: number = 0.5;
+    enableLineOfSight: boolean = true;
+
+    @serializable()
+    lineOfSightOffset: number = 0.5;
 
     protected x: number = 0;
     protected y: number = 0;
@@ -189,6 +192,7 @@ export class PersonCamera extends CharacterCamera {
 
     /** Adjust camera position if there is something in between the character and camera */
     handleLineOfSight() {
+        if (!this.enableLineOfSight) return;
         if (!this.cameraObject || this.person == PersonMode.FirstPerson) return;
 
         const physics = this.context.physics.engine!;
@@ -205,7 +209,7 @@ export class PersonCamera extends CharacterCamera {
         if (result) {
             const offsetDir = origin.sub(target).normalize();
             const savePoint = this.tempVec1.copy(result.point);
-            savePoint.add(offsetDir.multiplyScalar(this.savePositionOffset));
+            savePoint.add(offsetDir.multiplyScalar(this.lineOfSightOffset));
             this.cameraObject.position.copy(savePoint);
 
             // TODO: when offset is present, the camera doesn't face the character anymore.
