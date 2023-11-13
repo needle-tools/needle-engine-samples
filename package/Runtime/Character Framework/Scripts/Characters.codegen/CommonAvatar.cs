@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class CommonAvatar : Needle.Typescript.GeneratedComponents.CharacterModule
 	{
+		public UnityEngine.GameObject @avatarObject;
 		public float @characterZOffset = 0.3f;
 		public UnityEngine.GameObject @headBone;
 		public UnityEngine.Renderer[] @mainRenderer = new UnityEngine.Renderer[]{ };
