@@ -9,7 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.Vector2 @distance = new UnityEngine.Vector2(0.4f, 6f);
 		public float @startDistance = 4f;
-		public UnityEngine.Vector3 @offset = new UnityEngine.Vector3();
+		public UnityEngine.Vector3 @offset = new UnityEngine.Vector3(0f, 1.6f, 0f);
 		[UnityEngine.Tooltip("Clamp the up-down rotation of the camera")]
 		public UnityEngine.Vector2 @xRotClamp = new UnityEngine.Vector2(-89, 89f);
 		public float @lookSensitivity = 4f;
@@ -21,7 +21,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @thirdPersonFov = 60f;
 		public float @firstPersonFov = 80f;
 		public float @zoomSmoothing = 10f;
-		public float @savePositionOffset = 0.5f;
+		public bool @enableLineOfSight = true;
+		public float @lineOfSightOffset = 0.5f;
 		public void initialize(Needle.Typescript.GeneratedComponents.Character @character){}
 		public void onDynamicallyConstructed(){}
 		public void moduleOnBeforeRender(){}
