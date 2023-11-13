@@ -1,3 +1,4 @@
+using Needle.Engine.Utils;
 using System;
 using UnityEngine;
 
@@ -59,6 +60,9 @@ namespace Needle.Typescript.GeneratedComponents
 
             foldout = UnityEditor.EditorGUILayout.BeginFoldoutHeaderGroup(foldout, "Modules", style: foldoutStyle);
 
+            GUILayout.Space(10);
+
+
             UnityEditor.EditorPrefs.SetBool(foldoutPrefsKey, foldout);
             if (foldout)
             {
@@ -108,8 +112,13 @@ namespace Needle.Typescript.GeneratedComponents
                 GUILayout.Space(5);
 
                 GUILayout.Label(typeInfo.type.Name, GUILayout.Width(200));
-                GUILayout.Space(10);
-                GUILayout.Label(typeInfo.description, wordWrapStyle);
+                if (UnityEditor.EditorGUIUtility.currentViewWidth > 450)
+                {
+                    using (ColorScope.LowContrast())
+                    {
+                        GUILayout.Label(typeInfo.description, wordWrapStyle);
+                    }
+                }
 
                 GUILayout.FlexibleSpace();
 
