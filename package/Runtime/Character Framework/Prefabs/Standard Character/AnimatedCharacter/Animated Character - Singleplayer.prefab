@@ -395,46 +395,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6422477878927063394, guid: 02ed44a13e6386444b77f509ba1cfe24, type: 3}
   m_PrefabInstance: {fileID: 5618549802532651663}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &581295083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1501986607334210541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 699a294ff8a735885c97c150aa3920fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonCharacterAnimations,
-    Needle.Engine.Dev-Assets
-  animator: {fileID: 5292816586510514989}
-  jumpName: jump
-  fallingName: falling
-  startFallName: startFall
-  fallAnimDelay: 0.2
-  idleName: idling
-  walkName: walking
-  sprintName: sprinting
-  minIdleSpeed: 1
-  minSprintSpeed: 6
---- !u!114 &581295084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1501986607334210541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3bdce646a3313d0c9c5a2d4e4ef357e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonAvatar, Needle.Engine.Dev-Assets
-  characterZOffset: 0.3
-  headBone: {fileID: 3458258315754451908}
-  mainRenderer:
-  - {fileID: 831411279710943234}
-  - {fileID: 5248831809918882463}
 --- !u!1 &3458258315754451908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7063661662667632971, guid: 02ed44a13e6386444b77f509ba1cfe24, type: 3}
@@ -467,7 +427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4372095259976922936, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_Name
-      value: Animated Character - Simple
+      value: Animated Character - Singleplayer
       objectReference: {fileID: 0}
     - target: {fileID: 4372095259976922936, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_Layer
@@ -543,9 +503,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonCharacterAudio,
     Needle.Engine.Dev-Assets
   footStepSpeed: 1.8
+  landThreshold: 0.2
   footStepClips:
   - {fileID: 8300000, guid: 23bab42ac6bb7b74393b0f1c9357d784, type: 3}
   - {fileID: 8300000, guid: f5526a247c7c39845bbaceebe7e4fb2d, type: 3}
   - {fileID: 8300000, guid: fc5a73097b14ad64f8ddfa3f93b16ec4, type: 3}
   landSFX: {fileID: 8300000, guid: b2698f9605a0d0244b14149e54725cd5, type: 3}
   jumpSFX: {fileID: 8300000, guid: 76f71ca4919917044b02fb4f4cc56981, type: 3}
+--- !u!114 &4846131038559786203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818821676949717742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3bdce646a3313d0c9c5a2d4e4ef357e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonAvatar, Needle.Engine.Dev-Assets
+  avatarObject: {fileID: 1501986607334210541}
+  characterZOffset: 0.3
+  headBone: {fileID: 3458258315754451908}
+  mainRenderer:
+  - {fileID: 831411279710943234}
+  - {fileID: 5248831809918882463}
+--- !u!114 &6955341607049717114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818821676949717742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 699a294ff8a735885c97c150aa3920fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonCharacterAnimations,
+    Needle.Engine.Dev-Assets
+  animator: {fileID: 5292816586510514989}
+  jumpName: jump
+  fallingName: falling
+  startFallName: startFall
+  fallAnimDelay: 0.2
+  idleName: idling
+  walkName: walking
+  sprintName: sprinting
+  minIdleSpeed: 1
+  minSprintSpeed: 6
