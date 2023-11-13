@@ -94,7 +94,7 @@ export class StandardCharacter extends Character {
         }
 
         if (this.adjustParametersWithScale) {
-            const vector = this.gameObject.transform.scale;
+            const vector = this.gameObject.scale;
             const scale = Math.min(vector.x, vector.y, vector.z);
             const sqrtScale = Math.sqrt(scale);
 
