@@ -36,6 +36,12 @@ export class StandardCharacter extends Character {
     @serializable()
     enableSprint: boolean = true;
 
+    @serializable()
+    characterShapeHeight: number = 1.8;
+
+    @serializable()
+    characterShapeRadius: number = 0.5;
+
     protected camera?: PersonCamera;
     protected physics?: CharacterPhysics;
     protected avatar?: CommonAvatar;
