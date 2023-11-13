@@ -19,6 +19,9 @@ export class StandardCharacter extends Character {
     allowedPersons: PersonMode[] = [PersonMode.FirstPerson, PersonMode.ThirdPerson];
 
     @serializable()
+    adjustParametersWithScale: boolean = true;
+
+    @serializable()
     overrideModuleSettings: boolean = true;
 
     @serializable()
@@ -87,6 +90,33 @@ export class StandardCharacter extends Character {
             if(this.animation) {
                 this.animation.minIdleSpeed = this.movementSpeed * 0.2;
                 this.animation.minSprintSpeed = this.movementSpeed * 1.2;
+            }
+        }
+
+        if (this.adjustParametersWithScale) {
+            const vector = this.gameObject.transform.scale;
+            const scale = Math.min(vector.x, vector.y, vector.z);
+            const sqrtScale = Math.sqrt(scale);
+
+            if (this.physics) {
+                this.physics.movementSpeed *= sqrtScale;
+                this.physics.desiredAirbornSpeed *= sqrtScale;
+                this.physics.jumpSpeed *= sqrtScale;
+            }
+
+            if(this.camera) {
+                this.camera.offset.x *= scale;
+                this.camera.offset.y *= scale;
+                this.camera.distance.multiplyScalar(scale);
+            }
+
+            if(this.audio) {
+                this.audio.footStepSpeed *= sqrtScale;
+            }
+
+            if(this.animation) {
+                this.animation.minIdleSpeed *= sqrtScale;
+                this.animation.minSprintSpeed *= sqrtScale;
             }
         }
 
