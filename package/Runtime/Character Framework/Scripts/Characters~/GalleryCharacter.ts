@@ -1,4 +1,5 @@
-import { PersonCamera, PersonMode } from "./Camera/PersonCamera";
+import { PersonCamera } from "./Camera/PersonCamera";
+import { PersonMode } from "./Camera/PersonMode";
 import { Character } from "./Framework/Character";
 import { GalleryInput } from "./Input/GalleryInput";
 import { GalleryPhysics } from "./Physics/GalleryPhysics";

@@ -3,7 +3,7 @@ import { GameObject, Mathf, Renderer, SkinnedMeshRenderer, serializable } from "
 import { Vector3, MeshStandardMaterial, HSL, Color, SkinnedMesh, Material } from "three";
 
 import { CharacterModule, CharacterModuleType } from "../Framework/CharacterModule";
-import { PersonMode } from "../Camera/PersonCamera";
+import { PersonMode } from "../Camera/PersonMode";
 import { Character } from "../Framework/Character";
 
 /** Simple avatar that can adjust itself for first person view */

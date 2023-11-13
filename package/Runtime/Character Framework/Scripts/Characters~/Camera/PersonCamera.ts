@@ -5,11 +5,7 @@ import { Vector3, Vector2, Quaternion, MathUtils, Box3 } from "three";
 import { Character } from "../Framework/Character";
 import { CharacterCamera } from "./CharacterCamera";
 import { CharacterPhysics_Scheme, CommonCharacterInput_Scheme } from "../Framework/CharacterState";
-
-export enum PersonMode {
-    FirstPerson,
-    ThirdPerson
-}
+import { PersonMode } from "./PersonMode";
 
 /** Character with first and third person capability */
 export class PersonCamera extends CharacterCamera {
