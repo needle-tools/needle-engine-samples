@@ -31,16 +31,16 @@ export abstract class Character extends Behaviour {
     protected startInitialization(findModules: boolean = true) {
         if (this.isNetworking && this.playerState && !this.playerState.owner) {
             this.playerState.onFirstOwnerChangeEvent.addEventListener(() => {
-                this.intialize(findModules);
+                this.initialize(findModules);
             });
         }
         else {
-            this.intialize(findModules);
+            this.initialize(findModules);
         }
     }
 
     /** Initialize the character and modules. */
-    protected intialize(findModules: boolean = true) {
+    protected initialize(findModules: boolean = true) {
         if (findModules) {
             this.addAllModules();
         }
