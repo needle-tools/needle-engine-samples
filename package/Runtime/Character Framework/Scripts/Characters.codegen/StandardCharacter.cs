@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public PersonMode @defaultPerson;
 		public PersonMode[] @allowedPersons = new PersonMode[]{ PersonMode.FirstPerson, PersonMode.ThirdPerson };
+		public bool @adjustParametersWithScale = true;
 		public bool @overrideModuleSettings = true;
 		public float @movementSpeed = 5f;
 		public float @jumpSpeed = 5f;
