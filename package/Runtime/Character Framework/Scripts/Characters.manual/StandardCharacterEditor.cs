@@ -93,7 +93,7 @@ namespace Needle.Typescript.GeneratedComponents
             foreach (var moduleType in types)
             {
                 var obj = (target as Character)?.gameObject;
-                var module = obj?.GetComponent(moduleType);
+                var module = obj?.GetComponentInChildren(moduleType);
                 using (new UnityEditor.EditorGUI.DisabledGroupScope(module != null))
                 {
                     using (new GUILayout.HorizontalScope())

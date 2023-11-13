@@ -4,19 +4,19 @@ import { Character } from "./Framework/Character";
 import { CharacterPhysics, CharacterPhysics_MovementMode } from "./Physics/CharacterPhysics";
 import { DesktopCharacterInput } from "./Input/DesktopCharacterInput";
 import { MobileCharacterInput } from "./Input/MobileCharacterInput";
-import { PersonCamera, PersonMode } from "./Camera/PersonCamera";
+import { PersonCamera } from "./Camera/PersonCamera";
+import { PersonMode } from "./Camera/PersonMode";
 import { CommonAvatar } from "./Misc/CommonAvatar";
 import { CommonCharacterAudio } from "./Misc/CommonCharacterAudio";
 import { CommonCharacterAnimations } from "./Misc/CommonCharacterAnimations";
 
 /** Character that support FPS and TPS modes */
 export class StandardCharacter extends Character {
-    @serializable()
+    // @nonSerialized
     defaultPerson: PersonMode = PersonMode.ThirdPerson;
 
-    // TODO: change to flags
-    @serializable()
-    allowedPersons: PersonMode[] = [PersonMode.FirstPerson, PersonMode.ThirdPerson];
+    // @nonSerialized
+    allowedPersons: PersonMode = PersonMode.All;
 
     @serializable()
     adjustParametersWithScale: boolean = true;
@@ -48,6 +48,12 @@ export class StandardCharacter extends Character {
     protected audio?: CommonCharacterAudio;
     protected animation?: CommonCharacterAnimations;
 
+    constructor() {
+        super();
+
+        console.log(this.defaultPerson, PersonMode.All);
+    }
+
     awake(): void {
         super.awake();
 
@@ -58,6 +64,8 @@ export class StandardCharacter extends Character {
         this.avatar = this.gameObject.getComponentInChildren(CommonAvatar)!;
         this.audio = this.gameObject.getComponentInChildren(CommonCharacterAudio)!;
         this.animation = this.gameObject.getComponentInChildren(CommonCharacterAnimations)!;
+
+        console.log(this.defaultPerson, PersonMode.All);
     }
 
     intialize(findModules?: boolean): void {
@@ -129,7 +137,7 @@ export class StandardCharacter extends Character {
 
         if (this.camera && !this.context.isInXR) {
             const changePerson = this.camera.desiredPerson != this.camera.person;
-            const isAllowed = this.allowedPersons.includes(this.camera.desiredPerson);
+            const isAllowed = (this.allowedPersons & this.camera.desiredPerson) != 0;
             if (changePerson && isAllowed)
                 this.switchPerson(this.camera.desiredPerson);
         }

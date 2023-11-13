@@ -7,8 +7,6 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class StandardCharacter : Needle.Typescript.GeneratedComponents.Character
 	{
-		public PersonMode @defaultPerson;
-		public PersonMode[] @allowedPersons = new PersonMode[]{ PersonMode.FirstPerson, PersonMode.ThirdPerson };
 		public bool @adjustParametersWithScale = true;
 		public bool @overrideModuleSettings = true;
 		public float @movementSpeed = 5f;
@@ -27,9 +25,10 @@ namespace Needle.Typescript.GeneratedComponents
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	//[UnityEngine.RequireComponent(typeof(UnityEngine.CharacterController))]
+	[UnityEngine.RequireComponent(typeof(UnityEngine.CharacterController))]
 	public partial class StandardCharacter : Needle.Typescript.GeneratedComponents.Character
 	{
-
-	}
+		public PersonMode @defaultPerson = PersonMode.ThirdPerson;
+		public PersonMode @allowedPersons = PersonMode.All;
+    }
 }
