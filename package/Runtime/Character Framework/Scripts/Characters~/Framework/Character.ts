@@ -56,6 +56,11 @@ export abstract class Character extends Behaviour {
         //TEMP: REMOVE ME LATER
         console.log("Forcing unlocked framerate, remove me later!")
         this.context.targetFrameRate = undefined;
+
+        //TEMP: REMOVE ME LATER
+        console.log("Forcing whole character into ignore raycast layer")
+        this.gameObject.layers.set(2);
+        this.gameObject.traverse(x => x.layers.set(2));
     }
 
     protected roleChanged(isLocalPlayer: boolean) {
