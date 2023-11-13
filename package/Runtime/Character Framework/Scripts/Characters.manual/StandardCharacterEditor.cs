@@ -36,8 +36,6 @@ namespace Needle.Typescript.GeneratedComponents
             foldout = UnityEditor.EditorPrefs.GetBool(foldoutPrefsKey, false);
         }
 
-        private GUIContent addedContent = new GUIContent("Added", "The module is already added on this object or its children!");
-
         public override void OnInspectorGUI()
         {
             if(addedButton == null)
@@ -71,19 +69,19 @@ namespace Needle.Typescript.GeneratedComponents
                 {
                     GUILayout.Label("Default modules", headerStyle);
                     GUILayout.Label("Default modules are added on start with default values. Add them to override the default settings.", wordWrapStyle);
-                    ListModules(mandatoryModules);
+                    ListModules(mandatoryModules, "Override");
 
                     GUILayout.Space(20);
                 }
 
                 GUILayout.Label("Optional modules", headerStyle);
                 GUILayout.Label("Optional modules implement single features and are not essential for the character to work.", wordWrapStyle);
-                ListModules(optionalModules);
+                ListModules(optionalModules, "Add");
             }
             UnityEditor.EditorGUI.EndFoldoutHeaderGroup();
         }
 
-        void ListModules((Type type, string description)[] types)
+        void ListModules((Type type, string description)[] types, string addPhrase)
         {
             var obj = (target as Character).gameObject;
             if (obj == null) return;
@@ -93,16 +91,19 @@ namespace Needle.Typescript.GeneratedComponents
                 var module = obj?.GetComponentInChildren(typeInfo.type);
 
                 GUILayout.BeginHorizontal();
-                using (new GUILayout.HorizontalScope(GUILayout.MaxWidth(50)))
+                using (new GUILayout.HorizontalScope(GUILayout.MaxWidth(70)))
                 {
                     if (module != null)
                     {
-                        if (GUILayout.Button(addedContent, addedButton))
-                            UnityEditor.EditorGUIUtility.PingObject(obj);
+                        using (ColorScope.LowContrast())
+                        {
+                            if (GUILayout.Button("Remove"))
+                                DestroyImmediate(module);
+                        }
                     }
                     else 
                     {
-                        if (GUILayout.Button("Add"))
+                        if (GUILayout.Button(addPhrase))
                             obj.AddComponent(typeInfo.type);
                     }
 
