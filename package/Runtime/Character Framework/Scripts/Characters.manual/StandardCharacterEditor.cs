@@ -75,7 +75,7 @@ namespace Needle.Typescript.GeneratedComponents
                 }
 
                 GUILayout.Label("Optional modules", headerStyle);
-                GUILayout.Label("Optional modules implement single features and are not essential for the character to work.", wordWrapStyle);
+                GUILayout.Label("Optional modules allows extending the character based on its current state. You can also create your own modules", wordWrapStyle);
                 ListModules(optionalModules, "Add");
             }
             UnityEditor.EditorGUI.EndFoldoutHeaderGroup();
@@ -97,14 +97,14 @@ namespace Needle.Typescript.GeneratedComponents
                     {
                         using (ColorScope.LowContrast())
                         {
-                            if (GUILayout.Button("Remove"))
-                                DestroyImmediate(module);
+                            if (GUILayout.Button("Remove", GUILayout.Width(60)))
+                                UnityEditor.Undo.DestroyObjectImmediate(module);
                         }
                     }
                     else 
                     {
-                        if (GUILayout.Button(addPhrase))
-                            obj.AddComponent(typeInfo.type);
+                        if (GUILayout.Button(addPhrase, GUILayout.Width(60)))
+                            UnityEditor.Undo.AddComponent(obj, typeInfo.type);
                     }
 
                     GUILayout.FlexibleSpace();
@@ -113,12 +113,10 @@ namespace Needle.Typescript.GeneratedComponents
                 GUILayout.Space(5);
 
                 GUILayout.Label(typeInfo.type.Name, GUILayout.Width(200));
-                if (UnityEditor.EditorGUIUtility.currentViewWidth > 450)
+
+                using (ColorScope.LowContrast())
                 {
-                    using (ColorScope.LowContrast())
-                    {
-                        GUILayout.Label(typeInfo.description, wordWrapStyle);
-                    }
+                    GUILayout.Label(typeInfo.description);
                 }
 
                 GUILayout.FlexibleSpace();
