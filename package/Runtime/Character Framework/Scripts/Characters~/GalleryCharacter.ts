@@ -17,8 +17,8 @@ export class GalleryCharacter extends Character {
         
     }
 
-    protected intialize(findModules?: boolean): void {
-        super.intialize(findModules);
+    protected initialize(findModules?: boolean): void {
+        super.initialize(findModules);
 
         this.camera?.offset.set(0, 1.6, 0);
         this.camera?.switchPerson(PersonMode.FirstPerson);

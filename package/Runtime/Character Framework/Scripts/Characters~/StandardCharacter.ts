@@ -68,8 +68,8 @@ export class StandardCharacter extends Character {
         console.log(this.defaultPerson, PersonMode.All);
     }
 
-    intialize(findModules?: boolean): void {
-        super.intialize(findModules);
+    initialize(findModules?: boolean): void {
+        super.initialize(findModules);
 
         // locate SyncedTransform and request ownership on local player
         if (this.isLocalPlayer)
