@@ -9,6 +9,9 @@ import { Character } from "../Framework/Character";
 /** Simple avatar that can adjust itself for first person view */
 export class CommonAvatar extends CharacterModule {
     get Type() { return CharacterModuleType.none; }
+    
+    @serializable(GameObject)
+    avatarObject?: GameObject;
 
     @serializable()
     characterZOffset: number = 0.3;
@@ -89,7 +92,8 @@ export class CommonAvatar extends CharacterModule {
         if (this.currentPerson != undefined && this.originalHeadScale != undefined) {
             // apply scale every frame since animation's pose contains scale as well (?)
             this.headBone?.scale.copy(this.currentPerson == PersonMode.FirstPerson ? this.zeroScale : this.originalHeadScale)
-            this.gameObject.position.setZ(this.currentPerson == PersonMode.FirstPerson ? -this.characterZOffset : 0);
+            const object = this.avatarObject ?? this.gameObject;
+            object.position.setZ(this.currentPerson == PersonMode.FirstPerson ? -this.characterZOffset : 0);
         }
     }
 }
