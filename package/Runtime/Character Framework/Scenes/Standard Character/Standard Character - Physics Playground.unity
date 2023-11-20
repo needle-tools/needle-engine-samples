@@ -2389,24 +2389,12 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3329694291464667125, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329694291464667125, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329694291464667125, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329694291464667125, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3329694291464667125, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.143
+      value: 0.002
       objectReference: {fileID: 0}
     - target: {fileID: 3329694291464667125, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2440,10 +2428,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3329694291464667125, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4818821676949717742, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
       propertyPath: m_Name
       value: Animated Character - Simple
@@ -2457,8 +2441,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7248255464169209797, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
-      propertyPath: adjustParametersWithScale
-      value: 1
+      propertyPath: jumpSpeed
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e8538ee9ccf40940b5f73ccfde7a5fd, type: 3}
@@ -4910,7 +4894,7 @@ GameObject:
   - component: {fileID: 1184765247}
   - component: {fileID: 1184765250}
   - component: {fileID: 1184765249}
-  - component: {fileID: 1184765248}
+  - component: {fileID: 1184765251}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -4933,19 +4917,6 @@ Transform:
   m_Father: {fileID: 680646536}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1184765248
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1184765246}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 10, y: 2.220446e-16, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1184765249
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4995,6 +4966,20 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184765246}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &1184765251
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184765246}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1206732566
 PrefabInstance:

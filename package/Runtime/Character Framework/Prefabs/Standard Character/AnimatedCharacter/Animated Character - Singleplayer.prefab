@@ -441,7 +441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_EditorClassIdentifier
-      value: Needle.Typescript.GeneratedComponents.StandardCharacter, Needle.Engine.Dev-Assets
+      value: Needle.Engine.Components.Experimental.StandardCharacter, Needle.Engine
       objectReference: {fileID: 0}
     - target: {fileID: 4372095259976922936, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_Name
@@ -518,16 +518,19 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e3ffc0ed72f7b0391605fde53cc6eaa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonCharacterAudio,
-    Needle.Engine.Dev-Assets
+  m_EditorClassIdentifier: Needle.Engine.Components.Experimental.CommonCharacterAudio,
+    Needle.Engine
   footStepSpeed: 1.8
   landThreshold: 0.2
-  footStepClips:
+  adjustWithScale: 1
+  footStepSFX:
   - {fileID: 8300000, guid: 23bab42ac6bb7b74393b0f1c9357d784, type: 3}
   - {fileID: 8300000, guid: f5526a247c7c39845bbaceebe7e4fb2d, type: 3}
   - {fileID: 8300000, guid: fc5a73097b14ad64f8ddfa3f93b16ec4, type: 3}
-  landSFX: {fileID: 8300000, guid: b2698f9605a0d0244b14149e54725cd5, type: 3}
-  jumpSFX: {fileID: 8300000, guid: 76f71ca4919917044b02fb4f4cc56981, type: 3}
+  landSFX:
+  - {fileID: 8300000, guid: b2698f9605a0d0244b14149e54725cd5, type: 3}
+  jumpSFX:
+  - {fileID: 8300000, guid: 76f71ca4919917044b02fb4f4cc56981, type: 3}
 --- !u!114 &6955341607049717114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,8 +542,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 699a294ff8a735885c97c150aa3920fc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonCharacterAnimations,
-    Needle.Engine.Dev-Assets
+  m_EditorClassIdentifier: Needle.Engine.Components.Experimental.CommonCharacterAnimations,
+    Needle.Engine
   animator: {fileID: 5292816586510514989}
   jumpName: jump
   fallingName: falling
@@ -551,3 +554,4 @@ MonoBehaviour:
   sprintName: sprinting
   minIdleSpeed: 1
   minSprintSpeed: 6
+  adjustWithScale: 1
