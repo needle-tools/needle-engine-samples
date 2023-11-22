@@ -294,8 +294,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4046760597764190296}
-  - component: {fileID: 4046760597764190297}
   - component: {fileID: 4046760597764190310}
+  - component: {fileID: 7051255616512854636}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -318,20 +318,6 @@ Transform:
   m_Father: {fileID: 4046760597088857593}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &4046760597764190297
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4046760597764190299}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &4046760597764190310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,12 +329,25 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 815ee78cef5562a1bccdb7861fd0788c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.JumpPad, Needle.Engine.Dev-Assets
+  m_EditorClassIdentifier: Needle.Engine.Components.Experimental.JumpPad, Needle.Engine
   force: 17
   direction: {x: 0, y: 1, z: 0}
   onJump:
     m_PersistentCalls:
       m_Calls: []
+--- !u!65 &7051255616512854636
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046760597764190299}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4046760599034620225
 GameObject:
   m_ObjectHideFlags: 0
