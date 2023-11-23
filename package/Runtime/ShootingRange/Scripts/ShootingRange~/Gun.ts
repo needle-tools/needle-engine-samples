@@ -303,7 +303,7 @@ export class Gun extends Behaviour {
 
         const physics = this.context.physics;
 
-        const hit = physics.raycastPhysicsFast(this.raycastWorldOrigin, this.raycastWorldDirection);
+        const hit = physics.engine?.raycast(this.raycastWorldOrigin, this.raycastWorldDirection);
         if (hit) {
             if (debug) {
                 Gizmos.DrawWireSphere(hit.point, 0.1, 0xff0000, .1);
