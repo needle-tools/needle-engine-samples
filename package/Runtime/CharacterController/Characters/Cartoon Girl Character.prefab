@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3bdce646a3313d0c9c5a2d4e4ef357e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonAvatar, Needle.Engine.Dev-Assets
+  m_EditorClassIdentifier: Needle.Engine.Components.Experimental.CommonAvatar, Needle.Engine
   avatarObject: {fileID: 0}
   characterZOffset: 0.3
   headBone: {fileID: 4500233604553871506}
@@ -148,8 +148,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 699a294ff8a735885c97c150aa3920fc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonCharacterAnimations,
-    Needle.Engine.Dev-Assets
+  m_EditorClassIdentifier: Needle.Engine.Components.Experimental.CommonCharacterAnimations,
+    Needle.Engine
   animator: {fileID: 618217476}
   jumpName: jump
   fallingName: falling
@@ -160,6 +160,7 @@ MonoBehaviour:
   sprintName: sprinting
   minIdleSpeed: 1
   minSprintSpeed: 4
+  adjustWithScale: 1
 --- !u!1 &4500233604553871506 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7790575334701694288, guid: 23973f8b392f6b6448dfad52a85f0627, type: 3}
@@ -206,7 +207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_EditorClassIdentifier
-      value: Needle.Typescript.GeneratedComponents.StandardCharacter, Needle.Engine.Dev-Assets
+      value: Needle.Engine.Components.Experimental.StandardCharacter, Needle.Engine
       objectReference: {fileID: 0}
     - target: {fileID: 2956244166362177886, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_Height
@@ -312,14 +313,17 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e3ffc0ed72f7b0391605fde53cc6eaa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonCharacterAudio,
-    Needle.Engine.Dev-Assets
-  footStepSpeed: 1.8
+  m_EditorClassIdentifier: Needle.Engine.Components.Experimental.CommonCharacterAudio,
+    Needle.Engine
+  footStepSpeed: 1
   landThreshold: 0.2
-  footStepClips:
+  adjustWithScale: 1
+  footStepSFX:
   - {fileID: 8300000, guid: 429ee702f5370c54790b05e24b5a57a4, type: 3}
   - {fileID: 8300000, guid: 1936b457d9f736d47b33e15ee00372c7, type: 3}
   - {fileID: 8300000, guid: ab75f1d41c8df4145b2e9758d4c9e52b, type: 3}
   - {fileID: 8300000, guid: 2e7e28bec97487d41ac4047f69f3532a, type: 3}
-  landSFX: {fileID: 8300000, guid: 962d48b93945dd943b7589f3bc73874d, type: 3}
-  jumpSFX: {fileID: 8300000, guid: 8242d8aa9371a634b9b2374171994f73, type: 3}
+  landSFX:
+  - {fileID: 8300000, guid: 962d48b93945dd943b7589f3bc73874d, type: 3}
+  jumpSFX:
+  - {fileID: 8300000, guid: 8242d8aa9371a634b9b2374171994f73, type: 3}
