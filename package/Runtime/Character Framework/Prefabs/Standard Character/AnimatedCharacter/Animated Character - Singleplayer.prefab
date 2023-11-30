@@ -406,7 +406,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3bdce646a3313d0c9c5a2d4e4ef357e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CommonAvatar, Needle.Engine.Dev-Assets
+  m_EditorClassIdentifier: Needle.Engine.Components.Experimental.CommonAvatar, Needle.Engine
   avatarObject: {fileID: 1501986607334210541}
   characterZOffset: 0.3
   headBone: {fileID: 3458258315754451908}
@@ -457,19 +457,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.73
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.04
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.98
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7267228
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalRotation.x
@@ -477,7 +477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.6869309
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalRotation.z
@@ -489,11 +489,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 273.225
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784410692760635939, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
@@ -520,7 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.Experimental.CommonCharacterAudio,
     Needle.Engine
-  footStepSpeed: 1.8
+  stepDistance: 1
   landThreshold: 0.2
   adjustWithScale: 1
   footStepSFX:
@@ -552,6 +556,9 @@ MonoBehaviour:
   idleName: idling
   walkName: walking
   sprintName: sprinting
-  minIdleSpeed: 1
+  speedMultiplier: speedMultiplier
+  minWalkSpeed: 1
+  baseWalkSpeed: 2
   minSprintSpeed: 6
+  baseSprintSpeed: 5.25
   adjustWithScale: 1
