@@ -136,10 +136,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: jumpSpeed
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: enableSprint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
+      propertyPath: cameraXOffset
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
@@ -148,10 +152,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: movementSpeed
-      value: 4
+      value: 22.4
       objectReference: {fileID: 0}
     - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
       propertyPath: allowedPersons
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
+      propertyPath: defaultViewMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
+      propertyPath: allowedViewModes
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1938184191615912467, guid: 68a5eef96c24f7b418d6f6c5cd3b3488, type: 3}
@@ -3839,7 +3851,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1200821781}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.39999995, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14465,6 +14477,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
