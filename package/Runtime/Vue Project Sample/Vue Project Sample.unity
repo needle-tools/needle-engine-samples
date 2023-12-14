@@ -816,7 +816,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706762903}
-  m_LocalRotation: {x: 0.097788066, y: -0.8736338, z: 0.19678175, w: 0.43414113}
+  m_LocalRotation: {x: 0.097788095, y: -0.87363374, z: 0.19678174, w: 0.43414125}
   m_LocalPosition: {x: 6.091816, y: 3.6271122, z: 4.6157355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -841,17 +841,18 @@ MonoBehaviour:
   enableRotate: 1
   autoRotate: 1
   autoRotateSpeed: 0.3
-  enableKeys: 0
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: 10000
   enablePan: 1
-  lookAtConstraint: {fileID: 706762909}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
   allowInterrupt: 1
+  lookAtConstraint: {fileID: 706762909}
 --- !u!114 &706762908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -940,6 +941,7 @@ MonoBehaviour:
   DirectoryName: https://github.com/needle-engine/vuejs-sample
   RemoteUrl: https://github.com/needle-engine/vuejs-sample
   AutoExport: 1
+  AutoCompress: 1
   Dependencies: []
 --- !u!4 &784234924
 Transform:
@@ -1080,7 +1082,6 @@ GameObject:
   m_Component:
   - component: {fileID: 847408950}
   - component: {fileID: 847408951}
-  - component: {fileID: 847408952}
   m_Layer: 0
   m_Name: AnimatorController
   m_TagString: Untagged
@@ -1139,20 +1140,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &847408952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847408949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a43a342b7afc8926e7cafd32c05d8360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.AnimatorSlides,
-    Assembly-CSharp
-  animator: {fileID: 847408951}
 --- !u!1001 &1008129192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1716,6 +1703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-43bc2a91ceeb5ed4198b1155f54259db-1597275520-0
+  IgnoreSkinnedMeshes: 0
 --- !u!114 &1597275521
 MonoBehaviour:
   m_ObjectHideFlags: 0
