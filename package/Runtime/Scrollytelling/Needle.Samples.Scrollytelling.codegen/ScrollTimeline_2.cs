@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.Playables.PlayableDirector @timeline;
 		public float @scrollSpeed = 0.5f;
+		public float @mobileScrollFactor = 2f;
 		public float @lerpSpeed = 2.5f;
 		public void start(){}
 		public void onBeforeRender(){}

@@ -17,6 +17,9 @@ export class ScrollTimeline_2 extends Behaviour {
     scrollSpeed: number = 0.5;
 
     @serializeable()
+    mobileScrollFactor: number = 2;
+
+    @serializeable()
     lerpSpeed: number = 2.5;
 
     private targetTime: number = 0;
@@ -32,11 +35,13 @@ export class ScrollTimeline_2 extends Behaviour {
         // We need to keep track of the last touch position
         // and calculate the delta between the current and the last position
         let lastTouchPosition = -1;
-        window.addEventListener("touchstart", (evt:TouchEvent) => {
+        window.addEventListener("touchstart", (evt: TouchEvent) => {
             lastTouchPosition = evt.touches[0].clientY;
         })
         window.addEventListener("touchmove", (evt: TouchEvent) => {
-            const delta = evt.touches[0].clientY - lastTouchPosition;
+            let delta = evt.touches[0].clientY - lastTouchPosition;
+            delta *= this.mobileScrollFactor;
+            delta /= window.devicePixelRatio;
             this.updateTime(-delta);
             // Update the last touch position
             lastTouchPosition = evt.touches[0].clientY;
