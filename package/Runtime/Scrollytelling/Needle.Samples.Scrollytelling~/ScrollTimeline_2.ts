@@ -32,11 +32,12 @@ export class ScrollTimeline_2 extends Behaviour {
         // We need to keep track of the last touch position
         // and calculate the delta between the current and the last position
         let lastTouchPosition = -1;
+        window.addEventListener("touchstart", (evt:TouchEvent) => {
+            lastTouchPosition = evt.touches[0].clientY;
+        })
         window.addEventListener("touchmove", (evt: TouchEvent) => {
             const delta = evt.touches[0].clientY - lastTouchPosition;
-            // We only want to apply the delta if it's not TOO big
-            // e.g. when the user is scrolling the page
-            if (delta < 10) this.updateTime(-delta);
+            this.updateTime(-delta);
             // Update the last touch position
             lastTouchPosition = evt.touches[0].clientY;
         });
