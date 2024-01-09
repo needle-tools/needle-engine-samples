@@ -4,8 +4,13 @@ export class AudioLoading extends Behaviour {
     @serializable(AudioSource)
     audioSource?: AudioSource;
 
+    // @type UnityEngine.AudioClip
+    @serializable(URL)
+    defaultAudio?: string;
+
     load() {
-        this.downloadAndApply("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/sounds/ping_pong.mp3");
+        if(this.defaultAudio && this.defaultAudio != "")
+            this.downloadAndApply(this.defaultAudio);
     }
 
     loadFromParam() {

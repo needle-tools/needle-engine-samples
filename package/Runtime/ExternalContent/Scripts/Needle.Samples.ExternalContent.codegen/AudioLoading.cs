@@ -8,6 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class AudioLoading : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.AudioSource @audioSource;
+		public UnityEngine.AudioClip @defaultAudio;
 		public void load(){}
 		public void loadFromParam(){}
 		public void downloadAndApply(string @url){}
