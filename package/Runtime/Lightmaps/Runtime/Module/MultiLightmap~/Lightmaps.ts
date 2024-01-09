@@ -66,25 +66,43 @@ export class LightmapConfigurations extends Behaviour {
     set index(val: number) {
         this.setLightmap(val);
     }
-    get currentIndex(): number { return this._currentIndex; }
+    get index(): number { return this._index; }
+    get currentIndex(): number { return this.index; }
 
     private _intensities: { [key: string]: number } = {};
     private _forward: boolean = true;
     private _renderers: Renderer[] = [];
 
     awake() {
-        this.context.connection.beginListen("lightmap_index", (index: number) => {
-            this._didSwitchLightTime = Date.now()
-            this.setLightmap(index);
-        });
+        this.context.connection.beginListen("lightmap_index", this.onRemoteLightmapIndex);
+        this.context.connection.beginListen("lightmap_cycle", this.onRemoteLightmapCycle);
         this.context.connection.beginListen(RoomEvents.JoinedRoom, () => {
-            this.context.connection.send("lightmap_sync", { index: this.currentIndex, switchTime: this._didSwitchLightTime });
+            this.context.connection.send("lightmap_sync", { index: this.index, switchTime: this._didSwitchLightTime });
         });
         this.context.connection.beginListen("lightmap_sync", (model: { index: number, switchTime: number }) => {
             this.index = model.index;
             this._didSwitchLightTime = model.switchTime;
         });
     }
+
+    onDestroy() {
+        this.context.connection.stopListen("lightmap_index", this.onRemoteLightmapIndex);
+        this.context.connection.stopListen("lightmap_cycle", this.onRemoteLightmapCycle);
+    }
+
+    private onRemoteLightmapIndex = (index: number) => {
+        if(typeof index != "number") return;
+
+        this.setLightmap(index);
+        this._didSwitchLightTime = Date.now()
+    };
+
+    private onRemoteLightmapCycle = (index: number) => {
+        if(typeof index != "number") return;
+
+        this._didSwitchLightTime = undefined;
+        this.setLightmap(index);
+    };
 
     onEnable() {
         this.startCoroutine(this.switchLightmaps());
@@ -120,30 +138,31 @@ export class LightmapConfigurations extends Behaviour {
         }
     }
 
-    private _currentIndex: number = -1;
+    private _index: number = -1;
 
     switchLight() { this.nextLightmap(); }
     nextLightmap() {
         this._didSwitchLightTime = Date.now();
-        this.index = this.currentIndex + 1;
-        this.context.connection.send("lightmap_index", this.currentIndex);
+        this.index = this.index + 1;
+        this.context.connection.send("lightmap_index", this.index);
     }
     previousLightmap() {
         this._didSwitchLightTime = Date.now();
-        this.index = this.currentIndex + 1;
-        this.context.connection.send("lightmap_index", this.currentIndex);
+        this.index = this.index + 1;
+        this.context.connection.send("lightmap_index", this.index);
     }
 
     selectLightmap(index: number) {
         this.setLightmap(index);
         this._didSwitchLightTime = Date.now();
+        this.context.connection.send("lightmap_index", this.index);
     }
 
     private setLightmap(index: number) {
         if (typeof index !== "number") return;
         if (!this.lightmaps) return;
         index %= this.lightmaps.length;
-        this._currentIndex = index;
+        this._index = index;
         for (const rend of this._renderers) {
             rend.lightmap = this.lightmaps[index];
         }
@@ -167,6 +186,7 @@ export class LightmapConfigurations extends Behaviour {
     startCyclingLightmaps() {
         this._didSwitchLightTime = undefined;
         this.setLightmap(this.index + 1);
+        this.context.connection.send("lightmap_cycle", this.index);
     }
 
     private disableRendererEmission(renderer: Renderer) {
