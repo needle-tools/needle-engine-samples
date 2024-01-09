@@ -1,4 +1,4 @@
-import { Context, ContextRegistry, Interactable, SyncedTransform, delay } from "@needle-tools/engine";
+import { Context, ContextRegistry, Interactable, SyncedTransform, delay, syncField } from "@needle-tools/engine";
 import { Behaviour, GameObject } from "@needle-tools/engine";
 import { Renderer } from "@needle-tools/engine";
 import { IPointerClickHandler } from "@needle-tools/engine";
@@ -50,14 +50,10 @@ class LightmapSettings {
 //@dont-generate-component
 export class LightmapConfigurations extends Behaviour {
 
-    switchLight() {
-        this._didSwitchLightTime = Date.now();
-        this.index = this.currentIndex + 1;
-        this.context.connection.send("lightmap_index", this.currentIndex);
-    }
-
     private _didSwitchLightTime?: number;
 
+    cycleLigthmaps: boolean = true;
+    cycleInterval: number = 1;
     pingPong: boolean = false;
 
     //@type System.Collections.Generic.List<UnityEngine.Texture2D>
@@ -120,11 +116,28 @@ export class LightmapConfigurations extends Behaviour {
 
                 this.setLightmap(i);
             }
-            yield WaitForSeconds(1);//.3 + Math.random() * .5);
+            yield WaitForSeconds(this.cycleInterval);//.3 + Math.random() * .5);
         }
     }
 
     private _currentIndex: number = -1;
+
+    switchLight() { this.nextLightmap(); }
+    nextLightmap() {
+        this._didSwitchLightTime = Date.now();
+        this.index = this.currentIndex + 1;
+        this.context.connection.send("lightmap_index", this.currentIndex);
+    }
+    previousLightmap() {
+        this._didSwitchLightTime = Date.now();
+        this.index = this.currentIndex + 1;
+        this.context.connection.send("lightmap_index", this.currentIndex);
+    }
+
+    selectLightmap(index: number) {
+        this.setLightmap(index);
+        this._didSwitchLightTime = Date.now();
+    }
 
     private setLightmap(index: number) {
         if (typeof index !== "number") return;
@@ -149,6 +162,11 @@ export class LightmapConfigurations extends Behaviour {
                 }
             }
         }
+    }
+
+    startCyclingLightmaps() {
+        this._didSwitchLightTime = undefined;
+        this.setLightmap(this.index + 1);
     }
 
     private disableRendererEmission(renderer: Renderer) {
