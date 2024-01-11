@@ -1,14 +1,33 @@
-import { Behaviour, Renderer, serializable, showBalloonMessage } from "@needle-tools/engine";
+import { Behaviour, Renderer, Rigidbody, serializable, showBalloonMessage } from "@needle-tools/engine";
 
 export class ResetPositionOnInterval extends Behaviour {
 
     @serializable()
     interval : number = 3;
 
+    @serializable()
+    resetPosition: boolean = true;
+
+    @serializable()
+    resetRotation: boolean = false;
+
+    @serializable()
+    resetVelocity: boolean = false;
+
     start() {
         const pos = this.gameObject.position.clone();
+        const rot = this.gameObject.rotation.clone();
+        const rb = this.gameObject.getComponent(Rigidbody);
+        const startFrame = this.context.time.frame;
         setInterval(() => {
-            this.gameObject.position.copy(pos);
+            if(this.resetPosition)
+                this.gameObject.position.copy(pos);
+
+            if(this.resetRotation)
+                this.gameObject.rotation.copy(rot);
+
+            if(rb && this.resetVelocity && this.context.time.frame !== startFrame)
+                rb.resetVelocities();
         }, this.interval * 1000);
     }
 }

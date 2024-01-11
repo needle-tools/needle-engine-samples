@@ -20,4 +20,4 @@ Note that colliders can be in the children of an object that has a rigidbody and
 
 Raycasting is fundamentally like emitting a laser with limited length, and if the laser hits something, we get that contact as a result.
 
-For more information visit [the documentation](https://engine.needle.tools/docs/getting-started/for-unity-developers.html#raycasting).
+For more information visit [documentation](https://engine.needle.tools/docs/getting-started/for-unity-developers.html#raycasting).
