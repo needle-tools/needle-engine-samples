@@ -1,6 +1,6 @@
 // START MARKER Set Random Color
 import { Behaviour, serializeable, Renderer } from "@needle-tools/engine";
-import { Color } from "three";
+import { Color, MeshBasicMaterial } from "three";
 
 export class RandomColor extends Behaviour {
 
@@ -31,7 +31,8 @@ export class RandomColor extends Behaviour {
             return;
         }
         for (let i = 0; i < renderer.sharedMaterials.length; i++) {
-            renderer.sharedMaterials[i].color = new Color(Math.random(), Math.random(), Math.random());
+            const material = renderer.sharedMaterials[i] as MeshBasicMaterial;
+            material.color = new Color(Math.random(), Math.random(), Math.random());
         }
     }
 }

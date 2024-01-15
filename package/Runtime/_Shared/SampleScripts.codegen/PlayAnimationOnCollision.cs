@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class PlayAnimationOnCollision : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.Animation @animation;
-		public void onTriggerEnter(object @col){}
+		public void onTriggerEnter(object @_col){}
 		public void onTriggerExit(){}
 	}
 }
