@@ -1,5 +1,5 @@
-import { Behaviour, serializeable } from "@needle-tools/engine";
-import { Euler, MathUtils, Quaternion } from "three";
+import { Behaviour, Mathf, getTempVector, serializeable, showBalloonMessage } from "@needle-tools/engine";
+import { Euler, MathUtils, Quaternion, Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -7,6 +7,9 @@ export class SensorAccess extends Behaviour {
 
     @serializeable()
     public frequency: number = 60;
+
+    @serializeable()
+    invert: boolean = false;
 
     start() {
         const div = document.createElement("div");
@@ -35,6 +38,7 @@ export class SensorAccess extends Behaviour {
                     // in fullscreen, we can lock device orientation on some devices
                     if ("orientation" in screen && "lock" in screen.orientation) {
                         try {
+                            //@ts-ignore
                             screen.orientation.lock("portrait-primary");
                         }
                         catch (e) {
@@ -55,6 +59,7 @@ export class SensorAccess extends Behaviour {
         const euler = new Euler();
 
         try {
+            throw "TEST";
             // try creating a sensor object, will throw if not available
             //@ts-ignore 
             const sensor = new RelativeOrientationSensor({frequency: this.frequency});
@@ -130,20 +135,56 @@ export class SensorAccess extends Behaviour {
     }
 
     private connectDeviceMotionEvents() {
-        const quaternion = new Quaternion();
         window.addEventListener('deviceorientation', (event) => {  
             if (!event.alpha || !event.beta || !event.gamma) return;
 
-            // convert alpha, beta, gamma to quaternion
-            const alpha = event.alpha;
-            const beta = event.beta;
-            const gamma = event.gamma;
-            quaternion.setFromEuler(new Euler(MathUtils.degToRad(beta), MathUtils.degToRad(gamma), MathUtils.degToRad(alpha), 'YXZ'));
+            // convert alpha, beta, gamma to radians
+            const alpha = MathUtils.degToRad(event.alpha); //z
+            const beta = MathUtils.degToRad(event.beta); //x
+            const gamma = MathUtils.degToRad(event.gamma); //y
+
+            // get orientation offset of the device (portrait/landscape)
+            const deviceZAngle = this.getOrientation();
+
+            //reset object
+            this.gameObject.quaternion.set(0, 0, 0, 1); 
+
+            // correct origin
+            this.gameObject.rotateX(-Math.PI / 2); // rotate the origin to face forward (0,0,1)
             
-            this.gameObject.quaternion.copy(quaternion.invert());
+            // apply gyro rotatinons (order is important)
+            this.gameObject.rotateZ(alpha);
+            this.gameObject.rotateX(beta);
+            this.gameObject.rotateY(gamma);
+
+            // compensate for device orientation offset (portrait/landscape)
+            this.gameObject.rotateZ(MathUtils.degToRad(-deviceZAngle)); 
+
+            if (this.invert)
+                this.gameObject.quaternion.invert();
+
             this.setOrientationLabel();
         });
     }
+
+    // https://gist.github.com/bellbind/d2be9cc09bf6241f255d
+    private getOrientation = function () {
+        // W3C DeviceOrientation Event Specification (Draft)
+        if (window.screen.orientation) return window.screen.orientation.angle;
+        // Safari
+        if (typeof window.orientation === "number") return window.orientation;
+        // workaround for android firefox
+        //@ts-ignore
+        if (window.screen.mozOrientation) return {
+            "portrait-primary": 0,
+            "portrait-secondary": 180,
+            "landscape-primary": 90,
+            "landscape-secondary": 270,
+        //@ts-ignore
+        }[window.screen.mozOrientation];
+        // otherwise
+        return 0;
+    };
 
     private deviceMotionFallback() {
         //@ts-ignore
