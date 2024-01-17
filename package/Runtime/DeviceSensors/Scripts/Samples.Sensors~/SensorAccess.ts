@@ -59,7 +59,6 @@ export class SensorAccess extends Behaviour {
         const euler = new Euler();
 
         try {
-            throw "TEST";
             // try creating a sensor object, will throw if not available
             //@ts-ignore 
             const sensor = new RelativeOrientationSensor({frequency: this.frequency});
