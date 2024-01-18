@@ -1,7 +1,9 @@
-import { Behaviour, Mathf, getTempVector, serializeable, showBalloonMessage } from "@needle-tools/engine";
+import { Behaviour, Mathf, getParam, getTempVector, serializeable, showBalloonMessage } from "@needle-tools/engine";
 import { Euler, MathUtils, Quaternion, Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
+
+const enforceFallback = getParam("usegyrofallback");
 
 export class SensorAccess extends Behaviour {
 
@@ -56,12 +58,18 @@ export class SensorAccess extends Behaviour {
         div.appendChild(btn);
         this.context.domElement.appendChild(div);
         
-        const euler = new Euler();
+        const quaternion = new Quaternion();
 
         try {
+            if (enforceFallback) {
+                throw "enforce fallback";
+            }
+
             // try creating a sensor object, will throw if not available
             //@ts-ignore 
             const sensor = new RelativeOrientationSensor({frequency: this.frequency});
+
+            showBalloonMessage("Using: RelativeOrientationSensor API");
 
             Promise.all([
                 //@ts-ignore
@@ -73,10 +81,25 @@ export class SensorAccess extends Behaviour {
                     {
                         // attach to the sensor and apply to our object
                         sensor.addEventListener('reading', (e) => {
-                            this.gameObject.quaternion.fromArray(sensor.quaternion).invert();
-                            euler.setFromQuaternion(this.gameObject.quaternion);
-                            euler.z += Math.PI / 2; // related to phone orientation - portrait
-                            this.gameObject.quaternion.setFromEuler(euler);
+
+                            // get orientation offset of the device (portrait/landscape)
+                            const deviceZAngle = this.getOrientation();
+
+                            //reset object
+                            this.gameObject.quaternion.set(0, 0, 0, 1); 
+
+                            // correct origin
+                            this.gameObject.rotateX(-Math.PI / 2); // rotate the origin to face forward (0,0,1)
+                            
+                            quaternion.fromArray(sensor.quaternion);
+                            this.gameObject.quaternion.multiply(quaternion);
+
+                            // compensate for device orientation offset (portrait/landscape)
+                            this.gameObject.rotateZ(MathUtils.degToRad(-deviceZAngle)); 
+
+                            if (this.invert)
+                                this.gameObject.quaternion.invert();
+
                             this.setOrientationLabel();
                         });
 
@@ -191,6 +214,7 @@ export class SensorAccess extends Behaviour {
             //@ts-ignore
             DeviceMotionEvent.requestPermission().then(response => {
                 if (response == 'granted') {
+                    showBalloonMessage("Using: deviceorientation event");
                     this.connectDeviceMotionEvents();
                 }
             });
