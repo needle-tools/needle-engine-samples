@@ -20,9 +20,10 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Events.UnityEvent @onHitTarget;
 		public UnityEngine.Events.UnityEvent @onMiss;
 		public void awake(){}
-		public void update(){}
+		public void onEnterXR(object @args){}
+		public void onUpdateXR(object @args){}
+		public void onLeaveXR(object @_args){}
 		public void onBeforeRender(){}
-		public void onVRChanged(bool @isVR){}
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void fireWithMiss(){}

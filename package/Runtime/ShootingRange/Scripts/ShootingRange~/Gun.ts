@@ -1,4 +1,4 @@
-import { Animator, AudioSource, Behaviour, EventList, GameObject, Gizmos, ParticleSystem, Watch, WebXR, getParam, isMobileDevice, serializable, setWorldPosition, setWorldQuaternion } from "@needle-tools/engine";
+import { Animator, AudioSource, Behaviour, EventList, GameObject, Gizmos, NeedleXREventArgs, NeedleXRSession, ParticleSystem, Watch, getParam, isMobileDevice, serializable, setWorldPosition, setWorldQuaternion } from "@needle-tools/engine";
 
 import { Object3D, Quaternion, Vector2, Vector3 } from "three";
 import { Target } from "./Target";
@@ -109,7 +109,6 @@ export class Gun extends Behaviour {
     private isVR: boolean = false;
 
     private parentOnStart?: Object3D;
-    private webXR?: WebXR;
 
     awake() {
         this.gameObject.getWorldPosition(this.lastPosition);
@@ -119,20 +118,65 @@ export class Gun extends Behaviour {
         this.characterGunRotation.copy(this.gameObject.quaternion);
 
         this.parentOnStart = this.gameObject.parent!;
-
-        this.webXR = GameObject.findObjectOfType(WebXR)!;
     }
 
-    update(): void {
-        if (this.webXR && this.isVR !== this.webXR.IsInVR) {
-            this.isVR = this.webXR.IsInVR;
-            this.onVRChanged(this.isVR);
+
+    // TODO: create custom avatar prefab with the gun inside
+    // TODO: either invoke methods on the scoremanager directly when instantiated (find score manager in scene)
+    // OR better: gun should not need to know about score manager, but rather just invoke a "hit" event on the target and the target then invokes the score manager
+
+    onEnterXR(args: NeedleXREventArgs): void {
+        
+        // args.xr.controllers.forEach(c => {
+
+        //     if (this.vrHideControllers)
+        //         c.controllerModel.visible = false;
+
+        //     if (this.vrHideHands)
+        //         c.handPointerModel.visible = false;
+        // });
+
+        this.context.scene.add(this.gameObject);
+        const s = this.references.scaleInVR;
+        this.gameObject.scale.set(s, s, s);
+    }
+    onUpdateXR(args: NeedleXREventArgs): void {
+        const xr = args.xr;
+        const isLeftHand = this.gunInput == GunInputEnum.Left;
+        const controller = isLeftHand ? xr.leftController : xr.rightController;
+
+        if (this.isVR && controller != null) {
+            this.gameObject.worldPosition = controller.gripWorldPosition;
+            this.gameObject.worldQuaternion = controller.gripWorldQuaternion;
+            
+            this.gameObject.rotateY(Math.PI); // ugly, but FWD is inverted
+            
+            if(controller.hand) {
+                this.gameObject.rotateZ(Math.PI); 
+            }
+
+            if (controller.hand) {
+                const negate = isLeftHand ? 1 : -1;
+                this.gameObject.rotateZ(Math.PI * 0.5 * negate);
+            }
+
+            if (controller.getButton("primary")?.pressed) {
+                this.fire();
+            }
         }
+        
     }
+    onLeaveXR(_args: NeedleXREventArgs): void {
+        this.parentOnStart?.add(this.gameObject);
+        this.gameObject.position.copy(this.characterGunPosition);
+        this.gameObject.quaternion.copy(this.characterGunRotation);
+        this.gameObject.scale.set(1, 1, 1);
+    }
+
+
     onBeforeRender(): void {
 
         if (this.references.raycastReference) {
-
             this.references.raycastReference.getWorldPosition(this.raycastWorldOrigin);
             this.references.raycastReference.getWorldDirection(this.raycastWorldDirection);
         }
@@ -140,63 +184,10 @@ export class Gun extends Behaviour {
         let wPos = new Vector3();
         this.gameObject.getWorldPosition(wPos);
 
-        if (this.webXR) {
+        if (NeedleXRSession.active) {
+            const xr = NeedleXRSession.active;
 
-            const isLeftHand = this.gunInput == GunInputEnum.Left;
-            const controller = isLeftHand ? this.webXR.LeftController : this.webXR.RightController;
-
-            if (this.isVR && controller != null) {
-
-                controller.controller.getWorldPosition(this.gameObject.position);
-                this.gameObject.quaternion.copy(controller.rayRotation);
-                
-                this.gameObject.rotateY(Math.PI); // ugly, but FWD is inverted
-                
-                if(controller.hand.visible) {
-                    this.gameObject.rotateZ(Math.PI); 
-                }
-
-                if (controller.isUsingHands) {
-                    const negate = isLeftHand ? 1 : -1;
-                    this.gameObject.rotateZ(Math.PI * 0.5 * negate);
-                }
-
-                if (controller.selectionDown) {
-                    this.fire();
-                }
-            }
-        }
-    }
-
-    onVRChanged(isVR: boolean) {
-
-        if (!this.webXR)
-            return;
-
-        this.gameObject.parent?.remove(this.gameObject);
-        if (isVR) //enter VR
-        {
-            this.webXR.Controllers.forEach(c => {
-
-                c.showRaycastLine = false;
-
-                if (this.vrHideControllers)
-                    c.controllerModel.visible = false;
-
-                if (this.vrHideHands)
-                    c.handPointerModel.visible = false;
-            });
-
-            this.context.scene.add(this.gameObject);
-            const s = this.references.scaleInVR;
-            this.gameObject.scale.set(s, s, s);
-        }
-        else //exit VR
-        {
-            this.parentOnStart?.add(this.gameObject);
-            this.gameObject.position.copy(this.characterGunPosition);
-            this.gameObject.quaternion.copy(this.characterGunRotation);
-            this.gameObject.scale.set(1, 1, 1);
+           
         }
     }
 
