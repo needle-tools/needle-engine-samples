@@ -6,7 +6,7 @@ import { getWorldPosition } from "@needle-tools/engine";
 export class OrbitControlsView extends Behaviour {
 
     @serializable(GameObject)
-    lookAt: GameObject;
+    lookAt?: GameObject;
     
     private controls: OrbitControls | null = null;
 
@@ -15,9 +15,9 @@ export class OrbitControlsView extends Behaviour {
     }
 
     setView() {
-        if (!this.controls) return;
+        if (!this.controls || !this.lookAt) return;
 
-        this.controls.setTarget(getWorldPosition(this.lookAt));
-        this.controls.setCameraTarget(getWorldPosition(this.gameObject));
+        this.controls.setLookTargetPosition(getWorldPosition(this.lookAt));
+        this.controls.setCameraTargetPosition(getWorldPosition(this.gameObject));
     }
 }
