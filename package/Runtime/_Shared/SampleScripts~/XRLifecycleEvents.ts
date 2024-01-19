@@ -1,4 +1,4 @@
-import { Behaviour, EventList, WebXR, WebXREvent, serializable, logHierarchy } from "@needle-tools/engine";
+import { Behaviour, EventList, WebXR, serializable, logHierarchy, NeedleXREventArgs } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -10,18 +10,14 @@ export class XRLifecycleEvents extends Behaviour {
     @serializable(EventList)
     onSessionEnd: EventList = new EventList();
 
-    private _webXRStartedListener: any;
-    private _webXREndedListener: any;
-
-    onEnable() {
-        this._webXRStartedListener = WebXR.addEventListener(WebXREvent.XRStarted, this.onWebXRStarted.bind(this));
-        this._webXREndedListener = WebXR.addEventListener(WebXREvent.XRStopped, this.onWebXREnded.bind(this));
+    onEnterXR(_args: NeedleXREventArgs): void {
+        this.onWebXRStarted();
     }
 
-    onDisable() {
-        WebXR.removeEventListener(WebXREvent.XRStarted, this._webXRStartedListener);
-        WebXR.removeEventListener(WebXREvent.XRStopped, this._webXREndedListener);
+    onExitXR(_args: NeedleXREventArgs): void {
+        this.onWebXREnded();
     }
+
     private onWebXRStarted() {
         logHierarchy(this.context.scene, false);
         this.onSessionStart.invoke();
