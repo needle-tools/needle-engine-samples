@@ -1,5 +1,5 @@
-import { Behaviour, Mathf, getParam, getTempVector, serializeable, showBalloonMessage } from "@needle-tools/engine";
-import { Euler, MathUtils, Quaternion, Vector3 } from "three";
+import { Behaviour, getParam, serializeable } from "@needle-tools/engine";
+import { Euler, MathUtils, Quaternion } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -68,8 +68,6 @@ export class SensorAccess extends Behaviour {
             // try creating a sensor object, will throw if not available
             //@ts-ignore 
             const sensor = new RelativeOrientationSensor({frequency: this.frequency});
-
-            showBalloonMessage("Using: RelativeOrientationSensor API");
 
             Promise.all([
                 //@ts-ignore
@@ -214,7 +212,6 @@ export class SensorAccess extends Behaviour {
             //@ts-ignore
             DeviceMotionEvent.requestPermission().then(response => {
                 if (response == 'granted') {
-                    showBalloonMessage("Using: deviceorientation event");
                     this.connectDeviceMotionEvents();
                 }
             });
