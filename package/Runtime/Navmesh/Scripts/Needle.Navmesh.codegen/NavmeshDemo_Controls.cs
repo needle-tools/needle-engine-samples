@@ -7,6 +7,8 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class NavmeshDemo_Controls : UnityEngine.MonoBehaviour
 	{
+		public UnityEngine.GameObject @goalVisualizer;
+		public void awake(){}
 		public void update(){}
 		public void raycast(){}
 	}

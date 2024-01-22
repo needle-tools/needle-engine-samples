@@ -1,5 +1,5 @@
-import { Behaviour, getParam, serializable, setWorldPositionXYZ, setWorldRotationXYZ, setWorldScale } from "@needle-tools/engine";
-import { Mesh, MeshBasicMaterial, Vector3, Color } from "three";
+import { Behaviour, Gizmos, getParam, serializable, setWorldPositionXYZ, setWorldRotationXYZ, setWorldScale } from "@needle-tools/engine";
+import { Mesh, MeshBasicMaterial, Vector3, Color, ColorRepresentation } from "three";
 import { Pathfinding } from 'three-pathfinding';
 
 const debug = getParam("debugnavmesh");
@@ -15,7 +15,7 @@ export class Navmesh extends Behaviour {
         return Navmesh.Pathfinding.getGroup(Navmesh.ZONE, position, false) != null;
     }
 
-    static FindPath(from: Vector3, to: Vector3): Vector3[] {
+    static FindPath(from: Vector3, to: Vector3, debugDuration?: number): Vector3[] {
         let a = from;
         let b = to;
 
@@ -25,7 +25,7 @@ export class Navmesh extends Behaviour {
         if (!path) {
             let fromEdited = false;
             if (!Navmesh.isPointOnNavMesh(a)) {
-                const fixedA = Navmesh.getClosestVertex(from)!;
+                const fixedA = Navmesh.getClosestCentroid(from)!;
                 if (fixedA) {
                     a = fixedA;
                 }
@@ -33,7 +33,7 @@ export class Navmesh extends Behaviour {
 
             let toEdited = false;
             if (!Navmesh.isPointOnNavMesh(b)) {
-                const fixedB = Navmesh.getClosestVertex(to) ?? to;
+                const fixedB = Navmesh.getClosestCentroid(to) ?? to;
                 if (fixedB) {
                     b = fixedB;
                 }
@@ -54,7 +54,26 @@ export class Navmesh extends Behaviour {
             }
         }
 
-        return path;
+        // visualize path
+        if ((debug || debugDuration) && debugDuration !== -1) {
+            Navmesh.displayPath(path, debugDuration);
+        }
+
+        return path ?? new Vector3[0];
+    }
+
+    static displayPath(path: Vector3[] | undefined, debugDuration?: number, color: ColorRepresentation = 0xff9747, depthTest: boolean = false) {
+        if (path && path.length >= 2) {
+            const duration = debugDuration ?? 0.5;
+
+            for (let i = 0; i < path.length - 1; i++) {
+                const a = path[i];
+                const b = path[i + 1];
+                Gizmos.DrawLine(a, b, color, duration, depthTest);
+                Gizmos.DrawSphere(a, 0.1, color, duration, depthTest);
+            }
+            Gizmos.DrawSphere(path[path.length - 1], 0.1, color, duration, depthTest);
+        }
     }
 
     static isPointOnNavMesh(point: Vector3): boolean {
@@ -117,7 +136,7 @@ export class Navmesh extends Behaviour {
         return c;
     }
 
-    private static getClosestVertex(position: Vector3): Vector3 | null {
+    private static getClosestCentroid(position: Vector3): Vector3 | null {
         let minDistance = Number.MAX_SAFE_INTEGER;
         let safePosition: Vector3 | null = null;
         Navmesh.ZoneData?.groups.forEach(group => {
@@ -166,7 +185,7 @@ export class Navmesh extends Behaviour {
 
         if (debug) {
             this.createDebugMesh(new Color(0.039, 0.645, 0.754), 0.15, false);
-            this.createDebugMesh(new Color(0.039 * .6, 0.645 * .6, 0.754 * .6), 1, true);
+            this.createDebugMesh(new Color(0.039 * .5, 0.645 * .5, 0.754 * .5), 1, true);
         }
     }
 

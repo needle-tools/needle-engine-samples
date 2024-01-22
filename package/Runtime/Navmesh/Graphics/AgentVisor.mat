@@ -7,9 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Floor
+  m_Name: AgentVisor
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
   m_ValidKeywords:
+  - _RECEIVE_SHADOWS_OFF
   - _TEXTURE_TRANSFORM_ON
   - _VERTEX_COLORS_ON
   m_InvalidKeywords: []
@@ -19,7 +20,8 @@ Material:
   m_CustomRenderQueue: 2000
   stringTagMap:
     RenderType: Opaque
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -69,7 +71,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - baseColorTexture:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 11, y: 11}
         m_Offset: {x: 0, y: 0}
     - clearcoatRoughnessTexture:
         m_Texture: {fileID: 0}
@@ -138,7 +140,7 @@ Material:
     - _BUILTIN_Blend: 0
     - _BUILTIN_CullMode: 2
     - _BUILTIN_DstBlend: 0
-    - _BUILTIN_QueueControl: 1
+    - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _BUILTIN_SrcBlend: 1
     - _BUILTIN_Surface: 0
@@ -148,7 +150,7 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _CLEARCOAT: 0
-    - _CastShadows: 1
+    - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -168,7 +170,7 @@ Material:
     - _Parallax: 0.005
     - _QueueControl: -1
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
     - _SPECULAR: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -204,7 +206,7 @@ Material:
     - iridescenceThicknessMinimum: 100
     - iridescenceThicknessTextureRotation: 0
     - iridescenceThicknessTextureTexCoord: 0
-    - metallicFactor: 0
+    - metallicFactor: 0.462
     - metallicRoughnessTextureRotation: 0
     - metallicRoughnessTextureTexCoord: 0
     - normalScale: 1
@@ -213,7 +215,7 @@ Material:
     - occlusionStrength: 1
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
-    - roughnessFactor: 0.5
+    - roughnessFactor: 0
     - specularColorTextureRotation: 0
     - specularColorTextureTexCoord: 0
     - specularFactor: 1
@@ -231,7 +233,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
-    - baseColorFactor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
+    - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
     - emissiveFactor: {r: 0, g: 0, b: 0, a: 1}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
