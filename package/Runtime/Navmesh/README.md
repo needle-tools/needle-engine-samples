@@ -14,6 +14,12 @@ Add the **Navmesh** component to your scene and hit generate. That will both gen
 
 ## Pathfinding API
 
-Basic usage can be found in `NavmeshDemo_Controls.ts` where it queries path between two points. (`Navmesh.FindPath(this.from, this.to);`)
+Basic usage can be found in `NavmeshDemo_Controls.ts` where it queries path between two points.
+
+`Navmesh.FindPath(from, to)` which returns the path as an array of positions: `Vector3[]`.
 
 Please refer to the `three-pathfinding` package for more information.
+
+## Debuging
+
+add `?debugnavmesh` to your url to display the navmesh to better understand what is going on. 

@@ -150,7 +150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17534856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.71, y: 0.5, z: 2.97}
+  m_LocalPosition: {x: -3.76, y: 0.5, z: 2.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -328,6 +328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 473602362}
   - component: {fileID: 473602361}
+  - component: {fileID: 473602363}
   m_Layer: 0
   m_Name: Instructions
   m_TagString: Untagged
@@ -364,6 +365,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &473602363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473602360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbc06165f0588b78d2a2fc3d4aee05a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.EnforceParameters,
+    Needle.Engine-Samples.Runtime
+  parameters:
+  - debugnavmesh
 --- !u!1 &690018055
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,14 +761,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304700392}
-  m_LocalRotation: {x: -0, y: 0.4440264, z: -0, w: 0.89601374}
-  m_LocalPosition: {x: 2.64, y: 0.5, z: 2.68}
+  m_LocalRotation: {x: -0, y: 0.89595336, z: -0, w: -0.4441481}
+  m_LocalPosition: {x: 2.73, y: 0.5, z: 2.72}
   m_LocalScale: {x: 3.2112, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 726460905}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 52.722, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 232.738, z: 0}
 --- !u!65 &1304700394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -926,8 +942,8 @@ MonoBehaviour:
   dampingFactor: 0.1
   targetLerpDuration: 1
   enableKeys: 0
-  middleClickToFocus: 1
-  doubleClickToFocus: 1
+  middleClickToFocus: 0
+  doubleClickToFocus: 0
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!114 &1311603570
@@ -990,14 +1006,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381386400}
-  m_LocalRotation: {x: -0, y: 0.24529497, z: -0, w: 0.9694485}
-  m_LocalPosition: {x: -3.31, y: 0.5, z: -3.4299998}
+  m_LocalRotation: {x: -0, y: 0.66997814, z: -0, w: 0.7423809}
+  m_LocalPosition: {x: -3.9, y: 0.5, z: -3.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 726460905}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 28.399, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 84.131, z: 0}
 --- !u!65 &1381386402
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1090,7 +1106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade244c251bec3f1e3575416e23a5901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Navmesh, Needle.Engine-Samples.Runtime
-  navMesh: {fileID: 1970281509}
+  bakeNavmeshOnExport: 1
 --- !u!4 &1422062755
 Transform:
   m_ObjectHideFlags: 0
@@ -1102,8 +1118,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1817961744}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1294,38 +1309,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1817961743
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1817961744}
-  m_Layer: 0
-  m_Name: Navmesh_Navmesh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1817961744
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817961743}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1970281512}
-  m_Father: {fileID: 1422062755}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1927371370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,7 +1336,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927371370}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6099999, y: 0.5, z: -2.03}
+  m_LocalPosition: {x: -0.5, y: 0.5, z: -2.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1423,86 +1406,3 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927371370}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1970281509
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1970281512}
-  - component: {fileID: 1970281511}
-  - component: {fileID: 1970281510}
-  m_Layer: 0
-  m_Name: ExportedNavMesh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!23 &1970281510
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970281509}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: ec7ac38f31ab15a449b5713d94e8721d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1970281511
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970281509}
-  m_Mesh: {fileID: 9039807035233013034, guid: 51abd8549249bcb49a1095b0a968e236, type: 3}
---- !u!4 &1970281512
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970281509}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1817961744}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

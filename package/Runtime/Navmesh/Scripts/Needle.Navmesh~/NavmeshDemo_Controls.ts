@@ -32,16 +32,22 @@ export class NavmeshDemo_Controls extends Behaviour {
             const lastNode = this.path[this.path.length - 1];
             Gizmos.DrawSphere(lastNode, 0.1, 0xff0000, 0, false);
         }
+        else if (this.targetCount != -1){
+            Gizmos.DrawSphere(this.from, 0.1, 0xff0000, 0, false);
+        }
     }
 
     private needsPath = false;
     private from: Vector3 = new Vector3();
     private to: Vector3 = new Vector3();
-    private targetCount = 0;
+    private targetCount = -1;
     raycast() {
         const hits = this.context.physics.raycast(); //raycast from the mouse curosr pos
         const firstHit = hits.filter(x => x.object instanceof Object3D)[0];
         if (firstHit) {
+            if(this.targetCount == -1)
+                this.targetCount = 0;
+             
             this.targetCount++;
             if (this.targetCount == 1) {
                 this.from.copy(firstHit.point);

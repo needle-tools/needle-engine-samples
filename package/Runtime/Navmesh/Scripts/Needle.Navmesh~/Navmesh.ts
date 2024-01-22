@@ -1,16 +1,20 @@
-import { Behaviour, serializable } from "@needle-tools/engine";
-import { Mesh, Object3D, Vector3 } from "three";
+import { Behaviour, getParam, serializable, setWorldPositionXYZ, setWorldRotationXYZ, setWorldScale } from "@needle-tools/engine";
+import { Mesh, MeshBasicMaterial, Vector3, Color } from "three";
 import { Pathfinding } from 'three-pathfinding';
 
+const debug = getParam("debugnavmesh");
+
 export class Navmesh extends Behaviour {
-    
+
+    // ------- static API --------
+
     static Pathfinding?: Pathfinding;
     static ZoneData?: any;
 
     static IsOnNavMesh(position: Vector3): boolean {
         return Navmesh.Pathfinding.getGroup(Navmesh.ZONE, position, false) != null;
     }
-    
+
     static FindPath(from: Vector3, to: Vector3): Vector3[] {
         let a = from;
         let b = to;
@@ -42,7 +46,7 @@ export class Navmesh extends Behaviour {
                     path = path.slice(1, path.length - 1);
                     path.unshift(from);
                 }
-                
+
                 if (toEdited) {
                     path = path.slice(0, path.length - 2);
                     path.push(to);
@@ -60,7 +64,7 @@ export class Navmesh extends Behaviour {
 
         let isContained = false;
 
-        if (groups === undefined || vertices === undefined) 
+        if (groups === undefined || vertices === undefined)
             return false;
 
         for (const node of groups) {
@@ -87,29 +91,29 @@ export class Navmesh extends Behaviour {
     static isPointInPoly(point: Vector3, poly: any, vertices: Array<Vector3>): boolean {
         // reference point will be the centroid of the polygon
         // We need to rotate the vector as well as all the points which the polygon uses
-    
+
         var lowestPoint = 100000;
         var highestPoint = -100000;
-    
+
         var polygonVertices: Array<Vector3> = [];
         poly.vertexIds.forEach((vId: number) => {
-          lowestPoint = Math.min(vertices[vId].y, lowestPoint);
-          highestPoint = Math.max(vertices[vId].y, highestPoint);
-          polygonVertices.push(vertices[vId]);
+            lowestPoint = Math.min(vertices[vId].y, lowestPoint);
+            highestPoint = Math.max(vertices[vId].y, highestPoint);
+            polygonVertices.push(vertices[vId]);
         });
-    
+
         if (point.y < highestPoint + 0.5 && point.y > lowestPoint - 0.5 &&
-          this.isVectorInPolygon(polygonVertices, point)) {
-          return true;
+            this.isVectorInPolygon(polygonVertices, point)) {
+            return true;
         }
         return false;
     }
 
     //+ Jonas Raoni Soares Silva
     //@ http://jsfromhell.com/math/is-point-in-poly [rev. #0]
-    static isVectorInPolygon (poly, pt): boolean {
+    static isVectorInPolygon(poly, pt): boolean {
         for (var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
-        ((poly[i].z <= pt.z && pt.z < poly[j].z) || (poly[j].z <= pt.z && pt.z < poly[i].z)) && (pt.x < (poly[j].x - poly[i].x) * (pt.z - poly[i].z) / (poly[j].z - poly[i].z) + poly[i].x) && (c = !c);
+            ((poly[i].z <= pt.z && pt.z < poly[j].z) || (poly[j].z <= pt.z && pt.z < poly[i].z)) && (pt.x < (poly[j].x - poly[i].x) * (pt.z - poly[i].z) / (poly[j].z - poly[i].z) + poly[i].x) && (c = !c);
         return c;
     }
 
@@ -124,7 +128,7 @@ export class Navmesh extends Behaviour {
                     if (minDistance > dis) {
                         minDistance = dis;
                         safePosition = center;
-                    } 
+                    }
                 }
             });
         });
@@ -132,7 +136,7 @@ export class Navmesh extends Behaviour {
         return safePosition;
     }
 
-    private static findPath(from: Vector3, to: Vector3): Vector3[] {
+    private static findPath(from: Vector3, to: Vector3): Vector3[] | undefined {
         const groupID = Navmesh.Pathfinding.getGroup(Navmesh.ZONE, from);
         const path = Navmesh.Pathfinding.findPath(from, to, Navmesh.ZONE, groupID);
 
@@ -144,18 +148,48 @@ export class Navmesh extends Behaviour {
 
     static ZONE = 'default';
 
-    @serializable(Object3D)
-    navMesh?: Object3D;
+    // --------- component ---------
+
+    // @nonSerialized
+    @serializable(Mesh)
+    navMesh: Mesh;
 
     awake(): void {
-        if (!this.navMesh) return;
+        if (!this.navMesh) {
+            console.error("No navmesh data.");
+            return;
+        }
 
         const pathfinding = Navmesh.Pathfinding ??= new Pathfinding();
+        const zoneData = Navmesh.ZoneData = Pathfinding.createZone(this.navMesh.geometry);
+        pathfinding.setZoneData(Navmesh.ZONE, zoneData);
 
-        if (this.navMesh instanceof Mesh) {
-            const zoneData = Pathfinding.createZone(this.navMesh.geometry);
-            Navmesh.ZoneData = zoneData;
-            pathfinding.setZoneData(Navmesh.ZONE, zoneData);
+        if (debug) {
+            this.createDebugMesh(new Color(0.039, 0.645, 0.754), 0.15, false);
+            this.createDebugMesh(new Color(0.039 * .6, 0.645 * .6, 0.754 * .6), 1, true);
         }
+    }
+
+    private createDebugMesh(color: Color, alpha: number, wireframe: boolean): Mesh {
+        // setup
+        const parent = this.context.scene.children[0];
+        const clonedMesh = this.navMesh.clone();
+        parent.add(clonedMesh);
+
+        // transform
+        setWorldPositionXYZ(clonedMesh, 0, 0, 0);
+        setWorldRotationXYZ(clonedMesh, 0, 0, 0);
+        setWorldScale(clonedMesh, new Vector3(1, 1, 1));
+
+        // material
+        const mat = new MeshBasicMaterial();
+        mat.wireframe = wireframe;
+        mat.transparent = alpha <= 0.99;
+        mat.opacity = alpha;
+        mat.color = color;
+        
+        clonedMesh.material = mat;
+
+        return clonedMesh;
     }
 }
