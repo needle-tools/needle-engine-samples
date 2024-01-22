@@ -2,6 +2,7 @@
 
 // Import types
 import { AspectRatioFitterUI } from "../AspectRatioFitterUI.js";
+import { BlendShapeUI } from "../BlendShapeUI.js";
 import { CameraGoal } from "../CameraGoal.js";
 import { CameraLayer } from "../CameraLayer.js";
 import { Cannon } from "../Cannon.js";
@@ -44,6 +45,7 @@ import { XRLifecycleEvents } from "../XRLifecycleEvents.js";
 
 // Register types
 TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
+TypeStore.add("BlendShapeUI", BlendShapeUI);
 TypeStore.add("CameraGoal", CameraGoal);
 TypeStore.add("CameraLayer", CameraLayer);
 TypeStore.add("Cannon", Cannon);

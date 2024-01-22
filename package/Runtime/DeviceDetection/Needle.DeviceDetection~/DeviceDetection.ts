@@ -1,5 +1,5 @@
-import { Behaviour } from "@needle-tools/engine";
-import { isMobileDevice, isiOS, isMozillaXR, isSafari, isQuest } from "@needle-tools/engine/engine/engine_utils";
+import { Behaviour, isDesktop } from "@needle-tools/engine";
+import { isMobileDevice, isiOS, isMozillaXR, isSafari, isQuest } from "@needle-tools/engine";
 import { showBalloonMessage } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -24,8 +24,11 @@ export class DeviceDetection extends Behaviour {
             else
                 showBalloonMessage("Other Mobile 📱");
         }
-        else {
+        else if (isDesktop()) {
             showBalloonMessage("Desktop 🖥️");
+        }
+        else {
+            showBalloonMessage("Other Device 🌏");
         }
 
         // Browser detection
@@ -38,7 +41,7 @@ export class DeviceDetection extends Behaviour {
         else if (window.navigator.userAgent.indexOf("Chrome") > -1)
             showBalloonMessage("Chrome 🌏");
         else
-            showBalloonMessage("Other 🌏");
+            showBalloonMessage("Other Browser 🌏");
 
         showBalloonMessage("UserAgent: " + window.navigator.userAgent);
     }
