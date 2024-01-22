@@ -3,6 +3,7 @@
 // Import types
 import { AspectRatioFitterUI } from "../AspectRatioFitterUI.js";
 import { CameraGoal } from "../CameraGoal.js";
+import { CameraLayer } from "../CameraLayer.js";
 import { Cannon } from "../Cannon.js";
 import { RandomColor } from "../ChangeColor.js";
 import { ChangeColorOnCollision } from "../ChangeColorOnCollision.js";
@@ -44,6 +45,7 @@ import { XRLifecycleEvents } from "../XRLifecycleEvents.js";
 // Register types
 TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
 TypeStore.add("CameraGoal", CameraGoal);
+TypeStore.add("CameraLayer", CameraLayer);
 TypeStore.add("Cannon", Cannon);
 TypeStore.add("RandomColor", RandomColor);
 TypeStore.add("ChangeColorOnCollision", ChangeColorOnCollision);
