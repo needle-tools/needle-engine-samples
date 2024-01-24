@@ -328,6 +328,7 @@ GameObject:
   - component: {fileID: 153658940}
   - component: {fileID: 153658943}
   - component: {fileID: 153658944}
+  - component: {fileID: 153658945}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -368,7 +369,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 100
-  field of view: 45
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -393,14 +394,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153658939}
-  m_LocalRotation: {x: -0.12593175, y: 0.70064145, z: -0.12767954, w: -0.6906089}
-  m_LocalPosition: {x: 0.32020923, y: 1.2809013, z: -0.008602194}
+  m_LocalRotation: {x: -0.17888056, y: 0.070280425, z: -0.012754222, w: -0.9812746}
+  m_LocalPosition: {x: 0.13, y: 1.054, z: -0.133}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 165792253}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20.662, y: -8.194, z: -0.007}
 --- !u!114 &153658943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,6 +465,20 @@ MonoBehaviour:
   doubleClickToFocus: 1
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
+--- !u!114 &153658945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153658939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693de1e48d1f0764d9bc83022f353103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraSkyboxData, Needle.Engine
+  backgroundBlurriness: 0.25
+  backgroundIntensity: 1
 --- !u!1 &165792251
 GameObject:
   m_ObjectHideFlags: 0
