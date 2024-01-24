@@ -11,8 +11,9 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Transform[] @colliders;
 		public bool @alignToSurface = true;
 		public bool @addToPaintedObject = true;
+		public void OnEnable(){}
+		public void OnDisable(){}
 		public void start(){}
-		public void update(){}
 	}
 }
 
