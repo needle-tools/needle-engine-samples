@@ -1,4 +1,4 @@
-import { AudioSource, Behaviour, GameObject, InstantiateOptions, Rigidbody, WebXR, serializeable } from "@needle-tools/engine";
+import { AudioSource, Behaviour, GameObject, InstantiateOptions, NEPointerEvent, NeedleXREventArgs, PointerType, Rigidbody, WebXR, serializeable } from "@needle-tools/engine";
 import { setWorldPosition } from "@needle-tools/engine";
 import { Object3D, Vector3, Quaternion } from "three";
 
@@ -24,31 +24,15 @@ export class Cannon extends Behaviour {
         if (this.prefab) GameObject.setActive(this.prefab, false);
         this.webXR ??= GameObject.findObjectOfType(WebXR)!;
     }
-
-    private lastFrameVRInput: boolean[] = [];
-
-    update() {
-        if (!this.context.isInVR && this.context.input.getPointerClicked(0)) {
-            this.throwFromTouchPos();
-        }
-        else if (this.context.isInVR && this.webXR) {
-            const controllers = this.webXR.session?.controllers;
-            if (!controllers) return;
-
-            this.lastFrameVRInput.length = controllers.length;
-            for (let i = 0; i < controllers.length; i++) {
-                const controller = controllers[i];
-
-                const oldInput = this.lastFrameVRInput[i] ?? false;
-                const newInput = controller.getButton("primary")?.pressed ?? false;
-                this.lastFrameVRInput[i] = newInput;
-
-                if(oldInput === false && newInput === true) {
-                    const ray = controller.ray;
-                    this.throwBall(ray.origin, ray.direction);
-                }
-            }
-        }
+    onEnable(): void {
+        this.context.input.addEventListener("pointerdown", this._onPointerDown);
+    }
+    onDisable(): void {
+        this.context.input.removeEventListener("pointerdown", this._onPointerDown);
+    }
+    private _onPointerDown = (args: NEPointerEvent) => {
+        if (args.button !== 0) return;
+        this.throwBall(args.space.worldPosition, args.space.worldForward);
     }
 
     private tempOrigin = new Vector3();
