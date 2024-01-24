@@ -437,20 +437,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-ce875773ed6007c46a18dbf0d81e686e-210950896-0
+  autoFit: 1
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 1
-  enableKeys: 0
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 103894125}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 103894125}
 --- !u!114 &210950897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1315,13 +1317,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-ce875773ed6007c46a18dbf0d81e686e-1288175247-0
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 0}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 1
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 1
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!114 &1288175248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1335,6 +1345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-ce875773ed6007c46a18dbf0d81e686e-1288175248-0
+  IgnoreSkinnedMeshes: 0
 --- !u!114 &1288175249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,6 +1361,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-ce875773ed6007c46a18dbf0d81e686e-1288175249-0
   arScale: 1
   invertForward: 0
+  arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!114 &1288175250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1624,6 +1637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
 --- !u!1 &1427666560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1939,6 +1953,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies: []
 --- !u!4 &1883279413
 Transform:

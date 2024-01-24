@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.02500322, g: 0.2128351, b: 0.19229849, a: 1}
+  m_IndirectSpecularColor: {r: 0.025003292, g: 0.21283427, b: 0.19229904, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -254,20 +254,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-091aedc0f36d8824abbc523c525b85f8-144437616-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 1
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 144437618}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 144437618}
 --- !u!114 &144437617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,13 +484,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-091aedc0f36d8824abbc523c525b85f8-743016996-0
-  enableVR: 0
-  enableAR: 1
-  defaultAvatar: {fileID: 0}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 0
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 0
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!1001 &757893256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -802,9 +812,10 @@ MonoBehaviour:
   DirectoryName: Packages/com.needle.engine-samples/WebProjects~/AROverlay
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
-  - Name: samplescripts
-    VersionOrPath: Packages/com.needle.sample-assets/Runtime/_Shared/SampleScripts.npmdef
+  - Name: '@needle-tools/samples-scripts'
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &1079656939
 Transform:
@@ -966,6 +977,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-091aedc0f36d8824abbc523c525b85f8-1265000508-0
   arScale: 1
   invertForward: 0
+  arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!1001 &1290969878
 PrefabInstance:
   m_ObjectHideFlags: 0

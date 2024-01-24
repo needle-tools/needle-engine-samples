@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.83443934, g: 0.824093, b: 0.8454254, a: 1}
+  m_IndirectSpecularColor: {r: 0.8345642, g: 0.8242235, b: 0.8455437, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -436,20 +436,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 0
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 0}
 --- !u!114 &133549934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,13 +494,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 0}
-  createVRButton: 1
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
+  createVRButton: 0
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 0
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!4 &823872165
 Transform:
   m_ObjectHideFlags: 0
@@ -641,6 +651,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: needle.gaussiansplats
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/GaussianSplats/Needle.GaussianSplats.npmdef
@@ -805,6 +816,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
   arScale: 4
   invertForward: 0
+  arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!4 &1234562383
 Transform:
   m_ObjectHideFlags: 0
@@ -899,6 +912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
 --- !u!4 &1685443472
 Transform:
   m_ObjectHideFlags: 0
@@ -993,8 +1007,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 0
 --- !u!1001 &1696151056
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1074,8 +1093,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 0
 --- !u!1 &1729986593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,6 +1129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42798c1a37db46409660e69421ebdd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
+  IgnoreSkinnedMeshes: 0
 --- !u!4 &1729986595
 Transform:
   m_ObjectHideFlags: 0
@@ -1203,8 +1228,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 0
 --- !u!23 &298551311818028604
 MeshRenderer:
   m_ObjectHideFlags: 0

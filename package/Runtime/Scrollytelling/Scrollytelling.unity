@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.926476, g: 0.88088727, b: 0.83786464, a: 1}
+  m_IndirectSpecularColor: {r: 0.92647076, g: 0.8808818, b: 0.8378601, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -166,13 +166,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-b9fe30db803400c448a13702599e6e77-10144873-0
-  enableVR: 0
-  enableAR: 1
-  defaultAvatar: {fileID: 0}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 0
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 0
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!1 &53066233
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +228,7 @@ MonoBehaviour:
     Needle.Engine-Samples.Runtime
   timeline: {fileID: 455340344}
   scrollSpeed: 0.5
+  mobileScrollFactor: 2
   lerpSpeed: 2.5
 --- !u!1 &175758457
 GameObject:
@@ -551,6 +560,7 @@ MonoBehaviour:
   arScale: 1
   invertForward: 0
   arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!114 &622914240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1199,6 +1209,7 @@ MonoBehaviour:
   DirectoryName: Packages/com.needle.engine-samples/WebProjects~/Scrollytelling
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: needle.samples.scrollytelling
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/Scrollytelling/Needle.Samples.Scrollytelling.npmdef
