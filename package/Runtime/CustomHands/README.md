@@ -11,16 +11,7 @@ This allows you to keep the entire rigging information intact.
 
 ## Setup
 
-Custom hands are configured via the `WebXR` component. In there, you specify a runtime path to a directory that contains your custom hand models.
-
-This means that you need to create two `.glb` files that contain your left and right hand. 
-
-This sample is set up in a way that you can directly edit the hands from the scene. The setup is as follows:
-- add your hands to your scene
-- name the GameObjects `left` and `right`
-- disable them and add a `GltfObject` component
-Adding the component results in the scene getting exported as three separate files – the main `.glb`, `right.glb` and `left.glb`. 
-- specify the custom hands path in the `WebXR` component as `/`.
+Custom hands are configured via the `XRControllerModel` component. In there, you add a reference to your hand models for left and right hand prefabs. It is important that the prefab for the left hand is named "left" and the prefab for the right hand is named "right".
 
 ## External Hand Assets
 
