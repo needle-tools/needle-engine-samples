@@ -25,17 +25,29 @@ export class Cannon extends Behaviour {
         this.webXR ??= GameObject.findObjectOfType(WebXR)!;
     }
 
+    private lastFrameVRInput: boolean[] = [];
+
     update() {
         if (!this.context.isInVR && this.context.input.getPointerClicked(0)) {
             this.throwFromTouchPos();
         }
         else if (this.context.isInVR && this.webXR) {
-            this.webXR.Controllers.forEach((controller) => {
-                if (controller.selectionDown) {
-                    const ray = controller.getRay();
+            const controllers = this.webXR.session?.controllers;
+            if (!controllers) return;
+
+            this.lastFrameVRInput.length = controllers.length;
+            for (let i = 0; i < controllers.length; i++) {
+                const controller = controllers[i];
+
+                const oldInput = this.lastFrameVRInput[i] ?? false;
+                const newInput = controller.getButton("primary")?.pressed ?? false;
+                this.lastFrameVRInput[i] = newInput;
+
+                if(oldInput === false && newInput === true) {
+                    const ray = controller.ray;
                     this.throwBall(ray.origin, ray.direction);
                 }
-            });
+            }
         }
     }
 
