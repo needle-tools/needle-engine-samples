@@ -35,37 +35,6 @@ export class Cannon extends Behaviour {
         this.throwBall(args.space.worldPosition, args.space.worldForward);
     }
 
-    private tempOrigin = new Vector3();
-    private tempDirection = new Vector3();
-    private quat = new Quaternion();
-
-    private throwFromTouchPos() {
-        if (!this.context.mainCameraComponent) return;
-
-        const camComp = this.context.mainCameraComponent!;
-
-        if (!camComp) return;
-        const input = this.context.input;
-
-        // get relative mouse position, in range -1 to 1
-        const mouse = input.mousePositionRC;
-
-        // get world position of mouse on the near plane
-        this.tempOrigin.set(mouse.x, mouse.y, -1).unproject(camComp.cam);
-
-        // caulculate direction from camera to world mouse
-        this.tempDirection.copy(this.tempOrigin).sub(camComp.worldPosition).normalize();
-
-        // add little offset to spawn the ball in front of the camera and not in inside of it
-        this.tempOrigin.addScaledVector(this.tempDirection, 2);
-
-        this.quat.setFromUnitVectors(new Vector3(0, 0, -1), this.tempDirection);
-        this.tempDirection.set(0, 0, -1);
-        this.tempDirection.applyQuaternion(this.quat);
-
-        this.throwBall(this.tempOrigin, this.tempDirection);
-    }
-
     private throwBall(origin: Vector3, direction: Vector3) {
         if (!this.prefab) return;
 
