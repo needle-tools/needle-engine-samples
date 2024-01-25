@@ -7,23 +7,19 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Gun : UnityEngine.MonoBehaviour
 	{
-		public Needle.Typescript.GeneratedComponents.GunEffects @effects;
-		public Needle.Typescript.GeneratedComponents.GunStats @stats;
-		public Needle.Typescript.GeneratedComponents.GunReferences @references;
-		public Needle.Typescript.GeneratedComponents.GunAnimation @animation;
-		public bool @vrHideControllers = true;
-		public bool @vrHideHands = true;
-		public bool @enableOnlyRightWeaponOnMobile = true;
 		public bool @enableMobileInput = true;
 		public bool @enableDesktopInput = true;
-		public Needle.Typescript.GeneratedComponents.GunInputEnum @gunInput = 0f;
-		public UnityEngine.Events.UnityEvent @onHitTarget;
-		public UnityEngine.Events.UnityEvent @onMiss;
-		public void awake(){}
-		public void onEnterXR(object @args){}
+		public string @vrSide = "any";
+		public float @fireRate = 0.1f;
+		public UnityEngine.GameObject @raycastReference;
+		public UnityEngine.Animator @gunAnimator;
+		public string @fireAnimation = "Fire";
+		public UnityEngine.AudioSource @fireSound;
+		public UnityEngine.ParticleSystem @muzzleFlash;
+		public UnityEngine.ParticleSystem @ejectShell;
+		public UnityEngine.ParticleSystem @impactEffect;
+		public float @impactOffset = 0.3f;
 		public void onUpdateXR(object @args){}
-		public void onLeaveXR(object @_args){}
-		public void onBeforeRender(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void fireWithMiss(){}

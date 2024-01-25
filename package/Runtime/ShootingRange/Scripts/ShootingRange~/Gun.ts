@@ -1,4 +1,4 @@
-import { Animator, AudioSource, Behaviour, EventList, GameObject, Gizmos, NeedleXREventArgs, NeedleXRSession, ParticleSystem, Watch, getParam, isMobileDevice, serializable, setWorldPosition, setWorldQuaternion } from "@needle-tools/engine";
+import { Animator, AudioSource, Behaviour, EventList, GameObject, Gizmos, NeedleXREventArgs, NeedleXRSession, ParticleSystem, Watch, WebXR, getParam, getTempVector, isMobileDevice, serializable, setWorldPosition, setWorldQuaternion } from "@needle-tools/engine";
 
 import { Object3D, Quaternion, Vector2, Vector3 } from "three";
 import { Target } from "./Target";
@@ -6,7 +6,29 @@ import { Target } from "./Target";
 
 const debug = getParam("debugfps");
 
-class GunEffects {
+
+// gathers input, performs raycast, controls effects and handles hitting a target
+export class Gun extends Behaviour {
+
+    @serializable()
+    enableMobileInput: boolean = true;
+
+    @serializable()
+    enableDesktopInput: boolean = true;
+
+    @serializable()
+    vrSide: string | "any" | "none" | "left" | "right" = "any";
+
+    @serializable()
+    fireRate: number = 0.1;
+    @serializable(Object3D)
+    raycastReference?: Object3D;
+
+    @serializable(Animator)
+    gunAnimator?: Animator;
+
+    @serializable()
+    fireAnimation: string = "Fire";
 
     @serializable(AudioSource)
     fireSound?: AudioSource;
@@ -22,173 +44,21 @@ class GunEffects {
 
     @serializable()
     impactOffset: number = 0.3;
-}
 
-class GunStats {
-
-    @serializable()
-    fireRate: number = 0.1;
-}
-
-class GunReferences {
-
-    // refrences - physics
-    @serializable(Object3D)
-    raycastReference?: Object3D;
-
-    @serializable()
-    scaleInVR: number = 0.1;
-}
-
-class GunAnimation {
-
-    @serializable(Animator)
-    gunAnimator?: Animator;
-
-    @serializable()
-    fireAnimation: string = "Fire";
-}
-
-
-export enum GunInputEnum {
-    Left = 0,
-    Solo = 0,
-    Right = 2,
-}
-
-// gathers input, performs raycast, controls effects and handles hitting a target
-export class Gun extends Behaviour {
-
-    @serializable(GunEffects)
-    effects!: GunEffects;
-
-    @serializable(GunStats)
-    stats!: GunStats;
-
-    @serializable(GunReferences)
-    references!: GunReferences;
-
-    @serializable(GunAnimation)
-    animation!: GunAnimation;
-
-    @serializable()
-    vrHideControllers: boolean = true;
-
-    @serializable()
-    vrHideHands: boolean = true;
-
-    @serializable()
-    enableOnlyRightWeaponOnMobile: boolean = true;
-
-    @serializable()
-    enableMobileInput: boolean = true;
-
-    @serializable()
-    enableDesktopInput: boolean = true;
-
-    // input
-    @serializable()
-    gunInput: GunInputEnum = 0;
+    // --------------------
 
     // reporting events 
-    @serializable(EventList)
-    onHitTarget!: EventList;
+    static onHitTarget: EventList = new EventList();
+    static onMiss: EventList = new EventList();
 
-    @serializable(EventList)
-    onMiss!: EventList;
-
-    private lastPosition = new Vector3(0, 0, 0);
-    private currentPosition = new Vector3(0, 0, 0);
-
-    private characterGunPosition = new Vector3(0, 0, 0);
-    private characterGunRotation = new Quaternion(0, 0, 0, 1);
-
-    // raycast
-    private raycastWorldDirection = new Vector3();
-    private raycastWorldOrigin = new Vector3();
-    private isVR: boolean = false;
-
-    private parentOnStart?: Object3D;
-
-    awake() {
-        this.gameObject.getWorldPosition(this.lastPosition);
-        this.gameObject.getWorldPosition(this.currentPosition);
-
-        this.characterGunPosition.copy(this.gameObject.position);
-        this.characterGunRotation.copy(this.gameObject.quaternion);
-
-        this.parentOnStart = this.gameObject.parent!;
-    }
-
-
-    // TODO: create custom avatar prefab with the gun inside
-    // TODO: either invoke methods on the scoremanager directly when instantiated (find score manager in scene)
-    // OR better: gun should not need to know about score manager, but rather just invoke a "hit" event on the target and the target then invokes the score manager
-
-    onEnterXR(args: NeedleXREventArgs): void {
-        
-        // args.xr.controllers.forEach(c => {
-
-        //     if (this.vrHideControllers)
-        //         c.controllerModel.visible = false;
-
-        //     if (this.vrHideHands)
-        //         c.handPointerModel.visible = false;
-        // });
-
-        this.context.scene.add(this.gameObject);
-        const s = this.references.scaleInVR;
-        this.gameObject.scale.set(s, s, s);
-    }
     onUpdateXR(args: NeedleXREventArgs): void {
-        const xr = args.xr;
-        const isLeftHand = this.gunInput == GunInputEnum.Left;
-        const controller = isLeftHand ? xr.leftController : xr.rightController;
-
-        if (this.isVR && controller != null) {
-            this.gameObject.worldPosition = controller.gripWorldPosition;
-            this.gameObject.worldQuaternion = controller.gripWorldQuaternion;
-            
-            this.gameObject.rotateY(Math.PI); // ugly, but FWD is inverted
-            
-            if(controller.hand) {
-                this.gameObject.rotateZ(Math.PI); 
+        args.xr.controllers.forEach(c => {
+            if (c.gamepad?.buttons[0].pressed === true) {
+                if (c.side == this.vrSide) {
+                    this.fire();
+                }
             }
-
-            if (controller.hand) {
-                const negate = isLeftHand ? 1 : -1;
-                this.gameObject.rotateZ(Math.PI * 0.5 * negate);
-            }
-
-            if (controller.getButton("primary")?.pressed) {
-                this.fire();
-            }
-        }
-        
-    }
-    onLeaveXR(_args: NeedleXREventArgs): void {
-        this.parentOnStart?.add(this.gameObject);
-        this.gameObject.position.copy(this.characterGunPosition);
-        this.gameObject.quaternion.copy(this.characterGunRotation);
-        this.gameObject.scale.set(1, 1, 1);
-    }
-
-
-    onBeforeRender(): void {
-
-        if (this.references.raycastReference) {
-            this.references.raycastReference.getWorldPosition(this.raycastWorldOrigin);
-            this.references.raycastReference.getWorldDirection(this.raycastWorldDirection);
-        }
-
-        let wPos = new Vector3();
-        this.gameObject.getWorldPosition(wPos);
-
-        if (NeedleXRSession.active) {
-            const xr = NeedleXRSession.active;
-
-           
-        }
+        });
     }
 
     // subrscribe to input events
@@ -220,21 +90,18 @@ export class Gun extends Behaviour {
         this._lastTouchEndPoint.set(x, y);
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        console.log("touch end", event);
         if (dist < 15) {
             this.fire();
-            console.log("tap finger");
         }
         if (event.touches.length <= 0) { // last finger 
             this.fire(true, true);
-            console.log("last finger");
         }
     }
 
     private onMouseClick = (event: MouseEvent) => {
         if(isMobileDevice()) return; // ignore desktop input on mobile
 
-        if (event.button != this.gunInput) // if not the correct mouse button, abort
+        if (event.button !== 0) // if not the LMB or primary, abort
             return;
         this.fire();
     }
@@ -251,8 +118,9 @@ export class Gun extends Behaviour {
 
     fire(applyFireRate: boolean = true, ignoreMiss: boolean = false) {
         const t = this.context.time.time;
-        if (applyFireRate && t < this.fireTimeStamp + this.stats.fireRate) // fire rate
+        if (applyFireRate && t < this.fireTimeStamp + this.fireRate) // fire rate
             return;
+
         this.fireTimeStamp = t; // save the time of a successful fire
         const hit = this.firePhysically(ignoreMiss);
         if(ignoreMiss && !hit) return; // abort miss
@@ -261,32 +129,38 @@ export class Gun extends Behaviour {
 
     fireVisually(hitPoint: Vector3 | null) {
         // fire anim
-        this.animation.gunAnimator?.play(this.animation.fireAnimation);
+        this.gunAnimator?.play(this.fireAnimation);
         // particles
-        this.effects.muzzleFlash?.play();
-        this.effects.ejectShell?.play();
+        this.muzzleFlash?.play();
+        this.ejectShell?.play();
         // audio
-        this.effects.fireSound?.stop();
-        this.effects.fireSound?.play();
+        this.fireSound?.stop();
+        this.fireSound?.play();
 
         // Setup hit particle effect: 
-        if (this.effects.impactEffect && this.raycastWorldOrigin && hitPoint) {
-            setWorldPosition(this.effects.impactEffect.gameObject, hitPoint);
+        if (this.impactEffect && hitPoint) {
+            setWorldPosition(this.impactEffect.gameObject, hitPoint);
 
             // play the effect
-            this.effects.impactEffect.stop();
-            this.effects.impactEffect.play();
+            this.impactEffect.stop();
+            this.impactEffect.play();
         }
     }
 
     // perform raycast and reports hit/miss
     firePhysically(ignoreMiss: boolean = false): Vector3 | null {
-        if (!this.raycastWorldOrigin)
+        if (!this.raycastReference)
             return null;
 
         const physics = this.context.physics;
+        const shootRef = this.raycastReference;
 
-        const hit = physics.raycastPhysicsFast(this.raycastWorldOrigin, this.raycastWorldDirection);
+        const hit = physics.engine?.raycast(shootRef.getWorldPosition(getTempVector()), shootRef.getWorldDirection(getTempVector()));
+        if (debug) {
+            const from = shootRef.getWorldPosition(getTempVector());
+            const to = hit ? hit.point : from.add(shootRef.getWorldDirection(getTempVector()).multiplyScalar(10));
+            Gizmos.DrawLine(from, to, 0xff0000, .25, false);
+        }
         if (hit) {
             if (debug) {
                 Gizmos.DrawWireSphere(hit.point, 0.1, 0xff0000, .1);
@@ -297,7 +171,7 @@ export class Gun extends Behaviour {
                 if (!target.isShot) {
                     // only perform hit once
                     target.performHit();
-                    this.onHitTarget?.invoke(this, target);
+                    Gun.onHitTarget?.invoke(this, target);
                     return hit.point;
                 }
             }
@@ -307,7 +181,7 @@ export class Gun extends Behaviour {
         }
 
         if (!ignoreMiss) { // miss            
-            this.onMiss?.invoke(this);
+            Gun.onMiss?.invoke(this);
         }
 
         return null;

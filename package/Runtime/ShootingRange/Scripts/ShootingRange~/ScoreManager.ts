@@ -1,6 +1,7 @@
 import { Behaviour, GameObject, Mathf, RoomEvents, SyncedRoom, Text, serializable, syncField } from "@needle-tools/engine";
 import { TargetHitPointRenderer } from "./TargetHitPoints";
 import { Target } from "./Target";
+import { Gun } from "./Gun";
 
 // Calcualtes score, populates UI
 export class ScoreManager extends Behaviour {
@@ -37,6 +38,9 @@ export class ScoreManager extends Behaviour {
             room.tryJoinRoom();
         }
         this.updateLabel();
+
+        Gun.onHitTarget.addEventListener((sender: object, target: Target) => this.onHitTarget(sender, target));
+        Gun.onMiss.addEventListener(() => this.resetStreak());
     }
 
     // Dont generate this method via codegen because then we can not assign it to our UnityEvent
