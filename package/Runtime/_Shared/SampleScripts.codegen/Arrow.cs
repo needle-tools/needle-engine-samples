@@ -7,7 +7,6 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Arrow : UnityEngine.MonoBehaviour
 	{
-		public void onCollisionEnter(UnityEngine.Collision @col){}
 		public void awake(){}
 		public void onBeforeRender(){}
 	}

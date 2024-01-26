@@ -1,21 +1,32 @@
-import { Behaviour, Collision, Rigidbody, getTempQuaternion, getTempVector } from "@needle-tools/engine";
+import { Behaviour, Collider, Collision, GameObject, Rigidbody, getTempQuaternion, getTempVector } from "@needle-tools/engine";
 
 
 
 export class Arrow extends Behaviour {
 
-    // get stuck when you hit something
-    onCollisionEnter(col: Collision) {
-        col.collider.attachedRigidbody!.isKinematic = true;
-    }
-
-
     private _rigidbody?: Rigidbody;
+    private _startTime = 0;
+
     awake(): void {
         this._rigidbody = this.gameObject.getComponentInParent(Rigidbody) || undefined;
+        if (this._rigidbody) {
+            const col = this.gameObject.getComponentsInChildren(Collider);
+            for (const c of col) {
+                const det = GameObject.addNewComponent(c.gameObject, ArrowCollisionDetection);
+                det.rigidBody = this._rigidbody;
+            }
+        }
+    }
+
+    start(): void {
+        this._startTime = this.context.time.time;
     }
 
     onBeforeRender(): void {
+        if (this.context.time.time - this._startTime > 10) {
+            this.gameObject.destroy();
+            return;
+        }
         // rotate towards rigidbody velocity
         if (this._rigidbody) {
             const vel = this._rigidbody.getVelocity();
@@ -27,4 +38,19 @@ export class Arrow extends Behaviour {
             }
         }
     }
+}
+
+class ArrowCollisionDetection extends Behaviour {
+
+    rigidBody!: Rigidbody;
+
+    // get stuck when you hit something
+    onCollisionEnter(_: Collision) {
+        const col = this.rigidBody.gameObject.getComponentsInChildren(Collider);
+        for (const c of col) {
+            c.destroy();
+        }
+        this.rigidBody.destroy();
+    }
+
 }
