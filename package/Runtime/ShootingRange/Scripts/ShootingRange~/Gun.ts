@@ -17,7 +17,7 @@ export class Gun extends Behaviour {
     enableDesktopInput: boolean = true;
 
     @serializable()
-    vrSide: string | "any" | "none" | "left" | "right" = "any";
+    vrSide: XRHandedness | "any" = "any";
 
     @serializable()
     fireRate: number = 0.1;

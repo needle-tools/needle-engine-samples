@@ -9,7 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public bool @enableMobileInput = true;
 		public bool @enableDesktopInput = true;
-		public string @vrSide = "any";
+		public Needle.Engine.XRHandedness @vrSide;
 		public float @fireRate = 0.1f;
 		public UnityEngine.GameObject @raycastReference;
 		public UnityEngine.Animator @gunAnimator;
