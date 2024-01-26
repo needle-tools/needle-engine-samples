@@ -1,7 +1,8 @@
-import { AssetReference, Behaviour, Gizmos, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, delay, delayForFrames, serializable } from "@needle-tools/engine";
+import { AssetReference, Behaviour, Gizmos, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, delay, delayForFrames, getParam, serializable } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
 
+const debug = getParam("debugarrow");
 
 export class ArrowShooting extends Behaviour {
 
@@ -31,7 +32,7 @@ export class ArrowShooting extends Behaviour {
                 const point = ctrl.rayWorldPosition;
                 const dir = other.rayWorldPosition.clone().sub(point);
                 this.shoot(point, dir);
-                Gizmos.DrawArrow(point, dir.clone().add(point), 0xff0000, 1);
+                if (debug) Gizmos.DrawArrow(point, dir.clone().add(point), 0xffff00, 1);
             }
         }
     }
