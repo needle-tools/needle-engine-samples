@@ -21,6 +21,7 @@ export class Gun extends Behaviour {
 
     @serializable()
     fireRate: number = 0.1;
+
     @serializable(Object3D)
     raycastReference?: Object3D;
 
@@ -42,9 +43,6 @@ export class Gun extends Behaviour {
     @serializable(ParticleSystem)
     impactEffect?: ParticleSystem;
 
-    @serializable()
-    impactOffset: number = 0.3;
-
     // --------------------
 
     // reporting events 
@@ -53,8 +51,8 @@ export class Gun extends Behaviour {
 
     onUpdateXR(args: NeedleXREventArgs): void {
         args.xr.controllers.forEach(c => {
-            if (c.gamepad?.buttons[0].pressed === true) {
-                if (c.side == this.vrSide) {
+            if (c.getButton("primary")?.isDown === true) {
+                if (c.side == this.vrSide || this.vrSide === "any") {
                     this.fire();
                 }
             }

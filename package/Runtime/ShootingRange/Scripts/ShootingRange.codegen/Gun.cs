@@ -18,7 +18,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.ParticleSystem @muzzleFlash;
 		public UnityEngine.ParticleSystem @ejectShell;
 		public UnityEngine.ParticleSystem @impactEffect;
-		public float @impactOffset = 0.3f;
 		public void onUpdateXR(object @args){}
 		public void OnEnable(){}
 		public void OnDisable(){}
