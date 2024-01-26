@@ -9,7 +9,6 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public bool @enableMobileInput = true;
 		public bool @enableDesktopInput = true;
-		public Needle.Engine.XRHandedness @vrSide;
 		public float @fireRate = 0.1f;
 		public UnityEngine.GameObject @raycastReference;
 		public UnityEngine.Animator @gunAnimator;
@@ -30,3 +29,13 @@ namespace Needle.Typescript.GeneratedComponents
 }
 
 // NEEDLE_CODEGEN_END
+
+namespace Needle.Typescript.GeneratedComponents
+{
+	public partial class Gun : UnityEngine.MonoBehaviour
+	{
+		public Needle.Engine.XRHandedness _vrSide = Needle.Engine.XRHandedness.none;
+        // because in engine we use a string (and not a number) - with this string getter we can still serialize it and have an enum visible in editor
+        [JetBrains.Annotations.UsedImplicitly] public string vrSide => _vrSide == Needle.Engine.XRHandedness.none ? "none" : _vrSide == Needle.Engine.XRHandedness.left ? "left" : "right";
+	}
+}

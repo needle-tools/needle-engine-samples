@@ -16,6 +16,7 @@ export class Gun extends Behaviour {
     @serializable()
     enableDesktopInput: boolean = true;
 
+    //@nonSerialized
     @serializable()
     vrSide: XRHandedness | "any" = "any";
 
