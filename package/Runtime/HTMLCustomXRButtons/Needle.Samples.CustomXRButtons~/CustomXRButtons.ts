@@ -14,8 +14,9 @@ export class CustomXRButtons extends Behaviour {
         const xr = GameObject.findObjectOfType(WebXR)!;
         const usdzExporter = GameObject.findObjectOfType(USDZExporter);
         
-        const haveAR = await NeedleXRSession.isARSupported();
-        const haveVR = await NeedleXRSession.isVRSupported();
+        const xrModes = await Promise.all([ NeedleXRSession.isARSupported(), NeedleXRSession.isVRSupported()]);
+        const haveAR = xrModes[0];
+        const haveVR = xrModes[1];
 
         const a = document.createElement("a");
         const haveQuickLook = a.relList.supports("ar") && usdzExporter;
