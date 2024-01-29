@@ -8,6 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class Arrow : UnityEngine.MonoBehaviour
 	{
 		public void awake(){}
+		public void start(){}
 		public void onBeforeRender(){}
 	}
 }

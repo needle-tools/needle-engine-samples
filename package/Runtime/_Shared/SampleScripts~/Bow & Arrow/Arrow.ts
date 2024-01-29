@@ -14,6 +14,7 @@ export class Arrow extends Behaviour {
             for (const c of col) {
                 const det = GameObject.addNewComponent(c.gameObject, ArrowCollisionDetection);
                 det.rigidBody = this._rigidbody;
+                det.arrow = this;
             }
         }
     }
@@ -23,7 +24,7 @@ export class Arrow extends Behaviour {
     }
 
     onBeforeRender(): void {
-        if (this.context.time.time - this._startTime > 10) {
+        if (this.context.time.time - this._startTime > 5) {
             this.gameObject.destroy();
             return;
         }
@@ -34,7 +35,7 @@ export class Arrow extends Behaviour {
                 const targetRotation = getTempVector().set(vel.x, vel.y, vel.z).normalize();
                 const tempQuat = getTempQuaternion();
                 tempQuat.setFromUnitVectors(getTempVector(0, 0, 1), targetRotation);
-                this.gameObject.quaternion.slerp(tempQuat, this.context.time.deltaTime / .2);
+                this.gameObject.quaternion.slerp(tempQuat, this.context.time.deltaTime / .1);
             }
         }
     }
@@ -42,15 +43,17 @@ export class Arrow extends Behaviour {
 
 class ArrowCollisionDetection extends Behaviour {
 
+    arrow!: Arrow;
     rigidBody!: Rigidbody;
 
     // get stuck when you hit something
-    onCollisionEnter(_: Collision) {
-        const col = this.rigidBody.gameObject.getComponentsInChildren(Collider);
-        for (const c of col) {
+    onCollisionEnter(col: Collision) {
+        const colliders = this.rigidBody.gameObject.getComponentsInChildren(Collider);
+        for (const c of colliders) {
             c.destroy();
         }
         this.rigidBody.destroy();
+        this.arrow.destroy();
     }
 
 }

@@ -11,6 +11,9 @@ namespace Needle.Typescript.GeneratedComponents
 		public void awake(){}
 		public void onEnterXR(object @_args){}
 		public void onLeaveXR(object @_args){}
+		public UnityEngine.AnimationClip @bowAnimation;
+		public UnityEngine.GameObject @bowObject;
+		public void onBeforeRender(){}
 	}
 }
 
