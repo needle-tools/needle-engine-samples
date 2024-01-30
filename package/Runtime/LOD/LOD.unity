@@ -543,8 +543,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
   arScale: 10
-  invertForward: 0
+  invertForward: 1
   arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!114 &577162390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,13 +557,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 0}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 1
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!1 &631097314
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +734,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 16
+    m_FontSize: 13
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -736,7 +745,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: stats
+  m_Text: 
 --- !u!222 &669413069
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -852,10 +861,10 @@ MonoBehaviour:
   minZoom: 5
   maxZoom: 65
   enablePan: 0
+  enableDamping: 1
   dampingFactor: 0.1
   targetLerpDuration: 1
   enableKeys: 0
-  enableDamping: 1
   middleClickToFocus: 0
   doubleClickToFocus: 0
   allowInterrupt: 1
@@ -1832,7 +1841,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.EventSystems.StandaloneInputModule, UnityEngine.UI
   m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
@@ -1852,7 +1861,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
@@ -2285,6 +2294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
 --- !u!1 &1947602164
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,6 +2479,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
@@ -2712,8 +2723,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 77}
-  m_SizeDelta: {x: 317.4482, y: 86.4883}
+  m_AnchoredPosition: {x: 0, y: 5}
+  m_SizeDelta: {x: 317.4482, y: 63.2067}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2140821920
 MonoBehaviour:

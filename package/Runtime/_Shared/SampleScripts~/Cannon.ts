@@ -1,4 +1,4 @@
-import { AudioSource, Behaviour, GameObject, InstantiateOptions, Rigidbody, WebXR, serializeable } from "@needle-tools/engine";
+import { AudioSource, Behaviour, GameObject, InstantiateOptions, NEPointerEvent, NeedleXREventArgs, PointerType, Rigidbody, WebXR, serializeable } from "@needle-tools/engine";
 import { setWorldPosition } from "@needle-tools/engine";
 import { Object3D, Vector3, Quaternion } from "three";
 
@@ -24,50 +24,15 @@ export class Cannon extends Behaviour {
         if (this.prefab) GameObject.setActive(this.prefab, false);
         this.webXR ??= GameObject.findObjectOfType(WebXR)!;
     }
-
-    update() {
-        if (!this.context.isInVR && this.context.input.getPointerClicked(0)) {
-            this.throwFromTouchPos();
-        }
-        else if (this.context.isInVR && this.webXR) {
-            this.webXR.Controllers.forEach((controller) => {
-                if (controller.selectionDown) {
-                    const ray = controller.getRay();
-                    this.throwBall(ray.origin, ray.direction);
-                }
-            });
-        }
+    onEnable(): void {
+        this.context.input.addEventListener("pointerdown", this._onPointerDown);
     }
-
-    private tempOrigin = new Vector3();
-    private tempDirection = new Vector3();
-    private quat = new Quaternion();
-
-    private throwFromTouchPos() {
-        if (!this.context.mainCameraComponent) return;
-
-        const camComp = this.context.mainCameraComponent!;
-
-        if (!camComp) return;
-        const input = this.context.input;
-
-        // get relative mouse position, in range -1 to 1
-        const mouse = input.mousePositionRC;
-
-        // get world position of mouse on the near plane
-        this.tempOrigin.set(mouse.x, mouse.y, -1).unproject(camComp.cam);
-
-        // caulculate direction from camera to world mouse
-        this.tempDirection.copy(this.tempOrigin).sub(camComp.worldPosition).normalize();
-
-        // add little offset to spawn the ball in front of the camera and not in inside of it
-        this.tempOrigin.addScaledVector(this.tempDirection, 2);
-
-        this.quat.setFromUnitVectors(new Vector3(0, 0, -1), this.tempDirection);
-        this.tempDirection.set(0, 0, -1);
-        this.tempDirection.applyQuaternion(this.quat);
-
-        this.throwBall(this.tempOrigin, this.tempDirection);
+    onDisable(): void {
+        this.context.input.removeEventListener("pointerdown", this._onPointerDown);
+    }
+    private _onPointerDown = (args: NEPointerEvent) => {
+        if (args.button !== 0) return;
+        this.throwBall(args.space.worldPosition, args.space.worldForward);
     }
 
     private throwBall(origin: Vector3, direction: Vector3) {

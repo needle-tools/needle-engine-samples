@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26354218, g: 0.20579134, b: 0.1547163, a: 1}
+  m_IndirectSpecularColor: {r: 0.26350212, g: 0.20570299, b: 0.15469706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -338,20 +338,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-706762907-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 1
   autoRotateSpeed: -0.2
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: 20
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 0}
 --- !u!114 &706762908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,6 +423,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies: []
 --- !u!4 &784234924
 Transform:
@@ -698,7 +701,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.GroundProjectedEnv, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1581178373-0
   applyOnAwake: 1
-  scale: 26.666666
   radius: 200
   height: 20
 --- !u!1 &1597275517
@@ -774,6 +776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1597275520-0
+  IgnoreSkinnedMeshes: 0
 --- !u!114 &1597275521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,7 +791,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1597275521-0
   arScale: 5
-  invertForward: 0
+  invertForward: 1
+  arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!114 &1597275522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,13 +805,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1597275522-0
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 1
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!114 &1597275524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,7 +996,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
   Guid: 06b8a702cf5718e448e201aa2221ca54
 --- !u!4 &1666484119
 Transform:
@@ -1029,6 +1042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1776648250-0
+  priority: 0
 --- !u!4 &1776648251
 Transform:
   m_ObjectHideFlags: 0

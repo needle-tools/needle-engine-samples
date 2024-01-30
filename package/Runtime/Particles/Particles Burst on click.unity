@@ -155,7 +155,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &12490355
 MonoBehaviour:
@@ -250,7 +250,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &621207743
 PrefabInstance:
@@ -401,6 +401,51 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 19813282, guid: 39f586f40e7d928499bfe946ffb04ad5, type: 3}
   m_PrefabInstance: {fileID: 621207743}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &672941781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 672941782}
+  - component: {fileID: 672941783}
+  m_Layer: 0
+  m_Name: XR Rig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &672941782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672941781}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.36957884, y: 0, z: -4.5728426}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1597275518}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &672941783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672941781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
 --- !u!1 &686695436
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,20 +591,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-a5e233d73a8ba174aac775a95a521848-706762907-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.3
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: 10000
   enablePan: 1
-  lookAtConstraint: {fileID: 706762909}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 0
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 706762909}
 --- !u!114 &706762908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,10 +695,8 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
-  - Name: samplescripts
-    VersionOrPath: Packages/com.needle.sample-assets/Runtime/_Shared/SampleScripts.npmdef
-    Guid: a54d66e790a1fe74b86cebd5eae8145d
   - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
@@ -766,7 +811,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &809336335
 GameObject:
@@ -798,7 +843,7 @@ Transform:
   m_Children:
   - {fileID: 706762906}
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1035975158
 GameObject:
@@ -830,7 +875,7 @@ Transform:
   m_Children:
   - {fileID: 1424410995}
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1211803451
 GameObject:
@@ -860,13 +905,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-1211803452-0
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 0}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 1
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!4 &1211803453
 Transform:
   m_ObjectHideFlags: 0
@@ -965,6 +1018,7 @@ Transform:
   m_Children:
   - {fileID: 1786657970}
   - {fileID: 1211803453}
+  - {fileID: 672941782}
   - {fileID: 809336336}
   - {fileID: 284856215}
   - {fileID: 1609064307}
@@ -1001,6 +1055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-a5e233d73a8ba174aac775a95a521848-1597275520-0
+  IgnoreSkinnedMeshes: 0
 --- !u!114 &1597275521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,7 +1070,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-a5e233d73a8ba174aac775a95a521848-1597275521-0
   arScale: 10
-  invertForward: 0
+  invertForward: 1
+  arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1109,7 +1166,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597275518}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1609064308
 MonoBehaviour:

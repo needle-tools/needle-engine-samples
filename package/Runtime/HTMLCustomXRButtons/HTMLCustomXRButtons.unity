@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
   Guid: 6d35115f0b3856747b249df7640272df
 --- !u!4 &75700322
 Transform:
@@ -427,6 +427,7 @@ MonoBehaviour:
   DirectoryName: Packages/com.needle.engine-samples/WebProjects~/HTMLCustomXRButtons
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: needle.samples.customxrbuttons
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/HTMLCustomXRButtons/Needle.Samples.CustomXRButtons.npmdef
@@ -729,20 +730,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-6d35115f0b3856747b249df7640272df-1577903635-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 1577903636}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 1577903636}
 --- !u!1183024399 &1577903636
 LookAtConstraint:
   m_ObjectHideFlags: 0
@@ -829,8 +832,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
   arScale: 1
-  invertForward: 0
+  invertForward: 1
   arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!1001 &1941776211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -950,13 +954,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-6d35115f0b3856747b249df7640272df-1959953294-0
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 0
   createARButton: 0
-  handModelPath: 
+  createSendToQuestButton: 0
+  createQRCode: 0
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
 --- !u!114 &1959953295
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
-import { Behaviour, Button, Canvas, CanvasGroup, GameObject, Gizmos, InstantiateOptions, Mathf, serializable, showBalloonMessage, Text } from "@needle-tools/engine";
+import { Behaviour, Button, Canvas, CanvasGroup, GameObject, getTempVector, InstantiateOptions, Mathf, serializable, Text } from "@needle-tools/engine";
 import { getWorldPosition, getWorldQuaternion, getWorldScale, setWorldQuaternion } from "@needle-tools/engine";
-import { Vector3, PerspectiveCamera } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -111,9 +110,7 @@ export class HotspotBehaviour extends Behaviour {
         }
     }
 
-    private static _tempVector1 = new Vector3();
-    private static _tempVector2 = new Vector3();
-
+    
     onBeforeRender(frame: XRFrame | null): void {
         
         if (!this.hotspot) return;
@@ -173,12 +170,13 @@ export class HotspotBehaviour extends Behaviour {
         //     this.shift.position.set(vectorTowardsCameraInGameObjectSpace.x, vectorTowardsCameraInGameObjectSpace.y, vectorTowardsCameraInGameObjectSpace.z);
         
         // handle visiblity angle
-        const camFwd = cam.getWorldDirection(HotspotBehaviour._tempVector1);
-        const hotspotFwd = this.hotspot!.gameObject.getWorldDirection(HotspotBehaviour._tempVector2);
-        hotspotFwd.negate();
-        
-        const angle = Mathf.toDegrees(camFwd.angleTo(hotspotFwd));
-        // this.label.text = angle.toFixed(1) + " deg";
+        const hotspotFwd = this.hotspot!.gameObject.getWorldDirection(getTempVector());
+
+        const hotspotPos = this.hotspot!.worldPosition;
+        const camPos = cam.getWorldPosition(getTempVector());
+        const dirToCam = getTempVector(camPos).sub(hotspotPos).normalize();
+
+        const angle = Mathf.toDegrees(hotspotFwd.angleTo(dirToCam));
 
         const newIsVisible = angle < this.hotspot.viewAngle ;
         if (newIsVisible != this.isVisible) 

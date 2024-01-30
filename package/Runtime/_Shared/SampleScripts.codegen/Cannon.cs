@@ -12,7 +12,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @strength = 10f;
 		public float @maxInstances = 10f;
 		public void start(){}
-		public void update(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
 	}
 }
 

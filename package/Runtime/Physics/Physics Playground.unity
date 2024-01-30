@@ -243,6 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-93088483-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &93088484
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -386,6 +387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-126842576-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &126842577
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -625,6 +627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-477864910-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &477864911
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -742,7 +745,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 554245753}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.04, y: 0.211, z: 0.01}
+  m_LocalPosition: {x: -0.21000004, y: 0.211, z: 0.010000119}
   m_LocalScale: {x: 1.7915378, y: 1.3773863, z: 0.15236676}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -761,7 +764,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: -0.67, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &556690834
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,6 +879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-556690839-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &556690840
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -955,6 +959,7 @@ MonoBehaviour:
   prefab: {fileID: 2137960718}
   audioSource: {fileID: 569925237}
   strength: 10
+  maxInstances: 10
 --- !u!82 &569925237
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1234,20 +1239,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-706762907-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.3
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: 10000
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 0
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 0}
 --- !u!114 &706762908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1432,6 +1439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-726173285-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &726173286
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1568,6 +1576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
 --- !u!1 &752673194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1619,6 +1628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-752673196-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &752673197
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1762,6 +1772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-767609549-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &767609550
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1889,9 +1900,10 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
-  - Name: samplescripts
-    VersionOrPath: Packages/com.needle.sample-assets/Runtime/_Shared/SampleScripts.npmdef
+  - Name: '@needle-tools/samples-scripts'
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &784234924
 Transform:
@@ -2137,6 +2149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-966113935-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &966113936
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2393,6 +2406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1009531378-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1009531379
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2639,6 +2653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1034024358-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1034024359
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2782,6 +2797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1163654884-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1163654885
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2902,13 +2918,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1211803452-0
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 0}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 1
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!4 &1211803453
 Transform:
   m_ObjectHideFlags: 0
@@ -2975,6 +2999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1578988519-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1328420421
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3118,6 +3143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1379844398-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1379844399
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3261,6 +3287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1578988519-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1578988520
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3404,6 +3431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1580148662-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1580148663
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3565,6 +3593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1597275520-0
+  IgnoreSkinnedMeshes: 0
 --- !u!114 &1597275521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3579,7 +3608,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1597275521-0
   arScale: 3
-  invertForward: 1
+  invertForward: 0
+  arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0
@@ -3868,6 +3899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1712117977-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1712117978
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4059,6 +4091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1794545538-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1794545539
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4247,6 +4280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1831776536-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1831776537
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4487,6 +4521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1879906080-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1879906081
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4630,6 +4665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1897485275-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1897485276
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4873,6 +4909,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-1958464474-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!54 &1958464475
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5189,8 +5226,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-9e2592fe05891e945abadaa9177a3d1f-2004562004-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!1 &2137960718
 GameObject:
   m_ObjectHideFlags: 0

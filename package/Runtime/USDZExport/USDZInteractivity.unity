@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8916737, g: 0.83979285, b: 0.7978969, a: 1}
+  m_IndirectSpecularColor: {r: 0.89167345, g: 0.8397932, b: 0.7978974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -420,8 +420,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-49861051-0
   target: {fileID: 1800377697}
   toggleOnClick: 0
-  hideSelf: 1
   targetState: 1
+  hideSelf: 1
 --- !u!1 &54316730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,6 +1103,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies: []
 --- !u!4 &186070970
 Transform:
@@ -2322,20 +2323,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-514986720-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 514986723}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 514986723}
 --- !u!114 &514986721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2674,13 +2677,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-589197792-0
-  enableVR: 0
-  enableAR: 1
-  defaultAvatar: {fileID: 0}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 0
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 0
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 1
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!114 &589197793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2695,7 +2706,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-589197793-0
   arScale: 1
-  invertForward: 0
+  invertForward: 1
+  arTouchTransform: 0
+  useXRAnchor: 0
 --- !u!114 &589197794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2709,6 +2722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-589197794-0
+  IgnoreSkinnedMeshes: 0
 --- !u!1 &632843762
 GameObject:
   m_ObjectHideFlags: 0
@@ -4674,8 +4688,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-1175597013-0
   target: {fileID: 49861047}
   toggleOnClick: 0
-  hideSelf: 1
   targetState: 1
+  hideSelf: 1
 --- !u!23 &1175597014
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7230,8 +7244,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-1800377701-0
   target: {fileID: 1175597012}
   toggleOnClick: 0
-  hideSelf: 1
   targetState: 1
+  hideSelf: 1
 --- !u!1 &1806599817
 GameObject:
   m_ObjectHideFlags: 0
@@ -7592,11 +7606,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.PlayAnimationOnClick, Needle.Engine
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-1899552903-0
-  target: {fileID: 1967200965}
   animator: {fileID: 1967200969}
   stateName: CubeMoveForward
-  stateNameAfterPlaying: 
-  loopAfterPlaying: 0
 --- !u!23 &1899552905
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8073,11 +8084,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.PlayAnimationOnClick, Needle.Engine
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-1982638466-0
-  target: {fileID: 1967200965}
   animator: {fileID: 1967200969}
   stateName: CubeMoveUp
-  stateNameAfterPlaying: 
-  loopAfterPlaying: 0
 --- !u!23 &1982638468
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8277,8 +8285,8 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-c1a6a55762cce114d90e6e87a7df3bc7-2016171481-0
   target: {fileID: 54316731}
   toggleOnClick: 1
-  hideSelf: 0
   targetState: 0
+  hideSelf: 0
 --- !u!23 &2016171483
 MeshRenderer:
   m_ObjectHideFlags: 0

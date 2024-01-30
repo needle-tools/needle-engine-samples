@@ -8,8 +8,8 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class EmitParticlesOnClick : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.ParticleSystem[] @particleSystems = new UnityEngine.ParticleSystem[]{ };
-		public void awake(){}
 		public void update(){}
+		public void onUpdateXR(object @args){}
 		public void spawnParticlesAt(UnityEngine.Vector3 @pos){}
 	}
 }

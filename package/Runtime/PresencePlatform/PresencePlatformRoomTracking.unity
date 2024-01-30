@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.91863465, g: 0.8734665, b: 0.83077973, a: 1}
+  m_IndirectSpecularColor: {r: 0.91866046, g: 0.8734773, b: 0.830791, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -218,6 +218,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: needle.samples.questpro
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/PresencePlatform/Needle.Samples.QuestPro.npmdef
@@ -387,8 +388,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-96984258-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!1 &128492321
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,8 +446,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-128492323-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &128492324
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -580,13 +591,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-192927078-0
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 8817559676569467057, guid: 49226aaecd8cfb942bbccf9def9a7419, type: 3}
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 0
-  createARButton: 0
-  handModelPath: 
+  createARButton: 1
+  createSendToQuestButton: 1
+  createQRCode: 0
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 1
+  useDepthSensing: 1
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 8817559676569467057, guid: 49226aaecd8cfb942bbccf9def9a7419, type: 3}
 --- !u!114 &192927079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +635,7 @@ MonoBehaviour:
   initiateRoomCaptureIfNoData: 1
   usePlaneData: 1
   useMeshData: 0
+  runInVR: 1
 --- !u!1001 &270475841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -791,8 +811,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-466244758-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &466244759
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1258,8 +1283,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1090890668-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!23 &1090890669
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1324,6 +1354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Assembly-CSharp
     $ GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1090890671-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!114 &1090890672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1515,8 +1546,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1138959588-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!114 &1138959589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,6 +1567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.RandomColor, Assembly-CSharp
     $ GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1138959589-0
   applyOnStart: 1
+  randomMetallicRoughness: 1
 --- !u!114 &1138959590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1720,8 +1757,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1250568624-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &1250568625
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1866,8 +1908,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1254132488-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &1254132489
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2149,8 +2196,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1378450297-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!23 &1378450298
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2252,8 +2304,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1406478041-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &1406478042
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2412,8 +2469,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1408526022-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &1408526023
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2555,6 +2617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1457076221-0
+  IgnoreSkinnedMeshes: 0
 --- !u!1001 &1541815637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2677,6 +2740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine $ GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1635512917-0
+  priority: 0
 --- !u!1 &1670808857
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,8 +2792,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1670808859-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &1670808860
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2986,20 +3055,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1783786680-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 1783786683}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 1783786683}
 --- !u!114 &1783786681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3133,8 +3204,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1788638941-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &1788638942
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3380,8 +3456,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1854303230-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &1854303231
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3609,8 +3690,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-1976329969-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!54 &1976329970
 Rigidbody:
   m_ObjectHideFlags: 0
