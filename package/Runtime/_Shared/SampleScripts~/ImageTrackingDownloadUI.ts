@@ -55,6 +55,7 @@ export class ImageTrackingDownloadUI extends Behaviour {
     }
 
     private createDownloadImageUI(imageTracking: WebXRImageTracking, container: HTMLElement) {
+        if (!imageTracking.trackedImages) return;
         for (const imageModel of imageTracking.trackedImages) {
             if (!imageModel.image) continue;
             const a = document.createElement("a");

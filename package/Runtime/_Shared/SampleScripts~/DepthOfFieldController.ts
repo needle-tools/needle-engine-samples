@@ -25,7 +25,10 @@ export class DepthOfFieldController extends Behaviour {
     }
 
     onBeforeRender() {
-        const distance = this.orbit?.distanceToTarget(getWorldPosition(this.orbit.gameObject))!;
+        if (!this.orbit?.controls) return;
+
+        const distance = this.orbit.controls.target.distanceTo(getWorldPosition(this.orbit.gameObject));
+
         if (this.dofEffect) {
             this.dofEffect.focusDistance.value = distance;
             this.dofEffect.focalLength.value = this.focalLength;

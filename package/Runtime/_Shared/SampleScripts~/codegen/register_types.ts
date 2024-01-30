@@ -3,6 +3,7 @@
 // Import types
 import { AspectRatioFitterUI } from "../AspectRatioFitterUI.js";
 import { CameraGoal } from "../CameraGoal.js";
+import { CameraLayer } from "../CameraLayer.js";
 import { Cannon } from "../Cannon.js";
 import { RandomColor } from "../ChangeColor.js";
 import { ChangeColorOnCollision } from "../ChangeColorOnCollision.js";
@@ -30,6 +31,7 @@ import { LoadingSceneRoot } from "../SceneSwitcher.js";
 import { SceneLoadingEvents } from "../SceneSwitcher.js";
 import { SceneSwitcherControls } from "../SceneSwitcherControls.js";
 import { ShowBalloonMessage } from "../ShowBalloonMessage.js";
+import { SimpleLeaderboard } from "../SimpleLeaderboard.js";
 import { StartPosition } from "../StartPosition.js";
 import { AutoReset } from "../StartPosition.js";
 import { SyncedRoomUI } from "../SyncedRoomUI.js";
@@ -43,6 +45,7 @@ import { XRLifecycleEvents } from "../XRLifecycleEvents.js";
 // Register types
 TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
 TypeStore.add("CameraGoal", CameraGoal);
+TypeStore.add("CameraLayer", CameraLayer);
 TypeStore.add("Cannon", Cannon);
 TypeStore.add("RandomColor", RandomColor);
 TypeStore.add("ChangeColorOnCollision", ChangeColorOnCollision);
@@ -70,6 +73,7 @@ TypeStore.add("LoadingSceneRoot", LoadingSceneRoot);
 TypeStore.add("SceneLoadingEvents", SceneLoadingEvents);
 TypeStore.add("SceneSwitcherControls", SceneSwitcherControls);
 TypeStore.add("ShowBalloonMessage", ShowBalloonMessage);
+TypeStore.add("SimpleLeaderboard", SimpleLeaderboard);
 TypeStore.add("StartPosition", StartPosition);
 TypeStore.add("AutoReset", AutoReset);
 TypeStore.add("SyncedRoomUI", SyncedRoomUI);

@@ -4475,20 +4475,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-eac4dd0f2678cca419a5cb70efd54f74-706762907-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.3
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 3
   maxZoom: 15
   enablePan: 1
-  lookAtConstraint: {fileID: 706762910}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 0
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 706762910}
 --- !u!114 &706762908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4671,6 +4673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine $ GlobalObjectId_V1-2-eac4dd0f2678cca419a5cb70efd54f74-753792283-0
+  priority: 0
 --- !u!136 &753792284
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4781,11 +4784,9 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
-  - Name: samplescripts
-    VersionOrPath: Packages/com.needle.sample-assets/Runtime/_Shared/SampleScripts.npmdef
-    Guid: a54d66e790a1fe74b86cebd5eae8145d
-  - Name: samplescripts
+  - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
   - Name: firstpersoncontroller
@@ -6252,13 +6253,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-eac4dd0f2678cca419a5cb70efd54f74-1211803452-0
-  enableVR: 1
-  enableAR: 1
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
+  createVRButton: 0
+  createARButton: 0
+  createSendToQuestButton: 0
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 1
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
   defaultAvatar: {fileID: 0}
-  createVRButton: 1
-  createARButton: 1
-  handModelPath: 
 --- !u!4 &1211803453
 Transform:
   m_ObjectHideFlags: 0
@@ -6288,6 +6297,7 @@ GameObject:
   - component: {fileID: 1218962518}
   - component: {fileID: 1218962517}
   - component: {fileID: 1218962521}
+  - component: {fileID: 1218962522}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -6406,6 +6416,22 @@ MonoBehaviour:
   clampWhenFinished: 0
   minMaxSpeed: {x: 1, y: 1}
   minMaxOffsetNormalized: {x: 0, y: 0}
+--- !u!54 &1218962522
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218962515}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1264350841
 GameObject:
   m_ObjectHideFlags: 0
@@ -6738,6 +6764,7 @@ GameObject:
   - component: {fileID: 1356189165}
   - component: {fileID: 1356189168}
   - component: {fileID: 1356189169}
+  - component: {fileID: 1356189170}
   m_Layer: 0
   m_Name: Cube (14)
   m_TagString: Untagged
@@ -6851,11 +6878,27 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 920a854a289e41e694be9d07512f9a4a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.AnimationData, Needle.Engine
   loop: 0
   clampWhenFinished: 0
   minMaxSpeed: {x: 1, y: 1}
   minMaxOffsetNormalized: {x: 0, y: 0}
+--- !u!54 &1356189170
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356189163}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1374427471
 GameObject:
   m_ObjectHideFlags: 0
@@ -7816,6 +7859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-eac4dd0f2678cca419a5cb70efd54f74-1597275520-0
+  IgnoreSkinnedMeshes: 0
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0

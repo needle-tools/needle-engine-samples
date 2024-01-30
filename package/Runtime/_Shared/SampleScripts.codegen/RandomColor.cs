@@ -8,6 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class RandomColor : UnityEngine.MonoBehaviour
 	{
 		public bool @applyOnStart = true;
+		public bool @randomMetallicRoughness = true;
 		public void start(){}
 		public void applyRandomColor(){}
 	}

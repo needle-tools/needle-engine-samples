@@ -373,9 +373,9 @@ GameObject:
   m_Component:
   - component: {fileID: 635000278}
   - component: {fileID: 635000280}
-  - component: {fileID: 635000279}
   - component: {fileID: 635000281}
   - component: {fileID: 635000282}
+  - component: {fileID: 635000283}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -398,33 +398,6 @@ Transform:
   m_Father: {fileID: 733584894}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &635000279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635000277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
-    $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-635000279-0
-  enableRotate: 1
-  autoRotate: 0
-  autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
-  enableZoom: 1
-  minZoom: 0
-  maxZoom: Infinity
-  enablePan: 0
-  lookAtConstraint: {fileID: 635000282}
-  middleClickToFocus: 1
-  doubleClickToFocus: 1
 --- !u!20 &635000280
 Camera:
   m_ObjectHideFlags: 0
@@ -521,6 +494,34 @@ LookAtConstraint:
   m_Sources:
   - sourceTransform: {fileID: 1803301426}
     weight: 1
+--- !u!114 &635000283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635000277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
+  autoFit: 0
+  enableRotate: 1
+  autoRotate: 0
+  autoRotateSpeed: 0.2
+  enableZoom: 1
+  minZoom: 0.1
+  maxZoom: 500
+  enablePan: 1
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
+  middleClickToFocus: 0
+  doubleClickToFocus: 0
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 635000282}
 --- !u!1 &706068930
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,6 +579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SensorAccess, Needle.Engine-Samples.Runtime
     $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-706068932-0
   frequency: 60
+  invert: 1
 --- !u!1 &733584892
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,9 +694,10 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: samples.sensors
-    VersionOrPath: Packages/com.needle.sample-assets/Runtime/DeviceSensors/Scripts/Samples.Sensors.npmdef
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/DeviceSensors/Scripts/Samples.Sensors.npmdef
     Guid: 7dd860d964fa039498b7337627f25b96
 --- !u!4 &740623229
 Transform:
@@ -739,7 +742,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
   meta:
     title: Device Sensors
     description: Orientation Sensor Access
@@ -1143,7 +1146,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalLightData,
+    Unity.RenderPipelines.Universal.Runtime
   m_Version: 1
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
@@ -1550,7 +1554,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalLightData,
+    Unity.RenderPipelines.Universal.Runtime
   m_Version: 1
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2

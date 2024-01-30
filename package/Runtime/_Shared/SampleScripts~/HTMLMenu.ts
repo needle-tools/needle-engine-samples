@@ -5,10 +5,10 @@ import { Behaviour, EventList, serializable } from "@needle-tools/engine";
 export class HTMLMenu extends Behaviour {
 
     @serializable(EventList)
-    methods: Array<EventList>;
+    methods?: Array<EventList>;
 
     @serializable()
-    names: Array<string>;
+    names?: Array<string>;
     
     private wrapper?: HTMLUListElement;
     private styleElement?: HTMLStyleElement;
@@ -43,6 +43,7 @@ export class HTMLMenu extends Behaviour {
     `;
 
     onEnable(): void {
+        if (!this.methods || !this.names) return;
 
         console.log("HTMLMenu.onEnable" )
 

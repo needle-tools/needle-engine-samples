@@ -14,9 +14,11 @@ export class DebugLOD extends Behaviour {
     update(): void {
         if(!this.lodGroup || !this.text) return;
 
-        this.context.mainCamera!.getWorldPosition(this.tempVec1);
+        const cam = this.context.mainCamera as THREE.PerspectiveCamera;
+        
+        cam.getWorldPosition(this.tempVec1);
         this.gameObject.getWorldPosition(this.tempVec2);
-        const dist = this.tempVec1.distanceTo(this.tempVec2);
+        const dist = this.tempVec1.distanceTo(this.tempVec2) / cam.zoom;
 
         const handlers = this.lodGroup["_lodsHandler"] as Array<LOD>;
         let msg: string | null = null;
@@ -37,10 +39,12 @@ export class DebugLOD extends Behaviour {
                 if(stats)
                     msg += `${stats}\n`;
 
+                const hysteresis = upperLvl?.hysteresis ?? 0;
+                
                 msg += `${lowerLvl.distance.toFixed(1)} / ${dist.toFixed(1)}`;
-
                 if(upperLvl)
-                    msg += ` / ${upperLvl.distance.toFixed(1)}`;
+                    msg += ` / ${(upperLvl.distance - (upperLvl.distance * upperLvl.hysteresis)).toFixed(1)}`;
+
             }
         });
 

@@ -68,9 +68,8 @@ export class IFrameContent extends Behaviour {
         this.cssRenderer.domElement.style.pointerEvents = "none";
         this.cssRenderer.domElement.style.position = 'absolute';
         this.cssRenderer.domElement.style.top = '0px';
-        this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
         document.body.append(this.cssRenderer.domElement);
-        
+
         // set up CSS3D scene
         this.cssScene = new Scene();
         const obj = new CSS3DObject(div);
@@ -86,9 +85,6 @@ export class IFrameContent extends Behaviour {
 
         // attach to post_render events to get perfect sync to the camera
         this.context.post_render_callbacks.push(this.onPostRender.bind(this));
-        window.addEventListener( 'resize', () => {
-            this.cssRenderer?.setSize(window.innerWidth, window.innerHeight);
-        });
     }
 
     onPostRender() {
@@ -107,6 +103,9 @@ export class IFrameContent extends Behaviour {
 
         // only render if approx. facing the camera
         this.cssObj.visible = dot < 0.15;
+        const size = this.cssRenderer.getSize();
+        if (size.width !== this.context.domWidth || size.height !== this.context.domHeight)
+            this.cssRenderer.setSize(this.context.domWidth, this.context.domHeight);
         this.cssRenderer.render(this.cssScene, this.context.mainCamera!);
     }
 }

@@ -4,6 +4,21 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.14.0] - 2024-01-30
+- add Depth Sensing sample
+- add Transmission sample
+- update all XR samples (webxr2)
+- update Physics samples visuals
+- add DeployToFTP/GithubPages/Glitch samples
+- improve Device Sensor (Gyroscope) to support different device orientation
+- add external sound loading to the External Content sample
+- fix hotspot view angle in XR
+- add controls to the Lightmaps sample
+- add animation to loading scene in Multi Scenes sample
+- add Scrollytelling slider control variant 
+- add trails inheriting velocity 
+- improve Vue sample
+
 ## [0.13.0] - 2023-11-06
 - fixes to FirstPersonController, Hotspots, Multi-Scenes, Networking, Stencil Portals, UI, sample scripts
 - update required Unity version to 2021.3.9f1

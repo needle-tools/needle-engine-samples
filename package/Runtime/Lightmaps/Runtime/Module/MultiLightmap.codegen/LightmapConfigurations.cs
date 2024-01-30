@@ -47,20 +47,39 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class LightmapConfigurations : UnityEngine.MonoBehaviour
 	{
-		public List<UnityEngine.Texture2D> @lightmaps;
+		public bool @cycleLigthmaps = true;
+		public float @cycleInterval = 1;
+        public bool @pingPong = false;
+        public List<UnityEngine.Texture2D> @lightmaps;
 
-		public void onEnable()
+        public void onEnable()
 		{
 		}
 
-		public void switchLightmaps()
+		public void nextLightmap()
+		{
+		}
+
+		public void previousLightmap()
+		{
+		}
+
+        public void switchLightmaps()
 		{
 		}
 
 		public void disableRendererEmission(UnityEngine.Renderer @renderer)
 		{
 		}
-	}
+
+		public void selectLightmap(int index)
+		{
+		}
+
+		public void startCyclingLightmaps()
+		{
+		}
+    }
 }
 
 // NEEDLE_CODEGEN_END

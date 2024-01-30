@@ -1,16 +1,16 @@
 // START MARKER Set Random Color
-import { Behaviour, serializeable, Renderer } from "@needle-tools/engine";
-import { Color } from "three";
+import { Behaviour, serializeable, Renderer, InstancingUtil } from "@needle-tools/engine";
+import { Color, MeshBasicMaterial, MeshStandardMaterial } from "three";
 
 export class RandomColor extends Behaviour {
 
     @serializeable()
     applyOnStart: boolean = true;
 
-    start() {
-        if (this.applyOnStart)
-            this.applyRandomColor();
+    @serializeable()
+    randomMetallicRoughness: boolean = true;
 
+    start() {
         // if materials are not cloned and we change the color they might also change on other objects
         const cloneMaterials = true;
         if (cloneMaterials) {
@@ -22,6 +22,9 @@ export class RandomColor extends Behaviour {
                 renderer.sharedMaterials[i] = renderer.sharedMaterials[i].clone();
             }
         }
+
+        if (this.applyOnStart)
+            this.applyRandomColor();
     }
 
     applyRandomColor() {
@@ -31,7 +34,15 @@ export class RandomColor extends Behaviour {
             return;
         }
         for (let i = 0; i < renderer.sharedMaterials.length; i++) {
-            renderer.sharedMaterials[i].color = new Color(Math.random(), Math.random(), Math.random());
+            const material = renderer.sharedMaterials[i] as MeshBasicMaterial;
+            material.color = new Color(Math.random(), Math.random(), Math.random());
+
+            if (this.randomMetallicRoughness && material instanceof MeshStandardMaterial) {
+                material.metalness = Math.random();
+                material.roughness = Math.random() * Math.random();
+            }
+            material.needsUpdate = true;
+            InstancingUtil.markDirty(this.gameObject);
         }
     }
 }
