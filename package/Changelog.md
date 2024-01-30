@@ -19,7 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - add trails inheriting velocity 
 - improve Vue sample
 
-
 ## [0.13.0] - 2023-11-06
 - fixes to FirstPersonController, Hotspots, Multi-Scenes, Networking, Stencil Portals, UI, sample scripts
 - update required Unity version to 2021.3.9f1
