@@ -65,6 +65,7 @@ namespace SampleChecks
     {
         private readonly SampleInfo sample;
         private const string PublicInfoCategoryName = "Docs and Deployments";
+        private const string RobustnessCategoryName = "Robustness";
         
         public @_(SampleInfo sampleInfo)
         {
@@ -456,6 +457,32 @@ namespace SampleChecks
                 var path = AssetDatabase.GUIDToAssetPath(x.Guid);
                 Assert.IsNotEmpty(path, $"Npmdef called \"{x.Name}\" is referenced with missing guid");
             });
+        }
+
+        [Test]
+        [Category(RobustnessCategoryName)]
+        public async Task TypescriptCompiles()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var info = Object.FindObjectOfType<ExportInfo>();
+            Assert.IsNotNull(info);
+
+            var path = info.GetProjectDirectory();
+
+            // TODO: make sure that npmdefs don't leak between samples while using the same project
+            Actions.EnsureDependenciesAreAddedToPackageJson(info);
+
+            // Maybe add an edge case if the project isn't generated yet (?)
+            Assert.IsTrue(Directory.Exists(path));
+
+            Debug.Log($"Installing {path}");
+
+            Assert.IsTrue(await Actions.InstallCurrentProject());
+
+            Debug.Log($"Compiling {path}");
+
+            Assert.IsTrue(await Actions.TryCompileTypescript(path));
         }
     }
 }
