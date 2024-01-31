@@ -307,7 +307,14 @@ namespace SampleChecks
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (sceneIsImmutableAndNeedsCopy)
             {
-                AssetDatabase.DeleteAsset(scenePath);
+                if (!AssetDatabase.DeleteAsset(scenePath))
+                {
+                    AssetDatabase.Refresh();
+                    if (!AssetDatabase.DeleteAsset(scenePath))
+                    {
+                        Debug.LogWarning($"can't delete scene: {scenePath}");
+                    }
+                }
             }
         }
 
