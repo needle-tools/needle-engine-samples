@@ -115,7 +115,7 @@ export class ArrowShooting extends Behaviour {
         if (!this._isAiming) {
             this._animation.time = Mathf.lerp(this._animation.time, 0, this.context.time.deltaTime / .05);
         }
-        else if (this.context.xr) {
+        else if (this.context.xr && this.context.xr.controllers.length > 1) {
             const holdingString = this.context.xr.controllers[this._stringController];
             const holdingBow = this.context.xr.controllers[1 - this._stringController];
 
