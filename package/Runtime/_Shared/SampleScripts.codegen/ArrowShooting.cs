@@ -8,6 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class ArrowShooting : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.Transform @arrowPrefab;
+		public UnityEngine.AudioSource @sound;
 		public void awake(){}
 		public void onEnterXR(object @_args){}
 		public void onLeaveXR(object @_args){}

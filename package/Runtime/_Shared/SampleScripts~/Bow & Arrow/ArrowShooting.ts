@@ -1,4 +1,4 @@
-import { AssetReference, Behaviour, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, XRControllerFollow, delay, delayForFrames, getParam, getTempQuaternion, getTempVector, isQuest, lookAtInverse, serializable } from "@needle-tools/engine";
+import { AssetReference, AudioSource, Behaviour, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, XRControllerFollow, delay, delayForFrames, getParam, getTempQuaternion, getTempVector, isQuest, lookAtInverse, serializable } from "@needle-tools/engine";
 import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Vector3 } from "three";
 
 
@@ -9,6 +9,9 @@ export class ArrowShooting extends Behaviour {
 
     @serializable(AssetReference)
     arrowPrefab?: AssetReference;
+
+    @serializable(AudioSource)
+    sound?: AudioSource;
 
     awake(): void {
         if (this.arrowPrefab?.asset) {
@@ -81,6 +84,8 @@ export class ArrowShooting extends Behaviour {
             rb.isKinematic = false;
             rb.autoMass = false;
             rb.mass = .05;
+            this.sound?.stop();
+            this.sound?.play();
             // workaround Rigidbody not yet created in the physics engine (it gets created in onEnable)
             await delayForFrames(1);
             rb.applyImpulse(dir.multiplyScalar(force), true);
