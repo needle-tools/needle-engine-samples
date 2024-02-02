@@ -5,12 +5,11 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class Arrow : UnityEngine.MonoBehaviour
+	public partial class BowTargetSpawner : UnityEngine.MonoBehaviour
 	{
-		public bool @destroyTarget = false;
-		public void awake(){}
-		public void start(){}
-		public void onBeforeRender(){}
+		public UnityEngine.GameObject[] @prefabs;
+		public void OnEnable(){}
+		public void update(){}
 	}
 }
 

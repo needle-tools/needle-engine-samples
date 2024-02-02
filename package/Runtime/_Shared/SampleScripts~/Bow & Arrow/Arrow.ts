@@ -4,6 +4,8 @@ import { Behaviour, Collider, Collision, GameObject, Rigidbody, getTempQuaternio
 
 export class Arrow extends Behaviour {
 
+    destroyTarget: boolean = false;
+
     private _rigidbody?: Rigidbody;
     private _startTime = 0;
 
@@ -15,6 +17,7 @@ export class Arrow extends Behaviour {
                 const det = GameObject.addNewComponent(c.gameObject, ArrowCollisionDetection);
                 det.rigidBody = this._rigidbody;
                 det.arrow = this;
+                det.destroyTarget = this.destroyTarget;
             }
         }
     }
@@ -45,15 +48,27 @@ class ArrowCollisionDetection extends Behaviour {
 
     arrow!: Arrow;
     rigidBody!: Rigidbody;
+    destroyTarget: boolean = false;
 
     // get stuck when you hit something
     onCollisionEnter(col: Collision) {
-        const colliders = this.rigidBody.gameObject.getComponentsInChildren(Collider);
-        for (const c of colliders) {
-            c.destroy();
+        if (this.destroyTarget) {
+            col.gameObject.destroy();
+            this.arrow.gameObject.destroy();
         }
-        this.rigidBody.destroy();
-        this.arrow.destroy();
+        else {
+            col.gameObject.attach(this.arrow.gameObject);
+            if (col.rigidBody instanceof Rigidbody) {
+                col.rigidBody.applyImpulse(col.gameObject.position.clone().multiply(this.rigidBody.getVelocity()), true);
+            }
+
+            const colliders = this.rigidBody.gameObject.getComponentsInChildren(Collider);
+            for (const c of colliders) {
+                c.destroy();
+            }
+            this.rigidBody.destroy();
+            this.arrow.destroy();
+        }
     }
 
 }
