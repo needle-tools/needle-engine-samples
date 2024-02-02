@@ -6,6 +6,7 @@ export class PlayAudioOnCollision extends Behaviour {
     audioSource?: AudioSource;
 
     onCollisionEnter() {
+        this.audioSource?.stop();
         this.audioSource?.play();
     }
 }
