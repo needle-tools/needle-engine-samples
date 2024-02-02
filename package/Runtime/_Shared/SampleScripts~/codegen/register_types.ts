@@ -44,6 +44,7 @@ import { WireframeMaterial } from "../WireframeMaterial.js";
 import { XRLifecycleEvents } from "../XRLifecycleEvents.js";
 import { Arrow } from "../Bow & Arrow/Arrow.js";
 import { ArrowShooting } from "../Bow & Arrow/ArrowShooting.js";
+import { BowArrowTarget } from "../Bow & Arrow/BowArrowTarget.js";
 import { BowTargetSpawner } from "../Bow & Arrow/BowTargetSpawner.js";
 
 // Register types
@@ -89,4 +90,5 @@ TypeStore.add("WireframeMaterial", WireframeMaterial);
 TypeStore.add("XRLifecycleEvents", XRLifecycleEvents);
 TypeStore.add("Arrow", Arrow);
 TypeStore.add("ArrowShooting", ArrowShooting);
+TypeStore.add("BowArrowTarget", BowArrowTarget);
 TypeStore.add("BowTargetSpawner", BowTargetSpawner);
