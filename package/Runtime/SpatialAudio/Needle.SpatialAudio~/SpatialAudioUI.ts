@@ -30,7 +30,6 @@ export class SpatialAudioUI extends Behaviour {
                         <p>This sample demonstrates how to use spatial audio in <a href="https://needle.tools">Needle Engine</a>. Audio sources can be placed in 3D, and your camera position influences how loud they are.</p>
                         <p>You can move around the scene in the browser, open the page on your phone and try it in Augmented Reality, or in Virtual Reality on a VR headset.</p>
                         <button class="start">Start exploring</button><br class="ignore-landscape"/>
-                        <a class="start-quest button small" target="_blank">Open on Quest</a>
                     </div>
                 </div>
             </div>
@@ -171,11 +170,6 @@ export class SpatialAudioUI extends Behaviour {
         this.element.querySelector('.start')?.addEventListener('click', () => {
             this.element?.querySelector('.explainer')?.remove();
         });
-
-        // open the page on the quest when the user clicks the button
-        const questLink = this.element.querySelector('.start-quest') as HTMLAnchorElement;
-        const url = new URL(window.location.href);
-        questLink.href = `https://www.oculus.com/open_url/?url=${encodeURIComponent(url.toString())}`;
         
         // detect swipe gesture to swipe next/previous
         this._touchstart = this.touchstart.bind(this);
