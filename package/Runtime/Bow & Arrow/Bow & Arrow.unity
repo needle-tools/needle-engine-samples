@@ -15,11 +15,11 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.48771805, g: 0.7203551, b: 0.754717, a: 1}
+  m_FogColor: {r: 0.85239077, g: 0.7137255, b: 0.9137255, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
-  m_LinearFogStart: 3
-  m_LinearFogEnd: 10
+  m_LinearFogStart: 2
+  m_LinearFogEnd: 20
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -6572,6 +6572,7 @@ GameObject:
   - component: {fileID: 605782280}
   - component: {fileID: 605782279}
   - component: {fileID: 605782282}
+  - component: {fileID: 605782283}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -6641,6 +6642,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
   Glitch: {fileID: 1497047797}
+--- !u!114 &605782283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605782278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
+  Path: /bow-and-arrow
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
 --- !u!1 &918951948
 GameObject:
   m_ObjectHideFlags: 0
@@ -7033,6 +7050,7 @@ GameObject:
   - component: {fileID: 1712443736}
   - component: {fileID: 1712443735}
   - component: {fileID: 1712443737}
+  - component: {fileID: 1712443738}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -7110,7 +7128,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712443734}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 1.21, y: 4.06, z: -2.11}
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7128,7 +7146,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.Rendering.Universal.UniversalAdditionalLightData,
+    Unity.RenderPipelines.Universal.Runtime
   m_Version: 1
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
@@ -7137,6 +7156,25 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!114 &1712443738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712443734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0929a0e2816040a49b0d2f687e715e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.LightShadowData, Needle.Engine
+  shadowWidth: 5
+  shadowHeight: 5
+  shadowDistance: 20
+  shadowResolution: 2048
+  shadowBias: 0.00001
+  shadowNormalBias: 0.015
+  _overrideShadowBiasSettings: 1
 --- !u!1 &1863521849
 GameObject:
   m_ObjectHideFlags: 0
@@ -12185,7 +12223,7 @@ Transform:
   m_GameObject: {fileID: 2061358045}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
-  m_LocalScale: {x: 3.3911464, y: 3.3912072, z: 3.3912072}
+  m_LocalScale: {x: 3.3911464, y: 3.3912203, z: 3.3912203}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
