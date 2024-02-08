@@ -1,4 +1,4 @@
-import { serializable, Mathf, isMobileDevice, SyncedTransform, Camera, PlayerState, CapsuleCollider, PhysicsMaterial, CharacterController, Behaviour, Rigidbody } from "@needle-tools/engine";
+import { serializable, Mathf, isMobileDevice, SyncedTransform, Camera, PlayerState, CapsuleCollider, PhysicsMaterial, CharacterController, Behaviour, Rigidbody, PointerEventData } from "@needle-tools/engine";
 import { Vector2, Vector3, Object3D, MathUtils } from "three";
 import { PointerLock } from "./LockPointer";
 
@@ -141,7 +141,7 @@ export class FirstPersonController extends Behaviour {
 
         // Register pointer event so we can lock the cursor.
         // We need to request the lock as a direct interaction consequence on Safari, otherwise it will be rejected.
-        window.addEventListener("pointerdown", () => {
+        this.context.renderer.domElement.addEventListener("pointerdown", () => {
             if (this.enableDesktopInput && !PointerLock.IsLocked && !this.isMobile) {
                 this.lock.lock();
             }
@@ -313,7 +313,7 @@ export class FirstPersonController extends Behaviour {
         return input;
     }
 
-    protected onPointerMove(ptr: PointerEvent) {
+    protected onPointerMove(ptr: PointerEventData) {
         if (ptr instanceof MouseEvent) {
             if (!PointerLock.IsLocked || this.isMobile || !this.enabled)
                 return;
