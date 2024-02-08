@@ -100,7 +100,8 @@ export class Gun extends Behaviour {
     }
 
     private onMouseClick = (event: MouseEvent) => {
-        if(isMobileDevice()) return; // ignore desktop input on mobile
+        if (!document.pointerLockElement && event.target !== this.context.renderer.domElement) return;
+        if (isMobileDevice()) return; // ignore desktop input on mobile
 
         if (event.button !== 0) // if not the LMB or primary, abort
             return;
