@@ -59,23 +59,25 @@ export class Gun extends Behaviour {
             }
         });
     }
-
-    // subrscribe to input events
+    
+   // subrscribe to input events
     onEnable() {
+        const inputElem = this.context.domElement;
         if (this.enableDesktopInput) {
-            window.addEventListener('click', this.onMouseClick);
+            inputElem.addEventListener('click', this.onMouseClick);
         }
         if (this.enableMobileInput) {
-            window.addEventListener('touchend', this.onTouchEnd);
+            inputElem.addEventListener('touchend', this.onTouchEnd);
         }
     }
 
     onDisable() {
+        const inputElem = this.context.domElement;
         if (this.enableDesktopInput) {
-            window.removeEventListener('click', this.onMouseClick);
+            inputElem.removeEventListener('click', this.onMouseClick);
         }
         if (this.enableMobileInput) {
-            window.removeEventListener('touchend', this.onTouchEnd);
+            inputElem.removeEventListener('touchend', this.onTouchEnd);
         }
     }
 
