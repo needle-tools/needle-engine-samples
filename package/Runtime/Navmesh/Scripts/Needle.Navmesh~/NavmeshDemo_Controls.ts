@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, Gizmos, NEKeyboardEvent, findObjectsOfType, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, Gizmos, NEKeyboardEvent, findObjectsOfType, getTempVector, serializable } from "@needle-tools/engine";
 import { Vector3, Object3D } from "three";
 import { Navmesh } from "./Navmesh";
 import { NavmeshDemo_Agent } from "./NavmeshDemo_Agent";
@@ -38,8 +38,12 @@ export class NavmeshDemo_Controls extends Behaviour {
             this.agents.forEach(agent => {
                 if (!agent) return;
 
+                const pos = getTempVector(this.goalPos!);
+                pos.x += (Math.random() - 0.5) * 1.5;
+                pos.z += (Math.random() - 0.5) * 1.5;
+
                 unitsMoving++;
-                agent.moveTo(this.goalPos!, async () => {
+                agent.moveTo(pos, async () => {
                     unitsMoving--;
                     if (unitsMoving === 0 && this.goalVisualizer) {
                         this.goalVisualizer.visible = false;

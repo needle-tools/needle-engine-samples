@@ -196,7 +196,7 @@ export class Navmesh extends Behaviour {
         parent.add(clonedMesh);
 
         // transform
-        setWorldPositionXYZ(clonedMesh, 0, 0, 0);
+        setWorldPositionXYZ(clonedMesh, 0, 0.05, 0);
         setWorldRotationXYZ(clonedMesh, 0, 0, 0);
         setWorldScale(clonedMesh, new Vector3(1, 1, 1));
 
@@ -208,6 +208,7 @@ export class Navmesh extends Behaviour {
         mat.color = color;
         
         clonedMesh.material = mat;
+
 
         return clonedMesh;
     }

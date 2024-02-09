@@ -3,8 +3,6 @@
 
 #pragma warning disable
 
-using UnityEditor;
-
 namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Navmesh : UnityEngine.MonoBehaviour
@@ -24,15 +22,16 @@ namespace Needle.Typescript.GeneratedComponents
 
         UnityEngine.Mesh GetMesh()
         {
-            var wasSceneDirty = gameObject.scene.isDirty;
-
             UnityEngine.AI.NavMeshTriangulation oldMesh = UnityEngine.AI.NavMesh.CalculateTriangulation();
 
             var anyData = oldMesh.vertices.Length > 1;
 
 #if UNITY_EDITOR
-            if (bakeNavmeshOnExport && (wasSceneDirty || anyData))
+            if (bakeNavmeshOnExport)
+            {
+                print("Baking <b><color=#0AA5C0>Nav Mesh</color></b> on export.");
                 UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
+            }
 #endif
             UnityEngine.AI.NavMeshTriangulation newMesh = UnityEngine.AI.NavMesh.CalculateTriangulation();
 
@@ -45,7 +44,7 @@ namespace Needle.Typescript.GeneratedComponents
             //    {
             //        var a = oldMesh.vertices[i];
             //        var b = newMesh.vertices[i];
-
+            //
             //        if (!VectorsApproximatelyEquel(a, b))
             //        {
             //            hasChanged = true;
@@ -56,14 +55,8 @@ namespace Needle.Typescript.GeneratedComponents
 
             var mesh = new UnityEngine.Mesh();
             mesh.name = "ExportedNavMesh";
-            for (int i = 0; i < newMesh.vertices.Length; i++)
-            {
-                var v3 = newMesh.vertices[i];
-                //v3.x *= -1;
-                newMesh.vertices[i] = v3;
-            }
             mesh.vertices = newMesh.vertices;
-            mesh.triangles = newMesh.indices;//.Reverse().ToArray();
+            mesh.triangles = newMesh.indices;
 
             return mesh;
         }
