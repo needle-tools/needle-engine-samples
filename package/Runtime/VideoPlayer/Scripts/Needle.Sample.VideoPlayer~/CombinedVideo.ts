@@ -17,7 +17,6 @@ export class CombinedVideo extends Behaviour {
         if(vidTexture == null || this.renderer == null)
             return;
         
-        console.log(this.renderer.sharedMaterial);
         this.renderer.sharedMaterial[this.textureName] = vidTexture;
     }
 }
