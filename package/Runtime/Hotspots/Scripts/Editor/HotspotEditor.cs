@@ -26,16 +26,23 @@ namespace Needle.Typescript.GeneratedComponents
         {
             serializedObject.Update();
 
-            titleProperty.stringValue = EditorGUILayout.TextField(titleProperty.stringValue);
+            var multi = serializedObject.isEditingMultipleObjects;
+
+            var titleUserVal = EditorGUILayout.TextField(multi ? "-" : titleProperty.stringValue);
+            if(!multi || titleUserVal != "-")
+                titleProperty.stringValue = titleUserVal;
 
             var oldState = EditorStyles.textField.wordWrap;
             EditorStyles.textField.wordWrap = true;
-            contentProperty.stringValue = EditorGUILayout.TextArea(contentProperty.stringValue, GUILayout.Height(80));
+            var contentUserVal = EditorGUILayout.TextArea(multi ? "-" : contentProperty.stringValue, GUILayout.Height(80));
             EditorStyles.textField.wordWrap = oldState;
+
+            if (!multi || contentUserVal != "-")
+                contentProperty.stringValue = contentUserVal;
 
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-            viewAngleProperty.floatValue = EditorGUILayout.Slider("View angle: ", viewAngleProperty.floatValue, 0, 180);
+            EditorGUILayout.Slider(viewAngleProperty, 0, 180);
 
             serializedObject.ApplyModifiedProperties();
         }
