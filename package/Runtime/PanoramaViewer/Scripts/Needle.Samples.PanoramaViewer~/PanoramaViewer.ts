@@ -1,6 +1,7 @@
-import { Behaviour, LogType, Mathf, PointerType, PromiseAllWithErrors, serializable, setResourceTrackingEnabled, showBalloonError, showBalloonMessage } from "@needle-tools/engine";
+import { Behaviour, Mathf, OrbitControls, PointerType, findObjectOfType, serializable, showBalloonMessage } from "@needle-tools/engine";
 import { Texture } from "three";
 import * as THREE from "three";
+import { GyroscopeControls } from "samples.sensors";
 
 export class PanoramaViewer extends Behaviour {
     // TODO: add remote image url support
@@ -33,11 +34,18 @@ export class PanoramaViewer extends Behaviour {
     }
     protected panoSphere?: THREE.Mesh;
 
-    awake() {
+    protected optionalGyroControls?: GyroscopeControls;
+    protected optionalOrbitalControls?: OrbitControls;
+
+    start() {
         this.panoSphere = this.createPanorama();
         this.gameObject.add(this.panoSphere);
 
         this.apply();
+
+        // TODO report: Can't use serialized reference or GetComponentInChildren? Results in a { guid } obj.
+        this.optionalGyroControls = findObjectOfType(GyroscopeControls, this.context.scene, false);
+        this.optionalOrbitalControls = findObjectOfType(OrbitControls, this.context.scene, false);
     }
 
     update(): void {
@@ -147,5 +155,20 @@ export class PanoramaViewer extends Behaviour {
 
         if(texture && mat)
             mat.map = texture;
+    }
+
+    private isGyroEnabled = false;
+    toggleGyroControls() {
+        if (!this.optionalGyroControls) return;
+        if (!this.optionalOrbitalControls) return;
+
+        this.isGyroEnabled = !this.isGyroEnabled;
+
+        if (this.isGyroEnabled)
+            this.optionalGyroControls.activate();
+        else
+            this.optionalGyroControls.deactivate();
+
+        this.optionalOrbitalControls.enabled = !this.isGyroEnabled;
     }
 }
