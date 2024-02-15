@@ -1,5 +1,7 @@
 import { Behaviour, Context, getParam, getTempQuaternion, serializeable } from "@needle-tools/engine";
-import { Object3D, MathUtils, Quaternion, Vector3 } from "three";
+import { Object3D, MathUtils } from "three";
+
+const debug = getParam("debuggyro");
 
 export class GyroscopeControls extends Behaviour {
     @serializeable()
@@ -18,8 +20,10 @@ export class GyroscopeControls extends Behaviour {
     }
 
     activate() {
-        this.sensorOrientation.initialize(() => {
-            this.deviceOrientation.initialize(() => {
+        this.sensorOrientation.initialize((msg) => {
+            if(debug) console.error("OrientationSensor: ", msg);
+            this.deviceOrientation.initialize((msg) => {
+                if(debug) console.error("DeviceMotion: ", msg);
                 this.onFail();
             });
         });
