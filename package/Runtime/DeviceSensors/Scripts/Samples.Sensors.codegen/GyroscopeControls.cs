@@ -5,10 +5,8 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class SensorAccess : UnityEngine.MonoBehaviour
+	public partial class GyroscopeControls : UnityEngine.MonoBehaviour
 	{
-		public float @frequency = 60f;
-		public bool @invert = false;
 		public void start(){}
 	}
 }

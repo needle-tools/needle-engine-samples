@@ -1,7 +1,8 @@
-﻿import { TypeStore } from "@needle-tools/engine"
+﻿/* eslint-disable */
+import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { SensorAccess } from "../SensorAccess.js";
+import { GyroscopeControls } from "../GyroscopeControls.js";
 
 // Register types
-TypeStore.add("SensorAccess", SensorAccess);
+TypeStore.add("GyroscopeControls", GyroscopeControls);

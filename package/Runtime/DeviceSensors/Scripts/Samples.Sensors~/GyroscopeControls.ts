@@ -5,13 +5,7 @@ import { Euler, MathUtils, Quaternion } from "three";
 
 const enforceFallback = getParam("usegyrofallback");
 
-export class SensorAccess extends Behaviour {
-
-    @serializeable()
-    public frequency: number = 60;
-
-    @serializeable()
-    invert: boolean = false;
+export class GyroscopeControls extends Behaviour {
 
     start() {
         const div = document.createElement("div");
@@ -67,7 +61,7 @@ export class SensorAccess extends Behaviour {
 
             // try creating a sensor object, will throw if not available
             //@ts-ignore 
-            const sensor = new RelativeOrientationSensor({frequency: this.frequency});
+            const sensor = new RelativeOrientationSensor({frequency: 60});
 
             Promise.all([
                 //@ts-ignore
@@ -93,10 +87,7 @@ export class SensorAccess extends Behaviour {
                             this.gameObject.quaternion.multiply(quaternion);
 
                             // compensate for device orientation offset (portrait/landscape)
-                            this.gameObject.rotateZ(MathUtils.degToRad(-deviceZAngle)); 
-
-                            if (this.invert)
-                                this.gameObject.quaternion.invert();
+                            this.gameObject.rotateZ(MathUtils.degToRad(-deviceZAngle));
 
                             this.setOrientationLabel();
                         });
@@ -140,6 +131,9 @@ export class SensorAccess extends Behaviour {
                     this.deviceMotionFallback();
                 });
             }
+            else {
+                this.onFail();
+            }
         }
     }
 
@@ -178,10 +172,7 @@ export class SensorAccess extends Behaviour {
             this.gameObject.rotateY(gamma);
 
             // compensate for device orientation offset (portrait/landscape)
-            this.gameObject.rotateZ(MathUtils.degToRad(-deviceZAngle)); 
-
-            if (this.invert)
-                this.gameObject.quaternion.invert();
+            this.gameObject.rotateZ(MathUtils.degToRad(-deviceZAngle));
 
             this.setOrientationLabel();
         });
@@ -219,5 +210,9 @@ export class SensorAccess extends Behaviour {
         else {
             this.connectDeviceMotionEvents();
         }
+    }
+
+    private onFail() {
+        this.dispatchEvent(new Event("onfail"));
     }
 } 
