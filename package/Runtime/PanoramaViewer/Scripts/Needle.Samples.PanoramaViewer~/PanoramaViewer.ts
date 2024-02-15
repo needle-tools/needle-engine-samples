@@ -164,11 +164,7 @@ export class PanoramaViewer extends Behaviour {
 
         this.isGyroEnabled = !this.isGyroEnabled;
 
-        if (this.isGyroEnabled)
-            this.optionalGyroControls.activate();
-        else
-            this.optionalGyroControls.deactivate();
-
+        this.optionalGyroControls.enabled = this.isGyroEnabled;
         this.optionalOrbitalControls.enabled = !this.isGyroEnabled;
     }
 }
