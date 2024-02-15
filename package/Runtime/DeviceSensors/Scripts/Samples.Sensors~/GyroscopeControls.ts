@@ -1,68 +1,200 @@
-import { Behaviour, getParam, serializeable } from "@needle-tools/engine";
-import { Euler, MathUtils, Quaternion } from "three";
-
-// Documentation → https://docs.needle.tools/scripting
-
-const enforceFallback = getParam("usegyrofallback");
+import { Behaviour, Context, getParam, getTempQuaternion, serializeable } from "@needle-tools/engine";
+import { Object3D, MathUtils, Quaternion, Vector3 } from "three";
 
 export class GyroscopeControls extends Behaviour {
+    @serializeable()
+    activateOnStart: boolean = true;
 
-    start() {
-        const div = document.createElement("div");
-        this.orientationLabel = document.createElement("p");
-        const label2 = document.createElement("p");
-        div.style.position = "absolute";
-        div.style.left = "5px";
-        div.style.top = "5px";
+    protected sensorOrientation!: OrientationSensor;
+    protected deviceOrientation!: DeviceMotion;
 
-        label2.innerHTML = "<b>Pick up your phone!</b>";
-        div.appendChild(label2);
-        div.appendChild(this.orientationLabel);
-        const btn = document.createElement("button");
-        const defaultText = "Fullscreen";
-        btn.innerText = defaultText;
+    awake() {
+        this.sensorOrientation = new OrientationSensor(this.gameObject);
+        this.deviceOrientation = new DeviceMotion(this.gameObject);    
+    
+        if(this.activateOnStart) {
+            this.activate();
+        }
+    }
 
-        // check if the Fullscreen API is available and show a button if it is
-        if ("requestFullscreen" in document.body) {
-            btn.addEventListener("click", () => {
-                if (window.matchMedia('(display-mode: fullscreen)').matches || document.fullscreenElement ) {
-                    document.exitFullscreen();
-                    btn.innerText = defaultText;
-                } else { 
-                    this.context.domElement.requestFullscreen();
+    activate() {
+        this.sensorOrientation.initialize(() => {
+            this.deviceOrientation.initialize(() => {
+                this.onFail();
+            });
+        });
+    
+    }
+    deactivate() {
+        this.sensorOrientation.disconnect();
+        this.deviceOrientation.disconnect();
+    }
 
-                    // in fullscreen, we can lock device orientation on some devices
-                    if ("orientation" in screen && "lock" in screen.orientation) {
-                        try {
-                            //@ts-ignore
-                            screen.orientation.lock("portrait-primary");
-                        }
-                        catch (e) {
-                            console.warn("Could not lock screen orientation.");
-                        }
-                    }
-                    btn.innerText = "Exit";
+    private onFail() {
+        this.dispatchEvent(new Event("onfail"));
+    }
+} 
+
+// https://gist.github.com/bellbind/d2be9cc09bf6241f255d
+const getOrientation = function () {
+    // W3C DeviceOrientation Event Specification (Draft)
+    if (window.screen.orientation) return window.screen.orientation.angle;
+    // Safari
+    if (typeof window.orientation === "number") return window.orientation;
+    // workaround for android firefox
+    //@ts-ignore
+    if (window.screen.mozOrientation) return {
+        "portrait-primary": 0,
+        "portrait-secondary": 180,
+        "landscape-primary": 90,
+        "landscape-secondary": 270,
+    //@ts-ignore
+    }[window.screen.mozOrientation];
+    // otherwise
+    return 0;
+};
+
+abstract class GyroscopeHandler {
+    isConnected: boolean = false;
+    protected isInitialized: boolean = false;
+
+    protected target: Object3D;
+    constructor(target: Object3D) {
+        this.target = target;
+    }
+
+    connect() { 
+        this.isConnected = true;
+        this.isInitialized = true;
+    }
+    disconnect() { this.isConnected = false;}
+    abstract initialize(onFail?: () => void): void;
+}
+
+export class DeviceMotion extends GyroscopeHandler {
+
+    constructor(target: Object3D) {
+        super(target);
+
+        Context.Current.domElement.addEventListener("click", () => {
+            this.tryConnectOnClick();
+        });
+    }
+
+    connect() {
+        super.connect();
+        window.addEventListener('deviceorientation', this.deviceorientation);
+    }
+
+    disconnect() {
+        super.disconnect();
+        window.removeEventListener('deviceorientation', this.deviceorientation);
+    }
+
+    protected deviceorientation = (event: DeviceOrientationEvent) => {
+        if (!event.alpha || !event.beta || !event.gamma) return;
+        
+        // convert alpha, beta, gamma to radians
+        const alpha = MathUtils.degToRad(event.alpha); //z
+        const beta = MathUtils.degToRad(event.beta); //x
+        const gamma = MathUtils.degToRad(event.gamma); //y
+
+        // get orientation offset of the device (portrait/landscape)
+        const deviceZAngle = getOrientation();
+
+        //reset object
+        this.target.quaternion.set(0, 0, 0, 1); 
+
+        // correct origin
+        this.target.rotateX(-Math.PI / 2); // rotate the origin to face forward (0,0,1)
+        
+        // apply gyro rotatinons (order is important)
+        this.target.rotateZ(alpha);
+        this.target.rotateX(beta);
+        this.target.rotateY(gamma);
+
+        // compensate for device orientation offset (portrait/landscape)
+        this.target.rotateZ(MathUtils.degToRad(-deviceZAngle));
+    };
+
+    initialize(onFail?: (msg: string) => void) {
+        if (!("DeviceMotionEvent" in globalThis)) {
+            onFail?.("DeviceMotionEvent not supported.");
+        }
+
+        // awaiting user interaction -> tryConnectOnClick
+    }
+
+    protected tryConnectOnClick() {
+        if (this.isConnected) return;
+
+        //@ts-ignore
+        if ("requestPermission" in DeviceMotionEvent) {
+            //@ts-ignore
+            DeviceMotionEvent.requestPermission().then(response => {
+                if (response == 'granted') {
+                    this.connect();
                 }
             });
         }
         else {
-            btn.style.display = "none";
+            this.connect();
+        }
+    }
+}
+
+export class OrientationSensor extends GyroscopeHandler {
+    //@ts-ignore 
+    protected sensor?: RelativeOrientationSensor;
+
+    connect(): void {
+        super.connect();
+        this.sensor?.start();
+    }
+    disconnect(): void {
+        super.disconnect();
+        this.sensor?.stop();
+    }
+
+    initialize(onFail?: (msg: string) => void): void {
+        if (this.isInitialized) {
+            this.connect();
+            return;
         }
 
-        div.appendChild(btn);
-        this.context.domElement.appendChild(div);
-        
-        const quaternion = new Quaternion();
-
         try {
-            if (enforceFallback) {
-                throw "enforce fallback";
-            }
-
             // try creating a sensor object, will throw if not available
             //@ts-ignore 
-            const sensor = new RelativeOrientationSensor({frequency: 60});
+            this.sensor = new RelativeOrientationSensor({frequency: 60});
 
+            // first register error events
+            this.sensor.addEventListener('error', (e) => {
+                if (e.error.name === 'NotAllowedError')
+                    onFail?.('Permission to access sensor was denied.');
+                else if (e.error.name === 'NotReadableError')
+                    onFail?.('Cannot connect to the sensor.');
+                else
+                    onFail?.(`RelativeOrientationSensor error: ${e.error.name}`);
+            });
+
+            this.sensor.addEventListener('reading', (e) => {
+                // get orientation offset of the device (portrait/landscape)
+                const deviceZAngle = getOrientation();
+
+                //reset object
+                this.target.quaternion.set(0, 0, 0, 1); 
+
+                // correct origin
+                this.target.rotateX(-Math.PI / 2); // rotate the origin to face forward (0,0,1)
+
+                const quaternion = getTempQuaternion().fromArray(this.sensor!.quaternion);
+                this.target.quaternion.multiply(quaternion);
+
+                // compensate for device orientation offset (portrait/landscape)
+                this.target.rotateZ(MathUtils.degToRad(-deviceZAngle));
+            });
+
+            // then get permission and start the sensor
             Promise.all([
                 //@ts-ignore
                 navigator.permissions.query({ name: "accelerometer" }),
@@ -70,149 +202,21 @@ export class GyroscopeControls extends Behaviour {
                 navigator.permissions.query({ name: "gyroscope" })])
                 .then((results) => {
                     if (results.every((result) => result.state === "granted"))
-                    {
-                        // attach to the sensor and apply to our object
-                        sensor.addEventListener('reading', (e) => {
-
-                            // get orientation offset of the device (portrait/landscape)
-                            const deviceZAngle = this.getOrientation();
-
-                            //reset object
-                            this.gameObject.quaternion.set(0, 0, 0, 1); 
-
-                            // correct origin
-                            this.gameObject.rotateX(-Math.PI / 2); // rotate the origin to face forward (0,0,1)
-                            
-                            quaternion.fromArray(sensor.quaternion);
-                            this.gameObject.quaternion.multiply(quaternion);
-
-                            // compensate for device orientation offset (portrait/landscape)
-                            this.gameObject.rotateZ(MathUtils.degToRad(-deviceZAngle));
-
-                            this.setOrientationLabel();
-                        });
-
-                        // Handle runtime errors.
-                        sensor.addEventListener('error', (e) => {
-                            if (e.error.name === 'NotAllowedError') {
-                                this.orientationLabel.innerText = 'Permission to access sensor was denied.';
-                            } else if (e.error.name === 'NotReadableError') {
-                                this.orientationLabel.innerText = 'Cannot connect to the sensor.';
-                            } else
-                            this.orientationLabel.innerText = `RelativeOrientationSensor error: ${e.error.name}`;
-                        });
-
-                        sensor.start();
-                    } else {
-                        this.orientationLabel.innerText = "No permissions to use RelativeOrientationSensor.";
-                    }
-            });
-        }
-        // Handle construction errors.
-        catch (error) {
-            if (error.name === 'SecurityError') {
-                this.orientationLabel.innerText = 'Sensor construction was blocked by the Permissions Policy.';
-            } else if (error.name === 'ReferenceError') {
-                this.orientationLabel.innerText = 'Sensor is not supported by the User Agent.';
-            } else {
-                this.orientationLabel.innerText = error;
-            }
-
-            // fallback when the Sensor API doesn't exist
-            if ("DeviceMotionEvent" in globalThis)
-            {
-                this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
-
-                let haveCheckedPermissions = false;
-                this.context.domElement.addEventListener("click", () => {
-                    if (haveCheckedPermissions) return;
-                    haveCheckedPermissions = true;
-
-                    this.deviceMotionFallback();
+                        this.connect();
+                    else
+                        onFail?.("No permissions to use RelativeOrientationSensor.");
                 });
-            }
-            else {
-                this.onFail();
-            }
         }
+        // Report construction errors.
+        catch (error) {
+            this.disconnect();
+            if (error.name === 'SecurityError') {
+                onFail?.('Sensor construction was blocked by the Permissions Policy.');
+            } else if (error.name === 'ReferenceError') {
+                onFail?.('Sensor is not supported by the User Agent.');
+            } else {
+                onFail?.(error);
+            }            
+        }   
     }
-
-    private orientationLabel: HTMLParagraphElement;
-    private euler: Euler = new Euler();
-    private setOrientationLabel() {
-        this.euler.setFromQuaternion(this.gameObject.quaternion);
-        this.orientationLabel.innerText = `Orientation: ${this.log(this.euler.x)} ${this.log(this.euler.y)} ${this.log(this.euler.z)}`;
-    }
-
-    private log(x : number) : string {
-        return MathUtils.radToDeg(x).toFixed(2) + "°";
-    }
-
-    private connectDeviceMotionEvents() {
-        window.addEventListener('deviceorientation', (event) => {  
-            if (!event.alpha || !event.beta || !event.gamma) return;
-
-            // convert alpha, beta, gamma to radians
-            const alpha = MathUtils.degToRad(event.alpha); //z
-            const beta = MathUtils.degToRad(event.beta); //x
-            const gamma = MathUtils.degToRad(event.gamma); //y
-
-            // get orientation offset of the device (portrait/landscape)
-            const deviceZAngle = this.getOrientation();
-
-            //reset object
-            this.gameObject.quaternion.set(0, 0, 0, 1); 
-
-            // correct origin
-            this.gameObject.rotateX(-Math.PI / 2); // rotate the origin to face forward (0,0,1)
-            
-            // apply gyro rotatinons (order is important)
-            this.gameObject.rotateZ(alpha);
-            this.gameObject.rotateX(beta);
-            this.gameObject.rotateY(gamma);
-
-            // compensate for device orientation offset (portrait/landscape)
-            this.gameObject.rotateZ(MathUtils.degToRad(-deviceZAngle));
-
-            this.setOrientationLabel();
-        });
-    }
-
-    // https://gist.github.com/bellbind/d2be9cc09bf6241f255d
-    private getOrientation = function () {
-        // W3C DeviceOrientation Event Specification (Draft)
-        if (window.screen.orientation) return window.screen.orientation.angle;
-        // Safari
-        if (typeof window.orientation === "number") return window.orientation;
-        // workaround for android firefox
-        //@ts-ignore
-        if (window.screen.mozOrientation) return {
-            "portrait-primary": 0,
-            "portrait-secondary": 180,
-            "landscape-primary": 90,
-            "landscape-secondary": 270,
-        //@ts-ignore
-        }[window.screen.mozOrientation];
-        // otherwise
-        return 0;
-    };
-
-    private deviceMotionFallback() {
-        //@ts-ignore
-        if ("requestPermission" in DeviceMotionEvent) {
-            //@ts-ignore
-            DeviceMotionEvent.requestPermission().then(response => {
-                if (response == 'granted') {
-                    this.connectDeviceMotionEvents();
-                }
-            });
-        }
-        else {
-            this.connectDeviceMotionEvents();
-        }
-    }
-
-    private onFail() {
-        this.dispatchEvent(new Event("onfail"));
-    }
-} 
+}
