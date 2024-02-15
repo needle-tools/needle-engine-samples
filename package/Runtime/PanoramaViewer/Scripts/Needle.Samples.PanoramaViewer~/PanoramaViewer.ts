@@ -112,7 +112,7 @@ export class PanoramaViewer extends Behaviour {
     }
 
     protected createPanorama(): THREE.Mesh {
-        const sphere = new THREE.SphereGeometry(this.panoramaSize);
+        const sphere = new THREE.SphereGeometry(this.panoramaSize, 128, 128);
 
         const mat = new THREE.MeshBasicMaterial();
         /* mat.color = new THREE.Color(0, 0, 0); */
