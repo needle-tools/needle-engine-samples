@@ -682,7 +682,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1597275518}
   m_RootOrder: 5
@@ -701,8 +701,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.GroundProjectedEnv, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1581178373-0
   applyOnAwake: 1
-  radius: 200
-  height: 20
+  radius: 30
+  height: 4
 --- !u!1 &1597275517
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,7 +791,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1597275521-0
   arScale: 5
-  invertForward: 1
+  invertForward: 0
+  customReticle: {fileID: 0}
   arTouchTransform: 0
   useXRAnchor: 0
 --- !u!114 &1597275522
@@ -1052,8 +1053,8 @@ Transform:
   m_GameObject: {fileID: 1776648249}
   m_LocalRotation: {x: -0, y: 0.858799, z: -0, w: 0.51231277}
   m_LocalPosition: {x: -8.234992, y: 0, z: 5.9572186}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1597275518}
   m_RootOrder: 8
@@ -1128,7 +1129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4608629947157000579, guid: 7212237e21eef644ca7f692d184f3ca0, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4608629947157000579, guid: 7212237e21eef644ca7f692d184f3ca0, type: 3}
       propertyPath: m_LocalPosition.x
