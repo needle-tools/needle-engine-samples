@@ -7,7 +7,6 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class PanoramaViewer : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Texture[] @panoramas = new UnityEngine.Texture[]{ };
 		public bool @enableZoom = true;
 		public float @zoomMin = 40f;
 		public float @zoomMax = 90f;
@@ -19,6 +18,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public void previous(){}
 		public void select(float @index){}
 		public void apply(){}
+		public void setGyroControls(bool @enabled){}
 		public void toggleGyroControls(){}
 	}
 }

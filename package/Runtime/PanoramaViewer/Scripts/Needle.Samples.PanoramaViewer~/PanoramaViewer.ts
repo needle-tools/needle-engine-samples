@@ -1,14 +1,19 @@
-import { Behaviour, Mathf, OrbitControls, PointerType, findObjectOfType, serializable, showBalloonMessage } from "@needle-tools/engine";
-import { Texture } from "three";
+import { Behaviour, ImageReference, Mathf, OrbitControls, PointerType, VideoPlayer, findObjectOfType, serializable } from "@needle-tools/engine";
+import { Texture, Material } from "three";
 import * as THREE from "three";
 import { GyroscopeControls } from "samples.sensors";
 
+export interface IPanoramaViewerMedia {
+    data: string | Texture;
+    info?: { 
+        stereo?: boolean;
+        type?: string | "image" | "video";
+    };
+}
+
 export class PanoramaViewer extends Behaviour {
-    // TODO: add remote image url support
-    // TODO: add video support
-    // TODO: add remote video support
-    @serializable(Texture)
-    panoramas: Texture[] = [];
+    // @nonSerialized
+    media: IPanoramaViewerMedia[] = [];
 
     @serializable()
     enableZoom: boolean = true;
@@ -30,12 +35,18 @@ export class PanoramaViewer extends Behaviour {
 
     protected index = 0;
     private get _i() {
-        return Mathf.clamp(this.index, 0 , this.panoramas.length - 1);
+        return Mathf.clamp(this.index, 0 , this.media.length - 1);
     }
     protected panoSphere?: THREE.Mesh;
 
     protected optionalGyroControls?: GyroscopeControls;
     protected optionalOrbitalControls?: OrbitControls;
+
+    protected _videoPlayer?: VideoPlayer;
+    protected get videoPlayer(): VideoPlayer {
+        this._videoPlayer ??= this.gameObject.addNewComponent(VideoPlayer)!;
+        return this._videoPlayer;
+    }
 
     start() {
         this.panoSphere = this.createPanorama();
@@ -45,13 +56,29 @@ export class PanoramaViewer extends Behaviour {
 
         // TODO report: Can't use serialized reference or GetComponentInChildren? Results in a { guid } obj.
         this.optionalGyroControls = findObjectOfType(GyroscopeControls, this.context.scene, false);
-        this.optionalOrbitalControls = findObjectOfType(OrbitControls, this.context.scene, false);
+        this.optionalOrbitalControls = findObjectOfType(OrbitControls, this.context.scene, false);   
     }
 
     update(): void {
-        if (this.enableZoom) {
+        if (this.enableZoom)
             this.handleZoom();
-        }
+    }
+
+    // @nonSerialized
+    addImage(image: string | string[] | Texture | Texture[]) {
+        const images = Array.isArray(image) ? image : [image];
+        images.forEach(img => this.addMedia(({ data: img, info: { type: "image"} }) as IPanoramaViewerMedia));
+    }
+
+    // @nonSerialized
+    addVideo(url: string | string[], isStereoVideo: boolean = false) {
+        const urls = Array.isArray(url) ? url : [url];
+        urls.forEach(url => this.addMedia(({ data: url, info: { type: "video", stereo: isStereoVideo } }) as IPanoramaViewerMedia));
+    }
+    
+    // @nonSerialized
+    addMedia(media: IPanoramaViewerMedia | IPanoramaViewerMedia[]) {
+        this.media.push(...(Array.isArray(media) ? media : [ media ]));
     }
 
     protected previousPinchDistance: number | undefined = undefined;
@@ -84,7 +111,6 @@ export class PanoramaViewer extends Behaviour {
 
         // TODO: add vr controller support - joystick
 
-
         return delta;
     }
 
@@ -115,7 +141,6 @@ export class PanoramaViewer extends Behaviour {
         const sphere = new THREE.SphereGeometry(this.panoramaSize, 128, 128);
 
         const mat = new THREE.MeshBasicMaterial();
-        /* mat.color = new THREE.Color(0, 0, 0); */
         mat.side = THREE.DoubleSide;
 
         const mesh = new THREE.Mesh(sphere, mat);
@@ -128,43 +153,84 @@ export class PanoramaViewer extends Behaviour {
 
     next() {
         this.index++;
-        if (this.index >= this.panoramas.length) {
+        if (this.index >= this.media.length) {
             this.index = 0;
         }
 
         this.apply();
     }
+
     previous() {
         this.index--;
         if (this.index < 0) {
-            this.index = this.panoramas.length - 1;
+            this.index = this.media.length - 1;
         }
 
         this.apply();
     }
+
     select(index: number) {
         this.index = index;
         this.apply();
     }
 
-    apply() {
+    async apply() {
         if (!this.panoSphere) return;
 
-        const texture = this.panoramas[this._i];
+        const media = this.media[this._i];
         const mat = this.panoSphere.material as THREE.MeshBasicMaterial;
 
-        if(texture && mat)
-            mat.map = texture;
+        if(!media || !media.data || !mat)
+            return;
+
+        // stop any video before apply
+        this.videoPlayer.stop();
+
+        // based on data type and info handle and apply texture to the material
+        if(typeof media.data == "string") {
+            if(media.info?.type === "image") {
+                const img = ImageReference.getOrCreate(media.data);
+                const texture = await img.createTexture();
+                if (texture) {
+                    texture.encoding = THREE.sRGBEncoding;
+                    texture.repeat = new THREE.Vector2(1, -1);
+                    texture.wrapT = THREE.RepeatWrapping;
+                    mat.map = texture;
+                }
+                else {
+                    console.error(`PanoramaViewer: Failed to load image: ${media.data}`)
+                }
+            }
+            else if (media.info?.type === "video") {
+                this.videoPlayer.setClipURL(media.data);
+                this.videoPlayer.isLooping = true; // TODO: add option
+                this.videoPlayer.play(); // TODO: autoplay option
+                mat.map = this.videoPlayer.videoTexture;
+            }
+            else {
+                console.warn(`PanoramaViewer: Unsupported media type: ${media.info?.type}`);
+            }
+        }
+        else if (media.data instanceof Texture) {
+            mat.map = media.data;
+        }
+        else {
+            console.warn(`PanoramaViewer: Unsupported media type! ${typeof media.data}`, media.data)
+        }
     }
 
     private isGyroEnabled = false;
-    toggleGyroControls() {
+    setGyroControls(enabled: boolean) {
         if (!this.optionalGyroControls) return;
         if (!this.optionalOrbitalControls) return;
 
+        this.optionalGyroControls.enabled = enabled;
+        this.optionalOrbitalControls.enabled = !enabled;
+    }
+    toggleGyroControls() {
         this.isGyroEnabled = !this.isGyroEnabled;
-
-        this.optionalGyroControls.enabled = this.isGyroEnabled;
-        this.optionalOrbitalControls.enabled = !this.isGyroEnabled;
+        this.setGyroControls(this.isGyroEnabled);
     }
 }
+
+

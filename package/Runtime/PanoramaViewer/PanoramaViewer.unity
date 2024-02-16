@@ -351,7 +351,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5dec1bb6a474eae9f7dd32f72251a1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Components.DeviceFlag, Needle.Engine
   VisibleOn: 2
 --- !u!1 &355179763
 GameObject:
@@ -647,19 +647,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 712103848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bef36db27702c8ff84408955eb2bad01, type: 3}
+  m_Script: {fileID: 11500000, guid: b2594ce94c6940317d1a2005ef55ce04, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PanoramaViewer,
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PanoramaViewerSample,
     Needle.Engine-Samples.Runtime
-  panoramas:
-  - {fileID: 2800000, guid: f87ca7889d9a0a2438bea91927bec309, type: 3}
-  - {fileID: 2800000, guid: 69bf8402390ddef4b8ab053bf12edeb8, type: 3}
-  - {fileID: 2800000, guid: 93ac99cdcadc8c740a8da2b2f389fecd, type: 3}
   enableZoom: 1
   zoomMin: 40
   zoomMax: 90
-  zoomSensitivity: 0.01
-  zoomSmoothing: 2
+  zoomSensitivity: 0.1
+  zoomSmoothing: 0.1
+  textures:
+  - {fileID: 2800000, guid: f87ca7889d9a0a2438bea91927bec309, type: 3}
+  - {fileID: 2800000, guid: 69bf8402390ddef4b8ab053bf12edeb8, type: 3}
+  - {fileID: 2800000, guid: 93ac99cdcadc8c740a8da2b2f389fecd, type: 3}
+  textureURLs:
+  - https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/2294472375_24a3b8ef46_o.jpg
+  videosUrls:
+  - https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/pano.mp4
 --- !u!1 &814409349
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,7 +676,7 @@ GameObject:
   - component: {fileID: 814409352}
   - component: {fileID: 814409351}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -797,7 +801,7 @@ GameObject:
   - component: {fileID: 1544207974}
   - component: {fileID: 1544207973}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1084,7 +1088,7 @@ GameObject:
   - component: {fileID: 1685672611}
   - component: {fileID: 1685672610}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
