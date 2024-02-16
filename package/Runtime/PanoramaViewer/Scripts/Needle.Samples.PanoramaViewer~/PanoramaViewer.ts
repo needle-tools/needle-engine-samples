@@ -33,11 +33,17 @@ export class PanoramaViewer extends Behaviour {
     //@nonSerialized
     panoramaSize = 100;
 
+    @serializable(Material)
+    optionalTransitionMaterial?: Material
+
+    protected defaultMaterial = new THREE.MeshBasicMaterial();
+
     protected index = 0;
     private get _i() {
         return Mathf.clamp(this.index, 0 , this.media.length - 1);
     }
     protected panoSphere?: THREE.Mesh;
+    protected panoMaterial?: Material;
 
     protected optionalGyroControls?: GyroscopeControls;
     protected optionalOrbitalControls?: OrbitControls;
@@ -52,16 +58,18 @@ export class PanoramaViewer extends Behaviour {
         this.panoSphere = this.createPanorama();
         this.gameObject.add(this.panoSphere);
 
-        this.apply();
-
         // TODO report: Can't use serialized reference or GetComponentInChildren? Results in a { guid } obj.
         this.optionalGyroControls = findObjectOfType(GyroscopeControls, this.context.scene, false);
-        this.optionalOrbitalControls = findObjectOfType(OrbitControls, this.context.scene, false);   
+        this.optionalOrbitalControls = findObjectOfType(OrbitControls, this.context.scene, false);
+
+        this.apply();
     }
 
     update(): void {
         if (this.enableZoom)
             this.handleZoom();
+
+        this.updateTextureTransition();
     }
 
     // @nonSerialized
@@ -140,7 +148,7 @@ export class PanoramaViewer extends Behaviour {
     protected createPanorama(): THREE.Mesh {
         const sphere = new THREE.SphereGeometry(this.panoramaSize, 128, 128);
 
-        const mat = new THREE.MeshBasicMaterial();
+        const mat = this.optionalTransitionMaterial ?? this.defaultMaterial;
         mat.side = THREE.DoubleSide;
 
         const mesh = new THREE.Mesh(sphere, mat);
@@ -178,13 +186,14 @@ export class PanoramaViewer extends Behaviour {
         if (!this.panoSphere) return;
 
         const media = this.media[this._i];
-        const mat = this.panoSphere.material as THREE.MeshBasicMaterial;
 
-        if(!media || !media.data || !mat)
+        if(!media || !media.data)
             return;
 
         // stop any video before apply
         this.videoPlayer.stop();
+
+        this.hasLoadedMedia = false;
 
         // based on data type and info handle and apply texture to the material
         if(typeof media.data == "string") {
@@ -195,7 +204,7 @@ export class PanoramaViewer extends Behaviour {
                     texture.encoding = THREE.sRGBEncoding;
                     texture.repeat = new THREE.Vector2(1, -1);
                     texture.wrapT = THREE.RepeatWrapping;
-                    mat.map = texture;
+                    this.setTexture(texture);
                 }
                 else {
                     console.error(`PanoramaViewer: Failed to load image: ${media.data}`)
@@ -205,17 +214,51 @@ export class PanoramaViewer extends Behaviour {
                 this.videoPlayer.setClipURL(media.data);
                 this.videoPlayer.isLooping = true; // TODO: add option
                 this.videoPlayer.play(); // TODO: autoplay option
-                mat.map = this.videoPlayer.videoTexture;
+                this.setTexture(this.videoPlayer.videoTexture);
             }
             else {
                 console.warn(`PanoramaViewer: Unsupported media type: ${media.info?.type}`);
             }
         }
         else if (media.data instanceof Texture) {
-            mat.map = media.data;
+            this.setTexture(media.data);
         }
         else {
             console.warn(`PanoramaViewer: Unsupported media type! ${typeof media.data}`, media.data)
+        }
+
+        this.hasLoadedMedia = true;
+    }
+
+    protected setTexture(texture: Texture | null) {
+        if (!texture) return;
+
+        if (this.optionalTransitionMaterial) {
+            const mat = this.optionalTransitionMaterial;
+
+            mat["_TextureA"] = mat["_TextureB"];
+            mat["_TextureB"] = texture;
+        }
+        else {
+            this.defaultMaterial.map = texture;
+        }
+    }
+
+    @serializable()
+    transitionDuration: number = 0.3;
+
+    protected transitionStartTimeStamp: number = Number.MAX_SAFE_INTEGER;
+    protected hasLoadedMedia: boolean = true;
+    protected updateTextureTransition() {
+        if (this.optionalTransitionMaterial) {
+            const time = this.context.time.time;
+            const t = Mathf.clamp01((time - this.transitionStartTimeStamp) / this.transitionDuration);
+            if (t > 0.5 && !this.hasLoadedMedia) {
+                this.transitionStartTimeStamp = time - (this.transitionDuration * 0.5); // reset the transition time to start from the middle
+            }
+
+            // TODO: when t >= 1.0, stop calling this method
+            this.optionalTransitionMaterial["_T"] = t;
         }
     }
 
