@@ -13,13 +13,16 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @zoomSensitivity = 0.1f;
 		public float @zoomSmoothing = 0.1f;
 		public UnityEngine.Material @optionalTransitionMaterial;
+		public float @transitionDuration = 0.3f;
+		public bool @autoRotate = true;
+		public float @autoRotateTimeout = 4f;
 		public void start(){}
 		public void update(){}
 		public void next(){}
 		public void previous(){}
-		public void select(float @index){}
+		public void select(float @index, bool @forceNoTransition){}
+		public objectbool @videoPlayback;
 		public void apply(){}
-		public float @transitionDuration = 0.3f;
 		public void setGyroControls(bool @enabled){}
 		public void toggleGyroControls(){}
 	}
