@@ -21,7 +21,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public void next(){}
 		public void previous(){}
 		public void select(float @index, bool @forceNoTransition){}
-		public objectbool @videoPlayback;
 		public void apply(){}
 		public void setGyroControls(bool @enabled){}
 		public void toggleGyroControls(){}

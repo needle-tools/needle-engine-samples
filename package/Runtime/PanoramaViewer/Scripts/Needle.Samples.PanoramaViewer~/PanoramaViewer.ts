@@ -2,6 +2,7 @@ import { Behaviour, ImageReference, Mathf, OrbitControls, PointerType, VideoPlay
 import { Texture, Material } from "three";
 import * as THREE from "three";
 import { GyroscopeControls } from "samples.sensors";
+import { VideoRenderMode } from "@needle-tools/engine/src/engine-components/VideoPlayer";
 
 export interface IPanoramaViewerMedia {
     data: string | Texture;
@@ -54,9 +55,10 @@ export class PanoramaViewer extends Behaviour {
     // @nonSerialized
     currentMedia?: IPanoramaViewerMedia;
 
-    protected index = 0;
-    private get _i() {
-        return Mathf.clamp(this.index, 0 , this.media.length - 1);
+    protected _i = 0;
+    // @nonSerialized
+    get index() {
+        return Mathf.clamp(this._i, 0 , this.media.length - 1);
     }
     protected panoSphere?: THREE.Mesh;
     protected panoMaterial?: Material;
@@ -68,6 +70,7 @@ export class PanoramaViewer extends Behaviour {
     // @nonSerialized
     get videoPlayer(): VideoPlayer {
         this._videoPlayer ??= this.gameObject.addNewComponent(VideoPlayer)!;
+        this._videoPlayer["renderMode"] = VideoRenderMode.RenderTexture;
         return this._videoPlayer;
     }
 
@@ -185,25 +188,25 @@ export class PanoramaViewer extends Behaviour {
     }
 
     next() {
-        this.index++;
-        if (this.index >= this.media.length) {
-            this.index = 0;
+        this._i++;
+        if (this._i >= this.media.length) {
+            this._i = 0;
         }
 
-        this.select(this.index);
+        this.select(this._i);
     }
 
     previous() {
-        this.index--;
-        if (this.index < 0) {
-            this.index = this.media.length - 1;
+        this._i--;
+        if (this._i < 0) {
+            this._i = this.media.length - 1;
         }
 
-        this.select(this.index);
+        this.select(this._i);
     }
 
     select(index: number, forceNoTransition: boolean = false) {
-        this.index = index;
+        this._i = index;
         this.transitionStartTimeStamp = this.context.time.time;
 
         // enable transition if not forced or nothing was displayed before
@@ -218,21 +221,23 @@ export class PanoramaViewer extends Behaviour {
         this.dispatchEvent(new Event("select"));
     }
 
+    // @nonSerialized
     set videoPlayback(pause: boolean) {
         if(this.currentMedia?.info?.type === "video") {
             if(pause)
-                this.videoPlayer.pause();
-            else
                 this.videoPlayer.play();
+            else
+                this.videoPlayer.pause();
         }
     }
+    // @nonSerialized
     get videoPlayback(): boolean { 
         return this.currentMedia?.info?.type === "video" && this.videoPlayer.isPlaying;
     }
 
     protected hasAppliedBefore: boolean = false;
     async apply() {
-        const media = this.media[this._i];
+        const media = this.media[this.index];
 
         if(!media || !media.data) {
             console.error("invalid media", media);
@@ -344,7 +349,8 @@ export class PanoramaViewer extends Behaviour {
         this.optionalTransitionMaterial["_T"] = transition;
     }
 
-    private isGyroEnabled = false;
+    // @nonSerialized
+    isGyroEnabled = false;
     setGyroControls(enabled: boolean) {
         if (!this.optionalGyroControls) return;
         if (!this.optionalOrbitalControls) return;
