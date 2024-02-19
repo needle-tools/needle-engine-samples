@@ -4,6 +4,14 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.15.0] - 2024-02-19
+- add Bow & Arrow sample
+- add Navmesh sample
+- fix DeviceSensor gyroscope control to work in all screen orientations
+- replace old UI sprites in the Hotspot sample 
+- improve gun input in the Shooting range sample
+- add tsc compile test
+
 ## [0.14.0] - 2024-01-30
 - add Depth Sensing sample
 - add Transmission sample
