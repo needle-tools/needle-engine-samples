@@ -1,3 +1,7 @@
+#if !UNITY_2022_1_OR_NEWER || HAS_NAVMESH_PACKAGE
+#define NAVMESH
+#endif
+
 // NEEDLE_CODEGEN_START
 // auto generated code - do not edit directly
 
@@ -22,50 +26,51 @@ namespace Needle.Typescript.GeneratedComponents
 
         UnityEngine.Mesh GetMesh()
         {
-            UnityEngine.AI.NavMeshTriangulation oldMesh = UnityEngine.AI.NavMesh.CalculateTriangulation();
-
-            var anyData = oldMesh.vertices.Length > 1;
-
-#if UNITY_EDITOR
+#if UNITY_EDITOR && NAVMESH
             if (bakeNavmeshOnExport)
             {
                 print("Baking <b><color=#0AA5C0>Nav Mesh</color></b> on export.");
                 UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
             }
 #endif
+#if NAVMESH
             UnityEngine.AI.NavMeshTriangulation newMesh = UnityEngine.AI.NavMesh.CalculateTriangulation();
-
-            //bool hasChanged = false;
-            //if (oldMesh.vertices.Length != newMesh.vertices.Length)
-            //    hasChanged = true;
-            //else
-            //{
-            //    for (int i = 0; i < oldMesh.vertices.Length; i++)
-            //    {
-            //        var a = oldMesh.vertices[i];
-            //        var b = newMesh.vertices[i];
-            //
-            //        if (!VectorsApproximatelyEquel(a, b))
-            //        {
-            //            hasChanged = true;
-            //            break;
-            //        }
-            //    }
-            //}
+#endif
 
             var mesh = new UnityEngine.Mesh();
+#if NAVMESH
             mesh.name = "ExportedNavMesh";
             mesh.vertices = newMesh.vertices;
             mesh.triangles = newMesh.indices;
-
+#endif
             return mesh;
         }
-
-        //bool VectorsApproximatelyEquel(UnityEngine.Vector3 a, UnityEngine.Vector3 b)
-        //{
-        //    return UnityEngine.Mathf.Approximately(a.x, b.x) &&
-        //           UnityEngine.Mathf.Approximately(a.y, b.y) &&
-        //           UnityEngine.Mathf.Approximately(a.z, b.z);
-        //}
     }
 }
+
+#if UNITY_EDITOR
+namespace Needle.Typescript.GeneratedComponents
+{
+    [UnityEditor.CustomEditor(typeof(Navmesh)), UnityEditor.CanEditMultipleObjects]
+    public class NavmeshEditor : UnityEditor.Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+#if !NAVMESH
+            UnityEditor.EditorGUILayout.HelpBox("Please install the Navigation Unity package.", UnityEditor.MessageType.Error);
+            if(UnityEngine.GUILayout.Button("Open Package Manager"))
+            {
+                UnityEditor.PackageManager.UI.Window.Open("com.unity.ai.navigation");
+            }
+#else
+            if (UnityEngine.GUILayout.Button("Open Navigation Baker"))
+            {
+                UnityEditor.EditorApplication.ExecuteMenuItem("Window/AI/Navigation");
+            }
+#endif
+        }
+    }
+}
+#endif

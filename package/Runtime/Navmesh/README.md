@@ -23,3 +23,6 @@ Please refer to the `three-pathfinding` package for more information.
 ## Debuging
 
 add `?debugnavmesh` to your url to display the navmesh to better understand what is going on. 
+
+# Unity Navigation package notice
+From 2022 onwards Unity has moved the Navmesh to a dedicated package. Make sure to have `com.unity.ai.navigation` in your project.
