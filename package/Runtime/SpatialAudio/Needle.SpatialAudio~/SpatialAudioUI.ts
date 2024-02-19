@@ -216,6 +216,7 @@ export class SpatialAudioUI extends Behaviour {
         let closest: OrbitControlsView | null = null;
         let closestDistance = Infinity;
         for (const centerPoint of this.centerPoints) {
+            if (!centerPoint?.gameObject) continue;
             const centerPointPos = getWorldPosition(centerPoint.gameObject);
             const distance = centerPointPos.distanceTo(this.camPos);
             if (distance < closestDistance) {

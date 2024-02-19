@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7321616, g: 0.7321616, b: 0.7321616, a: 1}
+  m_IndirectSpecularColor: {r: 0.73215485, g: 0.73215485, b: 0.73215485, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1235,9 +1235,9 @@ GameObject:
   - component: {fileID: 1288175245}
   - component: {fileID: 1288175244}
   - component: {fileID: 1288175250}
+  - component: {fileID: 1288175247}
   - component: {fileID: 1288175246}
   - component: {fileID: 1288175248}
-  - component: {fileID: 1288175247}
   - component: {fileID: 1288175249}
   m_Layer: 0
   m_Name: USDZ Product
@@ -1296,7 +1296,7 @@ MonoBehaviour:
     GlobalObjectId_V1-2-ce875773ed6007c46a18dbf0d81e686e-1288175246-0
   objectToExport: {fileID: 1325293663}
   allowCreateQuicklookButton: 1
-  autoExportAnimations: 0
+  autoExportAnimations: 1
   interactive: 1
   customBranding:
     CheckoutTitle: 
@@ -1388,6 +1388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1325293663}
+  - component: {fileID: 1325293664}
   m_Layer: 0
   m_Name: Scene
   m_TagString: Untagged
@@ -1412,6 +1413,25 @@ Transform:
   m_Father: {fileID: 1288175245}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1325293664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325293662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 5
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
+  showGizmo: 0
 --- !u!1001 &1372757297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1917,6 +1937,7 @@ GameObject:
   - component: {fileID: 1883279411}
   - component: {fileID: 1883279414}
   - component: {fileID: 1883279415}
+  - component: {fileID: 1883279416}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -2004,6 +2025,19 @@ MonoBehaviour:
     title: QuickLook Configurator
     description: Configure your product in quicklook
     image: {fileID: 2800000, guid: cb878c8645ddb864f9eaead148546e9a, type: 3}
+--- !u!114 &1883279416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883279410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004aa0d8fd504f24b2e499a972c59f33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.NeedleEngineModules, Needle.Engine.Common
+  PhysicsEngine: 0
 --- !u!1 &1886932072
 GameObject:
   m_ObjectHideFlags: 0
