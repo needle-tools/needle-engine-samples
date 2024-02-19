@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.89167345, g: 0.8397932, b: 0.7978974, a: 1}
+  m_IndirectSpecularColor: {r: 0.8916435, g: 0.83977634, b: 0.7979026, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: 923794623}
   - component: {fileID: 923794626}
   - component: {fileID: 923794627}
+  - component: {fileID: 923794628}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -786,6 +787,19 @@ MonoBehaviour:
     title: Musical Instrument
     description: Play audio and animation on click interactions
     image: {fileID: 2800000, guid: 39236189401264c4ba87310982bec896, type: 3}
+--- !u!114 &923794628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923794622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004aa0d8fd504f24b2e499a972c59f33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.NeedleEngineModules, Needle.Engine.Common
+  PhysicsEngine: 0
 --- !u!1 &1125787646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,7 +1153,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408803974}
-  m_LocalRotation: {x: -0, y: 0.82919097, z: -0.5589653, w: 0}
+  m_LocalRotation: {x: -0, y: 0.82919115, z: -0.5589652, w: 0}
   m_LocalPosition: {x: 0, y: 2.229, z: 0.902}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1353,8 +1367,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2084322108}
   - component: {fileID: 2084322107}
-  - component: {fileID: 2084322109}
   - component: {fileID: 2084322110}
+  - component: {fileID: 2084322109}
   - component: {fileID: 2084322111}
   - component: {fileID: 2084322112}
   m_Layer: 0
@@ -1484,7 +1498,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-1ff470193d6411f4a9532cd61b595e4b-2084322112-0
   arScale: 1
-  invertForward: 1
+  invertForward: 0
+  customReticle: {fileID: 0}
   arTouchTransform: 0
   useXRAnchor: 0
 --- !u!1001 &2571336371639650129
