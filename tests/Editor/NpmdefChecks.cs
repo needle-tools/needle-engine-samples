@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Needle.Engine;
 using Needle.Engine.Utils;
 using NUnit.Framework;
@@ -10,6 +11,35 @@ using UnityEngine;
 
 internal class NpmdefChecks
 {
+	[Test]
+	// [Category(RobustnessCategoryName)]
+	public async Task AllCompile()
+	{
+		var npmdefObjects = AssetDatabase.FindAssets("t:NpmdefObject");
+		Debug.Assert(npmdefObjects.Length > 0, "No npmdef objects found");
+		for (var index = 0; index < npmdefObjects.Length; index++)
+		{
+			var guid = npmdefObjects[index];
+			var path = AssetDatabase.GUIDToAssetPath(guid);
+			var fileInfo = new FileInfo(path);
+			var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
+			var hiddenPackagePath = fileInfo.Directory?.FullName + "/" +
+			                        Path.GetFileNameWithoutExtension(fileInfo.Name) + "~";
+			if (Directory.Exists(hiddenPackagePath))
+			{
+				// Debug.Log("Install " + hiddenPackagePath);
+				// Assert.IsTrue(await ProcessHelper.RunCommand("npm install", hiddenPackagePath));
+				Debug.Log("------------------");
+				Debug.Log($"<b>Compiling ({index}/{npmdefObjects.Length})</b> - {hiddenPackagePath}", asset);
+				var res = await Actions.TryCompileTypescript(hiddenPackagePath);
+				if (!res) Debug.LogError("Failed to compile " + hiddenPackagePath, asset);
+			}
+			else Debug.LogWarning($"Could not find npmdef package path for {path} at {hiddenPackagePath}", asset);
+		}
+
+		Debug.Log("Finished npmdef compile");
+	}
+	
 	[Test]
 	public void InvalidImportPath()
 	{
