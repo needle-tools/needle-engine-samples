@@ -245,14 +245,18 @@ gaussian_splatting = {
 
 		fetch(src)
 		.then(async (data) => {
-			const reader = data.body.getReader();
+			const reader = data.body?.getReader();
+			if(!reader) {
+				console.error("Failed to get reader");
+				return;
+			}
 
 			let bytesDownloaded = 0;
 			let bytesProcesses = 0;
 			let _totalDownloadBytes = data.headers.get("Content-Length");
 			let totalDownloadBytes = _totalDownloadBytes ? parseInt(_totalDownloadBytes) : undefined;
 			
-			const chunks = [];
+			const chunks = new Array<Uint8Array>();
 			const start = Date.now();
 			let lastReportedProgress = 0;
 			let isPly = src.endsWith(".ply");
@@ -486,7 +490,8 @@ gaussian_splatting = {
 		return mtx;
 	},
 	createWorker: function (self) {
-		let matrices = undefined;
+		let matrices : undefined | Float32Array = undefined;
+		let resized : undefined | Float32Array = undefined;
 
 		// see https://github.com/mrdoob/three.js/blob/master/src/math/Vector3.js#L237-L250
 		const multiplyMatrix4WithVector3 = function multiplyMatrix4WithVector3(e, x, y, z){
