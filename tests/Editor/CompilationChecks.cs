@@ -58,11 +58,12 @@ namespace Compilation
 
         static internal List<BundleData> GetModules()
         {
-            var paths = AssetDatabase.FindAssets("t:npmdefobject");
-
-            return paths.Select(guid => AssetDatabase.GUIDToAssetPath(guid))
+            return AssetDatabase.FindAssets("t:npmdefobject")
+                .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
+                .Where(path => path.Contains("com.needle.engine-samples"))
                 .Select(path => 
-                { 
+                {
+                    UnityEngine.Debug.Log(path);
                     Bundle.TryGetFromPath(path, out var bundle); 
                     return bundle; 
                 })
