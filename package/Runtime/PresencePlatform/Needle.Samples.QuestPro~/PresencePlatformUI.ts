@@ -1,11 +1,11 @@
-import { Behaviour, GameObject, WebXR } from "@needle-tools/engine";
+import { Behaviour, GameObject, NeedleWebXRHtmlElement, NeedleXRSession, WebXR } from "@needle-tools/engine";
 import { isQuest } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 
 export class PresencePlatformUI extends Behaviour {
 
-    start() {
+    async start() {
 
         const div = this.context.domElement.shadowRoot!.querySelector(".webxr-buttons") as HTMLElement;
         if (!div) {
@@ -24,11 +24,12 @@ export class PresencePlatformUI extends Behaviour {
 
         const xr = GameObject.findObjectOfType(WebXR)!;
 
-        const haveAR = WebXR.IsARSupported;
-        const haveVR = WebXR.IsVRSupported;
+        const haveAR = await NeedleXRSession.isARSupported();
+        const haveVR = await NeedleXRSession.isVRSupported();
 
-        const startAR = WebXR.createARButton(xr);
-        const startVR = WebXR.createVRButton(xr);
+        const container = NeedleWebXRHtmlElement.getOrCreate(this.context);
+        const startAR = container.createARButton();
+        const startVR = container.createVRButton();
 
         const arButton = document.createElement("button")!;
         if (isQuest())

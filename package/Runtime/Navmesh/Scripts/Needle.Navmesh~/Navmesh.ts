@@ -171,7 +171,7 @@ export class Navmesh extends Behaviour {
 
     // @nonSerialized
     @serializable(Mesh)
-    navMesh: Mesh;
+    navMesh!: Mesh;
 
     awake(): void {
         if (!this.navMesh) {
@@ -192,7 +192,7 @@ export class Navmesh extends Behaviour {
     private createDebugMesh(color: Color, alpha: number, wireframe: boolean): Mesh {
         // setup
         const parent = this.context.scene.children[0];
-        const clonedMesh = this.navMesh.clone();
+        const clonedMesh = this.navMesh?.clone() || new Mesh();
         parent.add(clonedMesh);
 
         // transform
@@ -208,7 +208,6 @@ export class Navmesh extends Behaviour {
         mat.color = color;
         
         clonedMesh.material = mat;
-
 
         return clonedMesh;
     }

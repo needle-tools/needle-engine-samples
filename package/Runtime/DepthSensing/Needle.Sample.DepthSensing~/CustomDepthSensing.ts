@@ -10,6 +10,7 @@ export class CustomDepthSensing extends Behaviour {
         this.context.renderer.toneMapping = AgXToneMapping;
 
         // Patch three.js shader chunks responsible for depth sensing.
+        // @ts-ignore
         ShaderChunk.occlusion_fragment = ShaderChunk.occlusion_fragment.replace(
             // the line we're replacing – this just takes the existing occlusion value and fades objects out.
             `gl_FragColor *= 1.0 - occlusion;`,

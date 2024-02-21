@@ -1,14 +1,14 @@
 import { Behaviour, GameObject, OrbitControls, serializable } from "@needle-tools/engine";
 import { getWorldPosition } from "@needle-tools/engine";
 import { latLongToVector3 as latLongToNormalized } from "./MapView";
-import { Vector3, Shape, ShapeGeometry, MeshBasicMaterial, Mesh, DoubleSide, CircleGeometry } from "three";
+import { Vector3, Shape, ShapeGeometry, MeshBasicMaterial, Mesh, DoubleSide, CircleGeometry, Camera } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
 export class MapLocator extends Behaviour {
 
-    private element: HTMLElement;
-    private styleElement: HTMLStyleElement;
+    private element?: HTMLElement;
+    private styleElement?: HTMLStyleElement;
 
     private template() {
         return /*html*/`
@@ -66,11 +66,11 @@ export class MapLocator extends Behaviour {
     }
 
     onDisable(): void {
-        this.element.remove();
-        this.styleElement.remove();
+        this.element?.remove();
+        this.styleElement?.remove();
     }
 
-    private lastMesh: Mesh;
+    private lastMesh?: Mesh;
     async searchLocation(evt) {
         // prevent page change from form submission
         evt.preventDefault();
@@ -81,7 +81,7 @@ export class MapLocator extends Behaviour {
             this.currentWatchId = undefined;
         }
 
-        const query = (this.element.querySelector("#searchInfo") as HTMLInputElement).value;
+        const query = (this.element?.querySelector("#searchInfo") as HTMLInputElement).value;
         if (!query) return;
 
         // get next closest residential area from openstreetmap
@@ -107,7 +107,7 @@ export class MapLocator extends Behaviour {
 
         this.gameObject.position.copy(converted);
         
-        let geometry = undefined;
+        let geometry: ShapeGeometry | undefined = undefined;
         if (result.geojson.type === "Polygon") {
             // turn the returned polygon into a three.js polygon
             const polygon = new Shape();
@@ -128,7 +128,7 @@ export class MapLocator extends Behaviour {
             geometry = new ShapeGeometry(polygon);
         }
         else {
-            geometry = new CircleGeometry(0.0001 * 10, 32);
+            geometry = new CircleGeometry(0.0001 * 10, 32) as unknown as ShapeGeometry;
         }
         
         const material = new MeshBasicMaterial({ color: 0x0000ff, side: DoubleSide, opacity: 0.1, transparent: true });
@@ -142,8 +142,9 @@ export class MapLocator extends Behaviour {
         this.gameObject.parent!.add(mesh);
         if (this.lastMesh) {
             this.lastMesh.geometry.dispose();
+            //@ts-ignore
             this.lastMesh.material.dispose();
-            this.lastMesh.parent.remove(this.lastMesh);
+            this.lastMesh.parent?.remove(this.lastMesh);
         }
         this.lastMesh = mesh;
 
@@ -232,7 +233,7 @@ export class MapLocator extends Behaviour {
 
     private cameraWp = new Vector3(); 
     private objectWp = new Vector3();
-    onBeforeRender(frame: XRFrame | null): void {
+    onBeforeRender(): void {
         // calculate distance to camera
         const camera = this.context.mainCamera! as Camera;
         getWorldPosition(camera, this.cameraWp);
@@ -242,7 +243,9 @@ export class MapLocator extends Behaviour {
         const scale = distance * 0.01;
         this.gameObject.scale.set(scale, scale, scale);
 
+        //@ts-ignore
         camera.near = 0.0001 * distance;
+        //@ts-ignore
         camera.far = 1000 * distance;
     }
 }

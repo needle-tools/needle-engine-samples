@@ -6,18 +6,18 @@ import { Euler, MathUtils, Quaternion, Vector3 } from "three";
 export class PencilData extends Behaviour {
 
     @serializable(GameObject)
-    moveable: GameObject;
+    moveable?: GameObject;
 
     private pointerDown;
     private pointerMove;
     private pointerUp;
 
-    private orbit: OrbitControls;
+    private orbit?: OrbitControls;
     
     start() {
-        this.pointerDown = this.onPointerDown.bind(this);
-        this.pointerMove = this.onPointerMove.bind(this);
-        this.pointerUp = this.onPointerUp.bind(this);
+        this.pointerDown = this._onPointerDown.bind(this);
+        this.pointerMove = this._onPointerMove.bind(this);
+        this.pointerUp = this._onPointerUp.bind(this);
 
         document.addEventListener("pointerdown", this.pointerDown);
         document.addEventListener("pointermove", this.pointerMove);
@@ -31,15 +31,17 @@ export class PencilData extends Behaviour {
         getWorldQuaternion(this.gameObject, this._wr);
     }
 
-    onPointerDown(event: PointerEvent) {
+    _onPointerDown(event: PointerEvent) {
         if (event.pointerType === "pen") {
-            this.orbit.enabled = false;
+            if (this.orbit)
+                this.orbit.enabled = false;
         }
     }      
 
-    onPointerUp(event: PointerEvent) {
+    _onPointerUp(event: PointerEvent) {
         if (event.pointerType === "pen") {
-            this.orbit.enabled = true;
+            if (this.orbit)
+                this.orbit.enabled = true;
         }
     } 
 
@@ -48,7 +50,7 @@ export class PencilData extends Behaviour {
     _pressure = 0;
 
     _rotationOffset = new Quaternion().setFromEuler(new Euler(MathUtils.degToRad(90), MathUtils.degToRad(180), 0));
-    onPointerMove(event: PointerEvent) {
+    _onPointerMove(event: PointerEvent) {
         // is this a pen?
         if (event.pointerType !== "pen") return;
 
@@ -73,7 +75,7 @@ export class PencilData extends Behaviour {
         this._wp.copy(vector);
 
         // set orbit center
-        this.orbit.setTarget(vector);
+        this.orbit?.setCameraTargetPosition(vector);
     }
     
     lateUpdate() {

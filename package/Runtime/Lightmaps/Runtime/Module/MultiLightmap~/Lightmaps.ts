@@ -1,4 +1,4 @@
-import { Context, ContextRegistry, Interactable, SyncedTransform, delay, syncField } from "@needle-tools/engine";
+import { Context, ContextRegistry, SyncedTransform, delay, syncField } from "@needle-tools/engine";
 import { Behaviour, GameObject } from "@needle-tools/engine";
 import { Renderer } from "@needle-tools/engine";
 import { IPointerClickHandler } from "@needle-tools/engine";
@@ -7,7 +7,7 @@ import { RoomEvents } from "@needle-tools/engine";
 import { serializeable } from "@needle-tools/engine";
 import { Texture, Vector3, Quaternion } from "three";
 
-export class LightSwitch extends Interactable implements IPointerClickHandler {
+export class LightSwitch extends Behaviour implements IPointerClickHandler {
 
     private _lightmap?: LightmapConfigurations;
 

@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class FadeOnProximity : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform @target;
+		public UnityEngine.GameObject @target;
 		public float @distance = 0.5f;
 		public float @fadeDuration = 1f;
 		public bool @targetState = true;

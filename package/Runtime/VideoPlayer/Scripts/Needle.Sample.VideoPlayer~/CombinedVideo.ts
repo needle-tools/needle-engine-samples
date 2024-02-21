@@ -1,5 +1,4 @@
-import { Behaviour, FrameEvent, GameObject, Renderer, VideoPlayer, serializable } from "@needle-tools/engine";
-import { NoColorSpace } from "three";
+import { Behaviour, Renderer, VideoPlayer, serializable } from "@needle-tools/engine";
 
 export class CombinedVideo extends Behaviour {
 

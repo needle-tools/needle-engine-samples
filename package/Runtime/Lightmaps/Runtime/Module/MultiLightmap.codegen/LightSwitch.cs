@@ -5,7 +5,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class LightSwitch : Needle.Engine.Components.Interactable
+	public partial class LightSwitch : UnityEngine.MonoBehaviour
 	{
 		public void awake(){}
 		public void onPointerClick(){}

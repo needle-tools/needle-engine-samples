@@ -6,7 +6,7 @@ class MeshData {
     pose: Matrix4;
     geometry: BufferGeometry;
     material: Material;
-    version: number;
+    version?: number;
 }
 
 const version = 3;
@@ -34,11 +34,11 @@ export class NetworkedQuads extends Behaviour {
         this.geometry = this.geometry.filter(x => x.version === version);
     }
 
-    private onNewQuads(newQuads, oldQuads) {
+    private onNewQuads(newQuads) {
         console.warn("new quads", newQuads);
     }
 
-    private onNewGeometry(newGeometry, oldGeometry) {
+    private onNewGeometry(newGeometry) {
         console.log("new geometry", this.guid, newGeometry);
 
         // add mesh to scene

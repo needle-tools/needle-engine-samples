@@ -1,9 +1,9 @@
 import { getParam } from "@needle-tools/engine";
 import { EventDispatcher } from "three";
 
-const _changeEvent = { type: 'change' };
+/* const _changeEvent = { type: 'change' };
 const _lockEvent = { type: 'lock' };
-const _unlockEvent = { type: 'unlock' };
+const _unlockEvent = { type: 'unlock' }; */
 
 // https://github.com/mrdoob/three.js/blob/master/examples/jsm/controls/PointerLockControls.js
 // TODO: is it a good practice to maintain it's own version of PointerLock? Since we are only interested in the locking.
@@ -13,7 +13,7 @@ const _unlockEvent = { type: 'unlock' };
 var debug = getParam("pointerlockdebug");
 
 // @dont-generate-component
-export class PointerLock extends EventDispatcher {
+export class PointerLock extends EventDispatcher<({type: string})> {
 
     domElement: HTMLElement;
 
@@ -89,19 +89,19 @@ export class PointerLock extends EventDispatcher {
         if (PointerLock.IsLocked === false)
 			return;
     
-        this.dispatchEvent( _changeEvent );
+		//this.dispatchEvent(_changeEvent);
     }
     
     onPointerlockChange() {
     
         if (this.domElement.ownerDocument.pointerLockElement === this.domElement) {
     
-            this.dispatchEvent(_lockEvent);
+            //this.dispatchEvent(_lockEvent);
             PointerLock.IsLocked = true;
         } 
 		else {
     
-            this.dispatchEvent(_unlockEvent);
+            //this.dispatchEvent(_unlockEvent);
             PointerLock.IsLocked = false;
         }
     }

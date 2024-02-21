@@ -1,7 +1,7 @@
 import { Behaviour, GameObject, USDZExporter, isQuest, serializable } from "@needle-tools/engine";
 import { Context } from "@needle-tools/engine";
 import { isiOS, isMobileDevice } from "@needle-tools/engine";
-import { Object, ShaderMaterial, Vector2, Color, Mesh, BufferGeometry } from "three"
+import { Object3D, ShaderMaterial, Vector2, Color, Mesh, BufferGeometry } from "three"
 //@ts-ignore
 import { shaderIntersectFunction } from "three-mesh-bvh";
 import { shaderStructs, MeshBVHUniformStruct, MeshBVH, SAH } from "three-mesh-bvh";
@@ -20,19 +20,21 @@ export class Diamond extends Behaviour {
 		if (usdzExporter) {
 			usdzExporter.addEventListener("before-export", () => {
 				if (!this.original || !this.customDiamond) return;
-				this.customDiamond.parent.add(this.original);
-				this.customDiamond.parent.remove(this.customDiamond);
+				this.customDiamond.parent?.add(this.original);
+				this.customDiamond.parent?.remove(this.customDiamond);
 			});
 			usdzExporter.addEventListener("after-export", () => {
 				if (!this.original || !this.customDiamond) return;
-				this.original.parent.add(this.customDiamond);
-				this.original.parent.remove(this.original);
+				this.original.parent?.add(this.customDiamond);
+				this.original.parent?.remove(this.original);
 			});
 		}
 
         if (this.disableOnMobile && Diamond.isMobile()) return;
 
 		const obj = Diamond.create(this.context, this.gameObject);
+		if (!obj) return;
+
 		const parent = this.gameObject.parent;
 		this.original = this.gameObject;
 		this.customDiamond = obj;
@@ -51,11 +53,11 @@ export class Diamond extends Behaviour {
 	private static _diamondMaterial: ShaderMaterial | undefined;
 	private static _mesh: Map<BufferGeometry, MeshBVH> = new Map();
 
-	private original: Object;
-	private customDiamond: Object;
+	private original?: Object3D;
+	private customDiamond?: Object3D;
 
 	//@nonSerialized
-	static create(context: Context, obj: Object): Object {
+	static create(context: Context, obj: Object3D): Object3D | undefined {
         console.log(obj, obj.type)
 		if (obj.type === "Mesh") {
 			let mesh = obj as Mesh;
@@ -81,6 +83,8 @@ export class Diamond extends Behaviour {
                 return this.create(context, ch);
             }
         }
+
+		return undefined;
 	}
 
     // Diamond custom shader. Could also switch to https://github.com/pmndrs/drei/blob/master/src/core/MeshRefractionMaterial.tsx
