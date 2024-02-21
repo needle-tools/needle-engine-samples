@@ -468,7 +468,7 @@ namespace SampleChecks
             });
         }
 
-        /*[Test]
+        [Test]
         [Category(RobustnessCategoryName)]
         public async Task TypescriptCompiles()
         {
@@ -493,6 +493,6 @@ namespace SampleChecks
             Debug.Log($"Compiling {path}");
 
             Assert.IsTrue(await Actions.TryCompileTypescript(path));
-        }*/
+        }
     }
 }
