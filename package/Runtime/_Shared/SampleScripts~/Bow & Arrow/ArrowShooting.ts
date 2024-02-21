@@ -1,5 +1,5 @@
 import { AssetReference, AudioSource, Behaviour, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, XRControllerFollow, delay, delayForFrames, getParam, getTempQuaternion, getTempVector, isQuest, lookAtInverse, serializable } from "@needle-tools/engine";
-import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Vector3 } from "three";
+import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Vector3, Quaternion } from "three";
 
 
 const debug = getParam("debugarrow");
@@ -16,6 +16,9 @@ export class ArrowShooting extends Behaviour {
     awake(): void {
         if (this.arrowPrefab?.asset) {
             this.arrowPrefab.asset.visible = false;
+        }
+        if (this.bowObject) {
+            this._initRot.copy(this.bowObject.quaternion);
         }
     }
 
@@ -103,6 +106,7 @@ export class ArrowShooting extends Behaviour {
     @serializable(Object3D)
     bowObject?: GameObject;
 
+    private _initRot: Quaternion = new Quaternion();
     private _mixer?: AnimationMixer;
     private _animation!: AnimationAction;
 
@@ -122,7 +126,7 @@ export class ArrowShooting extends Behaviour {
             let dir = getTempVector(holdingBow.rayWorldPosition).sub(holdingString.rayWorldPosition)
 
             const lookRotation = getTempQuaternion().setFromUnitVectors(getTempVector(0, 0, 1), dir.normalize());
-            this.bowObject.worldQuaternion = lookRotation;
+            this.bowObject.worldQuaternion = lookRotation.multiply(this._initRot);
 
             const dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
             this._animation.timeScale = 0;
