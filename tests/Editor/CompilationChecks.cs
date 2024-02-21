@@ -63,7 +63,6 @@ namespace Compilation
                 .Where(path => path.Contains("com.needle.engine-samples"))
                 .Select(path => 
                 {
-                    UnityEngine.Debug.Log(path);
                     Bundle.TryGetFromPath(path, out var bundle); 
                     return bundle; 
                 })
