@@ -84,8 +84,6 @@ namespace Compilation
                 .Select(x => new WebProjectData(x))
                 .ToList();
 
-            UnityEngine.Debug.Log(string.Join(", ", a));
-
             return a;
         }
     }
@@ -116,8 +114,10 @@ namespace Compilation
         [Test]
         public async Task Compiles()
         {
+            var path = bundle.PackageFilePath;
+            path = Path.GetDirectoryName(path);
             Assert.IsTrue(await bundle.RunInstall(), $"Failed to install: {bundle.Name}");
-            Assert.IsTrue(await Actions.TryCompileTypescript(bundle.localPath), "Typescript compilation failed:\n");
+            Assert.IsTrue(await Actions.TryCompileTypescript(path), "Typescript compilation failed:\n");
         }
     }
 
