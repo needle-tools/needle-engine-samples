@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - replace old UI sprites in the Hotspot sample 
 - improve gun input in the Shooting range sample
 - add tsc compile test
+- release USDZ Color Menu
 
 ## [0.14.0] - 2024-01-30
 - add Depth Sensing sample
