@@ -7,8 +7,8 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class ClickToSplit : UnityEngine.MonoBehaviour
 	{
-		public void onPointerEnter(UnityEngine.EventSystems.PointerEventData @args){}
-		public void onPointerExit(UnityEngine.EventSystems.PointerEventData @args){}
+		public void onPointerEnter(){}
+		public void onPointerExit(){}
 		public void onPointerClick(UnityEngine.EventSystems.PointerEventData @args){}
 	}
 }

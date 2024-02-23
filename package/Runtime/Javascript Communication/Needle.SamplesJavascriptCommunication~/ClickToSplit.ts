@@ -3,10 +3,10 @@ import { Behaviour, GameObject, IPointerClickHandler, Mathf, PointerEventData, R
 
 export class ClickToSplit extends Behaviour implements IPointerClickHandler {
 
-    onPointerEnter(args: PointerEventData) {
+    onPointerEnter() {
         this.context.input.setCursorPointer();
     }
-    onPointerExit(args: PointerEventData) {
+    onPointerExit() {
         this.context.input.setCursorNormal();
     }
 
