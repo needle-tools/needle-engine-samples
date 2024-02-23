@@ -8,7 +8,7 @@ import { Matrix4, MeshStandardMaterial, Object3D, Vector3 } from "three";
 export class FadeOnProximity extends Behaviour implements UsdzBehaviour {
 
     @serializable(Object3D)
-    target: Object3D;
+    target?: Object3D;
 
     @serializable()
     distance: number = 0.5;
@@ -24,10 +24,8 @@ export class FadeOnProximity extends Behaviour implements UsdzBehaviour {
     
     createBehaviours(ext, model, _context) {
         if (model.uuid === this.gameObject.uuid) {
-            
-            const targetObj = this.target ? this.target : this.gameObject;
+            const targetObj = this.target ?? this.gameObject;
 
-            
             if (this.hideOnStart) {
                 ext.addBehavior(new BehaviorModel("SetActiveOnProximity_active_" + this.gameObject.name,
                     TriggerBuilder.sceneStartTrigger(),

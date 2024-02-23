@@ -63,9 +63,13 @@ export class SidescrollerInfo extends Behaviour {
                 }
             }
             else if ("webkitFullscreenElement" in document) {
+                const document = globalThis.document;
+                //@ts-ignore
                 if (document.webkitFullscreenElement) {
+                    //@ts-ignore
                     document.webkitExitFullscreen();
                 } else {
+                    //@ts-ignore
                     document.body.webkitRequestFullscreen();
                     removeInfo();
                 }

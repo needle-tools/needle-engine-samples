@@ -10,6 +10,7 @@ export class CanvasToObject extends Behaviour {
 
     start() {
         const canvas = document.querySelector("canvas.p5Canvas");
+        if (!canvas) return;
         const tex = new CanvasTexture(canvas);
         this._canvasTexture = tex;
 

@@ -11,7 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public void OnDisable(){}
 		public void searchLocation(object @evt){}
 		public void geoFindMe(){}
-		public void onBeforeRender(object @frame){}
+		public void onBeforeRender(){}
 	}
 }
 

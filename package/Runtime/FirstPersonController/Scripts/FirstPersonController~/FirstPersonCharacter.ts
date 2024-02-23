@@ -126,7 +126,7 @@ export class FirstPersonController extends Behaviour {
     gamePadConnFn: any = null;
     gamePadDisconnFn: any = null;
     protected registerInput() {
-        this.pointerMoveFn ??= this.onPointerMove.bind(this);
+        this.pointerMoveFn ??= this._onPointerMove.bind(this);
         this.gamePadConnFn ??= this.onGamepadConnected.bind(this);
         this.gamePadDisconnFn ??= this.onGamepadDisconnected.bind(this);
 
@@ -313,7 +313,7 @@ export class FirstPersonController extends Behaviour {
         return input;
     }
 
-    protected onPointerMove(ptr: PointerEventData) {
+    protected _onPointerMove(ptr: PointerEventData) {
         if (ptr instanceof MouseEvent) {
             if (!PointerLock.IsLocked || this.isMobile || !this.enabled)
                 return;

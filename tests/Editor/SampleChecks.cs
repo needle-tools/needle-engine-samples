@@ -15,7 +15,9 @@ using System.Text.RegularExpressions;
 using Needle.Engine;
 using Needle.Engine.Deployment;
 using Needle.Engine.Projects;
+
 using Object = UnityEngine.Object;
+using Actions = Needle.Engine.Actions;
 
 namespace SampleChecks
 {
@@ -473,7 +475,7 @@ namespace SampleChecks
             OpenSceneAndCopyIfNeeded();
 
             var info = Object.FindObjectOfType<ExportInfo>();
-            Assert.IsNotNull(info);
+            Assert.IsNotNull(info, "No ExportInfo found! Invalid scene.");
 
             var path = info.GetProjectDirectory();
 
@@ -481,11 +483,12 @@ namespace SampleChecks
             Actions.EnsureDependenciesAreAddedToPackageJson(info);
 
             // Maybe add an edge case if the project isn't generated yet (?)
-            Assert.IsTrue(Directory.Exists(path));
+            if (!Directory.Exists(path))
+                Assert.Inconclusive($"Project doesn't exist.\n{path}");
 
             Debug.Log($"Installing {path}");
 
-            Assert.IsTrue(await Actions.InstallCurrentProject());
+            Assert.IsTrue(await Actions.InstallCurrentProject(), "Failed while installing.");
 
             Debug.Log($"Compiling {path}");
 

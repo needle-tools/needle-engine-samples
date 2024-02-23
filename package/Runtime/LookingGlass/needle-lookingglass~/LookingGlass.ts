@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, serializable, WebXR } from "@needle-tools/engine";
+import { Behaviour, GameObject, NeedleWebXRHtmlElement, serializable, WebXR } from "@needle-tools/engine";
 import { LookingGlassWebXRPolyfill, LookingGlassConfig } from "@lookingglass/webxr";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -31,7 +31,7 @@ export class LookingGlass extends Behaviour {
         btnGroup.appendChild(this.makeButton("Learn More", "https://look.glass"));
         btnGroup.appendChild(this.makeButton("Buy ($40 off)", "https://lookingglass.refr.cc/needle"));
 
-        this.context.domElement.shadowRoot.appendChild(btnGroup);
+        this.context.domElement.shadowRoot?.appendChild(btnGroup);
 
         const config = LookingGlassConfig;
         console.log(config)
@@ -51,7 +51,9 @@ export class LookingGlass extends Behaviour {
 
         const webxr = GameObject.findObjectOfType(WebXR);
         if (!webxr) return;
-        const startVR = WebXR.createVRButton(webxr);
+        
+        const container = NeedleWebXRHtmlElement.getOrCreate(this.context);
+        const startVR = container.createVRButton();
 
         btn.addEventListener('click', () => {
             startVR?.click();
