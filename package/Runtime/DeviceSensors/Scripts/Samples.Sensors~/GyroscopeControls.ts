@@ -1,31 +1,30 @@
 import { Behaviour, Context, getParam, getTempQuaternion, serializeable } from "@needle-tools/engine";
-import { Object3D, MathUtils, Quaternion, Vector3 } from "three";
+import { Object3D, MathUtils } from "three";
+
+const debug = getParam("debuggyro");
 
 export class GyroscopeControls extends Behaviour {
-    @serializeable()
-    activateOnStart: boolean = true;
-
+    // better refresh rate, but not supported on all devices (supported on Android devices)
     protected sensorOrientation!: OrientationSensor;
+    // worse refresh rate, but supported on majority of devices (iOS and Android)
     protected deviceOrientation!: DeviceMotion;
 
     awake() {
         this.sensorOrientation = new OrientationSensor(this.gameObject);
-        this.deviceOrientation = new DeviceMotion(this.gameObject);    
-    
-        if(this.activateOnStart) {
-            this.activate();
-        }
+        this.deviceOrientation = new DeviceMotion(this.gameObject);
     }
 
-    activate() {
-        this.sensorOrientation.initialize(() => {
-            this.deviceOrientation.initialize(() => {
+    onEnable() {
+        this.sensorOrientation.initialize((msg) => {
+            if(debug) console.error("OrientationSensor: ", msg);
+            this.deviceOrientation.initialize((msg) => {
+                if(debug) console.error("DeviceMotion: ", msg);
                 this.onFail();
             });
         });
     
     }
-    deactivate() {
+    onDisable() {
         this.sensorOrientation.disconnect();
         this.deviceOrientation.disconnect();
     }
