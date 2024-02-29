@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, NeedleWebXRHtmlElement, NeedleXRSession, WebXR } from "@needle-tools/engine";
+import { Behaviour, GameObject, NeedleXRSession, WebXR, WebXRButtonFactory } from "@needle-tools/engine";
 import { isQuest } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -27,7 +27,7 @@ export class PresencePlatformUI extends Behaviour {
         const haveAR = await NeedleXRSession.isARSupported();
         const haveVR = await NeedleXRSession.isVRSupported();
 
-        const container = NeedleWebXRHtmlElement.getOrCreate(this.context);
+        const container = WebXRButtonFactory.getOrCreate();
         const startAR = container.createARButton();
         const startVR = container.createVRButton();
 

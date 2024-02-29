@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, NeedleXRSession, USDZExporter, WebXR } from "@needle-tools/engine";
+import { Behaviour, GameObject, NeedleXRSession, USDZExporter, WebXR, WebXRButtonFactory } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -10,8 +10,6 @@ export class CustomXRButtons extends Behaviour {
 
         // WebXR and USDZExporter should have their default buttons
         // disabled on their components.
-
-        const xr = GameObject.findObjectOfType(WebXR)!;
         const usdzExporter = GameObject.findObjectOfType(USDZExporter);
         
         const xrModes = await Promise.all([ NeedleXRSession.isARSupported(), NeedleXRSession.isVRSupported()]);
@@ -21,8 +19,9 @@ export class CustomXRButtons extends Behaviour {
         const a = document.createElement("a");
         const haveQuickLook = a.relList.supports("ar") && usdzExporter;
         
-        const startAR = xr.getButtonsContainer().createARButton();
-        const startVR = xr.getButtonsContainer().createVRButton();
+        const btnFactory = WebXRButtonFactory.getOrCreate();
+        const startAR = btnFactory.createARButton();
+        const startVR = btnFactory.createVRButton();
 
         // detach the default buttons from the DOM
         startAR.remove();
