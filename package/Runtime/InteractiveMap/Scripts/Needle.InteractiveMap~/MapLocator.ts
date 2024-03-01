@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, OrbitControls, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, OrbitControls, serializable, Camera as NeedleCamera } from "@needle-tools/engine";
 import { getWorldPosition } from "@needle-tools/engine";
 import { latLongToVector3 as latLongToNormalized } from "./MapView";
 import { Vector3, Shape, ShapeGeometry, MeshBasicMaterial, Mesh, DoubleSide, CircleGeometry, Camera } from "three";
@@ -142,8 +142,10 @@ export class MapLocator extends Behaviour {
         this.gameObject.parent!.add(mesh);
         if (this.lastMesh) {
             this.lastMesh.geometry.dispose();
-            //@ts-ignore
-            this.lastMesh.material.dispose();
+            if (Array.isArray(this.lastMesh.material))
+                this.lastMesh.material.forEach(m => m.dispose());
+            else
+                this.lastMesh.material?.dispose();
             this.lastMesh.parent?.remove(this.lastMesh);
         }
         this.lastMesh = mesh;
@@ -235,17 +237,16 @@ export class MapLocator extends Behaviour {
     private objectWp = new Vector3();
     onBeforeRender(): void {
         // calculate distance to camera
-        const camera = this.context.mainCamera! as Camera;
-        getWorldPosition(camera, this.cameraWp);
+        const cam = this.context.mainCameraComponent!;
+
+        this.cameraWp.copy(cam.worldPosition);
         getWorldPosition(this.gameObject, this.objectWp);
 
         const distance = this.cameraWp.distanceTo(this.objectWp);
         const scale = distance * 0.01;
         this.gameObject.scale.set(scale, scale, scale);
 
-        //@ts-ignore
-        camera.near = 0.0001 * distance;
-        //@ts-ignore
-        camera.far = 1000 * distance;
+        cam.nearClipPlane = 0.0001 * distance;
+        cam.farClipPlane = 1000 * distance;
     }
 }
