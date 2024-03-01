@@ -468,6 +468,31 @@ namespace SampleChecks
             });
         }
 
+        string[] tempProjectsNames = new string[]
+        {
+            "Library/Needle/Sample"
+        };
+
+        [Test]
+        public void ProjectLocation()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var info = Object.FindObjectOfType<ExportInfo>();
+            Assert.IsNotNull(info, "No ExportInfo found! Invalid scene.");
+            if (!string.IsNullOrEmpty(info.RemoteUrl))
+                Assert.Inconclusive("Is remote");
+
+            var path = info.DirectoryName;
+
+            if (path.Contains(@"WebProjects~"))
+                Assert.Pass();
+            else if (tempProjectsNames.Contains(path))
+                Assert.Pass();
+            else
+                Assert.Fail(@$"Project {path} is not a valid temp project or is not located in the correct directory (package\WebProjects~)");
+        }
+
         [Test]
         [Category(RobustnessCategoryName)]
         public async Task TypescriptCompiles()
