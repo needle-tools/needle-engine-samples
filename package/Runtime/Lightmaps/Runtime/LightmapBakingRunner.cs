@@ -22,6 +22,7 @@ namespace Needle.MultiLightmaps
 				Lightmapping.Cancel();
 			}
 			Debug.Log("Start lightmapping: " + name);
+			if(SceneView.lastActiveSceneView) SceneView.lastActiveSceneView.ShowNotification(new GUIContent("Baking lightmap: " + name), 60);
 			isBaking = true;
 			Lightmapping.bakeCompleted -= OnBakeDone;
 			Lightmapping.bakeCompleted += OnBakeDone;
@@ -77,6 +78,7 @@ namespace Needle.MultiLightmaps
 		private void OnBakeDone()
 		{
 			isBaking = false;
+			if(SceneView.lastActiveSceneView) SceneView.lastActiveSceneView.RemoveNotification();
 		}
 
 		private static Texture2D CopyTexture(Object caller, string sourcePath, string name)

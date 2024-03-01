@@ -98,6 +98,7 @@ namespace Needle.MultiLightmaps
 					return;
 			}
 			Debug.Log("<b>Finished baking</b>", this);
+			if(SceneView.lastActiveSceneView) SceneView.lastActiveSceneView.ShowNotification(new GUIContent("Finished baking lightmaps"), 5);
 		}
 
 		public async void Bake(int index)
