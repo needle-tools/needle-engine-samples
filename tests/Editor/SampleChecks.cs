@@ -479,16 +479,22 @@ namespace SampleChecks
 
             var path = info.GetProjectDirectory();
 
-            // TODO: make sure that npmdefs don't leak between samples while using the same project
-            Actions.EnsureDependenciesAreAddedToPackageJson(info);
+            // Remote
+            if (!Directory.Exists(info.DirectoryName) && !string.IsNullOrWhiteSpace(info.RemoteUrl))
+            {
+                Debug.Log($"Cloning: {info.RemoteUrl}");
 
-            // Maybe add an edge case if the project isn't generated yet (?)
-            if (!Directory.Exists(path))
-                Assert.Inconclusive($"Project doesn't exist.\n{path}");
+                Assert.IsTrue(await GitActions.CloneProject(info), "Failed cloning a remote template");
+                path = info.DirectoryName;
+            }
+            else // Local
+            {
+                Actions.EnsureDependenciesAreAddedToPackageJson(info);
+            }
 
             Debug.Log($"Installing {path}");
 
-            Assert.IsTrue(await Actions.InstallCurrentProject(), "Failed while installing.");
+            Assert.IsTrue(await Actions.RunNpmInstallAtPath(path, false), "Failed while installing.");
 
             Debug.Log($"Compiling {path}");
 
