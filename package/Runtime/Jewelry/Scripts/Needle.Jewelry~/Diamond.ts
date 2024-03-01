@@ -2,7 +2,6 @@ import { Behaviour, GameObject, USDZExporter, isQuest, serializable } from "@nee
 import { Context } from "@needle-tools/engine";
 import { isiOS, isMobileDevice } from "@needle-tools/engine";
 import { Object3D, ShaderMaterial, Vector2, Color, Mesh, BufferGeometry } from "three"
-//@ts-ignore
 import { shaderIntersectFunction } from "three-mesh-bvh";
 import { shaderStructs, MeshBVHUniformStruct, MeshBVH, SAH } from "three-mesh-bvh";
 
