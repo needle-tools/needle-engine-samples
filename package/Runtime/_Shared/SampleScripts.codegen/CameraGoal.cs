@@ -7,6 +7,10 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class CameraGoal : UnityEngine.MonoBehaviour
 	{
+		public bool @createMenuButton = false;
+		public void awake(){}
+		public void addButton(){}
+		public void removeButton(){}
 		public void use(){}
 	}
 }
