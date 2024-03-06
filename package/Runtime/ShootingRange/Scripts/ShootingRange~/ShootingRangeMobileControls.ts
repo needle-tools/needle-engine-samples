@@ -1,4 +1,4 @@
-import { Behaviour, EventList, RGBAColor, isMobileDevice, serializable } from "@needle-tools/engine";
+import { Behaviour, EventList, RGBAColor, isMobileDevice, isQuest, serializable } from "@needle-tools/engine";
 import nipplejs from "nipplejs";
 import { Vector2, Color } from "three";
 
@@ -59,7 +59,7 @@ export class ShootingRangeMobileControls extends Behaviour {
 
     onEnable() {
         // Onle enable touch controls on mobile
-        if (!isMobileDevice() && this.onlyMobile) return;
+        if ((!isMobileDevice() || isQuest()) && this.onlyMobile) return;
 
         const dynamicContainer = document.createElement('div');
         dynamicContainer.id = 'look-joystick';
