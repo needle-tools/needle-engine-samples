@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using Needle;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class AssetChecks
 {
@@ -71,8 +73,25 @@ public class AssetChecks
         
         foreach (var folder in folders)
         {
-            try {
-                if (folder.GetFiles().Length == 0 && folder.GetDirectories().Length == 0)
+            try
+            {
+                var files = folder.GetFiles();
+                var directories = folder.GetDirectories();
+                
+                var fileCount = files.Length;
+                // Mac-specific; hidden file
+                if (fileCount == 1 && files[0].Name == ".DS_Store")
+                    fileCount = 0;
+                var directoryCount = directories.Length;
+                // directories that end with ~ don't count, we should not have folders with just that
+                for (int i = 0; i < directories.Length; i++)
+                    if (directories[i].Name.EndsWith("~", StringComparison.Ordinal))
+                        directoryCount--;
+                // node_modules shouldn't count either, we don't want to ship those
+                if (directoryCount == 1 && directories[0].Name == "node_modules")
+                    directoryCount = 0;
+                
+                if (fileCount == 0 && directoryCount == 0)
                     emptyFolders.Add(folder);
             } catch {
                 // ignored
