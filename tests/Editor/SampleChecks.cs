@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 using Needle.Engine;
 using Needle.Engine.Deployment;
 using Needle.Engine.Projects;
-
+using Needle.Engine.Samples.Helpers;
 using Object = UnityEngine.Object;
 using Actions = Needle.Engine.Actions;
 
@@ -289,11 +289,11 @@ namespace SampleChecks
             // immutable scenes can't be opened (e.g. from installed sample package)
             // so we're making a mutable copy here to run tests on it.
             // to simplify things, we're always making a copy right now.
-            var sceneIsImmutableAndNeedsCopy = true;
+            var makeSceneCopy = true;
             var scenePath = path;
             
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (sceneIsImmutableAndNeedsCopy)
+            if (makeSceneCopy)
             {
                 // create new unique path in Assets to copy the scene to
                 var sceneName = Path.GetFileName(path);
@@ -303,11 +303,12 @@ namespace SampleChecks
             }
             
             // open the temp scene
-            EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single); 
+            EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+            SampleUpdater.PatchActiveScene();
 
             // remove the mutable copy of the immutable scene
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (sceneIsImmutableAndNeedsCopy)
+            if (makeSceneCopy)
             {
                 if (!AssetDatabase.DeleteAsset(scenePath))
                 {
