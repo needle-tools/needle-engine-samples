@@ -206,20 +206,57 @@ public class AssetChecks
     private static void MaterialsUseAllowedShaders(string assetFolder)
     {
         // find all materials in the same folder
-        var materialFiles = AssetDatabase.FindAssets("t:Material", new[] { assetFolder });
+        var materialFiles = AssetDatabase
+            .FindAssets("t:Material", new[] { assetFolder })
+            .Select(AssetDatabase.GUIDToAssetPath)
+            .SelectMany(AssetDatabase.LoadAllAssetsAtPath)
+            .Where(x => x is Material)
+            .Cast<Material>()
+            .Distinct()
+            .ToDictionary(x => x, x => new List<string>() { AssetDatabase.GetAssetPath(x) });
+        
         var errors = new List<(string, Object)>();
-        // iterate over material files and check if they use the correct shader (PBRGraph) or are subassets
-        foreach (var materialFile in materialFiles)
+        
+        // find scenes inside that folder
+        var scenePaths = AssetDatabase
+            .FindAssets("t:Scene", new[] { assetFolder })
+            .Select(AssetDatabase.GUIDToAssetPath)
+            .ToArray();
+
+        foreach (var scenePath in scenePaths)
         {
-            var materialPath = AssetDatabase.GUIDToAssetPath(materialFile);
-            var material = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
+            // we're doing that scene-by-scene so that we can log better errors what comes from where
+            var dependencyMaterials = AssetDatabase
+                .GetDependencies(scenePath)
+                .Where(x => AssetDatabase.GetMainAssetTypeAtPath(x) != typeof(SceneAsset))
+                .SelectMany(AssetDatabase.LoadAllAssetsAtPath)
+                .Where(x => x is Material)
+                .Cast<Material>()
+                .ToList();
+            
+            foreach (var material in dependencyMaterials)
+            {
+                if (!materialFiles.ContainsKey(material))
+                    materialFiles.Add(material, new List<string>());
+                materialFiles[material].Add(scenePath);
+            }
+        }
+        
+        // iterate over material files and check if they use the correct shader (PBRGraph) or are subassets
+        foreach (var kvp in materialFiles)
+        {
+            var material = kvp.Key;
+            var path = AssetDatabase.GetAssetPath(material);
+            var guid = AssetDatabase.AssetPathToGUID(path);
             var isSubAsset = AssetDatabase.IsSubAsset(material);
 
             if (!MaterialIsAllowed(material))
             {
-                errors.Add((Path.GetFileName(materialPath) + ", subasset: " + isSubAsset + ", shader: " + material.shader + ", guid: " + materialFile, material));
+                errors.Add(($"{Path.GetFileName(path)}, subasset: {isSubAsset}, shader: {material.shader}, guid: {guid}" +
+                            $"\nReferenced from:\n - {string.Join("\n - ", kvp.Value)}", material));
             }
         }
+        
 
         if (errors.Any())
         {
