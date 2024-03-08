@@ -102,13 +102,18 @@ namespace Compilation
     }
 
     [TestFixtureSource(typeof(CompilationChecks), nameof(CompilationChecks.GetModules))]
-    internal class _M
+    internal class NpmDefs
     {
         readonly BundleData bundleData;
         Bundle bundle => bundleData.Bundle;
-        public _M(BundleData data)
+        public NpmDefs(BundleData data)
         {
             bundleData = data;            
+        }
+
+        public override string ToString()
+        {
+            return bundleData.Bundle.Name;
         }
 
         [Test]
@@ -136,11 +141,11 @@ namespace Compilation
     }
 
     [TestFixtureSource(typeof(CompilationChecks), nameof(CompilationChecks.GetProjects))]
-    internal class _W
+    internal class WebProjects
     {
         readonly WebProjectData webProject;
         string path => webProject.Path;
-        public _W(WebProjectData webProject)
+        public WebProjects(WebProjectData webProject)
         {
             this.webProject = webProject;
         }
