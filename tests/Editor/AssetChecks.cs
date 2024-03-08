@@ -28,10 +28,7 @@ public class AssetChecks
         public void NoEmptyFolders() => NoEmptyFoldersFound(SamplePackage);
         
         [Test]
-        public void NoExternalDependencies() => NoExternalDependenciesFound(SamplePackage, 
-            // Not sure why but we have a lot of dependencies in URP
-            "com.unity.render-pipelines.universal"
-        );
+        public void NoExternalDependencies() => NoExternalDependenciesFound(SamplePackage);
     }
 
     public class Engine
@@ -125,9 +122,28 @@ public class AssetChecks
             "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs",
             "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs",
             "Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs",
+            "Packages/com.unity.render-pipelines.universal/Shaders/Utils/ScreenSpaceAmbientOcclusion.shader",
+            
             // TODO we should patch this reference out in SampleUpdater.cs, it will be missing in User projects
             "Packages/com.needle.dev-assets/Needle Samples FTP.asset",
+            
+            // TODO check if we actually want to allow these
+            "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/UniversalMetadata.cs",
+            "Packages/com.unity.render-pipelines.universal/Editor/AssetVersion.cs",
         };
+        
+        // also allowed: references to UniversalRenderPipelineAsset and everything that this depends on
+        var sampleUrpAssetGuid = "9c0e5f17d9e250e45814ec5de17e094f";
+        var urpAssetPath = AssetDatabase.GUIDToAssetPath(sampleUrpAssetGuid);
+        var allowedUrpDependencies = AssetDatabase.GetDependencies(urpAssetPath, true);
+        allowedExternalDependencies.AddRange(allowedUrpDependencies);
+        var extraFolders = new string[]
+        {
+            "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/",
+            "Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/",
+        };
+        var extraFoldersContent = AssetDatabase.FindAssets("", extraFolders).Select(AssetDatabase.GUIDToAssetPath);
+        allowedExternalDependencies.AddRange(extraFoldersContent);
         
         var allAssetsInFolder = AssetDatabase.FindAssets("", new[] { assetFolder }).Select(AssetDatabase.GUIDToAssetPath).ToArray();
         var dependencies = AssetDatabase.GetDependencies(allAssetsInFolder, true);
@@ -165,16 +181,16 @@ public class AssetChecks
         {
             if (allowedPackageNames.Contains(kvp.Key))
             {
-                Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} (allowed)");
+                Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#0f0>(allowed)</color>");
                 continue;
             }
             kvp.Value.Sort();
             if (kvp.Value.Count == 0)
-                Debug.Log($"Found dependencies in {kvp.Key} (but all of them are allowed)");
+                Debug.Log($"Found dependencies in {kvp.Key} <color=#0f0>(but all of them are allowed)</color>");
             else
             {
                 anyNotAllowedDependenciesFound = true;
-                Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key}:\n - {string.Join("\n - ", kvp.Value)}");
+                Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#f00>(NOT ALLOWED)</color>:\n - {string.Join("\n - ", kvp.Value)}");
             }
         }
         
@@ -357,9 +373,10 @@ public class AssetChecks
 
         if (errors.Any())
         {
+            Debug.LogError($"Found {errors.Count} materials that are now allowed. See the logs below for more info. Open the affected scenes and run \"Tools/Needle/Log Invalid Materials\" to find renderers referencing invalid materials.");
             foreach (var e in errors)
                 Debug.LogError(e.Item1, e.Item2);
-            Assert.Fail($"Found {errors.Count} materials with invalid shaders");
+            Assert.Fail($"Found {errors.Count} materials that are now allowed.");
         }
     }
 
