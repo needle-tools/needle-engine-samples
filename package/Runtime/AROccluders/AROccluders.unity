@@ -282,12 +282,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebXR, Needle.Engine $ GlobalObjectId_V1-2-124265c62b5ca0547b1f9fcc9412313a-310452256-0
-  enableVR: 1
-  enableAR: 1
-  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
   createVRButton: 1
   createARButton: 1
-  handModelPath: 
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 0
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 1
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
 --- !u!1 &488768735
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,20 +395,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-124265c62b5ca0547b1f9fcc9412313a-488768739-0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 0
-  enableDamping: 1
-  dampingFactor: 0.1
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 0}
 --- !u!114 &488768740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,6 +719,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies: []
 --- !u!4 &1047573651
 Transform:
@@ -753,7 +764,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
   Guid: 124265c62b5ca0547b1f9fcc9412313a
 --- !u!4 &1460436191
 Transform:
@@ -819,8 +830,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine $
     GlobalObjectId_V1-2-00000000000000000000000000000000-1872564541-0
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 1
-  useViewAngle: 1
 --- !u!65 &1872564542
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -854,7 +870,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 18efe1bf08c204d44abbb105d0a29461, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
