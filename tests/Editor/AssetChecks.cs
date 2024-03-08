@@ -7,6 +7,7 @@ using Needle;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 public class AssetChecks
@@ -203,46 +204,43 @@ public class AssetChecks
         }
     }
     
-    private static void MaterialsUseAllowedShaders(string assetFolder)
+    
+		
+    [MenuItem("Tools/Needle/Log Invalid Materials")]
+    private static void LogInvalidDependencies()
     {
-        // find all materials in the same folder
-        var materialFiles = AssetDatabase
-            .FindAssets("t:Material", new[] { assetFolder })
-            .Select(AssetDatabase.GUIDToAssetPath)
-            .SelectMany(AssetDatabase.LoadAllAssetsAtPath)
-            .Where(x => x is Material)
-            .Cast<Material>()
-            .Distinct()
-            .ToDictionary(x => x, x => new List<string>() { AssetDatabase.GetAssetPath(x) });
-        
-        var errors = new List<(string, Object)>();
-        
-        // find scenes inside that folder
-        var scenePaths = AssetDatabase
-            .FindAssets("t:Scene", new[] { assetFolder })
-            .Select(AssetDatabase.GUIDToAssetPath)
-            .ToArray();
+        var scenePath = SceneManager.GetActiveScene().path;
+        var materialFiles = new Dictionary<Material, List<string>>();
+        GatherDependenciesOfType(scenePath, materialFiles);
+        var errors = CollectMaterialErrors(materialFiles);
+        var errorMaterials = errors.Select(x => x.Item2).ToArray();
+        var sceneRenderers = Object.FindObjectsOfType<Renderer>(true);
+        var sceneRenderersWithErrors = sceneRenderers.Where(x => x.sharedMaterials.Any(errorMaterials.Contains)).ToArray();
+        foreach (var e in  sceneRenderersWithErrors)
+            Debug.LogError($"Renderer {e.name} has invalid materials", e);
+    }
 
-        foreach (var scenePath in scenePaths)
-        {
-            // we're doing that scene-by-scene so that we can log better errors what comes from where
-            var dependencyMaterials = AssetDatabase
-                .GetDependencies(scenePath)
-                .Where(x => AssetDatabase.GetMainAssetTypeAtPath(x) != typeof(SceneAsset))
-                .SelectMany(AssetDatabase.LoadAllAssetsAtPath)
-                .Where(x => x is Material)
-                .Cast<Material>()
-                .ToList();
+    private static void GatherDependenciesOfType<T>(string scenePath, Dictionary<T, List<string>> materialToSource)
+    {
+        var dependencyMaterials = AssetDatabase
+            .GetDependencies(scenePath)
+            .Where(x => AssetDatabase.GetMainAssetTypeAtPath(x) != typeof(SceneAsset))
+            .SelectMany(AssetDatabase.LoadAllAssetsAtPath)
+            .Where(x => x is T)
+            .Cast<T>()
+            .ToList();
             
-            foreach (var material in dependencyMaterials)
-            {
-                if (!materialFiles.ContainsKey(material))
-                    materialFiles.Add(material, new List<string>());
-                materialFiles[material].Add(scenePath);
-            }
+        foreach (var material in dependencyMaterials)
+        {
+            if (!materialToSource.ContainsKey(material))
+                materialToSource.Add(material, new List<string>());
+            materialToSource[material].Add(scenePath);
         }
-        
-        // iterate over material files and check if they use the correct shader (PBRGraph) or are subassets
+    }
+    
+    private static List<(string, Object)> CollectMaterialErrors(Dictionary<Material, List<string>> materialFiles)
+    {
+        var errors = new List<(string, Object)>();
         foreach (var kvp in materialFiles)
         {
             var material = kvp.Key;
@@ -256,7 +254,34 @@ public class AssetChecks
                             $"\nReferenced from:\n - {string.Join("\n - ", kvp.Value)}", material));
             }
         }
+        return errors;
+    }
+    
+    private static void MaterialsUseAllowedShaders(string assetFolder)
+    {
+        // find all materials in the same folder
+        var materialFiles = AssetDatabase
+            .FindAssets("t:Material", new[] { assetFolder })
+            .Select(AssetDatabase.GUIDToAssetPath)
+            .SelectMany(AssetDatabase.LoadAllAssetsAtPath)
+            .Where(x => x is Material)
+            .Cast<Material>()
+            .Distinct()
+            .ToDictionary(x => x, x => new List<string>() { AssetDatabase.GetAssetPath(x) });
         
+        // find scenes inside that folder
+        var scenePaths = AssetDatabase
+            .FindAssets("t:Scene", new[] { assetFolder })
+            .Select(AssetDatabase.GUIDToAssetPath)
+            .ToArray();
+
+        foreach (var scenePath in scenePaths)
+        {
+            // we're doing that scene-by-scene so that we can log better errors what comes from where
+            GatherDependenciesOfType(scenePath, materialFiles);
+        }
+        
+        var errors = CollectMaterialErrors(materialFiles);
 
         if (errors.Any())
         {
