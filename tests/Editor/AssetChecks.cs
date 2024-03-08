@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 public class AssetChecks
 {
@@ -25,6 +26,12 @@ public class AssetChecks
 
         [Test]
         public void NoEmptyFolders() => NoEmptyFoldersFound(SamplePackage);
+        
+        [Test]
+        public void NoExternalDependencies() => NoExternalDependenciesFound(SamplePackage, 
+            // Not sure why but we have a lot of dependencies in URP
+            "com.unity.render-pipelines.universal"
+        );
     }
 
     public class Engine
@@ -40,6 +47,9 @@ public class AssetChecks
 
         [Test]
         public void NoEmptyFolders() => NoEmptyFoldersFound(EnginePackage);
+        
+        [Test]
+        public void NoExternalDependencies() => NoExternalDependenciesFound(EnginePackage);
     }
     
     private const string samplePackageJsonGuid = "fd17907bb2ad1444d9c584fde3e7715b";
@@ -106,6 +116,70 @@ public class AssetChecks
         foreach (var emptyFolder in emptyFolders)
             sb.AppendLine(emptyFolder.FullName);
         Assert.Fail(sb.ToString());
+    }
+    
+    private static void NoExternalDependenciesFound(string assetFolder, params string[] additionalAllowedPackageNames)
+    {
+        var allowedExternalDependencies = new List<string>()
+        { 
+            "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs",
+            "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs",
+            "Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs",
+            // TODO we should patch this reference out in SampleUpdater.cs, it will be missing in User projects
+            "Packages/com.needle.dev-assets/Needle Samples FTP.asset",
+        };
+        
+        var allAssetsInFolder = AssetDatabase.FindAssets("", new[] { assetFolder }).Select(AssetDatabase.GUIDToAssetPath).ToArray();
+        var dependencies = AssetDatabase.GetDependencies(allAssetsInFolder, true);
+        var packages = new Dictionary<string, List<string>>();
+        foreach (var dependency in dependencies)
+        {
+            var pi = PackageInfo.FindForAssetPath(dependency);
+            var packageKey = pi == null ? "Assets" : pi.name;
+            if (!packages.ContainsKey(packageKey))
+                packages.Add(packageKey, new List<string>());
+            
+            // some files are ok – e.g. we can't avoid URPAdditionalLightData and URPAdditionalCameraData
+            if (allowedExternalDependencies.Contains(dependency)) continue;
+            
+            packages[packageKey].Add(dependency);
+        }
+
+        var allowedPackageNames = new List<string>()
+        {
+            // Direct Needle Engine dependencies
+            "com.needle.engine-samples",
+            "com.needle.engine-exporter",
+            "com.unity.shadergraph",
+            "org.khronos.unitygltf",
+            "com.unity.timeline",
+            // Indirect Needle Engine dependencies
+            "com.unity.render-pipelines.core",
+            // Not a dependency but basically always in projects
+            "com.unity.ugui",
+        };
+        allowedPackageNames.AddRange(additionalAllowedPackageNames);
+
+        var anyNotAllowedDependenciesFound = false;
+        foreach (var kvp in packages)
+        {
+            if (allowedPackageNames.Contains(kvp.Key))
+            {
+                Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} (allowed)");
+                continue;
+            }
+            kvp.Value.Sort();
+            if (kvp.Value.Count == 0)
+                Debug.Log($"Found dependencies in {kvp.Key} (but all of them are allowed)");
+            else
+            {
+                anyNotAllowedDependenciesFound = true;
+                Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key}:\n - {string.Join("\n - ", kvp.Value)}");
+            }
+        }
+        
+        if (anyNotAllowedDependenciesFound)
+            Assert.Fail("Found external dependencies, please see the logs for more details.");
     }
     
     private static readonly string[] AllowedShaderNames = new string[]
@@ -204,8 +278,6 @@ public class AssetChecks
         }
     }
     
-    
-		
     [MenuItem("Tools/Needle/Log Invalid Materials")]
     private static void LogInvalidDependencies()
     {
