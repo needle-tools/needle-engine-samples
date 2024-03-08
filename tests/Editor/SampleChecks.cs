@@ -23,6 +23,9 @@ namespace SampleChecks
 {
     internal class SampleChecks
     {
+        internal const string PublicInfoCategoryName = "Docs and Deployments";
+        internal const string CodeCategoryName = "Code";
+
         internal static List<SampleInfo> GetSamples()
         {
             return AssetDatabase.FindAssets("t:SampleInfo")
@@ -66,8 +69,6 @@ namespace SampleChecks
     internal class @_
     {
         private readonly SampleInfo sample;
-        private const string PublicInfoCategoryName = "Docs and Deployments";
-        private const string RobustnessCategoryName = "Robustness";
         
         public @_(SampleInfo sampleInfo)
         {
@@ -91,7 +92,7 @@ namespace SampleChecks
         }
         
         [Test]
-        [Category(PublicInfoCategoryName)]
+        [Category(SampleChecks.PublicInfoCategoryName)]
         public async Task IsLive()
         {
             var sampleLiveUrl = sample.LiveUrl;
@@ -115,7 +116,7 @@ namespace SampleChecks
         private const int RequiredPatchVersion = 8;
         
         [Test]
-        [Category(PublicInfoCategoryName)]
+        [Category(SampleChecks.PublicInfoCategoryName)]
         public async Task VersionIsNotTooOld()
         {
             // fetch the HTML page
@@ -177,7 +178,7 @@ namespace SampleChecks
         }
 
         [Test]
-        [Category(PublicInfoCategoryName)]
+        [Category(SampleChecks.PublicInfoCategoryName)]
         public void HasValidInfo()
         {
             Assert.True(sample.Thumbnail, "No thumbnail");
@@ -202,7 +203,7 @@ namespace SampleChecks
         }
 
         [Test]
-        [Category(PublicInfoCategoryName)]
+        [Category(SampleChecks.PublicInfoCategoryName)]
         public void HasReadme()
         {
             var sampleDirectory = AssetDatabase.GetAssetPath(sample.Scene);
@@ -216,7 +217,7 @@ namespace SampleChecks
         }
 
         [Test]
-        [Category(PublicInfoCategoryName)]
+        [Category(SampleChecks.PublicInfoCategoryName)]
         public void HasReadmeComponent()
         {
             OpenSceneAndCopyIfNeeded();
@@ -495,7 +496,7 @@ namespace SampleChecks
         }
 
         [Test]
-        [Category(RobustnessCategoryName)]
+        [Category(SampleChecks.CodeCategoryName)]
         public async Task TypescriptCompiles()
         {
             OpenSceneAndCopyIfNeeded();

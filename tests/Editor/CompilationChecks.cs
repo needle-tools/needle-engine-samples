@@ -9,7 +9,7 @@ using System.Diagnostics;
 using NUnit.Framework.Internal;
 using UnityEngine;
 using System.IO;
-using Needle.Engine.Samples;
+using SampleChecks;
 
 using Actions = Needle.Engine.Actions;
 
@@ -17,7 +17,7 @@ namespace Compilation
 {
     internal class CompilationChecks
     {
-        [Test]
+        [Test, Category(SampleChecks.SampleChecks.CodeCategoryName)]
         public void BuildTargetCompiles([ValueSource(nameof(GetTestBuildTargets))] BuildTarget buildTarget)
         {
             var settings = new ScriptCompilationSettings
@@ -116,7 +116,7 @@ namespace Compilation
             return bundleData.Bundle.Name;
         }
 
-        [Test]
+        [Test, Category(SampleChecks.SampleChecks.CodeCategoryName)]
         public async Task Compiles()
         {
             var path = bundle.PackageFilePath;
@@ -150,7 +150,7 @@ namespace Compilation
             this.webProject = webProject;
         }
 
-        [Test]
+        [Test, Category(SampleChecks.SampleChecks.CodeCategoryName)]
         public async Task Compiles()
         {
             Assert.IsTrue(await Actions.RunNpmInstallAtPath(path, false), $"Failed to install WebProject: {path}");
