@@ -1,4 +1,4 @@
-import { Context, ContextRegistry, SyncedTransform, delay, syncField } from "@needle-tools/engine";
+import { Context, ContextRegistry, SyncedTransform } from "@needle-tools/engine";
 import { Behaviour, GameObject } from "@needle-tools/engine";
 import { Renderer } from "@needle-tools/engine";
 import { IPointerClickHandler } from "@needle-tools/engine";

@@ -111,10 +111,6 @@ namespace Compilation
             bundleData = data;            
         }
 
-        public override string ToString()
-        {
-            return bundleData.Bundle.Name;
-        }
 
         [Test, Category(SampleChecks.SampleChecks.CodeCategoryName)]
         public async Task Compiles()
