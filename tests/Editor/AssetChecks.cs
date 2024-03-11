@@ -13,6 +13,9 @@ using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 public class AssetChecks
 {
+    internal static string SamplePackage => Path.GetDirectoryName(AssetDatabase.GUIDToAssetPath(samplePackageJsonGuid));
+    internal static string EnginePackage => Path.GetDirectoryName(AssetDatabase.GUIDToAssetPath(enginePackageJsonGuid));
+
     public class Samples
     {
         [Test]
@@ -276,10 +279,7 @@ public class AssetChecks
 
         return false;
     }
-
-    private static string SamplePackage => Path.GetDirectoryName(AssetDatabase.GUIDToAssetPath(samplePackageJsonGuid));
-    private static string EnginePackage => Path.GetDirectoryName(AssetDatabase.GUIDToAssetPath(enginePackageJsonGuid));
-
+    
     private static void ModelsUseUnityGltfImporter(string assetFolder)
     {
         // check if we have multiple valid glTF importers
