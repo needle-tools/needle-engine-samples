@@ -1,5 +1,5 @@
 import { Behaviour, LODGroup, Text, serializable } from "@needle-tools/engine";
-import { Vector3, LOD, Mesh} from "three";
+import { Vector3, LOD, Mesh, PerspectiveCamera} from "three";
 
 export class DebugLOD extends Behaviour {
 
@@ -14,7 +14,7 @@ export class DebugLOD extends Behaviour {
     update(): void {
         if(!this.lodGroup || !this.text) return;
 
-        const cam = this.context.mainCamera as THREE.PerspectiveCamera;
+        const cam = this.context.mainCamera as PerspectiveCamera;
         
         cam.getWorldPosition(this.tempVec1);
         this.gameObject.getWorldPosition(this.tempVec2);

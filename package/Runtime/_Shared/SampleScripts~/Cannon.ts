@@ -5,7 +5,7 @@ import { Object3D, Vector3, Quaternion } from "three";
 export class Cannon extends Behaviour {
 
     @serializeable(Object3D)
-    prefab?: THREE.Object3D;
+    prefab?: Object3D;
 
     @serializeable(AudioSource)
     audioSource?: AudioSource;
@@ -16,7 +16,7 @@ export class Cannon extends Behaviour {
     @serializeable()
     maxInstances: number = 10;
 
-    private _instances: THREE.Object3D[] = [];
+    private _instances: Object3D[] = [];
     private _index: number = -1;
     private webXR?: WebXR;
 
