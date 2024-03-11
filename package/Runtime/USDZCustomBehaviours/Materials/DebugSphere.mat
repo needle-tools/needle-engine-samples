@@ -22,8 +22,6 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: DebugSphere
   m_Shader: {fileID: -6465566751694194690, guid: 0a931320a74ca574b91d2d7d4557dcf1, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _VERTEX_COLORS_ON
   m_InvalidKeywords:
@@ -40,13 +38,10 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
-  - SHADOWCASTER
-  - DepthOnly
-  - TransparentDepthPrepass
-  - TransparentDepthPostpass
   - TransparentBackface
   - RayTracingPrepass
-  m_LockedProperties: 
+  - TransparentDepthPrepass
+  - TransparentDepthPostpass
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -179,7 +174,9 @@ Material:
     - _GlossyReflections: 0
     - _IRIDESCENCE: 0
     - _Metallic: 0
+    - _NormalMapFormatXYZ: 0
     - _OcclusionStrength: 1
+    - _OverrideSurfaceMode: 0
     - _Parallax: 0.005
     - _QueueControl: -1
     - _QueueOffset: 0
