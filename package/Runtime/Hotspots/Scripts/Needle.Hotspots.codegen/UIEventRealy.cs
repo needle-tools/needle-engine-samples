@@ -9,11 +9,11 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.GameObject[] @targets = new UnityEngine.GameObject[]{ };
 		public void start(){}
-		public void onPointerEnter(){}
-		public void onPointerExit(){}
-		public void onPointerClick(){}
-		public void onPointerUp(){}
-		public void onPointerDown(){}
+		public void onPointerEnter(object @args){}
+		public void onPointerExit(object @args){}
+		public void onPointerClick(object @args){}
+		public void onPointerUp(object @args){}
+		public void onPointerDown(object @args){}
 	}
 }
 

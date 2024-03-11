@@ -1,60 +1,64 @@
 import { 
     IPointerEventHandler, IPointerDownHandler,
     IPointerUpHandler, IPointerEnterHandler, 
-    IPointerExitHandler, IPointerClickHandler 
+    IPointerExitHandler, IPointerClickHandler, GameObject 
 } from "@needle-tools/engine";
 
-import { Behaviour, serializable, Text } from "@needle-tools/engine";
-import { Object3D } from "three";
+import { Behaviour, serializable } from "@needle-tools/engine";
 
 export class UIEventRealy extends Behaviour implements IPointerEventHandler {
 
-    @serializable(Object3D)
-    targets: Object3D[] = [];
+    @serializable(GameObject)
+    targets: GameObject[] = [];
 
     start(){
         console.log("start");
         console.log(this);
     }
 
-    onPointerEnter() {
+    onPointerEnter(args) {
         console.log("On Pointer Enter");
         this.targets.forEach(target => {
-            if(target as IPointerEnterHandler) {
-                target.onPointerEnter();
+            const eventTarget = target as IPointerEnterHandler;
+            if (eventTarget && eventTarget.onPointerEnter) {
+                eventTarget.onPointerEnter(args);
             }
         });
     }
-    onPointerExit() {
+    onPointerExit(args) {
         console.log("On Pointer Exit");
 
         this.targets.forEach(target => {
-            if(target as IPointerExitHandler) {
-                target.onPointerExit();
+            const eventTarget = target as IPointerExitHandler;
+            if (eventTarget && eventTarget.onPointerExit) {
+                eventTarget.onPointerExit(args);
             }
         });
     }
-    onPointerClick() {
+    onPointerClick(args) {
         console.log("On Pointer Click");
         this.targets.forEach(target => {
-            if(target as IPointerClickHandler) {
-                target.onPointerClick();
+            const eventTarget = target as IPointerClickHandler;
+            if (eventTarget && eventTarget.onPointerClick) {
+                eventTarget.onPointerClick(args);
             }
         });
     }
-    onPointerUp() {
+    onPointerUp(args) {
         console.log("On Pointer Up");
         this.targets.forEach(target => {
-            if(target as IPointerUpHandler) {
-                target.onPointerUp();
+            const eventTarget = target as IPointerUpHandler;
+            if (eventTarget && eventTarget.onPointerUp) {
+                eventTarget.onPointerUp(args);
             }
         });
     }
-    onPointerDown() {
+    onPointerDown(args) {
         console.log("On Pointer Down");
         this.targets.forEach(target => {
-            if(target as IPointerDownHandler) {
-                target.onPointerDown();
+            const eventTarget = target as IPointerDownHandler;
+            if (eventTarget && eventTarget.onPointerDown) {
+                eventTarget.onPointerDown(args);
             }
         });
     }
