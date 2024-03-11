@@ -145,53 +145,81 @@ public class AssetChecks
         var extraFoldersContent = AssetDatabase.FindAssets("", extraFolders).Select(AssetDatabase.GUIDToAssetPath);
         allowedExternalDependencies.AddRange(extraFoldersContent);
         
-        var allAssetsInFolder = AssetDatabase.FindAssets("", new[] { assetFolder }).Select(AssetDatabase.GUIDToAssetPath).ToArray();
-        var dependencies = AssetDatabase.GetDependencies(allAssetsInFolder, true);
-        var packages = new Dictionary<string, List<string>>();
-        foreach (var dependency in dependencies)
+        var allAssetsInFolder = AssetDatabase
+            .FindAssets("", new[] { assetFolder })
+            .Select(AssetDatabase.GUIDToAssetPath)
+            // Exclude FBX models, those automatically import materials in the right RP,
+            // as long as they don't have an importer override
+            .Where(x => !(AssetImporter.GetAtPath(x) is ModelImporter modelImporter))
+            .ToArray();
+
+        bool HasInvalidDependencies(bool recursive, bool logInfo, params string[] allAssetsInFolder)
         {
-            var pi = PackageInfo.FindForAssetPath(dependency);
-            var packageKey = pi == null ? "Assets" : pi.name;
-            if (!packages.ContainsKey(packageKey))
-                packages.Add(packageKey, new List<string>());
-            
-            // some files are ok – e.g. we can't avoid URPAdditionalLightData and URPAdditionalCameraData
-            if (allowedExternalDependencies.Contains(dependency)) continue;
-            
-            packages[packageKey].Add(dependency);
+            var dependencies = AssetDatabase.GetDependencies(allAssetsInFolder, recursive);
+            var packages = new Dictionary<string, List<string>>();
+            foreach (var dependency in dependencies)
+            {
+                var pi = PackageInfo.FindForAssetPath(dependency);
+                var packageKey = pi == null ? "Assets" : pi.name;
+                if (!packages.ContainsKey(packageKey))
+                    packages.Add(packageKey, new List<string>());
+                
+                // some files are ok – e.g. we can't avoid URPAdditionalLightData and URPAdditionalCameraData
+                if (allowedExternalDependencies.Contains(dependency)) continue;
+                
+                packages[packageKey].Add(dependency);
+            }
+
+            var allowedPackageNames = new List<string>()
+            {
+                // Direct Needle Engine dependencies
+                "com.needle.engine-samples",
+                "com.needle.engine-exporter",
+                "com.unity.shadergraph",
+                "org.khronos.unitygltf",
+                "com.unity.timeline",
+                // Indirect Needle Engine dependencies
+                "com.unity.render-pipelines.core",
+                // Not a dependency but basically always in projects
+                "com.unity.ugui",
+            };
+            allowedPackageNames.AddRange(additionalAllowedPackageNames);
+
+            var anyNotAllowedDependenciesFound = false;
+            foreach (var kvp in packages)
+            {
+                if (allowedPackageNames.Contains(kvp.Key))
+                {
+                    if (logInfo) Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#0f0>(allowed)</color>");
+                    continue;
+                }
+                kvp.Value.Sort();
+                if (kvp.Value.Count == 0)
+                {
+                    if (logInfo) Debug.Log($"Found dependencies in {kvp.Key} <color=#0f0>(but all of them are allowed)</color>");
+                }
+                else
+                {
+                    anyNotAllowedDependenciesFound = true;
+                    Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#f00>(NOT ALLOWED)</color>:\n - {string.Join("\n - ", kvp.Value)}");
+                }
+            }
+            return anyNotAllowedDependenciesFound;
         }
 
-        var allowedPackageNames = new List<string>()
+        var anyNotAllowedDependenciesFound = false; 
+        
+        // Can't check all paths at once since then we don't know where issues come from.
+        // HasInvalidDependencies(true, true, allAssetsInFolder);
+        
+        // Best thing we can do here is iterate manually and call
+        // GetDependencies on each asset to figure out where the problem is
+        foreach (var assetPath in allAssetsInFolder)
         {
-            // Direct Needle Engine dependencies
-            "com.needle.engine-samples",
-            "com.needle.engine-exporter",
-            "com.unity.shadergraph",
-            "org.khronos.unitygltf",
-            "com.unity.timeline",
-            // Indirect Needle Engine dependencies
-            "com.unity.render-pipelines.core",
-            // Not a dependency but basically always in projects
-            "com.unity.ugui",
-        };
-        allowedPackageNames.AddRange(additionalAllowedPackageNames);
-
-        var anyNotAllowedDependenciesFound = false;
-        foreach (var kvp in packages)
-        {
-            if (allowedPackageNames.Contains(kvp.Key))
-            {
-                Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#0f0>(allowed)</color>");
-                continue;
-            }
-            kvp.Value.Sort();
-            if (kvp.Value.Count == 0)
-                Debug.Log($"Found dependencies in {kvp.Key} <color=#0f0>(but all of them are allowed)</color>");
-            else
-            {
-                anyNotAllowedDependenciesFound = true;
-                Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#f00>(NOT ALLOWED)</color>:\n - {string.Join("\n - ", kvp.Value)}");
-            }
+            var hasInvalidDependencies = HasInvalidDependencies(false, false, assetPath);
+            if (hasInvalidDependencies)
+                Debug.LogError($"Found external dependencies in {assetPath}.");
+            anyNotAllowedDependenciesFound |= hasInvalidDependencies;
         }
         
         if (anyNotAllowedDependenciesFound)
