@@ -166,7 +166,7 @@ namespace Compilation
         public void Setup()
         {
             var scenePath = webProject.ScenePath;
-            EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+            SampleChecks._.OpenSceneAndCopyIfNeeded(scenePath);
             exportInfo = ExportInfo.Get();
         }
 

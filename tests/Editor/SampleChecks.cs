@@ -285,6 +285,11 @@ namespace SampleChecks
         private void OpenSceneAndCopyIfNeeded()
         {
             var path = AssetDatabase.GetAssetPath(sample.Scene);
+            OpenSceneAndCopyIfNeeded(path);
+        }
+        
+        internal static void OpenSceneAndCopyIfNeeded(string path)
+        {
             Assert.IsTrue(File.Exists(path), "Scene file doesn't exist");
 
             // immutable scenes can't be opened (e.g. from installed sample package)
