@@ -1,16 +1,12 @@
-using System.Collections.Generic;
-using System.ComponentModel.Composition.Primitives;
+using Needle.Engine;
 using Needle.Engine.ProjectBundle;
-using System.Linq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Player;
 using UnityEngine;
-using System.IO;
-using Needle.Engine;
-using Needle.Engine.Utils;
-using UnityEditor.SceneManagement;
-using UnityEditor.VersionControl;
 using Actions = Needle.Engine.Actions;
 using Task = System.Threading.Tasks.Task;
 
