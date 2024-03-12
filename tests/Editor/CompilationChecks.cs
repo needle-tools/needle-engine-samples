@@ -169,7 +169,10 @@ namespace Compilation
         [Test, Category(SampleChecks.SampleChecks.CodeCategoryName)]
         public async Task InstallCurrentProject()
         {
-            if (!exportInfo) Assert.Inconclusive("No ExportInfo found for scene: " + webProject.ScenePath);
+            if (!exportInfo) 
+                Assert.Inconclusive("No ExportInfo found for scene: " + webProject.ScenePath);
+            if (exportInfo.DirectoryName.StartsWith("http")) 
+                Assert.Inconclusive("Project is from a remote template: " + webProject.ScenePath);
             
             var projectDir = exportInfo.GetProjectDirectory();
             Assert.IsTrue(await Actions.InstallCurrentProject(false, false), $"Failed to install WebProject: {projectDir}");
@@ -177,8 +180,11 @@ namespace Compilation
 
         [Test, Category(SampleChecks.SampleChecks.CodeCategoryName)]
         public async Task TypeScriptCompiles()
-        {            
-            if (!exportInfo) Assert.Inconclusive("No ExportInfo found for scene: " + webProject.ScenePath);
+        {
+            if (!exportInfo)
+                Assert.Inconclusive("No ExportInfo found for scene: " + webProject.ScenePath);
+            if (exportInfo.DirectoryName.StartsWith("http"))
+                Assert.Inconclusive("Project is from a remote template: " + webProject.ScenePath);
 
             var projectDir = exportInfo.GetProjectDirectory();
             Assert.IsTrue(await Actions.TryCompileTypescript(projectDir), "Typescript compilation failed:\n");
