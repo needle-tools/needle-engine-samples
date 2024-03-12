@@ -6,6 +6,7 @@ using System.Text;
 using Needle;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneTemplate;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -158,6 +159,19 @@ public class AssetChecks
 
         bool HasInvalidDependencies(bool recursive, bool logInfo, params string[] allAssetsInFolder)
         {
+            // replace path for a scenetemplate with the embeding scene to avoid a default material dependency
+            // which can be a URP Lit material causing the test to fail
+            for (int i = 0; i < allAssetsInFolder.Length; i++)
+            {
+                var assetPath = allAssetsInFolder[i];
+                
+                if (assetPath.EndsWith(".scenetemplate"))
+                {
+                    var sceneTemplate = AssetDatabase.LoadAssetAtPath<SceneTemplateAsset>(assetPath);
+                    allAssetsInFolder[i] = AssetDatabase.GetAssetPath(sceneTemplate.templateScene);
+                }                
+            }
+
             var dependencies = AssetDatabase.GetDependencies(allAssetsInFolder, recursive);
             var packages = new Dictionary<string, List<string>>();
             foreach (var dependency in dependencies)
