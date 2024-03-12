@@ -5,6 +5,10 @@ import { Object3D, ShaderMaterial, Vector2, Color, Mesh, BufferGeometry } from "
 import { shaderIntersectFunction } from "three-mesh-bvh";
 import { shaderStructs, MeshBVHUniformStruct, MeshBVH, SAH } from "three-mesh-bvh";
 
+// extend the types scine it is missing
+declare module "three-mesh-bvh" {
+	export const shaderIntersectFunction: string;
+}
 
 export class Diamond extends Behaviour {
 
