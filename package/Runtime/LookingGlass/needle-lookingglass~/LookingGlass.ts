@@ -1,6 +1,5 @@
 import { Behaviour, GameObject, serializable, WebXR, WebXRButtonFactory } from "@needle-tools/engine";
 import { LookingGlassWebXRPolyfill, LookingGlassConfig } from "@lookingglass/webxr";
-import { ButtonsFactory } from "@needle-tools/engine/src/engine/webcomponents/buttons";
 
 // Documentation → https://docs.needle.tools/scripting
 
