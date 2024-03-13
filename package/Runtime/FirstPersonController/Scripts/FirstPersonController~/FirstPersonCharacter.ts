@@ -36,7 +36,7 @@ export class FirstPersonController extends Behaviour {
     jumpSpeed: number = 5;
 
     // constrain the up-down movement in degrees
-    @serializable()
+    @serializable(Vector2)
     xRotClamp: Vector2 = new Vector2(-89, 89);
 
     // whether to get mouse delta from touch events
