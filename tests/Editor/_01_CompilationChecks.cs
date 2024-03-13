@@ -6,13 +6,12 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Player;
-using UnityEngine;
 using Actions = Needle.Engine.Actions;
 using Task = System.Threading.Tasks.Task;
 
 namespace Compilation
 {
-    internal class CompilationChecks
+    internal class _01_CompilationChecks
     {
         [Test, Category(SampleChecks.SampleChecks.CodeCategoryName)]
         public void BuildTargetCompiles([ValueSource(nameof(GetTestBuildTargets))] BuildTarget buildTarget)
@@ -94,12 +93,12 @@ namespace Compilation
         public BundleData(Bundle bundle) => this.Bundle = bundle;
     }
 
-    [TestFixtureSource(typeof(CompilationChecks), nameof(CompilationChecks.GetModules))]
-    internal class NpmDefs
+    [TestFixtureSource(typeof(_01_CompilationChecks), nameof(_01_CompilationChecks.GetModules))]
+    internal class _03_NpmDefs
     {
         readonly BundleData bundleData;
         Bundle bundle => bundleData.Bundle;
-        public NpmDefs(BundleData data)
+        public _03_NpmDefs(BundleData data)
         {
             bundleData = data;            
         }
@@ -131,13 +130,13 @@ namespace Compilation
         }
     }
 
-    [TestFixtureSource(typeof(CompilationChecks), nameof(CompilationChecks.GetWebProjects))]
-    internal class WebProjects
+    [TestFixtureSource(typeof(_01_CompilationChecks), nameof(_01_CompilationChecks.GetWebProjects))]
+    internal class _02_WebProjects
     {
         readonly WebProjectData webProject;
         private ExportInfo exportInfo;
         
-        public WebProjects(WebProjectData webProject)
+        public _02_WebProjects(WebProjectData webProject)
         {
             this.webProject = webProject;
         }
