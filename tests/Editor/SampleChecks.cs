@@ -222,7 +222,7 @@ namespace SampleChecks
         {
             OpenSceneAndCopyIfNeeded();
             
-            var readme = Object.FindObjectOfType<Readme>();
+            var readme = Object.FindAnyObjectByType<Readme>();
             Assert.IsNotNull(readme);
             Assert.IsFalse(string.IsNullOrEmpty(readme.Guid));
             Assert.IsTrue(readme.CompareTag("EditorOnly"), "Readme component should be tagged as EditorOnly.");
@@ -359,7 +359,7 @@ namespace SampleChecks
             OpenSceneAndCopyIfNeeded();
 
             // explicitly get the DeployToFTP component so we can check the path
-            var deployToFtps = Object.FindObjectsOfType<DeployToFTP>();
+            var deployToFtps = Object.FindObjectsByType<DeployToFTP>(FindObjectsSortMode.None);
             Assert.LessOrEqual(deployToFtps.Length, 1, "More than one DeployToFTP component found");
 
             // We want to avoid accidentally keeping staging paths in the scene
@@ -375,7 +375,7 @@ namespace SampleChecks
             var allDeploymentComponentsInScene = new List<MonoBehaviour>();
             foreach (var deploymentType in deploymentTypes)
             {
-                var components = Object.FindObjectsOfType(deploymentType) as MonoBehaviour[];
+                var components = Object.FindObjectsByType(deploymentType, FindObjectsInactive.Include, FindObjectsSortMode.None) as MonoBehaviour[];
                 if (components == null) continue;
                 allDeploymentComponentsInScene.AddRange(components);
             }
@@ -465,7 +465,7 @@ namespace SampleChecks
         {
             OpenSceneAndCopyIfNeeded();
 
-            var info = Object.FindObjectOfType<ExportInfo>();
+            var info = Object.FindAnyObjectByType<ExportInfo>();
             Assert.IsNotNull(info);
 
             info.Dependencies.ForEach(x =>
@@ -485,7 +485,7 @@ namespace SampleChecks
         {
             OpenSceneAndCopyIfNeeded();
 
-            var info = Object.FindObjectOfType<ExportInfo>();
+            var info = Object.FindAnyObjectByType<ExportInfo>();
             Assert.IsNotNull(info, "No ExportInfo found! Invalid scene.");
             if (!string.IsNullOrEmpty(info.RemoteUrl))
                 Assert.Inconclusive("Is remote");
@@ -506,7 +506,7 @@ namespace SampleChecks
         {
             OpenSceneAndCopyIfNeeded();
 
-            var info = Object.FindObjectOfType<ExportInfo>();
+            var info = Object.FindAnyObjectByType<ExportInfo>();
             Assert.IsNotNull(info, "No ExportInfo found! Invalid scene.");
 
             var path = info.GetProjectDirectory();

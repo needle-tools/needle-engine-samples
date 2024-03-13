@@ -14,7 +14,7 @@ namespace Needle
 		{
 			Builder.BuildStarting += () =>
 			{
-				var needsUrpComponent = Object.FindObjectOfType<NeedsURP>();
+				var needsUrpComponent = Object.FindAnyObjectByType<NeedsURP>();
 				if (needsUrpComponent)
 				{
 					if (!GraphicsSettings.currentRenderPipeline ||

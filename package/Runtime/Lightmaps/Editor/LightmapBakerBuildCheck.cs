@@ -14,7 +14,7 @@ namespace Needle.MultiLightmaps
         {
             if (stage == BuildStage.PreBuildScene)
             {
-                var baker = Object.FindObjectOfType<LightmapBaker>();
+                var baker = Object.FindAnyObjectByType<LightmapBaker>();
                 if (baker)
                 {
                     try

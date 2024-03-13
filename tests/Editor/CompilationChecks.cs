@@ -78,22 +78,6 @@ namespace Compilation
             return allScenes
                 .Select(x => new WebProjectData(x, null))
                 .ToList();
-            
-            // TODO: traverse all scenes, find all ExportInfo, and get the WebProjects from there.
-            // Otherwise we're testing something different.
-            
-            // TODO: make test relative, not project relative
-            var path = Path.Combine(Application.dataPath, "../../../modules/needle-engine-samples/package/WebProjects~");
-            path = Path.GetFullPath(path);
-            
-            if (!Directory.Exists(path))
-                return new List<WebProjectData>();
-
-            var a = Directory.GetDirectories(path)
-                .Select(x => new WebProjectData(null, x))
-                .ToList();
-
-            return a;
         }
     }
 
