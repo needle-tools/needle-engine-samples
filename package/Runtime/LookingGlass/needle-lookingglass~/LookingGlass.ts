@@ -1,5 +1,6 @@
-import { Behaviour, GameObject, NeedleWebXRHtmlElement, serializable, WebXR } from "@needle-tools/engine";
+import { Behaviour, GameObject, serializable, WebXR, WebXRButtonFactory } from "@needle-tools/engine";
 import { LookingGlassWebXRPolyfill, LookingGlassConfig } from "@lookingglass/webxr";
+import { ButtonsFactory } from "@needle-tools/engine/src/engine/webcomponents/buttons";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -15,7 +16,6 @@ export class LookingGlass extends Behaviour {
     public targetDiam : number = 3;
 
     awake() {
-
         const btnGroup = document.createElement('div');
         btnGroup.style.display = 'flex';
         btnGroup.style.flexDirection = 'column';
@@ -52,8 +52,8 @@ export class LookingGlass extends Behaviour {
         const webxr = GameObject.findObjectOfType(WebXR);
         if (!webxr) return;
         
-        const container = NeedleWebXRHtmlElement.getOrCreate(this.context);
-        const startVR = container.createVRButton();
+        const factory = WebXRButtonFactory.getOrCreate();
+        const startVR = factory.vrButton ?? factory.createVRButton();
 
         btn.addEventListener('click', () => {
             startVR?.click();
