@@ -11,7 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public string @otherButtonText = "Hello World";
 		public UnityEngine.Events.UnityEvent @onClick;
 		public UnityEngine.Events.UnityEvent @onClickOtherButton;
-		// public RGBAColor @color; → Could not resolve C# type
+		public UnityEngine.Color @color = new UnityEngine.Color(1f, 1f, 1f, 1f);
 		public void start(){}
 	}
 }

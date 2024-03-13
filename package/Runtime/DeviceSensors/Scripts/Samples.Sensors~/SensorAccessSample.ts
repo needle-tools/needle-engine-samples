@@ -8,7 +8,7 @@ export class SensorAccessSample extends Behaviour {
     private sensorOrientation!: OrientationSensor;
     private deviceOrientation!: DeviceMotion;
 
-    private orientationLabel: HTMLParagraphElement;
+    private orientationLabel!: HTMLParagraphElement;
 
     start() {
         const div = document.createElement("div");

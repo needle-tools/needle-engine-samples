@@ -177,7 +177,7 @@ export class OrientationSensor extends GyroscopeHandler {
                     onFail?.(`RelativeOrientationSensor error: ${e.error.name}`);
             });
 
-            this.sensor.addEventListener('reading', (e) => {
+            this.sensor.addEventListener('reading', (_e) => {
                 // get orientation offset of the device (portrait/landscape)
                 const deviceZAngle = getOrientation();
 
@@ -208,14 +208,15 @@ export class OrientationSensor extends GyroscopeHandler {
                 });
         }
         // Report construction errors.
-        catch (error) {
+        catch (error: unknown) {
+            if (!(error instanceof Error)) return;
             this.disconnect();
             if (error.name === 'SecurityError') {
                 onFail?.('Sensor construction was blocked by the Permissions Policy.');
             } else if (error.name === 'ReferenceError') {
                 onFail?.('Sensor is not supported by the User Agent.');
             } else {
-                onFail?.(error);
+                onFail?.(error.message);
             }            
         }   
     }

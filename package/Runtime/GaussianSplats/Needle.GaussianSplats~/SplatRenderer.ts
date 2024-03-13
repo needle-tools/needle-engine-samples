@@ -1,9 +1,9 @@
-import { Behaviour } from "@needle-tools/engine";
-import { GameObject } from "@needle-tools/engine";
+import { Behaviour, Renderer } from "@needle-tools/engine";
 import { serializable } from "@needle-tools/engine";
 
 // Typically we'd import types individually, but external code here assumes THREE is a global.
 import * as THREE from "three";
+import { DataTexture, Matrix4, Object3D, WebGLRenderer, Camera as ThreeCamera, Scene, BufferGeometry, Group, InstancedBufferAttribute } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -12,8 +12,8 @@ export class SplatRenderer extends Behaviour {
 	@serializable()
 	path: string = "";
 
-	@serializable(THREE.Object3D)
-	cutout: THREE.Object3D;
+	@serializable(Object3D)
+	cutout?: Object3D;
     
 	private _splatting;
 
@@ -39,19 +39,68 @@ export class SplatRenderer extends Behaviour {
 
 const maxSize = 2048;
 
+declare type El = {
+	sceneEl: {
+		renderer: THREE.WebGLRenderer;
+	};
+
+}
+
 // Slightly adjusted version from https://github.com/quadjr/aframe-gaussian-splatting
+declare type AframeComponent = {
+	el: {
+		object3D: any;
+		sceneEl: any;
+	},
+	data: any;
+	init: () => void;
+	initGL: (camera: ThreeCamera, object: Object3D, renderer: WebGLRenderer) => void;
+	getProjectionMatrix: (camera?: ThreeCamera) => Matrix4;
+	getModelViewMatrix: (camera?: ThreeCamera) => Matrix4;
+}
+
+declare type GaussianSplatting = {
+	schema: any;
+	
+	renderer: WebGLRenderer;
+	object: Object3D;
+	camera: ThreeCamera;
+
+	cutout: Object3D;
+	textureReady: boolean;
+	
+	centerAndScaleData: Float32Array;
+	covAndColorData: Uint32Array;
+	centerAndScaleTexture: DataTexture;
+	covAndColorTexture: DataTexture;
+	worker: Worker;
+	sortReady: boolean;
+	loadedVertexCount: number;
+	rowLength: number;
+
+	loadData: (src: string) => void;
+	createWorker: (self: Worker) => void;
+	pushDataBuffer: (buffer: ArrayBuffer, vertexCount: number) => void;
+	tick: (time: number, timeDelta: number) => void;
+	processPlyBuffer: (inputBuffer: ArrayBuffer) => ArrayBuffer;
+};
+declare type GaussianSplattingComponent = GaussianSplatting & AframeComponent;
+
 // AFRAME.registerComponent("gaussian_splatting", {
 class GaussianSplatRenderer {
-gaussian_splatting = {
+//@ts-ignore
+gaussian_splatting: GaussianSplattingComponent = {
 	schema: {
 		src: {type: 'string', default: "train.splat"},
 	},
 	init: function () {
 		// aframe-specific data
-		this.el.sceneEl.renderer.setPixelRatio(1);
-		this.el.sceneEl.renderer.xr.setFramebufferScaleFactor(0.5);
-		this.initGL( this.el.sceneEl.camera.el.components.camera.camera, this.el.object3D, this.el.sceneEl.renderer);
-		this.loadData(this.data.src);
+		// @ts-ignore
+		const a = this as AframeComponent;
+		a.el.sceneEl.renderer.setPixelRatio(1);
+		a.el.sceneEl.renderer.xr.setFramebufferScaleFactor(0.5);
+		this.initGL( a.el.sceneEl.camera.el.components.camera.camera, a.el.object3D, a.el.sceneEl.renderer);
+		this.loadData(a.data.src);
 	},
 	// also works from vanilla three.js
 	initGL: function(camera, object, renderer) {
@@ -85,11 +134,12 @@ gaussian_splatting = {
 		positions.setXYZ(3, 2.0, -2.0, 0.0);
 		positions.needsUpdate = true;
 
+		//@ts-ignore
 		const geometry = new THREE.InstancedBufferGeometry().copy(baseGeometry);
 		geometry.setAttribute('splatIndex', splatIndexes);
 		geometry.instanceCount = 1;
 
-		const material = new THREE.ShaderMaterial( {
+		const material: THREE.ShaderMaterial = new THREE.ShaderMaterial( {
 			uniforms : {
 				viewport: {value: new Float32Array([1980, 1080])}, // Dummy. will be overwritten
 				focal: {value: 1000.0}, // Dummy. will be overwritten
@@ -203,7 +253,10 @@ gaussian_splatting = {
 			transparent: true
 		} );
 
-		material.onBeforeRender = ((renderer, scene, camera, geometry, object, group) => {
+		const mat = material as unknown as {
+			onBeforeRender: (renderer: WebGLRenderer, scene: Scene, camera: ThreeCamera, geometry: BufferGeometry, object: Object3D, group: Group) => void; 
+		};
+		mat.onBeforeRender = ((renderer, _scene, camera, _geometry, _object, _group) => {
 			let projectionMatrix = this.getProjectionMatrix(camera);
 			mesh.material.uniforms.gsProjectionMatrix.value = projectionMatrix;
 			mesh.material.uniforms.gsModelViewMatrix.value = this.getModelViewMatrix(camera);
@@ -230,8 +283,9 @@ gaussian_splatting = {
 
 		this.worker.onmessage = (e) => {
 			let indexes = new Uint32Array(e.data.sortedIndexes);
-			mesh.geometry.attributes.splatIndex.set(indexes);
-			mesh.geometry.attributes.splatIndex.needsUpdate = true;
+			const s = mesh.geometry.attributes.splatIndex as InstancedBufferAttribute;
+			s.set(indexes);
+			s.needsUpdate = true;
 			mesh.geometry.instanceCount = indexes.length;
 			this.sortReady = true;
 		};
@@ -387,7 +441,7 @@ gaussian_splatting = {
 
 			destOffset =  this.loadedVertexCount * 8 + i * 4 * 2;
 			for(let j = 0; j < cov_indexes.length; j++){
-				covAndColorData_int16[destOffset + j] = parseInt(mtx.elements[cov_indexes[j]] * 32767.0 / max_value);
+				covAndColorData_int16[destOffset + j] = parseInt(mtx.elements[cov_indexes[j]] * 32767.0 / max_value as any);
 			}
 
 			// RGBA
@@ -405,7 +459,7 @@ gaussian_splatting = {
 			}
 		}
 
-		const gl = this.renderer.getContext();
+		const gl = this.renderer.getContext() as WebGL2RenderingContext;
 		while(vertexCount > 0){
 			let width = 0;
 			let height = 0;
@@ -439,7 +493,7 @@ gaussian_splatting = {
 			matrices: matrices.buffer
 		}, [matrices.buffer]);
 	},
-	tick: function(time, timeDelta) {
+	tick: function(_time, _timeDelta) {
 		if(this.sortReady){
 			this.sortReady = false;
 			let camera_mtx = this.getModelViewMatrix().elements;
@@ -508,7 +562,7 @@ gaussian_splatting = {
 			return vec1[0] * vec2[0] + vec1[1] * vec2[1] + vec1[2] * vec2[2];
 		}
 
-		const sortSplats = function sortSplats(matrices, view, cutout = undefined){
+		const sortSplats = function sortSplats(matrices, view, cutout: Float32Array | undefined = undefined){
 			const vertexCount = matrices.length/16;
 			let threshold = -0.0001;
 
@@ -610,7 +664,7 @@ gaussian_splatting = {
 		const header_end_index = header.indexOf(header_end);
 		if (header_end_index < 0)
 			throw new Error("Unable to read .ply file header");
-		const vertexCount = parseInt(/element vertex (\d+)\n/.exec(header)[1]);
+		const vertexCount = parseInt(/element vertex (\d+)\n/.exec(header)![1]);
 		console.log("Vertex Count", vertexCount);
 		let row_offset = 0,
 			offsets = {},
@@ -642,10 +696,17 @@ gaussian_splatting = {
 		);
 		let row = 0;
 		const attrs = new Proxy(
-			{},
 			{
-				get(target, prop) {
-					if (!types[prop]) throw new Error(prop + " not found");
+				x: 0, y: 0, z: 0,
+				scale_0: 0, scale_1: 0, scale_2: 0,
+				opacity: 0,
+				rot_0: 0, rot_1: 0, rot_2: 0, rot_3: 0,
+				f_dc_0: 0, f_dc_1: 0, f_dc_2: 0,
+				red: 0, green: 0, blue: 0,
+			},
+			{
+				get(_target, prop) {
+					if (!types[prop]) throw new Error(prop.toString() + " not found");
 					return dataView[types[prop]](
 						row * row_offset + offsets[prop],
 						true,

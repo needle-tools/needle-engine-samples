@@ -60,7 +60,8 @@ export class HtmlButtonMesh extends Behaviour {
 
         div.style.visibility = "hidden";
 
-        this.group = new InteractiveGroup(this.context.renderer, this.context.mainCamera!);
+        this.group = new InteractiveGroup();
+        this.group.listenToPointerEvents(this.context.renderer, this.context.mainCamera!);
         this.gameObject.add(this.group);
 
         const mesh = new HTMLMesh(div);

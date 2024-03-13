@@ -5,6 +5,22 @@ import { Behaviour } from '@needle-tools/engine/src/engine-components/Component'
 import { serializeable } from "@needle-tools/engine";
 import { FrameEvent } from "@needle-tools/engine";
 
+// See https://github.com/three-types/three-ts-types/issues/855
+declare type _Font = Omit<Font, 'data'> & { data: 
+    {
+        glyphs: {
+            [key: string]: {
+                ha: number;
+            }
+        },
+        boundingBox: {
+            xMin: number;
+            xMax: number;
+            yMin: number;
+            yMax: number;
+        }
+    };
+}
 
 // @dont-generate-component
 export class TextMesh extends Behaviour {
@@ -26,12 +42,12 @@ export class TextMesh extends Behaviour {
     lineSpacing: number = 1;
 
     @serializeable(Color)
-    color: Color;
+    color?: Color;
 
-    private _loadedFont?: Font | null;
+    private _loadedFont?: _Font | null;
 
-    async getFont(characterSpacing: number = 1): Font {
-        if (this._loadedFont !== undefined)
+    async getFont(characterSpacing: number = 1): Promise<_Font> {
+        if (this._loadedFont)
             return this._loadedFont;
 
         if (this.font?.startsWith("fonts/")) {
@@ -43,7 +59,7 @@ export class TextMesh extends Behaviour {
         console.log(path);
         return new Promise((res, _rej) => {
             loader.load(path, response => {
-                this._loadedFont = response;
+                this._loadedFont = response as unknown as _Font;
                 const bb = this._loadedFont.data.boundingBox;
                 if (bb) {
                     bb.yMax *= this.lineSpacing;
@@ -74,6 +90,7 @@ export class TextGeometry extends Behaviour {
     get text(): string {
         return this.textMesh?.text ?? "";
     }
+    
     set text(str: string) {
         if (this.textMesh && str !== this.textMesh.text) {
             this.textMesh.text = str;
@@ -109,7 +126,7 @@ export class TextGeometry extends Behaviour {
     // js properties
 
     private group!: Group;
-    private font: Font | null = null;
+    private font: _Font | null = null;
     private textMeshObj!: Object3D;
     private textGeo!: BufferGeometry;
     private materials!: Material | Material[];
@@ -189,7 +206,7 @@ export class TextGeometry extends Behaviour {
 
         if (this.extrudeEnabled) {
             this.textGeo = new ThreeTextGeometry(this.text, {
-                font: this.font,
+                font: this.font as unknown as Font,
                 size: size,
                 height: this.extrudeHeight,
                 curveSegments: this.curveSegments,

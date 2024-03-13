@@ -60,7 +60,7 @@ export class RevealWorldBehind extends Behaviour implements IPointerClickHandler
         const newMat = this.materials[nextIndex];
         this.renderer.sharedMaterial = newMat;
         if ("_renderOrder" in newMat) {
-            this.gameObject.renderOrder = newMat._renderOrder;
+            this.gameObject.renderOrder = newMat._renderOrder as number;
         }
         else {
             this.gameObject.renderOrder = 0;

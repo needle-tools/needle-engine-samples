@@ -1,8 +1,8 @@
 import { Behaviour } from "@needle-tools/engine";
-import * as THREE from "three";
 import { Camera } from "@needle-tools/engine";
 import * as utils from "@needle-tools/engine";
 import { serializeable } from "@needle-tools/engine";
+import { Color, Material, SRGBColorSpace, Scene, WebGLRenderTarget, WebGLRenderer } from "three";
 const disableRT = utils.getParam("disableRT"); 
 
 export class DisplayCameraView extends Behaviour {
@@ -15,13 +15,13 @@ export class DisplayCameraView extends Behaviour {
     public height : number = 256;
 
     // TODO add dropdown for emissive vs. diffuse
-    private rtTexture: THREE.WebGLRenderTarget | null = null;
-    private rtScene: THREE.Scene | null = null;
-    private material: THREE.Material | null = null;
+    private rtTexture: WebGLRenderTarget | null = null;
+    private rtScene: Scene | null = null;
+    private material: Material | null = null;
 
     awake(): void {
         if(disableRT) return;
-        this.rtTexture = new THREE.WebGLRenderTarget(this.width, this.height, { encoding: THREE.sRGBEncoding });
+        this.rtTexture = new WebGLRenderTarget(this.width, this.height, { colorSpace: SRGBColorSpace });
         this.rtTexture.samples = 4;
         // necessary to match texture orientation from the exported meshes it seems
         this.rtTexture.texture.repeat.y = -1;
@@ -42,7 +42,7 @@ export class DisplayCameraView extends Behaviour {
                 this.material = currentMaterial;
                 if (this.material) {
                     this.material["emissiveMap"] = this.rtTexture.texture;
-                    this.material["emissive"] = new THREE.Color(1,1,1);
+                    this.material["emissive"] = new Color(1,1,1);
                     // for custom shaders
                     if (this.material["uniforms"]) {
                         this.material["uniforms"]["_EmissionMap"] = { value: this.rtTexture.texture };
@@ -53,7 +53,7 @@ export class DisplayCameraView extends Behaviour {
 
         if (!this.material || this.views == null || this.views.length <= 0 || !this.rtScene) return;
 
-        const rend = this.context.renderer as THREE.WebGLRenderer;
+        const rend = this.context.renderer as WebGLRenderer;
 
         if (this.context.time.time - this.lastChangeTime > this.visibleDuration) {
             this.enableNextCamera();

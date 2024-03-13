@@ -1,5 +1,5 @@
 import { Behaviour, ImageReference, Renderer, getParam, serializable, setParamWithoutReload } from "@needle-tools/engine";
-import { Material, RepeatWrapping, Vector2, sRGBEncoding } from "three";
+import { RepeatWrapping, SRGBColorSpace, Vector2 } from "three";
 
 export class TextureLoading extends Behaviour {
     @serializable(Renderer)
@@ -25,7 +25,7 @@ export class TextureLoading extends Behaviour {
         const texture = await image.createTexture();
 
         if (this.targetRenderer && texture) {
-            texture.encoding = sRGBEncoding;
+            texture.colorSpace = SRGBColorSpace;
             texture.repeat = new Vector2(1, -1);
             texture.wrapT = RepeatWrapping;
 
