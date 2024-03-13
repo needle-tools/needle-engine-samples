@@ -87,10 +87,11 @@ export class TextGeometry extends Behaviour {
 
     // passed over from editor
 
+    // @type(string)
     get text(): string {
         return this.textMesh?.text ?? "";
     }
-    
+
     set text(str: string) {
         if (this.textMesh && str !== this.textMesh.text) {
             this.textMesh.text = str;
