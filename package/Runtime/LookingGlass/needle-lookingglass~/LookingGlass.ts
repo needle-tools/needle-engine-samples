@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, serializable, WebXR, WebXRButtonFactory } from "@needle-tools/engine";
+import { Behaviour, isQuest, serializable, WebXRButtonFactory } from "@needle-tools/engine";
 import { LookingGlassWebXRPolyfill, LookingGlassConfig } from "@lookingglass/webxr";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -15,60 +15,35 @@ export class LookingGlass extends Behaviour {
     public targetDiam : number = 3;
 
     awake() {
-        const btnGroup = document.createElement('div');
-        btnGroup.style.display = 'flex';
-        btnGroup.style.flexDirection = 'column';
-        btnGroup.style.position = 'absolute';
-        btnGroup.style.top = '10px';
-        btnGroup.style.right = '10px';
-        const btn = document.createElement('button');
-        btn.innerHTML = "<p>Click to display on<p>";
-        btn.style.backgroundColor = 'black';
-        btn.style.color = 'white';
-        btnGroup.appendChild(btn);
+        const config = LookingGlassConfig as any;
 
-        btnGroup.appendChild(this.makeButton("Learn More", "https://look.glass"));
-        btnGroup.appendChild(this.makeButton("Buy ($40 off)", "https://lookingglass.refr.cc/needle"));
-
-        this.context.domElement.shadowRoot?.appendChild(btnGroup);
-
-        const config = LookingGlassConfig;
-        console.log(config)
-
-        config.tileHeight = 512;
-        config.numViews = 45;
+        // initial settings
         config.targetY = this.targetY;
         config.targetZ = 0;
-        console.log(this.trackballX);
         config.trackballX = this.trackballX / 180.0 * Math.PI;
         config.trackballY = this.trackballY / 180.0 * Math.PI;
         config.targetDiam = this.targetDiam;
         config.fovy = (40 * Math.PI) / 180;
         config.depthiness = 1.0;
 
-        const polyfill = new LookingGlassWebXRPolyfill(config);
+        // initiate WebXR polyfill
+        const _polyfill = new LookingGlassWebXRPolyfill(config);
 
-        const webxr = GameObject.findObjectOfType(WebXR);
-        if (!webxr) return;
-        
-        const factory = WebXRButtonFactory.getOrCreate();
-        const startVR = factory.vrButton ?? factory.createVRButton();
-
-        btn.addEventListener('click', () => {
-            startVR?.click();
-        });
-        
-        btn.appendChild(this.lookingGlassLogo());
+        // add customized VR button with Looking Glass logo
+        const btn = WebXRButtonFactory.getOrCreate().createVRButton();
+        btn.innerText = "";
+        if (!isQuest())
+        {
+            btn.append(this.lookingGlassLogo());
+            this.context.menu.appendChild(btn);
+            this.context.menu.appendChild(this.makeButton("Learn More", "https://look.glass"));
+            this.context.menu.appendChild(this.makeButton("Get One ($40 off!)", "https://lookingglass.refr.cc/needle"));
+        }
     }
 
     private makeButton(text, url) {
         const learnMoreButton = document.createElement('button');
-        learnMoreButton.style.backgroundColor = 'black';
-        learnMoreButton.style.marginTop = '10px';
-        learnMoreButton.style.paddingTop = '5px';
-        learnMoreButton.style.paddingBottom = '5px';
         const learnMoreLink = document.createElement('a');
-        learnMoreLink.style.color = 'white';
         learnMoreLink.text = text;
         learnMoreLink.href = url;
         learnMoreLink.target = "_blank";
@@ -110,6 +85,8 @@ export class LookingGlass extends Behaviour {
         let url = URL.createObjectURL(blob);
         let image = document.createElement('img');
         image.src = url;
+        image.style.filter = "filter: invert(1) hue-rotate(180deg)";
+        image.style.webkitFilter = "invert(1) hue-rotate(180deg)";
         image.addEventListener('load', () => URL.revokeObjectURL(url), {once: true});
         image.width = 110;
         return image;
