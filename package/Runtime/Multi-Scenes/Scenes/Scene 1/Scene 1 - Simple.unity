@@ -815,20 +815,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
+  autoTarget: 1
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 0
-  enableDamping: 1
-  dampingFactor: 0.1
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: Infinity
+  maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 0}
 --- !u!1 &729719042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,15 +1123,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1855280757207794855, guid: af1a6bbf8471cc842a4c8c043f6bc5b0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.010000008
+      value: 0.010000011
       objectReference: {fileID: 0}
     - target: {fileID: 1855280757207794855, guid: af1a6bbf8471cc842a4c8c043f6bc5b0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01000001
+      value: 0.010000017
       objectReference: {fileID: 0}
     - target: {fileID: 1855280757207794855, guid: af1a6bbf8471cc842a4c8c043f6bc5b0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.010000003
+      value: 0.010000005
       objectReference: {fileID: 0}
     - target: {fileID: 1855280757207794855, guid: af1a6bbf8471cc842a4c8c043f6bc5b0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1381,8 +1388,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 0
-  useViewAngle: 0
 --- !u!4 &990150450 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6863370408674549772, guid: 6882fa030597e4b4db76333a12164865, type: 3}
@@ -1554,8 +1566,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 0
-  useViewAngle: 0
 --- !u!4 &1035279181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3445362787198382902, guid: 5fe34d9de64dc004bb27713e0b6f417d, type: 3}
@@ -1652,8 +1669,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 0
-  useViewAngle: 0
 --- !u!54 &1188827108
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1889,8 +1911,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 0
-  useViewAngle: 0
 --- !u!4 &1270609103 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 908409272947668052, guid: 518b1eca5e81efa419cc9f707554f59a, type: 3}
@@ -2003,8 +2030,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 0
-  useViewAngle: 0
 --- !u!4 &1281237442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6432195040489705109, guid: 1ea68dbeffac3574387f0dedd6d1b7b1, type: 3}
@@ -2023,6 +2055,134 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2, z: 0.2}
   m_Center: {x: 0, y: 0.103, z: 0}
+--- !u!1 &1455335101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1455335103}
+  - component: {fileID: 1455335102}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1455335102
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455335101}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: c0256edc101fc1f4ebfeeeabe1c3d957, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.209
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1455335103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455335101}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1544480329
 GameObject:
   m_ObjectHideFlags: 0
@@ -2161,8 +2321,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
+  dragMode: 3
+  snapGridResolution: 0
+  keepRotation: 1
+  xrDragMode: 1
+  xrKeepRotation: 0
+  xrDistanceDragFactor: 1
   showGizmo: 0
-  useViewAngle: 0
 --- !u!4 &1593447919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6542038656970245071, guid: 220d6b488b6d163469ab8892e4daa848, type: 3}
@@ -2508,6 +2673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine $ GlobalObjectId_V1-2-d541a43e59ef6e94b8483da1bfc954ea-519983825-0
+  priority: 0
 --- !u!4 &1976356639
 Transform:
   m_ObjectHideFlags: 0
@@ -2517,7 +2683,7 @@ Transform:
   m_GameObject: {fileID: 1976356637}
   m_LocalRotation: {x: -0, y: -0.86602515, z: -0, w: 0.50000054}
   m_LocalPosition: {x: 1.921, y: 0, z: 1.028}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.7000008, y: 0.7, z: 0.7000008}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
