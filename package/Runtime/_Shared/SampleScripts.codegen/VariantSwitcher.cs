@@ -10,7 +10,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.GameObject[] @objects = new UnityEngine.GameObject[]{ };
 		public bool @hideContentOnStart = true;
 		public UnityEngine.UI.Text @lable;
-		public void awake(){}
+		public UnityEngine.GameObject @testRef;
+		public void start(){}
 		public void next(){}
 		public void previous(){}
 		public void apply(){}
