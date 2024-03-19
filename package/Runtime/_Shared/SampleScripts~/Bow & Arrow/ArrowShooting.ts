@@ -1,7 +1,6 @@
-import { Animation, AssetReference, AudioSource, Behaviour, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, WebXR, XRControllerFollow, delay, delayForFrames, getParam, getTempQuaternion, getTempVector, isQuest, lookAtInverse, serializable } from "@needle-tools/engine";
-import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Vector3, Vector2, Quaternion } from "three";
-import { AssetReference, AudioSource, Behaviour, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, XRControllerFollow, delay, delayForFrames, getParam, getTempQuaternion, getTempVector, isQuest, lookAtInverse, serializable } from "@needle-tools/engine";
-import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Vector3, Quaternion, Matrix4 } from "three";
+import { Animation, AssetReference, AudioSource, Behaviour, Collider, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, RigidbodyConstraints, XRControllerFollow, delay, delayForFrames, getComponent, getParam, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
+import { AnimationAction, AnimationMixer, Object3D, Vector3, Vector2, Quaternion, Matrix4 } from "three";
+import { Arrow } from "./Arrow";
 
 
 const debug = getParam("debugarrow");
@@ -50,6 +49,8 @@ export class ArrowShooting extends Behaviour {
         this._isAiming = false;
         this.context.input.addEventListener("pointerdown", this.onDown);
         this.context.input.addEventListener("pointerup", this.onRelease);
+
+        this.setupPreDraw();
     }
 
     onDisable(): void {
@@ -113,8 +114,30 @@ export class ArrowShooting extends Behaviour {
             if (this.arrowOrigin) {
                 const pos = this.arrowOrigin.getWorldPosition(getTempVector());
                 const dir = this.gameObject.getWorldDirection(getTempVector());
+                // TODO: add draw force
                 this.shoot(pos, dir);
             }
+        }
+    }
+
+    private preDrawedArrow?: IGameObject;
+    private async setupPreDraw() {
+        if (!this.arrowPrefab || !this.arrowOrigin) return;
+
+        // don't predraw if already predrawed
+        if (this.preDrawedArrow) return;
+
+        const instance = await this.arrowPrefab.instantiate({ parent: this.arrowOrigin });
+        
+        if (instance) {
+            instance.visible = true;
+            instance.worldScale = getTempVector(1,1,1);
+            this.preDrawedArrow = instance;
+
+            instance.getComponent(Arrow)?.destroy();
+            instance.getComponent(Rigidbody)?.destroy();
+            instance.getComponentsInChildren(Collider)
+                    .forEach(c => c.destroy());
         }
     }
 
@@ -125,19 +148,26 @@ export class ArrowShooting extends Behaviour {
      */
     private async shoot(from: Vector3, vec: Vector3) {
         if (!this.arrowPrefab) return;
+
         const instance = await this.arrowPrefab.instantiate({ parent: this.context.scene });
+
+        if (!instance) return;
+
         const force = Math.pow(vec.length() + .5, 2);
         const dir = vec.clone().normalize();
-        if (instance) {
-            instance.position.copy(from);
-            instance.lookAt(dir.clone().add(from));
-            instance.visible = true;
-            const rb = instance.getOrAddComponent(Rigidbody);
+
+        instance.position.copy(from);
+        instance.lookAt(dir.clone().add(from));
+        instance.visible = true;
+
+        const rb = instance.getComponent(Rigidbody)!;
+        if (rb) {
             rb.isKinematic = false;
             rb.autoMass = false;
             rb.mass = .05;
             this.sound?.stop();
             this.sound?.play();
+
             // workaround Rigidbody not yet created in the physics engine (it gets created in onEnable)
             await delayForFrames(1);
             rb.applyImpulse(dir.multiplyScalar(force), true);
@@ -224,7 +254,34 @@ export class ArrowShooting extends Behaviour {
             if (!this._isAiming) {
                 animTimeGoal = 0;
             }
-            else if (this.context.xr && this.context.xr.controllers.length > 1) {
+            else if (this.context.xr && this.context.xr.controllers.length > 1 && this._bowController !== undefined && this._stringController !== undefined) {
+                const holdingString = this.context.xr.controllers[this._stringController];
+                const holdingBow = this.context.xr.controllers[this._bowController];
+    
+                // This should not happen, but seems when transient pointers are in use we 
+                // sometimes get invalid entries here
+                if (!holdingString || !holdingBow) return;
+    
+                // TODO fix this, currently we're allowing all kinds of controllers here.
+                // We should explicitly only allow hands and controllers, not transient inputs
+    
+                // console.log(holdingBow?.targetRayMode, holdingString?.targetRayMode);
+    
+                let bowUp = getTempVector(0, 1, 0);
+                if (!holdingBow.hand && holdingBow.targetRayMode === "tracked-pointer") {
+                    // if this is a controller, we rotate by 90° because Meta Browser...
+                    bowUp.applyQuaternion(this._rotate90);
+                }
+                bowUp.applyQuaternion(holdingBow.gripWorldQuaternion).normalize();
+
+                this._tempLookMatrix.lookAt(holdingString.gripWorldPosition, holdingBow.gripWorldPosition, bowUp);
+                this._tempLookRot.setFromRotationMatrix(this._tempLookMatrix);
+                this.bowObject.worldQuaternion = this._tempLookRot;
+                
+                const dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
+                animTimeGoal = Mathf.clamp01(dist * 1.5);
+            }    
+            /*else if (this.context.xr && this.context.xr.controllers.length > 1) {
                 const holdingString = this.context.xr.controllers[this._stringController];
                 const holdingBow = this.context.xr.controllers[1 - this._stringController];
     
@@ -235,7 +292,7 @@ export class ArrowShooting extends Behaviour {
     
                 const dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
                 animTimeGoal = Mathf.clamp01(dist * 1.5);
-            }
+            } */
         }
         // Non-VR Logic
         else {
@@ -266,8 +323,6 @@ export class ArrowShooting extends Behaviour {
 
                         this.tempUpRef.set(0, 1);
                         const angle = this.tempUpRef.angleTo(dir) * sign;
-
-                        console.log(angle);
                         
                         this.gameObject.quaternion.setFromAxisAngle(getTempVector().set(1, 0, 0), angle);
                     }
@@ -287,6 +342,10 @@ export class ArrowShooting extends Behaviour {
         }
 
         this._mixer.update(this.context.time.deltaTime);
+
+        if (this.preDrawedArrow) {
+            this.preDrawedArrow.worldScale = getTempVector(1, 1, 1).multiplyScalar(animTimeGoal);
+        }
 
         /* if (!this._isAiming) {
             this._animation.time = Mathf.lerp(this._animation.time, 0, this.context.time.deltaTime / .05);

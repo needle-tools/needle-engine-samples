@@ -1043,11 +1043,11 @@ MonoBehaviour:
   arrowPrefab: {fileID: 229769267}
   sound: {fileID: 282106533}
   mountedParent: {fileID: 151841532}
-  arrowOrigin: {fileID: 282106530}
+  arrowOrigin: {fileID: 1107799087}
   animationComponent: {fileID: 282106532}
   bowObject: {fileID: 282106529}
-  mountedPreDrawAmount: 0.3
-  fullDrawDragDistance: 250
+  mountedPreDrawAmount: 0.7
+  fullDrawDragDistance: 100
 --- !u!1 &229769266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,8 +1057,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 229769267}
-  - component: {fileID: 229769269}
   - component: {fileID: 229769268}
+  - component: {fileID: 229769270}
+  - component: {fileID: 229769269}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -1096,7 +1097,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Arrow, Needle.Engine-Samples.Runtime
   destroyTarget: 1
---- !u!54 &229769269
+--- !u!114 &229769269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229769266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1359894956e58b4e9893858bb20ed43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.RigidbodyData, Needle.Engine
+  autoMass: 0
+--- !u!54 &229769270
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1248,9 +1262,9 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8771091787928289351, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
   m_PrefabInstance: {fileID: 282106527}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &282106530 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 182650097868342992, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
+--- !u!4 &282106530 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7725383260993615026, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
   m_PrefabInstance: {fileID: 282106527}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &282106531
@@ -6609,6 +6623,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1107799087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1107799088}
+  m_Layer: 0
+  m_Name: ArrowSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1107799088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107799087}
+  m_LocalRotation: {x: -0.7372774, y: 0, z: 0, w: 0.67559016}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 282106530}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -95, y: 0, z: 0}
 --- !u!1 &1213961346
 GameObject:
   m_ObjectHideFlags: 0

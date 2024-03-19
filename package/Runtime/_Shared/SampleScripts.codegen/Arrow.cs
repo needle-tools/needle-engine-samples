@@ -9,7 +9,6 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public bool @destroyTarget = false;
 		public void awake(){}
-		public void start(){}
 		public void onBeforeRender(){}
 	}
 }
