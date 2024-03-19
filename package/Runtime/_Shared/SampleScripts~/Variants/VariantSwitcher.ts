@@ -11,7 +11,7 @@ export class VariantSwitcher extends Behaviour {
 
     @serializable(Text)
     lable?: Text;
-    
+
     private index = -1;
     awake(): void {
         if (!this.hideContentOnStart)
@@ -49,7 +49,9 @@ export class VariantSwitcher extends Behaviour {
             const obj = this.objects[this.index];
             if (obj) {
                 const info = GameObject.getComponent(obj, VariantInfo);
-                this.lable.text = info?.displayName ?? obj.name;            
+                let text = info?.displayName ?? obj.name;
+                text = text.replace(/_/g, " ");
+                this.lable.text = text;
             }
         }            
     }
