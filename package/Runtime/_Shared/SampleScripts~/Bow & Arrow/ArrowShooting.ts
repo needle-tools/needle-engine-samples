@@ -1,5 +1,5 @@
 import { AssetReference, AudioSource, Behaviour, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, XRControllerFollow, delay, delayForFrames, getParam, getTempQuaternion, getTempVector, isQuest, lookAtInverse, serializable } from "@needle-tools/engine";
-import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Vector3, Quaternion } from "three";
+import { AnimationAction, AnimationClip, AnimationMixer, Object3D, Vector3, Quaternion, Matrix4 } from "three";
 
 
 const debug = getParam("debugarrow");
@@ -24,8 +24,10 @@ export class ArrowShooting extends Behaviour {
 
     /** true while aiming */
     private _isAiming = false;
+    /** the controller index holding the bow */
+    private _bowController?: number = undefined;
     /** the controller index dragging the string */
-    private _stringController = 0;
+    private _stringController?: number = undefined;
 
     onEnterXR(_args: NeedleXREventArgs): void {
         this.arrowPrefab?.loadAssetAsync();
@@ -43,11 +45,13 @@ export class ArrowShooting extends Behaviour {
         if (evt.origin instanceof NeedleXRController) {
             if (evt.button === 0) {
                 this._isAiming = true;
-                this._stringController = evt.origin.index;
+                if (this._bowController === undefined)
+                    this._bowController = evt.origin.index;
+                else if (this._stringController === undefined)
+                    this._stringController = evt.origin.index;
+
                 const follow = this.bowObject?.getComponentInParent(XRControllerFollow);
-                if (follow) {
-                    follow.side = evt.origin.side === "left" ? "right" : "left";
-                }
+                if (follow) follow.side = this._bowController;
             }
         }
     }
@@ -59,12 +63,23 @@ export class ArrowShooting extends Behaviour {
         this._isAiming = false;
         if (evt.origin instanceof NeedleXRController) {
             const ctrl = evt.origin;
-            const other = NeedleXRSession.active?.controllers.find(c => c !== ctrl);
-            if (ctrl && other) {
-                const point = ctrl.rayWorldPosition;
-                const dir = other.rayWorldPosition.clone().sub(point);
-                this.shoot(point, dir);
-                if (debug) Gizmos.DrawArrow(point, dir.clone().add(point), 0xffff00, 1);
+            if (ctrl.index === this._stringController) {
+                const other = NeedleXRSession.active?.getController(this._bowController);
+                if (ctrl && other) {
+                    const point = ctrl.gripWorldPosition;
+                    if (point) {
+                        const dir = other.gripWorldPosition.clone().sub(point);
+                        console.log("shoot", {mode: ctrl.targetRayMode, side: ctrl.side}, {mode: other.targetRayMode, side: other.side });
+                        this.shoot(point, dir);
+                        if (debug) Gizmos.DrawArrow(point, dir.clone().add(point), 0xffff00, 1);
+                    }
+                }
+            }
+            if (ctrl.index === this._bowController) {
+                this._bowController = undefined;
+            }
+            if (ctrl.index === this._stringController) {
+                this._stringController = undefined;
             }
         }
     }
@@ -107,6 +122,8 @@ export class ArrowShooting extends Behaviour {
     bowObject?: GameObject;
 
     private _initRot: Quaternion = new Quaternion();
+    private _tempLookMatrix = new Matrix4();
+    private _tempLookRot = new Quaternion();
     private _mixer?: AnimationMixer;
     private _animation!: AnimationAction;
 
@@ -119,14 +136,24 @@ export class ArrowShooting extends Behaviour {
         if (!this._isAiming) {
             this._animation.time = Mathf.lerp(this._animation.time, 0, this.context.time.deltaTime / .05);
         }
-        else if (this.context.xr && this.context.xr.controllers.length > 1) {
+        else if (this.context.xr && this.context.xr.controllers.length > 1 && this._bowController !== undefined && this._stringController !== undefined) {
             const holdingString = this.context.xr.controllers[this._stringController];
-            const holdingBow = this.context.xr.controllers[1 - this._stringController];
+            const holdingBow = this.context.xr.controllers[this._bowController];
 
-            let dir = getTempVector(holdingBow.rayWorldPosition).sub(holdingString.rayWorldPosition)
+            // This should not happen, but seems when transient pointers are in use we 
+            // sometimes get invalid entries here
+            if (!holdingString || !holdingBow) return;
 
-            const lookRotation = getTempQuaternion().setFromUnitVectors(getTempVector(0, 0, 1), dir.normalize());
-            this.bowObject.worldQuaternion = lookRotation.multiply(this._initRot);
+            // TODO fix this, currently we're allowing all kinds of controllers here.
+            // We should explicitly only allow hands and controllers, not transient inputs
+
+            // console.log(holdingBow?.targetRayMode, holdingString?.targetRayMode);
+
+            let dir = getTempVector(holdingBow.gripWorldPosition).sub(holdingString.gripWorldPosition)
+            let bowUp = getTempVector(0, 1, 0).applyQuaternion(holdingBow.gripWorldQuaternion);
+            this._tempLookMatrix.lookAt(holdingBow.gripWorldPosition, holdingString.gripWorldPosition, bowUp);
+            this._tempLookRot.setFromRotationMatrix(this._tempLookMatrix);
+            this.bowObject.worldQuaternion = this._tempLookRot.multiply(this._initRot);
 
             const dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
             this._animation.timeScale = 0;
