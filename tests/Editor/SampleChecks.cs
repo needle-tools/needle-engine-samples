@@ -206,14 +206,17 @@ namespace SampleChecks
         [Category(SampleChecks.PublicInfoCategoryName)]
         public void HasReadme()
         {
+            // simple check if the file exists
             var sampleDirectory = AssetDatabase.GetAssetPath(sample.Scene);
             sampleDirectory = Path.GetDirectoryName(sampleDirectory);
             if (sampleDirectory == null) return;
             var readmePath = Path.Combine(sampleDirectory, "README.md");
             Assert.IsTrue(File.Exists(readmePath), "No README.md found");
             
-            // TODO maybe we can rename it directly here to avoid issues
-            Assert.IsTrue(Directory.GetFileSystemEntries(sampleDirectory, "README.md").FirstOrDefault() != null, "File should be called README.md (uppercase)");
+            // we need to ensure it's actually called README.md and not readme.md or Readme.md or something else
+            var filesystemEntries = Directory.GetFileSystemEntries(sampleDirectory, "README.md");
+            var first = filesystemEntries.FirstOrDefault();
+            Assert.IsTrue(first != null && first.EndsWith("README.md", StringComparison.Ordinal), "File should be called README.md (uppercase)");
         }
 
         [Test]
