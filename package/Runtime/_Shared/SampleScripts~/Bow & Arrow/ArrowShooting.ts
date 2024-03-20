@@ -124,6 +124,7 @@ export class ArrowShooting extends Behaviour {
     private _initRot: Quaternion = new Quaternion();
     private _tempLookMatrix = new Matrix4();
     private _tempLookRot = new Quaternion();
+    private _rotate90 = new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), Math.PI / 2);
     private _mixer?: AnimationMixer;
     private _animation!: AnimationAction;
 
@@ -149,12 +150,17 @@ export class ArrowShooting extends Behaviour {
 
             // console.log(holdingBow?.targetRayMode, holdingString?.targetRayMode);
 
-            let dir = getTempVector(holdingBow.gripWorldPosition).sub(holdingString.gripWorldPosition)
-            let bowUp = getTempVector(0, 1, 0).applyQuaternion(holdingBow.gripWorldQuaternion);
-            this._tempLookMatrix.lookAt(holdingBow.gripWorldPosition, holdingString.gripWorldPosition, bowUp);
+            let bowUp = getTempVector(0, 1, 0);
+            if (!holdingBow.hand && holdingBow.targetRayMode === "tracked-pointer") {
+                // if this is a controller, we rotate by 90° because Meta Browser...
+                bowUp.applyQuaternion(this._rotate90);
+            }
+            bowUp.applyQuaternion(holdingBow.gripWorldQuaternion).normalize();
+            Gizmos.DrawLine(holdingBow.gripWorldPosition, holdingBow.gripWorldPosition.clone().add(bowUp), 0xff0000, 1);
+            this._tempLookMatrix.lookAt(holdingString.gripWorldPosition, holdingBow.gripWorldPosition, bowUp);
             this._tempLookRot.setFromRotationMatrix(this._tempLookMatrix);
-            this.bowObject.worldQuaternion = this._tempLookRot.multiply(this._initRot);
-
+            this.bowObject.worldQuaternion = this._tempLookRot;
+            
             const dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
             this._animation.timeScale = 0;
             this._animation.time = Mathf.lerp(this._animation.time, Mathf.clamp01(dist * 1.5), this.context.time.deltaTime / .1);
