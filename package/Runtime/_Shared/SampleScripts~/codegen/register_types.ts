@@ -48,6 +48,7 @@ import { BowArrowTarget } from "../Bow & Arrow/BowArrowTarget.js";
 import { BowTargetSpawner } from "../Bow & Arrow/BowTargetSpawner.js";
 import { VariantInfo } from "../Variants/VariantInfo.js";
 import { VariantSwitcher } from "../Variants/VariantSwitcher.js";
+import { VariantSwitcherControls } from "../Variants/VariantSwitcherControls.js";
 
 // Register types
 TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
@@ -96,3 +97,4 @@ TypeStore.add("BowArrowTarget", BowArrowTarget);
 TypeStore.add("BowTargetSpawner", BowTargetSpawner);
 TypeStore.add("VariantInfo", VariantInfo);
 TypeStore.add("VariantSwitcher", VariantSwitcher);
+TypeStore.add("VariantSwitcherControls", VariantSwitcherControls);
