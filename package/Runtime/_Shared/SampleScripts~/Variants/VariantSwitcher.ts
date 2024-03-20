@@ -1,40 +1,49 @@
 import { Behaviour, GameObject, Mathf, Text, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
-import { VariantInfo } from "./VariantInfo";
 
 export class VariantSwitcher extends Behaviour {
+    static change = "change";
+
     @serializable(Object3D)
     objects: Object3D[] = [];
 
     @serializable()
-    hideContentOnStart:boolean = true;
+    hideContentOnStart: boolean = true;
 
-    @serializable(Text)
-    lable?: Text;
+    @serializable()
+    autoDetectContent: boolean = false;
 
-    private index = -1;
+    // @nonSerialized
+    get index() { return this._index; }
+    private _index = -1;
+    
     awake(): void {
-        if (!this.hideContentOnStart)
-            this.index = 0;
+        if (!this.hideContentOnStart) {
+            this._index = 0;
+        }
+
+        if (this.objects.length === 0 && this.autoDetectContent) {
+            this.objects = this.gameObject.children;
+        }
 
         this.apply();
     }
-    
-    next() {
-        this.index++;
 
-        if (this.index >= this.objects.length) {
-            this.index = 0;
+    next() {
+        this._index++;
+
+        if (this._index >= this.objects.length) {
+            this._index = 0;
         }
 
         this.apply();
     }
 
     previous() {
-        this.index--;
+        this._index--;
 
-        if (this.index < 0) {
-            this.index = this.objects.length - 1;
+        if (this._index < 0) {
+            this._index = this.objects.length - 1;
         }
 
         this.apply();
@@ -42,23 +51,14 @@ export class VariantSwitcher extends Behaviour {
 
     apply() {
         for (let i = 0; i < this.objects.length; i++) {
-            this.objects[i].visible = i === this.index;
+            this.objects[i].visible = i === this._index;
         }
-
-        if (this.lable) {
-            const obj = this.objects[this.index];
-            if (obj) {
-                const info = GameObject.getComponent(obj, VariantInfo);
-                let text = info?.displayName ?? obj.name;
-                text = text.replace(/_/g, " ");
-                this.lable.text = text;
-            }
-        }            
+        this.dispatchEvent(new Event(VariantSwitcher.change));
     }
 
     select(index: number) {
-        this.index = index;
-        this.index = Mathf.clamp(this.index, 0, this.objects.length - 1);
+        this._index = index;
+        this._index = Mathf.clamp(this._index, 0, this.objects.length - 1);
         this.apply();
     }
 }
