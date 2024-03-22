@@ -69,7 +69,6 @@ export class ArrowShooting extends Behaviour {
                     const point = ctrl.gripWorldPosition;
                     if (point) {
                         const dir = other.gripWorldPosition.clone().sub(point);
-                        console.log("shoot", {mode: ctrl.targetRayMode, side: ctrl.side}, {mode: other.targetRayMode, side: other.side });
                         this.shoot(point, dir);
                         if (debug) Gizmos.DrawArrow(point, dir.clone().add(point), 0xffff00, 1);
                     }
@@ -109,9 +108,6 @@ export class ArrowShooting extends Behaviour {
             rb.applyImpulse(dir.multiplyScalar(force), true);
         }
     }
-
-
-
 
     /** Visuals */
 
@@ -156,7 +152,7 @@ export class ArrowShooting extends Behaviour {
                 bowUp.applyQuaternion(this._rotate90);
             }
             bowUp.applyQuaternion(holdingBow.gripWorldQuaternion).normalize();
-            Gizmos.DrawLine(holdingBow.gripWorldPosition, holdingBow.gripWorldPosition.clone().add(bowUp), 0xff0000, 1);
+
             this._tempLookMatrix.lookAt(holdingString.gripWorldPosition, holdingBow.gripWorldPosition, bowUp);
             this._tempLookRot.setFromRotationMatrix(this._tempLookMatrix);
             this.bowObject.worldQuaternion = this._tempLookRot;
