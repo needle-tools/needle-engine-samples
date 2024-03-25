@@ -4,7 +4,10 @@ import { Object3D, MathUtils } from "three";
 const debug = getParam("debuggyro");
 
 export class GyroscopeControls extends Behaviour {
-    // better refresh rate, but not supported on all devices (supported on Android devices)
+    @serializeable()
+    invert: boolean = false;
+
+    // better refresh rate, but not supported on all devices (Android devices)
     protected sensorOrientation!: OrientationSensor;
     // worse refresh rate, but supported on majority of devices (iOS and Android)
     protected deviceOrientation!: DeviceMotion;
@@ -20,8 +23,8 @@ export class GyroscopeControls extends Behaviour {
             this.deviceOrientation.initialize((msg) => {
                 if(debug) console.error("DeviceMotion: ", msg);
                 this.onFail();
-            });
-        });
+            }, this.invert);
+        }, this.invert);
     
     }
     onDisable() {
@@ -71,6 +74,8 @@ abstract class GyroscopeHandler {
 }
 
 export class DeviceMotion extends GyroscopeHandler {
+    private invert: boolean = false;
+    private connectFromClick: boolean = false;
 
     constructor(target: Object3D) {
         super(target);
@@ -114,18 +119,24 @@ export class DeviceMotion extends GyroscopeHandler {
 
         // compensate for device orientation offset (portrait/landscape)
         this.target.rotateZ(MathUtils.degToRad(-deviceZAngle));
+
+        if (this.invert)
+            this.target.quaternion.invert();
     };
 
-    initialize(onFail?: (msg: string) => void) {
+    initialize(onFail?: (msg: string) => void, invert: boolean = false) {
+        this.invert = invert;
         if (!("DeviceMotionEvent" in globalThis)) {
             onFail?.("DeviceMotionEvent not supported.");
         }
-
+        
+        this.connectFromClick = true;
         // awaiting user interaction -> tryConnectOnClick
     }
 
     protected tryConnectOnClick() {
         if (this.isConnected) return;
+        if (!this.connectFromClick) return;
 
         //@ts-ignore
         if ("requestPermission" in DeviceMotionEvent) {
@@ -143,6 +154,8 @@ export class DeviceMotion extends GyroscopeHandler {
 }
 
 export class OrientationSensor extends GyroscopeHandler {
+    private invert: boolean = false;
+
     //@ts-ignore 
     protected sensor?: RelativeOrientationSensor;
 
@@ -155,7 +168,9 @@ export class OrientationSensor extends GyroscopeHandler {
         this.sensor?.stop();
     }
 
-    initialize(onFail?: (msg: string) => void): void {
+    initialize(onFail?: (msg: string) => void, invert: boolean = false): void {
+        this.invert = invert;
+
         if (this.isInitialized) {
             this.connect();
             return;
@@ -191,6 +206,9 @@ export class OrientationSensor extends GyroscopeHandler {
 
                 // compensate for device orientation offset (portrait/landscape)
                 this.target.rotateZ(MathUtils.degToRad(-deviceZAngle));
+
+                if (this.invert)
+                    this.target.quaternion.invert();
             });
 
             // then get permission and start the sensor
