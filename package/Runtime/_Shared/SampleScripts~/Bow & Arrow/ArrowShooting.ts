@@ -63,7 +63,7 @@ export class ArrowShooting extends Behaviour {
         this._isAiming = false;
         if (evt.origin instanceof NeedleXRController) {
             const ctrl = evt.origin;
-            if (ctrl.index === this._stringController) {
+            if (ctrl.index === this._stringController && this._bowController !== undefined) {
                 const other = NeedleXRSession.active?.getController(this._bowController);
                 if (ctrl && other) {
                     const point = ctrl.gripWorldPosition;
