@@ -1,10 +1,13 @@
-import { Behaviour } from "@needle-tools/engine";
+import { Behaviour, serializable } from "@needle-tools/engine";
 import { Euler, MathUtils } from "three";
 import { OrientationSensor, DeviceMotion } from "./GyroscopeControls";
 
 // Documentation → https://docs.needle.tools/scripting
 
 export class SensorAccessSample extends Behaviour {
+    @serializable()
+    invert: boolean = false;
+
     private sensorOrientation!: OrientationSensor;
     private deviceOrientation!: DeviceMotion;
 
@@ -62,8 +65,8 @@ export class SensorAccessSample extends Behaviour {
             this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
             this.deviceOrientation.initialize(() => {
                 this.orientationLabel.innerText = "No API available.";
-            });
-        });
+            }, this.invert);
+        }, this.invert);
     }
 
     update(): void {
