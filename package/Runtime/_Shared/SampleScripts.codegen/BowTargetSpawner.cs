@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class BowTargetSpawner : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.GameObject[] @prefabs;
-		public void OnEnable(){}
+		public void awake(){}
 		public void update(){}
 	}
 }

@@ -1,14 +1,13 @@
 import { Behaviour, Gizmos, Mathf, Rigidbody, delayForFrames, destroy, getTempVector, instantiate, isDestroyed, serializable } from "@needle-tools/engine";
 import { Object3D, Vector3 } from "three";
 
-
 export class BowTargetSpawner extends Behaviour {
 
     @serializable(Object3D)
     prefabs?: Object3D[];
 
-    onEnable(): void {
-        if (!this.prefabs?.length) {
+    awake(): void {
+        if (!this.prefabs?.length || this.prefabs?.length === 0) {
             console.warn("BowTargetSpawner start: no prefab set");
             this.enabled = false;
             return;
