@@ -11,6 +11,9 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.AudioSource @sound;
 		public UnityEngine.GameObject @mountedParent;
 		public UnityEngine.GameObject @arrowOrigin;
+		public float @predrawDelay = 0.5f;
+		public float @mountedPower = 1.5f;
+		public float @interactionPixelTreshold = 85f;
 		public void awake(){}
 		public void OnEnable(){}
 		public void OnDisable(){}

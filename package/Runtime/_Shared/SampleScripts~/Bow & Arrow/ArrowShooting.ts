@@ -18,6 +18,15 @@ export class ArrowShooting extends Behaviour {
     @serializable(Object3D)
     arrowOrigin?: Object3D;
 
+    @serializable()
+    predrawDelay: number = 0.5;
+
+    @serializable()
+    mountedPower: number = 1.5;
+
+    @serializable()
+    interactionPixelTreshold: number = 85;
+
     private nonMountedParent?: Object3D;
     awake(): void {
         if (this.arrowPrefab?.asset) {
@@ -38,7 +47,7 @@ export class ArrowShooting extends Behaviour {
     /** id of aiming pointer */
     private _aimingPointerId: number | undefined;
     /** start pos of aiming pointer */
-    private _aimingPointerStartPos: Vector2 | undefined;
+    private _aimingPointerStartPos: Vector2 = new Vector2();
     /** the controller index holding the bow */
     private _bowController?: number = undefined;
     /** the controller index dragging the string */
@@ -73,13 +82,13 @@ export class ArrowShooting extends Behaviour {
             }
         } 
         else {
+            const input = this.context.input;
             if (evt.button === 0) {
-                this._isAiming = true;
-                this._aimingPointerId = evt.pointerId;
-
-                const pos = new Vector2();
-                pos.copy(this.context.input.getPointerPosition(evt.pointerId)!);
-                this._aimingPointerStartPos = pos;
+                const distnace = this.getPointerDinstanceTo(this._aimingPointerStartPos, evt.pointerId);
+                if (distnace < this.interactionPixelTreshold) {
+                    this._isAiming = true;
+                    this._aimingPointerId = evt.pointerId;
+                }
             }
         }
     }
@@ -88,6 +97,10 @@ export class ArrowShooting extends Behaviour {
         if (evt.button !== 0) {
             return;
         }
+
+        // don't shoot when not previously aiming
+        if (!this._isAiming) return;
+
         this._isAiming = false;
         this._aimingPointerId = undefined;
         if (evt.origin instanceof NeedleXRController) {
@@ -114,10 +127,20 @@ export class ArrowShooting extends Behaviour {
             if (this.arrowOrigin) {
                 const pos = this.arrowOrigin.getWorldPosition(getTempVector());
                 const dir = this.gameObject.getWorldDirection(getTempVector());
-                // TODO: add draw force
-                this.shoot(pos, dir);
+
+                const distnace = this.getPointerDinstanceTo(this._aimingPointerStartPos, evt.pointerId);
+                const power = Mathf.clamp01(distnace / this.fullDrawDragDistance) * this.mountedPower;
+                dir.multiplyScalar(power);
+
+                if (distnace > this.interactionPixelTreshold)
+                    this.shoot(pos, dir);
             }
         }
+    }
+
+    private getPointerDinstanceTo(from: Vector2, pointerId: number): number {
+        const to = this.context.input.getPointerPosition(pointerId)!;
+        return from.distanceTo(to);
     }
 
     private preDrawedArrow?: IGameObject;
@@ -141,6 +164,7 @@ export class ArrowShooting extends Behaviour {
         }
     }
 
+    private shotStamp = Number.MIN_SAFE_INTEGER;
     /**
      * shoot an arrow
      * @param from position to shoot from
@@ -148,16 +172,20 @@ export class ArrowShooting extends Behaviour {
      */
     private async shoot(from: Vector3, vec: Vector3) {
         if (!this.arrowPrefab) return;
+        
+        this.shotStamp = this.context.time.time;
+
+        const pos = from.clone();
+        const lookGoal = pos.clone().add(vec);
+        const force = Math.pow(vec.length() + .5, 2);
+        const dir = vec.clone().normalize();
 
         const instance = await this.arrowPrefab.instantiate({ parent: this.context.scene });
 
         if (!instance) return;
 
-        const force = Math.pow(vec.length() + .5, 2);
-        const dir = vec.clone().normalize();
-
-        instance.position.copy(from);
-        instance.lookAt(dir.clone().add(from));
+        instance.worldPosition = pos;
+        instance.lookAt(lookGoal);
         instance.visible = true;
 
         const rb = instance.getComponent(Rigidbody)!;
@@ -170,6 +198,7 @@ export class ArrowShooting extends Behaviour {
 
             // workaround Rigidbody not yet created in the physics engine (it gets created in onEnable)
             await delayForFrames(1);
+            
             rb.applyImpulse(dir.multiplyScalar(force), true);
         }
     }
@@ -296,35 +325,49 @@ export class ArrowShooting extends Behaviour {
         }
         // Non-VR Logic
         else {
+            this._aimingPointerStartPos.set(this.context.domWidth / 2, this.context.domHeight * .65);
+
             if (!this._isAiming) {
                 animTimeGoal = this.mountedPreDrawAmount;
             }
             else {
                 const input = this.context.input;
 
-                if (this._aimingPointerStartPos != undefined && this._aimingPointerId != undefined) {
+                if (this._aimingPointerId != undefined) {
                     const from = this._aimingPointerStartPos;
                     const to = input.getPointerPosition(this._aimingPointerId)!;
                     const dir = this.tempDir.copy(to).sub(from);
                     const pixelDist = dir.length();
                     const dist = pixelDist;// / this.context.domHeight;
 
-                    animTimeGoal = Mathf.clamp01(dist / this.fullDrawDragDistance);
-                    
-
                     const dir3 = getTempVector();
                     dir3.x = dir.x;
                     dir3.z = dir.y;
                     dir3.normalize();
 
-                    if (dist > 25) {
-                        this.tempUpRef.set(1, 0);
-                        const sign = this.tempUpRef.dot(dir) > 0 ? -1 : 1;
+                    const objDir3 = this.gameObject.getWorldDirection(getTempVector());
+                    objDir3.y = 0;
+                    objDir3.normalize();
 
-                        this.tempUpRef.set(0, 1);
-                        const angle = this.tempUpRef.angleTo(dir) * sign;
-                        
-                        this.gameObject.quaternion.setFromAxisAngle(getTempVector().set(1, 0, 0), angle);
+                    const dirDiffDot = dir3.dot(objDir3); 
+
+                    const applyRot = dist > this.interactionPixelTreshold;
+                    const applyDraw = dirDiffDot > 0 || applyRot;
+
+                    if (applyDraw) {
+                        animTimeGoal = Mathf.clamp01(dist / this.fullDrawDragDistance);
+                    }
+
+                    this.tempUpRef.set(1, 0);
+                    const sign = this.tempUpRef.dot(dir) > 0 ? -1 : 1;
+
+                    this.tempUpRef.set(0, 1);
+                    const angle = this.tempUpRef.angleTo(dir) * sign;
+
+                    if (applyRot) {
+                        const goal = getTempQuaternion().setFromAxisAngle(getTempVector().set(1, 0, 0), angle);
+
+                        this.gameObject.quaternion.slerp(goal, this.context.time.deltaTime / .05);
                     }
                 }
             }
@@ -344,7 +387,9 @@ export class ArrowShooting extends Behaviour {
         this._mixer.update(this.context.time.deltaTime);
 
         if (this.preDrawedArrow) {
-            this.preDrawedArrow.worldScale = getTempVector(1, 1, 1).multiplyScalar(animTimeGoal);
+            let t = (this.context.time.time - this.shotStamp) / this.predrawDelay;
+            t = this.easeInOutSine(Mathf.clamp01(t));
+            this.preDrawedArrow.worldScale = getTempVector(1, 1, 1).multiplyScalar(t);
         }
 
         /* if (!this._isAiming) {
@@ -381,5 +426,10 @@ export class ArrowShooting extends Behaviour {
             this._animation.play();
         }
         this._mixer.update(this.context.time.deltaTime); */
+    }
+
+    // Cubic Bezier easing function
+    private easeInOutSine(t: number): number {
+        return Mathf.clamp01(-0.5 * (Math.cos(Math.PI * t) - 1));
     }
 }
