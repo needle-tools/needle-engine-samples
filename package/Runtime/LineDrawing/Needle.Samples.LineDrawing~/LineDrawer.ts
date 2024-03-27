@@ -114,7 +114,7 @@ export class LinesDrawer extends Behaviour {
                 state.maxDistance = this.context.mainCamera?.getWorldPosition(new Vector3()).length() ?? 0;
                 prev = state.maxDistance;
             }
-            if (hit) {
+            if (hit) {                
                 if (!state.currentHandle) {
                     state.maxDistance = hit.distance;
                 }
@@ -135,6 +135,18 @@ export class LinesDrawer extends Behaviour {
             }
 
             if (pt) {
+                // abort the draw if the drawn segment is too long
+                console.log("distance: ", state.lastHit.distanceTo(pt).toFixed(3));
+                if(state.lastHit.distanceTo(pt) > 6) {
+                    if (state.currentHandle) {
+                        // this.sendLineUpdate();
+                        this.lines.endLine(state.currentHandle);
+                        state.currentHandle = null;
+
+                        return state;
+                    }
+                }
+
                 if (!state.currentHandle) {
                     let parent = state.lastParent ?? this.gameObject as THREE.Object3D;
                     if (this.addToPaintedObject && hit) parent = hit.object;
