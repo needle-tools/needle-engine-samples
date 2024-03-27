@@ -136,7 +136,6 @@ export class LinesDrawer extends Behaviour {
 
             if (pt) {
                 // abort the draw if the drawn segment is too long
-                console.log("distance: ", state.lastHit.distanceTo(pt).toFixed(3));
                 if(state.lastHit.distanceTo(pt) > 6) {
                     if (state.currentHandle) {
                         // this.sendLineUpdate();
