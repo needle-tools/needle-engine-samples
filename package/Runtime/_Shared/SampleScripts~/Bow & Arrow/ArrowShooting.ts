@@ -28,10 +28,10 @@ export class ArrowShooting extends Behaviour {
     interactionPixelTreshold: number = 85;
 
     @serializable()
-    drawPhysicalDistnace: number = 0.47269; // data from anim (-0.11326 - -0.58595)
+    drawPhysicalDistance: number = 0.47269; // data from anim (-0.11326 - -0.58595)
 
     @serializable()
-    neutralDrawPhysicalDistnace: number = 0.1132593; // data from anim (-0.1132594)
+    neutralDrawPhysicalDistance: number = 0.1132593; // data from anim (-0.1132594)
 
     @serializable(AnimationCurve)
     drawCurve?: AnimationCurve;
@@ -317,8 +317,8 @@ export class ArrowShooting extends Behaviour {
                 this.bowObject.worldQuaternion = this._tempLookRot;
                 
                 let dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
-                dist -= this.neutralDrawPhysicalDistnace;
-                animTimeGoal = Mathf.clamp01(dist / this.drawPhysicalDistnace);
+                dist -= this.neutralDrawPhysicalDistance;
+                animTimeGoal = Mathf.clamp01(dist / this.drawPhysicalDistance);
             }    
             /*else if (this.context.xr && this.context.xr.controllers.length > 1) {
                 const holdingString = this.context.xr.controllers[this._stringController];

@@ -14,8 +14,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @predrawDelay = 0.5f;
 		public float @mountedPower = 1.5f;
 		public float @interactionPixelTreshold = 85f;
-		public float @drawPhysicalDistnace = 0.47269f;
-		public float @neutralDrawPhysicalDistnace = 0.1132593f;
+		public float @drawPhysicalDistance = 0.47269f;
+		public float @neutralDrawPhysicalDistance = 0.1132593f;
 		public UnityEngine.AnimationCurve @drawCurve;
 		public void awake(){}
 		public void OnEnable(){}
