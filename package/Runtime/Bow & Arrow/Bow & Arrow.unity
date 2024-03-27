@@ -1040,16 +1040,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fed8bef97bd7a09c2077c570746b0c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ArrowShooting, Needle.Engine-Samples.Runtime
-  arrowPrefab: {fileID: 229769267}
-  sound: {fileID: 282106533}
-  mountedParent: {fileID: 151841532}
-  arrowOrigin: {fileID: 1107799087}
-  predrawDelay: 0.35
-  mountedPower: 1
-  interactionPixelTreshold: 85
-  drawPhysicalDistnace: 0.47269
-  neutralDrawPhysicalDistnace: 0.1132593
-  drawCurve:
+  power: 1.5
+  drawMaxPhysicalDistance: 0.47269
+  drawMinPhysicalDistance: 0.1132593
+  drawProgression:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1091,10 +1085,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  animationComponent: {fileID: 282106532}
+  cameraParent: {fileID: 151841532}
+  desktopIdleDrawAmount: 0.25
+  interactionPixelOrigin: {x: 0.5, y: 0.65}
+  interactionPixelTreshold: 85
+  drawMaxPixelDistance: 100
   bowObject: {fileID: 282106529}
-  mountedPreDrawAmount: 0.2
-  fullDrawDragDistance: 250
+  animationComponent: {fileID: 282106532}
+  arrowPrefab: {fileID: 229769267}
+  arrowSpawnSpot: {fileID: 1107799087}
+  sound: {fileID: 282106533}
+  fakeArrowRespawnDuration: 0.3
 --- !u!1 &229769266
 GameObject:
   m_ObjectHideFlags: 0

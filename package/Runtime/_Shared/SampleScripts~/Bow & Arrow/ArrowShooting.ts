@@ -6,35 +6,44 @@ import { Arrow } from "./Arrow";
 const debug = getParam("debugarrow");
 
 export class ArrowShooting extends Behaviour {
-    @serializable(AssetReference)
-    arrowPrefab?: AssetReference;
-
-    @serializable(AudioSource)
-    sound?: AudioSource;
-
-    @serializable(Object3D)
-    mountedParent?: Object3D;
-
-    @serializable(Object3D)
-    arrowOrigin?: Object3D;
-
+    // STATS
+    /** Power of the arrow when fully drawn */
     @serializable()
-    predrawDelay: number = 0.5;
+    power: number = 1.5;
 
+    // VR
+    /** How much physical distance is needed between controllers to match full draw */
     @serializable()
-    mountedPower: number = 1.5;
+    drawMaxPhysicalDistance: number = 0.47269; // data from anim (-0.11326 - -0.58595)
 
+    /** Distance between origin and string position when the bow is fully released */
+    @serializable()
+    drawMinPhysicalDistance: number = 0.1132593; // data from anim (-0.1132594)
+    
+    /** The shoot animation is not linear, this curve compensates that */
+    @serializable(AnimationCurve)
+    drawProgression?: AnimationCurve;
+
+    // DESKTOP
+    /** Where to mount the bow outside of VR */
+    @serializable(Object3D)
+    cameraParent?: Object3D;
+
+    /** Drives the bow in a slightly drawned position when not interacting to give the user an intensive to drag and shoot */
+    @serializable()
+    desktopIdleDrawAmount: number = 0.25;
+    
+    /** Proportionally <0,1> on a screen where the draw origin is */
+    @serializable(Vector2)
+    interactionPixelOrigin: Vector2 = new Vector2(0.5, 0.65);
+
+    /** Only count drags that are in this treshold from the interactionPixelOrigin */
     @serializable()
     interactionPixelTreshold: number = 85;
 
+    /** Amount of pixel user needs to drag to draw the bow fully */
     @serializable()
-    drawPhysicalDistance: number = 0.47269; // data from anim (-0.11326 - -0.58595)
-
-    @serializable()
-    neutralDrawPhysicalDistance: number = 0.1132593; // data from anim (-0.1132594)
-
-    @serializable(AnimationCurve)
-    drawCurve?: AnimationCurve;
+    drawMaxPixelDistance: number = 100;
 
     private nonMountedParent?: Object3D;
     awake(): void {
@@ -56,7 +65,7 @@ export class ArrowShooting extends Behaviour {
     /** id of aiming pointer */
     private _aimingPointerId: number | undefined;
     /** start pos of aiming pointer */
-    private _aimingPointerStartPos: Vector2 = new Vector2();
+    private _aimingPointerStartPos: Vector2 = new Vector2(0, 0);
     /** the controller index holding the bow */
     private _bowController?: number = undefined;
     /** the controller index dragging the string */
@@ -91,7 +100,6 @@ export class ArrowShooting extends Behaviour {
             }
         } 
         else {
-            const input = this.context.input;
             if (evt.button === 0) {
                 const distnace = this.getPointerDinstanceTo(this._aimingPointerStartPos, evt.pointerId);
                 if (distnace < this.interactionPixelTreshold) {
@@ -122,8 +130,8 @@ export class ArrowShooting extends Behaviour {
                         const dir = other.gripWorldPosition.clone().sub(point);
 
                         let dist = other.object.worldPosition.distanceTo(ctrl.object.worldPosition);
-                        dist -= this.animMinDistance;
-                        const t = Mathf.clamp01(dist / this.animMaxDistance);
+                        dist -= this.drawMinPhysicalDistance;
+                        const t = Mathf.clamp01(dist / this.drawMaxPhysicalDistance);
 
                         dir.normalize().multiplyScalar(t * this.power);
                         
@@ -140,12 +148,12 @@ export class ArrowShooting extends Behaviour {
             }
         }
         else {
-            if (this.arrowOrigin) {
-                const pos = this.arrowOrigin.getWorldPosition(getTempVector());
+            if (this.arrowSpawnSpot) {
+                const pos = this.arrowSpawnSpot.getWorldPosition(getTempVector());
                 const dir = this.gameObject.getWorldDirection(getTempVector());
 
                 const distnace = this.getPointerDinstanceTo(this._aimingPointerStartPos, evt.pointerId);
-                const power = Mathf.clamp01(distnace / this.fullDrawDragPixelDistance) * this.mountedPower;
+                const power = Mathf.clamp01(distnace / this.drawMaxPixelDistance) * this.power;
                 dir.multiplyScalar(power);
 
                 if (distnace > this.interactionPixelTreshold)
@@ -159,19 +167,19 @@ export class ArrowShooting extends Behaviour {
         return from.distanceTo(to);
     }
 
-    private preDrawedArrow?: IGameObject;
+    private fakeArrow?: IGameObject;
     private async setupPreDraw() {
-        if (!this.arrowPrefab || !this.arrowOrigin) return;
+        if (!this.arrowPrefab || !this.arrowSpawnSpot) return;
 
         // don't predraw if already predrawed
-        if (this.preDrawedArrow) return;
+        if (this.fakeArrow) return;
 
-        const instance = await this.arrowPrefab.instantiate({ parent: this.arrowOrigin });
+        const instance = await this.arrowPrefab.instantiate({ parent: this.arrowSpawnSpot });
         
         if (instance) {
             instance.visible = true;
             instance.worldScale = getTempVector(1,1,1);
-            this.preDrawedArrow = instance;
+            this.fakeArrow = instance;
 
             instance.getComponent(Arrow)?.destroy();
             instance.getComponent(Rigidbody)?.destroy();
@@ -223,8 +231,8 @@ export class ArrowShooting extends Behaviour {
 
     mount() {
         // start in mounted state
-        if (this.mountedParent) {
-            this.gameObject.parent = this.mountedParent;
+        if (this.cameraParent) {
+            this.gameObject.parent = this.cameraParent;
             this.gameObject.position.set(0, 0, 0);
             this.gameObject.quaternion.set(0, 0, 0, 1);
         }
@@ -236,24 +244,27 @@ export class ArrowShooting extends Behaviour {
 
 
 
-    /** Visuals */
+    /** Visuals and effects */
 
-    // TODO: report UnityGLTF failing when the anim is referenced on other
-    // gameobject then the one hosting this animation
-    /* @serializable(AnimationClip)
-    bowAnimation?: AnimationClip; */
-
-    @serializable(Animation)
-    animationComponent?: Animation;
 
     @serializable(Object3D)
     bowObject?: GameObject;
+    
+    @serializable(Animation)
+    animationComponent?: Animation;
 
-    @serializable()
-    mountedPreDrawAmount: number = 0.7;
+    @serializable(AssetReference)
+    arrowPrefab?: AssetReference;
 
+    @serializable(Object3D)
+    arrowSpawnSpot?: Object3D;
+
+    @serializable(AudioSource)
+    sound?: AudioSource;
+
+    /** After firing the fake arrow is hidden and is popped back after this delay */
     @serializable()
-    fullDrawDragPixelDistance: number = 100;
+    fakeArrowRespawnDuration: number = 0.3;
 
     private _initRot: Quaternion = new Quaternion();
     private _tempLookMatrix = new Matrix4();
@@ -267,15 +278,15 @@ export class ArrowShooting extends Behaviour {
     onEnterXR(_args: NeedleXREventArgs): void {
         if (_args.xr.isVR) {
             // unmount
-            if (this.mountedParent) {
-                this.gameObject.parent = this.mountedParent;
+            if (this.cameraParent) {
+                this.gameObject.parent = this.cameraParent;
             }
         }
     }
 
     onLeaveXR(_args: NeedleXREventArgs): void {
         // mount
-        this.gameObject.parent = this.mountedParent!;
+        this.gameObject.parent = this.cameraParent!;
     }
 
     private tempDir: Vector2 = new Vector2();
@@ -324,8 +335,8 @@ export class ArrowShooting extends Behaviour {
                 this.bowObject.worldQuaternion = this._tempLookRot;
                 
                 let dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
-                dist -= this.neutralDrawPhysicalDistance;
-                animTimeGoal = Mathf.clamp01(dist / this.drawPhysicalDistance);
+                dist -= this.drawMinPhysicalDistance;
+                animTimeGoal = Mathf.clamp01(dist / this.drawMaxPhysicalDistance);
             }    
             /*else if (this.context.xr && this.context.xr.controllers.length > 1) {
                 const holdingString = this.context.xr.controllers[this._stringController];
@@ -342,10 +353,11 @@ export class ArrowShooting extends Behaviour {
         }
         // Non-VR Logic
         else {
-            this._aimingPointerStartPos.set(this.context.domWidth / 2, this.context.domHeight * .65);
+            const screenOrigin = this.interactionPixelOrigin;
+            this._aimingPointerStartPos.set(this.context.domWidth * screenOrigin.x, this.context.domHeight * screenOrigin.y);
 
             if (!this._isAiming) {
-                animTimeGoal = this.mountedPreDrawAmount;
+                animTimeGoal = this.desktopIdleDrawAmount;
             }
             else {
                 const input = this.context.input;
@@ -372,7 +384,7 @@ export class ArrowShooting extends Behaviour {
                     const applyDraw = dirDiffDot > 0 || applyRot;
 
                     if (applyDraw) {
-                        animTimeGoal = Mathf.clamp01(dist / this.fullDrawDragPixelDistance);
+                        animTimeGoal = Mathf.clamp01(dist / this.drawMaxPixelDistance);
                     }
 
                     this.tempUpRef.set(1, 0);
@@ -391,8 +403,8 @@ export class ArrowShooting extends Behaviour {
         }
 
         // apply draw curve
-        if (this.drawCurve) {
-            animTimeGoal = this.drawCurve.evaluate(animTimeGoal);
+        if (this.drawProgression) {
+            animTimeGoal = this.drawProgression.evaluate(animTimeGoal);
         }
 
         this._animation.timeScale = 0;
@@ -408,46 +420,11 @@ export class ArrowShooting extends Behaviour {
 
         this._mixer.update(this.context.time.deltaTime);
 
-        if (this.preDrawedArrow) {
-            let t = (this.context.time.time - this.shotStamp) / this.predrawDelay;
+        if (this.fakeArrow) {
+            let t = (this.context.time.time - this.shotStamp) / this.fakeArrowRespawnDuration;
             t = this.easeInOutSine(Mathf.clamp01(t));
-            this.preDrawedArrow.worldScale = getTempVector(1, 1, 1).multiplyScalar(t);
+            this.fakeArrow.worldScale = getTempVector(1, 1, 1).multiplyScalar(t);
         }
-
-        /* if (!this._isAiming) {
-            this._animation.time = Mathf.lerp(this._animation.time, 0, this.context.time.deltaTime / .05);
-        }
-        else if (this.context.xr && this.context.xr.controllers.length > 1 && this._bowController !== undefined && this._stringController !== undefined) {
-            const holdingString = this.context.xr.controllers[this._stringController];
-            const holdingBow = this.context.xr.controllers[this._bowController];
-
-            // This should not happen, but seems when transient pointers are in use we 
-            // sometimes get invalid entries here
-            if (!holdingString || !holdingBow) return;
-
-            // TODO fix this, currently we're allowing all kinds of controllers here.
-            // We should explicitly only allow hands and controllers, not transient inputs
-
-            // console.log(holdingBow?.targetRayMode, holdingString?.targetRayMode);
-
-            let bowUp = getTempVector(0, 1, 0);
-            if (!holdingBow.hand && holdingBow.targetRayMode === "tracked-pointer") {
-                // if this is a controller, we rotate by 90° because Meta Browser...
-                bowUp.applyQuaternion(this._rotate90);
-            }
-            bowUp.applyQuaternion(holdingBow.gripWorldQuaternion).normalize();
-
-            this._tempLookMatrix.lookAt(holdingString.gripWorldPosition, holdingBow.gripWorldPosition, bowUp);
-            this._tempLookRot.setFromRotationMatrix(this._tempLookMatrix);
-            this.bowObject.worldQuaternion = this._tempLookRot;
-            
-            const dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
-            this._animation.timeScale = 0;
-            this._animation.time = Mathf.lerp(this._animation.time, Mathf.clamp01(dist * 1.5), this.context.time.deltaTime / .1);
-            this._animation.setEffectiveWeight(1);
-            this._animation.play();
-        }
-        this._mixer.update(this.context.time.deltaTime); */
     }
 
     // Cubic Bezier easing function

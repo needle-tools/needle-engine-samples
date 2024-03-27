@@ -7,25 +7,26 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class ArrowShooting : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform @arrowPrefab;
-		public UnityEngine.AudioSource @sound;
-		public UnityEngine.GameObject @mountedParent;
-		public UnityEngine.GameObject @arrowOrigin;
-		public float @predrawDelay = 0.5f;
-		public float @mountedPower = 1.5f;
+		public float @power = 1.5f;
+		public float @drawMaxPhysicalDistance = 0.47269f;
+		public float @drawMinPhysicalDistance = 0.1132593f;
+		public UnityEngine.AnimationCurve @drawProgression;
+		public UnityEngine.GameObject @cameraParent;
+		public float @desktopIdleDrawAmount = 0.25f;
+		public UnityEngine.Vector2 @interactionPixelOrigin = new UnityEngine.Vector2(0.5f, 0.65f);
 		public float @interactionPixelTreshold = 85f;
-		public float @drawPhysicalDistance = 0.47269f;
-		public float @neutralDrawPhysicalDistance = 0.1132593f;
-		public UnityEngine.AnimationCurve @drawCurve;
+		public float @drawMaxPixelDistance = 100f;
 		public void awake(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void mount(){}
 		public void unmount(){}
-		public UnityEngine.Animation @animationComponent;
 		public UnityEngine.GameObject @bowObject;
-		public float @mountedPreDrawAmount = 0.7f;
-		public float @fullDrawDragPixelDistance = 100f;
+		public UnityEngine.Animation @animationComponent;
+		public UnityEngine.Transform @arrowPrefab;
+		public UnityEngine.GameObject @arrowSpawnSpot;
+		public UnityEngine.AudioSource @sound;
+		public float @fakeArrowRespawnDuration = 0.3f;
 		public void onEnterXR(object @_args){}
 		public void onLeaveXR(object @_args){}
 		public void onBeforeRender(){}
