@@ -33,7 +33,7 @@ export class Arrow extends Behaviour {
                 const targetRotation = getTempVector().set(vel.x, vel.y, vel.z).normalize();
                 const tempQuat = getTempQuaternion();
                 tempQuat.setFromUnitVectors(getTempVector(0, 0, 1), targetRotation);
-                this.gameObject.quaternion.slerp(tempQuat, this.context.time.deltaTime / .1);
+                this.gameObject.quaternion.copy(tempQuat);
             }
         }
     }
