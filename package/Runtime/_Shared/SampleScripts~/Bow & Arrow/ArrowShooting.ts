@@ -120,6 +120,13 @@ export class ArrowShooting extends Behaviour {
                     const point = ctrl.gripWorldPosition;
                     if (point) {
                         const dir = other.gripWorldPosition.clone().sub(point);
+
+                        let dist = other.object.worldPosition.distanceTo(ctrl.object.worldPosition);
+                        dist -= this.animMinDistance;
+                        const t = Mathf.clamp01(dist / this.animMaxDistance);
+
+                        dir.normalize().multiplyScalar(t * this.power);
+                        
                         this.shoot(point, dir);
                         if (debug) Gizmos.DrawArrow(point, dir.clone().add(point), 0xffff00, 1);
                     }
