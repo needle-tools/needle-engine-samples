@@ -1,8 +1,14 @@
-import { Behaviour, GameObject, OrbitControls, Text, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, NeedleXRSession, OrbitControls, Text, WebXR, getTempVector, serializable } from "@needle-tools/engine";
 
 export class CameraGoal extends Behaviour {
     @serializable()
     createMenuButton: boolean = false;
+
+    @serializable()
+    teleportVRPlayer: boolean = false;
+
+    @serializable()
+    ignoreYInVR: boolean = false;
 
     private _orbitalCamera?: OrbitControls;
     private get orbitalCamera() {
@@ -41,5 +47,14 @@ export class CameraGoal extends Behaviour {
 
     use() {
         this.orbitalCamera?.setCameraTargetPosition(this.worldPosition);
+
+        const rig = NeedleXRSession.active?.rig;
+        if (this.teleportVRPlayer && this.context.isInVR && rig) {
+            const goal = getTempVector(this.worldPosition);
+            if (this.ignoreYInVR) {
+                goal.y = rig.gameObject.worldPosition.y;
+            }
+            rig.gameObject.worldPosition = goal;
+        }
     }
 }
