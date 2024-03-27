@@ -1,4 +1,4 @@
-import { Animation, AssetReference, AudioSource, Behaviour, Collider, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, RigidbodyConstraints, XRControllerFollow, delay, delayForFrames, getComponent, getParam, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
+import { Animation, AnimationCurve, AssetReference, AudioSource, Behaviour, Collider, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, RigidbodyConstraints, XRControllerFollow, delay, delayForFrames, getComponent, getParam, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
 import { AnimationAction, AnimationMixer, Object3D, Vector3, Vector2, Quaternion, Matrix4 } from "three";
 import { Arrow } from "./Arrow";
 
@@ -26,6 +26,15 @@ export class ArrowShooting extends Behaviour {
 
     @serializable()
     interactionPixelTreshold: number = 85;
+
+    @serializable()
+    drawPhysicalDistnace: number = 0.47269; // data from anim (-0.11326 - -0.58595)
+
+    @serializable()
+    neutralDrawPhysicalDistnace: number = 0.1132593; // data from anim (-0.1132594)
+
+    @serializable(AnimationCurve)
+    drawCurve?: AnimationCurve;
 
     private nonMountedParent?: Object3D;
     awake(): void {
@@ -129,7 +138,7 @@ export class ArrowShooting extends Behaviour {
                 const dir = this.gameObject.getWorldDirection(getTempVector());
 
                 const distnace = this.getPointerDinstanceTo(this._aimingPointerStartPos, evt.pointerId);
-                const power = Mathf.clamp01(distnace / this.fullDrawDragDistance) * this.mountedPower;
+                const power = Mathf.clamp01(distnace / this.fullDrawDragPixelDistance) * this.mountedPower;
                 dir.multiplyScalar(power);
 
                 if (distnace > this.interactionPixelTreshold)
@@ -237,7 +246,7 @@ export class ArrowShooting extends Behaviour {
     mountedPreDrawAmount: number = 0.7;
 
     @serializable()
-    fullDrawDragDistance: number = 100;
+    fullDrawDragPixelDistance: number = 100;
 
     private _initRot: Quaternion = new Quaternion();
     private _tempLookMatrix = new Matrix4();
@@ -307,8 +316,9 @@ export class ArrowShooting extends Behaviour {
                 this._tempLookRot.setFromRotationMatrix(this._tempLookMatrix);
                 this.bowObject.worldQuaternion = this._tempLookRot;
                 
-                const dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
-                animTimeGoal = Mathf.clamp01(dist * 1.5);
+                let dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
+                dist -= this.neutralDrawPhysicalDistnace;
+                animTimeGoal = Mathf.clamp01(dist / this.drawPhysicalDistnace);
             }    
             /*else if (this.context.xr && this.context.xr.controllers.length > 1) {
                 const holdingString = this.context.xr.controllers[this._stringController];
@@ -355,7 +365,7 @@ export class ArrowShooting extends Behaviour {
                     const applyDraw = dirDiffDot > 0 || applyRot;
 
                     if (applyDraw) {
-                        animTimeGoal = Mathf.clamp01(dist / this.fullDrawDragDistance);
+                        animTimeGoal = Mathf.clamp01(dist / this.fullDrawDragPixelDistance);
                     }
 
                     this.tempUpRef.set(1, 0);
@@ -372,7 +382,12 @@ export class ArrowShooting extends Behaviour {
                 }
             }
         }
-        
+
+        // apply draw curve
+        if (this.drawCurve) {
+            animTimeGoal = this.drawCurve.evaluate(animTimeGoal);
+        }
+
         this._animation.timeScale = 0;
         const newT = Mathf.lerp(this._animation.time, animTimeGoal, this.context.time.deltaTime / animGoalSmoothing);
         const oldT = this._animation.time;

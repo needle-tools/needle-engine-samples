@@ -14,6 +14,9 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @predrawDelay = 0.5f;
 		public float @mountedPower = 1.5f;
 		public float @interactionPixelTreshold = 85f;
+		public float @drawPhysicalDistnace = 0.47269f;
+		public float @neutralDrawPhysicalDistnace = 0.1132593f;
+		public UnityEngine.AnimationCurve @drawCurve;
 		public void awake(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
@@ -22,7 +25,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Animation @animationComponent;
 		public UnityEngine.GameObject @bowObject;
 		public float @mountedPreDrawAmount = 0.7f;
-		public float @fullDrawDragDistance = 100f;
+		public float @fullDrawDragPixelDistance = 100f;
 		public void onEnterXR(object @_args){}
 		public void onLeaveXR(object @_args){}
 		public void onBeforeRender(){}
