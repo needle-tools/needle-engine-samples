@@ -18,6 +18,8 @@ using Needle.Engine.Projects;
 using Needle.Engine.Samples.Helpers;
 using Object = UnityEngine.Object;
 using Actions = Needle.Engine.Actions;
+using Needle.Engine.Components;
+using Needle.Typescript.GeneratedComponents;
 
 namespace SampleChecks
 {
@@ -230,6 +232,38 @@ namespace SampleChecks
             Assert.IsFalse(string.IsNullOrEmpty(readme.Guid));
             Assert.IsTrue(readme.CompareTag("EditorOnly"), "Readme component should be tagged as EditorOnly.");
             Assert.AreEqual(1, readme.gameObject.GetComponents<Component>().Length - 1, "Readme GameObject has too many components, should only have Readme");
+        }
+
+        [Test]
+        public void HasNeedleMenuComponent()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var needlemenu = Object.FindAnyObjectByType<NeedleMenu>();
+            Assert.IsNotNull(needlemenu, "Needle menu is missing in the scene");
+        }
+
+        [Test]
+        public void HasHTMLMetaComponent()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var components = Object.FindObjectsByType<HtmlMeta>(FindObjectsSortMode.None);
+            Assert.IsTrue(components.Length > 0, "Scene is missing HTML Meta component");
+            Assert.IsTrue(components.Length == 1, "Scene has multiple HTML Meta components");
+
+            var meta = components.FirstOrDefault()?.meta;
+
+            Assert.IsNotNull(meta, "Meta or component is null, unexpected.");
+
+            // get default value of meta.meta.title
+            var defaultValues = new HtmlMeta.Meta();
+
+            Assert.IsNotNull(meta.image, "No image");
+            Assert.False(meta.title.Equals(defaultValues.title), "Default title");
+            Assert.False(string.IsNullOrEmpty(meta.title), "No title");
+            Assert.False(meta.description.Equals(defaultValues.description), "Default description");
+            Assert.False(string.IsNullOrEmpty(meta.description), "No description");
         }
 
         static string[] GetDependencies(Object obj)
