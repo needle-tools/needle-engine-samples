@@ -866,6 +866,55 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -3907602529470692265, guid: 281520a259f5b7a40b7757eadb3f6177, type: 3}
   m_PrefabInstance: {fileID: 192551296}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &208071532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 208071533}
+  - component: {fileID: 208071534}
+  m_Layer: 0
+  m_Name: NeedleMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &208071533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208071532}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1832395240}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &208071534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208071532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
+  _position: 1
+  ShowNeedleLogo: 1
+  CreateFullscreenButton: 1
+  CreateMuteButton: 0
+  ShowSpatialMenu: 1
 --- !u!1 &228121862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3260,7 +3309,6 @@ GameObject:
   - component: {fileID: 1832395240}
   - component: {fileID: 1832395239}
   - component: {fileID: 1832395241}
-  - component: {fileID: 1832395242}
   m_Layer: 0
   m_Name: Lightmapped Scene
   m_TagString: Untagged
@@ -3302,6 +3350,7 @@ Transform:
   - {fileID: 1272661824}
   - {fileID: 192551297}
   - {fileID: 1829057063}
+  - {fileID: 208071533}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3323,23 +3372,6 @@ MonoBehaviour:
   requireRoomParameter: 0
   autoRejoin: 1
   createJoinButton: 1
---- !u!114 &1832395242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832395238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
-  _position: 1
-  ShowNeedleLogo: 1
-  CreateFullscreenButton: 1
-  CreateMuteButton: 0
-  ShowSpatialMenu: 1
 --- !u!1 &1895645662
 GameObject:
   m_ObjectHideFlags: 0

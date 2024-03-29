@@ -468,6 +468,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: needle.interactivemap
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/InteractiveMap/Scripts/Needle.InteractiveMap.npmdef
@@ -520,6 +521,55 @@ MonoBehaviour:
     title: Interactive Map
     description: Openstreetmap.org integration in 3D
     image: {fileID: 2800000, guid: c8e45c2b909c92448a41f3b5842a3188, type: 3}
+--- !u!1 &967688235
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 967688236}
+  - component: {fileID: 967688237}
+  m_Layer: 0
+  m_Name: NeedleMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &967688236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967688235}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1062683073}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &967688237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967688235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
+  _position: 1
+  ShowNeedleLogo: 1
+  CreateFullscreenButton: 1
+  CreateMuteButton: 0
+  ShowSpatialMenu: 1
 --- !u!1 &1034118157
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +661,7 @@ Transform:
   - {fileID: 1319876877}
   - {fileID: 1591985427}
   - {fileID: 683825362}
+  - {fileID: 967688236}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -796,20 +847,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-fb0f95cde5663294186a7d7dcd3f89fd-1319876878-0
+  autoTarget: 1
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 0
-  enableDamping: 1
-  dampingFactor: 0.1
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: Infinity
+  maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 0}
 --- !u!114 &1319876879
 MonoBehaviour:
   m_ObjectHideFlags: 0
