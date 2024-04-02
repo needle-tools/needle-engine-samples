@@ -325,16 +325,16 @@ namespace SampleChecks
         }
 
         [Test]
-        public void DependencySizeBelow15MB()
+        public void DependencySizeBelow10MB()
         {
             var dependencies = GetDependencies(sample.Scene);
             
             // summarize file size of all of them
             var size = dependencies.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
             
-            // check if below 15 MB
+            // check if below 10 MB
             var sizeInMb = size / 1024f / 1024f;
-            AssertFileSize(sizeInMb, 15, dependencies.ToList(), "Dependency size is too large");
+            AssertFileSize(sizeInMb, 10, dependencies.ToList(), "Dependency size is too large");
             Debug.Log($"Dependency size: {sizeInMb:F2} MB");
         }
 
@@ -482,7 +482,7 @@ namespace SampleChecks
         }
         
         [Test]
-        public void FolderSizeBelow15MB()
+        public void FolderSizeBelow10MB()
         {
             var path = AssetDatabase.GetAssetPath(sample.Scene);
             
@@ -520,9 +520,9 @@ namespace SampleChecks
                 return "Packages/com.needle.engine-samples/" + f;
             }).ToList();
             
-            // check if below 15 MB
+            // check if below 10 MB
             var sizeInMb = size / 1024f / 1024f;
-            AssertFileSize(sizeInMb, 15, files, "Folder size is too large");
+            AssertFileSize(sizeInMb, 10, files, "Folder size is too large");
             Debug.Log($"Folder size: {sizeInMb:F2} MB");
         }
 
