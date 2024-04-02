@@ -274,12 +274,13 @@ namespace SampleChecks
         }
 
         [Test]
-        public void HasNeedleMenuComponent()
+        public void HasNeedleMenuAndShowsLogo()
         {
             OpenSceneAndCopyIfNeeded();
 
-            var needlemenu = Object.FindAnyObjectByType<NeedleMenu>();
-            Assert.IsNotNull(needlemenu, "Needle menu is missing in the scene");
+            var menu = Object.FindAnyObjectByType<NeedleMenu>();
+            Assert.IsNotNull(menu, "NeedleMenu is missing in the scene");
+            Assert.IsTrue(menu.ShowNeedleLogo, $"NeedleMenu should have {nameof(NeedleMenu.ShowNeedleLogo)} enabled.");
         }
 
         [Test]
