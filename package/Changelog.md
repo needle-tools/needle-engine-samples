@@ -4,6 +4,23 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.16.0] - 2024-04-03
+- add NeedleMenu component to all samples
+- add Progressive Loading settings to relevant samples
+- add HTML Meta to all samples that were missing it
+- add pointer controls to Bow & Arrow
+- add VR support for CameraGoal (used in LOD sample)
+- improve DeviceSensor gyroscope sample to be more easily driven externally
+- fix Hotspot editor by simplifying it
+- update Multiple Lightmaps sample with the website house model
+- fix LineDrawer creating long segments when turning with a VR controller stick
+- fix NavMesh agent roaming (incorrect Y on the last node)
+- add music to Multi Scenes sample
+- add music to Product Flyover
+- add tests for presence of HTML Meta and Needle Menu
+- update test for checking outdated deployments (compared to latest stable)
+- update Needle Engine to `3.36.2-pre`
+
 ## [0.15.0] - 2024-02-19
 - add Bow & Arrow sample
 - add Navmesh sample
