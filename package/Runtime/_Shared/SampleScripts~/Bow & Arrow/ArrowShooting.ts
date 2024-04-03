@@ -276,17 +276,13 @@ export class ArrowShooting extends Behaviour {
     private get _hasControllers(): boolean { return (this.context.xr?.controllers.length ?? 0) > 0; }
 
     onEnterXR(_args: NeedleXREventArgs): void {
-        if (_args.xr.isVR) {
-            // unmount
-            if (this.cameraParent) {
-                this.gameObject.parent = this.cameraParent;
-            }
+        if (_args.xr.isVR || _args.xr.isPassThrough) {
+            this.unmount();
         }
     }
 
     onLeaveXR(_args: NeedleXREventArgs): void {
-        // mount
-        this.gameObject.parent = this.cameraParent!;
+        this.mount();
     }
 
     private tempDir: Vector2 = new Vector2();
