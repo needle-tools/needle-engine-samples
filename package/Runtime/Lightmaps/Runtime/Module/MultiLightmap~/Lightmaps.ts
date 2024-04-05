@@ -50,7 +50,7 @@ class LightmapSettings {
 //@dont-generate-component
 export class LightmapConfigurations extends Behaviour {
 
-    private _didSwitchLightTime?: number;
+    private _didSwitchLightTime: number | undefined;
 
     cycleLigthmaps: boolean = true;
     cycleInterval: number = 1;
@@ -116,7 +116,7 @@ export class LightmapConfigurations extends Behaviour {
         }
         let i = 0;
         while (true) {
-            if (!this.lightmaps?.length) return;
+            if (!this.lightmaps?.length) continue;
             // if someone switched the light dont auto proceed
             if (!this._didSwitchLightTime || Date.now() - this._didSwitchLightTime > 600 * 1000) {
                 this._didSwitchLightTime = undefined;
@@ -131,6 +131,8 @@ export class LightmapConfigurations extends Behaviour {
                     i += 1;
                 else
                     i -= 1;
+
+                i %= this.lightmaps.length;
 
                 this.setLightmap(i);
             }
@@ -148,7 +150,7 @@ export class LightmapConfigurations extends Behaviour {
     }
     previousLightmap() {
         this._didSwitchLightTime = Date.now();
-        this.index = this.index + 1;
+        this.index = this.index - 1;
         this.context.connection.send("lightmap_index", this.index);
     }
 
@@ -161,7 +163,11 @@ export class LightmapConfigurations extends Behaviour {
     private setLightmap(index: number) {
         if (typeof index !== "number") return;
         if (!this.lightmaps) return;
-        index %= this.lightmaps.length;
+        if (index < 0)
+            index = this.lightmaps.length - 1;
+        else if (index >= this.lightmaps.length) {
+            index = 0;
+        }
         this._index = index;
         for (const rend of this._renderers) {
             rend.lightmap = this.lightmaps[index];
