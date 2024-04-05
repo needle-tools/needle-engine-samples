@@ -102,10 +102,10 @@ export class ArrowShooting extends Behaviour {
         else {
             if (evt.button === 0) {
                 const distnace = this.getPointerDinstanceTo(this._aimingPointerStartPos, evt.pointerId);
-                if (distnace < this.interactionPixelTreshold) {
-                    this._isAiming = true;
-                    this._aimingPointerId = evt.pointerId;
-                }
+                // Disabled anti spam protection
+                // if (distnace < this.interactionPixelTreshold)
+                this._isAiming = true;
+                this._aimingPointerId = evt.pointerId;
             }
         }
     }
