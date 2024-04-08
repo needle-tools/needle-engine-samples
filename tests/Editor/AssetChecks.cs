@@ -148,6 +148,7 @@ public class AssetChecks
         var urpAssetPath = AssetDatabase.GUIDToAssetPath(sampleUrpAssetGuid);
         var allowedUrpDependencies = AssetDatabase.GetDependencies(urpAssetPath, true);
         allowedExternalDependencies.AddRange(allowedUrpDependencies);
+        allowedExternalDependencies.Add(AssetDatabase.GUIDToAssetPath("60e1133243b97e347b653163a8c01b64")); // XRSystemData.asset
         var extraFolders = new string[]
         {
             "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/",
