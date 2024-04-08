@@ -8,6 +8,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneTemplate;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
@@ -33,6 +34,9 @@ public class AssetChecks
         
         [Test]
         public void NoExternalDependencies() => NoExternalDependenciesFound(SamplePackage);
+        
+        [Test]
+        public void SampleCubemapsAreHDR() => CubemapsAreHDR(SamplePackage);
     }
 
     public class Engine
@@ -51,6 +55,9 @@ public class AssetChecks
         
         [Test]
         public void NoExternalDependencies() => NoExternalDependenciesFound(EnginePackage);
+        
+        [Test]
+        public void EngineCubemapsAreHDR() => CubemapsAreHDR(EnginePackage);
     }
     
     private const string samplePackageJsonGuid = "fd17907bb2ad1444d9c584fde3e7715b";
@@ -453,6 +460,32 @@ public class AssetChecks
             
         }
         Assert.AreEqual(0, problems.Count, string.Join("\n", problems) + "\n\nProblems:");
+    }
+    
+    private static void CubemapsAreHDR(string assetFolder)
+    {
+        var cubeMaps = AssetDatabase.FindAssets("t:Cubemap", new[] { assetFolder });
+        var errors = new List<(string, Object)>();
+        foreach (var cubeMap in cubeMaps)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(cubeMap);
+            var cubemap = AssetDatabase.LoadAssetAtPath<Cubemap>(path);
+            
+            var isHdr = !GraphicsFormatUtility.IsSRGBFormat(cubemap.graphicsFormat);
+            if (cubemap && !isHdr)
+                errors.Add(($"Cubemap {Path.GetFileName(path)} is an sRGB texture, should be float: " + cubemap.graphicsFormat, cubemap));
+            
+            var ext = Path.GetExtension(path);
+            if (ext != ".exr" && ext != ".hdr")
+                errors.Add(($"Cubemap {Path.GetFileName(path)} is not .hdr or .exr: " + ext, cubemap));
+        }
+
+        if (errors.Any())
+        {
+            foreach (var e in errors)
+                Debug.LogError(e.Item1, e.Item2);
+            Assert.Fail($"Found {errors.Count} cubemaps that are not HDR");
+        }
     }
 
     // [Test]
