@@ -1,6 +1,7 @@
 import { DynamicRayCastVehicleController, World, Vector } from "@dimforge/rapier3d-compat";
-import { Behaviour, Collider, GameObject, Gizmos, Rigidbody, getComponent, getTempQuaternion, getTempVector, serializable, setWorldPosition } from "@needle-tools/engine";
+import { Behaviour, Collider, GameObject, Gizmos, Mathf, Rigidbody, getComponent, getTempQuaternion, getTempVector, serializable, setWorldPosition } from "@needle-tools/engine";
 import { Vector3 } from "three";
+import { xor } from "three/examples/jsm/nodes/Nodes.js";
 
 export class CarWheel extends Behaviour {
     @serializable()
@@ -30,12 +31,13 @@ export class CarController extends Behaviour {
     speed: number = 10;
 
     @serializable()
-    steer: number = 10;
+    maxSteer: number = 0.35; // 40 degrees
 
     private vehicle?: DynamicRayCastVehicleController;
     private rigidbody?: Rigidbody;
 
-    private refFwd = new Vector3(0, 0, 1);
+    private currSteer: number = 0;
+    private currAcc: number = 0;
     start(): void {
         let n_rb = this.gameObject.getComponent(Rigidbody);
         n_rb ??= this.gameObject.addNewComponent(Rigidbody)!;
@@ -84,45 +86,54 @@ export class CarController extends Behaviour {
         this.vehicle?.updateVehicle(dt);
 
         this.updateWheelVisual();
+
+        this.rigidbody?.wakeUp(); //don't sleep, ever
     }
 
     private handleInput() {
         const input = this.context.input;
+        const dt = this.context.time.deltaTime;
 
         let v = 0;
         if(input.isKeyPressed("w")) v = -1;
         if(input.isKeyPressed("s")) v = 1;
 
+        this.currAcc = v; //Mathf.lerp(this.currAcc, v, 0.5 * dt);
+
         let h = 0;
         if(input.isKeyPressed("a")) h = 1;
         if(input.isKeyPressed("d")) h = -1;
 
+        this.currSteer = Mathf.lerp(this.currSteer, h, 5 * dt);
         
         this.wheels.forEach((wheel, i) => { 
             if (wheel.isFront) {
-                this.vehicle?.setWheelSteering(i, h * this.steer);
+                this.vehicle?.setWheelSteering(i, this.currSteer * this.maxSteer);
                 const debugPos = wheel.worldPosition;
                 debugPos.y += 1;
                 Gizmos.DrawLabel(debugPos, (this.vehicle?.wheelSteering(i) ?? 0).toFixed(1), 0.1, 0, 0xffffff, 0x000000);
             }
             else {
-                const s = v * this.speed * (this.rigidbody?.mass ?? 1);
+                const s = this.currAcc * this.speed * (this.rigidbody?.mass ?? 1);
                 this.vehicle?.setWheelEngineForce(i, s);
             }
         });
     }
 
     private refRight = new Vector3(1, 0, 0);
+    private refUp = new Vector3(0, 1, 0);
     private updateWheelVisual() {
         this.wheels.forEach((wheel, i) => { 
             // rot
-            const rot = this.vehicle?.wheelRotation(i)!;
-            const dir = this.vehicle?.wheelDirectionCs(i)!;
+            const wheelAngle = this.vehicle?.wheelRotation(i)!;
 
-            const xRot = getTempQuaternion().setFromAxisAngle(this.refRight, rot);
-            const yRot = getTempQuaternion().setFromUnitVectors(this.refFwd, getTempVector(dir.x, dir.y, dir.z));
+            const steer = this.currSteer * this.maxSteer;
+            const yRot = getTempQuaternion().setFromAxisAngle(this.refUp, wheel.isFront ? steer : 0);
+            const xRot = getTempQuaternion().setFromAxisAngle(this.refRight, wheelAngle);
 
-            wheel.gameObject.quaternion.copy(xRot/* .multiply(yRot) */);
+            const rot = yRot.multiply(xRot);
+
+            wheel.gameObject.quaternion.copy(rot);
             
             // pos
             const contact = this.vehicle?.wheelContactPoint(i) as Vector;
@@ -142,7 +153,7 @@ export class CarController extends Behaviour {
 
                 const pos = getTempVector(wheel.worldPosition);
                 pos.y += wheel.radius;
-                Gizmos.DrawLabel(pos, );
+                //Gizmos.DrawLabel(pos, );
             }
         });
     }
