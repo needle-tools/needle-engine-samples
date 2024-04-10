@@ -9,7 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public Needle.Typescript.GeneratedComponents.CarWheel[] @wheels = new Needle.Typescript.GeneratedComponents.CarWheel[]{ };
 		public float @speed = 10f;
-		public float @steer = 10f;
+		public float @maxSteer = 0.35f;
 		public void start(){}
 		public void update(){}
 	}
