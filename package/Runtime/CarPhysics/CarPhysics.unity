@@ -2388,10 +2388,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
   isFront: 0
   radius: 0.25
-  suspensionCompression: 0.5
-  suspensionRelax: 5
-  suspensionRestLength: 0.2
-  suspensionStiff: 20
+  suspensionCompression: 0.8
+  suspensionRelax: 8
+  suspensionRestLength: 0.12
+  suspensionStiff: 40
   suspensionForce: 1000
   suspensionTravel: 5
 --- !u!1 &750133020
@@ -3655,7 +3655,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2136968, y: 0.96532184, z: 2.7942173}
+  m_Size: {x: 1.1086168, y: 0.96532184, z: 2.7942173}
   m_Center: {x: 0, y: -0.077004105, z: 0.71769655}
 --- !u!114 &1148517297
 MonoBehaviour:
@@ -4438,10 +4438,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
   isFront: 0
   radius: 0.25
-  suspensionCompression: 0.5
-  suspensionRelax: 5
-  suspensionRestLength: 0.2
-  suspensionStiff: 20
+  suspensionCompression: 0.8
+  suspensionRelax: 8
+  suspensionRestLength: 0.12
+  suspensionStiff: 40
   suspensionForce: 1000
   suspensionTravel: 5
 --- !u!1 &1273400219
@@ -5900,10 +5900,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
   isFront: 1
   radius: 0.25
-  suspensionCompression: 0.5
-  suspensionRelax: 5
-  suspensionRestLength: 0.2
-  suspensionStiff: 20
+  suspensionCompression: 0.8
+  suspensionRelax: 8
+  suspensionRestLength: 0.12
+  suspensionStiff: 40
   suspensionForce: 1000
   suspensionTravel: 5
 --- !u!1 &1571925853
@@ -5953,10 +5953,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
   isFront: 1
   radius: 0.25
-  suspensionCompression: 0.5
-  suspensionRelax: 5
-  suspensionRestLength: 0.2
-  suspensionStiff: 20
+  suspensionCompression: 0.8
+  suspensionRelax: 8
+  suspensionRestLength: 0.12
+  suspensionStiff: 40
   suspensionForce: 1000
   suspensionTravel: 5
 --- !u!1001 &1575274269
@@ -6799,8 +6799,11 @@ MonoBehaviour:
   - {fileID: 1571925857}
   - {fileID: 1267185589}
   - {fileID: 723378173}
-  speed: 0.3
-  maxSteer: 0.3
+  maxSteer: 35
+  steerSmoothingFactor: 3
+  accelerationForce: 75
+  breakForce: 1
+  topSpeed: 20
 --- !u!114 &1815979878
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,5 @@
-import { DynamicRayCastVehicleController, World, Vector } from "@dimforge/rapier3d-compat";
-import { Behaviour, Collider, GameObject, Gizmos, Mathf, Rigidbody, getComponent, getTempQuaternion, getTempVector, serializable, setWorldPosition, showBalloonMessage } from "@needle-tools/engine";
+import { DynamicRayCastVehicleController, World, Vector, Quaternion } from "@dimforge/rapier3d-compat";
+import { Behaviour, Collider, GameObject, Gizmos, Mathf, Rigidbody, foreachComponent, getComponent, getTempQuaternion, getTempVector, serializable, setWorldPosition, showBalloonMessage } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
 export class CarWheel extends Behaviour {
@@ -31,43 +31,55 @@ export class CarController extends Behaviour {
     @serializable(CarWheel)
     wheels: CarWheel[] = [];
 
+    // @tooltip The maximum steering angle in degrees
     @serializable()
-    speed: number = 10;
+    maxSteer: number = 35;
 
     @serializable()
-    maxSteer: number = 0.35; // 40 degrees
+    steerSmoothingFactor: number = 3;
 
-    private vehicle?: DynamicRayCastVehicleController;
-    private rigidbody?: Rigidbody;
+    @serializable()
+    accelerationForce: number = 75;
+    
+    @serializable()
+    breakForce: number = 1;
 
-    private currSteer: number = 0;
-    private currAcc: number = 0;
+    @serializable()
+    topSpeed: number = 20;
+
+    protected vehicle?: DynamicRayCastVehicleController;
+    protected rigidbody!: Rigidbody;
+
+    protected currSteer: number = 0;
+    protected currAcc: number = 0;
+
+    protected posOnStart!: Vector3;
+    protected rotOnStart!: Quaternion;
     start(): void {
-        let n_rb = this.gameObject.getComponent(Rigidbody);
-        n_rb ??= this.gameObject.addComponent(Rigidbody);
-        this.rigidbody = n_rb;
+        // get or create needle rigidbody
+        this.rigidbody = this.gameObject.getOrAddComponent(Rigidbody);
 
-        const r_rb = this.context.physics.engine?.getBody(n_rb);
+        // get underlaying rapier rigidbody
+        const r_rb = this.context.physics.engine?.getBody(this.rigidbody);
         const world = this.context.physics.engine?.world as World;
 
         if (!world) throw new Error("Physics engine (Rapier) not found");
 
+        // create vehicle physics
         this.vehicle = world.createVehicleController(r_rb);
 
         this.vehicle.indexUpAxis = 1;
         this.vehicle.setIndexForwardAxis = 2;
 
+        // create wheels
         this.wheels.forEach((wheel, i) => { 
             const wPos = wheel.worldPosition;
             const rPos = this.gameObject.worldToLocal(wPos);
             const rDir = getTempVector(0,-1,0);
 
-            const wAxis = wheel.gameObject.worldRight;
+            const wAxis = wheel.gameObject.worldRight.negate();
             const rAxis = this.gameObject.worldToLocal(wAxis);
 
-            //showBalloonMessage(`${rDir.x.toFixed(1)}, ${rDir.y.toFixed(1)}, ${rDir.z.toFixed(1)}`);
-            //Gizmos.DrawLine(this.worldPosition, wheel.worldPosition, "red", 5, false);
-            //Gizmos.DrawSphere(wheel.worldPosition, 0.1, "red", 5, false);
             wheel.localPosOnStart.copy(rPos);
             this.vehicle?.addWheel(rPos, rDir, rAxis, wheel.suspensionRestLength, wheel.radius);
 
@@ -76,80 +88,94 @@ export class CarController extends Behaviour {
             this.vehicle?.setWheelSuspensionStiffness(i, wheel.suspensionStiff);
             this.vehicle?.setWheelMaxSuspensionForce(i, wheel.suspensionForce);
             this.vehicle?.setWheelMaxSuspensionTravel(i, wheel.suspensionTravel);
-
-
-            /* const compression = this.vehicle?.wheelSuspensionCompression(i);
-            const length = this.vehicle?.wheelSuspensionLength(i);
-            const relax = this.vehicle?.wheelSuspensionRelaxation(i);
-            const rest = this.vehicle?.wheelSuspensionRestLength(i);
-            const stiff = this.vehicle?.wheelSuspensionStiffness(i);
-            const force = this.vehicle?.wheelMaxSuspensionForce(i);
-            const travel = this.vehicle?.wheelMaxSuspensionTravel(i); */
-            /* console.log(`Wheel ${i}: compression: ${compression}, length: ${length}, relax: ${relax}, rest: ${rest}, stiff: ${stiff}, force: ${force}, travel: ${travel}`); */
-
         });
+
+        // save start orientation
+        this.posOnStart = this.gameObject.position.clone();
+        this.rotOnStart = this.gameObject.quaternion.clone();
     }
 
-    private hasResetAfterFirstUpdate = false;
     update() {
+        // get input and set forces
         this.handleInput();
-
-        // ?
-        this.wheels.forEach((wheel, i) => { 
-            this.vehicle?.setWheelChassisConnectionPointCs(i, wheel.localPosOnStart);
-        });
         
+        //don't ever sleep 
+        this.rigidbody.wakeUp(); 
+
+        // update vehicle physics
         const dt = this.context.time.deltaTime;
         this.vehicle?.updateVehicle(dt);
 
-        if (!this.hasResetAfterFirstUpdate) {
-            this.hasResetAfterFirstUpdate = true;
-            this.rigidbody?.resetForces();
-            this.rigidbody?.resetVelocities();
-        }
-
+        // update visuals
         this.updateWheelVisual();
 
-        this.rigidbody?.wakeUp(); //don't sleep, ever
+        // save user
+        const reset = this.context.input.isKeyDown("r");
+        if (reset) {
+            this.gameObject.position.copy(this.posOnStart);
+            this.gameObject.quaternion.copy(this.rotOnStart);
+            this.rigidbody.resetVelocities();
+            this.rigidbody.resetForces();
+        }
+
+        this.resetWhenRolledOver(reset);
     }
 
-    private handleInput() {
+    protected handleInput() {
         const input = this.context.input;
         const dt = this.context.time.deltaTime;
 
+        // acceleration
         let v = 0;
-        if(input.isKeyPressed("w")) v = -1;
-        if(input.isKeyPressed("s")) v = 1;
+        if(input.isKeyPressed("w")) v = 1;
+        if(input.isKeyPressed("s")) v = -1;
 
-        this.currAcc = v; //Mathf.lerp(this.currAcc, v, 0.5 * dt);
+        this.currAcc = v;
 
+        // steering
         let h = 0;
         if(input.isKeyPressed("a")) h = 1;
         if(input.isKeyPressed("d")) h = -1;
 
-        this.currSteer = Mathf.lerp(this.currSteer, h, 5 * dt);
+        this.currSteer = Mathf.lerp(this.currSteer, h, this.steerSmoothingFactor * dt);
         
+        // set forces based on input
         this.wheels.forEach((wheel, i) => { 
-            if (wheel.isFront) {
-                this.vehicle?.setWheelSteering(i, this.currSteer * this.maxSteer);
-                /* const debugPos = wheel.worldPosition;
-                debugPos.y += 1;
-                Gizmos.DrawLabel(debugPos, (this.vehicle?.wheelSteering(i) ?? 0).toFixed(1), 0.1, 0, 0xffffff, 0x000000); */
+            let breakForce = 0;
+            let accelForce = 0;
+
+            const velDir = this.rigidbody.getVelocity();
+            const vel = velDir.length();
+            const reachedTopSpeed = vel > this.topSpeed;
+
+            // breaking
+            const isBreaking = this.currAcc < 0 && vel > 0.1 && velDir.dot(this.gameObject.worldForward) > 0;
+            if (isBreaking) {
+                breakForce = this.breakForce;
             }
 
-            const s = this.currAcc * this.speed * (this.rigidbody?.mass ?? 1);
-            this.vehicle?.setWheelEngineForce(i, s);
+            // aceeleration
+            accelForce = this.accelerationForce * this.currAcc;
+            const isAccelerating = this.currAcc != 0 && !isBreaking && !reachedTopSpeed;
+
+            this.vehicle?.setWheelBrake(i, isBreaking ? breakForce : 0);
+            this.vehicle?.setWheelEngineForce(i, isAccelerating ? accelForce : 0);
+
+            // steer
+            if (wheel.isFront && !isBreaking) {
+                this.vehicle?.setWheelSteering(i, this.currSteer * this.maxSteer * Mathf.Deg2Rad);
+            }
         });
     }
 
-    private refRight = new Vector3(1, 0, 0);
-    private refUp = new Vector3(0, 1, 0);
-    private updateWheelVisual() {
+    protected refRight = new Vector3(1, 0, 0);
+    protected refUp = new Vector3(0, 1, 0);
+    protected updateWheelVisual() {
         this.wheels.forEach((wheel, i) => { 
-            // rot
+            // rotation
             const wheelAngle = this.vehicle?.wheelRotation(i)!;
 
-            const steer = this.currSteer * this.maxSteer;
+            const steer = this.currSteer * this.maxSteer * Mathf.Deg2Rad;
             const yRot = getTempQuaternion().setFromAxisAngle(this.refUp, wheel.isFront ? steer : 0);
             const xRot = getTempQuaternion().setFromAxisAngle(this.refRight, wheelAngle);
 
@@ -157,7 +183,7 @@ export class CarController extends Behaviour {
 
             wheel.gameObject.quaternion.copy(rot);
             
-            // pos
+            // position
             const contact = this.vehicle?.wheelContactPoint(i) as Vector;
             
             if (contact) {
@@ -165,22 +191,27 @@ export class CarController extends Behaviour {
                 vec.addScaledVector(this.up, wheel.radius);
                 setWorldPosition(wheel.gameObject, vec);
             }
-
-            const wheelSlot = this.vehicle?.wheelChassisConnectionPointCs(i);
-            if (wheelSlot) {
-                const vec = this.rapierVectorToThreeVector(wheelSlot);
-                this.gameObject.localToWorld(vec);
-                /* Gizmos.DrawLine(wheel.worldPosition, vec, "red", 0, false);
-                Gizmos.DrawSphere(vec, .1, "red", 0, false); */
-
-                /* const pos = getTempVector(wheel.worldPosition);
-                pos.y += wheel.radius; */
-                //Gizmos.DrawLabel(pos, );
-            }
         });
     }
 
-    private rapierVectorToThreeVector(v: Vector): Vector3 { 
+    protected rapierVectorToThreeVector(v: Vector): Vector3 { 
         return getTempVector(v.x, v.y, v.z);
+    }
+
+    protected rolledOverDuration: number = 0;
+    protected resetWhenRolledOver(force: boolean = false) {
+        const isRolledOver = this.gameObject.worldUp.dot(getTempVector(0, 1, 0)) < 0.65;
+        const isSlow = this.rigidbody.getVelocity().length() < 0.1;
+        if (isRolledOver && isSlow) {
+            this.rolledOverDuration += this.context.time.deltaTime;
+        }
+        else {
+            this.rolledOverDuration = 0;
+        }
+
+        if (this.rolledOverDuration > 1 || force) {
+            this.gameObject.position.y += 0.4;
+            this.gameObject.quaternion.setFromUnitVectors(getTempVector(0,0,1), this.gameObject.worldForward);
+        }
     }
 }
