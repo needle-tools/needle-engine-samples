@@ -1,4 +1,5 @@
-﻿import { TypeStore } from "@needle-tools/engine"
+﻿/* eslint-disable */
+import { TypeStore } from "@needle-tools/engine"
 
 // Import types
 import { DoubleJumpCharacter } from "../Characters/DoubleJumpCharacter.js";
