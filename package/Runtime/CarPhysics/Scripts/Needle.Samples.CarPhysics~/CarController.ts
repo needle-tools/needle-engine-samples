@@ -1,5 +1,5 @@
 import { DynamicRayCastVehicleController, World, Vector, Quaternion } from "@dimforge/rapier3d-compat";
-import { Behaviour, Collider, GameObject, Gizmos, Mathf, Rigidbody, foreachComponent, getComponent, getTempQuaternion, getTempVector, serializable, setWorldPosition, showBalloonMessage } from "@needle-tools/engine";
+import { Behaviour, Collider, GameObject, Gizmos, Mathf, ParticleSystem, Rigidbody, foreachComponent, getComponent, getTempQuaternion, getTempVector, serializable, setWorldPosition, showBalloonMessage } from "@needle-tools/engine";
 import { Vector3 } from "three";
 
 export class CarWheel extends Behaviour {
@@ -22,6 +22,27 @@ export class CarWheel extends Behaviour {
     suspensionForce: number = 6000;
     @serializable()
     suspensionTravel: number = 5;
+
+    // --- Friction ---
+
+    @serializable()
+    sideFrictionStiffness: number = 0.5;
+
+    @serializable()
+    frictionSlip: number = 10.5;
+
+    @serializable()
+    frictionSlipWhenBreaking: number = 0.5;
+
+    // --- Visuals ---
+    @serializable(ParticleSystem)
+    skidParticle?: ParticleSystem;
+
+    @serializable()
+    skidVisualSideTreshold: number = 5;
+
+    @serializable()
+    skidVisualBreakTreshold: number = 0.1;
 
     //@nonSerialized
     localPosOnStart: Vector3 = new Vector3();
@@ -47,7 +68,7 @@ export class CarController extends Behaviour {
     @serializable()
     topSpeed: number = 20;
 
-    protected vehicle?: DynamicRayCastVehicleController;
+    protected vehicle!: DynamicRayCastVehicleController;
     protected rigidbody!: Rigidbody;
 
     protected currSteer: number = 0;
@@ -81,13 +102,16 @@ export class CarController extends Behaviour {
             const rAxis = this.gameObject.worldToLocal(wAxis);
 
             wheel.localPosOnStart.copy(rPos);
-            this.vehicle?.addWheel(rPos, rDir, rAxis, wheel.suspensionRestLength, wheel.radius);
+            this.vehicle.addWheel(rPos, rDir, rAxis, wheel.suspensionRestLength, wheel.radius);
 
-            this.vehicle?.setWheelSuspensionCompression(i, wheel.suspensionCompression);
-            this.vehicle?.setWheelSuspensionRelaxation(i, wheel.suspensionRelax);
-            this.vehicle?.setWheelSuspensionStiffness(i, wheel.suspensionStiff);
-            this.vehicle?.setWheelMaxSuspensionForce(i, wheel.suspensionForce);
-            this.vehicle?.setWheelMaxSuspensionTravel(i, wheel.suspensionTravel);
+            this.vehicle.setWheelSuspensionCompression(i, wheel.suspensionCompression);
+            this.vehicle.setWheelSuspensionRelaxation(i, wheel.suspensionRelax);
+            this.vehicle.setWheelSuspensionStiffness(i, wheel.suspensionStiff);
+            this.vehicle.setWheelMaxSuspensionForce(i, wheel.suspensionForce);
+            this.vehicle.setWheelMaxSuspensionTravel(i, wheel.suspensionTravel);
+
+            this.vehicle.setWheelSideFrictionStiffness(i, wheel.sideFrictionStiffness);
+            this.vehicle.setWheelFrictionSlip(i, wheel.frictionSlip);
         });
 
         // save start orientation
@@ -104,12 +128,12 @@ export class CarController extends Behaviour {
 
         // update vehicle physics
         const dt = this.context.time.deltaTime;
-        this.vehicle?.updateVehicle(dt);
+        this.vehicle.updateVehicle(dt);
 
         // update visuals
         this.updateWheelVisual();
 
-        // save user
+        // reset car
         const reset = this.context.input.isKeyDown("r");
         if (reset) {
             this.gameObject.position.copy(this.posOnStart);
@@ -158,13 +182,16 @@ export class CarController extends Behaviour {
             accelForce = this.accelerationForce * this.currAcc;
             const isAccelerating = this.currAcc != 0 && !isBreaking && !reachedTopSpeed;
 
-            this.vehicle?.setWheelBrake(i, isBreaking ? breakForce : 0);
-            this.vehicle?.setWheelEngineForce(i, isAccelerating ? accelForce : 0);
+            this.vehicle.setWheelBrake(i, isBreaking ? breakForce : 0);
+            this.vehicle.setWheelEngineForce(i, isAccelerating ? accelForce : 0);
 
             // steer
-            if (wheel.isFront && !isBreaking) {
-                this.vehicle?.setWheelSteering(i, this.currSteer * this.maxSteer * Mathf.Deg2Rad);
+            if (wheel.isFront/*  && !isBreaking */) {
+                this.vehicle.setWheelSteering(i, this.currSteer * this.maxSteer * Mathf.Deg2Rad);
             }
+
+            // slip
+            this.vehicle.setWheelFrictionSlip(i, isBreaking ? wheel.frictionSlipWhenBreaking : wheel.frictionSlip)
         });
     }
 
@@ -173,7 +200,7 @@ export class CarController extends Behaviour {
     protected updateWheelVisual() {
         this.wheels.forEach((wheel, i) => { 
             // rotation
-            const wheelAngle = this.vehicle?.wheelRotation(i)!;
+            const wheelAngle = this.vehicle.wheelRotation(i)!;
 
             const steer = this.currSteer * this.maxSteer * Mathf.Deg2Rad;
             const yRot = getTempQuaternion().setFromAxisAngle(this.refUp, wheel.isFront ? steer : 0);
@@ -184,17 +211,28 @@ export class CarController extends Behaviour {
             wheel.gameObject.quaternion.copy(rot);
             
             // position
-            const contact = this.vehicle?.wheelContactPoint(i) as Vector;
-            
+            const contact = this.rapierVectorToThreeVector(this.vehicle.wheelContactPoint(i) as Vector);
             if (contact) {
-                const vec = this.rapierVectorToThreeVector(contact);
-                vec.addScaledVector(this.up, wheel.radius);
-                setWorldPosition(wheel.gameObject, vec);
+                const wheelPos = getTempVector(contact).addScaledVector(this.up, wheel.radius);
+                setWorldPosition(wheel.gameObject, wheelPos);
+            }
+
+            // skid
+            const sideAmount = Math.abs(this.vehicle.wheelSideImpulse(i) ?? 0);
+            const breakAmount = Math.abs(this.vehicle.wheelBrake(i) ?? 0);
+            console.log(this.vehicle.wheelFrictionSlip(i));
+            const showSkid = sideAmount > wheel.skidVisualSideTreshold || breakAmount > wheel.skidVisualBreakTreshold;
+            if (this.vehicle.wheelIsInContact(i) && showSkid) {
+                if (wheel.skidParticle && contact) {
+                    setWorldPosition(wheel.skidParticle.gameObject, contact);
+                    wheel.skidParticle?.emit(1);
+                }
             }
         });
     }
 
-    protected rapierVectorToThreeVector(v: Vector): Vector3 { 
+    protected rapierVectorToThreeVector(v: Vector | null): Vector3 | undefined{ 
+        if(v == null) return undefined;
         return getTempVector(v.x, v.y, v.z);
     }
 

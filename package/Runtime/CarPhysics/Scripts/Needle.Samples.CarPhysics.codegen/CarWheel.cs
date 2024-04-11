@@ -15,6 +15,12 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @suspensionStiff = 5.8f;
 		public float @suspensionForce = 6000f;
 		public float @suspensionTravel = 5f;
+		public float @sideFrictionStiffness = 0.5f;
+		public float @frictionSlip = 10.5f;
+		public float @frictionSlipWhenBreaking = 0.5f;
+		public UnityEngine.ParticleSystem @skidParticle;
+		public float @skidVisualSideTreshold = 5f;
+		public float @skidVisualBreakTreshold = 0.1f;
 	}
 }
 
