@@ -462,6 +462,11 @@ public class AssetChecks
         }
         Assert.AreEqual(0, problems.Count, string.Join("\n", problems) + "\n\nProblems:");
     }
+
+    private static string[] allowedNonHdrAssets = new string[]
+    {
+        "f7ef59c8610b47f45b9faee4a7e5ffa3", // JapanesePanorama (no EXR version available)
+    };
     
     private static void CubemapsAreHDR(string assetFolder)
     {
@@ -469,6 +474,9 @@ public class AssetChecks
         var errors = new List<(string, Object)>();
         foreach (var cubeMap in cubeMaps)
         {
+            if (allowedNonHdrAssets.Contains(cubeMap))
+                continue;
+            
             var path = AssetDatabase.GUIDToAssetPath(cubeMap);
             var cubemap = AssetDatabase.LoadAssetAtPath<Cubemap>(path);
             
