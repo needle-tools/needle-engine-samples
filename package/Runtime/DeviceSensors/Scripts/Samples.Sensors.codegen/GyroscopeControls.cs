@@ -7,10 +7,10 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class GyroscopeControls : UnityEngine.MonoBehaviour
 	{
-		public bool @activateOnStart = true;
+		public bool @invert = false;
 		public void awake(){}
-		public void activate(){}
-		public void deactivate(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
 	}
 }
 

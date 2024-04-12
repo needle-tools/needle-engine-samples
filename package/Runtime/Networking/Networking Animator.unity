@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 25417592}
   - component: {fileID: 25417595}
   - component: {fileID: 25417596}
+  - component: {fileID: 25417597}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -173,6 +174,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: networking
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/Networking/Scripts/Networking.npmdef
@@ -225,6 +227,23 @@ MonoBehaviour:
     title: Synchronized Animator
     description: Synchronize any animator over network
     image: {fileID: 2800000, guid: 45f32e75ea656714abebba9943009ef0, type: 3}
+--- !u!114 &25417597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25417591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
+    Needle.Engine.GltfExport
+  AllowProgressiveLoading: 0
+  UseMaxSize: 1
+  MaxSize: 128
+  GenerateLODs: 1
 --- !u!1001 &30548293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1301,6 +1320,7 @@ MonoBehaviour:
   joinRandomRoom: 1
   requireRoomParameter: 0
   autoRejoin: 1
+  createJoinButton: 1
 --- !u!1 &1310777011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,6 +1508,7 @@ Transform:
   - {fileID: 755076031}
   - {fileID: 773534023}
   - {fileID: 2139678995}
+  - {fileID: 1664320033}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1504,6 +1525,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-e9f1535860a50a14cb85e49bb0635ae9-1440317951-0
+  IgnoreSkinnedMeshes: 0
+--- !u!1 &1664320032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1664320033}
+  - component: {fileID: 1664320034}
+  m_Layer: 0
+  m_Name: NeedleMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1664320033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664320032}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1440317950}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1664320034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664320032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
+  _position: 1
+  ShowNeedleLogo: 1
+  CreateFullscreenButton: 1
+  CreateMuteButton: 0
+  ShowSpatialMenu: 1
 --- !u!1 &1715480774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1957,20 +2028,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-e9f1535860a50a14cb85e49bb0635ae9-2102536299-0
+  autoTarget: 1
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 0
-  enableDamping: 1
-  dampingFactor: 0.1
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: Infinity
+  maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 2102536301}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
   middleClickToFocus: 0
   doubleClickToFocus: 0
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 2102536301}
 --- !u!114 &2102536300
 MonoBehaviour:
   m_ObjectHideFlags: 0

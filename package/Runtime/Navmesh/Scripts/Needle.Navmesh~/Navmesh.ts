@@ -59,7 +59,7 @@ export class Navmesh extends Behaviour {
             Navmesh.displayPath(path, debugDuration);
         }
 
-        return path ?? new Vector3[0];
+        return path ?? [];
     }
 
     static displayPath(path: Vector3[] | undefined, debugDuration?: number, color: ColorRepresentation = 0xff9747, depthTest: boolean = false) {
@@ -136,7 +136,7 @@ export class Navmesh extends Behaviour {
         return c;
     }
 
-    private static getClosestCentroid(position: Vector3): Vector3 | null {
+    static getClosestCentroid(position: Vector3): Vector3 | null {
         let minDistance = Number.MAX_SAFE_INTEGER;
         let safePosition: Vector3 | null = null;
         Navmesh.ZoneData?.groups.forEach(group => {

@@ -55,11 +55,18 @@ export class NavmeshDemo_Agent extends Behaviour {
 
         const b = this.squareArea;
 
-        const x = randomNumber(-b.x, b.x);
-        const z = randomNumber(-b.y, b.y);
+        const x = Mathf.random(-b.x, b.x);
+        const z = Mathf.random(-b.y, b.y);
 
         const target = new Vector3(x, this.worldPosition.y, z);
         const from = this.worldPosition;
+
+        // get the Y of the navmesh on the XZ cords
+        // this won't solve issues on slopes
+        const targetPolyCentroid = Navmesh.getClosestCentroid(target);
+        if (targetPolyCentroid) {
+            target.y = targetPolyCentroid.y;
+        }
 
         const path = Navmesh.FindPath(from, target, -1); // disables the visualization
 

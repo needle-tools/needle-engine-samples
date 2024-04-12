@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 133880412}
   - component: {fileID: 133880413}
   m_Layer: 0
-  m_Name: Culled
+  m_Name: LOD Culled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,6 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573bccbe1ab9e5b0ef68b5254ab408ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraGoal, Needle.Engine-Samples.Runtime
+  createMenuButton: 1
+  teleportVRPlayer: 1
+  ignoreYInVR: 1
 --- !u!1 &149767005
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +181,7 @@ GameObject:
   - component: {fileID: 149767006}
   - component: {fileID: 149767007}
   m_Layer: 0
-  m_Name: LOD2
+  m_Name: LOD 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,6 +214,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573bccbe1ab9e5b0ef68b5254ab408ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraGoal, Needle.Engine-Samples.Runtime
+  createMenuButton: 1
+  teleportVRPlayer: 1
+  ignoreYInVR: 1
+--- !u!1 &208071532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 208071533}
+  - component: {fileID: 208071534}
+  m_Layer: 0
+  m_Name: NeedleMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &208071533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208071532}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 577162388}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &208071534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208071532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
+  _position: 1
+  ShowNeedleLogo: 1
+  CreateFullscreenButton: 1
+  CreateMuteButton: 0
+  ShowSpatialMenu: 1
 --- !u!1 &218719408
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,10 +301,10 @@ RectTransform:
   m_Father: {fileID: 1630017184}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 285.26718, y: -22.33575}
+  m_SizeDelta: {x: 64.36205, y: 44.6715}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &218719410
 MonoBehaviour:
@@ -527,6 +582,7 @@ Transform:
   - {fileID: 631097315}
   - {fileID: 1847399822}
   - {fileID: 1629782370}
+  - {fileID: 208071533}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -726,7 +782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -854,10 +910,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
+  autoTarget: 1
   autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: Infinity
+  maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 5
   maxZoom: 65
@@ -965,7 +1026,7 @@ GameObject:
   - component: {fileID: 693121074}
   - component: {fileID: 693121075}
   m_Layer: 0
-  m_Name: LOD1
+  m_Name: LOD 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -998,6 +1059,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573bccbe1ab9e5b0ef68b5254ab408ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraGoal, Needle.Engine-Samples.Runtime
+  createMenuButton: 1
+  teleportVRPlayer: 1
+  ignoreYInVR: 1
 --- !u!1 &742929042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,10 +1292,10 @@ RectTransform:
   m_Father: {fileID: 1630017184}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 32.181026, y: -22.33575}
+  m_SizeDelta: {x: 64.36205, y: 44.6715}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &890720746
 MonoBehaviour:
@@ -1338,7 +1402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1020000800}
   - component: {fileID: 1020000801}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LOD group - Solid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1425,10 +1489,10 @@ RectTransform:
   m_Father: {fileID: 1630017184}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200.90514, y: -22.33575}
+  m_SizeDelta: {x: 64.36205, y: 44.6715}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1124987434
 MonoBehaviour:
@@ -2050,7 +2114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1629782370
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2163,7 +2227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1630017184
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2238,7 +2302,7 @@ GameObject:
   - component: {fileID: 1656307759}
   - component: {fileID: 1656307760}
   m_Layer: 0
-  m_Name: LOD0
+  m_Name: LOD 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2271,6 +2335,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573bccbe1ab9e5b0ef68b5254ab408ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CameraGoal, Needle.Engine-Samples.Runtime
+  createMenuButton: 1
+  teleportVRPlayer: 1
+  ignoreYInVR: 1
 --- !u!1 &1847399821
 GameObject:
   m_ObjectHideFlags: 0
@@ -2351,10 +2418,10 @@ RectTransform:
   m_Father: {fileID: 1630017184}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 116.543076, y: -22.33575}
+  m_SizeDelta: {x: 64.36205, y: 44.6715}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1947602166
 MonoBehaviour:
@@ -2563,7 +2630,7 @@ GameObject:
   - component: {fileID: 1970254424}
   - component: {fileID: 1970254426}
   - component: {fileID: 1970254425}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LOD group - Wireframe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2742,11 +2809,11 @@ RectTransform:
   m_Father: {fileID: 631097315}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 144.2}
-  m_SizeDelta: {x: 317.4482, y: 63.2067}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -25}
+  m_SizeDelta: {x: 317.4482, y: 70}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2140821920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2760,7 +2827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI.Image, UnityEngine.UI
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.6}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.8}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2818,7 +2885,7 @@ GameObject:
   - component: {fileID: 3577983435124916633}
   - component: {fileID: 2702007928003077810}
   - component: {fileID: 8091090065484177681}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2935,7 +3002,7 @@ GameObject:
   - component: {fileID: 8434277709760791483}
   - component: {fileID: 309649316395114385}
   - component: {fileID: 6064649707902547033}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wireframe_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3075,7 +3142,7 @@ GameObject:
   - component: {fileID: 3324232186861778502}
   - component: {fileID: 6873197843943074412}
   - component: {fileID: 1082957017064948132}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wireframe_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3158,7 +3225,7 @@ GameObject:
   - component: {fileID: 7676690775920555108}
   - component: {fileID: 9102316396581278543}
   - component: {fileID: 3127691562360313068}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3184,7 +3251,7 @@ GameObject:
   - component: {fileID: 587397583876992818}
   - component: {fileID: 8747767801584612120}
   - component: {fileID: 2955415621398272208}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wireframe_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3274,7 +3341,7 @@ GameObject:
   - component: {fileID: 5516281603430214928}
   - component: {fileID: 6365061798404098619}
   - component: {fileID: 964645074858200472}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

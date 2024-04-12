@@ -18,6 +18,10 @@ using Needle.Engine.Projects;
 using Needle.Engine.Samples.Helpers;
 using Object = UnityEngine.Object;
 using Actions = Needle.Engine.Actions;
+using Needle.Engine.Components;
+using Needle.Typescript.GeneratedComponents;
+using Needle.Engine.Utils;
+using Newtonsoft.Json.Linq;
 
 namespace SampleChecks
 {
@@ -38,6 +42,7 @@ namespace SampleChecks
         {
             "node_modules",
         };
+
 
         [Test]
         public async Task NoGzipDeployments()
@@ -109,12 +114,39 @@ namespace SampleChecks
             Assert.That(request.responseCode, Is.EqualTo(200), "Sample is not live: " + sample.name + " at " + sampleLiveUrl);
         }
 
-        // TODO this could be based on the current package version and e.g. only allow 2-3 minor version deviations
-        // 3.19.8 - fixes scrollbar flicker
-        private const int RequiredMajorVersion = 3;
-        private const int RequiredMinorVersion = 19;
-        private const int RequiredPatchVersion = 8;
-        
+        /// <summary>
+        /// Needle Engine package versions from oldest to newest
+        /// </summary>
+        static List<(int major, int minor, int patch, string suffix, string version)> enginePackageVersions;
+
+        async Task GetEngineVersionsIfNeeded()
+        {
+            if (enginePackageVersions != null)
+                return;
+
+            enginePackageVersions = new();
+
+            var enginePackageInfo = await NpmUtils.TryGetCompletePackageInfo("@needle-tools/engine");
+            if (!enginePackageInfo.TryGetValue("versions", out var versionsObject))
+                Assert.Inconclusive("Can't parse needle engine package info");
+
+            var versionRoot = enginePackageInfo["versions"] as JObject;
+            foreach (var x in versionRoot)
+            {
+                if (GetSemVersion(x.Key, out int _major, out int _minor, out int _patch, out string _suffix))
+                {
+                    enginePackageVersions.Add((_major, _minor, _patch, _suffix, x.Key));
+                }
+            }
+
+            enginePackageVersions.OrderBy(x => x.major)
+                                 .ThenBy(x => x.minor)
+                                 .ThenBy(x => x.patch)
+                                 .ThenBy(x => x.suffix)
+                                 .ToList();
+        }
+
+
         [Test]
         [Category(SampleChecks.PublicInfoCategoryName)]
         public async Task VersionIsNotTooOld()
@@ -135,47 +167,56 @@ namespace SampleChecks
 
             // create a regex for this that extracts the content
             // <meta name="needle-engine" content="3.5.8-alpha">
-            var regex = new System.Text.RegularExpressions.Regex("<meta name=\"needle-engine\" content=\"(?<version>.*)\">");
+            var regex = new Regex("<meta name=\"needle-engine\" content=\"(?<version>.*)\">");
             var match = regex.Match(html);
             var version = match.Groups["version"].Value;
-            
+
             // regex check with matches for major/minor/patch-pre so that we can use these as matches
-            var regex2 = new System.Text.RegularExpressions.Regex(@"(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(-(?<suffix>\w+))?"); 
-            match = regex2.Match(version);
-            var major = match.Groups["major"].Value;
-            var minor = match.Groups["minor"].Value;
-            var patch = match.Groups["patch"].Value;    
-            var pre = match.Groups["suffix"].Value;
-            
-            
-            var isSemver = !string.IsNullOrEmpty(major) && !string.IsNullOrEmpty(minor) && !string.IsNullOrEmpty(patch);
-
-            Debug.Log("Version: " + version);
-            if (!isSemver)
-            {
+            if (!GetSemVersion(version, out var major, out var minor, out var patch, out var suffix))
                 Assert.Inconclusive("Version not detected in the HTML meta tags of the live sample. That usually means the used Needle Engine version is too old.");
-            }
-            else
+
+            Debug.Log($"Deployment version: {major}.{minor}.{patch}");
+
+
+            await GetEngineVersionsIfNeeded();
+
+            var stableReleases = enginePackageVersions.Where(x => string.IsNullOrEmpty(x.suffix));
+            var lastStable = stableReleases.LastOrDefault();
+
+            Assert.IsNotNull(lastStable, "Can't determine last stable package version");
+
+            Debug.Log($"Latest stable version: {lastStable.version}");
+
+            // semantically check if deployment isn't behind a stable release
+            var errorMsg = $"Version is too old ({version}). Latest stable version is newer then the deployment {lastStable.version}";
+            Assert.GreaterOrEqual(major, lastStable.major, errorMsg);
+
+            if (major == lastStable.major)
             {
-                var majorValue = int.Parse(major);
-                var minorValue = int.Parse(minor);
-                var patchValue = int.Parse(patch);
-
-                var errorMsg = $"Version is too old {version} and expected {RequiredMajorVersion}.{RequiredMinorVersion}.{RequiredPatchVersion}";
-
-                // TODO proper SemVer check
-                Assert.GreaterOrEqual(majorValue, RequiredMajorVersion, errorMsg);
-
-                if (majorValue == RequiredMajorVersion)
+                Assert.GreaterOrEqual(minor, lastStable.minor, errorMsg);
+                if(minor == lastStable.minor)
                 {
-                    Assert.GreaterOrEqual(minorValue, RequiredMinorVersion, errorMsg);
-                    if(minorValue == RequiredMinorVersion)
-                    {
-                        Assert.GreaterOrEqual(patchValue, RequiredPatchVersion, errorMsg);
-                    }
+                    Assert.GreaterOrEqual(patch, lastStable.patch, errorMsg);
+                    // TODO:check for suffix
                 }
             }
         }
+
+        bool GetSemVersion(string input, out int major, out int minor, out int patch, out string suffix)
+        {
+            var regex = new Regex(@"(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(-(?<suffix>\w+))?");
+            var match = regex.Match(input);
+            var majorText = match.Groups["major"]?.Value ?? "";
+            var minorText = match.Groups["minor"]?.Value ?? "";
+            var patchText = match.Groups["patch"]?.Value ?? "";
+
+            major = -1;
+            minor = -1;
+            patch = -1;
+            suffix = match.Groups["suffix"].Value;
+
+            return int.TryParse(majorText, out major) && int.TryParse(minorText, out minor) && int.TryParse(patchText, out patch);
+        } 
 
         [Test]
         [Category(SampleChecks.PublicInfoCategoryName)]
@@ -206,14 +247,17 @@ namespace SampleChecks
         [Category(SampleChecks.PublicInfoCategoryName)]
         public void HasReadme()
         {
+            // simple check if the file exists
             var sampleDirectory = AssetDatabase.GetAssetPath(sample.Scene);
             sampleDirectory = Path.GetDirectoryName(sampleDirectory);
             if (sampleDirectory == null) return;
             var readmePath = Path.Combine(sampleDirectory, "README.md");
             Assert.IsTrue(File.Exists(readmePath), "No README.md found");
             
-            // TODO maybe we can rename it directly here to avoid issues
-            Assert.IsTrue(Directory.GetFileSystemEntries(sampleDirectory, "README.md").FirstOrDefault() != null, "File should be called README.md (uppercase)");
+            // we need to ensure it's actually called README.md and not readme.md or Readme.md or something else
+            var filesystemEntries = Directory.GetFileSystemEntries(sampleDirectory, "README.md");
+            var first = filesystemEntries.FirstOrDefault();
+            Assert.IsTrue(first != null && first.EndsWith("README.md", StringComparison.Ordinal), "File should be called README.md (uppercase)");
         }
 
         [Test]
@@ -227,6 +271,39 @@ namespace SampleChecks
             Assert.IsFalse(string.IsNullOrEmpty(readme.Guid));
             Assert.IsTrue(readme.CompareTag("EditorOnly"), "Readme component should be tagged as EditorOnly.");
             Assert.AreEqual(1, readme.gameObject.GetComponents<Component>().Length - 1, "Readme GameObject has too many components, should only have Readme");
+        }
+
+        [Test]
+        public void HasNeedleMenuAndShowsLogo()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var menu = Object.FindAnyObjectByType<NeedleMenu>();
+            Assert.IsNotNull(menu, "NeedleMenu is missing in the scene");
+            Assert.IsTrue(menu.ShowNeedleLogo, $"NeedleMenu should have {nameof(NeedleMenu.ShowNeedleLogo)} enabled.");
+        }
+
+        [Test]
+        public void HasHTMLMetaComponent()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var components = Object.FindObjectsByType<HtmlMeta>(FindObjectsSortMode.None);
+            Assert.IsTrue(components.Length > 0, "Scene is missing HTML Meta component");
+            Assert.IsTrue(components.Length == 1, "Scene has multiple HTML Meta components");
+
+            var meta = components.FirstOrDefault()?.meta;
+
+            Assert.IsNotNull(meta, "Meta or component is null, unexpected.");
+
+            // get default value of meta.meta.title
+            var defaultValues = new HtmlMeta.Meta();
+
+            Assert.IsNotNull(meta.image, "No image");
+            Assert.False(meta.title.Equals(defaultValues.title), "Default title");
+            Assert.False(string.IsNullOrEmpty(meta.title), "No title");
+            Assert.False(meta.description.Equals(defaultValues.description), "Default description");
+            Assert.False(string.IsNullOrEmpty(meta.description), "No description");
         }
 
         static string[] GetDependencies(Object obj)
@@ -488,7 +565,7 @@ namespace SampleChecks
             var info = Object.FindAnyObjectByType<ExportInfo>();
             Assert.IsNotNull(info, "No ExportInfo found! Invalid scene.");
             if (!string.IsNullOrEmpty(info.RemoteUrl))
-                Assert.Inconclusive("Is remote");
+                Assert.Pass("Is remote");
 
             var path = info.DirectoryName;
 

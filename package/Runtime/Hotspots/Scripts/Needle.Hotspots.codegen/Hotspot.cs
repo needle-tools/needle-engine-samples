@@ -1,4 +1,5 @@
 using Needle.Engine;
+using UnityEngine;
 
 // NEEDLE_CODEGEN_START
 // auto generated code - do not edit directly

@@ -1,10 +1,13 @@
-import { Behaviour } from "@needle-tools/engine";
+import { Behaviour, serializable } from "@needle-tools/engine";
 import { Euler, MathUtils } from "three";
 import { OrientationSensor, DeviceMotion } from "./GyroscopeControls";
 
 // Documentation → https://docs.needle.tools/scripting
 
 export class SensorAccessSample extends Behaviour {
+    @serializable()
+    invert: boolean = false;
+
     private sensorOrientation!: OrientationSensor;
     private deviceOrientation!: DeviceMotion;
 
@@ -21,38 +24,7 @@ export class SensorAccessSample extends Behaviour {
         label2.innerHTML = "<b>Pick up your phone!</b>";
         div.appendChild(label2);
         div.appendChild(this.orientationLabel);
-        const btn = document.createElement("button");
-        const defaultText = "Fullscreen";
-        btn.innerText = defaultText;
 
-        // check if the Fullscreen API is available and show a button if it is
-        if ("requestFullscreen" in document.body) {
-            btn.addEventListener("click", () => {
-                if (window.matchMedia('(display-mode: fullscreen)').matches || document.fullscreenElement) {
-                    document.exitFullscreen();
-                    btn.innerText = defaultText;
-                } else {
-                    this.context.domElement.requestFullscreen();
-
-                    // in fullscreen, we can lock device orientation on some devices
-                    if ("orientation" in screen && "lock" in screen.orientation) {
-                        try {
-                            //@ts-ignore
-                            screen.orientation.lock("portrait-primary");
-                        }
-                        catch (e) {
-                            console.warn("Could not lock screen orientation.");
-                        }
-                    }
-                    btn.innerText = "Exit";
-                }
-            });
-        }
-        else {
-            btn.style.display = "none";
-        }
-
-        div.appendChild(btn);
         this.context.domElement.appendChild(div);
 
         this.sensorOrientation = new OrientationSensor(this.gameObject);
@@ -62,8 +34,8 @@ export class SensorAccessSample extends Behaviour {
             this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
             this.deviceOrientation.initialize(() => {
                 this.orientationLabel.innerText = "No API available.";
-            });
-        });
+            }, this.invert);
+        }, this.invert);
     }
 
     update(): void {

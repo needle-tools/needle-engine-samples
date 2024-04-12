@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 22652766}
   - component: {fileID: 22652768}
   - component: {fileID: 22652769}
-  - component: {fileID: 22652770}
   - component: {fileID: 22652771}
   - component: {fileID: 22652772}
   - component: {fileID: 22652773}
@@ -176,6 +175,7 @@ Transform:
   - {fileID: 1214626829}
   - {fileID: 40076871}
   - {fileID: 287068655}
+  - {fileID: 971788228}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -230,22 +230,6 @@ MonoBehaviour:
   exportFileName: Needle
   customUsdzFile:
     File: {fileID: 0}
---- !u!114 &22652770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22652765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport $ GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-22652770-0
-  AllowProgressiveLoading: 1
-  UseMaxSize: 1
-  MaxSize: 256
 --- !u!114 &22652771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,6 +483,8 @@ GameObject:
   - component: {fileID: 492380014}
   - component: {fileID: 492380017}
   - component: {fileID: 492380018}
+  - component: {fileID: 492380019}
+  - component: {fileID: 492380020}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -587,6 +573,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.NeedleEngineModules, Needle.Engine.Common
     $ GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-492380018-0
   PhysicsEngine: 1
+--- !u!114 &492380019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492380013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
+  meta:
+    title: Texture Details
+    description: High-res textures and AR placement
+    image: {fileID: 2800000, guid: 8f7d388d02ac24d81abac647562859a5, type: 3}
+--- !u!114 &492380020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492380013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
+    Needle.Engine.GltfExport
+  AllowProgressiveLoading: 1
+  UseMaxSize: 1
+  MaxSize: 4096
+  GenerateLODs: 1
 --- !u!1 &930661536
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,6 +651,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &971788227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 971788228}
+  - component: {fileID: 971788229}
+  m_Layer: 0
+  m_Name: NeedleMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &971788228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971788227}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 22652767}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &971788229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971788227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
+  _position: 1
+  ShowNeedleLogo: 1
+  CreateFullscreenButton: 1
+  CreateMuteButton: 0
+  ShowSpatialMenu: 1
 --- !u!1 &1214626826
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,10 +800,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-1214626830-0
+  autoTarget: 1
   autoFit: 1
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: Infinity
+  maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity

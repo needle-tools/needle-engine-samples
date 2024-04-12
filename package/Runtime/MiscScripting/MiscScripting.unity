@@ -628,8 +628,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ClickToOpenWebsite,
     Needle.Tiny.Samples $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-796143822-0
   url: 
-  keepQuery: 0
-  keepHash: 0
   openNewTab: 0
 --- !u!33 &796143823
 MeshFilter:
@@ -1221,8 +1219,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ClickToOpenWebsite,
     Needle.Tiny.Samples $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-1219839411-0
   url: 
-  keepQuery: 0
-  keepHash: 0
   openNewTab: 0
 --- !u!33 &1219839412
 MeshFilter:
@@ -1232,6 +1228,55 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1219839408}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1283880998
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1283880999}
+  - component: {fileID: 1283881000}
+  m_Layer: 0
+  m_Name: NeedleMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1283880999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283880998}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1526562593}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1283881000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283880998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
+  _position: 1
+  ShowNeedleLogo: 1
+  CreateFullscreenButton: 1
+  CreateMuteButton: 0
+  ShowSpatialMenu: 1
 --- !u!1 &1290005927
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,6 +1446,7 @@ Transform:
   - {fileID: 2120999431}
   - {fileID: 1839906124}
   - {fileID: 399677}
+  - {fileID: 1283880999}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1417,6 +1463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-1526562594-0
+  IgnoreSkinnedMeshes: 0
 --- !u!1 &1531838827
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,6 +2138,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1865803038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2296,20 +2344,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-1891683900-0
+  autoTarget: 1
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 1
-  enableDamping: 1
-  dampingFactor: 0.1
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: Infinity
+  maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 0}
 --- !u!114 &1891683901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2496,6 +2551,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/needle-engine-samples'
     VersionOrPath: Packages/com.needle.engine.samples/Runtime/Needle Engine Samples.npmdef
@@ -2638,8 +2694,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ClickToOpenWebsite,
     Needle.Tiny.Samples $ GlobalObjectId_V1-2-4bdc09f82e9c02b4a8b57a59a7d7a826-2063934553-0
   url: 
-  keepQuery: 0
-  keepHash: 0
   openNewTab: 0
 --- !u!33 &2063934554
 MeshFilter:
