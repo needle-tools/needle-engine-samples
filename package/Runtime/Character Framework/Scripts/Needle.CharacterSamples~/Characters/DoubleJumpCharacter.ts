@@ -12,15 +12,20 @@ export class DoubleJumpCharacter extends StandardCharacter {
         if(desktopInput)
             desktopInput.jumpAllowHold = false;
 
-        this.adjustState("jump", jumpState => {
-            jumpState.enterCondition = [ () => (this.standardInput.jump ?? false) && (this.physics.isGrounded || this._jumpCount < this.maxJumps) ];
+        const movement = this.movementStateMachine;
+        movement.adjustState("jump", jumpState => {
+            jumpState.enterCondition = [ 
+                () => this.standardInput.jump ?? false,
+                () => this.physics.isGrounded || this._jumpCount < this.maxJumps 
+            ];
             jumpState.enter = () => { 
                 this._jumpCount++;
             };
-            jumpState.priority = 10; // higher priority than falling because then the state won't return to jump even if condition is true
+            // higher priority than falling because then the state won't return to jump even if condition is true
+            jumpState.priority = 10; 
         });
 
-        this.adjustState("land", landState => {
+        movement.adjustState("land", landState => {
             landState.enter = () => {
                 this._jumpCount = 0;
             };
