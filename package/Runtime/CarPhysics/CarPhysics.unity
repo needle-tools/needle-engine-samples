@@ -5968,7 +5968,6 @@ MonoBehaviour:
   followFactor: 55
   rotateFactor: 0
   positionAxes: -1
-  flipForward: 0
 --- !u!1001 &921910468
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6755,7 +6754,6 @@ MonoBehaviour:
   followFactor: 8
   rotateFactor: 4
   positionAxes: -1
-  flipForward: 0
 --- !u!4 &1045967544
 Transform:
   m_ObjectHideFlags: 0
@@ -8322,6 +8320,56 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1768956079008960411, guid: c17eb04c4c7605a4e9d744a5f0eb1105, type: 3}
   m_PrefabInstance: {fileID: 1219997987}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1223164994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1223164996}
+  - component: {fileID: 1223164995}
+  m_Layer: 0
+  m_Name: Needle Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1223164995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223164994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
+  _position: 1
+  ShowNeedleLogo: 1
+  CreateFullscreenButton: 1
+  CreateMuteButton: 0
+  CreateQRCodeButton: 0
+  ShowSpatialMenu: 1
+--- !u!4 &1223164996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223164994}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1232052478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10287,6 +10335,51 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1512349051019283396, guid: 4ef01f1f1afa7a54a996380830c2c602, type: 3}
   m_PrefabInstance: {fileID: 1504686791}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1516453129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1516453131}
+  - component: {fileID: 1516453130}
+  m_Layer: 0
+  m_Name: README
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1516453130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516453129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
+  Guid: 126d05ec3e095d5478a737d5383c97ec
+--- !u!4 &1516453131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516453129}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1552123503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11015,6 +11108,7 @@ GameObject:
   - component: {fileID: 1669998221}
   - component: {fileID: 1669998220}
   - component: {fileID: 1669998223}
+  - component: {fileID: 1669998224}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -11087,9 +11181,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
   FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /staging/rapier-car-demo
+  Path: /car-physics
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &1669998224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669998219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
+  meta:
+    title: Car Physics
+    description: Slalom minigame showcasing raycast vehicle physics
+    image: {fileID: 2800000, guid: 79cc58c66cdab85468c5b5a89b13ca59, type: 3}
 --- !u!1001 &1671784853
 PrefabInstance:
   m_ObjectHideFlags: 0
