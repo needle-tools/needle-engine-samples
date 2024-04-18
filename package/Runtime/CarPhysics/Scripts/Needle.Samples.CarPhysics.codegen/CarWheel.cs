@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class CarWheel : UnityEngine.MonoBehaviour
 	{
-		public bool @isFront = false;
+		public Needle.Typescript.GeneratedComponents.CarAxle @axle;
 		public float @radius = 1f;
 		public float @suspensionCompression = 0.82f;
 		public float @suspensionRelax = 0.88f;
@@ -21,6 +21,9 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.ParticleSystem @skidParticle;
 		public float @skidVisualSideTreshold = 5f;
 		public float @skidVisualBreakTreshold = 0.1f;
+		public void initialize(Needle.Typescript.GeneratedComponents.CarPhysics @car, object @vehicle, float @i){}
+		public void updateVisuals(){}
+		public void applyPhysics(float @acceleration, float @breaking, float @steeringRad){}
 	}
 }
 
