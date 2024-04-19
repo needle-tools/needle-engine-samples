@@ -21,5 +21,9 @@ export class CarPlayer extends Player {
 
         this.phyiscs.accelerationInput(this.inputData.throttle ?? 0);
         this.phyiscs.steerInput(this.inputData.steer ?? 0);
+
+        if (this.inputData.reset ?? false) {
+            this.phyiscs.reset();
+        }
     }
 }

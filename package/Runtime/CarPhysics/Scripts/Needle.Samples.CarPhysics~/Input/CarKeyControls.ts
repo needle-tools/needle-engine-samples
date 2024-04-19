@@ -20,9 +20,17 @@ export class CarKeyControls extends PlayerModule {
     @serializable()
     steerRightKey: string[] = [ "d", "ArrowRight" ];
 
+    @serializable()
+    resetKey: string[] = [ "r", "Backspace" ];
+
     updateInput(): void {
+        this.throttleInput();
+        this.steerInput();
+        this.resetInput();
+    }    
+
+    protected throttleInput() {
         this.inputData.throttle ??= 0;
-        this.inputData.steer ??= 0;
 
         if (this.areKeysPressed(this.throttleKey)) {
             this.inputData.throttle += 1;
@@ -30,6 +38,13 @@ export class CarKeyControls extends PlayerModule {
         if (this.areKeysPressed(this.brakeKey)) {
             this.inputData.throttle -= 1;
         }
+        
+        this.inputData.throttle = Mathf.clamp(this.inputData.throttle, -1, 1);
+    }
+
+    protected steerInput() {
+        this.inputData.steer ??= 0;
+
         if (this.areKeysPressed(this.steerLeftKey)) {
             this.inputData.steer -= 1;
         }
@@ -37,9 +52,13 @@ export class CarKeyControls extends PlayerModule {
             this.inputData.steer += 1;
         }
 
-        this.inputData.throttle = Mathf.clamp(this.inputData.throttle, -1, 1);
         this.inputData.steer = Mathf.clamp(this.inputData.steer, -1, 1);
-    }    
+    }
+
+    protected resetInput() {
+        this.inputData.reset ??= false;
+        this.inputData.reset ||= this.areKeysPressed(this.resetKey);
+    }
 
     // ---- helper functions ----
 
