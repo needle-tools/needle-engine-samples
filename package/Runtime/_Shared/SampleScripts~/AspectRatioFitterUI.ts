@@ -16,6 +16,7 @@ export class AspectRatioFitterUI extends Behaviour {
 
         const scale = Mathf.clamp(Math.min(deltaX, deltaY), 0, 1);
         
+        this.rectTransform?.scale.setScalar(scale);
         this.rectTransform?.shadowComponent?.scale.setScalar(scale);
     }
 }
