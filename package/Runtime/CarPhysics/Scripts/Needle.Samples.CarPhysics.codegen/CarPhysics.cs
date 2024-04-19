@@ -14,8 +14,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @accelerationForce = 75f;
 		public float @breakForce = 1f;
 		public float @topSpeed = 20f;
-		// public CarDrive @carDirve; → Could not resolve C# type
-		public void onDynamicallyConstructed(){}
+		public Needle.Typescript.GeneratedComponents.CarDrive @carDirve;
 		public void initialize(Needle.Engine.Components.Experimental.Player @player){}
 		public void steerInput(float @steerAmount){}
 		public void accelerationInput(float @accelAmount){}

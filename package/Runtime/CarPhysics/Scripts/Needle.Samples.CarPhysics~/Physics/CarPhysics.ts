@@ -38,6 +38,9 @@ export class CarPhysics extends PlayerModule {
 
     get type() { return PlayerModuleType.physics; }
 
+    // @nonSerialized
+    get velocity() { return this.rigidbody.getVelocity(); }    
+
     onDynamicallyConstructed(): void {
         if (!this.rigidbody) {
             this.rigidbody = this.gameObject.addComponent(Rigidbody);

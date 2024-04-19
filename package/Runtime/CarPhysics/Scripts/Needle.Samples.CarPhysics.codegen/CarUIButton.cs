@@ -7,10 +7,10 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class CarUIButton : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Events.UnityEvent @pointerDown;
-		public UnityEngine.Events.UnityEvent @pointerUp;
-		public void onPointerDown(){}
-		public void onPointerUp(){}
+		public UnityEngine.Events.UnityEvent @pressed;
+		public UnityEngine.Events.UnityEvent @released;
+		public void onPointerDown(UnityEngine.EventSystems.PointerEventData @_args){}
+		public void onPointerUp(UnityEngine.EventSystems.PointerEventData @_args){}
 	}
 }
 

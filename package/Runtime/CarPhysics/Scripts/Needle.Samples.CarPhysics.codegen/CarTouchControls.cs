@@ -5,10 +5,9 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class CarTouchControls : UnityEngine.MonoBehaviour
+	public partial class CarTouchControls : Needle.Engine.Components.Experimental.PlayerModule
 	{
-		public Needle.Typescript.GeneratedComponents.CarPhysics @carPhysics;
-		public void update(){}
+		public void updateInput(){}
 		public void steerLeftPress(){}
 		public void steerLeftRelease(){}
 		public void steerRightPress(){}

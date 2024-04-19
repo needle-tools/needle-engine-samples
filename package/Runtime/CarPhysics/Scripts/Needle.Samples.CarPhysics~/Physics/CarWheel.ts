@@ -1,5 +1,5 @@
-import { Behaviour, Gizmos, ParticleSystem, Renderer, getTempQuaternion, getTempVector, serializable, setWorldPosition } from "@needle-tools/engine";
-import { Vector3 } from "three";
+import { Behaviour, Gizmos, Mathf, ParticleSystem, Renderer, getTempQuaternion, getTempVector, serializable, setWorldPosition } from "@needle-tools/engine";
+import { Vector3, Vector2 } from "three";
 import { CarAxle } from "./CarAxle";
 import { DynamicRayCastVehicleController, Vector } from "@dimforge/rapier3d-compat";
 import { CarPhysics } from "./CarPhysics";
@@ -31,10 +31,7 @@ export class CarWheel extends Behaviour {
     sideFrictionStiffness: number = 0.5;
 
     @serializable()
-    frictionSlip: number = 10.5;
-
-    @serializable()
-    frictionSlipWhenBreaking: number = 0.5;
+    frictionSlip: Vector2 = new Vector2(2, 10.5);
 
     // --- Visuals ---
     @serializable(ParticleSystem)
@@ -70,18 +67,12 @@ export class CarWheel extends Behaviour {
         this.vehicle.setWheelMaxSuspensionTravel(i, this.suspensionTravel);
 
         this.vehicle.setWheelSideFrictionStiffness(i, this.sideFrictionStiffness);
-        this.vehicle.setWheelFrictionSlip(i, this.frictionSlip);
+        this.vehicle.setWheelFrictionSlip(i, this.frictionSlip.y);
     }
 
     protected refRight = new Vector3(1, 0, 0);
     protected refUp = new Vector3(0, 1, 0);
     updateVisuals() {
-
-        this.gameObject.matrix.identity(); //?
-        console.log(this.gameObject);
-
-        console.log(this.gameObject.getComponentInChildren(Renderer)?.gameObject.position);
-
         // rotation
         const wheelRotX = this.vehicle.wheelRotation(this.wheelIndex)!;
         const wheelRotY = this.vehicle.wheelSteering(this.wheelIndex)!;
@@ -96,11 +87,9 @@ export class CarWheel extends Behaviour {
         // position
         const contact = CarWheel.rapierVectorToThreeVector(this.vehicle.wheelContactPoint(this.wheelIndex) as Vector);
         if (contact) {
-            this.setWorldPosition(contact.x, contact.y + this.radius, contact.z);
-        }        
-
-        Gizmos.DrawLine(this.car.worldPosition, this.gameObject.worldPosition, 0x00ff00, 0, false);
-        Gizmos.DrawLine(this.car.worldPosition, contact!, 0xff0000, 0, false);
+            const wPos = getTempVector(this.car.gameObject.worldUp).multiplyScalar(this.radius).add(contact);
+            this.setWorldPosition(wPos.x, wPos.y, wPos.z);
+        }
 
         // skid
         const sideAmount = Math.abs(this.vehicle.wheelSideImpulse(this.wheelIndex) ?? 0);
@@ -108,7 +97,9 @@ export class CarWheel extends Behaviour {
         const showSkid = sideAmount > this.skidVisualSideTreshold || breakAmount > this.skidVisualBreakTreshold;
         if (this.vehicle.wheelIsInContact(this.wheelIndex) && showSkid) {
             if (this.skidParticle && contact) {
-                this.skidParticle.worldPosition = contact;
+                const wPos = getTempVector(contact);
+                wPos.y += 0.05; // offset the effect
+                this.skidParticle.worldPosition = wPos;
                 this.skidParticle?.emit(1);
             }
         }
@@ -122,6 +113,15 @@ export class CarWheel extends Behaviour {
         if (!isOnDrivingAxel)
             acceleration = 0;
 
+        // Note: dot is not linear
+        const velocity = this.car.velocity;
+        let gripAmount = velocity.dot(this.car.gameObject.getWorldDirection(getTempVector()));
+        gripAmount = Mathf.clamp(gripAmount, 0, 1);
+
+        if (velocity.length() < 1) {
+            gripAmount = 1;
+        }
+
         // accel & break
         this.vehicle.setWheelEngineForce(this.wheelIndex, acceleration);
         this.vehicle.setWheelBrake(this.wheelIndex, breaking);
@@ -132,8 +132,7 @@ export class CarWheel extends Behaviour {
         }
 
         // slip
-        const isBreaking = Math.abs(breaking) > 0;
-        this.vehicle.setWheelFrictionSlip(this.wheelIndex, isBreaking ? this.frictionSlipWhenBreaking : this.frictionSlip)
+        this.vehicle.setWheelFrictionSlip(this.wheelIndex, Mathf.lerp(this.frictionSlip.x, this.frictionSlip.y, gripAmount));
     }
 
     
