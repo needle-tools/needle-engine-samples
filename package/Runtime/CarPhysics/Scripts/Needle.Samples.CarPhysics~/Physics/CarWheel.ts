@@ -1,11 +1,14 @@
-import { Behaviour, Gizmos, Mathf, ParticleSystem, Renderer, getTempQuaternion, getTempVector, serializable, setWorldPosition } from "@needle-tools/engine";
-import { Vector3, Vector2 } from "three";
+import { Behaviour, Gizmos, Mathf, ParticleSystem, Renderer, getTempQuaternion, getTempVector, getWorldDirection, serializable, setWorldPosition } from "@needle-tools/engine";
+import { Vector3, Vector2, Object3D, Quaternion } from "three";
 import { CarAxle } from "./CarAxle";
 import { DynamicRayCastVehicleController, Vector } from "@dimforge/rapier3d-compat";
 import { CarPhysics } from "./CarPhysics";
 import { CarDrive } from "./CarDrive";
 
 export class CarWheel extends Behaviour {
+    @serializable(Object3D)
+    wheelModel?: Object3D
+
     @serializable()
     axle: CarAxle = CarAxle.front;
 
@@ -43,6 +46,13 @@ export class CarWheel extends Behaviour {
     @serializable()
     skidVisualBreakTreshold: number = 0.1;
 
+    protected refRight = new Vector3(1, 0, 0);
+    protected refUp = new Vector3(0, 1, 0);
+
+    protected wheelModelRight!: Vector3;
+    protected wheelModelUp!: Vector3;
+
+    //protected initialRotation!: Quaternion;
 
     protected car!: CarPhysics;
     protected vehicle!: DynamicRayCastVehicleController;
@@ -51,6 +61,11 @@ export class CarWheel extends Behaviour {
         this.car = car;
         this.vehicle = vehicle;
         this.wheelIndex = i;
+
+        const target = (this.wheelModel ?? this.gameObject);
+        //this.initialRotation = target.quaternion.clone();
+        this.wheelModelUp = target.up;//localToWorld(this.refUp);
+        this.wheelModelRight = getWorldDirection(target).cross(target.up).clone();
 
         const wPos = this.worldPosition;
         const rPos = this.car.gameObject.worldToLocal(wPos);
@@ -70,25 +85,27 @@ export class CarWheel extends Behaviour {
         this.vehicle.setWheelFrictionSlip(i, this.frictionSlip.y);
     }
 
-    protected refRight = new Vector3(1, 0, 0);
-    protected refUp = new Vector3(0, 1, 0);
+    
     updateVisuals() {
+        const target = this.wheelModel ?? this.gameObject;
+
         // rotation
         const wheelRotX = this.vehicle.wheelRotation(this.wheelIndex)!;
         const wheelRotY = this.vehicle.wheelSteering(this.wheelIndex)!;
 
-        const yRot = getTempQuaternion().setFromAxisAngle(this.refUp, wheelRotY);
-        const xRot = getTempQuaternion().setFromAxisAngle(this.refRight, wheelRotX);
+        //const identityRot = getTempQuaternion(this.initialRotation);
+        const yRot = getTempQuaternion().setFromAxisAngle(this.wheelModelUp, wheelRotY);
+        const xRot = getTempQuaternion().setFromAxisAngle(this.wheelModelRight, wheelRotX);
 
         const rot = yRot.multiply(xRot);
 
-        this.gameObject.quaternion.copy(rot);
+        target.quaternion.copy(rot);
         
         // position
         const contact = CarWheel.rapierVectorToThreeVector(this.vehicle.wheelContactPoint(this.wheelIndex) as Vector);
         if (contact) {
             const wPos = getTempVector(this.car.gameObject.worldUp).multiplyScalar(this.radius).add(contact);
-            this.setWorldPosition(wPos.x, wPos.y, wPos.z);
+            setWorldPosition(target, getTempVector(wPos.x, wPos.y, wPos.z));
         }
 
         // skid

@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class CarWheel : UnityEngine.MonoBehaviour
 	{
+		public UnityEngine.GameObject @wheelModel;
 		public Needle.Typescript.GeneratedComponents.CarAxle @axle;
 		public float @radius = 1f;
 		public float @suspensionCompression = 0.82f;
