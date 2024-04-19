@@ -1,8 +1,10 @@
 import { DynamicRayCastVehicleController, World, Quaternion } from "@dimforge/rapier3d-compat";
-import { Mathf, Player, PlayerModule, PlayerModuleType, Rigidbody, delayForFrames, getTempVector, serializable } from "@needle-tools/engine";
+import { Gizmos, Mathf, Player, PlayerModule, PlayerModuleType, Rigidbody, delayForFrames, getParam, getTempVector, serializable } from "@needle-tools/engine";
 import { Vector3 } from "three";
 import { CarWheel } from "./CarWheel";
 import { CarDrive } from "./CarDrive";
+
+const debug = getParam("debugcarphysics");
 
 export class CarPhysics extends PlayerModule {
     @serializable(CarWheel)
@@ -47,17 +49,15 @@ export class CarPhysics extends PlayerModule {
             this.rigidbody.autoMass = false;
             this.rigidbody.mass = 250;
         }
-
-        if (this.wheels.length == 0) {
-            this.wheels.push(...this.gameObject.getComponentsInChildren(CarWheel));
-        }
     }
 
     async initialize(player: Player) {
+        // save start orientation
+        this.posOnStart = this.gameObject.position.clone();
+        this.rotOnStart = this.gameObject.quaternion.clone();
 
         // get or create needle rigidbody
         this.rigidbody = this.gameObject.getComponent(Rigidbody)!;
-
 
         // await rigidbody creation
         await delayForFrames(2);        
@@ -67,6 +67,7 @@ export class CarPhysics extends PlayerModule {
         const world = this.context.physics.engine?.world as World;
 
         if (!world) throw new Error("Physics engine (Rapier) not found");
+        
 
         // create vehicle physics
         this.vehicle = world.createVehicleController(r_rb);
@@ -75,13 +76,17 @@ export class CarPhysics extends PlayerModule {
         this.vehicle.setIndexForwardAxis = 2;
 
         // initialize wheels
+        if (this.wheels.length == 0) {
+            this.wheels.push(...this.gameObject.getComponentsInChildren(CarWheel).filter(x => x.gameObject.visible));
+        }
+
+        if (debug) {
+            console.log(`wheels: (${this.wheels.length})`, this.wheels);
+        }
+
         this.wheels.forEach((wheel, i) => { 
             wheel.initialize(this, this.vehicle, i);
         });
-
-        // save start orientation
-        this.posOnStart = this.gameObject.position.clone();
-        this.rotOnStart = this.gameObject.quaternion.clone();
 
         super.initialize(player);
     }
@@ -107,8 +112,14 @@ export class CarPhysics extends PlayerModule {
 
         // update visuals
         this.updateWheelVisual();
-
         this.resetWhenRolledOver();
+
+        if (debug) {
+            const pos = getTempVector(this.worldPosition).add(getTempVector(0, 1.5, 0));
+            const text = `vel: ${this.rigidbody.getVelocity().length().toFixed(2)}`;
+            Gizmos.DrawLabel(pos, text, 0.1, 0, 0xffffff, 0x000000);
+            this.wheels.forEach(x => Gizmos.DrawLine(this.worldPosition, x.worldPosition, 0x0000ff, 0, false));
+        }
     }
 
     reset() {

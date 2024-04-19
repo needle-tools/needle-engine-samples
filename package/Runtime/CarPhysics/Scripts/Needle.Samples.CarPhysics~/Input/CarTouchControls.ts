@@ -16,7 +16,7 @@ export class CarTouchControls extends PlayerModule {
     updateInput() {
         this.throttleInput();
         this.steerInput();
-        this.inputInput();
+        this.resetInput();
     }
 
     protected throttleInput() {
@@ -31,9 +31,9 @@ export class CarTouchControls extends PlayerModule {
         this.inputData.steer = Mathf.clamp(this.inputData.steer, -1, 1);
     }
 
-    protected inputInput() {
-        this.inputData.reset ??= false;
-        this.inputData.reset ||= this.input.getPointerDoubleClicked(0);
+    protected resetInput() {
+        //this.inputData.reset ??= false;
+        //this.inputData.reset ||= this.input.getPointerLongPress(0) && this.input.getIsTouch(0);
     }
 
     // ---

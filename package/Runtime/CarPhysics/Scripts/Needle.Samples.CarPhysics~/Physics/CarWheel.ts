@@ -52,8 +52,6 @@ export class CarWheel extends Behaviour {
     protected wheelModelRight!: Vector3;
     protected wheelModelUp!: Vector3;
 
-    //protected initialRotation!: Quaternion;
-
     protected car!: CarPhysics;
     protected vehicle!: DynamicRayCastVehicleController;
     protected wheelIndex: number = -1;
@@ -63,9 +61,9 @@ export class CarWheel extends Behaviour {
         this.wheelIndex = i;
 
         const target = (this.wheelModel ?? this.gameObject);
-        //this.initialRotation = target.quaternion.clone();
-        this.wheelModelUp = target.up;//localToWorld(this.refUp);
+        this.wheelModelUp = target.up;
         this.wheelModelRight = getWorldDirection(target).cross(target.up).clone();
+        this.wheelModelRight.applyQuaternion(car.gameObject.worldQuaternion);
 
         const wPos = this.worldPosition;
         const rPos = this.car.gameObject.worldToLocal(wPos);
@@ -93,7 +91,6 @@ export class CarWheel extends Behaviour {
         const wheelRotX = this.vehicle.wheelRotation(this.wheelIndex)!;
         const wheelRotY = this.vehicle.wheelSteering(this.wheelIndex)!;
 
-        //const identityRot = getTempQuaternion(this.initialRotation);
         const yRot = getTempQuaternion().setFromAxisAngle(this.wheelModelUp, wheelRotY);
         const xRot = getTempQuaternion().setFromAxisAngle(this.wheelModelRight, wheelRotX);
 
@@ -117,7 +114,7 @@ export class CarWheel extends Behaviour {
                 const wPos = getTempVector(contact);
                 wPos.y += 0.05; // offset the effect
                 this.skidParticle.worldPosition = wPos;
-                this.skidParticle?.emit(1);
+                this.skidParticle.emit(1);
             }
         }
     }
