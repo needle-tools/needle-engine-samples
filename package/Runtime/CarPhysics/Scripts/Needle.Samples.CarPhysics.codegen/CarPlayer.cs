@@ -7,6 +7,10 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class CarPlayer : Needle.Engine.Components.Experimental.Player
 	{
+		public bool @autoSetupWheels = true;
+		public UnityEngine.GameObject[] @wheelModels = new UnityEngine.GameObject[]{ };
+		public UnityEngine.GameObject @wheelPrefab;
+		public void awake(){}
 		public void update(){}
 	}
 }
