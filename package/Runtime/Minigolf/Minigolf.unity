@@ -345,6 +345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 319066018}
   - component: {fileID: 319066017}
+  - component: {fileID: 319066019}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -367,7 +368,7 @@ MonoBehaviour:
   _side: 2
   controller: 1
   hands: 1
-  controlVisibility: 1
+  controlVisibility: 0
   useGripSpace: 1
 --- !u!4 &319066018
 Transform:
@@ -376,15 +377,29 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319066016}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.623, z: 0}
+  m_LocalRotation: {x: 0.17749116, y: -0, z: -0, w: 0.9841224}
+  m_LocalPosition: {x: 0, y: 1.246, z: -0.343}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 560298149}
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20.447, y: 0, z: 0}
+--- !u!114 &319066019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319066016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e547d4492825e4f8e40fa40a45ccf22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.MinigolfPaddle,
+    Needle.Engine-Samples.Runtime
+  target: {fileID: 1350017990}
 --- !u!1 &339032453
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,6 +511,7 @@ GameObject:
   - component: {fileID: 382115344}
   - component: {fileID: 382115343}
   - component: {fileID: 382115346}
+  - component: {fileID: 382115347}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -516,7 +532,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 560298149}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &382115343
 BoxCollider:
@@ -597,6 +613,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &382115347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382115341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e887f1c3ee463881c1913204ca9388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.SmoothFollow, Needle.Engine
+  target: {fileID: 1836433481}
+  followFactor: 100000
+  rotateFactor: 0
+  positionAxes: -1
 --- !u!1 &474588679
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,8 +869,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2111796991}
   - {fileID: 382115342}
+  - {fileID: 1350017991}
   m_Father: {fileID: 319066018}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 14.544, y: 0, z: 0}
@@ -968,7 +1000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9722be1d85e14bc3a725c1a2e279cd7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectName: political-phrygian-goal
+  ProjectName: season-resilient-navy
 --- !u!1 &660615826
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,6 +1011,8 @@ GameObject:
   m_Component:
   - component: {fileID: 660615828}
   - component: {fileID: 660615827}
+  - component: {fileID: 660615830}
+  - component: {fileID: 660615829}
   m_Layer: 0
   m_Name: WebXR
   m_TagString: Untagged
@@ -1009,9 +1043,9 @@ MonoBehaviour:
   useQuicklookExport: 1
   useDepthSensing: 0
   useDefaultControls: 1
-  showControllerModels: 1
-  showHandModels: 1
-  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
+  showControllerModels: 0
+  showHandModels: 0
+  defaultAvatar: {fileID: 0}
 --- !u!4 &660615828
 Transform:
   m_ObjectHideFlags: 0
@@ -1027,6 +1061,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &660615829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660615826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85c28df951908a47851f75e28c71c20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XR.XRControllerMovement, Needle.Engine
+  MovementSpeed: 1
+  RotationStep: 60
+  UseTeleport: 1
+  UseTeleportTarget: 0
+  UseTeleportFade: 1
+  ShowRays: 0
+  ShowHits: 0
+--- !u!114 &660615830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660615826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35427eb3cff477458f940cd27afaf91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XR.XRControllerModel, Needle.Engine
+  CreateControllerModel: 1
+  CreateHandModel: 1
+  customLeftHand: {fileID: 0}
+  customRightHand: {fileID: 0}
 --- !u!1 &706762903
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,7 +1176,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.097788066, y: -0.8736338, z: 0.19678175, w: 0.43414113}
   m_LocalPosition: {x: 6.091816, y: 3.6271122, z: 4.6157355}
-  m_LocalScale: {x: 1.0000294, y: 1, z: 1.0000265}
+  m_LocalScale: {x: 1.0000353, y: 1, z: 1.000032}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1127,7 +1196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-49068307165cdb346a242c48a6528235-706762907-0
   autoTarget: 1
-  autoFit: 1
+  autoFit: 0
   enableRotate: 1
   autoRotate: 1
   autoRotateSpeed: 0.3
@@ -1574,6 +1643,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1350017990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1350017991}
+  m_Layer: 0
+  m_Name: Stick
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1350017991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350017990}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2111796991}
+  m_Father: {fileID: 560298149}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,6 +1791,37 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!1 &1836433480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836433481}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836433481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836433480}
+  m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.48357147, z: -1.9666629}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2111796991}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1926495144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,12 +2092,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2111796990}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0.70710677, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0.5}
-  m_LocalScale: {x: 0.03, y: 1.4, z: 0.03}
+  m_LocalScale: {x: 0.03, y: 1.4, z: 0.030000005}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 560298149}
+  m_Children:
+  - {fileID: 1836433481}
+  m_Father: {fileID: 1350017991}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!65 &2111796992

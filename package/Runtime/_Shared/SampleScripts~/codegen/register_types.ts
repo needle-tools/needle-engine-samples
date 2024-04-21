@@ -46,6 +46,7 @@ import { Arrow } from "../Bow & Arrow/Arrow.js";
 import { ArrowShooting } from "../Bow & Arrow/ArrowShooting.js";
 import { BowArrowTarget } from "../Bow & Arrow/BowArrowTarget.js";
 import { BowTargetSpawner } from "../Bow & Arrow/BowTargetSpawner.js";
+import { MinigolfPaddle } from "../Minigolf/Paddle.js";
 import { VariantInfo } from "../Variants/VariantInfo.js";
 import { VariantSwitcher } from "../Variants/VariantSwitcher.js";
 
@@ -94,5 +95,6 @@ TypeStore.add("Arrow", Arrow);
 TypeStore.add("ArrowShooting", ArrowShooting);
 TypeStore.add("BowArrowTarget", BowArrowTarget);
 TypeStore.add("BowTargetSpawner", BowTargetSpawner);
+TypeStore.add("MinigolfPaddle", MinigolfPaddle);
 TypeStore.add("VariantInfo", VariantInfo);
 TypeStore.add("VariantSwitcher", VariantSwitcher);
