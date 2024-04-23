@@ -21,7 +21,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.ParticleSystem @skidParticle;
 		public float @skidVisualSideTreshold = 5f;
 		public float @skidVisualBreakTreshold = 0.1f;
-		public void initialize(object @car, object @vehicle, float @i){}
+		public void initialize(Needle.Typescript.GeneratedComponents.CarPhysics @car, object @vehicle, float @i){}
 		public void updateVisuals(){}
 		public void applyPhysics(float @acceleration, float @breaking, float @steeringRad){}
 	}
