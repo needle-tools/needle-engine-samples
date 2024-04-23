@@ -1,7 +1,8 @@
-import { Behaviour, Gizmos, Mathf, ParticleSystem, Renderer, getTempQuaternion, getTempVector, getWorldDirection, serializable, setWorldPosition } from "@needle-tools/engine";
-import { Vector3, Vector2, Object3D, Quaternion } from "three";
-import { CarAxle } from "./CarAxle";
+import { Behaviour, Gizmos, Mathf, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, Renderer, getTempQuaternion, getTempVector, getWorldDirection, serializable, setWorldPosition } from "@needle-tools/engine";
 import { DynamicRayCastVehicleController, Vector } from "@dimforge/rapier3d-compat";
+import { Vector3, Vector2, Object3D } from "three";
+import { TrailParticle, RecordState } from "three.quarks";
+import { CarAxle } from "./CarAxle";
 import { CarPhysics } from "./CarPhysics";
 import { CarDrive } from "./CarDrive";
 
@@ -46,6 +47,8 @@ export class CarWheel extends Behaviour {
     @serializable()
     skidVisualBreakTreshold: number = 0.1;
 
+    protected skidParticleBehaviour?: SkidTrailBehaviour;
+
     protected refRight = new Vector3(1, 0, 0);
     protected refUp = new Vector3(0, 1, 0);
 
@@ -81,6 +84,11 @@ export class CarWheel extends Behaviour {
 
         this.vehicle.setWheelSideFrictionStiffness(i, this.sideFrictionStiffness);
         this.vehicle.setWheelFrictionSlip(i, this.frictionSlip.y);
+
+        if(this.skidParticle) {
+            this.skidParticleBehaviour = new SkidTrailBehaviour();
+            this.skidParticle.addBehaviour(this.skidParticleBehaviour);
+        }
     }
 
     
@@ -108,14 +116,17 @@ export class CarWheel extends Behaviour {
         // skid
         const sideAmount = Math.abs(this.vehicle.wheelSideImpulse(this.wheelIndex) ?? 0);
         const breakAmount = Math.abs(this.vehicle.wheelBrake(this.wheelIndex) ?? 0);
-        const showSkid = sideAmount > this.skidVisualSideTreshold || breakAmount > this.skidVisualBreakTreshold;
-        if (this.vehicle.wheelIsInContact(this.wheelIndex) && showSkid) {
-            if (this.skidParticle && contact) {
-                const wPos = getTempVector(contact);
-                wPos.y += 0.05; // offset the effect
-                this.skidParticle.worldPosition = wPos;
-                this.skidParticle.emit(1);
-            }
+        const isSkidding = sideAmount > this.skidVisualSideTreshold || breakAmount > this.skidVisualBreakTreshold;
+        const showSkid = this.vehicle.wheelIsInContact(this.wheelIndex) && contact && isSkidding;
+        
+        if (this.skidParticle) {
+            const wPos = getTempVector(contact);
+            wPos.y += this.skidParticle.main.startSize.constant / 4; // offset the effect
+            this.skidParticle.worldPosition = wPos;
+        }
+
+        if (this.skidParticleBehaviour) {
+            this.skidParticleBehaviour.isSkidding = showSkid;
         }
     }
 
@@ -153,5 +164,31 @@ export class CarWheel extends Behaviour {
     static rapierVectorToThreeVector(v: Vector | null): Vector3 | undefined{ 
         if(v == null) return undefined;
         return getTempVector(v.x, v.y, v.z);
+    }
+}
+
+// @nonSerializable
+export class SkidTrailBehaviour extends ParticleSystemBaseBehaviour {
+    isSkidding: boolean = false;
+
+    update(particle: QParticle, _delta: number): void {
+        if(this.system.trails?.enabled && particle instanceof TrailParticle) {
+            // the most new particle wouldn't get affected
+            if (!this.isSkidding)
+                particle.color.setW(0);
+
+            let tail = particle.previous.tail;
+            while(tail && tail.hasPrev()) {
+                const myTail = tail as any;                
+                if (myTail.data["isSkidding"] === undefined) {
+                    myTail.data["isSkidding"] = this.isSkidding;
+                }
+
+                if(myTail.data["isSkidding"] === false) {
+                    tail!.data.color.setW(0);
+                }
+                tail = tail!.prev;
+            }
+        }
     }
 }

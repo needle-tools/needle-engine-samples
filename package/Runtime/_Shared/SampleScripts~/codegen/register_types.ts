@@ -52,6 +52,7 @@ import { CarTouchControls } from "../Car Physics/Input/CarTouchControls.js";
 import { CarUIButton } from "../Car Physics/Input/CarUIButton.js";
 import { CarPhysics } from "../Car Physics/Physics/CarPhysics.js";
 import { CarWheel } from "../Car Physics/Physics/CarWheel.js";
+import { SkidTrailBehaviour } from "../Car Physics/Physics/CarWheel.js";
 import { VariantInfo } from "../Variants/VariantInfo.js";
 import { VariantSwitcher } from "../Variants/VariantSwitcher.js";
 
@@ -106,5 +107,6 @@ TypeStore.add("CarTouchControls", CarTouchControls);
 TypeStore.add("CarUIButton", CarUIButton);
 TypeStore.add("CarPhysics", CarPhysics);
 TypeStore.add("CarWheel", CarWheel);
+TypeStore.add("SkidTrailBehaviour", SkidTrailBehaviour);
 TypeStore.add("VariantInfo", VariantInfo);
 TypeStore.add("VariantSwitcher", VariantSwitcher);
