@@ -1,0 +1,1 @@
+https://sketchfab.com/3d-models/mini-golf-windmill-dbe271058d01476ca7efabaf65bc39c0

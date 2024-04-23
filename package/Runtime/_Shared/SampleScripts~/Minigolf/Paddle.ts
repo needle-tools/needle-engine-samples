@@ -28,7 +28,9 @@ export class MinigolfPaddle extends Behaviour {
                     filterPredicate: (col) => !this._cols.includes(col)
                 });
                 if (hit) {
-                    this.target.scale.z = hit.point.distanceTo(wp) - .15;
+                    const dist = hit.point.distanceTo(wp) - .15;
+                    if (dist > .2)
+                        this.target.scale.z = dist;
                 }
             }
         }
