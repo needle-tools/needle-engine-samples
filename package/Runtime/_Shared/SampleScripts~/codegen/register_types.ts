@@ -62,6 +62,8 @@ import { GalleryUI } from "../Gallery/GalleryUI.js";
 import { MaterialXAsset } from "../Material X/MaterialXAsset.js";
 import { ShadeWithMaterialX } from "../Material X/MaterialXNodeGraph.js";
 import { ReflectionsSwitcher } from "../ReflectionProbes/ReflectionsSwitcher.js";
+import { SyncTimelineData } from "../Networking/SyncedPlayableDirector.js";
+import { SyncedPlayableDirector } from "../Networking/SyncedPlayableDirector.js";
 import { VariantInfo } from "../Variants/VariantInfo.js";
 import { VariantSwitcher } from "../Variants/VariantSwitcher.js";
 
@@ -126,5 +128,7 @@ TypeStore.add("GalleryUI", GalleryUI);
 TypeStore.add("MaterialXAsset", MaterialXAsset);
 TypeStore.add("ShadeWithMaterialX", ShadeWithMaterialX);
 TypeStore.add("ReflectionsSwitcher", ReflectionsSwitcher);
+TypeStore.add("SyncTimelineData", SyncTimelineData);
+TypeStore.add("SyncedPlayableDirector", SyncedPlayableDirector);
 TypeStore.add("VariantInfo", VariantInfo);
 TypeStore.add("VariantSwitcher", VariantSwitcher);
