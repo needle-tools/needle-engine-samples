@@ -8,7 +8,6 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class SyncedPlayableDirector : UnityEngine.MonoBehaviour
 	{
 		public void awake(){}
-		public void OnEnable(){}
 		public void onAfterRender(){}
 	}
 }

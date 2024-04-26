@@ -6,25 +6,24 @@ export class SyncedPlayableDirector extends Behaviour {
     private time: number = 0;
 
     private _director?: PlayableDirector;
-    private _startTime = 0;
+    /**
+     * This is the allowed time difference in networking. 
+     * We have to factor in some delay here due to network latency
+     */
+    private _timeThreshold = 0.3;
 
     awake() {
         this._director = this.gameObject.getComponentInChildren(PlayableDirector) ?? undefined;
     }
-    onEnable(): void {
-        this._startTime = this.time;
-    }
 
     onAfterRender(): void {
         if (!this._director) return;
-        if (this.context.time.time - this._startTime < 1) return;
         // Copy the current playable director time to the sync field
         const dt = Math.abs(this._director.time - this.time);
-        if (dt > .3) {
+        if (dt > this._timeThreshold) {
             this.time = this._director.time;
         }
     }
-
     /**
      * This is called whenever a sync event is received due to another remote client setting it's time field
      * We then update the local director's time to match the remote client's time
@@ -32,7 +31,7 @@ export class SyncedPlayableDirector extends Behaviour {
     private onTimeChanged() {
         if (!this._director) return;
         const dt = Math.abs(this._director.time - this.time);
-        if (dt < .5) {
+        if (dt < this._timeThreshold) {
             return;
         }
         this._director.time = this.time;
