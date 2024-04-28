@@ -95,15 +95,15 @@ export class ArrowShooting extends Behaviour {
                 else if (this._stringController === undefined)
                     this._stringController = evt.origin.index;
 
+                if (this._bowController === this._stringController)
+                    this._stringController = undefined;
+
                 const follow = this.bowObject?.getComponentInParent(XRControllerFollow);
                 if (follow) follow.side = this._bowController;
             }
         } 
         else {
             if (evt.button === 0) {
-                const distnace = this.getPointerDinstanceTo(this._aimingPointerStartPos, evt.pointerId);
-                // Disabled anti spam protection
-                // if (distnace < this.interactionPixelTreshold)
                 this._isAiming = true;
                 this._aimingPointerId = evt.pointerId;
             }
@@ -206,7 +206,10 @@ export class ArrowShooting extends Behaviour {
 
         const instance = await this.arrowPrefab.instantiate({ parent: this.context.scene });
 
-        if (!instance) return;
+        if (!instance) {
+            console.error("Failed to instantiate arrow prefab");
+            return;
+        }
 
         instance.worldPosition = pos;
         instance.lookAt(lookGoal);
