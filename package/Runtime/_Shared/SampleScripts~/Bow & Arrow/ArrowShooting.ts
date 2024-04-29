@@ -1,4 +1,4 @@
-import { Animation, AnimationCurve, AssetReference, AudioSource, Behaviour, Collider, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, Rigidbody, RigidbodyConstraints, XRControllerFollow, delay, delayForFrames, getComponent, getParam, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
+import { Animation, AnimationCurve, AssetReference, AudioSource, Behaviour, Collider, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, ParticleSystem, Rigidbody, RigidbodyConstraints, XRControllerFollow, delay, delayForFrames, getComponent, getParam, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
 import { AnimationAction, AnimationMixer, Object3D, Vector3, Vector2, Quaternion, Matrix4 } from "three";
 import { Arrow } from "./Arrow";
 
@@ -89,17 +89,19 @@ export class ArrowShooting extends Behaviour {
     protected onDown = (evt: NEPointerEvent) => {
         if (evt.origin instanceof NeedleXRController) {
             if (evt.button === 0) {
-                this._isAiming = true;
                 if (this._bowController === undefined)
                     this._bowController = evt.origin.index;
-                else if (this._stringController === undefined)
+                else if (this._stringController === undefined) {
                     this._stringController = evt.origin.index;
+                }
 
                 if (this._bowController === this._stringController)
                     this._stringController = undefined;
 
                 const follow = this.bowObject?.getComponentInParent(XRControllerFollow);
                 if (follow) follow.side = this._bowController;
+
+                this._isAiming = this._stringController !== undefined;
             }
         } 
         else {
@@ -183,6 +185,7 @@ export class ArrowShooting extends Behaviour {
 
             instance.getComponent(Arrow)?.destroy();
             instance.getComponent(Rigidbody)?.destroy();
+            instance.getComponentInChildren(ParticleSystem)?.destroy();
             instance.getComponentsInChildren(Collider)
                     .forEach(c => c.destroy());
         }
@@ -308,6 +311,7 @@ export class ArrowShooting extends Behaviour {
         if (this._hasControllers) {
             if (!this._isAiming) {
                 animTimeGoal = 0;
+                this.shotStamp = this.context.time.time; // hide the arrow
             }
             else if (this.context.xr && this.context.xr.controllers.length > 1 && this._bowController !== undefined && this._stringController !== undefined) {
                 const holdingString = this.context.xr.controllers[this._stringController];
