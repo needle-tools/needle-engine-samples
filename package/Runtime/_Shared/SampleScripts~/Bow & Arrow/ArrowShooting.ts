@@ -71,8 +71,8 @@ export class ArrowShooting extends Behaviour {
     /** the controller index dragging the string */
     private _stringController?: number = undefined;
 
-    onEnable(): void {
-        this.arrowPrefab?.loadAssetAsync();
+    async onEnable() {
+        await this.arrowPrefab?.loadAssetAsync();
         this._isAiming = false;
         this.context.input.addEventListener("pointerdown", this.onDown);
         this.context.input.addEventListener("pointerup", this.onRelease);
