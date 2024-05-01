@@ -13,7 +13,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.AnimationCurve @drawProgression;
 		public UnityEngine.GameObject @cameraParent;
 		public float @desktopIdleDrawAmount = 0.25f;
-		public UnityEngine.Vector2 @interactionPixelOrigin = new UnityEngine.Vector2(0.5f, 0.65f);
 		public float @interactionPixelTreshold = 85f;
 		public float @drawMaxPixelDistance = 100f;
 		public void awake(){}

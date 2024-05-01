@@ -32,10 +32,6 @@ export class ArrowShooting extends Behaviour {
     /** Drives the bow in a slightly drawned position when not interacting to give the user an intensive to drag and shoot */
     @serializable()
     desktopIdleDrawAmount: number = 0.25;
-    
-    /** Proportionally <0,1> on a screen where the draw origin is */
-    @serializable(Vector2)
-    interactionPixelOrigin: Vector2 = new Vector2(0.5, 0.65);
 
     /** Only count drags that are in this treshold from the interactionPixelOrigin */
     @serializable()
@@ -108,6 +104,7 @@ export class ArrowShooting extends Behaviour {
             if (evt.button === 0) {
                 this._isAiming = true;
                 this._aimingPointerId = evt.pointerId;
+                this._aimingPointerStartPos.copy(this.context.input.getPointerPosition(evt.pointerId)!);
             }
         }
     }
@@ -222,7 +219,9 @@ export class ArrowShooting extends Behaviour {
         if (rb) {
             rb.isKinematic = false;
             rb.autoMass = false;
-            rb.mass = .05;
+            rb.drag = .1;
+            rb.mass = .1;
+            rb.gravityScale = 0.4;
             this.sound?.stop();
             this.sound?.play();
 
@@ -356,13 +355,10 @@ export class ArrowShooting extends Behaviour {
         }
         // Non-VR Logic
         else {
-            const screenOrigin = this.interactionPixelOrigin;
-            this._aimingPointerStartPos.set(this.context.domWidth * screenOrigin.x, this.context.domHeight * screenOrigin.y);
+            // default when not aming or if no pointer
+            animTimeGoal = this.desktopIdleDrawAmount;
 
-            if (!this._isAiming) {
-                animTimeGoal = this.desktopIdleDrawAmount;
-            }
-            else {
+            if (this._isAiming) {
                 const input = this.context.input;
 
                 if (this._aimingPointerId != undefined) {
@@ -388,6 +384,7 @@ export class ArrowShooting extends Behaviour {
 
                     if (applyDraw) {
                         animTimeGoal = Mathf.clamp01(dist / this.drawMaxPixelDistance);
+                        animTimeGoal = Mathf.remap(animTimeGoal, 0, 1, this.desktopIdleDrawAmount, 1);
                     }
 
                     this.tempUpRef.set(1, 0);
