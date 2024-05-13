@@ -1,5 +1,89 @@
-import { Behaviour, Gizmos, NeedleXREventArgs, getTempVector } from '@needle-tools/engine';
+import { Behaviour, Gizmos, NeedleXREventArgs, getTempVector, getParam } from '@needle-tools/engine';
 import { Vector3 } from 'three';
+
+const debug = getParam("debugbodytracking");
+
+export class WebXRBodyTracking extends Behaviour {
+
+    onEnable(): void {
+        if (debug) console.log(jointKeys.join("\n"));
+    }
+
+    onBeforeXR(_mode: XRSessionMode, args: XRSessionInit & { trackedImages: Array<any> }): void {
+        args.optionalFeatures = args.optionalFeatures || [];
+        if (!args.optionalFeatures.includes("body-tracking"))
+            args.optionalFeatures.push("body-tracking");
+    }
+
+    private jointPositions: Map<string, Vector3> = new Map();
+    private size: Vector3 = new Vector3(0.01, 0.01, 0.01);
+    private hasWarnedForName = new Set<string>();
+
+    onUpdateXR(args: NeedleXREventArgs): void {
+        const frame = args.xr.frame;
+        if (!frame) return;
+
+        const rig = args.xr.rig!.gameObject;
+        const space = this.context.renderer.xr.getReferenceSpace();
+        if (frame.session && "body" in frame && space) {
+            const body = frame.body as [XRBodyJoint: XRBodySpace];
+            if (!body) return;
+
+            body.forEach(part => {
+                const pose = frame.getPose(part, space);
+                if (!pose) return;
+
+                const position = pose.transform.position;
+
+                const p = getTempVector();
+                p.copy(position);
+                p.x *= -1;
+                p.z *= -1;
+                rig.localToWorld(p);
+                const key = part.jointName as any as string;
+                if (!this.jointPositions.has(key)) this.jointPositions.set(key, new Vector3());
+                this.jointPositions.get(key)!.copy(p);
+
+                if (debug) Gizmos.DrawWireBox(p, this.size, 0xff0000, undefined, false);
+
+                // draw flipped as well
+                const p2 = getTempVector();
+                p2.copy(position);
+                p2.x *= -1;
+                rig.localToWorld(p2);
+                const key2 = part.jointName + "-flipped";
+                if (!this.jointPositions.has(key2)) this.jointPositions.set(key2, new Vector3());
+                this.jointPositions.get(key2)!.copy(p2);
+
+                if (debug) Gizmos.DrawWireBox(p2, this.size, 0x00ff00, undefined, false);
+
+                const index = jointKeys.indexOf(key);
+                if (debug) Gizmos.DrawLabel(p2, index.toString(), 0.015, undefined, 0xffffff, 0x00000055);
+                if (index < 0) {
+                    if (!this.hasWarnedForName.has(key)) {
+                        this.hasWarnedForName.add(key);
+                        console.warn("Wrong name: " + key + " -> " + index + ". Please report a bug.");
+                    }
+                }
+
+            });
+
+            for (const line of lines) {
+                const from = this.jointPositions.get(line.from);
+                const to = this.jointPositions.get(line.to);
+                if (from && to) {
+                    Gizmos.DrawLine(from, to, 0xffff00, undefined, false);
+
+                    const from2 = this.jointPositions.get(line.from + "-flipped");
+                    const to2 = this.jointPositions.get(line.to + "-flipped");
+                    if (from2 && to2)
+                        Gizmos.DrawLine(from2, to2, 0x00ffff, undefined, false);
+                }
+            }
+        }
+    }
+}
+
 
 // from https://cabanier.github.io/webxr-body-tracking/#associated-bone
 enum XRBodyJoint {
@@ -191,81 +275,5 @@ const lines = [
 ];
 
 declare type XRBodySpace = XRSpace & {
-    jointName: XRBodyJoint;
+    jointName: string;
 };
-
-export class WebXRBodyTracking extends Behaviour {
-
-    onEnable(): void {
-        console.log(jointKeys.join("\n"));
-    }
-
-    onBeforeXR(_mode: XRSessionMode, args: XRSessionInit & { trackedImages: Array<any> }): void {
-        args.optionalFeatures = args.optionalFeatures || [];
-        if (!args.optionalFeatures.includes("body-tracking"))
-            args.optionalFeatures.push("body-tracking");
-    }
-
-    private jointPositions: Map<XRBodyJoint, Vector3> = new Map();
-    private size: Vector3 = new Vector3(0.01, 0.01, 0.01);
-
-    onUpdateXR(args: NeedleXREventArgs): void {
-        const frame = args.xr.frame;
-        if (!frame) return;
-
-        const rig = args.xr.rig!.gameObject;
-        const space = this.context.renderer.xr.getReferenceSpace();
-        if (frame.session && "body" in frame && space) {
-            const body = frame.body as [XRBodyJoint: XRBodySpace];
-            if (!body) return;
-
-            body.forEach(part => {
-                const pose = frame.getPose(part, space);
-                if (!pose) return;
-
-                const position = pose.transform.position;
-
-                const p = getTempVector();
-                p.copy(position);
-                p.x *= -1;
-                p.z *= -1;
-                rig.localToWorld(p);
-                const key = part.jointName;
-                if (!this.jointPositions.has(key)) this.jointPositions.set(key, new Vector3());
-                this.jointPositions.get(key)!.copy(p);
-
-                Gizmos.DrawWireBox(p, this.size, 0xff0000, undefined, false);
-
-                // draw flipped as well
-                const p2 = getTempVector();
-                p2.copy(position);
-                rig.localToWorld(p2);
-                const key2 = part.jointName + "-flipped";
-                if (!this.jointPositions.has(key2)) this.jointPositions.set(key2, new Vector3());
-                this.jointPositions.get(key2)!.copy(p2);
-
-                Gizmos.DrawWireBox(p2, this.size, 0x00ff00, undefined, false);
-
-                const index = jointKeys.indexOf(key);
-                Gizmos.DrawLabel(p2, index.toString(), 0.015, undefined, 0xffffff, 0x00000055);
-                if (index < 0) {
-                    console.log("Wrong name: " + key + " -> " + index);
-                }
-
-            });
-
-            for (const line of lines) {
-                const from = this.jointPositions.get(line.from);
-                const to = this.jointPositions.get(line.to);
-                if (from && to) {
-                    Gizmos.DrawLine(from, to, 0xffff00, undefined, false);
-
-                    const from2 = this.jointPositions.get(line.from + "-flipped");
-                    const to2 = this.jointPositions.get(line.to + "-flipped");
-                    if (from2 && to2)
-                        Gizmos.DrawLine(from2, to2, 0x00ffff, undefined, false);
-                }
-            }
-        }
-    }
-}
