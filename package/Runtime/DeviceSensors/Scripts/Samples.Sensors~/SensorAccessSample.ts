@@ -1,12 +1,11 @@
 import { Behaviour, serializable } from "@needle-tools/engine";
-import { Euler, MathUtils } from "three";
-import { OrientationSensor, DeviceMotion } from "./GyroscopeControls";
+import { Euler, MathUtils, Quaternion } from "three";
+import { OrientationSensor, DeviceMotion } from "./Gyroscope";
 
 // Documentation → https://docs.needle.tools/scripting
 
 export class SensorAccessSample extends Behaviour {
     @serializable()
-    invert: boolean = false;
 
     private sensorOrientation!: OrientationSensor;
     private deviceOrientation!: DeviceMotion;
@@ -27,20 +26,36 @@ export class SensorAccessSample extends Behaviour {
 
         this.context.domElement.appendChild(div);
 
-        this.sensorOrientation = new OrientationSensor(this.gameObject);
-        this.deviceOrientation = new DeviceMotion(this.gameObject);
+        this.sensorOrientation = new OrientationSensor();
+        this.deviceOrientation = new DeviceMotion();
 
         this.sensorOrientation.initialize(() => {
             this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
             this.deviceOrientation.initialize(() => {
                 this.orientationLabel.innerText = "No API available.";
-            }, this.invert);
-        }, this.invert);
+            });
+        });
     }
 
     update(): void {
-        if (this.sensorOrientation.isConnected || this.deviceOrientation.isConnected)
+        if (this.sensorOrientation.isConnected || this.deviceOrientation.isConnected) {
             this.setOrientationLabel();
+            if (this.quternion) {
+                this.gameObject.quaternion.copy(this.quternion);
+            }
+        }
+    }
+
+    private get quternion(): Quaternion | null {
+        if (this.sensorOrientation.isConnected) {
+            return this.sensorOrientation.quaternion;
+        }
+        else if (this.deviceOrientation.isConnected) {
+            return this.deviceOrientation.quaternion;
+        }
+        else {
+            return null;
+        }
     }
 
     private euler: Euler = new Euler();

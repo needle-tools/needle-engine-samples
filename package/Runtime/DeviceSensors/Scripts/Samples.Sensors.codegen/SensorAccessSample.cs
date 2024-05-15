@@ -7,7 +7,6 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class SensorAccessSample : UnityEngine.MonoBehaviour
 	{
-		public bool @invert = false;
 		public void start(){}
 		public void update(){}
 	}

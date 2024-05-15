@@ -338,11 +338,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 635000277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22c8a2b512596b9c68f817777dfb3f64, type: 3}
+  m_Script: {fileID: 11500000, guid: eab22e4456d4a7b479195532782a6bc9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GyroscopeControls,
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PanoramaControls,
     Needle.Engine-Samples.Runtime
-  invert: 0
+  gyroscopeInput: 1
+  pointerInput: 1
+  rotateSpeed: 1
+  rotateSmoothing: 10
+  enableZoom: 1
+  zoomMin: 40
+  zoomMax: 120
+  zoomSpeed: 0.5
+  zoomSmoothing: 15
+  autoRotate: 1
+  autoRotateSpeed: 0.15
+  autoRotateTimeout: 3
 --- !u!1 &733584892
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,7 +501,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-740623230-0
   FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /device-sensors/
+  Path: /gyroscope-with-orbit-controls
   OverrideGzipCompression: 1
   UseGzipCompression: 0
 --- !u!114 &740623231

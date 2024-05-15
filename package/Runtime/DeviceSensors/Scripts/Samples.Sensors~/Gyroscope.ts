@@ -1,39 +1,72 @@
-import { Behaviour, Context, getParam, getTempQuaternion, getTempVector, serializeable, showBalloonMessage } from "@needle-tools/engine";
-import { Object3D, MathUtils, Quaternion } from "three";
+import { Context, EventList, Mathf, OrbitControls, getComponent, getParam, getTempQuaternion, getTempVector } from "@needle-tools/engine";
+import { MathUtils, Quaternion } from "three";
 
 const debug = getParam("debuggyro");
 
-export class GyroscopeControls extends Behaviour {
-    @serializeable()
-    invert: boolean = false;
-
+export class Gyroscope {
     // better refresh rate, but not supported on all devices (Android devices)
     protected sensorOrientation!: OrientationSensor;
     // worse refresh rate, but supported on majority of devices (iOS and Android)
     protected deviceOrientation!: DeviceMotion;
 
-    awake() {
-        this.sensorOrientation = new OrientationSensor(this.gameObject);
-        this.deviceOrientation = new DeviceMotion(this.gameObject);
+    onFial: EventList = new EventList();
+
+    protected currentHandler: GyroscopeHandler | null = null;
+    get handler(): GyroscopeHandler| null {
+        return this.currentHandler;
     }
 
-    onEnable() {
-        this.sensorOrientation.initialize((msg) => {
-            if(debug) console.error("OrientationSensor: ", msg);
-            this.deviceOrientation.initialize((msg) => {
-                if(debug) console.error("DeviceMotion: ", msg);
-                this.onFail();
-            }, this.invert);
-        }, this.invert);
+    get isConnected(): boolean { return this.handler?.isConnected || false; }
+
+    get quaternion(): Quaternion | null { return this.handler?.quaternion || null; }
+    getDelta(lastState: Quaternion): Quaternion | null{
+        if (!this.quaternion) return null;
+
+        tempQuaternion.copy(this.quaternion);
+        tempQuaternion2.copy(lastState).invert();
+
+        tempQuaternion2.multiply(tempQuaternion);
+
+        return tempQuaternion2;
+    }
+
+    constructor() {
+        this.sensorOrientation = new OrientationSensor();
+        this.deviceOrientation = new DeviceMotion();
+    }
+
+    private _isActive: boolean = false;
+    get isActive(): boolean { return this._isActive; }
+    activate() {
+        this._isActive = true;
+        this.sensorOrientation.initialize(
+            /* sensorOrientation success */
+            () => {
+                this.currentHandler = this.sensorOrientation;
+            },
+            /* sensorOrientation fail */
+            (msg) => {
+                if(debug) console.error("OrientationSensor: ", msg);
+                this.deviceOrientation.initialize(
+                    /* deviceOrientation success */
+                    () => {
+                        this.currentHandler = this.deviceOrientation;
+                    },
+                    /* deviceOrientation fail */
+                    (msg) => {
+                        if(debug) console.error("DeviceMotion: ", msg);
+                        this.onFial.invoke({msg});
+                        this._isActive = false;
+                    }
+                );
+            }
+        );
     
     }
-    onDisable() {
+    deactivate() {
+        this._isActive = false;
         this.sensorOrientation.disconnect();
         this.deviceOrientation.disconnect();
-    }
-
-    private onFail() {
-        this.dispatchEvent(new Event("onfail"));
     }
 }
 
@@ -56,6 +89,9 @@ const getOrientation = function () {
     return 0;
 };
 
+const tempQuaternion: Quaternion = new Quaternion();
+const tempQuaternion2: Quaternion = new Quaternion();
+
 abstract class GyroscopeHandler {
     isConnected: boolean = false;
     protected isInitialized: boolean = false;
@@ -63,12 +99,8 @@ abstract class GyroscopeHandler {
     protected _quaternion: Quaternion = new Quaternion();
     get quaternion() { return this._quaternion; }
 
-    invert: boolean = false;
-
-    protected target: Object3D;
-    constructor(target: Object3D) {
-        this.target = target;
-    }
+    /* protected _deltaQuaternion: Quaternion = new Quaternion();
+    get deltaQuaternion() { return this._deltaQuaternion; } */
 
     connect() { 
         this.isConnected = true;
@@ -77,7 +109,6 @@ abstract class GyroscopeHandler {
     disconnect() { this.isConnected = false;}
     abstract initialize(onFail?: () => void): void;
 
-    protected initialTargetRotation?: Quaternion;
     protected handleGyroscope(gyroQuaternion: Quaternion, assureRelative: boolean) {
         // rotate the origin to face forward (0,0,1)
         const fixedGyroQuaternion = getTempQuaternion().setFromAxisAngle(getTempVector(1,0,0), -Math.PI / 2);
@@ -89,21 +120,7 @@ abstract class GyroscopeHandler {
         this._quaternion.multiply(zQuat);
 
         // calculate relative gyro
-        this._quaternion.copy(assureRelative ? this.applyGyroYRelativity(this._quaternion) : this._quaternion);        
-        
-        // invert view
-        if (this.invert)
-            this._quaternion.invert();
-        
-        // apply to object if supplied
-        if (this.target) {
-            if (!this.initialTargetRotation) {
-                this.initialTargetRotation = this.target.quaternion.clone();
-            }
-            
-            this.target.quaternion.copy(this.initialTargetRotation);
-            this.target.quaternion.multiply(this.quaternion);
-        }
+        this._quaternion.copy(assureRelative ? this.applyGyroYRelativity(this._quaternion) : this._quaternion);
     }
 
     protected initialQuaternion?: Quaternion;
@@ -139,12 +156,10 @@ abstract class GyroscopeHandler {
 
 /** Older API available both on iOS and Android */
 export class DeviceMotion extends GyroscopeHandler {
-    invert: boolean = false;
     protected connectFromClick: boolean = false;
 
-    constructor(target: Object3D) {
-        super(target);
-
+    constructor() {
+        super();
         Context.Current.domElement.addEventListener("click", () => {
             this.tryConnectOnClick();
         });
@@ -180,10 +195,12 @@ export class DeviceMotion extends GyroscopeHandler {
         this.handleGyroscope(q, true);
     };
 
-    initialize(onFail?: (msg: string) => void, invert: boolean = false) {
-        this.invert = invert;
+    initialize(onSucess?: () => void, onFail?: (msg: string) => void) {
         if (!("DeviceMotionEvent" in globalThis)) {
             onFail?.("DeviceMotionEvent not supported.");
+        }
+        else {
+            onSucess?.();
         }
         
         this.connectFromClick = true;
@@ -211,8 +228,6 @@ export class DeviceMotion extends GyroscopeHandler {
 
 /** Usually accesible on Android */
 export class OrientationSensor extends GyroscopeHandler {
-    invert: boolean = false;
-
     //@ts-ignore 
     protected sensor?: RelativeOrientationSensor;
 
@@ -225,9 +240,7 @@ export class OrientationSensor extends GyroscopeHandler {
         this.sensor?.stop();
     }
 
-    initialize(onFail?: (msg: string) => void, invert: boolean = false): void {
-        this.invert = invert;
-
+    initialize(onSucess?: () => void, onFail?: (msg: string) => void): void {
         if (this.isInitialized) {
             this.connect();
             return;
@@ -262,8 +275,10 @@ export class OrientationSensor extends GyroscopeHandler {
                 //@ts-ignore
                 navigator.permissions.query({ name: "gyroscope" })])
                 .then((results) => {
-                    if (results.every((result) => result.state === "granted"))
+                    if (results.every((result) => result.state === "granted")) {
                         this.connect();
+                        onSucess?.();
+                    }
                     else
                         onFail?.("No permissions to use RelativeOrientationSensor.");
                 });
