@@ -17,7 +17,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @zoomSpeed = 0.1f;
 		public float @zoomSmoothing = 5f;
 		public bool @autoRotate = true;
-		public float @autoRotateSpeed = 0.25f;
+		public float @autoRotateSpeed = 0.15f;
 		public float @autoRotateTimeout = 3f;
 		public void start(){}
 		public void onBeforeRender(){}
