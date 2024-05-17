@@ -1,5 +1,5 @@
 import { Animation, AnimationCurve, AssetReference, AudioSource, Behaviour, Collider, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, ParticleSystem, Rigidbody, RigidbodyConstraints, XRControllerFollow, delay, delayForFrames, getComponent, getParam, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
-import { AnimationAction, AnimationMixer, Object3D, Vector3, Vector2, Quaternion, Matrix4 } from "three";
+import { AnimationAction, AnimationMixer, Object3D, Vector3, Vector2, Quaternion, Matrix4, Plane, PlaneHelper, Line3 } from "three";
 import { Arrow } from "./Arrow";
 
 
@@ -54,6 +54,9 @@ export class ArrowShooting extends Behaviour {
         this.nonMountedParent = this.gameObject.parent!;
 
         this.mount();
+
+        const helper = new PlaneHelper(this.plane, 2, 0xAAAAAA);
+        this.context.scene.children[0].add(helper);
     }
 
     /** true while aiming */
@@ -292,6 +295,11 @@ export class ArrowShooting extends Behaviour {
 
     private tempDir: Vector2 = new Vector2();
     private tempUpRef: Vector2 = new Vector2();
+    private tempFwdRef: Vector3 = new Vector3(0, 0, 1);
+    private plane: Plane = new Plane();
+    private line: Line3 = new Line3();
+    private fromRC: Vector2 = new Vector2();
+    private toRC: Vector2 = new Vector2();
     onBeforeRender(): void {
         if (!this.animationComponent || !this.bowObject) return;
 
@@ -364,9 +372,35 @@ export class ArrowShooting extends Behaviour {
                 if (this._aimingPointerId != undefined) {
                     const from = this._aimingPointerStartPos;
                     const to = input.getPointerPosition(this._aimingPointerId)!;
+
                     const dir = this.tempDir.copy(to).sub(from);
                     const pixelDist = dir.length();
                     const dist = pixelDist;// / this.context.domHeight;
+
+                    // project screen space on to bow plane
+                    const cam = this.context.mainCamera!;
+                    this.plane.setFromNormalAndCoplanarPoint(getTempVector(0, 1, 0), this.gameObject.worldPosition.sub(getTempVector(0, 0, 0)));
+                    
+                    this.convertSSPosToRCPos(this.fromRC.copy(from));
+                    this.convertSSPosToRCPos(this.toRC.copy(to));
+
+                    const wFrom = getTempVector(this.fromRC.x, this.fromRC.y, -1).unproject(cam!);
+                    const wTo = getTempVector(this.toRC.x, this.toRC.y, -1).unproject(cam!);
+                    
+                    const fromFarPoint = getTempVector(wFrom).sub(cam.getWorldPosition(getTempVector())).setLength(1000).add(cam.getWorldPosition(getTempVector()));
+                    this.line.set(cam.getWorldPosition(getTempVector()), fromFarPoint);
+                    const planeFrom = this.plane.intersectLine(this.line, getTempVector())!;
+                    
+                    const toFarPoint = getTempVector(wTo).sub(cam.getWorldPosition(getTempVector())).setLength(1000).add(cam.getWorldPosition(getTempVector()));
+                    this.line.set(cam.getWorldPosition(getTempVector()), toFarPoint);
+                    const planeTo = this.plane.intersectLine(this.line, getTempVector())!;
+                    
+                    let wDir: Vector3 | null = null;
+                    if (planeTo != null && planeFrom != null) {
+                        planeTo.z *= -1;
+                        planeFrom.z *= -1;    
+                        wDir = getTempVector(planeTo).sub(planeFrom).normalize();
+                    }
 
                     const dir3 = getTempVector();
                     dir3.x = dir.x;
@@ -387,16 +421,19 @@ export class ArrowShooting extends Behaviour {
                         animTimeGoal = Mathf.remap(animTimeGoal, 0, 1, this.desktopIdleDrawAmount, 1);
                     }
 
-                    this.tempUpRef.set(1, 0);
-                    const sign = this.tempUpRef.dot(dir) > 0 ? -1 : 1;
+                    if (applyRot && wDir != null) {
+                        this.tempUpRef.set(1, 0);
+                        const sign = this.tempUpRef.dot(dir) < 0 ? -1 : 1;
 
-                    this.tempUpRef.set(0, 1);
-                    const angle = this.tempUpRef.angleTo(dir) * sign;
+                        const angle = this.tempFwdRef.angleTo(wDir) * sign;
 
-                    if (applyRot) {
-                        const goal = getTempQuaternion().setFromAxisAngle(getTempVector().set(1, 0, 0), angle);
+                        const goal = getTempQuaternion().setFromAxisAngle(getTempVector().set(0, 1, 0), angle);
+                        const base = getTempQuaternion().setFromAxisAngle(getTempVector(0, 0, 1), (Math.PI / 2));
+                        const rot = goal.multiply(base);
 
-                        this.gameObject.quaternion.slerp(goal, this.context.time.deltaTime / .05);
+                        const wRot = this.gameObject.worldQuaternion;
+                        wRot.slerp(rot, this.context.time.deltaTime / .05);
+                        this.gameObject.worldQuaternion = wRot;
                     }
                 }
             }
@@ -430,5 +467,13 @@ export class ArrowShooting extends Behaviour {
     // Cubic Bezier easing function
     private easeInOutSine(t: number): number {
         return Mathf.clamp01(-0.5 * (Math.cos(Math.PI * t) - 1));
+    }
+
+    private convertSSPosToRCPos(ssPos: Vector2): Vector2 {
+        const w = this.context.domWidth / 2;
+        const h = this.context.domHeight / 2;
+        ssPos.x = (ssPos.x - w) / w;
+        ssPos.y = (h - ssPos.y) / h;
+        return ssPos;
     }
 }
