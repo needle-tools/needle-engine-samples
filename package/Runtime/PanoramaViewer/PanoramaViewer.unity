@@ -2118,7 +2118,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.0000076, y: 0}
+  m_AnchoredPosition: {x: 2.0000076, y: 1.6000061}
   m_SizeDelta: {x: -3.999979, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1544207973
@@ -2143,7 +2143,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
+    m_FontSize: 23
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -2154,7 +2154,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '>'
+  m_Text: "\u2192"
 --- !u!222 &1544207974
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2175,6 +2175,7 @@ GameObject:
   - component: {fileID: 1578246228}
   - component: {fileID: 1578246227}
   - component: {fileID: 1578246226}
+  - component: {fileID: 1578246229}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2264,6 +2265,19 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1578246229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578246224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 008d9d8dc7d04eb9a966d5b57b566c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.FontAdditionalCharacters, Needle.Engine.Common
+  AdditionalCharacters: "\u25B6\u23EF\n\u2190\u2192"
 --- !u!1 &1676066121
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,6 +2382,7 @@ MonoBehaviour:
   AllowProgressiveLoading: 0
   UseMaxSize: 1
   MaxSize: 128
+  GenerateLODs: 1
 --- !u!1 &1685672608
 GameObject:
   m_ObjectHideFlags: 0
@@ -2403,7 +2418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.6}
   m_SizeDelta: {x: -0.0000019073486, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1685672610
@@ -2428,7 +2443,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
+    m_FontSize: 23
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -2439,7 +2454,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: <
+  m_Text: "\u2190"
 --- !u!222 &1685672611
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2547,13 +2562,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
+  autoTarget: 1
   autoFit: 0
   enableRotate: 1
   autoRotate: 1
   autoRotateSpeed: 0.2
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: Infinity
+  maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0.01
   maxZoom: 0.01
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
