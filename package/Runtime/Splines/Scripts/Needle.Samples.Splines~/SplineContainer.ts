@@ -56,8 +56,9 @@ export class SplineContainer extends Behaviour {
         const pos = this.curve.getPointAt(Mathf.clamp01(t), target);
         const worldMatrix = (this.gameObject as any as Object3D)?.matrixWorld ?? undefined;
 
-        if (worldMatrix)
+        if (worldMatrix) {
             pos.applyMatrix4(worldMatrix); 
+        }
 
         return pos;
     }
