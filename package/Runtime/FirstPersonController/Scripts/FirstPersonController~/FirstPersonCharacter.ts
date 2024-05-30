@@ -1,4 +1,4 @@
-import { serializable, Mathf, isMobileDevice, SyncedTransform, Camera, PlayerState, CapsuleCollider, PhysicsMaterial, CharacterController, Behaviour, Rigidbody, PointerEventData } from "@needle-tools/engine";
+import { serializable, Mathf, isMobileDevice, SyncedTransform, Camera, PlayerState, CapsuleCollider, PhysicsMaterial, CharacterController, Behaviour, Rigidbody, PointerEventData, getTempVector } from "@needle-tools/engine";
 import { Vector2, Vector3, Object3D, MathUtils } from "three";
 import { PointerLock } from "./LockPointer";
 
@@ -90,6 +90,8 @@ export class FirstPersonController extends Behaviour {
 
     start() {
         this.calculateYRot();
+
+        console.log("FirstPersonController: ", this.yRotTarget?.getWorldDirection(getTempVector()));
     }
 
     private isInitialized = false;

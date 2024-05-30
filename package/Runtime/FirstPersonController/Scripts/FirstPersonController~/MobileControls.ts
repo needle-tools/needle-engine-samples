@@ -41,8 +41,6 @@ export class MobileControls extends Behaviour {
     protected _htmlElements: HTMLElement[] = [];
 
     awake(): void {
-        console.log(this.moveJoyColor);
-
         this._lookVector = new Vector2();
         this._movementVector = new Vector2();
     }

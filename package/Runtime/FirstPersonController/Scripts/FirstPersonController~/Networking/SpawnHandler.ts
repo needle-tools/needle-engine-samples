@@ -1,5 +1,5 @@
-import { Behaviour, Button, GameObject, Gizmos, RaycastOptions, getParam, randomNumber, serializable } from "@needle-tools/engine";
-import { Vector3, Euler, Object3D, Ray, Layers } from "three";
+import { Behaviour, Button, GameObject, Gizmos, RaycastOptions, Rigidbody, delayForFrames, getParam, getTempQuaternion, getTempVector, randomNumber, serializable } from "@needle-tools/engine";
+import { Vector3, Euler, Object3D, Ray, Layers, Quaternion } from "three";
 import { FirstPersonController } from "../FirstPersonCharacter";
 import { MobileControls } from "../MobileControls";
 
@@ -16,9 +16,9 @@ export class SpawnHandler extends Behaviour {
 
     private downVector = new Vector3(0, -1, 0);
 
-    handlePlayerSpawn(obj: GameObject) {
+    async handlePlayerSpawn(obj: GameObject): Promise<void> {
         //shuffle spawnspots
-        this.spawnPoints.sort(() => Math.random() - 0.5);
+        this.spawnPoints.sort(() => Math.random() - Math.random());
 
         const options = new RaycastOptions();
         options.layerMask = new Layers();
@@ -47,16 +47,29 @@ export class SpawnHandler extends Behaviour {
                 break;
             }
         }
-
+        
         // If there is no valid spawn point, set world 0,0,0
-        const pos = spot?.position.clone() || new Vector3();
-        const rot = spot?.rotation.clone() || new Euler();
+        const pos = spot?.getWorldPosition(new Vector3()) || new Vector3();
+        const rot = spot?.getWorldQuaternion(new Quaternion()) || new Quaternion();
 
-        if (obj instanceof Object3D) {
-            obj.worldToLocal(pos);
+        /* if (obj instanceof Object3D) {
+            obj.worldPosition = pos;
+            obj.worldQuaternion = rot;
+        } */
 
-            obj.position.copy(pos);
-            obj.rotation.copy(rot);
+        // temp fix for a race condition -> something overrides the position after this function
+        /* await delayForFrames(1); */
+        
+        Gizmos.DrawLine(pos, getTempVector(pos).add(getTempVector(0,0,1).applyQuaternion(rot).multiplyScalar(0.5)), 0xff0000, 50, false);
+
+        for (let i = 0; i < 60; i++) {
+            const rb = obj.getComponent(Rigidbody);
+            if (rb) rb.isKinematic = true;
+            obj.worldPosition = pos;
+            obj.worldQuaternion = rot;
+            if (rb) rb.isKinematic = false;
+
+            await delayForFrames(1);
         }
 
         // hook touch controls to the spawned player
