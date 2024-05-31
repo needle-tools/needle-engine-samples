@@ -84,6 +84,13 @@ export class LightmapConfigurations extends Behaviour {
             this._didSwitchLightTime = model.switchTime;
         });
     }
+    start() {
+        if (!this.cycleLigthmaps) {
+            this._didSwitchLightTime = Date.now();
+        }
+
+        this.startCoroutine(this.switchLightmaps());
+    }
 
     onDestroy() {
         this.context.connection.stopListen("lightmap_index", this.onRemoteLightmapIndex);
@@ -103,10 +110,6 @@ export class LightmapConfigurations extends Behaviour {
         this._didSwitchLightTime = undefined;
         this.setLightmap(index);
     };
-
-    onEnable() {
-        this.startCoroutine(this.switchLightmaps());
-    }
 
     *switchLightmaps() {
         this._renderers = GameObject.findObjectsOfType(Renderer);

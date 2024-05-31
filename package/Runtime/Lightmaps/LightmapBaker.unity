@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.057983212, g: 0.057758685, b: 0.057983212, a: 1}
+  m_IndirectSpecularColor: {r: 0.05785726, g: 0.05785726, b: 0.05785726, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 3369ebfeac8819a48ac7421a26d2a4ba, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 31b2d5d9984447f44a98f162283b3582, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -355,7 +355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &134708614
 Transform:
   m_ObjectHideFlags: 0
@@ -1045,6 +1045,8 @@ MonoBehaviour:
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -1052,6 +1054,7 @@ MonoBehaviour:
   enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 0
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!81 &228121868
@@ -1153,6 +1156,7 @@ MonoBehaviour:
   invertForward: 0
   customReticle: {fileID: 0}
   arTouchTransform: 1
+  autoPlace: 0
   useXRAnchor: 0
 --- !u!1 &446271500
 GameObject:
@@ -1171,7 +1175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &446271501
 Transform:
   m_ObjectHideFlags: 0
@@ -1302,13 +1306,13 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-b8a0606ee6f38b94e9ff246e56bc332d-467191617-0
   Configurations:
   - Name: Day
-    BakedLightmap: {fileID: 0}
+    BakedLightmap: {fileID: 2800000, guid: 1338cedb683b11dfcd2a4270b1def208, type: 3}
     Objects:
     - {fileID: 446271500}
     Emissive:
     - {fileID: 1323092295}
   - Name: Lights
-    BakedLightmap: {fileID: 0}
+    BakedLightmap: {fileID: 2800000, guid: 73072a6b09d306a842f418c9ee8b408e, type: 3}
     Objects:
     - {fileID: 134708613}
     - {fileID: 1535853987}
@@ -1326,7 +1330,7 @@ MonoBehaviour:
     - {fileID: 192551305}
     - {fileID: 1759158341}
   - Name: Dark
-    BakedLightmap: {fileID: 0}
+    BakedLightmap: {fileID: 2800000, guid: 018f77c4fcce296fe6d337bb3a064b1f, type: 3}
     Objects:
     - {fileID: 134708613}
     Emissive: []
@@ -1883,13 +1887,13 @@ MonoBehaviour:
     - {fileID: 192551305}
     - {fileID: 1759158341}
   - Emissive: []
-  cycleLigthmaps: 1
+  cycleLigthmaps: 0
   cycleInterval: 1
   pingPong: 0
   lightmaps:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2800000, guid: 1338cedb683b11dfcd2a4270b1def208, type: 3}
+  - {fileID: 2800000, guid: 73072a6b09d306a842f418c9ee8b408e, type: 3}
+  - {fileID: 2800000, guid: 018f77c4fcce296fe6d337bb3a064b1f, type: 3}
 --- !u!1 &992587674
 GameObject:
   m_ObjectHideFlags: 0
