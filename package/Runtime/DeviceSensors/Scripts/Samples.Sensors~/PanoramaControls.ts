@@ -68,7 +68,7 @@ export class PanoramaControls extends Behaviour {
         this.initialQuterion.copy(this.gameObject.quaternion);
         this.camera = this.gameObject.getComponent(Camera)!;
 
-        this.gyroscope.onFial.addEventListener(() => {
+        this.gyroscope.onFail.addEventListener(() => {
             this.dispatchEvent(new Event("onfail"));
         });
 

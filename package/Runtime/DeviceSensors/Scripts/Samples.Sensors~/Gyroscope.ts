@@ -9,7 +9,7 @@ export class Gyroscope {
     // worse refresh rate, but supported on majority of devices (iOS and Android)
     protected deviceOrientation!: DeviceMotion;
 
-    onFial: EventList = new EventList();
+    onFail: EventList = new EventList();
 
     protected currentHandler: GyroscopeHandler | null = null;
     get handler(): GyroscopeHandler| null {
@@ -55,7 +55,7 @@ export class Gyroscope {
                     /* deviceOrientation fail */
                     (msg) => {
                         if(debug) console.error("DeviceMotion: ", msg);
-                        this.onFial.invoke({msg});
+                        this.onFail.invoke({msg});
                         this._isActive = false;
                     }
                 );
