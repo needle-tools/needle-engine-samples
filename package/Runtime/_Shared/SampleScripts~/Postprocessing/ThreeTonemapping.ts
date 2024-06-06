@@ -74,7 +74,7 @@ export class ThreeTonemapping extends Behaviour {
         this.context.renderer.toneMapping = method as THREE.ToneMapping;
         this.context.renderer.toneMappingExposure = exposure;
         if (debug) {
-            showBalloonMessage(`Tonemapping | Method: ${this.context.renderer.toneMapping} | Exposure: ${this.context.renderer.toneMappingExposure.toFixed(1)}`);
+            showBalloonMessage(`Tonemapping | Method: ${ThreeTonemappingMethod[this.context.renderer.toneMapping]} | Exposure: ${this.context.renderer.toneMappingExposure.toFixed(1)}`);
         }
     }
 }
