@@ -1,9 +1,12 @@
-import { ActionBuilder, BehaviorExtension, BehaviorModel, Behaviour, Button, EventList, IBehaviorElement, TriggerBuilder, USDObject, USDZExporterContext, UsdzBehaviour, getOrAddComponent, serializable } from "@needle-tools/engine";
+import { ActionBuilder, BehaviorExtension, BehaviorModel, Behaviour, Button, EventList, RectTransform, TriggerBuilder, USDObject, USDZExporterContext, UsdzBehaviour, getOrAddComponent, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 
 class EverywhereConfiguratorElement {
     @serializable(Object3D)
     contents: Object3D[] = [];
+
+    @serializable(Object3D)
+    negativeContents: Object3D[] = [];
 
     @serializable(Object3D)
     triggers: Object3D[] = [];
@@ -19,7 +22,31 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
     protected _allTargets: Object3D[] = [];
     protected _allTriggers: Object3D[] = [];
 
-    onEnable() {
+    awake(): void {
+        // HACK: RectTransform is a component and is not matching Object3D. 
+        // IF the type in Unity is GameObject instead of Transform, then the serialization doesn't work.
+        // TODO: make small repro and report
+        const patchRectTransforms = (arr: Object3D[]) => {
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i] as any;
+                if (element instanceof RectTransform) {
+                    arr[i] = element.gameObject;
+                }
+            }
+        };
+        this.elements.forEach(e => {
+            patchRectTransforms(e.contents);
+            patchRectTransforms(e.triggers);
+        });
+        
+        // clean up null / editorOnly entires
+        this.elements.forEach(e => {
+            e.contents = e.contents.filter(x => x);
+            e.triggers = e.triggers.filter(x => x);
+        });
+            
+            console.log(this.elements);
+
         this.elements.forEach(e => e.contents?.forEach(t => this._allTargets.push(t)));
         this.elements.forEach(e => e.triggers?.forEach(t => this._allTriggers.push(t)));
 
@@ -28,11 +55,15 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
     
     // Runtime flow
     protected setupForRuntime() {
-        this.elements.forEach(element => {
-            element.triggers?.forEach(trigger => {
+        this.elements.forEach((element, i1) => {
+            //console.log(`Variant ${i1}: `, element);
+            element.triggers?.forEach((trigger, i2) => {
+                //console.log(`Trigger ${i2}: `, trigger);
                 const btn = getOrAddComponent(trigger, Button);  
                 btn.onClick ??= new EventList();
                 btn.onClick.addEventListener(() => {
+                    console.log("Clicked");
+                    //console.log("Clicked: ", trigger.name);
                     this._allTargets.forEach(target => { 
                         target.visible = element.contents.includes(target);
                     })

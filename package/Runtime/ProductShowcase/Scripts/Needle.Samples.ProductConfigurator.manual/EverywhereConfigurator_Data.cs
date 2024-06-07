@@ -8,7 +8,6 @@ namespace Needle.Typescript.GeneratedComponents
     [System.Serializable]
     public class EverywhereConfiguratorElement
     {
-        [FormerlySerializedAs("targets")]
         public Transform[] contents;
         public Transform[] triggers;
     }
