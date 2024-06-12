@@ -24,5 +24,5 @@ For more information visit [documentation](https://engine.needle.tools/docs/gett
 
 ## Snowglobe
 
-Showcase of resetting physical objects to desired position. Key feature is the Quicklook support.
+Showcases how to reset rigidbodies to their initial position. The scene works everywhere, including QuickLook.
 
