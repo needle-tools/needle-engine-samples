@@ -8,4 +8,4 @@ If the device doesn't support any implemented method the `onfail` event is raise
 
 ## Panorama Controls
 
-Ideal for 360 viewers with support for classic drag controls. Supports 
+Place this component onto your camera object to get drag-to-look camera controls with gyroscope support. It features FOV zoom, idle auto-spin, and other capabilities ideal for 360 viewer applications.
