@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -216,6 +216,8 @@ MonoBehaviour:
   enableZoom: 1
   minZoom: 0.1
   maxZoom: 500
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -223,6 +225,7 @@ MonoBehaviour:
   enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!81 &1036261120
@@ -457,6 +460,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1431196041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1431196043}
+  - component: {fileID: 1431196042}
+  m_Layer: 0
+  m_Name: README
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1431196042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431196041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
+  Guid: be1fd87132ae247c28a08d7678cc6e7f
+--- !u!4 &1431196043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431196041}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1467024324
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,7 +518,6 @@ GameObject:
   - component: {fileID: 1467024328}
   - component: {fileID: 1467024327}
   - component: {fileID: 1467024326}
-  - component: {fileID: 1467024325}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -478,23 +525,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1467024325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1467024324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport
-  AllowProgressiveLoading: 1
-  UseMaxSize: 1
-  MaxSize: 128
-  GenerateLODs: 0
 --- !u!114 &1467024326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,8 +539,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
   meta:
     title: Body Tracking
-    description: Full-body pose tracking in WebXR on Quest
-    image: {fileID: 0}
+    description: Whole body tracking in XR
+    image: {fileID: 2800000, guid: 7d103c9a65b0f734ba0d0df08d20b6e9, type: 3}
 --- !u!114 &1467024327
 MonoBehaviour:
   m_ObjectHideFlags: 0
