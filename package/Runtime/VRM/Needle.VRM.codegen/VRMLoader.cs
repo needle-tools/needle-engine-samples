@@ -7,8 +7,9 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class VRMLoader : UnityEngine.MonoBehaviour
 	{
-		public string @path = "https://raw.githubusercontent.com/madjin/vrm-samples/master/vroid/stable/AvatarSample_A.vrm";
+		public Needle.Engine.FileReference @vrmModel;
 		public void start(){}
+		public void spawnModel(string @url){}
 	}
 }
 

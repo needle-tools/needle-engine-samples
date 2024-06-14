@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6192141, g: 0.69999945, b: 0.7067928, a: 1}
+  m_IndirectSpecularColor: {r: 0.6192141, g: 0.69999945, b: 0.7067927, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56002074e73d070645c86348c39fcdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.VRMLoader, Needle.Engine-Samples.Runtime
-  path: https://raw.githubusercontent.com/madjin/vrm-samples/master/vroid/stable/AvatarSample_A.vrm
+  vrmModel:
+    File: {fileID: 102900000, guid: b45055ff205d8a841964bae8348e6290, type: 3}
 --- !u!4 &40585331
 Transform:
   m_ObjectHideFlags: 0
@@ -168,6 +169,101 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1021406435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1021406436}
+  - component: {fileID: 1021406437}
+  m_Layer: 0
+  m_Name: NeedleMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1021406436
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021406435}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1021406437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021406435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
+  _position: 1
+  ShowNeedleLogo: 1
+  CreateFullscreenButton: 1
+  CreateMuteButton: 0
+  CreateQRCodeButton: 1
+  ShowSpatialMenu: 1
+--- !u!1 &1326235223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1326235224}
+  - component: {fileID: 1326235225}
+  m_Layer: 0
+  m_Name: README
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1326235224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326235223}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1326235225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326235223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: 
 --- !u!1 &1582637288
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +393,7 @@ GameObject:
   - component: {fileID: 1900358291}
   - component: {fileID: 1900358295}
   - component: {fileID: 1900358294}
+  - component: {fileID: 1900358296}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -362,9 +459,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900358290}
-  m_LocalRotation: {x: -0.1797438, y: 0.1065951, z: -0.019601095, w: -0.9777247}
-  m_LocalPosition: {x: 0.580013, y: 1.0242888, z: -2.6284366}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.1609342, y: 0.104554065, z: -0.017251354, w: -0.98125994}
+  m_LocalPosition: {x: 0.5128056, y: 1.7562366, z: -2.6493542}
+  m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -382,20 +479,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
+  autoTarget: 0
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  autoFit: 0
-  enableKeys: 0
-  enableDamping: 1
-  dampingFactor: 0.1
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: Infinity
+  maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
-  lookAtConstraint: {fileID: 0}
+  enableDamping: 1
+  dampingFactor: 0.1
+  targetLerpDuration: 1
+  enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
+  allowInterrupt: 1
+  lookAtConstraint: {fileID: 0}
 --- !u!114 &1900358295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,6 +537,20 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1900358296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900358290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693de1e48d1f0764d9bc83022f353103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundBlurriness: 0
+  backgroundIntensity: 0.5
 --- !u!1 &1946438544
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,6 +658,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1985684185}
   - component: {fileID: 1985684184}
+  - component: {fileID: 1985684187}
+  - component: {fileID: 1985684186}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -556,9 +679,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986a3a93ac16ec0428d8989979ec0966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common
-  DirectoryName: Library/Needle
+  DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
+  AutoCompress: 1
   Dependencies:
   - Name: needle.vrm
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/VRM/Needle.VRM.npmdef
@@ -578,3 +702,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1985684186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985684183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
+  meta:
+    title: VRM Character
+    description: Loading support for VRM files
+    image: {fileID: 2800000, guid: 1f0c163f81238a041bba1ed8c9276025, type: 3}
+--- !u!114 &1985684187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985684183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
+  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
+  Path: /vrm-character-loading
+  OverrideGzipCompression: 1
+  UseGzipCompression: 0
