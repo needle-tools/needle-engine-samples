@@ -37,7 +37,7 @@ export class MaterialXAsset extends Behaviour {
         if (!renderer) return;
 
         const manager = new LoadingManager();
-
+        
         // This is a WORKAROUND until we can properly reference compressed/packed textures (requires three.js update + MaterialX loader fixes).
         // In the meantime, they're exported using ImageReference, where they are simply put into "assets/"
         // without a subpath, so we need to assume
@@ -60,6 +60,9 @@ export class MaterialXAsset extends Behaviour {
             const customLoader = new GLTFTextureLoader(this.sourceId, manager);
             manager.addHandler(/\.(jpg|png|exr|ktx2|webp)$/i, customLoader);
             if (debug) console.log("added custom handler", customLoader, this.sourceId)
+        }
+        else {
+            console.error("Object this component is on has no sourceId, cannot load textures from glTF file.");
         }
         
         const mtlxLoader = new MaterialXLoader(manager);
@@ -97,26 +100,35 @@ class GLTFTextureLoader extends Loader {
         // get the current context and glTF parser
         const parser = MaterialXTextureLoaderGLTFCache.instances.get(this.sourceId);
         if (!parser) return texture;
-    
-        parser.json.textures.forEach((gltfTexture, index) => {
-            // url is something like "assets/texture.jpg"
-            // texture.name is something like "texture"
-            // we need to find the texture that matches the url
-            let fileNameOnly = url.split('/').pop();
-            if (fileNameOnly) fileNameOnly = fileNameOnly.split('.')[0];
-            
-            if (url === gltfTexture.uri || (fileNameOnly && fileNameOnly === gltfTexture.name)) {
-                // load the texture from the glTF file
-                parser.loadTexture(index).then((resultTexture) => {
-                    texture.image = resultTexture.image;
-                    texture.needsUpdate = true;
-                });
-            }
-            else {
-                if (debug) console.warn("no match", url, gltfTexture.uri, gltfTexture.name);
+        console.log(parser.json);
+
+        // url is something like "assets/texture.jpg"
+        // texture.name is something like "texture"
+        // we need to find the texture that matches the url
+        let fileNameOnly = url.split('/').pop();
+        if (fileNameOnly) fileNameOnly = fileNameOnly.split('.')[0];
+
+        // get index of an image in the glTF file that matches the url
+        let imageToTextureIndex = -1;
+        parser.json.images.forEach((image, index) => {
+            if (url === image.name || (fileNameOnly && fileNameOnly === image.name)) {
+                imageToTextureIndex = index;
             }
         });
 
+        // use that index to load the texture
+        const tex = parser.json.textures[imageToTextureIndex];
+        if (imageToTextureIndex !== -1 && tex) {
+            // load the texture from the glTF file
+            parser.loadTexture(imageToTextureIndex).then((resultTexture) => {
+                texture.image = resultTexture.image;
+                texture.needsUpdate = true;
+            });
+        }
+        else {
+            if (debug) console.error("Could not find texture in glTF file for", url);
+        }
+        
         return texture;
     }
 }
