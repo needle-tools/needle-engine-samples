@@ -203,8 +203,9 @@ const css = /* css */`
     border: none;
     border-radius: 50%;
     margin-bottom: 4px;
-    background: white;
+    background: transparent;
     transition: background-color 0.5s;
+    outline: rgba(0, 0, 0, 0) 1px solid;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -213,13 +214,15 @@ const css = /* css */`
 
 .mainmenu button.active,
 .mainmenu button:hover {
-    background: black; 
+    background: rgba(245, 245, 245, .8);
+    transition: all 0.1s linear .02s;
+    outline: rgba(0, 0, 0, .05) 1px solid;
 }
 
 .mainmenu button.active img,
 .mainmenu button:hover img
 {
-    filter: invert(100%) sepia(0%) saturate(7478%) hue-rotate(317deg) brightness(109%) contrast(99%);
+    /* filter: invert(100%) sepia(0%) saturate(7478%) hue-rotate(317deg) brightness(109%) contrast(99%); */
 }
 
 .mainmenu button img {
@@ -318,7 +321,6 @@ const css = /* css */`
     font-size: 1rem;
     line-height: 32px;
     border: none;
-    background: none;
     cursor: pointer;
     font-family: 'Roboto Flex', sans-serif;
     font-weight: 200;
