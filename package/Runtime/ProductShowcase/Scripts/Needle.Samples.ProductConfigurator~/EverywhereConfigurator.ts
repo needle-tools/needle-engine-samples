@@ -22,23 +22,7 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
     protected _allTargets: Object3D[] = [];
     protected _allTriggers: Object3D[] = [];
 
-    awake(): void {
-        // HACK: RectTransform is a component and is not matching Object3D. 
-        // IF the type in Unity is GameObject instead of Transform, then the serialization doesn't work.
-        // TODO: make small repro and report
-        const patchRectTransforms = (arr: Object3D[]) => {
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i] as any;
-                if (element instanceof RectTransform) {
-                    arr[i] = element.gameObject;
-                }
-            }
-        };
-        this.elements.forEach(e => {
-            patchRectTransforms(e.contents);
-            patchRectTransforms(e.triggers);
-        });
-        
+    awake(): void {        
         // clean up null / editorOnly entires
         this.elements.forEach(e => {
             e.contents = e.contents.filter(x => x);
