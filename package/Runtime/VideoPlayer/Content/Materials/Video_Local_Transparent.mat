@@ -8,24 +8,23 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Video_Local_Transparent
-  m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 59541e6caf586ca4f96ccf48a4813a51, type: 3}
   m_ValidKeywords:
   - _BUILTIN_ALPHATEST_ON
   - _BUILTIN_AlphaClip
-  - _RECEIVE_SHADOWS_OFF
   - _SURFACE_TYPE_TRANSPARENT
-  - _VERTEX_COLORS_ON
+  m_InvalidKeywords:
+  - _RECEIVE_SHADOWS_OFF
   - _VOLUME_TRANSMISSION_OFF
-  m_InvalidKeywords: []
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 3001
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
-  - DepthOnly
   - SHADOWCASTER
+  - DepthOnly
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -144,7 +143,7 @@ Material:
     - _BUILTIN_Blend: 0
     - _BUILTIN_CullMode: 2
     - _BUILTIN_DstBlend: 0
-    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueControl: 1
     - _BUILTIN_QueueOffset: 0
     - _BUILTIN_SrcBlend: 1
     - _BUILTIN_Surface: 0
@@ -185,14 +184,14 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 1
     - _TEXTURE_TRANSFORM: 0
-    - _VERTEX_COLORS: 1
+    - _VERTEX_COLORS: 0
     - _VOLUME_ON: 0
     - _VOLUME_TRANSMISSION: 0
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
-    - alphaCutoff: -0.5
+    - alphaCutoff: 0.015
     - attenuationDistance: 0.001
     - baseColorTextureRotation: 0
     - baseColorTextureTexCoord: 0
@@ -214,7 +213,7 @@ Material:
     - iridescenceThicknessMinimum: 100
     - iridescenceThicknessTextureRotation: 0
     - iridescenceThicknessTextureTexCoord: 0
-    - metallicFactor: 0.428
+    - metallicFactor: 0
     - metallicRoughnessTextureRotation: 0
     - metallicRoughnessTextureTexCoord: 0
     - normalScale: 1
@@ -223,7 +222,7 @@ Material:
     - occlusionStrength: 1
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
-    - roughnessFactor: 0.5
+    - roughnessFactor: 1
     - specularColorTextureRotation: 0
     - specularColorTextureTexCoord: 0
     - specularFactor: 1
