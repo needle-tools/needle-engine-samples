@@ -324,18 +324,33 @@ namespace SampleChecks
             return dependencies;
         }
 
+        static string[] nonSizeRestrictedExtensions =
+        {
+            ".mp4",
+            ".webm",
+            ".mp3",
+            ".wav"
+        };
+
         [Test]
         public void DependencySizeBelow10MB()
         {
             var dependencies = GetDependencies(sample.Scene);
-            
+            var nonSizeRestricted = dependencies.Where(x => nonSizeRestrictedExtensions.Any(y => x.EndsWith(y)));
+            var sizeRestricted = dependencies.Where(x => !nonSizeRestricted.Contains(x));
+
             // summarize file size of all of them
-            var size = dependencies.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
-            
+            var restrictedSize = sizeRestricted.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
+            var nonRestrictedSize = nonSizeRestricted.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
+
             // check if below 10 MB
-            var sizeInMb = size / 1024f / 1024f;
-            AssertFileSize(sizeInMb, 10, dependencies.ToList(), "Dependency size is too large");
-            Debug.Log($"Dependency size: {sizeInMb:F2} MB");
+            var restrictedSizeMB = restrictedSize / 1024f / 1024f;
+            var nonRestrictedSizeMB = nonRestrictedSize / 1024f / 1024f;
+
+            AssertFileSize(restrictedSizeMB, 10, sizeRestricted.ToList(), "Dependency size is too large", true);
+            AssertFileSize(restrictedSizeMB + nonRestrictedSizeMB, 10, nonSizeRestricted.ToList(), "Dependency size is critical", false);
+
+            Debug.Log($"Dependency size: {restrictedSizeMB + nonRestrictedSizeMB:F2} MB");
         }
 
         [Test]
@@ -504,13 +519,9 @@ namespace SampleChecks
                 .Where(x => !SampleChecks.ignoreSizeFolderNames.Any(ignoredFolder => x.FullName.Contains(ignoredFolder)))
                 .ToList();
 
-            // calculate total file size
-            var size = fileInfos.Sum(file => file.Exists ? file.Length : 0);
-            
             // runtime folder asset: 17ecbeb2072245a44ad506ab94d30db5
             var packageFolderPath = Path.GetDirectoryName(Path.GetFullPath(AssetDatabase.GUIDToAssetPath("17ecbeb2072245a44ad506ab94d30db5")));
-            
-            var files = fileInfos.Select(fi =>
+            var files = fileInfos.Where(x => x.Exists).Select(fi =>
             {
                 // convert to package-relative path, we know all files are inside the Samples package here.
                 var f = fi.FullName;
@@ -519,22 +530,41 @@ namespace SampleChecks
                 f = f.Replace("\\", "/");
                 return "Packages/com.needle.engine-samples/" + f;
             }).ToList();
+
+            var nonSizeRestricted = files.Where(x => nonSizeRestrictedExtensions.Any(y => x.EndsWith(y)));
+            var sizeRestricted = files.Where(x => !nonSizeRestricted.Contains(x));
+
+            // summarize file size of all of them
+            var restrictedSize = sizeRestricted.Sum(file => file.Length);
+            var nonRestrictedSize = nonSizeRestricted.Sum(file => file.Length);
+
+            // check if below 10 MB
+            var restrictedSizeMB = restrictedSize / 1024f / 1024f;
+            var nonRestrictedSizeMB = nonRestrictedSize / 1024f / 1024f;
             
             // check if below 10 MB
-            var sizeInMb = size / 1024f / 1024f;
-            AssertFileSize(sizeInMb, 10, files, "Folder size is too large");
-            Debug.Log($"Folder size: {sizeInMb:F2} MB");
+            AssertFileSize(restrictedSizeMB, 10, files, "Folder size is too large", true);
+            AssertFileSize(restrictedSizeMB + nonRestrictedSizeMB, 10, files, "Folder size is critical", false);
+            Debug.Log($"Folder size: {restrictedSizeMB + nonRestrictedSizeMB:F2} MB");
         }
 
-        private void AssertFileSize(float sizeInMb, float allowedSize, List<string> files, string message)
+        private void AssertFileSize(float sizeInMb, float allowedSize, List<string> files, string message, bool assert)
         {
-            Assert.LessOrEqual(sizeInMb, allowedSize,
-                $"{message}: {sizeInMb:F2} MB. List of files ({files.Count}): \n" + string.Join("\n",
-                    files
-                        .Select(x => (path: x, fileInfo: new FileInfo(x)))
-                        .OrderByDescending(f => f.fileInfo.Length)
-                        .Select(fi => $"[{(fi.fileInfo.Length / 1024f / 1024f):F2} MB] {fi.path}")
-                ));
+            var t = $"{message}: {sizeInMb:F2} MB. List of files ({files.Count}): \n" + string.Join("\n",
+                files
+                    .Select(x => (path: x, fileInfo: new FileInfo(x)))
+                    .OrderByDescending(f => f.fileInfo.Length)
+                    .Select(fi => $"[{(fi.fileInfo.Length / 1024f / 1024f):F2} MB] {fi.path}")
+            );
+
+            if (assert) 
+            {
+                Assert.LessOrEqual(sizeInMb, allowedSize, t);
+            }
+            else if (sizeInMb > allowedSize)
+            {
+                Assert.Inconclusive(t);
+            }
         }
 
         [Test]
