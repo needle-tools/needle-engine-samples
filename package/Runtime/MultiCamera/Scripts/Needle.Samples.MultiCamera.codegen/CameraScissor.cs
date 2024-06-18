@@ -14,7 +14,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public void awake(){}
 		public void dragElement(object @elmnt, object @header){}
 		public void setScissorForElement(object @elem){}
-		public void onBeforeRender(object @frame){}
 		public void onAfterRender(){}
 	}
 }
