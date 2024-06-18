@@ -94,7 +94,7 @@ export class LightmapConfigurations extends Behaviour {
         const defaultLightmap = this.lightmaps?.at(0);
         if (!defaultLightmap) return;
 
-        NEEDLE_progressive.assignTextureLOD(defaultLightmap, 0).then(res => {
+        NEEDLE_progressive.assignTextureLOD(defaultLightmap, 0).then(_res => {
             this.setLightmap(0);
             this.startCoroutine(this.switchLightmaps());
         });

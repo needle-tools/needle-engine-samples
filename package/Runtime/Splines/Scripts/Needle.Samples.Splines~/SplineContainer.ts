@@ -1,4 +1,4 @@
-import { Behaviour, getWorldPosition } from "@needle-tools/engine";
+import { Behaviour } from "@needle-tools/engine";
 import { Mathf } from "@needle-tools/engine";
 import { serializeable } from "@needle-tools/engine";
 import { getWorldQuaternion } from "@needle-tools/engine";

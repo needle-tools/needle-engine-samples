@@ -14,9 +14,9 @@ export class CameraScissor extends Behaviour {
     @serializable()
     height: number = 200;
 
-    private camera: Camera;
-    private renderDiv: HTMLDivElement;
-    private controls: OrbitControls;
+    private camera?: Camera;
+    private renderDiv?: HTMLDivElement;
+    private controls?: OrbitControls;
 
     awake(): void {
         this.camera = GameObject.getComponent(this.gameObject, Camera)!;
@@ -64,7 +64,7 @@ export class CameraScissor extends Behaviour {
         }
         
         function dragMouseDown(e) {
-            console.log(ctrl)
+            if (!ctrl) return;
             e = e || window.event;
 
             // check if we're near the border
@@ -118,6 +118,7 @@ export class CameraScissor extends Behaviour {
         }
         
         function closeDragElement() {
+            if (!ctrl) return;
             // stop moving when mouse button is released:
             document.onmouseup = null;
             document.onmousemove = null;
@@ -151,15 +152,13 @@ export class CameraScissor extends Behaviour {
         return width / height;
     }
 
-    private fullscreenQuad: Mesh;
-    private orthoCamera: OrthographicCamera;
-    private fullscreenQuadMat: MeshBasicMaterial;
-
-    onBeforeRender(frame: XRFrame | null): void {
-        // this.context.renderer.clear();
-    }
+    private fullscreenQuad?: Mesh;
+    private orthoCamera?: OrthographicCamera;
+    private fullscreenQuadMat?: MeshBasicMaterial;
 
     onAfterRender() {
+        if (!this.camera) return;
+
         const prevClear = this.context.renderer.autoClearColor;
         this.context.renderer.autoClearColor = false;
 
@@ -184,8 +183,10 @@ export class CameraScissor extends Behaviour {
             }
 
             this.context.scene.background = null;
-            this.fullscreenQuadMat.color.copy(this.camera.backgroundColor as Color);
-            this.fullscreenQuadMat.opacity = this.camera.backgroundColor?.a ?? 1;
+            if (this.fullscreenQuadMat) {
+                this.fullscreenQuadMat.color.copy(this.camera.backgroundColor as Color);
+                this.fullscreenQuadMat.opacity = this.camera.backgroundColor?.a ?? 1;
+            }
             this.context.renderer.render(this.fullscreenQuad, this.orthoCamera);
         }
         this.context.renderNow(this.camera.cam);
