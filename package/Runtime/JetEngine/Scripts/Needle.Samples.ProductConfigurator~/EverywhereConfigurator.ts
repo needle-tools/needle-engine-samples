@@ -28,8 +28,6 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
             e.contents = e.contents.filter(x => x);
             e.triggers = e.triggers.filter(x => x);
         });
-            
-            console.log(this.elements);
 
         this.elements.forEach(e => e.contents?.forEach(t => this._allTargets.push(t)));
         this.elements.forEach(e => e.triggers?.forEach(t => this._allTriggers.push(t)));
@@ -39,15 +37,11 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
     
     // Runtime flow
     protected setupForRuntime() {
-        this.elements.forEach((element, i1) => {
-            //console.log(`Variant ${i1}: `, element);
-            element.triggers?.forEach((trigger, i2) => {
-                //console.log(`Trigger ${i2}: `, trigger);
+        this.elements.forEach((element) => {
+            element.triggers?.forEach((trigger) => {
                 const btn = getOrAddComponent(trigger, Button);  
                 btn.onClick ??= new EventList();
                 btn.onClick.addEventListener(() => {
-                    console.log("Clicked");
-                    //console.log("Clicked: ", trigger.name);
                     this._allTargets.forEach(target => { 
                         target.visible = element.contents.includes(target);
                     })
@@ -108,11 +102,7 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
         const defaultVar = this.elements.at(0);
         if (defaultVar) {
             const defaultTargets = defaultVar.contents;
-            console.log("To leave out: ", defaultTargets.map(x => x.name));
-
             const hideOnStart = this._cloneArray(this._allTargets).filter(t => !defaultTargets.includes(t));
-            console.log("To hide: ", hideOnStart.map(x => x.name));
-
             ext.addBehavior(new BehaviorModel(`HideOnStart_${this.guid}`, TriggerBuilder.sceneStartTrigger(), ActionBuilder.fadeAction(hideOnStart, 0, false)));
         }
     }
