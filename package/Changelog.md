@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - add VRM Character loading sample
 - add Device Detection
 - update Particles sample, improving general gallery controls
+- update Video Playback, adding livestream showcase
 - update Reflection Probes sample
 - add ThreeTonemapping component
 - enable "Create QR Code Button" for all samples
