@@ -4,6 +4,28 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.17.0] - 2024-06-19
+- add Body Tracking sample
+- add Car Physics sample
+- add Contact Shadows sample
+- add "Deploy To" samples: FTP, Github Pages, Glitch and Itch 
+- add Material X sample
+- add Multiple Cameras sample
+- add Panorama Controls sample
+- add Recorded Avatars sample
+- add Snow Globe sample
+- add Splines sample
+- add Summoning Animation sample
+- add USDZ Animator sample
+- add VRM Character loading sample
+- update Particles sample, improving general gallery controls
+- update Reflection Probes sample
+- add ThreeTonemapping component
+- enable "Create QR Code Button" for all samples
+- update Needle Engine dependency to 3.40.0-exp.1
+- add Draco, KTX and Meshopt packages as dependencies for compressed model importing support
+- update tests to be more lenient on video and audio files when checking sample size
+
 ## [0.16.0] - 2024-04-12
 - add NeedleMenu component to all samples
 - add Progressive Loading settings to relevant samples
