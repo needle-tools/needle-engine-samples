@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.17.0] - 2024-06-19
+- add Jet Engine sample
 - add Body Tracking sample
 - add Car Physics sample
 - add Contact Shadows sample
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - add Summoning Animation sample
 - add USDZ Animator sample
 - add VRM Character loading sample
+- add Device Detection
 - update Particles sample, improving general gallery controls
 - update Reflection Probes sample
 - add ThreeTonemapping component
