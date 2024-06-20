@@ -27,7 +27,8 @@ namespace SampleChecks
 {
     internal class SampleChecks
     {
-        internal const string PublicInfoCategoryName = "Docs and Deployments";
+        internal const string ProductionStateCategoryName = "Deployments";
+        internal const string PublicInfoCategoryName = "Docs";
         internal const string CodeCategoryName = "Code";
 
         internal static List<SampleInfo> GetSamples()
@@ -97,7 +98,7 @@ namespace SampleChecks
         }
         
         [Test]
-        [Category(SampleChecks.PublicInfoCategoryName)]
+        [Category(SampleChecks.ProductionStateCategoryName)]
         public async Task IsLive()
         {
             var sampleLiveUrl = sample.LiveUrl;
@@ -148,7 +149,7 @@ namespace SampleChecks
 
 
         [Test]
-        [Category(SampleChecks.PublicInfoCategoryName)]
+        [Category(SampleChecks.ProductionStateCategoryName)]
         public async Task VersionIsNotTooOld()
         {
             // fetch the HTML page
