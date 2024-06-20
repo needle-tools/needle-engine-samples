@@ -30,7 +30,7 @@ export class SingleFileDrop extends Behaviour {
             // get OrbitControls from mainCamera
             const orbitControls = getComponent(this.context.mainCamera!, OrbitControls);
             if (orbitControls)
-                orbitControls.fitCamera([this.gameObject], 1.3);
+                orbitControls.fitCamera([this.gameObject], { fitOffset: 1.3 });
         });
 
         // create centered p element

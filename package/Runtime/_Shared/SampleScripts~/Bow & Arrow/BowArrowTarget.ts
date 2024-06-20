@@ -1,4 +1,4 @@
-import { Behaviour, MeshRenderer, ParticleSystem, isDestroyed, serializable } from "@needle-tools/engine";
+import { Behaviour, Gizmos, MeshRenderer, ParticleSystem, getTempVector, isDestroyed, serializable } from "@needle-tools/engine";
 import { ParticleSystemShapeType } from "@needle-tools/engine";
 
 
@@ -17,6 +17,7 @@ export class BowArrowTarget extends Behaviour {
     }
 
     onDestroy(): void {
+        if (!this.gameObject.visible) return; // ignore disabled instances
         if (this.particleSystem) {
             // if the particlesystem is set to use a mesh renderer as shape
             if (this.particleSystem.shape.shapeType === ParticleSystemShapeType.MeshRenderer) {

@@ -466,6 +466,7 @@ public class AssetChecks
     private static string[] allowedNonHdrAssets = new string[]
     {
         "f7ef59c8610b47f45b9faee4a7e5ffa3", // JapanesePanorama (no EXR version available)
+        "b980a4382dcce3e4d9f0776f367836c9", // Panorama controls (Reducing size to get 4k resolution)
     };
     
     private static void CubemapsAreHDR(string assetFolder)
@@ -486,7 +487,7 @@ public class AssetChecks
             
             var ext = Path.GetExtension(path);
             if (ext != ".exr" && ext != ".hdr")
-                errors.Add(($"Cubemap {Path.GetFileName(path)} is not .hdr or .exr: " + ext, cubemap));
+                errors.Add(($"Cubemap {Path.GetFileName(path)} ({cubeMap}) is not .hdr or .exr: " + ext, cubemap));
         }
 
         if (errors.Any())

@@ -1,4 +1,4 @@
-import { Context, ContextRegistry, SyncedTransform } from "@needle-tools/engine";
+import { Context, ContextRegistry, NEEDLE_progressive, SyncedTransform } from "@needle-tools/engine";
 import { Behaviour, GameObject } from "@needle-tools/engine";
 import { Renderer } from "@needle-tools/engine";
 import { IPointerClickHandler } from "@needle-tools/engine";
@@ -83,6 +83,21 @@ export class LightmapConfigurations extends Behaviour {
             this.index = model.index;
             this._didSwitchLightTime = model.switchTime;
         });
+
+        this._renderers = GameObject.findObjectsOfType(Renderer);        
+    }
+    start() {
+        if (!this.cycleLigthmaps) {
+            this._didSwitchLightTime = Date.now();
+        }
+
+        const defaultLightmap = this.lightmaps?.at(0);
+        if (!defaultLightmap) return;
+
+        NEEDLE_progressive.assignTextureLOD(defaultLightmap, 0).then(_res => {
+            this.setLightmap(0);
+            this.startCoroutine(this.switchLightmaps());
+        });
     }
 
     onDestroy() {
@@ -103,10 +118,6 @@ export class LightmapConfigurations extends Behaviour {
         this._didSwitchLightTime = undefined;
         this.setLightmap(index);
     };
-
-    onEnable() {
-        this.startCoroutine(this.switchLightmaps());
-    }
 
     *switchLightmaps() {
         this._renderers = GameObject.findObjectsOfType(Renderer);

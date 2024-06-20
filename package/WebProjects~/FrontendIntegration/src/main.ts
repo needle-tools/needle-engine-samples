@@ -1,1 +1,1 @@
-import "@needle-tools/engine";
+import("@needle-tools/engine") /* async import of needle engine */;

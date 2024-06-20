@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.057983212, g: 0.057758685, b: 0.057983212, a: 1}
+  m_IndirectSpecularColor: {r: 0.05785726, g: 0.05785726, b: 0.05785726, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -449,7 +449,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: 9.226364e+23}
+  m_BoundingSphereOverride: {x: 4e-45, y: 8.440283e-39, z: 0, w: 1e-45}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -914,6 +914,7 @@ MonoBehaviour:
   ShowNeedleLogo: 1
   CreateFullscreenButton: 1
   CreateMuteButton: 0
+  CreateQRCodeButton: 1
   ShowSpatialMenu: 1
 --- !u!1 &228121862
 GameObject:
@@ -1044,6 +1045,8 @@ MonoBehaviour:
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -1051,6 +1054,7 @@ MonoBehaviour:
   enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 0
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!81 &228121868
@@ -1152,6 +1156,7 @@ MonoBehaviour:
   invertForward: 0
   customReticle: {fileID: 0}
   arTouchTransform: 1
+  autoPlace: 0
   useXRAnchor: 0
 --- !u!1 &446271500
 GameObject:
@@ -1264,7 +1269,7 @@ Light:
   m_BounceIntensity: 10
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 6e-45, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 3.247492e-39, z: 6.81e-43, w: 4.29537e-40}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -1301,13 +1306,13 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-b8a0606ee6f38b94e9ff246e56bc332d-467191617-0
   Configurations:
   - Name: Day
-    BakedLightmap: {fileID: 0}
+    BakedLightmap: {fileID: 2800000, guid: 1338cedb683b11dfcd2a4270b1def208, type: 3}
     Objects:
     - {fileID: 446271500}
     Emissive:
     - {fileID: 1323092295}
   - Name: Lights
-    BakedLightmap: {fileID: 0}
+    BakedLightmap: {fileID: 2800000, guid: 73072a6b09d306a842f418c9ee8b408e, type: 3}
     Objects:
     - {fileID: 134708613}
     - {fileID: 1535853987}
@@ -1325,7 +1330,7 @@ MonoBehaviour:
     - {fileID: 192551305}
     - {fileID: 1759158341}
   - Name: Dark
-    BakedLightmap: {fileID: 0}
+    BakedLightmap: {fileID: 2800000, guid: 018f77c4fcce296fe6d337bb3a064b1f, type: 3}
     Objects:
     - {fileID: 134708613}
     Emissive: []
@@ -1819,7 +1824,7 @@ Light:
   m_BounceIntensity: 0.5
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: -1.7795698e-30}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -1886,9 +1891,9 @@ MonoBehaviour:
   cycleInterval: 1
   pingPong: 0
   lightmaps:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2800000, guid: 1338cedb683b11dfcd2a4270b1def208, type: 3}
+  - {fileID: 2800000, guid: 73072a6b09d306a842f418c9ee8b408e, type: 3}
+  - {fileID: 2800000, guid: 018f77c4fcce296fe6d337bb3a064b1f, type: 3}
 --- !u!1 &992587674
 GameObject:
   m_ObjectHideFlags: 0
@@ -2843,7 +2848,7 @@ Light:
   m_BounceIntensity: 8
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: -1.7795698e-30}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -3094,7 +3099,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: -0.01997561, y: 0, z: 0.89729416, w: 0.22508056}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 6.610319e-37}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -3520,7 +3525,7 @@ Light:
   m_BounceIntensity: 10
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: -1.7795698e-30}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -3636,7 +3641,7 @@ Light:
   m_BounceIntensity: 0.5
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 4.5905e-41, y: -7.730935e-32, z: 4.5905e-41, w: 9.403955e-38}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

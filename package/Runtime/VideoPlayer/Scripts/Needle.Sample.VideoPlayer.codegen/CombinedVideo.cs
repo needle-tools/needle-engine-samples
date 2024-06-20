@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.Video.VideoPlayer @player;
 		public UnityEngine.Renderer @renderer;
+		public string @textureName = "_VideoTex";
 		public void start(){}
 	}
 }

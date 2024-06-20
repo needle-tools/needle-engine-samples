@@ -51,23 +51,26 @@ namespace Needle.Typescript.GeneratedComponents
         
         private void DrawCone(Vector3 origin, Vector3 fwd, Vector3 up, Color color, float angle, int segments = GizmosConeSegments)
         {
+            var v = transform.lossyScale;
+            var scale = Mathf.Max(v.x, v.y, v.z);
+
             //Circle
             Handles.color = color;
-            Draw((a, b) => Handles.DrawLine(a, b), origin, fwd, up, angle, segments);
+            Draw((a, b) => Handles.DrawLine(a, b), origin, fwd, up, angle, segments, scale);
 
             //Cone
             Handles.color = color * .4f;
-            Draw((a, b) => Handles.DrawLine(origin, a), origin, fwd, up, angle, segments);
+            Draw((a, b) => Handles.DrawLine(origin, a), origin, fwd, up, angle, segments, scale);
         }
 
-        private void Draw(Action<Vector3, Vector3> drawElement, Vector3 origin, Vector3 direction, Vector3 up, float angle, int segments)
+        private void Draw(Action<Vector3, Vector3> drawElement, Vector3 origin, Vector3 direction, Vector3 up, float angle, int segments, float scale)
         {
             angle = Mathf.Clamp(angle, 0, 180);
             var angledDir = Quaternion.AngleAxis(angle, up) * direction;
 
             Vector3 CalculatePoint(int index)
             {
-                return origin + (Quaternion.AngleAxis((360f / segments) * index, direction) * angledDir) * GizmosConeLength;
+                return origin + (Quaternion.AngleAxis((360f / segments) * index, direction) * angledDir) * GizmosConeLength * scale;
             }
 
             for (var i = 0; i < segments; i++)

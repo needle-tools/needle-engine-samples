@@ -8,8 +8,8 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class ParticleOnCollision : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.ParticleSystem @particles;
-		public UnityEngine.Color @color1;
-		public UnityEngine.Color @color2;
+		public UnityEngine.Color @color1 = new UnityEngine.Color();
+		public UnityEngine.Color @color2 = new UnityEngine.Color();
 		public bool @slowmoOnCollision = false;
 		public void onCollisionEnter(UnityEngine.Collision @col){}
 	}

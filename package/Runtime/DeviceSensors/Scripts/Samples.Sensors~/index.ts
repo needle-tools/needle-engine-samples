@@ -4,4 +4,4 @@
 
 // Learn more about npm definition packages: 
 // https://docs.needle.tools/npmdef
-export * from "./GyroscopeControls";
+export * from "./Gyroscope";

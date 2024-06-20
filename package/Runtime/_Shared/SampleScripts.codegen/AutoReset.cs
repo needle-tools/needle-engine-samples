@@ -10,6 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Collider @worldCollider;
 		public void start(){}
 		public void onTriggerExit(object @col){}
+		public void createBehaviours(object @ext, object @model, object @context){}
 	}
 }
 

@@ -17,6 +17,7 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Image Tracking](https://engine.needle.tools/samples-uploads/image-tracking) | Placing content on images <br/><kbd>iOS AR</kbd> <kbd>XR</kbd> <kbd>Everywhere Actions</kbd>| <img src="package/Editor/Screenshots/ImageTracking.jpg" height="200"/>
 | [External Content](https://engine.needle.tools/samples-uploads/dynamic-content) | Download textures & models from external sources <br/><kbd>Scripting</kbd> <kbd>Dynamic Content</kbd>| <img src="package/Editor/Screenshots/ExternalContent.jpg" height="200"/>
 | [Bow & Arrow](https://engine.needle.tools/samples-uploads/bow-and-arrow/) | Minigame where you play as an archer <br/><kbd>Games</kbd> <kbd>XR</kbd>| <img src="package/Editor/Screenshots/BowAndArrow.jpg" height="200"/>
+| [Car Physics](https://engine.needle.tools/samples-uploads/car-physics/) | Slalom minigame showcasing raycast vehicle physics <br/><kbd>Games</kbd> <kbd>Physics</kbd>| <img src="package/Editor/Screenshots/CarPhysics.jpg" height="200"/>
 | [Collaborative Sandbox](https://engine.needle.tools/samples-uploads/sandbox) | Networking, WebXR, Drag & Duplicate <br/><kbd>Networking</kbd> <kbd>XR</kbd> <kbd>Interaction</kbd>| <img src="package/Editor/Screenshots/Sandbox.jpg" height="200"/>
 | [Deferred Textures](https://engine.needle.tools/samples-uploads/progressive-textures) | Faster load times, smaller payloads <br/><kbd>Rendering</kbd> <kbd>Performance and Optimization</kbd>| <img src="package/Editor/Screenshots/ProgressiveLoading.jpg" height="200"/>
 | [Diamond Ring](https://engine.needle.tools/samples-uploads/jewelry-ring) | Jewelry rendering and caustics bake <br/><kbd>Rendering</kbd> <kbd>XR</kbd>| <img src="package/Editor/Screenshots/JewelryRing.jpg" height="200"/>
@@ -88,4 +89,8 @@ This is a list of all samples in this package. You can also find them in the Uni
 | [Shadow Catcher](https://engine.needle.tools/samples-uploads/shadow-catcher) | Render additive or masked transparent shadows, great for AR <br/><kbd>Rendering</kbd> <kbd>XR</kbd>| <img src="package/Editor/Screenshots/ShadowCatcher.jpg" height="200"/>
 | [Spatial Triggers](https://engine.needle.tools/samples-uploads/spatial-triggers/) | Reactive Zones and Events <br/><kbd>Scripting</kbd> <kbd>Interaction</kbd>| <img src="package/Editor/Screenshots/SpatialTrigger.jpg" height="200"/>
 | [Spritesheet Animation](https://engine.needle.tools/samples-uploads/spritesheet/) | Animate Sprites using AnimationClips <br/><kbd>Rendering</kbd> <kbd>Animation</kbd> <kbd>Games</kbd>| <img src="package/Editor/Screenshots/Spritesheet.jpg" height="200"/>
+| [Deploy to FTP](https://engine.needle.tools/samples-uploads/deploy-to-ftp/) | Deployments <br/><kbd>Deployment</kbd>| <img src="package/Editor/Screenshots/FTP.jpg" height="200"/>
+| [Deploy to Github Pages](https://kipash.github.io/needle-sample-github-pages/) | Deployments <br/><kbd>Deployment</kbd>| <img src="package/Editor/Screenshots/GitHub.jpg" height="200"/>
+| [Deploy to Glitch](https://glitch.com/~quark-knowledgeable-caravan) | Deployments <br/><kbd>Deployment</kbd>| <img src="package/Editor/Screenshots/glitch.jpg" height="200"/>
+| [Deploy to Itch](https://itch.io/embed-upload/10256073?color=000000) | Deployments <br/><kbd>Deployment</kbd>| <img src="package/Editor/Screenshots/itch.jpg" height="200"/>
 

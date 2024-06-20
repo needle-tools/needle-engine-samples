@@ -22,6 +22,10 @@ Showcases the basic actions in isolated use cases.
 
 By using relative movement actions, you are able to make minigames with characters like these that work everywhere, including iOS AR.
 
+## USDZ Animator
+
+Skinned mesh animated character working everywhere.
+
 ## USDZ Product
 
 Simple configurator showcasing high-quality assets and materials for both the web and automatic conversion to QuickLook / USDZ.
