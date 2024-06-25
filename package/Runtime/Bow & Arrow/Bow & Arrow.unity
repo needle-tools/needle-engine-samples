@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: c0c9491b8edc441a7a6702515660236d, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.23906153, g: 0.24446501, b: 0.38630912, a: 1}
+  m_IndirectSpecularColor: {r: 0.23873895, g: 0.24495709, b: 0.38581422, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -183,7 +183,6 @@ GameObject:
   - component: {fileID: 54956206}
   - component: {fileID: 54956205}
   - component: {fileID: 54956211}
-  - component: {fileID: 54956212}
   - component: {fileID: 54956213}
   m_Layer: 0
   m_Name: Sphere
@@ -314,20 +313,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.ColliderData, Needle.Engine
   _membership: 1
   _filter: -1
---- !u!114 &54956212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 54956204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f97a310331d86dec608341f4a2e326ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PlayAudioOnCollision,
-    Needle.Engine-Samples.Runtime
-  audioSource: {fileID: 138518764}
 --- !u!114 &54956213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +342,6 @@ GameObject:
   - component: {fileID: 62675321}
   - component: {fileID: 62675320}
   - component: {fileID: 62675326}
-  - component: {fileID: 62675327}
   - component: {fileID: 62675328}
   m_Layer: 0
   m_Name: Cube
@@ -488,20 +472,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.ColliderData, Needle.Engine
   _membership: 1
   _filter: -1
---- !u!114 &62675327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 62675319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f97a310331d86dec608341f4a2e326ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PlayAudioOnCollision,
-    Needle.Engine-Samples.Runtime
-  audioSource: {fileID: 138518764}
 --- !u!114 &62675328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 97074197}
   - component: {fileID: 97074196}
+  - component: {fileID: 97074198}
   m_Layer: 0
   m_Name: WorldAudio
   m_TagString: Untagged
@@ -545,7 +516,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d1cb0310e9f14431db53ff7df321912e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.7
+  m_Volume: 0.378
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -644,6 +615,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &97074198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97074194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe900747cf04690ba21f1898ea28369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.AudioSourceData, Needle.Engine
+  preload: 1
 --- !u!1 &105937521
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +753,7 @@ GameObject:
   m_Component:
   - component: {fileID: 138518765}
   - component: {fileID: 138518764}
+  - component: {fileID: 138518766}
   m_Layer: 0
   m_Name: BalloonHit
   m_TagString: Untagged
@@ -788,7 +773,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9f7aa00c349114821acddea4d59b7c80, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.645
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -796,10 +781,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 100
-  MaxDistance: 500
+  MinDistance: 0.5
+  MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -887,6 +872,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &138518766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138518763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe900747cf04690ba21f1898ea28369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.AudioSourceData, Needle.Engine
+  preload: 1
 --- !u!1 &144949452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,6 +1128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe176b1856d0381cfd1a5a5f06c5d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Arrow, Needle.Engine-Samples.Runtime
+  audioOnInpact: {fileID: 138518764}
   destroyTarget: 1
 --- !u!114 &229769269
 MonoBehaviour:
@@ -1782,7 +1781,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0d7cb58a656c74ce68b2c74821f797b7, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.876
   m_Pitch: 1
   Loop: 0
   Mute: 0

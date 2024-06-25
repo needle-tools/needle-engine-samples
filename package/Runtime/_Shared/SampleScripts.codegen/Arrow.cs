@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Arrow : UnityEngine.MonoBehaviour
 	{
+		public UnityEngine.AudioSource @audioOnInpact;
 		public bool @destroyTarget = false;
 		public void awake(){}
 		public void onBeforeRender(){}

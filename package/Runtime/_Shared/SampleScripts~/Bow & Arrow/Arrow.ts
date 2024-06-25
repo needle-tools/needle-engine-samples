@@ -1,6 +1,8 @@
-import { Behaviour, Collider, Collision, GameObject, Rigidbody, getTempQuaternion, getTempVector } from "@needle-tools/engine";
+import { AudioSource, Behaviour, Collider, Collision, GameObject, Rigidbody, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
 
 export class Arrow extends Behaviour {
+    @serializable(AudioSource)
+    audioOnInpact?: AudioSource;
 
     destroyTarget: boolean = false;
 
@@ -15,6 +17,7 @@ export class Arrow extends Behaviour {
                 const det = GameObject.addComponent(c.gameObject, ArrowCollisionDetection);
                 det.rigidBody = this._rigidbody;
                 det.arrow = this;
+                det.audioOnInpact = this.audioOnInpact;
                 det.destroyTarget = this.destroyTarget;
             }
         }
@@ -40,7 +43,7 @@ export class Arrow extends Behaviour {
 }
 
 class ArrowCollisionDetection extends Behaviour {
-
+    audioOnInpact?: AudioSource;
     arrow?: Arrow;
     rigidBody!: Rigidbody;
     destroyTarget: boolean = false;
@@ -49,6 +52,9 @@ class ArrowCollisionDetection extends Behaviour {
     onCollisionEnter(col: Collision) {
         if (!this.arrow)
             return;
+
+        this.audioOnInpact?.stop();
+        this.audioOnInpact?.play();
 
         if (this.destroyTarget) {
             col.gameObject.destroy();
@@ -68,5 +74,4 @@ class ArrowCollisionDetection extends Behaviour {
             this.arrow.destroy();
         }
     }
-
 }
