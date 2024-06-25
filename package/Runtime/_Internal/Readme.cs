@@ -8,6 +8,7 @@ using UnityEditorInternal;
 
 namespace Needle.Engine
 {
+    [AddComponentMenu("")]
     public class Readme : MonoBehaviour
     {
         public string Guid;
@@ -18,7 +19,7 @@ namespace Needle.Engine
     [CustomEditor(typeof(Readme))]
     public class ReadmeEditor : Editor
     {
-        [MenuItem("CONTEXT/Component/Edit Readme")]
+        [MenuItem("CONTEXT/Readme/Edit Readme")]
         private static void OpenReadme(MenuCommand cmd)
         {
             var readme = cmd.context as Readme;
