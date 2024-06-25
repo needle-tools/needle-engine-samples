@@ -47,7 +47,16 @@ namespace Needle.Engine
     {
         private bool isInstalled = false;
         private bool isInstalling = false;
-        internal static bool IsInstalled(RequirePackage pkg) => File.Exists($"Packages/{pkg.packageName}/package.json");
+        internal static string GetPackageName(RequirePackage pkg)
+        {
+            if (!pkg) return string.Empty;
+#if !UNITY_2022_1_OR_NEWER
+            if (pkg.packageName == "com.unity.ai.navigation")
+                return "com.unity.modules.ai";
+#endif
+            return pkg.packageName;
+        }
+        internal static bool IsInstalled(RequirePackage pkg) => File.Exists($"Packages/{GetPackageName(pkg)}/package.json");
         
         private void OnEnable()
         {
@@ -58,21 +67,23 @@ namespace Needle.Engine
         {
             var t = target as RequirePackage;
             if (!t) return;
+
+            var packageName = GetPackageName(t);
             
             if (isInstalled)
-                EditorGUILayout.LabelField("✓ Package \"" + t.packageName + "\" is installed");
+                EditorGUILayout.LabelField("✓ Package \"" + packageName + "\" is installed");
             else if (isInstalling)
             {
                 EditorGUI.BeginDisabledGroup(true);
-                GUILayout.Button("Installing package \"" + t.packageName + "\"...");
+                GUILayout.Button("Installing package \"" + packageName + "\"...");
                 EditorGUI.EndDisabledGroup();
             }
             else
             {
-                EditorGUILayout.HelpBox($"The package \"{t.packageName}\" is required for this sample to work.", MessageType.Warning);
-                if (GUILayout.Button($"Install {t.packageName}"))
+                EditorGUILayout.HelpBox($"The package \"{packageName}\" is required for this sample to work.", MessageType.Warning);
+                if (GUILayout.Button($"Install {packageName}"))
                 {
-                    Client.Add(t.packageName);
+                    Client.Add(packageName);
                     isInstalling = true;
                 }
             }
@@ -81,7 +92,7 @@ namespace Needle.Engine
         [MenuItem("CONTEXT/RequirePackage/Uninstall Package")]
         static void RemovePackage(MenuCommand cmd)
         {
-            Client.Remove((cmd.context as RequirePackage)?.packageName);
+            Client.Remove(GetPackageName(cmd.context as RequirePackage));
         }
     }
 #endif
