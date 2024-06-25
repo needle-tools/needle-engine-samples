@@ -3,6 +3,8 @@
 
 #pragma warning disable
 
+using UnityEngine;
+
 namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class EverywhereConfigurator : UnityEngine.MonoBehaviour
@@ -17,3 +19,13 @@ namespace Needle.Typescript.GeneratedComponents
 }
 
 // NEEDLE_CODEGEN_END
+
+namespace Needle.Typescript.GeneratedComponents
+{
+	[System.Serializable]
+	public class EverywhereConfiguratorElement
+	{
+		public Transform[] contents;
+		public Transform[] triggers;
+	}
+}
