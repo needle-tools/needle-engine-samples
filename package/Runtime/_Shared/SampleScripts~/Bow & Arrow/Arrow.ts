@@ -2,7 +2,7 @@ import { AudioSource, Behaviour, Collider, Collision, GameObject, Rigidbody, get
 
 export class Arrow extends Behaviour {
     @serializable(AudioSource)
-    audioOnInpact?: AudioSource;
+    audioOnImpact?: AudioSource;
 
     destroyTarget: boolean = false;
 
@@ -17,7 +17,7 @@ export class Arrow extends Behaviour {
                 const det = GameObject.addComponent(c.gameObject, ArrowCollisionDetection);
                 det.rigidBody = this._rigidbody;
                 det.arrow = this;
-                det.audioOnInpact = this.audioOnInpact;
+                det.audioOnImpact = this.audioOnImpact;
                 det.destroyTarget = this.destroyTarget;
             }
         }
@@ -43,7 +43,7 @@ export class Arrow extends Behaviour {
 }
 
 class ArrowCollisionDetection extends Behaviour {
-    audioOnInpact?: AudioSource;
+    audioOnImpact?: AudioSource;
     arrow?: Arrow;
     rigidBody!: Rigidbody;
     destroyTarget: boolean = false;
@@ -53,8 +53,8 @@ class ArrowCollisionDetection extends Behaviour {
         if (!this.arrow)
             return;
 
-        this.audioOnInpact?.stop();
-        this.audioOnInpact?.play();
+        this.audioOnImpact?.stop();
+        this.audioOnImpact?.play();
 
         if (this.destroyTarget) {
             col.gameObject.destroy();
