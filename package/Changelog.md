@@ -4,6 +4,13 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.17.2] - 2024-06-25
+- add RequirePackage component to install unity package dependencies right from the sample scene
+- fix Bow & Arrow audio issues
+
+## [0.17.1] - 2024-06-24
+- bump engine dependency to 3.41.1-exp
+
 ## [0.17.0] - 2024-06-19
 - add Jet Engine sample
 - add Body Tracking sample
