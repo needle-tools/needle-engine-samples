@@ -22,6 +22,9 @@ export class Configurator extends Behaviour {
   @serializable(EventList)
   onHideUnityEvent?: EventList;
 
+  @serializable(EventList)
+  indexChanged?: EventList;
+
   // @nonSerialized
   @syncField(Configurator.prototype.onIndexChanged)
   public currentIndex: number = 0;
@@ -59,7 +62,7 @@ export class Configurator extends Behaviour {
   public setIndex(index: number) {
     if(index < 0) index = this.selectionCount - 1;
     this.currentIndex = index % this.selectionCount;
-    this.applyState();
+    // after setting the currentIndex var, applyState() is called from onIndexChanged() handler.
   }
 
   applyState(){}
@@ -76,5 +79,6 @@ export class Configurator extends Behaviour {
   // and this way syncField is calling the overriden methods
   private onIndexChanged(){
     this.applyState();
+    this.indexChanged?.invoke();
   }
 }
