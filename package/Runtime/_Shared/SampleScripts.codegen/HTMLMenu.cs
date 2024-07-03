@@ -11,6 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public string[] @names;
 		public void OnEnable(){}
 		public void OnDisable(){}
+		public void reloadPageInSeconds(float @seconds){}
 	}
 }
 
