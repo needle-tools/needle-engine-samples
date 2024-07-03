@@ -1,5 +1,5 @@
-import { Behaviour, Button, GameObject, Gizmos, RaycastOptions, getParam, randomNumber, serializable } from "@needle-tools/engine";
-import { Vector3, Euler, Object3D, Ray, Layers } from "three";
+import { Behaviour, GameObject, Gizmos, RaycastOptions, delayForFrames, getParam, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
+import { Vector3, Object3D, Ray, Layers } from "three";
 import { FirstPersonController } from "../FirstPersonCharacter";
 import { MobileControls } from "../MobileControls";
 
@@ -16,7 +16,10 @@ export class SpawnHandler extends Behaviour {
 
     private downVector = new Vector3(0, -1, 0);
 
-    handlePlayerSpawn(obj: GameObject) {
+    async handlePlayerSpawn(obj: GameObject) {
+        // HACK: delay for one frame since otherwise the newly created collider gets read back and overrides any value we set to the object
+        await delayForFrames(1); 
+
         //shuffle spawnspots
         this.spawnPoints.sort(() => Math.random() - 0.5);
 
@@ -49,14 +52,9 @@ export class SpawnHandler extends Behaviour {
         }
 
         // If there is no valid spawn point, set world 0,0,0
-        const pos = spot?.position.clone() || new Vector3();
-        const rot = spot?.rotation.clone() || new Euler();
-
-        if (obj instanceof Object3D) {
-            obj.worldToLocal(pos);
-
-            obj.position.copy(pos);
-            obj.rotation.copy(rot);
+        if (spot && obj) {
+            obj.worldPosition = spot.getWorldPosition(getTempVector());
+            obj.worldQuaternion = spot.getWorldQuaternion(getTempQuaternion());
         }
 
         // hook touch controls to the spawned player
