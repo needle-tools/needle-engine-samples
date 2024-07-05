@@ -4,6 +4,9 @@ Downloading and spawning content on demand is a good practice to lower the initi
 
 ## URL parameters
 This sample also showcases how to read and set URL parameters. Your URL can contain a link to remote assets like so:
-www.example.com/?model=https://model.page/?file=abc.glb
+`?model={URL}`
 
-This can be helpful when your users share the URL or generate QR codes.
+Concrete example would be like so:
+https://engine.needle.tools/samples-uploads/dynamic-content/?model=https%3A%2F%2Fraw.githubusercontent.com%2FKhronosGroup%2FglTF-Sample-Models%2Fmaster%2F2.0%2FDamagedHelmet%2FglTF-Embedded%2FDamagedHelmet.gltf
+
+The inner URLs should be encoded, you can read more [here](<https://www.w3schools.com/tags/ref_urlencode.ASP>).
