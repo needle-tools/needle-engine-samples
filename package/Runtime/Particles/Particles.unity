@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 8d2fcbef0364b894282281887b768993, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.9549858, g: 0.9549858, b: 0.9549858, a: 1}
+  m_IndirectSpecularColor: {r: 0.6336819, g: 0.6336819, b: 0.6336819, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -139,6 +139,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -195,6 +199,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -473,6 +481,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 1.5
       objectReference: {fileID: 0}
@@ -541,6 +553,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -35200,7 +35216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3851072335131035169, guid: 8b6d73d3da7bb254bbbd7e85f04ad3c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.85
+      value: 6.17
       objectReference: {fileID: 0}
     - target: {fileID: 3851072335131035169, guid: 8b6d73d3da7bb254bbbd7e85f04ad3c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -35208,7 +35224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3851072335131035169, guid: 8b6d73d3da7bb254bbbd7e85f04ad3c9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.8
+      value: -23.87
       objectReference: {fileID: 0}
     - target: {fileID: 3851072335131035169, guid: 8b6d73d3da7bb254bbbd7e85f04ad3c9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -40148,6 +40164,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -40204,6 +40224,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -45722,8 +45746,6 @@ MonoBehaviour:
   enableZoom: 1
   minZoom: 0
   maxZoom: 70
-  zoomSpeed: 1
-  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -45731,7 +45753,6 @@ MonoBehaviour:
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
-  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!114 &706762908
@@ -45782,7 +45803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraSkyboxData, Needle.Engine
     $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-706762909-0
   backgroundBlurriness: 0.5
-  backgroundIntensity: 0.129
+  backgroundIntensity: 0.15
 --- !u!114 &706762910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45816,6 +45837,10 @@ PrefabInstance:
     - target: {fileID: 1461174690870147946, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
@@ -50855,6 +50880,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -50911,6 +50940,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -65800,6 +65833,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -65856,6 +65893,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -80699,6 +80740,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 1
       objectReference: {fileID: 0}
@@ -80755,6 +80800,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -80905,6 +80954,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -80961,6 +81014,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81115,6 +81172,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 1.5
       objectReference: {fileID: 0}
@@ -81175,6 +81236,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81333,6 +81398,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 1.5
       objectReference: {fileID: 0}
@@ -81393,6 +81462,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81543,6 +81616,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -81615,6 +81692,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81761,6 +81842,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -81825,6 +81910,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -101801,7 +101890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 30ad18774a78d694c871cae02a7ad056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.42
+      value: 9.06
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 30ad18774a78d694c871cae02a7ad056, type: 3}
       propertyPath: m_LocalPosition.y
@@ -101809,7 +101898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 30ad18774a78d694c871cae02a7ad056, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.03
+      value: -12.99
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 30ad18774a78d694c871cae02a7ad056, type: 3}
       propertyPath: m_LocalRotation.w
@@ -101944,7 +102033,6 @@ MonoBehaviour:
   invertForward: 0
   customReticle: {fileID: 0}
   arTouchTransform: 1
-  autoPlace: 0
   useXRAnchor: 0
 --- !u!114 &1597275522
 MonoBehaviour:
@@ -106854,6 +106942,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.2
       objectReference: {fileID: 0}
@@ -106910,6 +107002,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -131413,6 +131509,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.2
       objectReference: {fileID: 0}
@@ -131473,6 +131573,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -136494,6 +136598,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -136550,6 +136658,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -146454,6 +146566,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -146510,6 +146626,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -146804,6 +146924,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -146860,6 +146984,10 @@ PrefabInstance:
       value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -147026,6 +147154,10 @@ PrefabInstance:
       value: -0.217
       objectReference: {fileID: 0}
     - target: {fileID: 426897740197151409, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426897740197151409, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -147044,6 +147176,10 @@ PrefabInstance:
     - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Color.r
       value: 0.2688679
+      objectReference: {fileID: 0}
+    - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Intensity
@@ -147169,6 +147305,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 6620145006833436228, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Range
       value: 10
@@ -147184,6 +147324,10 @@ PrefabInstance:
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Color.r
       value: 0.8862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Intensity
@@ -147217,6 +147361,10 @@ PrefabInstance:
       propertyPath: m_BoundingSphereOverride.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6620145007539841497, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Range
       value: 10
@@ -147232,6 +147380,10 @@ PrefabInstance:
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Color.r
       value: 0.82898366
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Intensity
