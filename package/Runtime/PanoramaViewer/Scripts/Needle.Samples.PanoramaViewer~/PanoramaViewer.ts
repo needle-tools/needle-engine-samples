@@ -1,8 +1,6 @@
-import { Behaviour, ImageReference, Mathf, OrbitControls, PointerType, VideoPlayer, delay, findObjectOfType, serializable } from "@needle-tools/engine";
+import { Behaviour, ImageReference, Mathf, VideoPlayer, delay, serializable } from "@needle-tools/engine";
 import { Texture, Material } from "three";
 import * as THREE from "three";
-import { GyroscopeControls } from "samples.sensors";
-import { VideoRenderMode } from "@needle-tools/engine/src/engine-components/VideoPlayer";
 
 export interface IPanoramaViewerMedia {
     data: string | Texture;
@@ -18,21 +16,6 @@ export class PanoramaViewer extends Behaviour {
     // @nonSerialized
     media: IPanoramaViewerMedia[] = [];
 
-    @serializable()
-    enableZoom: boolean = true;
-
-    @serializable()
-    zoomMin: number = 40;
-
-    @serializable()
-    zoomMax: number = 90;
-
-    @serializable()
-    zoomSensitivity: number = 0.1;
-
-    @serializable()
-    zoomSmoothing: number = 0.1;
-
     //@nonSerialized
     panoramaSize = 100;
 
@@ -43,34 +26,26 @@ export class PanoramaViewer extends Behaviour {
     @serializable()
     transitionDuration: number = 0.3;
 
-    @serializable()
-    autoRotate: boolean = true;
-
-    @serializable()
-    autoRotateTimeout: number = 4;
-
+   
     protected defaultMaterial = new THREE.MeshBasicMaterial();
 
     protected previousMedia?: IPanoramaViewerMedia;
     // @nonSerialized
     currentMedia?: IPanoramaViewerMedia;
 
-    protected _i = 0;
+    protected _index = 0;
     // @nonSerialized
     get index() {
-        return Mathf.clamp(this._i, 0 , this.media.length - 1);
+        return Mathf.clamp(this._index, 0 , this.media.length - 1);
     }
     protected panoSphere?: THREE.Mesh;
     protected panoMaterial?: Material;
 
-    protected optionalGyroControls?: GyroscopeControls;
-    protected optionalOrbitalControls?: OrbitControls;
-
     protected _videoPlayer?: VideoPlayer;
     // @nonSerialized
     get videoPlayer(): VideoPlayer {
-        this._videoPlayer ??= this.gameObject.addNewComponent(VideoPlayer)!;
-        this._videoPlayer["renderMode"] = VideoRenderMode.RenderTexture;
+        this._videoPlayer ??= this.gameObject.getOrAddComponent(VideoPlayer)!;
+        this._videoPlayer["renderMode"] = 2; //RenderTexture;
         return this._videoPlayer;
     }
 
@@ -83,21 +58,11 @@ export class PanoramaViewer extends Behaviour {
         this.panoSphere = this.createPanorama();
         this.gameObject.add(this.panoSphere);
 
-        // TODO report: Can't use serialized reference or GetComponentInChildren? Results in a { guid } obj.
-        this.optionalGyroControls = findObjectOfType(GyroscopeControls, this.context.scene, false);
-        this.optionalOrbitalControls = findObjectOfType(OrbitControls, this.context.scene, false);
-
         this.select(0);
     }
 
     update(): void {
-        if (this.enableZoom)
-            this.handleZoom();
-
-        /* console.log(this.context.mainCamera?.position); */
-
         this.updateTextureTransition();
-        this.updateAutoRotate();
     }
 
     // @nonSerialized
@@ -117,62 +82,6 @@ export class PanoramaViewer extends Behaviour {
         this.media.push(...(Array.isArray(media) ? media : [ media ]));
     }
 
-    protected previousPinchDistance: number | undefined = undefined;
-    /* returns zoom delta */
-    protected getZoomInput(): number {
-        let delta = 0; 
-
-        // PC - scrollwheel
-        const input = this.context.input;
-        delta = input.getMouseWheelDeltaY();
-
-        // Touch - pinch
-        if (input.getTouchesPressedCount() == 2) {
-            const a = new THREE.Vector2();
-            const b = new THREE.Vector2();
-            for (const id of input.foreachPointerId(PointerType.Touch)) {
-                const pos = input.getPointerPosition(id)!;
-                b.copy(a);
-                a.copy(pos);
-            }
-
-            const pinchDistance = a.distanceTo(b);
-            if(this.previousPinchDistance) {
-                delta += this.previousPinchDistance - pinchDistance;
-            }
-            this.previousPinchDistance = pinchDistance;
-        }
-        else 
-            this.previousPinchDistance = undefined;
-
-        // TODO: add vr controller support - joystick
-
-        return delta;
-    }
-
-    protected zoomDeltaBuffer: number = 0;
-    protected handleZoom() {
-        const time = this.context.time;
-        const delta = this.getZoomInput();
-
-        this.zoomDeltaBuffer = Mathf.lerp(this.zoomDeltaBuffer, delta, time.deltaTime * this.zoomSmoothing);
-        
-        const cam = this.context.mainCameraComponent;
-        const zoom = cam?.fieldOfView ?? 0;
-
-        const applyZoomDelta = (delta: number) => { 
-            if(cam?.fieldOfView) 
-                cam.fieldOfView += delta; 
-        };
-
-        if(delta > 0 && zoom < this.zoomMax)
-            applyZoomDelta(this.zoomDeltaBuffer);
-        else if(delta < 0 && zoom > this.zoomMin)
-            applyZoomDelta(this.zoomDeltaBuffer);
-        else
-            this.zoomDeltaBuffer = 0; // reset when out in a  bound
-    }
-
     protected createPanorama(): THREE.Mesh {
         const sphere = new THREE.SphereGeometry(this.panoramaSize, 256, 256);
 
@@ -188,35 +97,30 @@ export class PanoramaViewer extends Behaviour {
     }
 
     next() {
-        this._i++;
-        if (this._i >= this.media.length) {
-            this._i = 0;
-        }
-
-        this.select(this._i);
+        this._index++;
+        this._index %= this.media.length;
+        this.select(this._index);
     }
 
     previous() {
-        this._i--;
-        if (this._i < 0) {
-            this._i = this.media.length - 1;
-        }
-
-        this.select(this._i);
+        this._index--;
+        if (this._index < 0) this._index = this.media.length - 1;
+        this.select(this._index);
     }
 
-    select(index: number, forceNoTransition: boolean = false) {
-        this._i = index;
+    async select(index: number, forceNoTransition: boolean = false) {
+        this._index = index;
         this.transitionStartTimeStamp = this.context.time.time;
 
         // enable transition if not forced or nothing was displayed before
-        this.isTransitioning = true && !forceNoTransition && this.hasAppliedBefore;
+        this.isTransitioning = !forceNoTransition && this.hasAppliedBefore;
 
-        // compleate the transition instantly
-        if (!this.isTransitioning)
+        await this.apply();
+
+        // complete the transition instantly
+        if (!this.isTransitioning) {
             this.setTransition(1);
-
-        this.apply();
+        }
 
         this.dispatchEvent(new Event("select"));
     }
@@ -246,9 +150,12 @@ export class PanoramaViewer extends Behaviour {
 
         this.previousMedia = this.currentMedia;
         this.currentMedia = media;
-        
+
         this.hasAppliedBefore = true;
         this.hasLoadedMedia = false;
+
+        // Set the last END tex as the START tex
+        this.swapTextures();
 
         // based on data type and info handle and apply texture to the material
         if(typeof media.data == "string") {
@@ -264,7 +171,7 @@ export class PanoramaViewer extends Behaviour {
                         texture.colorSpace = THREE.SRGBColorSpace;
                     }                   
                     
-                    this.setTexture(texture);
+                    this.newTexture = texture;
                 }
                 else {
                     console.error(`PanoramaViewer: Failed to load image: ${media.data}`)
@@ -279,7 +186,7 @@ export class PanoramaViewer extends Behaviour {
                 while(!this.videoPlayer.isPlaying) {
                     await delay(0.1);
                 }
-                this.setTexture(this.videoPlayer.videoTexture);
+                this.newTexture = this.videoPlayer.videoTexture!;
             }
             else {
                 console.warn(`PanoramaViewer: Unsupported media type: ${media.info?.type}`);
@@ -294,43 +201,46 @@ export class PanoramaViewer extends Behaviour {
                 media.data.colorSpace = THREE.SRGBColorSpace;
             }
 
-            this.setTexture(media.data);
+            this.newTexture = media.data;
         }
         else {
             console.warn(`PanoramaViewer: Unsupported media type! ${typeof media.data}`, media.data)
         }
 
+        if (this.newTexture)
+            this.setTexture(this.newTexture);
+
         this.hasLoadedMedia = true;
     }
 
-    protected setTexture(texture: Texture | null) {
-        if (!texture) return;
-
+    protected newTexture: Texture | undefined;
+    protected swapTextures() {
         if (this.optionalTransitionMaterial) {
             const mat = this.optionalTransitionMaterial;
-
             mat["_TextureA"] = mat["_TextureB"];
-            mat["_TextureB"] = texture;
-            
-            mat["_StereoA"] = this.previousMedia?.info?.stereo === true;;
-            mat["_StereoB"] =  this.currentMedia?.info?.stereo === true;
+        }
+    }
+    protected setTexture(newTexture: Texture) {
+        if (this.optionalTransitionMaterial) {
+            this.optionalTransitionMaterial["_TextureB"] = newTexture;
         }
         else {
-            this.defaultMaterial.map = texture;
-
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+            this.defaultMaterial.map = newTexture;
+            newTexture.wrapS = THREE.RepeatWrapping;
+            newTexture.wrapT = THREE.RepeatWrapping;
         }
     }
 
+    private fadePoint: number = 0.25;
     protected updateTextureTransition() {
         if (!this.isTransitioning) return;
 
         const time = this.context.time.time;
         const t = Mathf.clamp01((time - this.transitionStartTimeStamp) / this.transitionDuration);
-        if (t > 0.5 && !this.hasLoadedMedia) {
-            this.transitionStartTimeStamp = time - (this.transitionDuration * 0.5); // reset the transition time to start from the middle
+        if (t > this.fadePoint && !this.hasLoadedMedia) {
+            this.transitionStartTimeStamp = time - (this.transitionDuration * this.fadePoint); // reset the transition time to start from the middle
         }
+
 
         this.setTransition(t);
         
@@ -347,36 +257,5 @@ export class PanoramaViewer extends Behaviour {
     protected setTransition(transition: number) {
         if (!this.optionalTransitionMaterial) return;
         this.optionalTransitionMaterial["_T"] = transition;
-    }
-
-    // @nonSerialized
-    isGyroEnabled = false;
-    setGyroControls(enabled: boolean) {
-        if (!this.optionalGyroControls) return;
-        if (!this.optionalOrbitalControls) return;
-
-        this.optionalGyroControls.enabled = enabled;
-        this.optionalOrbitalControls.enabled = !enabled;
-    }
-    toggleGyroControls() {
-        this.isGyroEnabled = !this.isGyroEnabled;
-        this.setGyroControls(this.isGyroEnabled);
-    }
-
-    protected lastActivePointerStamp: number = Number.MIN_SAFE_INTEGER;
-    protected updateAutoRotate() {
-        if (!this.autoRotate) return;
-
-        const input = this.context.input;
-        const time = this.context.time.time;
-
-        if (input.getPointerPressedCount() > 0)
-            this.lastActivePointerStamp = time;
-
-        if (time - this.lastActivePointerStamp > this.autoRotateTimeout) {
-            if (this.optionalOrbitalControls) {
-                this.optionalOrbitalControls.autoRotate = true;
-            }
-        }
     }
 }

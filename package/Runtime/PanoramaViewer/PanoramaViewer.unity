@@ -512,7 +512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &309092665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1272,15 +1272,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PanoramaViewerSample,
     Needle.Engine-Samples.Runtime
-  enableZoom: 1
-  zoomMin: 40
-  zoomMax: 90
-  zoomSensitivity: 0.1
-  zoomSmoothing: 0.1
   optionalTransitionMaterial: {fileID: 2100000, guid: bedb41f11df4fdd4aa22ef851fb74392, type: 2}
   transitionDuration: 1
-  autoRotate: 1
-  autoRotateTimeout: 4
   textures:
   - {fileID: 2800000, guid: f87ca7889d9a0a2438bea91927bec309, type: 3}
   - {fileID: 2800000, guid: 69bf8402390ddef4b8ab053bf12edeb8, type: 3}
@@ -2475,7 +2468,6 @@ GameObject:
   - component: {fileID: 1704651293}
   - component: {fileID: 1704651292}
   - component: {fileID: 1704651296}
-  - component: {fileID: 1704651295}
   - component: {fileID: 1704651297}
   m_Layer: 0
   m_Name: Main Camera
@@ -2550,41 +2542,6 @@ Transform:
   m_Father: {fileID: 712103849}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1704651295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704651291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c38416c1a949c1a024aacb22e308af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
-  autoTarget: 1
-  autoFit: 0
-  enableRotate: 1
-  autoRotate: 1
-  autoRotateSpeed: 0.2
-  minPolarAngle: 0
-  maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
-  maxAzimuthAngle: Infinity
-  enableZoom: 1
-  minZoom: 0.01
-  maxZoom: 0.01
-  zoomSpeed: 1
-  zoomToCursor: 0
-  enablePan: 1
-  enableDamping: 1
-  dampingFactor: 0.1
-  targetLerpDuration: 1
-  enableKeys: 0
-  middleClickToFocus: 0
-  doubleClickToFocus: 0
-  allowInterrupt: 1
-  lookAtConstraint: {fileID: 0}
 --- !u!114 &1704651296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2628,10 +2585,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1704651291}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22c8a2b512596b9c68f817777dfb3f64, type: 3}
+  m_Script: {fileID: 11500000, guid: eab22e4456d4a7b479195532782a6bc9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GyroscopeControls,
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PanoramaControls,
     Needle.Engine-Samples.Runtime
+  gyroscopeInput: 1
+  pointerInput: 1
+  rotateSpeed: 1
+  rotateSmoothing: 5
+  enableZoom: 1
+  zoomMin: 40
+  zoomMax: 90
+  zoomSpeed: 0.1
+  zoomSmoothing: 5
+  autoRotate: 1
+  autoRotateSpeed: 0.075
+  autoRotateTimeout: 3
 --- !u!1 &1831690022
 GameObject:
   m_ObjectHideFlags: 0
