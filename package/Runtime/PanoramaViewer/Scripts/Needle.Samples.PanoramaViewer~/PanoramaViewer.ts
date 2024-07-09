@@ -2,57 +2,24 @@ import { Behaviour, ImageReference, Mathf, VideoPlayer, delay, serializable } fr
 import { Texture, Material } from "three";
 import * as THREE from "three";
 
+/** Media definition */
 export interface IPanoramaViewerMedia {
     data: string | Texture;
     info?: { 
-        stereo?: boolean;
+        /* stereo?: boolean; */
         type?: string | "image" | "video";
     };
 }
 
 // TODO: consult texture encoding sets
 // TODO: consult why the material can't be just assigned and needs to be a apart of the scene
+/** 
+ * A PanoramaViewer component that can display images and videos in a 360 degree sphere.
+ * Creates its own panorama sphere and parents it to itself
+ * Supports local textures, remote texutres and videos
+ * Use addImage and addVideo to add your media to the viewer
+*/
 export class PanoramaViewer extends Behaviour {
-    // @nonSerialized
-    media: IPanoramaViewerMedia[] = [];
-
-    //@nonSerialized
-    panoramaSize = 100;
-
-    // @header Optional transition material
-    @serializable(Material)
-    optionalTransitionMaterial?: Material
-
-    @serializable()
-    transitionDuration: number = 0.3;
-
-   
-    protected defaultMaterial = new THREE.MeshBasicMaterial();
-
-    protected previousMedia?: IPanoramaViewerMedia;
-    // @nonSerialized
-    currentMedia?: IPanoramaViewerMedia;
-
-    protected _index = 0;
-    // @nonSerialized
-    get index() {
-        return Mathf.clamp(this._index, 0 , this.media.length - 1);
-    }
-    protected panoSphere?: THREE.Mesh;
-    protected panoMaterial?: Material;
-
-    protected _videoPlayer?: VideoPlayer;
-    // @nonSerialized
-    get videoPlayer(): VideoPlayer {
-        this._videoPlayer ??= this.gameObject.getOrAddComponent(VideoPlayer)!;
-        this._videoPlayer["renderMode"] = 2; //RenderTexture;
-        return this._videoPlayer;
-    }
-
-    protected transitionStartTimeStamp: number = Number.MAX_SAFE_INTEGER;
-    protected hasLoadedMedia: boolean = true;
-    // @nonSerialized
-    isTransitioning: boolean = false;
 
     start() {
         this.panoSphere = this.createPanorama();
@@ -64,6 +31,16 @@ export class PanoramaViewer extends Behaviour {
     update(): void {
         this.updateTextureTransition();
     }
+
+
+    /* ------ MEDIA ------ */
+
+    // @nonSerialized
+    media: IPanoramaViewerMedia[] = [];
+
+    protected previousMedia?: IPanoramaViewerMedia;
+    // @nonSerialized
+    currentMedia?: IPanoramaViewerMedia;
 
     // @nonSerialized
     addImage(image: string | string[] | Texture | Texture[]) {
@@ -82,32 +59,32 @@ export class PanoramaViewer extends Behaviour {
         this.media.push(...(Array.isArray(media) ? media : [ media ]));
     }
 
-    protected createPanorama(): THREE.Mesh {
-        const sphere = new THREE.SphereGeometry(this.panoramaSize, 256, 256);
 
-        const mat = this.optionalTransitionMaterial ?? this.defaultMaterial;
-        mat.side = THREE.DoubleSide;
+    /* ------ SELECTING ------ */
 
-        const mesh = new THREE.Mesh(sphere, mat);
-
-        mesh.position.set(0, 0, this.panoramaSize);
-        mesh.scale.set(1, -1, 1);
-
-        return mesh;
+    protected _index = 0;
+    // @nonSerialized
+    get index() {
+        return Mathf.clamp(this._index, 0 , this.media.length - 1);
     }
-
+    
     next() {
         this._index++;
         this._index %= this.media.length;
         this.select(this._index);
     }
-
+    
     previous() {
         this._index--;
         if (this._index < 0) this._index = this.media.length - 1;
         this.select(this._index);
     }
 
+
+    /* ------ LOADING ------ */
+
+    protected hasLoadedMedia: boolean = true;
+    
     async select(index: number, forceNoTransition: boolean = false) {
         this._index = index;
         this.transitionStartTimeStamp = this.context.time.time;
@@ -123,20 +100,6 @@ export class PanoramaViewer extends Behaviour {
         }
 
         this.dispatchEvent(new Event("select"));
-    }
-
-    // @nonSerialized
-    set videoPlayback(pause: boolean) {
-        if(this.currentMedia?.info?.type === "video") {
-            if(pause)
-                this.videoPlayer.play();
-            else
-                this.videoPlayer.pause();
-        }
-    }
-    // @nonSerialized
-    get videoPlayback(): boolean { 
-        return this.currentMedia?.info?.type === "video" && this.videoPlayer.isPlaying;
     }
 
     protected hasAppliedBefore: boolean = false;
@@ -213,6 +176,21 @@ export class PanoramaViewer extends Behaviour {
         this.hasLoadedMedia = true;
     }
 
+
+    /* ------ TRANSITION ------ */
+
+    @serializable()
+    transitionDuration: number = 0.3;
+
+    // @header Optional transition material
+    @serializable(Material)
+    optionalTransitionMaterial?: Material
+
+    protected transitionStartTimeStamp: number = Number.MAX_SAFE_INTEGER;
+    
+    // @nonSerialized
+    isTransitioning: boolean = false;
+
     protected newTexture: Texture | undefined;
     protected swapTextures() {
         if (this.optionalTransitionMaterial) {
@@ -257,5 +235,55 @@ export class PanoramaViewer extends Behaviour {
     protected setTransition(transition: number) {
         if (!this.optionalTransitionMaterial) return;
         this.optionalTransitionMaterial["_T"] = transition;
+    }
+
+
+    /* ------ VIDEO ------ */
+
+    protected _videoPlayer?: VideoPlayer;
+    // @nonSerialized
+    get videoPlayer(): VideoPlayer {
+        this._videoPlayer ??= this.gameObject.getOrAddComponent(VideoPlayer)!;
+        this._videoPlayer["renderMode"] = 2; //! RenderTexture;
+        return this._videoPlayer;
+    }
+
+    // @nonSerialized
+    set videoPlayback(pause: boolean) {
+        if(this.currentMedia?.info?.type === "video") {
+            if(pause)
+                this.videoPlayer.play();
+            else
+                this.videoPlayer.pause();
+        }
+    }
+    // @nonSerialized
+    get videoPlayback(): boolean { 
+        return this.currentMedia?.info?.type === "video" && this.videoPlayer.isPlaying;
+    }
+
+
+    /* ------ PANORAMA MODEL ------ */
+
+    //@nonSerialized
+    panoramaSize = 100;
+
+    protected panoSphere?: THREE.Mesh;
+    protected panoMaterial?: Material;
+
+    protected defaultMaterial = new THREE.MeshBasicMaterial();
+
+    protected createPanorama(): THREE.Mesh {
+        const sphere = new THREE.SphereGeometry(this.panoramaSize, 256, 256);
+
+        const mat = this.optionalTransitionMaterial ?? this.defaultMaterial;
+        mat.side = THREE.DoubleSide;
+
+        const mesh = new THREE.Mesh(sphere, mat);
+
+        mesh.position.set(0, 0, 0);
+        mesh.scale.set(1, -1, 1);
+
+        return mesh;
     }
 }

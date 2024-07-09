@@ -1,4 +1,4 @@
-import { Context, EventList, Mathf, OrbitControls, getComponent, getParam, getTempQuaternion, getTempVector } from "@needle-tools/engine";
+import { Context, EventList, Mathf, OrbitControls, getComponent, getParam, getTempQuaternion, getTempVector, showBalloonMessage } from "@needle-tools/engine";
 import { MathUtils, Quaternion } from "three";
 
 const debug = getParam("debuggyro");
@@ -102,7 +102,8 @@ abstract class GyroscopeHandler {
     /* protected _deltaQuaternion: Quaternion = new Quaternion();
     get deltaQuaternion() { return this._deltaQuaternion; } */
 
-    connect() { 
+    connect() {
+        this.disconnect();
         this.isConnected = true;
         this.isInitialized = true;
     }
@@ -171,6 +172,8 @@ export class DeviceMotion extends GyroscopeHandler {
     }
 
     disconnect() {
+        this.connectFromClick = false;
+        
         super.disconnect();
         window.removeEventListener('deviceorientation', this.deviceorientation);
     }
@@ -203,6 +206,8 @@ export class DeviceMotion extends GyroscopeHandler {
             onSuccess?.();
         }
         
+        this.tryConnectOnClick();
+
         this.connectFromClick = true;
         // awaiting user interaction -> tryConnectOnClick
     }
@@ -217,6 +222,9 @@ export class DeviceMotion extends GyroscopeHandler {
             DeviceMotionEvent.requestPermission().then(response => {
                 if (response == 'granted') {
                     this.connect();
+                }
+                else {
+                    if (debug) console.error("DeviceMotionEvent permission denied.", response);
                 }
             });
         }
