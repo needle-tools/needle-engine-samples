@@ -118,20 +118,11 @@ export class PanoramaViewerUI extends Behaviour {
     }
 
     next() {
-        if(!this.viewer.isTransitioning)
-            this.viewer.next();
+        this.viewer.next();
     }
 
     previous() {
-        if(!this.viewer.isTransitioning)
-            this.viewer.previous();
-    }
-
-    toggleGyroscope() {
-        this.viewer.toggleGyroControls();
-
-        //TODO: update UI
-        //this.viewer.isGyroEnabled
+        this.viewer.previous();
     }
 
     protected formatSeconds(seconds: number): string {

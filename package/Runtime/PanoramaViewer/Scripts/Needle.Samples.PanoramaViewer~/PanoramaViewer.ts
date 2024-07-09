@@ -69,12 +69,14 @@ export class PanoramaViewer extends Behaviour {
     }
     
     next() {
+        if (this.isTransitioning) return;
         this._index++;
         this._index %= this.media.length;
         this.select(this._index);
     }
     
     previous() {
+        if (this.isTransitioning) return;
         this._index--;
         if (this._index < 0) this._index = this.media.length - 1;
         this.select(this._index);
@@ -86,6 +88,7 @@ export class PanoramaViewer extends Behaviour {
     protected hasLoadedMedia: boolean = true;
     
     async select(index: number, forceNoTransition: boolean = false) {
+        if (this.isTransitioning) return;
         this._index = index;
         this.transitionStartTimeStamp = this.context.time.time;
 
@@ -209,7 +212,7 @@ export class PanoramaViewer extends Behaviour {
         }
     }
 
-    private fadePoint: number = 0.25;
+    protected fadePoint: number = 0.25;
     protected updateTextureTransition() {
         if (!this.isTransitioning) return;
 
@@ -234,7 +237,7 @@ export class PanoramaViewer extends Behaviour {
 
     protected setTransition(transition: number) {
         if (!this.optionalTransitionMaterial) return;
-        this.optionalTransitionMaterial["_T"] = transition;
+        this.optionalTransitionMaterial["_Transition"] = transition;
     }
 
 
