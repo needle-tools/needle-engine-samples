@@ -38,6 +38,7 @@ export class PanoramaViewerUI extends Behaviour {
             this.enabled = false;
             return;
         }
+
         this.viewer.addEventListener("select", this.onSelect);
     }
     onDisable(): void {

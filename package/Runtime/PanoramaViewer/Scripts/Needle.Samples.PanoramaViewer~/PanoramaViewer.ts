@@ -1,10 +1,9 @@
 import { Behaviour, ImageReference, Mathf, VideoPlayer, delay, serializable } from "@needle-tools/engine";
-import { Texture } from "three";
 import * as THREE from "three";
 
 /** Media definition */
 export interface IPanoramaViewerMedia {
-    data: string | Texture;
+    data: string | THREE.Texture;
     info?: { 
         /* stereo?: boolean; */
         type?: string | "image" | "video";
@@ -26,18 +25,21 @@ export class PanoramaViewer extends Behaviour {
         this.select(0, true);
     }
 
+    update(): void {
+        this.applyFade();
+    }
+
 
     /* ------ MEDIA ------ */
 
     // @nonSerialized
     media: IPanoramaViewerMedia[] = [];
 
-    protected previousMedia?: IPanoramaViewerMedia;
     // @nonSerialized
     currentMedia?: IPanoramaViewerMedia;
 
     // @nonSerialized
-    addImage(image: string | string[] | Texture | Texture[]) {
+    addImage(image: string | string[] | THREE.Texture | THREE.Texture[]) {
         const images = Array.isArray(image) ? image : [image];
         images.forEach(img => this.addMedia(({ data: img, info: { type: "image"} }) as IPanoramaViewerMedia));
     }
@@ -56,58 +58,87 @@ export class PanoramaViewer extends Behaviour {
 
     /* ------ SELECTING ------ */
 
-    protected _index = 0;
+    protected _index = -1;
     // @nonSerialized
     get index() {
         return Mathf.clamp(this._index, 0 , this.media.length - 1);
     }
     
-    next() {
-        this._index++;
-        this._index %= this.media.length;
-        this.select(this._index);
+    async next() {
+        await this.select(this._index + 1);
     }
     
-    previous() {
-        this._index--;
-        if (this._index < 0) this._index = this.media.length - 1;
-        this.select(this._index);
+    async previous() {
+        await this.select(this._index - 1);
     }
 
 
     /* ------ LOADING ------ */
 
-    protected hasLoadedMedia: boolean = true;
-    protected isFading: boolean = false;
-    select(index: number, forceNoTransition: boolean = false) {
+    private selectionId = 0;
+    async select(index: number, forceNoTransition: boolean = false): Promise<boolean> {
+        // no change required
+        if (this.index === index && this.currentMedia) return false;
+
+        // loop index and save it
+        if (index < 0) {
+            index = this.media.length - 1;
+        }
+        index %= this.media.length;
         this._index = index;
-        const medium = this.media[this.index];
-        const isFirstSelect = this.previousMedia === undefined;
 
-        this.previousMedia = this.currentMedia ?? medium;
-        this.currentMedia = medium;
+        // unique id to abort the selection if overriden with another
+        const id = ++this.selectionId;
 
-        if (!this.isFading) {
-            this.isFading = true;
-            this.startCoroutine(this.beginTransition(medium, isFirstSelect || forceNoTransition, () => {
-                this.isFading = false;
-                if (this.currentMedia !== medium) {
-                    this.select(this._index);
-                }
-            }));
+        // get data
+        const media = this.media[this.index];
+        this.currentMedia = media;
+
+        // raise event for e.g. ui
+        this.dispatchEvent(new Event("select"));
+        
+        // fade out
+        if (!forceNoTransition) this._targetFadeValue = 0;
+
+        // load texture
+        const texture = await this.getTexture(media);
+        
+
+        // wait for full fade out
+        while(Math.abs(this._targetFadeValue - this._currentFadeValue) > .01) {
+            if(id !== this.selectionId) return false; // if select was called while loading
+            await delay(10);
         }
 
-        this.dispatchEvent(new Event("select"));
+        // fade in
+        this._targetFadeValue = 1
+
+        // handle and apply loaded texture
+        if (!texture) return false
+        this.setTexture(texture);
+
+        // auto play/stop video
+        const mediaType = this.currentMedia?.info?.type;
+        if (mediaType === "video") this.videoPlayer?.play();
+        if (mediaType !== "video") this.videoPlayer?.stop();
+        
+        // wait for full fade in
+        while(Math.abs(this._targetFadeValue - this._currentFadeValue) > .01) {
+            if(id !== this.selectionId) return false; // if select was called while loading
+            await delay(10);
+        }
+
+        return true;
     }
 
     //protected hasAppliedBefore: boolean = false;
-    async getTexture(medium: IPanoramaViewerMedia): Promise<Texture | undefined> {
+    async getTexture(medium: IPanoramaViewerMedia): Promise<THREE.Texture | undefined> {
         if(!medium || !medium.data) {
             console.error("invalid media", medium);
             return;
         }
         
-        let newTexture: Texture | undefined;
+        let newTexture: THREE.Texture | undefined;
 
         // based on data type and info handle and apply texture to the material
         if(typeof medium.data == "string") {
@@ -137,7 +168,7 @@ export class PanoramaViewer extends Behaviour {
                 console.warn(`PanoramaViewer: Unsupported media type: ${medium.info?.type}`);
             }
         }
-        else if (medium.data instanceof Texture) {
+        else if (medium.data instanceof THREE.Texture) {
             medium.data.colorSpace = THREE.SRGBColorSpace; // TODO: is this nessesery for existing textures?
             newTexture = medium.data;
         }
@@ -148,80 +179,42 @@ export class PanoramaViewer extends Behaviour {
         return newTexture;
     }
 
+    setTexture(texture: THREE.Texture) {
+        this.panoMaterial.map = texture;
+        this.panoMaterial.needsUpdate = true;
+    }
+
 
     /* ------ TRANSITION ------ */
 
     @serializable()
     transitionDuration: number = 0.3;
 
-    @serializable()
-    fadePoint: number = 0.25;
-
-
-    // @header Optional transition material
-    /* @serializable(Material)
-    optionalTransitionMaterial?: Material */
-
-    protected transitionStartTimeStamp: number = Number.MAX_SAFE_INTEGER;
-    
-    protected isTransitioning: boolean = false;
-
     protected blackColor = new THREE.Color(0x000000);
     protected whiteColor = new THREE.Color(0xffffff);
-    protected *beginTransition(medium: IPanoramaViewerMedia, skipFade: boolean = false, onComplete?: () => void) {
-        // start loading new texture
-        let newTexture: Texture | null | undefined;
-        this.getTexture(medium).then(texture => {
-            newTexture = texture ?? null;
-        });
-
-        
-        // fade out to black
-        const fadeOutStamp = this.context.time.time;
-        const fadeOutDuration = this.transitionDuration * this.fadePoint;
-        while(true && !skipFade) {
-            let t = Mathf.clamp01((this.context.time.time - fadeOutStamp) / fadeOutDuration);
-            this.panoMaterial.color.lerp(this.blackColor, t);
-            this.panoMaterial.needsUpdate = true;
-            if (t >= 1 - Mathf.Epsilon)
-                break;
-            else
-                yield;
-        }
-
-        // await texture if not loaded already
-        while(newTexture === undefined) {
-            yield;
-        }
-
-        // set texture
-        if (newTexture !== null) {
-            this.panoMaterial.map = newTexture;
-            this.panoMaterial.needsUpdate = true;
-        }
-
-        // auto play/stop video
-        const mediaType = this.currentMedia?.info?.type;
-        if (mediaType === "video") this.videoPlayer?.play();
-        if (mediaType !== "video") this.videoPlayer?.stop();
-
-        // fade in to "white"
-        const fadeInStamp = this.context.time.time;
-        const fadeInDuration = this.transitionDuration - (this.transitionDuration * this.fadePoint);
-        while(true && !skipFade) {
-            const t = Mathf.clamp01((this.context.time.time - fadeInStamp) / fadeInDuration);
-            this.panoMaterial.color.lerp(this.whiteColor, t);
-            this.panoMaterial.needsUpdate = true;
-            if (t >= 1 - Mathf.Epsilon)
-                break;
-            else
-                yield;
-        }
-
-        // done
-        onComplete?.();
+    
+    private _targetFadeValue: number = 0;
+    private _a = 0;
+    private set _currentFadeValue(value: number) {
+        //console.trace("SETTING VALUE TO: ", value);
+        this._a = value;
+    }
+    private get _currentFadeValue(): number {
+        return this._a;
+    }
+    protected applyFade() {
+        const diff = this._targetFadeValue - this._currentFadeValue;
+        const direction = diff > 0 ? 1 : -1;
+        const step = direction * this.context.time.deltaTime / (this.transitionDuration / 2);
+        this._currentFadeValue = Mathf.clamp01(this._currentFadeValue + step);
+        if (Math.abs(diff) < step * 2) this._currentFadeValue = this._targetFadeValue;
+        this.panoMaterial.color.copy(this.blackColor).lerp(this.whiteColor, this.easeInOutSine(this._currentFadeValue));
     }
 
+    // sin in out
+    private easeInOutSine(t: number) {
+        return (1 - Math.cos(Math.PI * t)) / 2;
+    }
 
     /* ------ VIDEO ------ */
 

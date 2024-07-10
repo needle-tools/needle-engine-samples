@@ -8,11 +8,12 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class PanoramaViewer : UnityEngine.MonoBehaviour
 	{
 		public void start(){}
+		public void update(){}
 		public void previous(){}
 		public void select(float @index, bool @forceNoTransition){}
 		public void getTexture(object @medium){}
+		public void setTexture(UnityEngine.Texture @texture){}
 		public float @transitionDuration = 0.3f;
-		public float @fadePoint = 0.25f;
 	}
 }
 
