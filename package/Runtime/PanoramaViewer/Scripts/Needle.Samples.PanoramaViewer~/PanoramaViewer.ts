@@ -1,5 +1,5 @@
-import { Behaviour, ImageReference, Mathf, VideoPlayer, delay, removePatch, serializable } from "@needle-tools/engine";
-import { Texture, Material } from "three";
+import { Behaviour, ImageReference, Mathf, VideoPlayer, delay, serializable } from "@needle-tools/engine";
+import { Texture } from "three";
 import * as THREE from "three";
 
 /** Media definition */

@@ -1,6 +1,6 @@
-import { Behaviour, Canvas, GameObject, Mathf, PointerEventData, Rect, RectTransform, Text, findObjectOfType, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, PointerEventData, RectTransform, Text, findObjectOfType, serializable } from "@needle-tools/engine";
 import { PanoramaViewer } from "./PanoramaViewer";
-import { Object3D, Vector2, Vector3 } from "three";
+import { Object3D } from "three";
 
 export class PanoramaViewerUI extends Behaviour {
     @serializable(PanoramaViewer)
