@@ -103,7 +103,6 @@ export class PanoramaViewer extends Behaviour {
         // load texture
         const texture = await this.getTexture(media);
         
-
         // wait for full fade out
         while(Math.abs(this._targetFadeValue - this._currentFadeValue) > .01) {
             if(id !== this.selectionId) return false; // if select was called while loading
