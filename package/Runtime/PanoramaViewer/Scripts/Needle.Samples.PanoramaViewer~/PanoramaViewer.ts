@@ -58,10 +58,14 @@ export class PanoramaViewer extends Behaviour {
 
     /* ------ SELECTING ------ */
 
-    protected _index = -1;
+    private _index = -1;
+
     // @nonSerialized
     get index() {
         return Mathf.clamp(this._index, 0 , this.media.length - 1);
+    }
+    set index(value: number) {
+        this.select(value);
     }
     
     async next() {
@@ -76,32 +80,35 @@ export class PanoramaViewer extends Behaviour {
     /* ------ LOADING ------ */
 
     private selectionId = 0;
-    async select(index: number, forceNoTransition: boolean = false): Promise<boolean> {
-        // no change required
-        if (this.index === index && this.currentMedia) return false;
-
-        // loop index and save it
+    async select(index: number, immediate: boolean = false): Promise<boolean> {
+        // sanitize and loop index
         if (index < 0) {
             index = this.media.length - 1;
         }
         index %= this.media.length;
+        
+        // no change required
+        if (this._index === index) return false;
+
+        // set index
         this._index = index;
 
         // unique id to abort the selection if overriden with another
         const id = ++this.selectionId;
 
         // get data
-        const media = this.media[this.index];
+        const media = this.media[this._index];
         this.currentMedia = media;
 
         // raise event for e.g. ui
         this.dispatchEvent(new Event("select"));
         
         // fade out
-        if (!forceNoTransition) this._targetFadeValue = 0;
+        if (!immediate) this._targetFadeValue = 0;
 
         // load texture
         const texture = await this.getTexture(media);
+        if (!texture) return false
         
         // wait for full fade out
         while(Math.abs(this._targetFadeValue - this._currentFadeValue) > .01) {
@@ -112,8 +119,7 @@ export class PanoramaViewer extends Behaviour {
         // fade in
         this._targetFadeValue = 1
 
-        // handle and apply loaded texture
-        if (!texture) return false
+        // apply texture
         this.setTexture(texture);
 
         // auto play/stop video
@@ -130,8 +136,7 @@ export class PanoramaViewer extends Behaviour {
         return true;
     }
 
-    //protected hasAppliedBefore: boolean = false;
-    async getTexture(medium: IPanoramaViewerMedia): Promise<THREE.Texture | undefined> {
+    private async getTexture(medium: IPanoramaViewerMedia): Promise<THREE.Texture | undefined> {
         if(!medium || !medium.data) {
             console.error("invalid media", medium);
             return;
@@ -178,7 +183,7 @@ export class PanoramaViewer extends Behaviour {
         return newTexture;
     }
 
-    setTexture(texture: THREE.Texture) {
+    private setTexture(texture: THREE.Texture) {
         this.panoMaterial.map = texture;
         this.panoMaterial.needsUpdate = true;
     }
@@ -189,19 +194,12 @@ export class PanoramaViewer extends Behaviour {
     @serializable()
     transitionDuration: number = 0.3;
 
-    protected blackColor = new THREE.Color(0x000000);
-    protected whiteColor = new THREE.Color(0xffffff);
+    private blackColor = new THREE.Color(0x000000);
+    private whiteColor = new THREE.Color(0xffffff);
     
     private _targetFadeValue: number = 0;
-    private _a = 0;
-    private set _currentFadeValue(value: number) {
-        //console.trace("SETTING VALUE TO: ", value);
-        this._a = value;
-    }
-    private get _currentFadeValue(): number {
-        return this._a;
-    }
-    protected applyFade() {
+    private _currentFadeValue = 0;
+    private applyFade() {
         const diff = this._targetFadeValue - this._currentFadeValue;
         const direction = diff > 0 ? 1 : -1;
         const step = direction * this.context.time.deltaTime / (this.transitionDuration / 2);
@@ -217,7 +215,7 @@ export class PanoramaViewer extends Behaviour {
 
     /* ------ VIDEO ------ */
 
-    protected _videoPlayer?: VideoPlayer;
+    private _videoPlayer?: VideoPlayer;
     // @nonSerialized
     get videoPlayer(): VideoPlayer {
         this._videoPlayer ??= this.gameObject.getOrAddComponent(VideoPlayer)!;
@@ -245,10 +243,10 @@ export class PanoramaViewer extends Behaviour {
     //@nonSerialized
     panoramaSize = 100;
 
-    protected panoSphere?: THREE.Mesh;
-    protected panoMaterial = new THREE.MeshBasicMaterial();
+    private panoSphere?: THREE.Mesh;
+    private panoMaterial = new THREE.MeshBasicMaterial();
 
-    protected createPanorama(): THREE.Mesh {
+    private createPanorama(): THREE.Mesh {
         const sphere = new THREE.SphereGeometry(this.panoramaSize, 256, 256);
 
         this.panoMaterial.side = THREE.DoubleSide;

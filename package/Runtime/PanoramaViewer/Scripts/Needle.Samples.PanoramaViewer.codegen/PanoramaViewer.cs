@@ -9,10 +9,9 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public void start(){}
 		public void update(){}
+		public void next(){}
 		public void previous(){}
-		public void select(float @index, bool @forceNoTransition){}
-		public void getTexture(object @medium){}
-		public void setTexture(UnityEngine.Texture @texture){}
+		public void select(float @index, bool @immediate){}
 		public float @transitionDuration = 0.3f;
 	}
 }
