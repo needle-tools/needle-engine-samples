@@ -1,4 +1,4 @@
-import { Behaviour, ImageReference, Mathf, VideoPlayer, delay, serializable } from "@needle-tools/engine";
+import { Behaviour, ImageReference, Mathf, VideoPlayer, delay, removePatch, serializable } from "@needle-tools/engine";
 import { Texture, Material } from "three";
 import * as THREE from "three";
 
@@ -11,8 +11,6 @@ export interface IPanoramaViewerMedia {
     };
 }
 
-// TODO: consult texture encoding sets
-// TODO: consult why the material can't be just assigned and needs to be a apart of the scene
 /** 
  * A PanoramaViewer component that can display images and videos in a 360 degree sphere.
  * Creates its own panorama sphere and parents it to itself
@@ -25,11 +23,7 @@ export class PanoramaViewer extends Behaviour {
         this.panoSphere = this.createPanorama();
         this.gameObject.add(this.panoSphere);
 
-        this.select(0);
-    }
-
-    update(): void {
-        this.updateTextureTransition();
+        this.select(0, true);
     }
 
 
@@ -69,14 +63,12 @@ export class PanoramaViewer extends Behaviour {
     }
     
     next() {
-        if (this.isTransitioning) return;
         this._index++;
         this._index %= this.media.length;
         this.select(this._index);
     }
     
     previous() {
-        if (this.isTransitioning) return;
         this._index--;
         if (this._index < 0) this._index = this.media.length - 1;
         this.select(this._index);
@@ -86,97 +78,74 @@ export class PanoramaViewer extends Behaviour {
     /* ------ LOADING ------ */
 
     protected hasLoadedMedia: boolean = true;
-    
-    async select(index: number, forceNoTransition: boolean = false) {
-        if (this.isTransitioning) return;
+    protected isFading: boolean = false;
+    select(index: number, forceNoTransition: boolean = false) {
         this._index = index;
-        this.transitionStartTimeStamp = this.context.time.time;
+        const medium = this.media[this.index];
+        const isFirstSelect = this.previousMedia === undefined;
 
-        // enable transition if not forced or nothing was displayed before
-        this.isTransitioning = !forceNoTransition && this.hasAppliedBefore;
+        this.previousMedia = this.currentMedia ?? medium;
+        this.currentMedia = medium;
 
-        await this.apply();
-
-        // complete the transition instantly
-        if (!this.isTransitioning) {
-            this.setTransition(1);
+        if (!this.isFading) {
+            this.isFading = true;
+            this.startCoroutine(this.beginTransition(medium, isFirstSelect || forceNoTransition, () => {
+                this.isFading = false;
+                if (this.currentMedia !== medium) {
+                    this.select(this._index);
+                }
+            }));
         }
 
         this.dispatchEvent(new Event("select"));
     }
 
-    protected hasAppliedBefore: boolean = false;
-    async apply() {
-        const media = this.media[this.index];
-
-        if(!media || !media.data) {
-            console.error("invalid media", media);
+    //protected hasAppliedBefore: boolean = false;
+    async getTexture(medium: IPanoramaViewerMedia): Promise<Texture | undefined> {
+        if(!medium || !medium.data) {
+            console.error("invalid media", medium);
             return;
         }
-
-        this.previousMedia = this.currentMedia;
-        this.currentMedia = media;
-
-        this.hasAppliedBefore = true;
-        this.hasLoadedMedia = false;
-
-        // Set the last END tex as the START tex
-        this.swapTextures();
+        
+        let newTexture: Texture | undefined;
 
         // based on data type and info handle and apply texture to the material
-        if(typeof media.data == "string") {
-            if(media.info?.type === "image") {
-                const img = ImageReference.getOrCreate(media.data);
+        if(typeof medium.data == "string") {
+            if(medium.info?.type === "image") {
+                const img = ImageReference.getOrCreate(medium.data);
                 const texture = await img.createTexture();
                 if (texture) {
                     texture.flipY = false;
-                    if (this.optionalTransitionMaterial) { // custom shader
-                        texture.colorSpace = THREE.LinearSRGBColorSpace;
-                    }
-                    else { // MeshBasicMaterial
-                        texture.colorSpace = THREE.SRGBColorSpace;
-                    }                   
-                    
-                    this.newTexture = texture;
+                    texture.colorSpace = THREE.SRGBColorSpace;
+                    newTexture = texture;
                 }
                 else {
-                    console.error(`PanoramaViewer: Failed to load image: ${media.data}`)
+                    console.error(`PanoramaViewer: Failed to load image: ${medium.data}`)
                 }
             }
-            else if (media.info?.type === "video") {
-                this.videoPlayer.setClipURL(media.data);
+            else if (medium.info?.type === "video") {
+                this.videoPlayer.setClipURL(medium.data);
                 this.videoPlayer.isLooping = true; // TODO: add option
                 this.videoPlayer.play(); // TODO: autoplay option
                 // TODO: can hang on error
-                // TODO: can cause two transitions to occur at once!
                 while(!this.videoPlayer.isPlaying) {
                     await delay(0.1);
                 }
-                this.newTexture = this.videoPlayer.videoTexture!;
+                newTexture = this.videoPlayer.videoTexture!;
             }
             else {
-                console.warn(`PanoramaViewer: Unsupported media type: ${media.info?.type}`);
+                console.warn(`PanoramaViewer: Unsupported media type: ${medium.info?.type}`);
             }
         }
-        else if (media.data instanceof Texture) {
-            if (this.optionalTransitionMaterial) { // custom shader
-                media.data.colorSpace = THREE.LinearSRGBColorSpace;
-                /* texture.colorSpace = THREE.NoColorSpace; */
-            }
-            else { // MeshBasicMaterial
-                media.data.colorSpace = THREE.SRGBColorSpace;
-            }
-
-            this.newTexture = media.data;
+        else if (medium.data instanceof Texture) {
+            medium.data.colorSpace = THREE.SRGBColorSpace; // TODO: is this nessesery for existing textures?
+            newTexture = medium.data;
         }
         else {
-            console.warn(`PanoramaViewer: Unsupported media type! ${typeof media.data}`, media.data)
+            console.warn(`PanoramaViewer: Unsupported media type! ${typeof medium.data}`, medium.data)
         }
 
-        if (this.newTexture)
-            this.setTexture(this.newTexture);
-
-        this.hasLoadedMedia = true;
+        return newTexture;
     }
 
 
@@ -185,59 +154,72 @@ export class PanoramaViewer extends Behaviour {
     @serializable()
     transitionDuration: number = 0.3;
 
+    @serializable()
+    fadePoint: number = 0.25;
+
+
     // @header Optional transition material
-    @serializable(Material)
-    optionalTransitionMaterial?: Material
+    /* @serializable(Material)
+    optionalTransitionMaterial?: Material */
 
     protected transitionStartTimeStamp: number = Number.MAX_SAFE_INTEGER;
     
-    // @nonSerialized
-    isTransitioning: boolean = false;
+    protected isTransitioning: boolean = false;
 
-    protected newTexture: Texture | undefined;
-    protected swapTextures() {
-        if (this.optionalTransitionMaterial) {
-            const mat = this.optionalTransitionMaterial;
-            mat["_TextureA"] = mat["_TextureB"];
-        }
-    }
-    protected setTexture(newTexture: Texture) {
-        if (this.optionalTransitionMaterial) {
-            this.optionalTransitionMaterial["_TextureB"] = newTexture;
-        }
-        else {
-            this.defaultMaterial.map = newTexture;
-            newTexture.wrapS = THREE.RepeatWrapping;
-            newTexture.wrapT = THREE.RepeatWrapping;
-        }
-    }
+    protected blackColor = new THREE.Color(0x000000);
+    protected whiteColor = new THREE.Color(0xffffff);
+    protected *beginTransition(medium: IPanoramaViewerMedia, skipFade: boolean = false, onComplete?: () => void) {
+        // start loading new texture
+        let newTexture: Texture | null | undefined;
+        this.getTexture(medium).then(texture => {
+            newTexture = texture ?? null;
+        });
 
-    protected fadePoint: number = 0.25;
-    protected updateTextureTransition() {
-        if (!this.isTransitioning) return;
-
-        const time = this.context.time.time;
-        const t = Mathf.clamp01((time - this.transitionStartTimeStamp) / this.transitionDuration);
-        if (t > this.fadePoint && !this.hasLoadedMedia) {
-            this.transitionStartTimeStamp = time - (this.transitionDuration * this.fadePoint); // reset the transition time to start from the middle
-        }
-
-
-        this.setTransition(t);
         
-        // on completed
-        if (t >= 1.0) {
-            this.isTransitioning = false;
-            if(this.currentMedia?.info?.type !== "video") {
-                if(this.videoPlayer.isPlaying)
-                    this.videoPlayer.pause();
-            }
+        // fade out to black
+        const fadeOutStamp = this.context.time.time;
+        const fadeOutDuration = this.transitionDuration * this.fadePoint;
+        while(true && !skipFade) {
+            let t = Mathf.clamp01((this.context.time.time - fadeOutStamp) / fadeOutDuration);
+            this.panoMaterial.color.lerp(this.blackColor, t);
+            this.panoMaterial.needsUpdate = true;
+            if (t >= 1 - Mathf.Epsilon)
+                break;
+            else
+                yield;
         }
-    }
 
-    protected setTransition(transition: number) {
-        if (!this.optionalTransitionMaterial) return;
-        this.optionalTransitionMaterial["_Transition"] = transition;
+        // await texture if not loaded already
+        while(newTexture === undefined) {
+            yield;
+        }
+
+        // set texture
+        if (newTexture !== null) {
+            this.panoMaterial.map = newTexture;
+            this.panoMaterial.needsUpdate = true;
+        }
+
+        // auto play/stop video
+        const mediaType = this.currentMedia?.info?.type;
+        if (mediaType === "video") this.videoPlayer?.play();
+        if (mediaType !== "video") this.videoPlayer?.stop();
+
+        // fade in to "white"
+        const fadeInStamp = this.context.time.time;
+        const fadeInDuration = this.transitionDuration - (this.transitionDuration * this.fadePoint);
+        while(true && !skipFade) {
+            const t = Mathf.clamp01((this.context.time.time - fadeInStamp) / fadeInDuration);
+            this.panoMaterial.color.lerp(this.whiteColor, t);
+            this.panoMaterial.needsUpdate = true;
+            if (t >= 1 - Mathf.Epsilon)
+                break;
+            else
+                yield;
+        }
+
+        // done
+        onComplete?.();
     }
 
 
@@ -272,17 +254,14 @@ export class PanoramaViewer extends Behaviour {
     panoramaSize = 100;
 
     protected panoSphere?: THREE.Mesh;
-    protected panoMaterial?: Material;
-
-    protected defaultMaterial = new THREE.MeshBasicMaterial();
+    protected panoMaterial = new THREE.MeshBasicMaterial();
 
     protected createPanorama(): THREE.Mesh {
         const sphere = new THREE.SphereGeometry(this.panoramaSize, 256, 256);
 
-        const mat = this.optionalTransitionMaterial ?? this.defaultMaterial;
-        mat.side = THREE.DoubleSide;
+        this.panoMaterial.side = THREE.DoubleSide;
 
-        const mesh = new THREE.Mesh(sphere, mat);
+        const mesh = new THREE.Mesh(sphere, this.panoMaterial);
 
         mesh.position.set(0, 0, 0);
         mesh.scale.set(1, -1, 1);

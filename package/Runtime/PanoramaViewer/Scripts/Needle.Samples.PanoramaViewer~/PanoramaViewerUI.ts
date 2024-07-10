@@ -1,10 +1,10 @@
-import { Behaviour, Canvas, GameObject, Mathf, PointerEventData, Rect, RectTransform, Text, serializable } from "@needle-tools/engine";
+import { Behaviour, Canvas, GameObject, Mathf, PointerEventData, Rect, RectTransform, Text, findObjectOfType, serializable } from "@needle-tools/engine";
 import { PanoramaViewer } from "./PanoramaViewer";
 import { Object3D, Vector2, Vector3 } from "three";
 
 export class PanoramaViewerUI extends Behaviour {
     @serializable(PanoramaViewer)
-    viewer!: PanoramaViewer;
+    viewer?: PanoramaViewer;
 
     @serializable(Object3D)
     videoControls?: Object3D;
@@ -30,7 +30,7 @@ export class PanoramaViewerUI extends Behaviour {
     private playbackTimelineRT?: RectTransform;
 
     onEnable(): void {
-        this.viewer ??= this.gameObject.getComponent(PanoramaViewer)!;
+        this.viewer ??= this.gameObject.getComponent(PanoramaViewer)! ?? findObjectOfType(PanoramaViewer);
         if(this.playbackTimeline)
             this.playbackTimelineRT = GameObject.getComponent(this.playbackTimeline, RectTransform)!;
 
@@ -44,7 +44,21 @@ export class PanoramaViewerUI extends Behaviour {
         this.viewer?.removeEventListener("select", this.onSelect);
     }
 
+    update(): void {
+        this.updateTimeline();
+
+        const input = this.context.input;
+        if (input.isKeyDown("ArrowRight")) {
+            this.next();
+        }
+        if (input.isKeyDown("ArrowLeft")) {
+            this.previous();
+        }
+    }
+
     private onSelect = () => {
+        if (!this.viewer) return;
+
         const media = this.viewer.currentMedia;
         if (!media) return;
 
@@ -63,6 +77,8 @@ export class PanoramaViewerUI extends Behaviour {
     }
 
     togglePlay() {
+        if (!this.viewer) return;
+
         const newState = !this.viewer.videoPlayback;
         this.viewer.videoPlayback = newState;
         this.updatePlayback(newState);
@@ -81,7 +97,9 @@ export class PanoramaViewerUI extends Behaviour {
         }
     }
 
-    update() {
+    updateTimeline() {
+        if (!this.viewer) return;
+
         const media = this.viewer.currentMedia;
         const isVideo = media?.info?.type === "video";
         
@@ -118,11 +136,11 @@ export class PanoramaViewerUI extends Behaviour {
     }
 
     next() {
-        this.viewer.next();
+        this.viewer?.next();
     }
 
     previous() {
-        this.viewer.previous();
+        this.viewer?.previous();
     }
 
     protected formatSeconds(seconds: number): string {
@@ -140,7 +158,7 @@ export class PanoramaViewerUI extends Behaviour {
     }
 }
 
-export class PanoramaViewerUI_Timeline  extends Behaviour {
+/* export  */class PanoramaViewerUI_Timeline  extends Behaviour {
     @serializable(PanoramaViewerUI)
     viewerUI!: PanoramaViewerUI;
 
@@ -149,7 +167,7 @@ export class PanoramaViewerUI_Timeline  extends Behaviour {
         this.rectTransform = this.gameObject.getComponent(RectTransform)!;
     }
 
-    onPointerUp(args: PointerEventData) {
+    onPointerUp(_args: PointerEventData) {
         if (!this.rectTransform) return;
 
         /* console.log("onPointerUp");

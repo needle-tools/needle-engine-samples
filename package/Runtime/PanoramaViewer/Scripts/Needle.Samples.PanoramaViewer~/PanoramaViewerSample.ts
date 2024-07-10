@@ -1,6 +1,6 @@
 import { serializable } from "@needle-tools/engine";
 import { Texture } from "three";
-import { IPanoramaViewerMedia, PanoramaViewer } from "./PanoramaViewer";
+import { PanoramaViewer } from "./PanoramaViewer";
 
 export class PanoramaViewerSample extends PanoramaViewer {
     @serializable(Texture)

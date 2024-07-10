@@ -17,11 +17,11 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.UI.Text @indexLabel;
 		public void OnEnable(){}
 		public void OnDisable(){}
-		public void togglePlay(){}
 		public void update(){}
+		public void togglePlay(){}
+		public void updateTimeline(){}
 		public void next(){}
 		public void previous(){}
-		public void toggleGyroscope(){}
 	}
 }
 

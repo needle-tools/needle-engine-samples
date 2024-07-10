@@ -262,10 +262,9 @@ export class PanoramaControls extends Behaviour {
             updateButtonIcon();
         });
 
-        // permanently hide
-        //if (!isMobileDevice()) {
-        //    btn.style.display = "none";
-        //} 
+        if (!isMobileDevice()) {
+            btn.style.display = "none";
+        } 
 
         // TODO: hide in XR / spatial menu
 

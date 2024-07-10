@@ -1073,7 +1073,6 @@ Transform:
   m_Children:
   - {fileID: 1704651294}
   - {fileID: 919285994}
-  - {fileID: 2007162678}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1090,8 +1089,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.PanoramaViewerSample,
     Needle.Engine-Samples.Runtime
-  optionalTransitionMaterial: {fileID: 2100000, guid: bedb41f11df4fdd4aa22ef851fb74392, type: 2}
   transitionDuration: 1
+  fadePoint: 0.25
   textures:
   - {fileID: 2800000, guid: f87ca7889d9a0a2438bea91927bec309, type: 3}
   - {fileID: 2800000, guid: 69bf8402390ddef4b8ab053bf12edeb8, type: 3}
@@ -1582,7 +1581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
-  Guid: 
+  Guid: 3f122193917e0a54bbf88966f16016d3
 --- !u!4 &1301730649
 Transform:
   m_ObjectHideFlags: 0
@@ -1900,7 +1899,6 @@ GameObject:
   - component: {fileID: 1578246228}
   - component: {fileID: 1578246227}
   - component: {fileID: 1578246226}
-  - component: {fileID: 1578246229}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1990,19 +1988,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1578246229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1578246224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 008d9d8dc7d04eb9a966d5b57b566c4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.FontAdditionalCharacters, Needle.Engine.Common
-  AdditionalCharacters: "\u25B6\u23EF\n\u2190\u2192"
 --- !u!1 &1676066121
 GameObject:
   m_ObjectHideFlags: 0
@@ -2016,6 +2001,7 @@ GameObject:
   - component: {fileID: 1676066122}
   - component: {fileID: 1676066125}
   - component: {fileID: 1676066126}
+  - component: {fileID: 1676066127}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -2108,6 +2094,22 @@ MonoBehaviour:
   UseMaxSize: 1
   MaxSize: 128
   GenerateLODs: 1
+--- !u!114 &1676066127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676066121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
+  meta:
+    title: Panorama Viewer
+    description: View 360 Images and videos
+    image: {fileID: 2800000, guid: 174bd4c74d6374f41aa0e9f251eed231, type: 3}
 --- !u!1 &1685672608
 GameObject:
   m_ObjectHideFlags: 0
@@ -2745,103 +2747,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.FontAdditionalCharacters, Needle.Engine.Common
   AdditionalCharacters: "\uE037"
---- !u!1 &2007162677
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2007162678}
-  - component: {fileID: 2007162681}
-  - component: {fileID: 2007162680}
-  - component: {fileID: 2007162679}
-  m_Layer: 0
-  m_Name: WHY DOES THE MATERIAL NEED TO BE IN THE SCENE?
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2007162678
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2007162677}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.995, z: 3.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 712103849}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2007162679
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2007162677}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &2007162680
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2007162677}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: bedb41f11df4fdd4aa22ef851fb74392, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2007162681
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2007162677}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2071075243
 GameObject:
   m_ObjectHideFlags: 0
