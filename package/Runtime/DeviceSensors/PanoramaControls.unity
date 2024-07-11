@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4433024, g: 0.40610158, b: 0.38682494, a: 1}
+  m_IndirectSpecularColor: {r: 0.8606037, g: 0.82429165, b: 0.805354, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -198,7 +198,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 733584894}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &588265432
 MonoBehaviour:
@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 733584894}
   - component: {fileID: 733584893}
   - component: {fileID: 733584895}
+  - component: {fileID: 733584896}
   m_Layer: 0
   m_Name: MyScene
   m_TagString: Untagged
@@ -400,6 +401,7 @@ Transform:
   m_Children:
   - {fileID: 635000278}
   - {fileID: 1752238037}
+  - {fileID: 1582004005}
   - {fileID: 588265431}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -417,6 +419,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.TextureCompressionSettings,
     Needle.Engine.GltfExport $ GlobalObjectId_V1-2-b6ebb21244122bb4e8534f1eefc293f5-733584895-0
+--- !u!114 &733584896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733584892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
+  createVRButton: 1
+  createARButton: 0
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  usePlacementAdjustment: 1
+  arSceneScale: 1
+  useXRAnchor: 0
+  useQuicklookExport: 0
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
 --- !u!1 &740623226
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +548,51 @@ MonoBehaviour:
     title: Panorama Controls
     description: Camera controls with gyroscope support
     image: {fileID: 2800000, guid: 58d45c252c47f6544812a875e75c1da8, type: 3}
+--- !u!1 &1582004004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1582004005}
+  - component: {fileID: 1582004006}
+  m_Layer: 0
+  m_Name: XR Rig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1582004005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582004004}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 733584894}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1582004006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582004004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
 --- !u!1 &1752238036
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,14 +618,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752238036}
-  m_LocalRotation: {x: -0.0005878955, y: 0.9988576, z: -0.012294866, w: -0.046172798}
-  m_LocalPosition: {x: 0.14509292, y: 0.12755728, z: 1.9010928}
+  m_LocalRotation: {x: -0.028574616, y: 0.7849626, z: -0.61781996, w: -0.03627347}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 733584894}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 76.41, y: -174.716, z: -0.01}
 --- !u!108 &1752238038
 Light:
   m_ObjectHideFlags: 0
@@ -564,7 +637,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.22917409, g: 0.4043123, b: 0.4716981, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
