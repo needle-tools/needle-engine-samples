@@ -18,10 +18,10 @@ namespace Needle.Typescript.GeneratedComponents
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void update(){}
-		public void togglePlay(){}
-		public void updateTimeline(){}
 		public void next(){}
 		public void previous(){}
+		public void togglePlay(){}
+		public void updateTimeline(){}
 	}
 }
 

@@ -262,7 +262,7 @@ export class PanoramaControls extends Behaviour {
             updateButtonIcon();
         });
 
-        if (!isMobileDevice()) {
+        if (!isMobileDevice() || isQuest()) {
             btn.style.display = "none";
         } 
 

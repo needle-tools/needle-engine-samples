@@ -1,4 +1,4 @@
-import { Behaviour, ImageReference, Mathf, VideoPlayer, delay, serializable } from "@needle-tools/engine";
+import { Behaviour, FileReference, ImageReference, Mathf, VideoPlayer, delay, serializable } from "@needle-tools/engine";
 import * as THREE from "three";
 
 /** Media definition */
@@ -30,10 +30,18 @@ export class PanoramaViewer extends Behaviour {
     // @nonSerialized
     currentMedia?: IPanoramaViewerMedia;
 
+    @serializable(FileReference)
+    sources: FileReference[] = [];
+
     start() {
+        // add media
+        this.addMediaFromFiles(this.sources);
+
+        // create panorama sphere
         this.panoSphere = this.createPanorama();
         this.gameObject.add(this.panoSphere);
 
+        // select default
         this.select(0, true);
     }
 
@@ -44,6 +52,13 @@ export class PanoramaViewer extends Behaviour {
 
     /* ------ MEDIA ------ */
 
+    addMediaFromFiles(files: FileReference[]) {
+        const endsWith = (str: string, suffix: string[]) => suffix.some(s => str.toLowerCase().endsWith(s));
+
+        this.addImage(files.filter(x => endsWith(x.url, [".jpg", ".jpeg", ".png", "webp"])).map(x => x.url));
+        this.addVideo(files.filter(x => endsWith(x.url, [".mp4"])).map(x => x.url));
+    }
+
     // @nonSerialized
     addImage(image: string | string[] | THREE.Texture | THREE.Texture[]) {
         const images = Array.isArray(image) ? image : [image];
@@ -51,9 +66,9 @@ export class PanoramaViewer extends Behaviour {
     }
 
     // @nonSerialized
-    addVideo(url: string | string[], isStereoVideo: boolean = false) {
+    addVideo(url: string | string[]/* , isStereoVideo: boolean = false */) {
         const urls = Array.isArray(url) ? url : [url];
-        urls.forEach(url => this.addMedia(({ data: url, info: { type: "video", stereo: isStereoVideo } }) as IPanoramaViewerMedia));
+        urls.forEach(url => this.addMedia(({ data: url, info: { type: "video"/* , stereo: isStereoVideo  */} }) as IPanoramaViewerMedia));
     }
     
     // @nonSerialized
@@ -95,26 +110,31 @@ export class PanoramaViewer extends Behaviour {
         // set index
         this._index = index;
 
-        // change media
+        // get media
         const media = this.media[index];
-        return this.change(media, immediate);
+        if (!media) return false;
+        
+        // save media
+        this.currentMedia = media;
+
+        // raise event for e.g. ui
+        this.dispatchEvent(new Event("mediaChanged"));
+
+        // load media
+        return this.load(media, immediate);
     }
 
 
     /* ------ LOADING ------ */
 
     private changeId = 0;
-    private async change(media: IPanoramaViewerMedia, immediate: boolean = false): Promise<boolean> {
+    private async load(media: IPanoramaViewerMedia, immediate: boolean = false): Promise<boolean> {
         if (!media) return false;
-
-        // save media
-        this.currentMedia = media;
 
         // unique id to abort the selection if overriden with another
         const id = ++this.changeId;
 
-        // raise event for e.g. ui
-        this.dispatchEvent(new Event("select"));
+        
         
         // fade out
         if (!immediate) this._targetFadeValue = 0;
@@ -213,8 +233,12 @@ export class PanoramaViewer extends Behaviour {
         const diff = this._targetFadeValue - this._currentFadeValue;
         const direction = diff > 0 ? 1 : -1;
         const step = direction * this.context.time.deltaTime / (this.transitionDuration / 2);
+
+        // fade value, snap to goal if close to not oscillate
         this._currentFadeValue = Mathf.clamp01(this._currentFadeValue + step);
-        if (Math.abs(diff) < step * 2) this._currentFadeValue = this._targetFadeValue;
+        if (Math.abs(diff) < Math.abs(step * 2)) this._currentFadeValue = this._targetFadeValue;
+
+        // lerp material color
         this.panoMaterial.color.copy(this.blackColor).lerp(this.whiteColor, this.easeInOutSine(this._currentFadeValue));
     }
 

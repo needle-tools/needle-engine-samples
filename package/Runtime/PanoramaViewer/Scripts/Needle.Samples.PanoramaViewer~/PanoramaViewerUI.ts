@@ -39,10 +39,12 @@ export class PanoramaViewerUI extends Behaviour {
             return;
         }
 
-        this.viewer.addEventListener("select", this.onSelect);
+        this.viewer.addEventListener("mediaChanged", this.onMediaChanged);
+
+        this.onMediaChanged();
     }
     onDisable(): void {
-        this.viewer?.removeEventListener("select", this.onSelect);
+        this.viewer?.removeEventListener("mediaChanged", this.onMediaChanged);
     }
 
     update(): void {
@@ -65,7 +67,7 @@ export class PanoramaViewerUI extends Behaviour {
         this.viewer?.previous();
     }
 
-    private onSelect = () => {
+    private onMediaChanged = () => {
         if (!this.viewer) return;
 
         const media = this.viewer.currentMedia;
