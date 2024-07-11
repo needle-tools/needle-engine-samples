@@ -7,12 +7,12 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class PanoramaViewer : UnityEngine.MonoBehaviour
 	{
+		public float @transitionDuration = 0.3f;
 		public void start(){}
 		public void update(){}
 		public void next(){}
 		public void previous(){}
 		public void select(float @index, bool @immediate){}
-		public float @transitionDuration = 0.3f;
 	}
 }
 

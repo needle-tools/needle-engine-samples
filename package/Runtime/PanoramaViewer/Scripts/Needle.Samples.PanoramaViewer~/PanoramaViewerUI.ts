@@ -57,6 +57,14 @@ export class PanoramaViewerUI extends Behaviour {
         }
     }
 
+    next() {
+        this.viewer?.next();
+    }
+
+    previous() {
+        this.viewer?.previous();
+    }
+
     private onSelect = () => {
         if (!this.viewer) return;
 
@@ -136,16 +144,8 @@ export class PanoramaViewerUI extends Behaviour {
         this.playbackTimelineRT.scale.x = t;
     }
 
-    next() {
-        this.viewer?.next();
-    }
-
-    previous() {
-        this.viewer?.previous();
-    }
-
-    protected formatSeconds(seconds: number): string {
-        // HH:MM:SS
+    private formatSeconds(seconds: number): string {
+        // HH:mm:ss
         const h = Math.floor(seconds / 3600);
         const m = Math.floor(seconds % 3600 / 60);
         const s = Math.floor(seconds % 60);
@@ -159,7 +159,7 @@ export class PanoramaViewerUI extends Behaviour {
     }
 }
 
-/* export  */class PanoramaViewerUI_Timeline  extends Behaviour {
+/* class PanoramaViewerUI_Timeline  extends Behaviour {
     @serializable(PanoramaViewerUI)
     viewerUI!: PanoramaViewerUI;
 
@@ -171,7 +171,7 @@ export class PanoramaViewerUI extends Behaviour {
     onPointerUp(_args: PointerEventData) {
         if (!this.rectTransform) return;
 
-        /* console.log("onPointerUp");
+        console.log("onPointerUp");
 
         const input = this.context.input;
         const pointerPos = input.getPointerPosition(args.pointerId)!;
@@ -197,6 +197,6 @@ export class PanoramaViewerUI extends Behaviour {
             const y = (pointerPos.y - origin.y);
 
             console.log(x / sizeX);
-        } */
+        }
     }
-}
+} */

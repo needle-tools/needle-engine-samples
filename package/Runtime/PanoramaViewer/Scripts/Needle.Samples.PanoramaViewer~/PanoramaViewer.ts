@@ -18,6 +18,18 @@ export interface IPanoramaViewerMedia {
 */
 export class PanoramaViewer extends Behaviour {
 
+    @serializable()
+    transitionDuration: number = 0.3;
+    
+    //@nonSerialized
+    panoramaSize = 100;
+
+    // @nonSerialized
+    media: IPanoramaViewerMedia[] = [];
+
+    // @nonSerialized
+    currentMedia?: IPanoramaViewerMedia;
+
     start() {
         this.panoSphere = this.createPanorama();
         this.gameObject.add(this.panoSphere);
@@ -31,12 +43,6 @@ export class PanoramaViewer extends Behaviour {
 
 
     /* ------ MEDIA ------ */
-
-    // @nonSerialized
-    media: IPanoramaViewerMedia[] = [];
-
-    // @nonSerialized
-    currentMedia?: IPanoramaViewerMedia;
 
     // @nonSerialized
     addImage(image: string | string[] | THREE.Texture | THREE.Texture[]) {
@@ -76,10 +82,6 @@ export class PanoramaViewer extends Behaviour {
         await this.select(this._index - 1);
     }
 
-
-    /* ------ LOADING ------ */
-
-    private selectionId = 0;
     async select(index: number, immediate: boolean = false): Promise<boolean> {
         // sanitize and loop index
         if (index < 0) {
@@ -93,12 +95,23 @@ export class PanoramaViewer extends Behaviour {
         // set index
         this._index = index;
 
-        // unique id to abort the selection if overriden with another
-        const id = ++this.selectionId;
+        // change media
+        const media = this.media[index];
+        return this.change(media, immediate);
+    }
 
-        // get data
-        const media = this.media[this._index];
+
+    /* ------ LOADING ------ */
+
+    private changeId = 0;
+    private async change(media: IPanoramaViewerMedia, immediate: boolean = false): Promise<boolean> {
+        if (!media) return false;
+
+        // save media
         this.currentMedia = media;
+
+        // unique id to abort the selection if overriden with another
+        const id = ++this.changeId;
 
         // raise event for e.g. ui
         this.dispatchEvent(new Event("select"));
@@ -112,7 +125,7 @@ export class PanoramaViewer extends Behaviour {
         
         // wait for full fade out
         while(Math.abs(this._targetFadeValue - this._currentFadeValue) > .01) {
-            if(id !== this.selectionId) return false; // if select was called while loading
+            if(id !== this.changeId) return false; // if select was called while loading
             await delay(10);
         }
 
@@ -123,13 +136,13 @@ export class PanoramaViewer extends Behaviour {
         this.setTexture(texture);
 
         // auto play/stop video
-        const mediaType = this.currentMedia?.info?.type;
+        const mediaType = media.info?.type;
         if (mediaType === "video") this.videoPlayer?.play();
         if (mediaType !== "video") this.videoPlayer?.stop();
         
         // wait for full fade in
         while(Math.abs(this._targetFadeValue - this._currentFadeValue) > .01) {
-            if(id !== this.selectionId) return false; // if select was called while loading
+            if(id !== this.changeId) return false; // if select was called while loading
             await delay(10);
         }
 
@@ -191,9 +204,6 @@ export class PanoramaViewer extends Behaviour {
 
     /* ------ TRANSITION ------ */
 
-    @serializable()
-    transitionDuration: number = 0.3;
-
     private blackColor = new THREE.Color(0x000000);
     private whiteColor = new THREE.Color(0xffffff);
     
@@ -239,9 +249,6 @@ export class PanoramaViewer extends Behaviour {
 
 
     /* ------ PANORAMA MODEL ------ */
-
-    //@nonSerialized
-    panoramaSize = 100;
 
     private panoSphere?: THREE.Mesh;
     private panoMaterial = new THREE.MeshBasicMaterial();
