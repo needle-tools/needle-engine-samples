@@ -24,12 +24,6 @@ export class PanoramaViewer extends Behaviour {
     //@nonSerialized
     panoramaSize = 100;
 
-    // @nonSerialized
-    media: IPanoramaViewerMedia[] = [];
-
-    // @nonSerialized
-    currentMedia?: IPanoramaViewerMedia;
-
     @serializable(FileReference)
     sources: FileReference[] = [];
 
@@ -52,6 +46,15 @@ export class PanoramaViewer extends Behaviour {
 
     /* ------ MEDIA ------ */
 
+    private media: IPanoramaViewerMedia[] = [];
+    private _currentMedia: IPanoramaViewerMedia | undefined;
+
+    // @nonSerialized
+    get currentMedia(): IPanoramaViewerMedia | undefined {
+        return this._currentMedia;
+    }
+
+    // @nonSerialized
     addMediaFromFiles(files: FileReference[]) {
         const endsWith = (str: string, suffix: string[]) => suffix.some(s => str.toLowerCase().endsWith(s));
 
@@ -115,7 +118,7 @@ export class PanoramaViewer extends Behaviour {
         if (!media) return false;
         
         // save media
-        this.currentMedia = media;
+        this._currentMedia = media;
 
         // raise event for e.g. ui
         this.dispatchEvent(new Event("mediaChanged"));

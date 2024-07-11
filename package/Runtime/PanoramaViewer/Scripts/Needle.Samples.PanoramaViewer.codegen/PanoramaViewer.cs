@@ -11,7 +11,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public Needle.Engine.FileReference[] @sources = new Needle.Engine.FileReference[]{ };
 		public void start(){}
 		public void update(){}
-		public void addMediaFromFiles(Needle.Engine.FileReference[] @files){}
 		public void next(){}
 		public void previous(){}
 		public void select(float @index, bool @immediate){}
