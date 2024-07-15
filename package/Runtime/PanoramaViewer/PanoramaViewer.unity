@@ -2403,9 +2403,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1532045336}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1236038110
 GameObject:
@@ -2544,7 +2545,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1360590310
 GameObject:
@@ -3165,6 +3166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1532045336}
   - component: {fileID: 1532045337}
+  - component: {fileID: 1532045338}
   m_Layer: 0
   m_Name: VR Controls
   m_TagString: Untagged
@@ -3185,8 +3187,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1793555678}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 1224599018}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1532045337
 MonoBehaviour:
@@ -3201,6 +3203,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.XRFlag, Needle.Engine
   VisibleIn: 4
+--- !u!114 &1532045338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532045335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3695339b31217b36e6c9294f06d1ad06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.WaistMenuVR, Needle.Engine-Samples.Runtime
+  snapping: 1
+  snapAngle: 22.5
+  smoothing: 1
+  smoothingFactor: 5
+  rig: {fileID: 1224599017}
 --- !u!1 &1544207971
 GameObject:
   m_ObjectHideFlags: 0
