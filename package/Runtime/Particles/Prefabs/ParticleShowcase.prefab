@@ -92,6 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5840721195170299804}
+  - component: {fileID: 7382263620962919745}
   m_Layer: 0
   m_Name: ParticleShowcase
   m_TagString: Untagged
@@ -117,6 +118,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7382263620962919745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3681418684983361284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
+  cameraView: {fileID: 7057288839174417291}
+  title: 
 --- !u!1 &4594501919461037567
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,13 +526,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Needle.Engine.Components.OrbitControls, Needle.Engine
-        m_MethodName: SetCameraAndLookTarget
-        m_Mode: 2
+      - m_Target: {fileID: 7382263620962919745}
+        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.GalleryPOI,
+          Needle.Engine-Samples.Runtime
+        m_MethodName: focus
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 4959806485848008654}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -645,6 +661,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1426969887572731088, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7382263620962919745}
+    - target: {fileID: 1426969887572731088, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: focusNext
+      objectReference: {fileID: 0}
+    - target: {fileID: 1426969887572731088, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
+      objectReference: {fileID: 0}
     - target: {fileID: 2932373980630222189, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -697,6 +725,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4895577916636271899, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7382263620962919745}
+    - target: {fileID: 4895577916636271899, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: focusPrevious
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895577916636271899, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
+      objectReference: {fileID: 0}
     - target: {fileID: 5309740461004536411, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1
@@ -705,7 +745,9 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3599377775505536502, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
+    - {fileID: 1356852514368234150, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8a21cb08926dda64a9958aa31ccf7604, type: 3}
 --- !u!1 &2925139574142682477 stripped
 GameObject:
