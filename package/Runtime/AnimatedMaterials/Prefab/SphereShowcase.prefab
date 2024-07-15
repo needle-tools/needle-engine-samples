@@ -277,6 +277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2102375621408027984}
+  - component: {fileID: 714488698171270425}
   m_Layer: 0
   m_Name: SphereShowcase
   m_TagString: Untagged
@@ -303,6 +304,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &714488698171270425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102375621408027985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
+  cameraView: {fileID: 296227470133356253}
+  title: 
 --- !u!1 &2146763020063866863
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +329,6 @@ GameObject:
   - component: {fileID: 8756940689043738069}
   - component: {fileID: 6498909889759444530}
   - component: {fileID: 6959041605074416090}
-  - component: {fileID: 4887467801221903287}
   - component: {fileID: 418377005134741481}
   - component: {fileID: 7314014069253678838}
   m_Layer: 0
@@ -397,10 +411,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4887467801221903287}
-        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.ClickButton,
+      - m_Target: {fileID: 714488698171270425}
+        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.GalleryPOI,
           Needle.Engine-Samples.Runtime
-        m_MethodName: click
+        m_MethodName: focusNext
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -410,19 +424,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4887467801221903287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2146763020063866863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a82fdd59f660dc53646536cec0dc959, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ClickButton, Needle.Engine-Samples.Runtime
-  buttonToClick: {fileID: 0}
 --- !u!114 &418377005134741481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,7 +611,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a82fdd59f660dc53646536cec0dc959, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ClickButton, Needle.Engine-Samples.Runtime
   buttonToClick: {fileID: 5457900715029326376}
 --- !u!1 &4035750908572902061
 GameObject:
@@ -869,13 +870,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Needle.Engine.Components.OrbitControls, Needle.Engine
-        m_MethodName: SetCameraAndLookTarget
-        m_Mode: 2
+      - m_Target: {fileID: 714488698171270425}
+        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.GalleryPOI,
+          Needle.Engine-Samples.Runtime
+        m_MethodName: focus
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 5808184793940435354}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -975,7 +977,6 @@ GameObject:
   - component: {fileID: 4468839194069843581}
   - component: {fileID: 6946996196737940998}
   - component: {fileID: 7502963785980520807}
-  - component: {fileID: 4337453572620885829}
   - component: {fileID: 3915760208656278165}
   - component: {fileID: 3214083950924294991}
   m_Layer: 0
@@ -1058,10 +1059,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4337453572620885829}
-        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.ClickButton,
+      - m_Target: {fileID: 714488698171270425}
+        m_TargetAssemblyTypeName: Needle.Typescript.GeneratedComponents.GalleryPOI,
           Needle.Engine-Samples.Runtime
-        m_MethodName: click
+        m_MethodName: focusPrevious
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1071,19 +1072,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4337453572620885829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6980043764481858821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a82fdd59f660dc53646536cec0dc959, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ClickButton, Needle.Engine-Samples.Runtime
-  buttonToClick: {fileID: 0}
 --- !u!114 &3915760208656278165
 MonoBehaviour:
   m_ObjectHideFlags: 0
