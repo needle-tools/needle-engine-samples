@@ -1,4 +1,4 @@
-import { Behaviour, serializable } from "@needle-tools/engine";
+import { AudioSource, Behaviour, serializable } from "@needle-tools/engine";
 import { LinearFilter, MeshBasicMaterial, PerspectiveCamera, SRGBColorSpace, VideoTexture } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -14,7 +14,10 @@ export class VideoBackground extends Behaviour {
         video.muted = true;
         video.loop = true;
         video.srcObject = await navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}});
-        video.play();
+        AudioSource.registerWaitForAllowAudio(() => {
+            video.play();
+        });
+        
         this.video = video;
 
         const texture = new VideoTexture(video);
@@ -40,6 +43,8 @@ export class VideoBackground extends Behaviour {
     onBeforeRender(): void {
 
         const cam = this.context.mainCamera as PerspectiveCamera;
+        if (!cam) return;
+
         // move to far plane
         this.gameObject.transform.position.z = cam.far * 0.5;
         // scale to match aspect ratio
