@@ -220,7 +220,6 @@ export class CarController extends Behaviour {
             // skid
             const sideAmount = Math.abs(this.vehicle.wheelSideImpulse(i) ?? 0);
             const breakAmount = Math.abs(this.vehicle.wheelBrake(i) ?? 0);
-            console.log(this.vehicle.wheelFrictionSlip(i));
             const showSkid = sideAmount > wheel.skidVisualSideTreshold || breakAmount > wheel.skidVisualBreakTreshold;
             if (this.vehicle.wheelIsInContact(i) && showSkid) {
                 if (wheel.skidParticle && contact) {
