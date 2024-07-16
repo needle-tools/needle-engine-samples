@@ -1,7 +1,7 @@
-import { Behaviour, GameObject, OrbitControls, serializable, Camera as NeedleCamera, Gizmos } from "@needle-tools/engine";
+import { Behaviour, GameObject, OrbitControls, serializable, Camera, Gizmos } from "@needle-tools/engine";
 import { getWorldPosition } from "@needle-tools/engine";
 import { latLongToVector3 as latLongToNormalized } from "./MapView";
-import { Vector3, Shape, ShapeGeometry, MeshBasicMaterial, Mesh, DoubleSide, CircleGeometry, Camera } from "three";
+import { Vector3, Shape, ShapeGeometry, MeshBasicMaterial, Mesh, DoubleSide, CircleGeometry, PerspectiveCamera } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -23,7 +23,8 @@ export class MapLocator extends Behaviour {
         return /*html*/`
         <div id="map-ui">
             <button id="locate" style="font-size:2em;">Locate me</button><br/>
-            <form id="search"><input type="text" id="searchInfo" placeholder="Enter location"><input type="submit" value="Find"/></form><br/>
+            <form id="search"><input type="text" id="searchInfo" placeholder="Enter location" value="restaurants"><input type="submit" value="Find"/></form><br/>
+            <button id="toggle-cameras">Toggle Cameras</button><br/>
             <p id="status"></p>
             <a id="map-link" target="_blank"></a>
         </div>
@@ -44,7 +45,6 @@ export class MapLocator extends Behaviour {
         }
 
         #map-ui button {
-            font-size: 2em;
             border-radius: 10px;
             outline: none;
             border: 0;
@@ -72,6 +72,14 @@ export class MapLocator extends Behaviour {
 
         this.element.querySelector("#locate")?.addEventListener("click", this.geoFindMe.bind(this));
         this.element.querySelector("#search")?.addEventListener("submit", this.showAmenities.bind(this));
+        this.element.querySelector("#toggle-cameras")?.addEventListener("click", () => {
+            const cameras = GameObject.findObjectsOfType(Camera);
+            for (const cam of cameras) {
+                if (cam.gameObject.activeSelf) GameObject.setActive(cam.gameObject, false);
+                else GameObject.setActive(cam.gameObject, true);
+            }
+            console.log("Cameras and state", cameras.map(c => c.name + " is " + c.gameObject.activeSelf));
+        });
 
         if (this.locateOnEnable) {
             setTimeout(() => {
@@ -204,11 +212,13 @@ export class MapLocator extends Behaviour {
         }
         this.lastMesh = mesh;
 
-        const min = orbitControls.controls!.minDistance;
-        const max = orbitControls.controls!.maxDistance;
-        orbitControls.fitCamera([mesh]);
-        orbitControls.controls!.minDistance = min;
-        orbitControls.controls!.maxDistance = max;
+        if (orbitControls?.controls) {
+            const min = orbitControls.controls!.minDistance;
+            const max = orbitControls.controls!.maxDistance;
+            orbitControls.fitCamera([mesh]);
+            orbitControls.controls!.minDistance = min;
+            orbitControls.controls!.maxDistance = max;
+        }
 
         const status = document.querySelector("#status") as HTMLDivElement;
         const mapLink = document.querySelector("#map-link") as HTMLAnchorElement;
@@ -256,11 +266,13 @@ export class MapLocator extends Behaviour {
                 me.setScale();
                 // object.scale.set(0.00001, 0.00001, 0.00001);
                 
-                const min = orbitControls.controls!.minDistance;
-                const max = orbitControls.controls!.maxDistance;
-                orbitControls.fitCamera([object]);
-                orbitControls.controls!.minDistance = min;
-                orbitControls.controls!.maxDistance = max;
+                if (orbitControls?.controls) {
+                    const min = orbitControls.controls!.minDistance;
+                    const max = orbitControls.controls!.maxDistance;
+                    orbitControls.fitCamera([object]);
+                    orbitControls.controls!.minDistance = min;
+                    orbitControls.controls!.maxDistance = max;
+                }
             }
         }
 
