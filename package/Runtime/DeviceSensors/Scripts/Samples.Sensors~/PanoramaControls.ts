@@ -1,8 +1,7 @@
 import { Behaviour, Camera, Mathf, PointerType, getTempQuaternion, getTempVector, serializeable } from "@needle-tools/engine";
-import { Quaternion, Spherical, Vector2 } from "three";
+import { Euler, Quaternion, Spherical, Vector2 } from "three";
 import { Gyroscope } from "./Gyroscope";
 
-const tempSpherical: Spherical = new Spherical();
 const referenceFOV = 90;
 const identityQuaternion = new Quaternion();
 const tempVec2_A = new Vector2();
@@ -11,7 +10,6 @@ const tempVec2_B = new Vector2();
 export class PanoramaControls extends Behaviour {
     protected gyroscope: Gyroscope = new Gyroscope();
 
-    protected spherical: Spherical = new Spherical();
     protected sphericalTarget: Spherical = new Spherical();
 
     /* Input */
@@ -60,12 +58,16 @@ export class PanoramaControls extends Behaviour {
 
     protected currentZoom: number = 0;
 
-    protected initialQuterion: Quaternion = new Quaternion();
+    protected initialQuaternion: Quaternion = new Quaternion();
+    
+    protected offsetQuaternion: Quaternion = new Quaternion();
+    protected targetQuaternion: Quaternion = new Quaternion();
+
     protected camera?: Camera;
     protected userInputStamp: number = Number.MIN_SAFE_INTEGER;
 
     start() {
-        this.initialQuterion.copy(this.gameObject.quaternion);
+        this.initialQuaternion.copy(this.gameObject.quaternion);
         this.camera = this.gameObject.getComponent(Camera)!;
 
         this.gyroscope.onFail.addEventListener(() => {
@@ -86,46 +88,38 @@ export class PanoramaControls extends Behaviour {
             else this.gyroscope.deactivate();
         }
 
-        if (this.gyroscopeInput) {
-
+        if (this.gyroscopeInput)
             this.handleGyro();
-        }
 
-        if (this.pointerInput) {
+        if (this.pointerInput)
             this.handleInput();
-        }
 
-        if (this.enableZoom) {
+        if (this.enableZoom)
             this.handleZoom();
-        }
 
-        if (this.autoRotate) {
+        if (this.autoRotate)
             this.handleAutoRotate();
-        }
 
         this.applyRotation();
     }
 
+    private tempQuaternion = new Quaternion();
     protected applyRotation() {
         const minMax = (Math.PI / 2) - (0.017 * 5);
 
-        this.spherical.phi = Mathf.clamp(this.spherical.phi, -minMax, minMax);
         this.sphericalTarget.phi = Mathf.clamp(this.sphericalTarget.phi, -minMax, minMax);
-
+        
         const dt = this.context.time.deltaTime;
 
-        this.spherical.phi = Mathf.lerp(this.spherical.phi, this.sphericalTarget.phi, dt * this.rotateSmoothing);
-        this.spherical.theta = Mathf.lerp(this.spherical.theta, this.sphericalTarget.theta, dt * this.rotateSmoothing);
+        this.offsetQuaternion.premultiply(this.tempQuaternion.setFromAxisAngle(getTempVector(0, 1, 0), -this.sphericalTarget.theta));
+        this.offsetQuaternion.multiply(this.tempQuaternion.setFromAxisAngle(getTempVector(1, 0, 0), this.sphericalTarget.phi));
+        this.sphericalTarget.theta = 0;
+        this.sphericalTarget.phi = 0;
+        this.targetQuaternion.slerp(this.offsetQuaternion, dt * this.rotateSmoothing);
+        this.gameObject.quaternion.copy(this.initialQuaternion);
+        this.gameObject.quaternion.multiply(this.targetQuaternion);
 
-        this.gameObject.quaternion.copy(this.initialQuterion);
-
-        const xRot = getTempQuaternion().setFromAxisAngle(getTempVector(1, 0, 0), this.spherical.phi);
-        const yRot = getTempQuaternion().setFromAxisAngle(getTempVector(0, 1, 0), this.spherical.theta);
-
-        this.gameObject.quaternion.copy(this.initialQuterion);
-
-        const goal = getTempVector(this.gameObject.position).add(getTempVector(0, 0, 1).applyQuaternion(xRot).applyQuaternion(yRot));
-        this.gameObject.lookAt(goal);
+        this.gameObject.matrixWorldNeedsUpdate = true;
     }
     
     protected handleAutoRotate() {
@@ -177,21 +171,13 @@ export class PanoramaControls extends Behaviour {
                 this.initialTargetRotation = this.gameObject.quaternion.clone();
             }
 
-            const deltaVec = getTempVector(0, 0, 1).applyQuaternion(gyroDelta);
-            tempSpherical.setFromVector3(deltaVec);
-            tempSpherical.phi -= Math.PI / 2;
-
-            // HACK: apply to both to skip smoothing
-            this.spherical.phi -= tempSpherical.phi;
-            this.sphericalTarget.phi -= tempSpherical.phi;
-
-            this.spherical.theta += tempSpherical.theta;
-            this.sphericalTarget.theta += tempSpherical.theta;
-
-            this.lastGyro.copy(gyroQuaternion);
-
-            if (gyroDelta.angleTo(identityQuaternion) > 0.001)
+            if (gyroDelta.angleTo(identityQuaternion) > 0.001) {
+                this.lastGyro.copy(gyroQuaternion);
                 this.userInputStamp = this.context.time.time;
+                // applied to both to avoid smoothing
+                this.offsetQuaternion.multiply(gyroDelta);
+                this.targetQuaternion.multiply(gyroDelta);
+            }
         }
     }
 
