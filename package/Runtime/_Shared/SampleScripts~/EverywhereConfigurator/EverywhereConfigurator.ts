@@ -19,6 +19,9 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
     @serializable()
     fadeDuration: number = 0.2;
 
+    @serializable()
+    selectFirstOnStart: boolean = true;
+
     protected _allTargets: Object3D[] = [];
     protected _allTriggers: Object3D[] = [];
 
@@ -53,12 +56,11 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
     }
 
     protected selectDefault() {
-        const defaultElem = this.elements.at(0);
-        if (defaultElem) {
-            this._allTargets.forEach(target => {
-                target.visible = defaultElem.contents.includes(target);
-            });
-        }
+        const defaultVariant = this.selectFirstOnStart ? this.elements.at(0) : undefined;
+        const toEnable = defaultVariant?.contents ?? [];
+        this._allTargets.forEach(target => {
+            target.visible = toEnable.includes(target);
+        });
     }
     
     // USDZ flow
@@ -99,12 +101,11 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
             });
         });
 
-        const defaultVar = this.elements.at(0);
-        if (defaultVar) {
-            const defaultTargets = defaultVar.contents;
-            const hideOnStart = this._cloneArray(this._allTargets).filter(t => !defaultTargets.includes(t));
-            ext.addBehavior(new BehaviorModel(`HideOnStart_${this.guid}`, TriggerBuilder.sceneStartTrigger(), ActionBuilder.fadeAction(hideOnStart, 0, false)));
-        }
+        // disable everything besides start state
+        const defaultVar = this.selectFirstOnStart ? this.elements.at(0) : undefined;
+        const defaultTargets = defaultVar?.contents ?? [];
+        const hideOnStart = this._cloneArray(this._allTargets).filter(t => !defaultTargets.includes(t));
+        ext.addBehavior(new BehaviorModel(`HideOnStart_${this.guid}`, TriggerBuilder.sceneStartTrigger(), ActionBuilder.fadeAction(hideOnStart, 0, false)));
     }
 
     private _cloneArray<T extends object>(array: T[]): T[] {
