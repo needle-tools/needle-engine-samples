@@ -9,6 +9,7 @@
     <style>
         body {
             margin: 0;
+            overflow: hidden;
         }
 
         needle-engine {
@@ -79,6 +80,7 @@
                         const value = this._slider.valueAsNumber / 100;
                         const time = value * duration;
                         this.audioSource.time = time;
+                        this.audioSource.play();
                     }
                 }
             };
