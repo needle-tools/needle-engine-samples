@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="favicon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>🌵 Made with Needle</title>
-    <!-- CSS -->
     <style>
         body {
             margin: 0;
         }
+
         needle-engine {
             position: absolute;
             display: block;
@@ -19,9 +20,75 @@
     </style>
     <!-- import needle-engine -->
     <script type="module" src="https://unpkg.com/@needle-tools/engine/dist/needle-engine.min.js"></script>
+    <script type="module">
+        document.addEventListener("DOMContentLoaded", () => {
+            const needle_engine = document.querySelector("needle-engine");
+            const context = needle_engine.context;
+            const scene = context.scene;
+            Needle.Context.Current = context;
+            const audiosource = Needle.GameObject.addComponent(scene, Needle.AudioSource);
+            audiosource.clip = "https://cdn.freesound.org/previews/745/745046_11861866-lq.mp3";
+            audiosource.play();
+            const controls = new MyAudioControls();
+            controls.audioSource = audiosource;
+            Needle.GameObject.addComponent(scene, controls);
+        });
+
+        class MyAudioControls extends Needle.Behaviour {
+            onEnable() {
+                this.createControls();
+            }
+            _slider;
+            createControls() {
+                if (this._slider) {
+                    this.context.domElement.append(this._slider);
+                    return;
+                }
+
+                this._slider = document.createElement('input');
+                this._slider.type = 'range';
+                this._slider.min = '0';
+                this._slider.max = '100';
+                this._slider.value = '0';
+                this._slider.style.cssText = `
+                position: relative;
+                width: 100%;
+                height: auto;
+                top: 0;
+                `;
+                this._slider.addEventListener('input', this._onSliderChanged);
+                this.context.domElement.append(this._slider);
+            }
+            _isUpdatingSlider = false;
+            update() {
+                if (this.audioSource && this._slider) {
+                    this._isUpdatingSlider = true;
+                    const duration = this.audioSource.Sound?.buffer?.duration;
+                    if (duration) {
+                        const t01 = this.audioSource.time / duration;
+                        this._slider.valueAsNumber = t01 * 100;
+                    }
+                    this._isUpdatingSlider = false;
+                }
+            }
+            _onSliderChanged = (evt) => {
+                if (this._isUpdatingSlider) return;
+                if (this.audioSource && this._slider) {
+                    const duration = this.audioSource.Sound?.buffer?.duration;
+                    if (duration) {
+                        const value = this._slider.valueAsNumber / 100;
+                        const time = value * duration;
+                        this.audioSource.time = time;
+                    }
+                }
+            };
+        }
+    </script>
 </head>
 
 <body>
     <needle-engine src="myScene.glb" camera-controls></needle-engine>
+
 </body>
+
 </html>
