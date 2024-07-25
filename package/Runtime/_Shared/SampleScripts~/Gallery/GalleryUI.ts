@@ -169,9 +169,6 @@ const html = /* html */`
 `;
 
 const css = /* css */`
-/* @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700;800&display=swap'); */
-
-
 .mainmenu {
     position: absolute;
     top: 16px;
@@ -311,6 +308,7 @@ const css = /* css */`
     white-space: nowrap;
     overflow: hidden;
     border-bottom: 1px solid rgba(40, 40, 40, .4);
+    font-family: 'Roboto Flex', sans-serif;
 }
 
 .submenu-button {
