@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.56882685, g: 1.0621052, b: 1.2968329, a: 1}
+  m_IndirectSpecularColor: {r: 0.56750774, g: 1.0639898, b: 1.2937788, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1064,7 +1064,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &476139376
 GameObject:
@@ -1403,6 +1403,7 @@ Transform:
   - {fileID: 532856724}
   - {fileID: 1790678628}
   - {fileID: 592671035}
+  - {fileID: 1959521901}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1423,8 +1424,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 1
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0
@@ -2032,7 +2036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
   _position: 1
   ShowNeedleLogo: 1
-  CreateFullscreenButton: 1
+  CreateFullscreenButton: 0
   CreateMuteButton: 0
   CreateQRCodeButton: 1
   ShowSpatialMenu: 1
@@ -9021,7 +9025,8 @@ MonoBehaviour:
   joinRandomRoom: 0
   requireRoomParameter: 0
   autoRejoin: 1
-  createJoinButton: 1
+  createJoinButton: 0
+  createViewOnlyButton: 0
 --- !u!1 &1536336423
 GameObject:
   m_ObjectHideFlags: 0
@@ -14094,6 +14099,7 @@ MonoBehaviour:
   AllowProgressiveLoading: 1
   UseMaxSize: 1
   MaxSize: 128
+  GenerateLODs: 1
 --- !u!114 &1666012071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15023,8 +15029,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 503258321}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1982222574
 GameObject:
