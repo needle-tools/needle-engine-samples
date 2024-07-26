@@ -1424,6 +1424,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 494077191}
   m_CullTransparentMesh: 1
+--- !u!1 &508853374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 508853375}
+  - component: {fileID: 508853376}
+  m_Layer: 0
+  m_Name: XR Rig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &508853375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508853374}
+  m_LocalRotation: {x: -0, y: 0.96679604, z: -0, w: 0.2555493}
+  m_LocalPosition: {x: -4.77, y: 0, z: 0.85}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1238210737}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 150.388, z: 0}
+--- !u!114 &508853376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508853374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
 --- !u!1 &533188777
 GameObject:
   m_ObjectHideFlags: 0
@@ -2331,7 +2376,6 @@ GameObject:
   - component: {fileID: 883097736}
   - component: {fileID: 883097739}
   - component: {fileID: 883097738}
-  - component: {fileID: 883097737}
   m_Layer: 0
   m_Name: KHR_texture_transform
   m_TagString: Untagged
@@ -2354,19 +2398,6 @@ Transform:
   m_Father: {fileID: 439459940}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &883097737
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883097735}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &883097738
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2672,6 +2703,7 @@ GameObject:
   - component: {fileID: 1224042569}
   - component: {fileID: 1224042573}
   - component: {fileID: 1224042574}
+  - component: {fileID: 1224042575}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -2709,7 +2741,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
-  AutoCompress: 1
+  AutoCompress: 0
   Dependencies: []
 --- !u!4 &1224042571
 Transform:
@@ -2760,6 +2792,23 @@ MonoBehaviour:
     description: Powerful animation capabilities. Animate material values, scripts,
       objects.
     image: {fileID: 2800000, guid: 85489a4dc48f22a4fae957db0a971791, type: 3}
+--- !u!114 &1224042575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224042568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
+    Needle.Engine.GltfExport
+  AllowProgressiveLoading: 0
+  UseMaxSize: 1
+  MaxSize: 128
+  GenerateLODs: 1
 --- !u!1 &1229577366
 GameObject:
   m_ObjectHideFlags: 0
@@ -2895,6 +2944,7 @@ Transform:
   - {fileID: 1751268390}
   - {fileID: 16992283}
   - {fileID: 1279714407}
+  - {fileID: 508853375}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2915,8 +2965,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 1
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0
@@ -5262,6 +5315,8 @@ MonoBehaviour:
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -5269,6 +5324,7 @@ MonoBehaviour:
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 2017089614}
 --- !u!1183024399 &2017089614
