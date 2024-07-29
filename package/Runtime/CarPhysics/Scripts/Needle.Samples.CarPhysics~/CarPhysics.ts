@@ -242,7 +242,7 @@ export class CarPhysics extends Behaviour {
     @serializable()
     carDrive: CarDrive = CarDrive.all;
 
-    private vehicle!: DynamicRayCastVehicleController;
+    protected vehicle!: DynamicRayCastVehicleController;
     private rigidbody!: Rigidbody;
     private rapierRigidbody!: RapierRigidbody;
 
@@ -387,12 +387,12 @@ export class CarPhysics extends Behaviour {
     }
 
     reset() {
-        this.teleportVehicle(this.posOnStart, this.rotOnStart);
+        this.teleportVehicle(this.posOnStart, this.rotOnStart, true);
     }
 
     // @nonSerialized
     teleportVehicle(worldPosition: Vector3 | undefined, worldRotation: Quaternion | undefined, resetVelocities: boolean = true) {
-        if (!this.rapierRigidbody) return;
+        if (!this.rapierRigidbody || !this.vehicle) return;
 
         if (worldPosition) {
             this.rapierRigidbody.setTranslation(worldPosition, true);
@@ -403,8 +403,7 @@ export class CarPhysics extends Behaviour {
         }
 
         if (resetVelocities) {
-            this.rapierRigidbody.resetForces(true);
-            this.rapierRigidbody.resetTorques(true);
+            this.rigidbody.setVelocity(0, 0, 0);
         }
     }
 
