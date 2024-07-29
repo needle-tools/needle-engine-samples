@@ -1,4 +1,4 @@
-import { ActionBuilder, BehaviorExtension, BehaviorModel, Behaviour, Button, EventList, RectTransform, TriggerBuilder, USDObject, USDZExporterContext, UsdzBehaviour, getOrAddComponent, serializable } from "@needle-tools/engine";
+import { ActionBuilder, BehaviorExtension, BehaviorModel, Behaviour, Button, EventList, RectTransform, TriggerBuilder, USDObject, USDZExporterContext, UsdzBehaviour, delayForFrames, getOrAddComponent, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 
 class EverywhereConfiguratorElement {
@@ -22,8 +22,18 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
     @serializable()
     selectFirstOnStart: boolean = true;
 
-    protected _allTargets: Object3D[] = [];
-    protected _allTriggers: Object3D[] = [];
+    private _allTargets: Object3D[] = [];
+    private _allTriggers: Object3D[] = [];
+
+    private _currentIndex: number | undefined;
+    //@nonSerialized
+    get currentIndex() { return this._currentIndex; }
+
+    private get defaultVariant(): EverywhereConfiguratorElement | undefined {
+        const firstOrNone = this.selectFirstOnStart ? this.elements.at(0) : undefined;
+        const defaultVariant = this._currentIndex !== undefined ? this.elements.at(this._currentIndex) : firstOrNone;
+        return defaultVariant;
+    }
 
     awake(): void {        
         // clean up null / editorOnly entires
@@ -39,12 +49,13 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
     }
     
     // Runtime flow
-    protected setupForRuntime() {
-        this.elements.forEach((element) => {
+    private setupForRuntime() {
+        this.elements.forEach((element, index) => {
             element.triggers?.forEach((trigger) => {
                 const btn = getOrAddComponent(trigger, Button);  
                 btn.onClick ??= new EventList();
                 btn.onClick.addEventListener(() => {
+                    this._currentIndex = index;
                     this._allTargets.forEach(target => { 
                         target.visible = element.contents.includes(target);
                     })
@@ -55,9 +66,8 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
         this.selectDefault();
     }
 
-    protected selectDefault() {
-        const defaultVariant = this.selectFirstOnStart ? this.elements.at(0) : undefined;
-        const toEnable = defaultVariant?.contents ?? [];
+    private selectDefault() {
+        const toEnable = this.defaultVariant?.contents ?? [];
         this._allTargets.forEach(target => {
             target.visible = toEnable.includes(target);
         });
@@ -77,16 +87,13 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
         });
     }
 
-    afterCreateDocument(_ext: BehaviorExtension, _context: USDZExporterContext) {
-        this._allTargets.forEach(target => {
-            target.visible = false;
-        });
-
+    async afterSerialize(_ext: BehaviorExtension, _context: USDZExporterContext) {
+        await delayForFrames(3);
         this.selectDefault();
     }
 
     // TODO: ActionBuilder.parallel (?)
-    protected setupForUSDZ(ext: BehaviorExtension) {
+    private setupForUSDZ(ext: BehaviorExtension) {
         this.elements.forEach(element => { 
             element.triggers?.forEach(trigger => {
                 const enableTargets = element.contents;
@@ -102,9 +109,8 @@ export class EverywhereConfigurator extends Behaviour implements UsdzBehaviour{
         });
 
         // disable everything besides start state
-        const defaultVar = this.selectFirstOnStart ? this.elements.at(0) : undefined;
-        const defaultTargets = defaultVar?.contents ?? [];
-        const hideOnStart = this._cloneArray(this._allTargets).filter(t => !defaultTargets.includes(t));
+        const toEnable = this.defaultVariant?.contents ?? [];
+        const hideOnStart = this._cloneArray(this._allTargets).filter(t => !toEnable.includes(t));
         ext.addBehavior(new BehaviorModel(`HideOnStart_${this.guid}`, TriggerBuilder.sceneStartTrigger(), ActionBuilder.fadeAction(hideOnStart, 0, false)));
     }
 
