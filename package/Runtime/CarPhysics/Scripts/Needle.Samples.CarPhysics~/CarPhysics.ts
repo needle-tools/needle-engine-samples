@@ -1,16 +1,21 @@
 import { DynamicRayCastVehicleController, World, Quaternion, Vector, RigidBody as RapierRigidbody } from "@dimforge/rapier3d-compat";
 
-import { Behaviour, Gizmos, Mathf, Rigidbody, delayForFrames, getParam, getTempVector, serializable, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, getTempQuaternion, getWorldDirection, setWorldPosition, FrameEvent, WaitForFrames } from "@needle-tools/engine";
+import { Behaviour, Gizmos, Mathf, Rigidbody, delayForFrames, getParam, getTempVector, serializable, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, QTrailParticle, getTempQuaternion, getWorldDirection, setWorldPosition, FrameEvent, WaitForFrames } from "@needle-tools/engine";
 
 import { Vector3, Vector2, Object3D } from "three";
-
-import { TrailParticle } from "three.quarks";
 
 const debugCarPhysics = getParam("debugcarphysics");
 const debugWheel = getParam("debugwheel");
 
 export enum CarAxle { front, rear }
 export enum CarDrive { front, rear, all }
+
+function rapierVectorToThreeVector(v: Vector | null): Vector3 | undefined { 
+    if (v == null) {
+        return undefined;
+    }
+    return getTempVector(v.x, v.y, v.z);
+}
 
 export class CarWheel extends Behaviour {
     @serializable(Object3D)
@@ -55,13 +60,9 @@ export class CarWheel extends Behaviour {
 
     private skidParticleBehaviour?: SkidTrailBehaviour;
 
-    private refRight = new Vector3(1, 0, 0);
-    private refUp = new Vector3(0, 1, 0);
-
     private wheelModelRight!: Vector3;
     private wheelModelUp!: Vector3;
 
-    private wheelSocketPosition!: Vector3;
     private wheelModelOffset!: Vector3;
 
     private car!: CarPhysics;
@@ -79,7 +80,6 @@ export class CarWheel extends Behaviour {
 
         const wPos = this.worldPosition;
         const rPos = this.car.gameObject.worldToLocal(wPos);
-        this.wheelSocketPosition = new Vector3().copy(rPos);
         
         const suspensionDirection = getTempVector(0,-1,0);
         const axleDirection = getTempVector(-1, 0, 0);
@@ -119,7 +119,7 @@ export class CarWheel extends Behaviour {
         target.quaternion.copy(rot);
         
         // position
-        const contact = CarWheel.rapierVectorToThreeVector(this.vehicle.wheelContactPoint(this.wheelIndex) as Vector);
+        const contact = rapierVectorToThreeVector(this.vehicle.wheelContactPoint(this.wheelIndex) as Vector);
         const isInContact = this.vehicle.wheelIsInContact(this.wheelIndex);
         const wheelPosition = getTempVector();
         if (contact) {
@@ -187,12 +187,6 @@ export class CarWheel extends Behaviour {
         // slip
         this.vehicle.setWheelFrictionSlip(this.wheelIndex, Mathf.lerp(this.frictionSlip.x, this.frictionSlip.y, gripAmount));
     }
-
-    
-    static rapierVectorToThreeVector(v: Vector | null): Vector3 | undefined{ 
-        if(v == null) return undefined;
-        return getTempVector(v.x, v.y, v.z);
-    }
 }
 
 // @nonSerializable
@@ -200,22 +194,26 @@ export class SkidTrailBehaviour extends ParticleSystemBaseBehaviour {
     isSkidding: boolean = false;
 
     update(particle: QParticle, _delta: number): void {
-        if(this.system.trails?.enabled && particle instanceof TrailParticle) {
+        const trail = particle as QTrailParticle;
+        if(this.system.trails?.enabled && trail) {
             // the most new particle wouldn't get affected
-            if (!this.isSkidding)
+            if (!this.isSkidding) {
                 particle.color.setW(0);
+            }
 
-            let tail = particle.previous.tail;
+            let tail = trail.previous?.tail;
             while(tail && tail.hasPrev()) {
-                const myTail = tail as any;                
+                const myTail = tail as any;
+                myTail.data ??= {};
+
                 if (myTail.data["isSkidding"] === undefined) {
                     myTail.data["isSkidding"] = this.isSkidding;
                 }
 
                 if(myTail.data["isSkidding"] === false) {
-                    tail!.data.color.setW(0);
+                    tail.data.color?.setW(0);
                 }
-                tail = tail!.prev;
+                tail = tail.prev;
             }
         }
     }
@@ -350,7 +348,7 @@ export class CarPhysics extends Behaviour {
                 if (this.context.input.isKeyDown("r")) {
                     this.reset();
                 }
-                
+
                 this.resetWhenRolledOver();
 
                 const dt = this.context.time.deltaTime;
@@ -408,9 +406,6 @@ export class CarPhysics extends Behaviour {
             this.rapierRigidbody.resetForces(true);
             this.rapierRigidbody.resetTorques(true);
         }
-        
-        // HACK: 
-        this.context.physics.engine?.step(0); // 0 is a good dt? What about epsilon?
     }
 
     private applyPhysics() {
