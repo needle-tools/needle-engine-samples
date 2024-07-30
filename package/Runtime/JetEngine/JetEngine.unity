@@ -3794,7 +3794,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.051399563, y: -0.8652954, z: 0.090711534, w: 0.49029937}
   m_LocalPosition: {x: 40.06, y: 10.46, z: 24}
-  m_LocalScale: {x: 1.0000615, y: 0.99999887, z: 1.0000579}
+  m_LocalScale: {x: 1.0000651, y: 0.99999887, z: 1.000062}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4261,6 +4261,7 @@ GameObject:
   - component: {fileID: 784234925}
   - component: {fileID: 784234927}
   - component: {fileID: 784234928}
+  - component: {fileID: 784234929}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -4283,7 +4284,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
-  AutoCompress: 0
+  AutoCompress: 1
   Dependencies:
   - Name: needle.hotspots
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/Hotspots/Scripts/Needle.Hotspots.npmdef
@@ -4357,6 +4358,23 @@ MonoBehaviour:
     title: Jet Engine
     description: Showcase your product interactivly
     image: {fileID: 2800000, guid: 16339b24e2faaca47b45d27d2da83ea6, type: 3}
+--- !u!114 &784234929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
+    Needle.Engine.GltfExport
+  AllowProgressiveLoading: 0
+  UseMaxSize: 0
+  MaxSize: 128
+  GenerateLODs: 0
 --- !u!1 &799995837
 GameObject:
   m_ObjectHideFlags: 0
@@ -8258,7 +8276,7 @@ MonoBehaviour:
   usePlacementReticle: 1
   customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 1
-  arScale: 1
+  arScale: 8
   autoPlace: 1
   autoCenter: 1
   useXRAnchor: 0
