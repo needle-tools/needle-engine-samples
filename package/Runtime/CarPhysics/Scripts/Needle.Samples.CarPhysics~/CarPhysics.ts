@@ -242,6 +242,9 @@ export class CarPhysics extends Behaviour {
     @serializable()
     carDrive: CarDrive = CarDrive.all;
 
+    @serializable()
+    yResetThreshold: number = -5;
+
     protected vehicle!: DynamicRayCastVehicleController;
     private rigidbody!: Rigidbody;
     private rapierRigidbody!: RapierRigidbody;
@@ -350,6 +353,7 @@ export class CarPhysics extends Behaviour {
                 }
 
                 this.resetWhenRolledOver();
+                this.resetWhenFallingoff();
 
                 const dt = this.context.time.deltaTime;
                 this.rigidbody.wakeUp(); 
@@ -439,6 +443,12 @@ export class CarPhysics extends Behaviour {
         this.wheels.forEach((wheel) => { 
             wheel.updateVisuals();
         });
+    }
+
+    private resetWhenFallingoff() {
+        if (this.worldPosition.y < this.yResetThreshold) {
+            this.reset();
+        }
     }
 
     private rolledOverDuration: number = 0;

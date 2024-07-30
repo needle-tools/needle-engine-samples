@@ -15,6 +15,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @breakForce = 1f;
 		public float @topSpeed = 20f;
 		public Needle.Typescript.GeneratedComponents.CarDrive @carDrive;
+		public float @yResetThreshold;
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void start(){}
