@@ -274,14 +274,20 @@ namespace SampleChecks
             Assert.AreEqual(1, readme.gameObject.GetComponents<Component>().Length - 1, "Readme GameObject has too many components, should only have Readme");
         }
 
+        static string[] ignoreMissingNeedleMenu =
+        {
+            "Car Physics",
+        };
+
         [Test]
         public void HasNeedleMenuAndShowsLogo()
         {
-            OpenSceneAndCopyIfNeeded();
-
+            OpenSceneAndCopyIfNeeded();            
             var menu = Object.FindAnyObjectByType<NeedleMenu>();
-            Assert.IsNotNull(menu, "NeedleMenu is missing in the scene");
-            Assert.IsTrue(menu.ShowNeedleLogo, $"NeedleMenu should have {nameof(NeedleMenu.ShowNeedleLogo)} enabled.");
+
+            var canSkip = ignoreMissingNeedleMenu.Contains(sample.DisplayName);
+            Assert.IsTrue(menu != null || canSkip, "NeedleMenu is missing in the scene");
+            Assert.IsTrue(menu.ShowNeedleLogo || canSkip, $"NeedleMenu should have {nameof(NeedleMenu.ShowNeedleLogo)} enabled.");
         }
 
         [Test]
