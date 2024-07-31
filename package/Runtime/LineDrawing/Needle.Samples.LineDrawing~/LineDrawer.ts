@@ -199,7 +199,7 @@ export class LinesDrawer extends Behaviour {
                         state.prevDistance = newDistance;
                     }
                 }
-                if (state.lastHit && state.lastHit.distanceTo(pt) < state.prevDistance * .01) {
+                if (state.lastHit && state.lastHit.distanceTo(pt) < state.prevDistance * .01 * (isSpatial ? 0.1 : 1)) {
                     return state;
                 }
                 this.lines.updateLine(state.currentHandle, { point: pt, width: width });
