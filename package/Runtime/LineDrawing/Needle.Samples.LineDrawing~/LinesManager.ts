@@ -1,19 +1,16 @@
 import { Behaviour, GameObject } from "@needle-tools/engine";
-import * as THREE from 'three';
-import { Color, Material } from "three";
-import { MeshLine, MeshLineMaterial } from 'three.meshline';
-
-
+import { Color, Mesh, Object3D, Texture, Vector2, Vector3 } from "three";
+import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 
 export declare type LineOptions = {
-    material?: Material;
+    material?: MeshLineMaterial;
     options?: LineMaterialOptions;
 }
 
 export declare type LineMaterialOptions = {
-    map?: THREE.Texture;
+    map?: Texture;
     useMap?: number;
-    alphaMap?: THREE.Texture;
+    alphaMap?: Texture;
     color?: Color;
     opacity?: number;
     lineWidth?: number;
@@ -22,11 +19,12 @@ export declare type LineMaterialOptions = {
 export class LineInstanceHandler {
     id: number = 0;
     points: Array<any> = [];
-    line: MeshLine = new MeshLine();
+    widths: Array<number> = [];
+    line: MeshLineGeometry = new MeshLineGeometry();
     material?: MeshLineMaterial;
-    mesh?: THREE.Mesh;
+    mesh?: Mesh;
 
-    constructor(owner: THREE.Object3D, options?: LineOptions) {
+    constructor(owner: Object3D, options?: LineOptions) {
         if (options) {
             this.material = options.material;
         }
@@ -39,13 +37,13 @@ export class LineInstanceHandler {
                 Object.assign(this.material, opts);
             }
         }
-        this.mesh = new THREE.Mesh(this.line, this.material);
+        this.mesh = new Mesh(this.line, this.material);
         owner.add(this.mesh);
     }
 
-    private static wp: THREE.Vector3 = new THREE.Vector3();
+    private static wp: Vector3 = new Vector3();
 
-    appendPoint(vec: Vec3): Vec3 {
+    appendPoint(vec: Vec3, width?: number): Vec3 {
         let localPoint = LineInstanceHandler.wp;
         localPoint.set(vec.x, vec.y, vec.z);
         const parent = this.mesh?.parent;
@@ -57,11 +55,17 @@ export class LineInstanceHandler {
         }
 
         this.points.push(vec.x, vec.y, vec.z);
-        this.line.setPoints(this.points);
+        this.widths.push(width ?? 1);
+        const l = this.points.length / 3;
+        this.line.setPoints(this.points, (percentage: number) => {
+            const i = Math.floor(percentage * l);
+            return this.widths[i] * 10;
+        });
         return vec;
     }
 
-    private defaultLineMaterial = new MeshLineMaterial({ color: 0x999999, lineWidth: 0.01 });
+    private res = new Vector2(window.innerWidth, window.innerHeight);
+    private defaultLineMaterial = new MeshLineMaterial({ color: 0x999999, lineWidth: 0.01, resolution: this.res });
 }
 
 declare type Vec3 = {
@@ -80,6 +84,7 @@ declare type LineModel = {
     guid: number; // it must be named guid
     points: Array<Vec3>;
     width: number;
+    widths: Array<number>;
     color: Vec3;
     startIndex: number;
     finished: boolean;
@@ -91,12 +96,13 @@ export declare type LineHandle = {
 
 declare type UpdateLineArgs = {
     point: Vec3;
+    width: number;
 }
 
 
 export class LinesManager extends Behaviour {
 
-    public startLine(parent?: THREE.Object3D, options?: LineOptions): LineHandle {
+    public startLine(parent?: Object3D, options?: LineOptions): LineHandle {
         const id = Math.random() * Number.MAX_SAFE_INTEGER;
         return this.internalStartLine(parent, id, true, options);
     }
@@ -105,14 +111,17 @@ export class LinesManager extends Behaviour {
         const line = this.inFlight[handle.id];
         if (!line) return;
         if (args.point) {
-            args.point = line.appendPoint(args.point);
+            args.point = line.appendPoint(args.point, args.width);
         }
         const buf = this.buffer[handle.id];
-        if (buf) {
+        const widthBuf = this.widthBuffer[handle.id];
+        if (buf && widthBuf) {
             if (args.point)
                 buf.push(args.point.x, args.point.y, args.point.z);
+            if (args.width)
+                widthBuf.push(args.width);
             if (buf.length > 5) {
-                this.sendLineUpdate(line, false, undefined, buf);
+                this.sendLineUpdate(line, false, undefined, buf, widthBuf);
                 buf.length = 0;
             }
         }
@@ -128,11 +137,17 @@ export class LinesManager extends Behaviour {
             this.sendLineUpdate(line, true, 0);
 
         const buf = this.buffer[handle.id];
-        if (buf) {
+        const widthBuf = this.widthBuffer[handle.id];
+        if (buf && widthBuf) {
             delete this.buffer[handle.id];
             const arr = buf;
             arr.length = 0;
             this.freeBuffer.push(arr);
+
+            delete this.widthBuffer[handle.id];
+            const arr2 = widthBuf;
+            arr2.length = 0;
+            this.freeWidthBuffer.push(arr2);
         }
 
         return line;
@@ -145,7 +160,9 @@ export class LinesManager extends Behaviour {
     private finished: Array<LineInstanceHandler> = [];
     private inFlight: { [key: number]: LineInstanceHandler } = [];
     private buffer: { [key: number]: any[] } = {};
+    private widthBuffer: { [key: number]: number[] } = {};
     private freeBuffer = new Array<Vec3[]>();
+    private freeWidthBuffer = new Array<number[]>();
 
     awake(): void {
 
@@ -157,13 +174,16 @@ export class LinesManager extends Behaviour {
             if (line && evt.points) {
                 if (evt.startIndex <= 0) {
                     line.points = evt.points;
+                    line.widths = evt.widths;
                 }
                 else {
                     if (evt.startIndex >= line.points.length) {
                         line.points.push(...evt.points);
+                        line.widths.push(...evt.widths);
                     }
                 }
-                line.line.setPoints(line.points);
+                console.log("Setting line points", line.points, line.widths);
+                line.line.setPoints(line.points, (index: number) => line.widths[index]);
                 line.material!.lineWidth = evt.width;
                 line.material!.color.fromArray(evt.color);
                 if (evt.finished === true) {
@@ -179,10 +199,10 @@ export class LinesManager extends Behaviour {
         if (!obj) {
             return null;
         }
-        this.internalStartLine(obj as THREE.Object3D, lineId, false);
+        this.internalStartLine(obj as Object3D, lineId, false);
         return this.inFlight[lineId];
     }
-    private internalStartLine(parent: THREE.Object3D | null | undefined, id: number, send: boolean = true, options?: LineOptions): LineHandle {
+    private internalStartLine(parent: Object3D | null | undefined, id: number, send: boolean = true, options?: LineOptions): LineHandle {
         const line = new LineInstanceHandler(parent ?? this.context.scene, options);
         line.id = id;
         this.inFlight[id] = line;
@@ -190,9 +210,13 @@ export class LinesManager extends Behaviour {
             this.sendLineStart(line);
 
         let buf;
+        let widthBuf;
         if (this.freeBuffer.length <= 0) buf = new Array<Vec3>();
         else buf = this.freeBuffer.pop();
+        if (this.freeWidthBuffer.length <= 0) widthBuf = new Array<number>();
+        else widthBuf = this.freeWidthBuffer.pop();
         this.buffer[id] = buf;
+        this.widthBuffer[id] = widthBuf;
         return { id: id };
     }
 
@@ -201,12 +225,13 @@ export class LinesManager extends Behaviour {
         this.context.connection.send("line-start", { id: instance.id, parentGuid: parent ? parent["guid"] : undefined })
     }
 
-    private sendLineUpdate(instance: LineInstanceHandler, finished: boolean, startIndex?: number, points?: Array<any>) {
+    private sendLineUpdate(instance: LineInstanceHandler, finished: boolean, startIndex?: number, points?: Array<any>, widths?: Array<number>) {
         if (instance) {
             const model: LineModel = {
                 parentGuid: instance.mesh!.parent!["guid"],
                 guid: instance.id,
                 points: points ? [...points] : instance.points,
+                widths: widths ? [...widths] : instance.widths,
                 width: instance.material!.lineWidth,
                 color: instance.material!.color.toArray(),
                 startIndex: startIndex !== undefined ? startIndex : instance.points.length,

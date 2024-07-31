@@ -13,6 +13,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @addToPaintedObject = true;
 		public void OnEnable(){}
 		public void OnDisable(){}
+		public void update(){}
 		public void start(){}
 	}
 }

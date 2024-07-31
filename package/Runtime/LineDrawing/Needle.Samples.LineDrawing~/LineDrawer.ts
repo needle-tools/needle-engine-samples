@@ -1,8 +1,7 @@
-import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, Mathf, getWorldPosition, PlayerColor } from "@needle-tools/engine";
-import * as THREE from 'three';
-import { Object3D, Color, Vector3 } from "three";
+import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, Mathf, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver } from "@needle-tools/engine";
+import { Object3D, Color, Vector3, Vector2, Ray, Intersection } from "three";
 import { LineHandle, LinesManager } from "./LinesManager";
-import { MeshLineMaterial } from 'three.meshline';
+import { MeshLineMaterial } from 'meshline';
 
 class LineState {
     isDrawing: boolean;
@@ -10,7 +9,7 @@ class LineState {
     currentHandle: LineHandle | null;
     maxDistance: number;
     prevDistance: number;
-    lastParent: THREE.Object3D | null;
+    lastParent: Object3D | null;
 
     constructor() {
         this.isDrawing = false;
@@ -22,6 +21,13 @@ class LineState {
     }
 }
 
+declare type EvtData = {
+    origin: object & Partial<IPointerHitEventReceiver>;
+    pointerId: number;
+    isSpatial: boolean;
+    space: GameObject;
+}
+
 export class LinesDrawer extends Behaviour {
 
     //@type LinesManager
@@ -29,7 +35,7 @@ export class LinesDrawer extends Behaviour {
     lines!: LinesManager;
     //@type UnityEngine.Transform[]
     @serializable(Object3D)
-    colliders?: THREE.Object3D[];
+    colliders?: Object3D[];
     alignToSurface: boolean = true;
     addToPaintedObject: boolean = true;
 
@@ -46,9 +52,17 @@ export class LinesDrawer extends Behaviour {
         this.context.input.removeEventListener("pointermove", this._onPointerMove);
         this.context.input.removeEventListener("pointerup", this._onPointerUp);
     }
+    
+    private data: Map<string, EvtData> = new Map();
 
     private _onPointerDown = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
+        this.data.set(args.pointerId.toString(), {
+            origin: args.origin,
+            pointerId: args.pointerId,
+            isSpatial: args.isSpatial,
+            space: args.space,
+        });
     }
 
     private _onPointerMove = (args: NEPointerEvent) => {
@@ -56,19 +70,38 @@ export class LinesDrawer extends Behaviour {
 
         if (!this.context.input.getPointerPressed(args.pointerId)) return;
 
-        this.onPointerUpdate(args);
+        // this.onPointerUpdate(args);
     }
 
     private _onPointerUp = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
 
         this.onPointerUpdate(args);
+
+        this.data.delete(args.pointerId.toString());
     }
 
-    private onPointerUpdate(args: NEPointerEvent) {
+    update() {
+        for (const [key, value] of this.data) {
+            this.onPointerUpdate(value);
+        }
+    }
+
+    private _ray: Ray = new Ray();
+    private onPointerUpdate(args: EvtData) {
         const finish = this.context.input.getPointerUp(args.pointerId);
         const isSpatialDevice = args.isSpatial;
-        this.updateLine(args.pointerId.toString(), isSpatialDevice, args.ray, true, finish, false);
+
+        let width = 1;
+        if (args.origin instanceof NeedleXRController) {
+            const btn = args.origin.getButton("primary");
+            if (btn !== undefined) {
+                width = btn.value;
+            }
+        }
+
+        this._ray.set(args.space.worldPosition, args.space.worldForward);
+        this.updateLine(args.pointerId.toString(), isSpatialDevice, this._ray, width, true, finish, false);
     }
 
     start() {
@@ -83,7 +116,7 @@ export class LinesDrawer extends Behaviour {
 
     private _states: { [id: string]: LineState } = {};
 
-    private updateLine(id: string, isSpatial: boolean, ray: THREE.Ray, active: boolean, finish: boolean, cancel: boolean = false): LineState {
+    private updateLine(id: string, isSpatial: boolean, ray: Ray, width: number, active: boolean, finish: boolean, cancel: boolean = false): LineState {
         let state = this._states[id];
         if (!state) {
             this._states[id] = new LineState();
@@ -102,8 +135,8 @@ export class LinesDrawer extends Behaviour {
             if (cancel) {
                 return state;
             }
-            let pt: THREE.Vector3 | null = null;
-            let hitParent: THREE.Object3D | null = null;
+            let pt: Vector3 | null = null;
+            let hitParent: Object3D | null = null;
             let prev = state.prevDistance;
             if (state.maxDistance === 0) {
                 state.maxDistance = this.context.mainCamera?.getWorldPosition(new Vector3()).length() ?? 0;
@@ -124,7 +157,7 @@ export class LinesDrawer extends Behaviour {
                         state.maxDistance = hit.distance;
                     }
                     pt = hit.point;
-                    if (hit.face)
+                    if (pt && hit.face)
                         pt.add(hit.face.normal.multiplyScalar(0.01));
                     state.prevDistance = hit.distance;
                     hitParent = hit.object;
@@ -153,7 +186,7 @@ export class LinesDrawer extends Behaviour {
                 }
 
                 if (!state.currentHandle) {
-                    let lineParent = state.lastParent ?? this.gameObject as THREE.Object3D;
+                    let lineParent = state.lastParent ?? this.gameObject as Object3D;
                     if (this.addToPaintedObject && hitParent) lineParent = hitParent;
                     state.lastParent = lineParent;
                     state.currentHandle = this.lines.startLine(lineParent, { material: this.createRandomMaterial() });
@@ -169,7 +202,7 @@ export class LinesDrawer extends Behaviour {
                 if (state.lastHit && state.lastHit.distanceTo(pt) < state.prevDistance * .01) {
                     return state;
                 }
-                this.lines.updateLine(state.currentHandle, { point: pt });
+                this.lines.updateLine(state.currentHandle, { point: pt, width: width });
                 state.lastHit.copy(pt);
             }
 
@@ -180,7 +213,7 @@ export class LinesDrawer extends Behaviour {
 
     private _raycastOptions = new RaycastOptions();
 
-    private getHit(ray: THREE.Ray): THREE.Intersection | null {
+    private getHit(ray: Ray): Intersection | null {
         if (!this.colliders || this.colliders.length === 0) {
             this.colliders = [this.gameObject];
         }
@@ -210,11 +243,12 @@ export class LinesDrawer extends Behaviour {
         if (this.context.connection.connectionId)
             col = PlayerColor.colorFromHashCode(PlayerColor.hashCode(this.context.connection.connectionId));
         else
-            col = new THREE.Color("hsl(" + (Math.random() * 100).toFixed(0) + ", 80%, 30%)");
+            col = new Color("hsl(" + (Math.random() * 100).toFixed(0) + ", 80%, 30%)");
 
         return new MeshLineMaterial({
             color: col,
             lineWidth: Mathf.lerp(0.005, 0.01, Math.random()),
+            resolution: new Vector2(window.innerWidth, window.innerHeight),
         });
     }
 }
