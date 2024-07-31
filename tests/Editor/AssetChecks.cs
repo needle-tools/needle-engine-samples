@@ -134,6 +134,8 @@ public class AssetChecks
             "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs",
             "Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs",
             "Packages/com.unity.render-pipelines.universal/Shaders/Utils/ScreenSpaceAmbientOcclusion.shader",
+
+            "Packages/com.unity.splines/Runtime/SplineContainer.cs",
             
             // TODO we should patch this reference out in SampleUpdater.cs, it will be missing in User projects
             "Packages/com.needle.dev-assets/Needle Samples FTP.asset",
