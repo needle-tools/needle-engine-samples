@@ -44,17 +44,16 @@ export class LinesDrawer extends Behaviour {
     @serializable()
     addToPaintedObject: boolean = true;
 
-
     @serializable()
     useCustomColor: boolean = false;
     @serializable(Color)
     customColor: Color = new Color(1, 1, 1);
 
-    //private orbit?: OrbitControls;
-
     onEnable(): void {
-        this.context.input.addEventListener("pointerdown", this._onPointerDown);
-        this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: InputEventQueue.Early + 1 });
+        // We want to listen to pointer events late to check if any of them have been used. this allows us to e.g. use DragControl events or buttons
+        this.context.input.addEventListener("pointerdown", this._onPointerDown, { queue: InputEventQueue.Default + 10 });
+        // We want to listen to move events early to "use" them if they belong to a drawing action
+        this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: InputEventQueue.Early });
         this.context.input.addEventListener("pointerup", this._onPointerUp);
     }
 
@@ -64,28 +63,25 @@ export class LinesDrawer extends Behaviour {
         this.context.input.removeEventListener("pointerup", this._onPointerUp);
     }
 
-    private data: Map<string, EvtData> = new Map();
+    private data: Set<number> = new Set();
 
     private _onPointerDown = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
         if (args.used) return;
+        if (args.defaultPrevented) return;
         args.use();
         if (args.origin instanceof NeedleXRController) {
             args.origin.pointerMoveAngleThreshold = 0;
             args.origin.pointerMoveDistanceThreshold = 0;
         }
-        this.data.set(args.pointerId.toString(), {
-            origin: args.origin,
-            pointerId: args.pointerId,
-            isSpatial: args.isSpatial,
-            space: args.space,
-        });
+        this.data.add(args.pointerId);
     }
 
     private _onPointerMove = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
-        if (!this.context.input.getPointerPressed(args.pointerId)) return;
         if (args.used) return;
+        if (!this.data.has(args.pointerId)) return;
+        args.use();
         args.preventDefault();
         this.onPointerUpdate(args);
     }
@@ -93,12 +89,12 @@ export class LinesDrawer extends Behaviour {
 
     private _onPointerUp = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
+        if (!this.data.has(args.pointerId)) return;
         if (args.origin instanceof NeedleXRController) {
             args.origin.pointerMoveAngleThreshold = 0.1;
             args.origin.pointerMoveDistanceThreshold = 0.05;
         }
         this.onPointerUpdate(args);
-        this.data.delete(args.pointerId.toString());
     }
 
     // update() {
