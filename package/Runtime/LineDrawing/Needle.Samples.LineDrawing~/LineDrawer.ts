@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, Mathf, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver } from "@needle-tools/engine";
+import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, Mathf, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, Gizmos } from "@needle-tools/engine";
 import { Object3D, Color, Vector3, Vector2, Ray, Intersection } from "three";
 import { LineHandle, LinesManager } from "./LinesManager";
 import { MeshLineMaterial } from 'meshline';
@@ -43,13 +43,13 @@ export class LinesDrawer extends Behaviour {
 
     onEnable(): void {
         this.context.input.addEventListener("pointerdown", this._onPointerDown);
-        this.context.input.addEventListener("pointermove", this._onPointerMove);
+        // this.context.input.addEventListener("pointermove", this._onPointerMove);
         this.context.input.addEventListener("pointerup", this._onPointerUp);
     }
 
     onDisable(): void {
         this.context.input.removeEventListener("pointerdown", this._onPointerDown);
-        this.context.input.removeEventListener("pointermove", this._onPointerMove);
+        // this.context.input.removeEventListener("pointermove", this._onPointerMove);
         this.context.input.removeEventListener("pointerup", this._onPointerUp);
     }
     
@@ -65,6 +65,7 @@ export class LinesDrawer extends Behaviour {
         });
     }
 
+    /*
     private _onPointerMove = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
 
@@ -72,6 +73,7 @@ export class LinesDrawer extends Behaviour {
 
         // this.onPointerUpdate(args);
     }
+    */
 
     private _onPointerUp = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
@@ -94,14 +96,28 @@ export class LinesDrawer extends Behaviour {
 
         let width = 1;
         if (args.origin instanceof NeedleXRController) {
+            const spatialLineWidth = 1;
+
             const btn = args.origin.getButton("primary");
             if (btn !== undefined) {
-                width = btn.value;
+                // currently, this starts at 0.1, so we remap 0.1..1 to 0..1
+                const remapped = (btn.value - 0.2) / 0.8;
+                width = remapped * spatialLineWidth;
+            }
+
+            // Get axis for pen tip. Currently, this requires still putting light touch on the trigger,
+            // otherwise it's not a "pointer down" event.
+            const tip2Axis = args.origin.getStick("xr-standard-thumbstick");
+            if (tip2Axis !== undefined && tip2Axis.x < 0) {
+                width = -tip2Axis.x * spatialLineWidth;
             }
         }
 
-        this._ray.set(args.space.worldPosition, args.space.worldForward);
-        this.updateLine(args.pointerId.toString(), isSpatialDevice, this._ray, width, true, finish, false);
+        if (finish || width > 0)
+        {
+            this._ray.set(args.space.worldPosition, args.space.worldForward);
+            this.updateLine(args.pointerId.toString(), isSpatialDevice, this._ray, width, true, finish, false);
+        }
     }
 
     start() {
@@ -145,10 +161,13 @@ export class LinesDrawer extends Behaviour {
 
             if (isSpatial) {
                 const xrScale = this.context.xr?.rigScale || 1;
-                const dist = .01 * xrScale;
+                // TODO for a pen this needs to be super accurate (dist=0)
+                // but for a controller we need to add a bit of distance
+                // HACK for wrong pen alignment on v67, adjust on v68
+                const dist = .01 * xrScale * -1.75;
                 pt = ray.origin.add(ray.direction.multiplyScalar(dist));
                 // this controls how many points are drawn per unit of distance
-                state.prevDistance = xrScale * .003;
+                state.prevDistance = xrScale * .1;
             }
             else {
                 const hit = this.getHit(ray);
@@ -199,8 +218,12 @@ export class LinesDrawer extends Behaviour {
                         state.prevDistance = newDistance;
                     }
                 }
-                if (state.lastHit && state.lastHit.distanceTo(pt) < state.prevDistance * .01 * (isSpatial ? 0.1 : 1)) {
-                    return state;
+                if (state.lastHit) {
+                    const dist = state.lastHit.distanceTo(pt);
+                    const comp = state.prevDistance * .01 * (isSpatial ? 0.00001 : 1);
+                    if (dist < comp) {
+                        return state;
+                    }
                 }
                 this.lines.updateLine(state.currentHandle, { point: pt, width: width });
                 state.lastHit.copy(pt);
@@ -247,7 +270,7 @@ export class LinesDrawer extends Behaviour {
 
         return new MeshLineMaterial({
             color: col,
-            lineWidth: Mathf.lerp(0.005, 0.01, Math.random()),
+            lineWidth: 0.005, // Mathf.lerp(0.005, 0.01, Math.random()),
             resolution: new Vector2(window.innerWidth, window.innerHeight),
         });
     }
