@@ -11,9 +11,10 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Transform[] @colliders;
 		public bool @alignToSurface = true;
 		public bool @addToPaintedObject = true;
+		public bool @useCustomColor = false;
+		public UnityEngine.Color @customColor = new UnityEngine.Color(1f, 1f, 1f);
 		public void OnEnable(){}
 		public void OnDisable(){}
-		public void update(){}
 		public void start(){}
 	}
 }

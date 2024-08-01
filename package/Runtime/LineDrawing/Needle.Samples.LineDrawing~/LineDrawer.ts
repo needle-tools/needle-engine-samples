@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, Mathf, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, Gizmos } from "@needle-tools/engine";
+import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, Mathf, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, Gizmos, InputEventQueue, RGBAColor } from "@needle-tools/engine";
 import { Object3D, Color, Vector3, Vector2, Ray, Intersection } from "three";
 import { LineHandle, LinesManager } from "./LinesManager";
 import { MeshLineMaterial } from 'meshline';
@@ -43,24 +43,31 @@ export class LinesDrawer extends Behaviour {
     @serializable()
     addToPaintedObject: boolean = true;
 
+
+    @serializable()
+    useCustomColor: boolean = false;
+    @serializable()
+    customColor: Color = new Color(1, 1, 1);
+
     //private orbit?: OrbitControls;
 
     onEnable(): void {
         this.context.input.addEventListener("pointerdown", this._onPointerDown);
-        // this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: -200 });
+        this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: InputEventQueue.Early + 1 });
         this.context.input.addEventListener("pointerup", this._onPointerUp);
     }
 
     onDisable(): void {
         this.context.input.removeEventListener("pointerdown", this._onPointerDown);
-        // this.context.input.removeEventListener("pointermove", this._onPointerMove);
+        this.context.input.removeEventListener("pointermove", this._onPointerMove);
         this.context.input.removeEventListener("pointerup", this._onPointerUp);
     }
-    
+
     private data: Map<string, EvtData> = new Map();
 
     private _onPointerDown = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
+        if (args.used) return;
         args.use();
         this.data.set(args.pointerId.toString(), {
             origin: args.origin,
@@ -68,34 +75,28 @@ export class LinesDrawer extends Behaviour {
             isSpatial: args.isSpatial,
             space: args.space,
         });
-        args.use();
     }
 
-    /*
     private _onPointerMove = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
         if (!this.context.input.getPointerPressed(args.pointerId)) return;
-
-        this.onPointerUpdate(args);
-
-        args.use();
+        if (args.used) return;
         args.preventDefault();
+        this.onPointerUpdate(args);
     }
-    */
 
     private _onPointerUp = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
 
         this.onPointerUpdate(args);
-
         this.data.delete(args.pointerId.toString());
     }
 
-    update() {
-        for (const [key, value] of this.data) {
-            this.onPointerUpdate(value);
-        }
-    }
+    // update() {
+    //     for (const value of this.data.values()) {
+    //         this.onPointerUpdate(value);
+    //     }
+    // }
 
     private _ray: Ray = new Ray();
     private onPointerUpdate(args: EvtData) {
@@ -121,8 +122,7 @@ export class LinesDrawer extends Behaviour {
             }
         }
 
-        if (finish || width > 0)
-        {
+        if (finish || width > 0) {
             this._ray.set(args.space.worldPosition, args.space.worldForward);
             this.updateLine(args.pointerId.toString(), isSpatialDevice, this._ray, width, true, finish, false);
         }
@@ -216,7 +216,7 @@ export class LinesDrawer extends Behaviour {
                     let lineParent = state.lastParent ?? this.gameObject as Object3D;
                     if (this.addToPaintedObject && hitParent) lineParent = hitParent;
                     state.lastParent = lineParent;
-                    state.currentHandle = this.lines.startLine(lineParent, { material: this.createRandomMaterial() });
+                    state.currentHandle = this.lines.startLine(lineParent, { material: this.createPaintMaterial() });
                 }
 
                 if (this.alignToSurface) {
@@ -269,9 +269,13 @@ export class LinesDrawer extends Behaviour {
         return null;
     }
 
-    private createRandomMaterial() {
+    private createPaintMaterial() {
+
         let col: Color;
-        if (this.context.connection.connectionId)
+        if (this.useCustomColor) {
+            col = new Color(this.customColor.r, this.customColor.g, this.customColor.b);
+        }
+        else if (this.context.connection.connectionId)
             col = PlayerColor.colorFromHashCode(PlayerColor.hashCode(this.context.connection.connectionId));
         else
             col = new Color("hsl(" + (Math.random() * 100).toFixed(0) + ", 80%, 30%)");
