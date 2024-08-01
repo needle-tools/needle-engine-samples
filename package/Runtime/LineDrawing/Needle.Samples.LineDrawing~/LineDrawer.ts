@@ -47,7 +47,7 @@ export class LinesDrawer extends Behaviour {
 
     @serializable()
     useCustomColor: boolean = false;
-    @serializable()
+    @serializable(Color)
     customColor: Color = new Color(1, 1, 1);
 
     //private orbit?: OrbitControls;
