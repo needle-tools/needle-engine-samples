@@ -34,6 +34,7 @@ export class LinesDrawer extends Behaviour {
     @serializable(LinesManager)
     lines!: LinesManager;
 
+    //@type UnityEngine.Transform[]
     @serializable(Object3D)
     colliders?: Object3D[];
 
