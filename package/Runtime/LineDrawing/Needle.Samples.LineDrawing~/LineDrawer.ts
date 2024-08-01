@@ -168,7 +168,7 @@ export class LinesDrawer extends Behaviour {
                 // TODO for a pen this needs to be super accurate (dist=0)
                 // but for a controller we need to add a bit of distance
                 // HACK for wrong pen alignment on v67, adjust on v68
-                const dist = .01 * xrScale * -1;
+                const dist = .01 * xrScale * -1.20;
                 pt = ray.origin.add(ray.direction.multiplyScalar(dist));
                 // this controls how many points are drawn per unit of distance
                 state.prevDistance = xrScale * .1;
