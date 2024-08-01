@@ -95,7 +95,7 @@ declare type LineModel = {
     points: Array<Vec3>;
     width: number;
     widths: Array<number>;
-    color: Vec3;
+    color: Array<number>;
     startIndex: number;
     finished: boolean;
 }
