@@ -23,6 +23,7 @@ export class LineInstanceHandler {
     line: MeshLineGeometry = new MeshLineGeometry();
     material?: MeshLineMaterial;
     mesh?: Mesh;
+    widthCbBinding: (percentage: number) => number;
 
     constructor(owner: Object3D, options?: LineOptions) {
         if (options) {
@@ -39,9 +40,17 @@ export class LineInstanceHandler {
         }
         this.mesh = new Mesh(this.line, this.material);
         owner.add(this.mesh);
+        this.widthCbBinding = this.widthCb.bind(this);
     }
 
     private static wp: Vector3 = new Vector3();
+
+    private widthCb(percentage: number) {
+        // for testing – returning a sine wave here when we have no widths specified
+        if (!this.widths) return 1; //2 + Math.sin(percentage * Math.PI * 2) * 2;
+        const i = Math.floor(percentage * this.widths.length);
+        return this.widths[i];
+    }
 
     appendPoint(vec: Vec3, width?: number): Vec3 {
         let localPoint = LineInstanceHandler.wp;
@@ -55,13 +64,14 @@ export class LineInstanceHandler {
         }
 
         this.points.push(vec.x, vec.y, vec.z);
-        this.widths.push(width ?? 1);
-        const l = this.points.length / 3;
-        this.line.setPoints(this.points, (percentage: number) => {
-            const i = Math.floor(percentage * l);
-            return this.widths[i] * 10;
-        });
+        if (width === undefined) width = 1;
+        this.widths.push(width);
+        this.setPoints();
         return vec;
+    }
+
+    setPoints() {
+        this.line.setPoints(this.points, this.widthCbBinding);
     }
 
     private res = new Vector2(window.innerWidth, window.innerHeight);
@@ -182,8 +192,7 @@ export class LinesManager extends Behaviour {
                         line.widths.push(...evt.widths);
                     }
                 }
-                console.log("Setting line points", line.points, line.widths);
-                line.line.setPoints(line.points, (index: number) => line.widths[index]);
+                line.setPoints();
                 line.material!.lineWidth = evt.width;
                 line.material!.color.fromArray(evt.color);
                 if (evt.finished === true) {
