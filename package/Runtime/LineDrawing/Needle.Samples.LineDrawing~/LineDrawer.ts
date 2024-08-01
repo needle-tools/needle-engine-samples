@@ -102,7 +102,7 @@ export class LinesDrawer extends Behaviour {
         const finish = this.context.input.getPointerUp(args.pointerId);
         const isSpatialDevice = args.isSpatial;
 
-        let width = 1;
+        let width = 2;
         if (args.origin instanceof NeedleXRController) {
             const spatialLineWidth = 1;
 
@@ -228,7 +228,7 @@ export class LinesDrawer extends Behaviour {
                 }
                 if (state.lastHit) {
                     const dist = state.lastHit.distanceTo(pt);
-                    const comp = state.prevDistance * .01 * (isSpatial ? 0.00001 : 1);
+                    const comp = state.prevDistance * (isSpatial ? 0.000001 : .002);
                     if (dist < comp) {
                         return state;
                     }
