@@ -43,7 +43,7 @@ export class LinesDrawer extends Behaviour {
 
     onEnable(): void {
         this.context.input.addEventListener("pointerdown", this._onPointerDown);
-        // this.context.input.addEventListener("pointermove", this._onPointerMove);
+        // this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: -200 });
         this.context.input.addEventListener("pointerup", this._onPointerUp);
     }
 
@@ -63,15 +63,18 @@ export class LinesDrawer extends Behaviour {
             isSpatial: args.isSpatial,
             space: args.space,
         });
+        args.use();
     }
 
     /*
     private _onPointerMove = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
-
         if (!this.context.input.getPointerPressed(args.pointerId)) return;
 
-        // this.onPointerUpdate(args);
+        this.onPointerUpdate(args);
+
+        args.use();
+        args.preventDefault();
     }
     */
 
@@ -164,7 +167,7 @@ export class LinesDrawer extends Behaviour {
                 // TODO for a pen this needs to be super accurate (dist=0)
                 // but for a controller we need to add a bit of distance
                 // HACK for wrong pen alignment on v67, adjust on v68
-                const dist = .01 * xrScale * -1.75;
+                const dist = .01 * xrScale * -1;
                 pt = ray.origin.add(ray.direction.multiplyScalar(dist));
                 // this controls how many points are drawn per unit of distance
                 state.prevDistance = xrScale * .1;
