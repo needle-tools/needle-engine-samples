@@ -70,6 +70,10 @@ export class LinesDrawer extends Behaviour {
         if (args.button !== 0) return;
         if (args.used) return;
         args.use();
+        if (args.origin instanceof NeedleXRController) {
+            args.origin.pointerMoveAngleThreshold = 0;
+            args.origin.pointerMoveDistanceThreshold = 0;
+        }
         this.data.set(args.pointerId.toString(), {
             origin: args.origin,
             pointerId: args.pointerId,
@@ -86,9 +90,13 @@ export class LinesDrawer extends Behaviour {
         this.onPointerUpdate(args);
     }
 
+
     private _onPointerUp = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
-
+        if (args.origin instanceof NeedleXRController) {
+            args.origin.pointerMoveAngleThreshold = 0.1;
+            args.origin.pointerMoveDistanceThreshold = 0.05;
+        }
         this.onPointerUpdate(args);
         this.data.delete(args.pointerId.toString());
     }
