@@ -57,6 +57,7 @@ export class LinesDrawer extends Behaviour {
 
     private _onPointerDown = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
+        args.use();
         this.data.set(args.pointerId.toString(), {
             origin: args.origin,
             pointerId: args.pointerId,
