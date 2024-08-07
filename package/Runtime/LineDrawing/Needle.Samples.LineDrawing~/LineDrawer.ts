@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, InputEventQueue } from "@needle-tools/engine";
+import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, InputEventQueue, enableSpatialConsole, getIconElement } from "@needle-tools/engine";
 import { Object3D, Color, Vector3, Ray, Intersection } from "three";
 import { LineHandle, LinesManager } from "./LinesManager";
 
@@ -55,21 +55,12 @@ export class LinesDrawer extends Behaviour {
     @serializable()
     brushWidth: number = 0.01;
 
-    onEnable(): void {
-        // We want to listen to pointer events late to check if any of them have been used. this allows us to e.g. use DragControl events or buttons
-        this.context.input.addEventListener("pointerdown", this._onPointerDown, { queue: InputEventQueue.Default + 10 });
-        // We want to listen to move events early to "use" them if they belong to a drawing action
-        this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: InputEventQueue.Early });
-        this.context.input.addEventListener("pointerup", this._onPointerUp);
-    }
+    @serializable()
+    createButton: boolean = true;
 
-    onDisable(): void {
-        this.context.input.removeEventListener("pointerdown", this._onPointerDown);
-        this.context.input.removeEventListener("pointermove", this._onPointerMove);
-        this.context.input.removeEventListener("pointerup", this._onPointerUp);
-    }
+    private _allow2DDrawing: boolean = false;
+    private _button?: HTMLElement;
 
-    private data: Set<number> = new Set();
     setColor(color: string)
     setColor(color: Color | string) {
         if (typeof color === "string") {
@@ -89,22 +80,62 @@ export class LinesDrawer extends Behaviour {
         this.brushWidth = width;
     }
 
+
+    onEnable(): void {
+        // We want to listen to pointer events late to check if any of them have been used. this allows us to e.g. use DragControl events or buttons
+        this.context.input.addEventListener("pointerdown", this._onPointerDown, { queue: InputEventQueue.Default + 10 });
+        // We want to listen to move events early to "use" them if they belong to a drawing action
+        this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: InputEventQueue.Early });
+        this.context.input.addEventListener("pointerup", this._onPointerUp);
+        if (this.createButton) {
+            this.updateButton();
+        }
+    }
+
+    onDisable(): void {
+        this.context.input.removeEventListener("pointerdown", this._onPointerDown);
+        this.context.input.removeEventListener("pointermove", this._onPointerMove);
+        this.context.input.removeEventListener("pointerup", this._onPointerUp);
+    }
+
+    private updateButton() {
+        if (!this.createButton) {
+            this._button?.remove();
+            return;
+        }
+        else if (!this._button) {
+            this._button = document.createElement("button");
+            this._button.addEventListener("click", () => {
+                this._allow2DDrawing = !this._allow2DDrawing;
+                this.updateButton();
+            });
+        }
+        this._button.innerText = this._allow2DDrawing ? "Enabled" : "Disabled";
+        this._button.prepend(getIconElement(this._allow2DDrawing ? "format_ink_highlighter" : "ink_highlighter")); // stylus_note
+        this.context.menu.appendChild(this._button);
+    }
+
+    private readonly _activePointers: Set<number> = new Set();
+
     private _onPointerDown = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
         if (args.used) return;
         if (args.defaultPrevented) return;
+        if (!args.isSpatial && !this._allow2DDrawing) {
+            return;
+        }
         args.use();
         if (args.origin instanceof NeedleXRController) {
             args.origin.pointerMoveAngleThreshold = 0;
             args.origin.pointerMoveDistanceThreshold = 0;
         }
-        this.data.add(args.pointerId);
+        this._activePointers.add(args.pointerId);
     }
 
     private _onPointerMove = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
         if (args.used) return;
-        if (!this.data.has(args.pointerId)) return;
+        if (!this._activePointers.has(args.pointerId)) return;
         args.use();
         args.preventDefault();
         this.onPointerUpdate(args);
@@ -113,8 +144,8 @@ export class LinesDrawer extends Behaviour {
 
     private _onPointerUp = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
-        if (!this.data.has(args.pointerId)) return;
-        this.data.delete(args.pointerId);
+        if (!this._activePointers.has(args.pointerId)) return;
+        this._activePointers.delete(args.pointerId);
         if (args.origin instanceof NeedleXRController) {
             args.origin.pointerMoveAngleThreshold = 0.1;
             args.origin.pointerMoveDistanceThreshold = 0.05;
@@ -259,7 +290,7 @@ export class LinesDrawer extends Behaviour {
                 }
                 if (state.lastHit) {
                     const dist = state.lastHit.distanceTo(pt);
-                    const comp = state.prevDistance * (isSpatial ? 0.000001 : .002);
+                    const comp = state.prevDistance * (isSpatial ? 0.001 : .002);
                     if (dist < comp) {
                         return state;
                     }
