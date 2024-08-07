@@ -75,7 +75,6 @@ export class LinesDrawer extends Behaviour {
         } else {
             this.brushColor.copy(color);
         }
-        console.error("setColor", color, this.brushColor);
         this.useBrushColor = true;
     }
 
