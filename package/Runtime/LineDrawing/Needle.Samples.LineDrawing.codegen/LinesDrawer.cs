@@ -11,10 +11,14 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Transform[] @colliders;
 		public bool @alignToSurface = true;
 		public bool @addToPaintedObject = true;
-		public bool @useCustomColor = false;
-		public UnityEngine.Color @customColor = new UnityEngine.Color(1f, 1f, 1f);
+		public string @brushName = "default";
+		public UnityEngine.Color @brushColor = new UnityEngine.Color(1f, 1f, 1f);
+		public bool @useBrushColor = false;
 		public void OnEnable(){}
 		public void OnDisable(){}
+		public void setColor(string @color){}
+		public void setColor(UnityEngine.Color @color){}
+		public void setBrush(string @name){}
 		public void start(){}
 	}
 }

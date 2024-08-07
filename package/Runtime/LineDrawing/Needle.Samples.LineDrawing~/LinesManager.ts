@@ -1,10 +1,10 @@
-import { Behaviour, GameObject } from "@needle-tools/engine";
+import { Behaviour, GameObject, serializable } from "@needle-tools/engine";
 import { Color, Mesh, Object3D, Texture, Vector2, Vector3 } from "three";
-import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
+import { MeshLineGeometry, MeshLineMaterial, MeshLineMaterialParameters } from 'meshline';
 
 export declare type LineOptions = {
     material?: MeshLineMaterial;
-    options?: LineMaterialOptions;
+    // options?: LineMaterialOptions;
 }
 
 export declare type LineMaterialOptions = {
@@ -18,6 +18,7 @@ export declare type LineMaterialOptions = {
 
 export class LineInstanceHandler {
     id: number = 0;
+    brushName?: string;
     points: Array<any> = [];
     widths: Array<number> = [];
     line: MeshLineGeometry = new MeshLineGeometry();
@@ -33,10 +34,12 @@ export class LineInstanceHandler {
         if (!this.material)
             this.material = this.defaultLineMaterial;
         if (options) {
+            /*
             const opts = options.options;
             if (opts) {
                 Object.assign(this.material, opts);
             }
+            */
         }
         this.mesh = new Mesh(this.line, this.material);
         owner.add(this.mesh);
@@ -65,6 +68,7 @@ export class LineInstanceHandler {
 
         this.points.push(vec.x, vec.y, vec.z);
         if (width === undefined) width = 1;
+        if (!this.widths) this.widths = [];
         this.widths.push(width);
         this.setPoints();
         return vec;
@@ -87,14 +91,16 @@ declare type Vec3 = {
 declare type StartLineModel = {
     id: number;
     parentGuid: string;
+    brushName?: string;
 }
 
 declare type LineModel = {
     parentGuid: string;
+    brushName?: string;
     guid: number; // it must be named guid
     points: Array<Vec3>;
     width: number;
-    widths: Array<number>;
+    widths?: Array<number>;
     color: Array<number>;
     startIndex: number;
     finished: boolean;
@@ -109,12 +115,67 @@ declare type UpdateLineArgs = {
     width: number;
 }
 
+export class BrushModel {
+    @serializable()
+    name: string = "brush-01";
+    @serializable()
+    width: number = 1;
+    @serializable()
+    opacity: number = 1;
+    @serializable(Texture)
+    map?: Texture;
+    @serializable(Texture)
+    alphaMap?: Texture;
+    @serializable(Vector2)
+    repeat: Vector2 = new Vector2(1, 1);
+
+    createMaterial(): MeshLineMaterial {
+        const opt: MeshLineMaterialParameters = {
+            color: new Color(0xffffff), // will be overwritten by sent line data
+            lineWidth: this.width * 0.01, // will be overwritten by sent line data and brush width multiplier
+            opacity: this.opacity,
+            repeat: this.repeat,
+            resolution: new Vector2(window.innerWidth, window.innerHeight), // TODO should be updated on resize
+        };
+
+        if (this.map) {
+            opt.map = this.map;
+            opt.useMap = 1;
+        }
+        if (this.alphaMap) {
+            opt.alphaMap = this.alphaMap;
+            opt.useAlphaMap = 1;
+        }
+
+        const mat = new MeshLineMaterial(opt);
+        if (this.alphaMap) {
+            mat.transparent = true;
+            mat.depthWrite = false;
+            mat.needsUpdate = true;
+        }
+        return mat;
+    }
+} 
 
 export class LinesManager extends Behaviour {
 
-    public startLine(parent?: Object3D, options?: LineOptions): LineHandle {
+    @serializable(BrushModel)
+    public brushes: BrushModel[] = [];
+
+    private defaultBrush!: BrushModel;
+
+    public getBrush(name?: string): BrushModel {
+        if (!name || name === "default") return this.defaultBrush;
+        const brush = this.brushes.find(b => b.name === name);
+        if (brush) return brush;
+        console.warn(`Brush not found: ${name}, using default brush. Known brushes:`, this.brushes);
+        return this.defaultBrush;
+    }
+
+    /** Start a new line based on a brush. */
+    public startLine(parent?: Object3D, brushName?: string): LineHandle {
         const id = Math.random() * Number.MAX_SAFE_INTEGER;
-        return this.internalStartLine(parent, id, true, options);
+        return this.internalStartLine(parent, id, true, brushName ?? "default");
     }
 
     public updateLine(handle: LineHandle, args: UpdateLineArgs) {
@@ -176,20 +237,27 @@ export class LinesManager extends Behaviour {
 
     awake(): void {
 
+        this.defaultBrush = new BrushModel();
+        this.defaultBrush.name = "default";
+        this.defaultBrush.width = 1;
+        this.defaultBrush.opacity = 1;
+
         this.context.connection.beginListen("line-start", (i: StartLineModel) => {
-            this.onEnsureLine(i.id, i.parentGuid);
+            this.onEnsureLine(i.id, i.parentGuid, i.brushName);
         });
         this.context.connection.beginListen("line-update", (evt: LineModel) => {
-            let line = this.onEnsureLine(evt.guid, evt.parentGuid);
+            let line = this.onEnsureLine(evt.guid, evt.parentGuid, evt.brushName);
             if (line && evt.points) {
                 if (evt.startIndex <= 0) {
                     line.points = evt.points;
-                    line.widths = evt.widths;
+                    if (evt.widths !== undefined)
+                        line.widths = evt.widths;
                 }
                 else {
                     if (evt.startIndex >= line.points.length) {
                         line.points.push(...evt.points);
-                        line.widths.push(...evt.widths);
+                        if (evt.widths !== undefined)
+                            line.widths.push(...evt.widths);
                     }
                 }
                 line.setPoints();
@@ -202,17 +270,25 @@ export class LinesManager extends Behaviour {
         });
     }
 
-    private onEnsureLine(lineId: number, parentGuid: string): LineInstanceHandler | null {
+    /** Called when a networked line is created or updated. Never called for a local line. */
+    private onEnsureLine(lineId: number, parentGuid: string, brushName?: string): LineInstanceHandler | null {
         if (this.inFlight[lineId]) return this.inFlight[lineId];
         let obj = GameObject.findByGuid(parentGuid, this.context.scene);
         if (!obj) {
             return null;
         }
-        this.internalStartLine(obj as Object3D, lineId, false);
+        this.internalStartLine(obj as Object3D, lineId, false, brushName ?? "default");
         return this.inFlight[lineId];
     }
-    private internalStartLine(parent: Object3D | null | undefined, id: number, send: boolean = true, options?: LineOptions): LineHandle {
-        const line = new LineInstanceHandler(parent ?? this.context.scene, options);
+
+    /** Called for local and for remote lines. */
+    private internalStartLine(parent: Object3D | null | undefined, id: number, send: boolean = true, brushName: string): LineHandle {
+        const brush = this.getBrush(brushName);
+        const line = new LineInstanceHandler(parent ?? this.context.scene, {
+            material: brush.createMaterial(),
+        });
+        line.brushName = brushName;
+
         line.id = id;
         this.inFlight[id] = line;
         if (send)
@@ -231,13 +307,18 @@ export class LinesManager extends Behaviour {
 
     private sendLineStart(instance: LineInstanceHandler) {
         const parent = instance.mesh!.parent;
-        this.context.connection.send("line-start", { id: instance.id, parentGuid: parent ? parent["guid"] : undefined })
+        this.context.connection.send("line-start", { 
+            id: instance.id, 
+            parentGuid: parent ? parent["guid"] : undefined, 
+            brushName: instance.brushName
+        });
     }
 
     private sendLineUpdate(instance: LineInstanceHandler, finished: boolean, startIndex?: number, points?: Array<any>, widths?: Array<number>) {
         if (instance) {
             const model: LineModel = {
                 parentGuid: instance.mesh!.parent!["guid"],
+                brushName: instance.brushName,
                 guid: instance.id,
                 points: points ? [...points] : instance.points,
                 widths: widths ? [...widths] : instance.widths,
@@ -246,7 +327,7 @@ export class LinesManager extends Behaviour {
                 startIndex: startIndex !== undefined ? startIndex : instance.points.length,
                 finished: finished,
             };
-            this.context.connection.send("line-update", model)
+            this.context.connection.send("line-update", model);
         }
     }
 }

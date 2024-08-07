@@ -1,7 +1,6 @@
-import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, Mathf, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, Gizmos, InputEventQueue, RGBAColor } from "@needle-tools/engine";
-import { Object3D, Color, Vector3, Vector2, Ray, Intersection } from "three";
+import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, InputEventQueue } from "@needle-tools/engine";
+import { Object3D, Color, Vector3, Ray, Intersection } from "three";
 import { LineHandle, LinesManager } from "./LinesManager";
-import { MeshLineMaterial } from 'meshline';
 
 class LineState {
     isDrawing: boolean;
@@ -45,9 +44,13 @@ export class LinesDrawer extends Behaviour {
     addToPaintedObject: boolean = true;
 
     @serializable()
-    useCustomColor: boolean = false;
+    brushName: string = "default";
+
     @serializable(Color)
-    customColor: Color = new Color(1, 1, 1);
+    brushColor: Color = new Color(1, 1, 1);
+
+    @serializable()
+    useBrushColor: boolean = false;
 
     onEnable(): void {
         // We want to listen to pointer events late to check if any of them have been used. this allows us to e.g. use DragControl events or buttons
@@ -64,6 +67,19 @@ export class LinesDrawer extends Behaviour {
     }
 
     private data: Set<number> = new Set();
+    setColor(color: string)
+    setColor(color: Color | string) {
+        if (typeof color === "string") {
+            this.brushColor.set(color);
+        } else {
+            this.brushColor.copy(color);
+        }
+        this.useBrushColor = true;
+    }
+
+    setBrush(name: string) {
+        this.brushName = name;
+    }
 
     private _onPointerDown = (args: NEPointerEvent) => {
         if (args.button !== 0) return;
@@ -156,7 +172,6 @@ export class LinesDrawer extends Behaviour {
         if (finish) {
             state.isDrawing = false;
             if (state.currentHandle) {
-                // this.sendLineUpdate();
                 this.lines.endLine(state.currentHandle);
                 state.currentHandle = null;
             }
@@ -222,7 +237,12 @@ export class LinesDrawer extends Behaviour {
                     let lineParent = state.lastParent ?? this.gameObject as Object3D;
                     if (this.addToPaintedObject && hitParent) lineParent = hitParent;
                     state.lastParent = lineParent;
-                    state.currentHandle = this.lines.startLine(lineParent, { material: this.createPaintMaterial() });
+                    state.currentHandle = this.lines.startLine(lineParent, this.brushName);
+                    // here, we can override the color
+                    if (state.currentHandle) {
+                        const line = this.lines.getLine(state.currentHandle);
+                        line?.material?.color?.set(this.getPaintColor());
+                    }
                 }
 
                 if (this.alignToSurface) {
@@ -275,21 +295,16 @@ export class LinesDrawer extends Behaviour {
         return null;
     }
 
-    private createPaintMaterial() {
-
+    private getPaintColor() {
         let col: Color;
-        if (this.useCustomColor) {
-            col = new Color(this.customColor.r, this.customColor.g, this.customColor.b);
+        if (this.useBrushColor) {
+            col = new Color(this.brushColor.r, this.brushColor.g, this.brushColor.b);
         }
         else if (this.context.connection.connectionId)
             col = PlayerColor.colorFromHashCode(PlayerColor.hashCode(this.context.connection.connectionId));
         else
             col = new Color("hsl(" + (Math.random() * 100).toFixed(0) + ", 80%, 30%)");
 
-        return new MeshLineMaterial({
-            color: col,
-            lineWidth: 0.005, // Mathf.lerp(0.005, 0.01, Math.random()),
-            resolution: new Vector2(window.innerWidth, window.innerHeight),
-        });
+        return col;
     }
 }
