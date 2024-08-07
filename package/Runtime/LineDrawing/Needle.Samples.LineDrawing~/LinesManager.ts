@@ -117,7 +117,7 @@ declare type UpdateLineArgs = {
 
 export class BrushModel {
     @serializable()
-    name: string = "brush-01";
+    name: string = "default";
     @serializable()
     width: number = 1;
     @serializable()

@@ -70,10 +70,12 @@ export class LinesDrawer extends Behaviour {
     setColor(color: string)
     setColor(color: Color | string) {
         if (typeof color === "string") {
+            if (!color.startsWith("#")) color = "#" + color;
             this.brushColor.set(color);
         } else {
             this.brushColor.copy(color);
         }
+        console.error("setColor", color, this.brushColor);
         this.useBrushColor = true;
     }
 
