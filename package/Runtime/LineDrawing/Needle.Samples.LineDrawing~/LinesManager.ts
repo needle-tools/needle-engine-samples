@@ -42,6 +42,8 @@ export class LineInstanceHandler {
             */
         }
         this.mesh = new Mesh(this.line, this.material);
+        // set to layer 2 to avoid raycasting
+        this.mesh.layers.set(2);
         owner.add(this.mesh);
         this.widthCbBinding = this.widthCb.bind(this);
     }
