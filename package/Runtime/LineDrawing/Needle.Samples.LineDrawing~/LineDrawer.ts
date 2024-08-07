@@ -110,7 +110,8 @@ export class LinesDrawer extends Behaviour {
                 this.updateButton();
             });
         }
-        this._button.innerText = this._allow2DDrawing ? "Enabled" : "Disabled";
+        this._button.setAttribute("priority", "10");
+        this._button.innerText = this._allow2DDrawing ? "2D On" : "2D Off";
         this._button.prepend(getIconElement(this._allow2DDrawing ? "format_ink_highlighter" : "ink_highlighter")); // stylus_note
         this.context.menu.appendChild(this._button);
     }
@@ -162,7 +163,7 @@ export class LinesDrawer extends Behaviour {
             const spatialLineWidth = 1;
 
             const btn = args.origin.getButton("primary");
-            if (btn !== undefined) {
+            if (btn != undefined) {
                 // currently, this starts at 0.1, so we remap 0.1..1 to 0..1
                 const remapped = (btn.value - 0.2) / 0.8;
                 width = remapped * spatialLineWidth;
