@@ -153,6 +153,9 @@ export class BrushModel {
             mat.depthWrite = false;
             mat.needsUpdate = true;
         }
+        // for use by LineDrawer, needs to know how thick the default line is
+        // probably better on the Line itself
+        mat["brushWidth"] = this.width;
         return mat;
     }
 } 

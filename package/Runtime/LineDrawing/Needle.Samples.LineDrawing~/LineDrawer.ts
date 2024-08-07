@@ -52,6 +52,9 @@ export class LinesDrawer extends Behaviour {
     @serializable()
     useBrushColor: boolean = false;
 
+    @serializable()
+    brushWidth: number = 0.01;
+
     onEnable(): void {
         // We want to listen to pointer events late to check if any of them have been used. this allows us to e.g. use DragControl events or buttons
         this.context.input.addEventListener("pointerdown", this._onPointerDown, { queue: InputEventQueue.Default + 10 });
@@ -80,6 +83,10 @@ export class LinesDrawer extends Behaviour {
 
     setBrush(name: string) {
         this.brushName = name;
+    }
+
+    setWidth(width: number) {
+        this.brushWidth = width;
     }
 
     private _onPointerDown = (args: NEPointerEvent) => {
@@ -232,10 +239,14 @@ export class LinesDrawer extends Behaviour {
                     if (this.addToPaintedObject && hitParent) lineParent = hitParent;
                     state.lastParent = lineParent;
                     state.currentHandle = this.lines.startLine(lineParent, this.brushName);
-                    // here, we can override the color
+
+                    // We can override the color and line width of new lines
                     if (state.currentHandle) {
                         const line = this.lines.getLine(state.currentHandle);
-                        line?.material?.color?.set(this.getPaintColor());
+                        if (line && line.material) {
+                            line.material.color?.set(this.getPaintColor());
+                            line.material.lineWidth = this.brushWidth * line.material["brushWidth"];
+                        }
                     }
                 }
 
