@@ -1,19 +1,21 @@
-import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, InputEventQueue, enableSpatialConsole, getIconElement } from "@needle-tools/engine";
+import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, InputEventQueue, enableSpatialConsole, getIconElement, Gizmos, getTempVector } from "@needle-tools/engine";
 import { Object3D, Color, Vector3, Ray, Intersection } from "three";
 import { LineHandle, LinesManager } from "./LinesManager";
 
 class LineState {
     isDrawing: boolean;
-    lastHit: Vector3;
+    lastHit: Vector3 | undefined;
     currentHandle: LineHandle | null;
     maxDistance: number;
+    totalDistance: number;
     prevDistance: number;
     lastParent: Object3D | null;
 
     constructor() {
         this.isDrawing = false;
-        this.lastHit = new Vector3();
+        this.lastHit = undefined;
         this.currentHandle = null;
+        this.totalDistance = 0;
         this.maxDistance = 0;
         this.prevDistance = 0;
         this.lastParent = null;
@@ -130,6 +132,7 @@ export class LinesDrawer extends Behaviour {
             args.origin.pointerMoveAngleThreshold = 0;
             args.origin.pointerMoveDistanceThreshold = 0;
         }
+        this.lastWidth = 0;
         this._activePointers.add(args.pointerId);
     }
 
@@ -154,11 +157,13 @@ export class LinesDrawer extends Behaviour {
         this.onPointerUpdate(args);
     }
 
+    private lastWidth = 0;
+    private _ray = new Ray();
     private onPointerUpdate(args: NEPointerEvent) {
         const finish = this.context.input.getPointerUp(args.pointerId);
         const isSpatialDevice = args.isSpatial;
 
-        let width = 2;
+        let width = 1;
         if (args.origin instanceof NeedleXRController) {
             const spatialLineWidth = 1;
 
@@ -177,8 +182,16 @@ export class LinesDrawer extends Behaviour {
             }
         }
 
-        if (finish || width > 0) {
-            this.updateLine(args.pointerId.toString(), isSpatialDevice, args.ray, width, true, finish, false);
+        if (finish || width > 0 || this.lastWidth != width) {
+            this.lastWidth = width;
+            // We're using the "interactive space" of the input, which is dynamically adjusted
+            // and is a combination of ray pose and grip pose depending on the device.
+            // For example, a pen should paint with the tip, which is the ray pose; 
+            // a hand should paint with the pinch point;
+            // a transient-pointer should paint with the grip pose;
+            // a Quest Pro controller pressure tip is a custom pose based on the grip pose.
+            this._ray.set(args.space.worldPosition, args.space.worldForward);
+            this.updateLine(args.pointerId.toString(), isSpatialDevice, this._ray, width, true, finish, false);
         }
     }
 
@@ -256,8 +269,8 @@ export class LinesDrawer extends Behaviour {
             }
 
             if (pt) {
-                // abort the draw if the drawn segment is too long
-                if (state.lastHit.distanceTo(pt) > 6) {
+                // abort the draw if the drawn segment is too long – e.g. longer than 1m
+                if (state.lastHit !== undefined && state.lastHit.distanceTo(pt) > 1.0) {
                     if (state.currentHandle) {
                         // this.sendLineUpdate();
                         this.lines.endLine(state.currentHandle);
@@ -271,6 +284,10 @@ export class LinesDrawer extends Behaviour {
                     if (this.addToPaintedObject && hitParent) lineParent = hitParent;
                     state.lastParent = lineParent;
                     state.currentHandle = this.lines.startLine(lineParent, this.brushName);
+                    state.lastHit = undefined;
+                    state.prevDistance = 0;
+                    state.maxDistance = 0;
+                    state.totalDistance = 0;
 
                     // We can override the color and line width of new lines
                     if (state.currentHandle) {
@@ -291,12 +308,42 @@ export class LinesDrawer extends Behaviour {
                 }
                 if (state.lastHit) {
                     const dist = state.lastHit.distanceTo(pt);
+                    // lazy line distance should probably be dependent on the device (pen vs controller vs hand)
+                    const lazyLineDistance = 0.0005; // 0.5mm, 1cm, 5cm for testing.
+
+                    if (dist < lazyLineDistance) {
+                        Gizmos.DrawLine(state.lastHit, pt, 0xffffff);
+                        return state;
+                    }
+
+                    // lazy line is stretched, we'll draw now
+                    Gizmos.DrawLine(state.lastHit, pt, 0xff0000);
+
+                    const direction = getTempVector(pt).sub(state.lastHit).normalize();
+                    pt.sub(direction.multiplyScalar(lazyLineDistance));
+                    
+                    // Additionally, we don't want to draw too dense, so here's another check for a minimum distance between line segments.
                     const comp = state.prevDistance * (isSpatial ? 0.00002 : .002);
                     if (dist < comp) {
                         return state;
                     }
+
                 }
+                else {
+                    // first point. this is always drawn
+                    state.lastHit = pt.clone();
+                    width = 0;
+                }
+                // experiment: tapering of line start
+                /*
+                if (state.totalDistance < this.brushWidth) {
+                    width = state.totalDistance / this.brushWidth;
+                    width = Math.sqrt(2 * width - width * width);
+                }
+                */
                 this.lines.updateLine(state.currentHandle, { point: pt, width: width });
+                const drawnDistance = state.lastHit.distanceTo(pt);
+                state.totalDistance += drawnDistance;
                 state.lastHit.copy(pt);
             }
 
