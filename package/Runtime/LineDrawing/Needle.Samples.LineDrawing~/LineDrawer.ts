@@ -291,7 +291,7 @@ export class LinesDrawer extends Behaviour {
                 }
                 if (state.lastHit) {
                     const dist = state.lastHit.distanceTo(pt);
-                    const comp = state.prevDistance * (isSpatial ? 0.001 : .002);
+                    const comp = state.prevDistance * (isSpatial ? 0.00002 : .002);
                     if (dist < comp) {
                         return state;
                     }
