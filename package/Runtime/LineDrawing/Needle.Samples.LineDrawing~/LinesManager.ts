@@ -1,5 +1,5 @@
 import { Behaviour, GameObject, serializable } from "@needle-tools/engine";
-import { Color, Mesh, Object3D, Texture, Vector2, Vector3 } from "three";
+import { AdditiveBlending, Color, Mesh, Object3D, Texture, Vector2, Vector3 } from "three";
 import { MeshLineGeometry, MeshLineMaterial, MeshLineMaterialParameters } from 'meshline';
 
 export declare type LineOptions = {
@@ -130,6 +130,8 @@ export class BrushModel {
     alphaMap?: Texture;
     @serializable(Vector2)
     repeat: Vector2 = new Vector2(1, 1);
+    @serializable()
+    additive: boolean = false;
 
     createMaterial(): MeshLineMaterial {
         const opt: MeshLineMaterialParameters = {
@@ -154,6 +156,10 @@ export class BrushModel {
             mat.transparent = true;
             mat.depthWrite = false;
             mat.needsUpdate = true;
+        }
+
+        if (this.additive) {
+            mat.blending = AdditiveBlending;
         }
         // for use by LineDrawer, needs to know how thick the default line is
         // probably better on the Line itself

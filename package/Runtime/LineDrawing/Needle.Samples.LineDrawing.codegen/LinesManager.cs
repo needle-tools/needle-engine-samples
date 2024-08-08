@@ -32,6 +32,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public Texture2D map;
 		public Texture2D alphaMap;
 		public Vector2 repeat = new Vector2(1, 1);
+        public bool additive = false;
 	}
 	
 	public partial class LinesManager
