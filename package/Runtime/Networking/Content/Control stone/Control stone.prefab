@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: 0.000000037252903, y: -0.6454196, z: 0.7238462, w: -0.24388574}
   m_LocalPosition: {x: 0, y: 0, z: 2038.6771}
   m_LocalScale: {x: 4.0871964, y: 4.0871973, z: 4.087197}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5778810346681986161}
   m_RootOrder: 2
@@ -109,6 +110,7 @@ RectTransform:
   m_LocalRotation: {x: 0.40895262, y: -0, z: -0.000000014901161, w: 0.91255563}
   m_LocalPosition: {x: 0, y: 0, z: -1.262}
   m_LocalScale: {x: 0.004087197, y: 0.004087197, z: 0.004087197}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5778810348282885251}
   - {fileID: 5778810347263465947}
@@ -227,6 +229,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.00010208279}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5778810346681986161}
   m_RootOrder: 1
@@ -308,6 +311,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.23, z: 0}
   m_LocalScale: {x: 1, y: 0.5013, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5778810348287920684}
   m_RootOrder: 1
@@ -331,6 +335,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -394,6 +399,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5778810348282885248
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +428,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5778810346681986161}
   m_RootOrder: 0
@@ -483,6 +490,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5778810348287920684}
   - component: {fileID: 5778810348181447573}
+  - component: {fileID: 6894509662321657169}
   m_Layer: 0
   m_Name: Control stone
   m_TagString: Untagged
@@ -500,6 +508,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.969804, z: -0, w: -0.24388574}
   m_LocalPosition: {x: 0.594, y: 0.207, z: 0.821}
   m_LocalScale: {x: 0.24466643, y: 0.24466643, z: 0.24466643}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5778810346681986161}
   - {fileID: 5778810347445266108}
@@ -534,3 +543,17 @@ MonoBehaviour:
           m_StringArgument: OnClick
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6894509662321657169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5778810348287920685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ab8e9d005710cc6605ce1c8cab6ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.PlayAnimationOnClick, Needle.Engine
+  animator: {fileID: 5778810348181447572}
+  stateName: OnClick
