@@ -191,6 +191,11 @@ export class LinesDrawer extends Behaviour {
             // a transient-pointer should paint with the grip pose;
             // a Quest Pro controller pressure tip is a custom pose based on the grip pose.
             this._ray.set(args.space.worldPosition, args.space.worldForward);
+            // for a hand, for now we overwrite this here and use the pinch point:
+            if (args.origin instanceof NeedleXRController && args.origin.hand) {
+                this._ray.set(args.origin.rayWorldPosition, args.space.worldForward);
+                // this._ray.set(args.origin.pinchPosition, args.space.worldForward);
+            }
             this.updateLine(args.pointerId.toString(), isSpatialDevice, this._ray, width, true, finish, false);
         }
     }
