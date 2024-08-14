@@ -1,4 +1,4 @@
-import { Animator, AudioSource, Behaviour, EventList, GameObject, Gizmos, NeedleXREventArgs, NeedleXRSession, ParticleSystem, Watch, WebXR, getParam, getTempVector, isMobileDevice, serializable, setWorldPosition, setWorldQuaternion } from "@needle-tools/engine";
+import { Animator, AudioSource, Behaviour, EventList, GameObject, Gizmos, NeedleXREventArgs, NeedleXRSession, ParticleSystem, SpatialGrabRaycaster, Watch, WebXR, getParam, getTempVector, isMobileDevice, serializable, setWorldPosition, setWorldQuaternion } from "@needle-tools/engine";
 
 import { Object3D, Quaternion, Vector2, Vector3 } from "three";
 import { Target } from "./Target";
@@ -45,6 +45,10 @@ export class Gun extends Behaviour {
     impactEffect?: ParticleSystem;
 
     // --------------------
+
+    awake(): void {
+        SpatialGrabRaycaster.allow = false;
+    }
 
     // reporting events 
     static onHitTarget: EventList = new EventList();
