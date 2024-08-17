@@ -2,7 +2,6 @@ import { Behaviour, GameObject, INeedleGLTFExtensionPlugin, ImageReference, Rend
 import { Loader, LoadingManager, Material, Texture } from "three";
 
 import { MaterialXLoader } from 'three/examples/jsm/loaders/MaterialXLoader.js';
-import { nodeFrame } from "three/examples/jsm/renderers/webgl-legacy/nodes/WebGLNodes";
 
 import { type GLTFLoaderPlugin, GLTFParser, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
@@ -26,10 +25,6 @@ export class MaterialXAsset extends Behaviour {
     async awake () {
         if (!this.materialXAsset) return;
         this.loadMaterialX(this.materialXAsset as any as string);
-    }
-
-    update() {
-        nodeFrame.update();
     }
 
     async loadMaterialX(path: string) {
