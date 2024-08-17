@@ -1,11 +1,9 @@
 import { Behaviour, GameObject, LogType, Renderer, getParam, isDevEnvironment, showBalloonMessage } from '@needle-tools/engine';
-import { MeshPhysicalNodeMaterial, Swizzable, TimerNode, mx_noise_vec3, normalWorld, timerLocal } from "three/examples/jsm/nodes/Nodes.js";
-import { nodeFrame } from "three/examples/jsm/renderers/webgl-legacy/nodes/WebGLNodes";
+import { MeshPhysicalNodeMaterial, Swizzable, TimerNode, mx_noise_vec3, normalWorld, timerLocal } from "three";
 
 const debug = getParam("debugmaterialx");
 
 export class ShadeWithMaterialX extends Behaviour {
-    private timerNode?: Swizzable<TimerNode>;
     private material?: MeshPhysicalNodeMaterial;
 
     start() {
@@ -27,9 +25,8 @@ export class ShadeWithMaterialX extends Behaviour {
 
     constructNodeGraph(material: MeshPhysicalNodeMaterial) {
         // construct node graph from Swizzable<> nodes
-        const offsetNode = timerLocal(1);
-        this.timerNode = offsetNode;
-        const customUV = normalWorld.mul( 10 ).add( offsetNode );
+        const timeBasedOffset = timerLocal(1);
+        const customUV = normalWorld.mul( 10 ).add( timeBasedOffset );
         const noiseNode = mx_noise_vec3( customUV );
 
         // assign as colorNode for the PBR material
@@ -56,9 +53,9 @@ export class ShadeWithMaterialX extends Behaviour {
         }
 
         // we can cache nodes and set values on them
-        if (this.timerNode)
-            this.timerNode.value = Math.sin(this.context.time.time);
-        nodeFrame.update();
+        // but the timerNode sets its value by itself (or rather, NodeFrame does)
+        //if (this.timerNode)
+        //    this.timerNode.value = Math.sin(this.context.time.time);
     }
 
     /*
