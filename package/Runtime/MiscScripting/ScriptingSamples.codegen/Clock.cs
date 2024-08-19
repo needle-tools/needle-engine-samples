@@ -7,9 +7,9 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Clock : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Transform @hourHand;
-		public UnityEngine.Transform @minuteHand;
-		public UnityEngine.Transform @secondHand;
+		public UnityEngine.GameObject @hourHand;
+		public UnityEngine.GameObject @minuteHand;
+		public UnityEngine.GameObject @secondHand;
 		public float @speed = 1f;
 		public void awake(){}
 		public void update(){}

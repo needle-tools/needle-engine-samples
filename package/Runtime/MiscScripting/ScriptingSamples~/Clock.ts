@@ -1,14 +1,13 @@
-import { Behaviour } from "@needle-tools/engine";
-import { serializeable } from "@needle-tools/engine";
+import { Behaviour, serializable } from "@needle-tools/engine";
 import * as THREE from "three";
 
 export class Clock extends Behaviour {
 
-    @serializeable(THREE.Object3D)
+    @serializable(THREE.Object3D)
     public hourHand: THREE.Object3D | null = null;
-    @serializeable(THREE.Object3D)
+    @serializable(THREE.Object3D)
     public minuteHand: THREE.Object3D | null = null;
-    @serializeable(THREE.Object3D)
+    @serializable(THREE.Object3D)
     public secondHand: THREE.Object3D | null = null;
 
     public speed : number = 1;
