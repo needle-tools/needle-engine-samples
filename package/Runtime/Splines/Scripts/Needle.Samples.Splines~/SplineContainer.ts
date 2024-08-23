@@ -106,7 +106,9 @@ export class SplineContainer extends Behaviour {
         if (!this.spline) return;
         const points = this.spline.map(knot => new Vector3(-knot.position.x, knot.position.y, knot.position.z));
         if(points.length === 1) points.push(points[0]);
-        this._curve = new CatmullRomCurve3(points, this.closed);
+        const averageTension = this.spline.reduce((acc, knot) => acc + Math.abs(knot.tangentOut.x) + Math.abs(knot.tangentOut.y) + Math.abs(knot.tangentOut.z), 0) / this.spline.length;
+        const tension = Mathf.remap(averageTension, 0, 0.3, 0, .5);
+        this._curve = new CatmullRomCurve3(points, this.closed, "catmullrom", tension);
     }
 
     private createBezierCurve() {
