@@ -3,7 +3,7 @@
 Needle is equipped with a built-in networking solution right at the core. We provide components for common use cases and make it easy to network variables with just one typescript decorator. For more information, please refer to the [networking documentation](https://engine.needle.tools/docs/networking.html).
 
 ## Networking Animator
-Synchronized any Aniamtor without any code.
+Synchronize an Animator with writing code: the SyncedAnimator component will handle this for your and synchronize animation state to all users in the same networking session.
 
 [Explore it here.](https://engine.needle.tools/samples/synced-animator/)
 
