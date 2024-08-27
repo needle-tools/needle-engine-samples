@@ -20,7 +20,7 @@ Basic usage can be found in `NavmeshDemo_Controls.ts` where it queries path betw
 
 Please refer to the `three-pathfinding` package for more information.
 
-## Debuging
+## Debugging
 
 add `?debugnavmesh` to your url to display the navmesh to better understand what is going on. 
 
