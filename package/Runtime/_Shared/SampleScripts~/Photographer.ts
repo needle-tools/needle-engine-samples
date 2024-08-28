@@ -15,8 +15,6 @@ export class Photographer extends Behaviour {
     @serializable(AssetReference)
     prefab: AssetReference | null = null;
 
-    private readonly _instances: Array<Object3D> = [];
-
     takePhoto() {
         const photo = screenshot2({
             type: "texture",
@@ -28,12 +26,11 @@ export class Photographer extends Behaviour {
         if (this.prefab && photo instanceof Texture) {
             this.prefab.instantiate(this.scene).then(res => {
                 if (!res) return;
-                if (this._instances.length > 10) {
-                    const obj = this._instances.shift();
-                    obj?.destroy();
-                }
+                
+                setTimeout(()=>{
+                    res.destroy();
+                }, 2000)
 
-                this._instances.push(res);
 
                 res?.position.set(0, 3, 0);
 
@@ -42,6 +39,7 @@ export class Photographer extends Behaviour {
                 const rb = res?.getComponentInChildren(Rigidbody);
                 if (rb) {
                     rb.teleport(this.gameObject.worldPosition.add({ x: 0, y: .5, z: 0 }));
+                    rb.setAngularVelocity(Math.random() - .5, Math.random() - .5, Math.random() * 2 - 1);
                     rb.applyImpulse(this.gameObject.worldForward.add({ x: 0, y: 2, z: 0 })
                         .normalize()
                         .multiplyScalar(this.context.time.deltaTime * .5));
