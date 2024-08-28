@@ -245,6 +245,57 @@ namespace SampleChecks
         }
 
         [Test]
+        [Explicit]
+        public void TagsAndSceneContentMatch()
+        {
+            OpenSceneAndCopyIfNeeded();
+
+            var checkForMatchingPhysics = false;
+            
+            // Check "XR" tag – if there's an XR tag there should be a WebXR component.
+            var hasXRTag = sample.Tags.FirstOrDefault(x => x.name == "XR") != null;
+            var xrComponent = Object.FindAnyObjectByType<WebXR>();
+            var hasXRComponent = xrComponent != null;
+
+            if (hasXRTag || hasXRComponent)
+            {
+                var xrRig = Object.FindAnyObjectByType<XRRig>();
+
+                if (hasXRComponent && !hasXRTag)
+                    Debug.Log("Sample has the WebXR component but no XR tag. This is fine if the sample doesn't show something XR-specific.");
+
+                if (hasXRTag)
+                    Assert.IsTrue(hasXRComponent, "XR Tag is set but no WebXR component found in scene");
+                
+                if (xrRig)
+                {
+                    var isUnitScale = xrRig.transform.localScale == Vector3.one;
+                    Assert.IsTrue(isUnitScale, $"XR Rig is not scaled to 1,1,1. Instead, scale is {xrRig.transform.localScale}. Make sure your scene has real-world size.");
+                }
+            }
+            
+            if (checkForMatchingPhysics)
+            {
+                // Check physics components
+                var hasPhysicsTag = sample.Tags.FirstOrDefault(x => x.name == "Physics") != null;
+                var hasColliders = Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).Length > 0;
+                var hasRigidbodies = Object.FindObjectsByType<Rigidbody>(FindObjectsSortMode.None).Length > 0;
+
+                if (hasPhysicsTag || hasRigidbodies)
+                {
+                    Assert.AreEqual(hasPhysicsTag, hasColliders || hasRigidbodies, hasColliders || hasRigidbodies ? "Sample has the Physics tag because it has physics components" : "Sample has physics components because it has the Physics tag");
+                }
+                else
+                {
+                    // no physics tag and no physics components. Check if the physics module is disabled.
+                    var physicsModule = Object.FindAnyObjectByType<NeedleEngineModules>();
+                    Assert.IsTrue(physicsModule, "NeedleEngineModules component is in scene to disable physics because there are no RigidBody components");
+                    Assert.IsTrue(physicsModule.PhysicsEngine == PhysicsEngine.None, "Physics Engine is disabled because there are no RigidBody components");
+                }
+            }
+        }
+
+        [Test]
         [Category(SampleChecks.PublicInfoCategoryName)]
         public void HasReadme()
         {
