@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Facefilter : UnityEngine.MonoBehaviour
 	{
+		public UnityEngine.GameObject @asset;
 		public void awake(){}
 		public void OnEnable(){}
 		public void OnDisable(){}

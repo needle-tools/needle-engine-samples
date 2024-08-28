@@ -1,19 +1,18 @@
-import { Vector3, Quaternion, Matrix4 } from "three";
-import { getTempQuaternion, getTempVector } from "@needle-tools/engine"
+import { Camera, Matrix4, Object3D } from "three";
+import { Matrix } from "@mediapipe/tasks-vision"
 
-export function mediapipeToThreejsMatrix(mat: number[]): {
-    translation: Vector3;
-    rotation: Quaternion;
-    scale: Vector3;
-} {
-    let matrix4x4 = new Matrix4().fromArray(mat);
-    let translation = getTempVector();
-    let rotation = getTempQuaternion();
-    let scale = getTempVector();
-    matrix4x4.decompose(translation, rotation, scale);
-    return {
-        translation: translation,
-        rotation: rotation,
-        scale: scale,
-    };
-};
+export namespace NeedleMediaPipeUtils {
+
+    const tempMatrix = new Matrix4();
+
+    export function applyFaceLandmarkMatrixToObject3D(obj: Object3D, mat: Matrix, camera: Camera) {
+        const matrix = tempMatrix.fromArray(mat.data);
+        obj.matrixAutoUpdate = false;
+        obj.matrix.copy(matrix);
+        obj.matrix.elements[12] *= 0.01;
+        obj.matrix.elements[13] *= 0.01;
+        obj.matrix.elements[14] *= 0.01;
+        if (obj.parent !== camera)
+            camera.add(obj);
+    }
+}
