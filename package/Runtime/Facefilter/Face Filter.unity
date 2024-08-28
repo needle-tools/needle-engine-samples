@@ -32,11 +32,11 @@ RenderSettings:
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
-  m_DefaultReflectionMode: 0
+  m_DefaultReflectionMode: 1
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
-  m_CustomReflection: {fileID: 0}
+  m_CustomReflection: {fileID: 8900000, guid: 6d80dc90a54354768850e6ca37e42dac, type: 3}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.4568469, g: 0.4568469, b: 0.4568469, a: 1}
   m_UseRadianceAmbientProbe: 0
@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 784234928}
   - component: {fileID: 784234929}
   - component: {fileID: 784234927}
+  - component: {fileID: 784234930}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -432,6 +433,19 @@ MonoBehaviour:
   Path: /facefilter
   OverrideGzipCompression: 1
   UseGzipCompression: 0
+--- !u!114 &784234930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc605ea0754e9a4aab7a0e867f70e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToNeedleCloud, Needle.Engine.Deployment
+  projectName: face-filter
 --- !u!1 &804587143
 GameObject:
   m_ObjectHideFlags: 0
