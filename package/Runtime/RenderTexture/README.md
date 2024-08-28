@@ -1,6 +1,11 @@
 # Render Texture
 
-Render Texture is a special type of texture that contains an output directly from a camera. Instead of rendering to the screen, the camera renders to the texture. This texture can then be used in a material that can also use a custom shader.
+This sample shows how to use a RenderTexture to display the output of a camera on a TV screen.    
+
+A RenderTexture can be assigned to a camera to output a camera view into a texture. This texture can then be assigned to objects and materials in your scene to be displayed or as input for custom shaders.  
 
 ## Setup
-You can simply create a Render Texture asset, assign it to the camera in the "Output Texture" property and finally assign the render texture as the color map in your material.
+
+1) Create a new RenderTexture asset in your project window with `Create/RenderTexture`
+2) Assign the Texture to the camera's `Output Texture` slot (in this scene in the "Tripod Camera" object)
+3) Assign the Texture to an object in your scene (in this scene in the "TV" object)
