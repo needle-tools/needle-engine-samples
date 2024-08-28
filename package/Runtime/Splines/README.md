@@ -1,5 +1,5 @@
 # Splines
 
-Splines are comprised of connected bezier curves which allow for defining a smooth path in 3D space. That can be used in a variety of use cases like camera animations, AI path definition or procedural animation.
+Splines define a path in 3D space. You can use them to animate an object along a predefined path using an AnimationClip or dynamically controlled by user input.     
 
-This sample utilizes the [Unity Splines package 2.5.2](https://docs.unity3d.com/Packages/com.unity.splines@2.4/manual/index.html) which is available for Unity LTS 2022 and later.
+One common example is a camera that follows a spline curve and react to e.g. the user scroll input on a website. This is how [needle.tools](https://needle.tools) was built too!
