@@ -1,6 +1,6 @@
 import { AssetReference, Behaviour, ClearFlags, getParam, ObjectUtils, serializable } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult } from "@mediapipe/tasks-vision";
-import { NeedleMediaPipeUtils } from './utils.js';
+import { NeedleMediaPipeUtils, NeedleRecordingHelper } from './utils.js';
 import { Matrix4, MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
 
 export class Facefilter extends Behaviour {
@@ -63,7 +63,10 @@ export class Facefilter extends Behaviour {
         const constraints = { video: true, audio: false };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = stream;
-        video.addEventListener("loadeddata", () => { this._videoReady = true; });
+        video.addEventListener("loadeddata", () => {
+            this._videoReady = true;
+            NeedleRecordingHelper.createButton(this.context);
+        });
         this._videoTexture = new VideoTexture(video);
         this._videoTexture.colorSpace = this.context.renderer.outputColorSpace;
         this._farplaneQuad = ObjectUtils.createPrimitive("Quad", {
