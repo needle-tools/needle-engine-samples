@@ -244,11 +244,25 @@ namespace SampleChecks
             Assert.True(sample.Scene, "No scene assigned");
         }
 
+        static string[] xrRigNonUniformScaleWhiteList = new string[]
+        {
+            "18f7c17c5bd6f824d8e1b55f44502a79", //Worldspace UI - not realistic proportions
+            "5f4bfcc51f34a496d80e95c4a4559d3f", //Voxel Editor - generated content
+        };
+
+        static string[] xrTagWithoutWebXRWhiteList = new string[]
+        {
+            "1f04be2cf50ad7b4b989b2957829c07d", //Media Pipe Hands
+        };
+
         [Test]
         [Explicit]
         public void TagsAndSceneContentMatch()
         {
             OpenSceneAndCopyIfNeeded();
+
+            if (!AssetDatabase.TryGetGUIDAndLocalFileIdentifier(sample, out var guid, out long a))
+                Assert.Fail("Can't determine guid of the SampleInfo asset");
 
             var checkForMatchingPhysics = false;
             
@@ -264,10 +278,10 @@ namespace SampleChecks
                 if (hasXRComponent && !hasXRTag)
                     Debug.Log("Sample has the WebXR component but no XR tag. This is fine if the sample doesn't show something XR-specific.");
 
-                if (hasXRTag)
+                if (hasXRTag && !xrTagWithoutWebXRWhiteList.Contains(guid))
                     Assert.IsTrue(hasXRComponent, "XR Tag is set but no WebXR component found in scene");
                 
-                if (xrRig)
+                if (xrRig && !xrRigNonUniformScaleWhiteList.Contains(guid))
                 {
                     var isUnitScale = xrRig.transform.localScale == Vector3.one;
                     Assert.IsTrue(isUnitScale, $"XR Rig is not scaled to 1,1,1. Instead, scale is {xrRig.transform.localScale}. Make sure your scene has real-world size.");
