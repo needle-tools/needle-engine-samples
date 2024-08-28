@@ -32,7 +32,6 @@ export class MediapipeHands extends Behaviour {
 
         this._video = document.createElement("video");
         this._video.setAttribute("style", "max-width: 30vw; height: auto;");
-        console.log(this._video);
         this._video.autoplay = true;
         this._video.playsInline = true;
         this.context.domElement.appendChild(this._video);
