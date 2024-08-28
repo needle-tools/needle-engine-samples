@@ -1,9 +1,13 @@
-import { Behaviour, ClearFlags, ObjectUtils } from '@needle-tools/engine';
+import { AssetReference, Behaviour, ClearFlags, getParam, ObjectUtils, serializable } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult } from "@mediapipe/tasks-vision";
-import { mediapipeToThreejsMatrix } from './utils.js';
+import { NeedleMediaPipeUtils } from './utils.js';
 import { Matrix4, MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
 
 export class Facefilter extends Behaviour {
+
+    @serializable(Object3D)
+    asset: Object3D | undefined = undefined;
+
 
     /** Face detector */
     private _landmarker!: FaceLandmarker;
@@ -45,6 +49,7 @@ export class Facefilter extends Behaviour {
     }
     /** @internal */
     onEnable(): void {
+        this._debug = getParam("debugfacefilter") == true;
         window.addEventListener("keydown", this.onKeyDown);
         this._video?.play();
     }
@@ -64,11 +69,13 @@ export class Facefilter extends Behaviour {
         this._farplaneQuad = ObjectUtils.createPrimitive("Quad", {
             parent: this.context.mainCamera,
             rotation: new Vector3(Math.PI, Math.PI, 0),
-            material: new MeshBasicMaterial({ map: this._videoTexture }),
+            material: new MeshBasicMaterial({ map: this._videoTexture, depthTest: false, depthWrite: false }),
         });
+        this._farplaneQuad.renderOrder = -1;
     }
 
 
+    private _occluder: Object3D | null = null;
     private _lastResult: FaceLandmarkerResult | null = null;
 
     /** @internal */
@@ -100,28 +107,25 @@ export class Facefilter extends Behaviour {
 
     private updateRendering(res: FaceLandmarkerResult) {
 
-        if (res.faceLandmarks.length <= 0) return;
-        // for (let i = 0; i < res.facialTransformationMatrixes.length; i++) {
-        //     const mat = res.facialTransformationMatrixes[i].data;
-        //     const mat3 = new Matrix4().fromArray(mat);
-        //     if (!this._debugObjects[i]) {
-        //         const obj = new Object3D();
-        //         ObjectUtils.createPrimitive("ShaderBall", {
-        //             parent: obj,
-        //             scale: .2, // 30 cm
-        //         });
-        //         this._debugObjects[i] = obj;
-        //     }
-        //     const obj = this._debugObjects[i];
-        //     obj.matrixAutoUpdate = false;
-        //     obj.matrix.copy(mat3);
-        //     // scale position by 0.1
-        //     obj.matrix.elements[12] *= 0.01;
-        //     obj.matrix.elements[13] *= 0.01;
-        //     obj.matrix.elements[14] *= 0.01;
-        //     if (obj.parent !== this.context.mainCamera)
-        //         this.context.mainCamera.add(obj);
-        // }
+        if (res.facialTransformationMatrixes.length <= 0) return;
+
+        if (this.asset) {
+            const lm = res.facialTransformationMatrixes[0];
+            const obj = this.asset;
+            NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(obj, lm, this.context.mainCamera);
+            if (!this._occluder) {
+                this._occluder = new Object3D();
+                const mesh = ObjectUtils.createOccluder("Sphere");
+                // mesh.material.colorWrite = true;
+                mesh.scale.x = .16;
+                mesh.scale.y = .3;
+                mesh.scale.z = .15;
+                mesh.position.z = -.03;
+                mesh.renderOrder = -1;
+                this._occluder.add(mesh);
+            }
+            NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
+        }
 
     }
 
@@ -146,7 +150,7 @@ export class Facefilter extends Behaviour {
             if (this._debugContainer) {
                 this._debugContainer.style.display = "none";
             }
-            for(const obj of this._debugObjects){
+            for (const obj of this._debugObjects) {
                 obj.removeFromParent();
             }
             this._debugObjects.length = 0;
@@ -203,8 +207,6 @@ export class Facefilter extends Behaviour {
 
         if (res.faceLandmarks.length > 0) {
             for (let i = 0; i < res.facialTransformationMatrixes.length; i++) {
-                const mat = res.facialTransformationMatrixes[i].data;
-                const mat3 = new Matrix4().fromArray(mat);
                 if (!this._debugObjects[i]) {
                     const obj = new Object3D();
                     ObjectUtils.createPrimitive("ShaderBall", {
@@ -214,14 +216,8 @@ export class Facefilter extends Behaviour {
                     this._debugObjects[i] = obj;
                 }
                 const obj = this._debugObjects[i];
-                obj.matrixAutoUpdate = false;
-                obj.matrix.copy(mat3);
-                // scale position by 0.1
-                obj.matrix.elements[12] *= 0.01;
-                obj.matrix.elements[13] *= 0.01;
-                obj.matrix.elements[14] *= 0.01;
-                if (obj.parent !== this.context.mainCamera)
-                    this.context.mainCamera.add(obj);
+                const data = res.facialTransformationMatrixes[i];
+                NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(obj, data, this.context.mainCamera);
             }
         }
     }
