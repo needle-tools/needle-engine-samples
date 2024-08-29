@@ -8,4 +8,4 @@
 
 export {Facefilter} from "./FaceFilter.js"
 export { NeedleRecordingHelper } from './RecordingHelper.js';
-export { NeedleMediaPipeUtils } from './utils.js';
+export { FacefilterUtils as NeedleMediaPipeUtils } from './utils.js';

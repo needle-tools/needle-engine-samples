@@ -1,22 +1,39 @@
-import { AssetReference, Behaviour, ClearFlags, getParam, ObjectUtils, serializable } from '@needle-tools/engine';
+import { AssetReference, Behaviour, ClearFlags, GameObject, getParam, ObjectUtils, serializable } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult } from "@mediapipe/tasks-vision";
-import { NeedleMediaPipeUtils } from './utils.js';
-import { Matrix4, MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
+import { BlendshapeName, FacefilterUtils } from './utils.js';
+import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
+import { FaceBehaviour } from './FaceBehaviour.js';
 
 export class Facefilter extends Behaviour {
 
+    /**
+     * The 3D object that will be attached to the face
+     */
     @serializable(Object3D)
     asset: Object3D | undefined = undefined;
 
+    /**
+     * The occlusion mesh that will be used to hide 3D objects behind the face
+     */
     @serializable(AssetReference)
     occlusionMesh: AssetReference | undefined = undefined;
 
     /**
      * The last result received from the face detector
+     * @returns {FaceLandmarkerResult} the last result received from the face detector
      */
-    get result() {
+    get result(): FaceLandmarkerResult | null {
         return this._lastResult;
+    }
+    /**
+     * Get the blendshape value for a given name
+     * @param shape the name of the blendshape e.g. JawOpen
+     * @param index the index of the face to get the blendshape from. Default is 0
+     * @returns the blendshape score for a given name e.g. JawOpen. -1 if not found
+     */
+    getBlendshapeValue(shape: BlendshapeName, index: number = 0): number {
+        return FacefilterUtils.getBlendshapeValue(this._lastResult, shape, index);
     }
 
 
@@ -61,6 +78,9 @@ export class Facefilter extends Behaviour {
     }
     /** @internal */
     onEnable(): void {
+        if (this.asset) {
+            this.asset.visible = false;
+        }
         this._debug = getParam("debugfacefilter") == true;
         window.addEventListener("keydown", this.onKeyDown);
         this._video?.play();
@@ -100,15 +120,20 @@ export class Facefilter extends Behaviour {
     /** The last landmark result received */
     private _lastResult: FaceLandmarkerResult | null = null;
 
-    /** @internal */
-    onBeforeRender(): void {
+    earlyUpdate(): void {
         if (!this._video?.srcObject || !this._landmarker) return;
         if (!this._videoReady) return;
         if (this._video.currentTime === this._lastVideoTime) return;
         this._lastVideoTime = this._video.currentTime;
-        let startTimeMs = performance.now();
-        const results = this._landmarker.detectForVideo(this._video, startTimeMs);
+        const results = this._landmarker.detectForVideo(this._video, performance.now());
         this._lastResult = results;
+        this.onResultsUpdated();
+    }
+
+    /** @internal */
+    onBeforeRender(): void {
+        const results = this._lastResult;
+        if (!results) return;
 
         // Currently we need to force the FOV
         if (this.context.mainCameraComponent) {
@@ -127,6 +152,18 @@ export class Facefilter extends Behaviour {
         this.updateRendering(results);
     }
 
+    /**
+     * Called when the face detector has a new result
+     */
+    protected onResultsUpdated() {
+        if (this.asset) {
+            const attachment = this.asset.getComponent(FaceBehaviour);
+            if (attachment) {
+                attachment.onResultUpdated(this);
+            }
+        }
+    }
+
     private updateRendering(res: FaceLandmarkerResult) {
 
         if (res.facialTransformationMatrixes.length <= 0) return;
@@ -134,12 +171,13 @@ export class Facefilter extends Behaviour {
         if (this.asset) {
             const lm = res.facialTransformationMatrixes[0];
             const obj = this.asset;
-            NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(obj, lm, this.context.mainCamera);
+            obj.visible = true;
+            FacefilterUtils.applyFaceLandmarkMatrixToObject3D(obj, lm, this.context.mainCamera);
             if (!this._occluder) {
                 this.createOccluder();
             }
             else {
-                NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
+                FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
             }
         }
 
@@ -154,13 +192,12 @@ export class Facefilter extends Behaviour {
                 this._occluderPromise.then((occluder) => {
                     this._occluder = new Object3D();
                     this._occluder.add(occluder);
-                    NeedleMediaPipeUtils.makeOccluder(occluder);
+                    FacefilterUtils.makeOccluder(occluder);
                 });
             }
         }
         // Fallback occluder mesh if no custom occluder is assigned
-        else 
-        {
+        else {
             this._occluder = new Object3D();
             const mesh = ObjectUtils.createOccluder("Sphere");
             // mesh.material.colorWrite = true;
@@ -264,7 +301,7 @@ export class Facefilter extends Behaviour {
                 }
                 const obj = this._debugObjects[i];
                 const data = res.facialTransformationMatrixes[i];
-                NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(obj, data, this.context.mainCamera);
+                FacefilterUtils.applyFaceLandmarkMatrixToObject3D(obj, data, this.context.mainCamera);
             }
         }
     }
