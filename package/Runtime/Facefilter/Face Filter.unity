@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 6d80dc90a54354768850e6ca37e42dac, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45759833, g: 0.45794204, b: 0.45759833, a: 1}
+  m_IndirectSpecularColor: {r: 0.4568469, g: 0.4568469, b: 0.4568469, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -151,12 +151,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1877730139}
   - {fileID: 1156900738}
   - {fileID: 1737468829}
   - {fileID: 461206831}
   - {fileID: 1942184522}
+  - {fileID: 1877730139}
   - {fileID: 1138249451}
+  - {fileID: 1132886154}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -173,11 +174,11 @@ GameObject:
   - component: {fileID: 461206832}
   m_Layer: 0
   m_Name: Sphere (1)
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &461206831
 Transform:
   m_ObjectHideFlags: 0
@@ -191,7 +192,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 396765250}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &461206832
 MeshRenderer:
@@ -281,7 +282,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -439,9 +440,9 @@ MonoBehaviour:
   AutoExport: 1
   AutoCompress: 1
   Dependencies:
-  - Name: '@needle-tools/mediapipe-sample'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Mediapipe/needle-mediapipe.npmdef
-    Guid: 492616fd00ad7b149ac14cbd8539be1c
+  - Name: '@needle-tools/facefilter'
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Facefilter/FaceFilter.npmdef
+    Guid: 06489df698d9822449a39c8043f44a32
 --- !u!4 &784234924
 Transform:
   m_ObjectHideFlags: 0
@@ -559,10 +560,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 804587143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1d8842cbe9015dfe9b64f2f108992dd, type: 3}
+  m_Script: {fileID: 11500000, guid: db9cd497d671adf8a914399362e63be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Facefilter, Needle.Engine-Samples.Runtime
   asset: {fileID: 396765249}
+  occlusionMesh: {fileID: 7189112868617043619, guid: 4fef7a03016374744b4ea8916e81f2fb, type: 3}
 --- !u!4 &804587145
 Transform:
   m_ObjectHideFlags: 0
@@ -578,6 +580,88 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1132886153
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 396765250}
+    m_Modifications:
+    - target: {fileID: 8128668236925612103, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_Name
+      value: megumins_hat
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128668236925612103, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128668236925612103, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2046686
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.20466869
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.20466869
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1722
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0503
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: -5645937942226959685, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+--- !u!4 &1132886154 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8897093224900880590, guid: 0a19349551ddfb64480e029f5a14b761, type: 3}
+  m_PrefabInstance: {fileID: 1132886153}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1138249450
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,11 +675,11 @@ GameObject:
   - component: {fileID: 1138249452}
   m_Layer: 0
   m_Name: Sphere (3)
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1138249451
 Transform:
   m_ObjectHideFlags: 0
@@ -674,11 +758,11 @@ GameObject:
   - component: {fileID: 1156900739}
   m_Layer: 0
   m_Name: Particles
-  m_TagString: EditorOnly
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1156900738
 Transform:
   m_ObjectHideFlags: 0
@@ -687,12 +771,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1156900737}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.024, z: 0.1045}
+  m_LocalPosition: {x: 0, y: 0.182, z: -0.066}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 396765250}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &1156900739
 ParticleSystemRenderer:
@@ -1395,7 +1479,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 5
+    type: 0
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -1403,7 +1487,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 0.1, y: 0.05, z: 0.05}
+    m_Scale: {x: 0.1, y: 0.1, z: 0.1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -1482,7 +1566,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.05
+      value: 3
       mode: 0
       spread: 0
       speed:
@@ -1601,7 +1685,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 20
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -3418,7 +3502,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.01
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3575,7 +3659,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 20
+    frequency: 5
     damping: 1
     octaves: 1
     octaveMultiplier: 0.5
@@ -5496,11 +5580,11 @@ GameObject:
   - component: {fileID: 1737468830}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1737468829
 Transform:
   m_ObjectHideFlags: 0
@@ -5514,7 +5598,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 396765250}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1737468830
 MeshRenderer:
@@ -5633,9 +5717,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8128668236925612103, guid: c98e92960f25ec147a9d410ac2953d4c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128668236925612103, guid: c98e92960f25ec147a9d410ac2953d4c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897093224900880590, guid: c98e92960f25ec147a9d410ac2953d4c, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: c98e92960f25ec147a9d410ac2953d4c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.05
+      value: 0.0362
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: -5645937942226959685, guid: c98e92960f25ec147a9d410ac2953d4c, type: 3}
@@ -5657,11 +5753,11 @@ GameObject:
   - component: {fileID: 1942184523}
   m_Layer: 0
   m_Name: Sphere (2)
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1942184522
 Transform:
   m_ObjectHideFlags: 0
@@ -5675,7 +5771,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 396765250}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1942184523
 MeshRenderer:

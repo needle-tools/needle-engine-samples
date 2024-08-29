@@ -1,25 +1,9 @@
-import { Camera, Matrix4, Object3D } from "three";
-import { Matrix } from "@mediapipe/tasks-vision"
 import { Context, getIconElement, showBalloonMessage } from "@needle-tools/engine";
-
-export namespace NeedleMediaPipeUtils {
-
-    const tempMatrix = new Matrix4();
-
-    export function applyFaceLandmarkMatrixToObject3D(obj: Object3D, mat: Matrix, camera: Camera) {
-        const matrix = tempMatrix.fromArray(mat.data);
-        obj.matrixAutoUpdate = false;
-        obj.matrix.copy(matrix);
-        obj.matrix.elements[12] *= 0.01;
-        obj.matrix.elements[13] *= 0.01;
-        obj.matrix.elements[14] *= 0.01;
-        if (obj.parent !== camera)
-            camera.add(obj);
-    }
-}
 
 
 export class NeedleRecordingHelper {
+
+    static debug = false;
 
     private static button: HTMLButtonElement | null = null;
 
@@ -47,38 +31,55 @@ export class NeedleRecordingHelper {
             });
         }
         ctx.menu.appendChild(this.button);
+
+        if (this.debug) {
+            setTimeout(() => {
+                this.startRecording(ctx.renderer.domElement);
+                setTimeout(() => {
+                    this.stopRecording();
+                }, 2000)
+            }, 1000)
+        }
     }
 
     static startRecording(canvas: HTMLCanvasElement) {
         const stream = canvas.captureStream();
-        this.recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+        this.recorder = new MediaRecorder(stream, { mimeType: "video/webm " });
         this.recorder.ondataavailable = (e) => {
-            showBalloonMessage("Recording data " + e.data.type + " " + e.data.size + ", " + this.chunks.length);
+            if (this.debug) showBalloonMessage("Recording data " + e.data.type + " " + e.data.size + ", " + this.chunks.length);
             if (e.data?.size > 0)
                 this.chunks.push(e.data);
         };
-        this.recorder.onerror = (e) => {
-            console.error(e);
+        this.recorder.onerror = (e: any) => {
+            console.error(e.error.name + ": " + e.error.message);
         }
         this.recorder.start(100);
     }
     static stopRecording() {
         this.recorder?.requestData();
-        showBalloonMessage("Recording stopped " + this.chunks.length);
+        if (this.debug) showBalloonMessage("Recording stopped " + this.chunks.length);
         this.recorder!.onstop = () => {
-            showBalloonMessage("Recording stopped2 " + this.chunks.length);
-            let format = "video/webm";
-            const blob = new Blob(this.chunks, { type: format });
-            this.chunks.length = 0;
-            const ext = format.split("/")[1];
-            const downloadName = "facefilter." + ext;
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = downloadName;
-            a.click();
-            URL.revokeObjectURL(url)
+            this.download();
         };
         this.recorder!.stop();
+    }
+    private static download() {
+        if (this.chunks.length === 0) {
+            return false;
+        }
+        const format = this.recorder?.mimeType || "video/webm";
+        const blob = new Blob(this.chunks, { type: format });
+        this.chunks.length = 0;
+        const ext = format.split("/")[1];
+        const downloadName = "facefilter." + ext;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = downloadName;
+        a.click();
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 10);
+        return true;
     }
 }
