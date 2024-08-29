@@ -84,7 +84,7 @@ export class NeedleRecordingHelper {
         };
         this.recorder!.stop();
     }
-    private static download() {
+    private static async download() {
         if (this.chunks.length === 0) {
             return false;
         }
@@ -94,10 +94,26 @@ export class NeedleRecordingHelper {
         const ext = format.split("/")[1];
         const downloadName = "needle-engine-facefilter." + ext;
         const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = downloadName;
-        a.click();
+
+        if("share" in navigator) {
+            await navigator.share({
+                title: "Needle Engine Facefilter",
+                text: "Facefilter recording",
+                url: url,
+            }).catch((e) => {
+                console.warn(e);
+                return false;
+            });
+        }
+        else {
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = downloadName;
+            a.click();
+    
+        }
+
         setTimeout(() => {
             URL.revokeObjectURL(url);
         }, 10);
