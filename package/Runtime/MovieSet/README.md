@@ -1,4 +1,4 @@
-# Render Texture
+# Movie Set
 
 This sample shows how to use a RenderTexture to display the output of a camera on a TV screen.    
 
