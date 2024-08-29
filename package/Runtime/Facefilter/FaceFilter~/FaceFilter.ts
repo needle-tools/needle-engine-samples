@@ -81,23 +81,31 @@ export class Facefilter extends Behaviour {
     async awake() {
         const vision = await FilesetResolver.forVisionTasks(
             "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm",
-        );
+        ).catch((e) => {
+            console.error("Could not load vision tasks", e);
+            return null;
+        });
+        if (!vision) {
+            return;
+        }
         this._landmarker = await FaceLandmarker.createFromOptions(
             vision,
             {
                 runningMode: "VIDEO",
-                numFaces: 1, // TODO: we currently support only one face, most of the code is written with this assumption
                 baseOptions: {
                     delegate: "GPU",
                     modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
                 },
+                numFaces: 1, // TODO: we currently support only one face, most of the code is written with this assumption
                 outputFaceBlendshapes: true,
                 outputFacialTransformationMatrixes: true,
 
             }
-        );
+        ).catch((e) => {
+            console.warn("Could not create face detector", e);
+            return e;
+        });
 
-        await this._landmarker.setOptions({ runningMode: "VIDEO" });
         // create and start the video playback
         this._video = document.createElement("video");
         this._video.autoplay = true;
@@ -129,7 +137,7 @@ export class Facefilter extends Behaviour {
                 filter.asset.visible = false;
             }
         }
-        this._debug = getParam("d") == true;
+        this._debug = getParam("debugfacefilter") == true;
         window.addEventListener("keydown", this.onKeyDown);
         this._video?.play();
     }
@@ -141,10 +149,14 @@ export class Facefilter extends Behaviour {
 
     private async startWebcam(video: HTMLVideoElement) {
         const constraints = { video: true, audio: false };
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        const stream = await navigator.mediaDevices.getUserMedia(constraints).catch((e) => {
+            showBalloonMessage("Could not start webcam: " + e.message);
+            console.error(e);
+            return null;
+        });
+        if (stream == null) return;
         video.srcObject = stream;
         video.muted = true;
-        video.play();
         video.addEventListener("loadeddata", () => {
             this._videoReady = true;
 
@@ -163,9 +175,12 @@ export class Facefilter extends Behaviour {
                 onClick: function () {
                     if (isMobileDevice() && navigator.share) {
                         navigator.share({
-                            title: "Facefilter",
-                            text: "Check out this facefilter",
+                            title: "Needle Filter",
+                            text: "Check this out",
                             url: window.location.href,
+                        }).catch(e => {
+                            // ignore cancel
+                            console.warn(e);
                         });
                     }
                     else {
