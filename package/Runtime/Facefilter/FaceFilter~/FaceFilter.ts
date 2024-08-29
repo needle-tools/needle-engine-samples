@@ -205,7 +205,12 @@ export class Facefilter extends Behaviour {
     earlyUpdate(): void {
         if (!this._video?.srcObject || !this._landmarker) return;
         if (!this._videoReady) return;
-        if (this._video.currentTime === this._lastVideoTime) return;
+        if (this._video.currentTime === this._lastVideoTime) {
+            // iOS hack
+            if (this.context.time.frame % 4 === 0)
+                this._video.play();
+            return;
+        }
         this._lastVideoTime = this._video.currentTime;
         const results = this._landmarker.detectForVideo(this._video, performance.now());
         this._lastResult = results;
