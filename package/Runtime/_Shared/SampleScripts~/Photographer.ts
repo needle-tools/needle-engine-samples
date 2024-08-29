@@ -42,7 +42,7 @@ export class Photographer extends Behaviour {
                     rb.setAngularVelocity(Math.random() - .5, Math.random() - .5, Math.random() * 2 - 1);
                     rb.applyImpulse(this.gameObject.worldForward.add({ x: 0, y: 2, z: 0 })
                         .normalize()
-                        .multiplyScalar(this.context.time.deltaTime * .5));
+                        .multiplyScalar(0.01));
                 }
 
                 const renderer = res?.getComponentInChildren(Renderer);
