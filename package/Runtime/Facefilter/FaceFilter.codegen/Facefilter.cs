@@ -2,26 +2,6 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-// NEEDLE_CODEGEN_START
-// auto generated code - do not edit directly
-
-#pragma warning disable
-
-namespace Needle.Typescript.GeneratedComponents
-{
-	public partial class Facefilter : UnityEngine.MonoBehaviour
-	{
-		public UnityEngine.GameObject @asset;
-		public UnityEngine.Transform @occlusionMesh;
-		public void awake(){}
-		public void OnEnable(){}
-		public void OnDisable(){}
-		public void onBeforeRender(){}
-	}
-}
-
-// NEEDLE_CODEGEN_END
-
 
 namespace Needle.Typescript.GeneratedComponents
 {
@@ -55,3 +35,25 @@ namespace Needle.Typescript.GeneratedComponents
 		} 
 	}
 }
+
+// NEEDLE_CODEGEN_START
+// auto generated code - do not edit directly
+
+#pragma warning disable
+
+namespace Needle.Typescript.GeneratedComponents
+{
+	public partial class Facefilter : UnityEngine.MonoBehaviour
+	{
+		public UnityEngine.GameObject @asset;
+		public UnityEngine.Transform @occlusionMesh;
+		public void getBlendshapeValue(object @shape, float @index){}
+		public void awake(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
+		public void earlyUpdate(){}
+		public void onBeforeRender(){}
+	}
+}
+
+// NEEDLE_CODEGEN_END

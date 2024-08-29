@@ -1,11 +1,10 @@
 import { Camera, Material, Matrix4, Object3D, DoubleSide, MeshBasicMaterial, Mesh } from "three";
-import { Matrix } from "@mediapipe/tasks-vision"
+import { Category, FaceLandmarkerResult, Matrix } from "@mediapipe/tasks-vision"
 import { Renderer } from "@needle-tools/engine";
-
 
 let _occluderMaterial: Material | null = null;
 
-export namespace NeedleMediaPipeUtils {
+export namespace FacefilterUtils {
 
     const tempMatrix = new Matrix4();
 
@@ -18,6 +17,23 @@ export namespace NeedleMediaPipeUtils {
         obj.matrix.elements[14] *= 0.01;
         if (obj.parent !== camera)
             camera.add(obj);
+    }
+
+    export function getBlendshape(result: FaceLandmarkerResult | null, shape: BlendshapeName, index: number = 0): Category | null {
+        if (!result) return null;
+        if (result?.faceBlendshapes?.length > index) {
+            const blendshape = result.faceBlendshapes[index];
+            for (const cat of blendshape.categories) {
+                if (cat.categoryName === shape) {
+                    return cat;
+                }
+            }
+        }
+        return null;
+    }
+    export function getBlendshapeValue(result: FaceLandmarkerResult | null, shape: BlendshapeName, index: number = 0): number {
+        const cat = getBlendshape(result, shape, index);
+        return cat ? cat.score : -1;
     }
 
     export function makeOccluder(obj: Object3D) {
@@ -52,3 +68,59 @@ export namespace NeedleMediaPipeUtils {
     }
 }
 
+/**
+ * Blendshape Category Name options
+ */
+export declare type BlendshapeName =
+    | "_neutral"
+    | "browDownLeft"
+    | "browDownRight"
+    | "browInnerUp"
+    | "browOuterUpLeft"
+    | "browOuterUpRight"
+    | "cheekPuff"
+    | "cheekSquintLeft"
+    | "cheekSquintRight"
+    | "eyeBlinkLeft"
+    | "eyeBlinkRight"
+    | "eyeLookDownLeft"
+    | "eyeLookDownRight"
+    | "eyeLookInLeft"
+    | "eyeLookInRight"
+    | "eyeLookOutLeft"
+    | "eyeLookOutRight"
+    | "eyeLookUpLeft"
+    | "eyeLookUpRight"
+    | "eyeSquintLeft"
+    | "eyeSquintRight"
+    | "eyeWideLeft"
+    | "eyeWideRight"
+    | "jawForward"
+    | "jawLeft"
+    | "jawOpen"
+    | "jawRight"
+    | "mouthClose"
+    | "mouthDimpleLeft"
+    | "mouthDimpleRight"
+    | "mouthFrownLeft"
+    | "mouthFrownRight"
+    | "mouthFunnel"
+    | "mouthLeft"
+    | "mouthLowerDownLeft"
+    | "mouthLowerDownRight"
+    | "mouthPressLeft"
+    | "mouthPressRight"
+    | "mouthPucker"
+    | "mouthRight"
+    | "mouthRollLower"
+    | "mouthRollUpper"
+    | "mouthShrugLower"
+    | "mouthShrugUpper"
+    | "mouthSmileLeft"
+    | "mouthSmileRight"
+    | "mouthStretchLeft"
+    | "mouthStretchRight"
+    | "mouthUpperUpLeft"
+    | "mouthUpperUpRight"
+    | "noseSneerLeft"
+    | "noseSneerRight";
