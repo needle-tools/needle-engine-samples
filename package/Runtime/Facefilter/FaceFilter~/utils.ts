@@ -4,6 +4,8 @@ import { Renderer } from "@needle-tools/engine";
 
 let _occluderMaterial: Material | null = null;
 
+const flipx = new Matrix4().makeScale(-1, 1, 1);
+
 export namespace FacefilterUtils {
 
     const tempMatrix = new Matrix4();
@@ -15,6 +17,7 @@ export namespace FacefilterUtils {
         obj.matrix.elements[12] *= 0.01;
         obj.matrix.elements[13] *= 0.01;
         obj.matrix.elements[14] *= 0.01;
+        obj.matrix.premultiply(flipx);
         if (obj.parent !== camera)
             camera.add(obj);
     }

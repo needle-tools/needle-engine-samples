@@ -67,7 +67,7 @@ export class Facefilter extends Behaviour {
 
 
     /** Face detector */
-    private _landmarker!: FaceLandmarker;
+    private _landmarker: FaceLandmarker | null = null;
     /** Input */
     private _video!: HTMLVideoElement;
     private _videoReady: boolean = false;
@@ -82,10 +82,11 @@ export class Facefilter extends Behaviour {
         const vision = await FilesetResolver.forVisionTasks(
             "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm",
         ).catch((e) => {
-            console.error("Could not load vision tasks", e);
+            console.error(e);
             return null;
         });
         if (!vision) {
+            console.error("Could not load vision tasks");
             return;
         }
         this._landmarker = await FaceLandmarker.createFromOptions(
@@ -102,9 +103,13 @@ export class Facefilter extends Behaviour {
 
             }
         ).catch((e) => {
-            console.warn("Could not create face detector", e);
-            return e;
+            console.error(e);
+            console.error("Could not create face detector...");
+            return null;
         });
+        if (!this._landmarker) {
+            return;
+        }
 
         // create and start the video playback
         this._video = document.createElement("video");
@@ -154,7 +159,10 @@ export class Facefilter extends Behaviour {
             console.error(e);
             return null;
         });
-        if (stream == null) return;
+        if (stream == null) {
+            console.warn("Could not start webcam");
+            return;
+        }
         video.srcObject = stream;
         video.muted = true;
         video.addEventListener("loadeddata", () => {
@@ -221,11 +229,17 @@ export class Facefilter extends Behaviour {
         if (!this._video?.srcObject || !this._landmarker) return;
         if (!this._videoReady) return;
         if (this._video.currentTime === this._lastVideoTime) {
-            // iOS hack
-            if (this.context.time.frame % 4 === 0)
+            // iOS hack: for some reason on Safari iOS the video stops playing sometimes. Playback state stays "playing" but currentTime does not change
+            // So here we just restart the video every few frames to circumvent the issue for now
+            if (this.context.time.frame % 20 === 0)
                 this._video.play();
             return;
         }
+        // Because of Safari iOS
+        if (!("detectForVideo" in this._landmarker)) {
+            return;
+        }
+        if(this._video.readyState < 2) return;
         this._lastVideoTime = this._video.currentTime;
         const results = this._landmarker.detectForVideo(this._video, performance.now());
         this._lastResult = results;
@@ -246,7 +260,7 @@ export class Facefilter extends Behaviour {
                 const far = this.context.mainCameraComponent.farClipPlane;
                 this._farplaneQuad.position.z = -far + .01;
                 const aspect = this._video.videoWidth / this._video.videoHeight;
-                this._farplaneQuad.scale.set(-aspect, -1, 1).multiplyScalar(far * Math.tan(this.context.mainCameraComponent.fieldOfView * Math.PI / 180 / 2) * 2);
+                this._farplaneQuad.scale.set(aspect, -1, 1).multiplyScalar(far * Math.tan(this.context.mainCameraComponent.fieldOfView * Math.PI / 180 / 2) * 2);
             }
         }
 
