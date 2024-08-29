@@ -1,12 +1,23 @@
 import { AssetReference, Behaviour, ClearFlags, getParam, ObjectUtils, serializable } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult } from "@mediapipe/tasks-vision";
-import { NeedleMediaPipeUtils, NeedleRecordingHelper } from './utils.js';
+import { NeedleMediaPipeUtils } from './utils.js';
 import { Matrix4, MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
+import { NeedleRecordingHelper } from './RecordingHelper.js';
 
 export class Facefilter extends Behaviour {
 
     @serializable(Object3D)
     asset: Object3D | undefined = undefined;
+
+    @serializable(AssetReference)
+    occlusionMesh: AssetReference | undefined = undefined;
+
+    /**
+     * The last result received from the face detector
+     */
+    get result() {
+        return this._lastResult;
+    }
 
 
     /** Face detector */
@@ -17,6 +28,7 @@ export class Facefilter extends Behaviour {
     private _lastVideoTime: number = -1;
     private _videoTexture: VideoTexture | null = null;
     private _farplaneQuad: Object3D | null = null;
+
 
 
 
@@ -40,7 +52,7 @@ export class Facefilter extends Behaviour {
         );
 
         await this._landmarker.setOptions({ runningMode: "VIDEO" });
-
+        // create and start the video playback
         this._video = document.createElement("video");
         this._video.autoplay = true;
         this._video.playsInline = true;
@@ -63,13 +75,16 @@ export class Facefilter extends Behaviour {
         const constraints = { video: true, audio: false };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = stream;
+        video.muted = true;
+        video.play();
         video.addEventListener("loadeddata", () => {
             this._videoReady = true;
             NeedleRecordingHelper.createButton(this.context);
         });
-        this._videoTexture = new VideoTexture(video);
+        // Create a video texture that will be used to render the video feed
+        this._videoTexture ??= new VideoTexture(video);
         this._videoTexture.colorSpace = this.context.renderer.outputColorSpace;
-        this._farplaneQuad = ObjectUtils.createPrimitive("Quad", {
+        this._farplaneQuad ??= ObjectUtils.createPrimitive("Quad", {
             parent: this.context.mainCamera,
             rotation: new Vector3(Math.PI, Math.PI, 0),
             material: new MeshBasicMaterial({ map: this._videoTexture, depthTest: false, depthWrite: false }),
@@ -78,7 +93,11 @@ export class Facefilter extends Behaviour {
     }
 
 
+    /** assigned when the occluder is being created */
+    private _occluderPromise: Promise<Object3D> | null = null;
     private _occluder: Object3D | null = null;
+
+    /** The last landmark result received */
     private _lastResult: FaceLandmarkerResult | null = null;
 
     /** @internal */
@@ -117,19 +136,44 @@ export class Facefilter extends Behaviour {
             const obj = this.asset;
             NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(obj, lm, this.context.mainCamera);
             if (!this._occluder) {
-                this._occluder = new Object3D();
-                const mesh = ObjectUtils.createOccluder("Sphere");
-                // mesh.material.colorWrite = true;
-                mesh.scale.x = .16;
-                mesh.scale.y = .3;
-                mesh.scale.z = .15;
-                mesh.position.z = -.03;
-                mesh.renderOrder = -1;
-                this._occluder.add(mesh);
+                this.createOccluder();
             }
-            NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
+            else {
+                NeedleMediaPipeUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
+            }
         }
 
+    }
+
+    private createOccluder() {
+        // If a occlusion mesh is assigned
+        if (this.occlusionMesh) {
+            // Request the occluder mesh once
+            if (!this._occluderPromise) {
+                this._occluderPromise = this.occlusionMesh.loadAssetAsync();
+                this._occluderPromise.then((occluder) => {
+                    this._occluder = new Object3D();
+                    this._occluder.add(occluder);
+                    NeedleMediaPipeUtils.makeOccluder(occluder);
+                });
+            }
+        }
+        // Fallback occluder mesh if no custom occluder is assigned
+        else 
+        {
+            this._occluder = new Object3D();
+            const mesh = ObjectUtils.createOccluder("Sphere");
+            // mesh.material.colorWrite = true;
+            mesh.scale.x = .16;
+            mesh.scale.y = .3;
+            mesh.scale.z = .17;
+            mesh.position.z = -.04;
+            mesh.renderOrder = -1;
+            mesh.updateMatrix();
+            mesh.updateMatrixWorld();
+            mesh.matrixAutoUpdate = false;
+            this._occluder.add(mesh);
+        }
     }
 
 
@@ -188,7 +232,7 @@ export class Facefilter extends Behaviour {
                 height: auto;
                 width: auto;
                 top: 50%;
-                left: 50%;
+                left: 50%; 
                 transform: translate(-50%, -50%);
                 display: block;
                 opacity: .5;
