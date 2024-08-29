@@ -9,6 +9,7 @@ export class NeedleRecordingHelper {
 
     private static readonly chunks: Blob[] = [];
     private static recorder: MediaRecorder | null = null;
+    private static recordingFormat: string = "";
 
     static createButton(ctx: Context) {
         if (!this.button) {
@@ -18,7 +19,7 @@ export class NeedleRecordingHelper {
             const stopIcon = getIconElement("stop_circle");
             this.button.prepend(startIcon);
             this.button.addEventListener("click", () => {
-                showBalloonMessage("State: " + this.recorder?.state);
+                if (this.debug) showBalloonMessage("State: " + this.recorder?.state);
                 if (this.chunks.length > 0) {
                     this.button!.innerText = "Record";
                     this.button!.prepend(startIcon);
@@ -43,8 +44,14 @@ export class NeedleRecordingHelper {
     }
 
     static startRecording(canvas: HTMLCanvasElement) {
-        const stream = canvas.captureStream();
-        this.recorder = new MediaRecorder(stream, { mimeType: "video/webm " });
+        const stream = canvas.captureStream(30);
+        this.recordingFormat = "video/webm";
+
+        const options: MediaRecorderOptions = {
+            mimeType: this.recordingFormat,
+        }
+        options.videoBitsPerSecond = 2500000 * 4; // 4x higher than the default 2.5mbps
+        this.recorder = new MediaRecorder(stream, options);
         this.recorder.ondataavailable = (e) => {
             if (this.debug) showBalloonMessage("Recording data " + e.data.type + " " + e.data.size + ", " + this.chunks.length);
             if (e.data?.size > 0)
@@ -67,11 +74,11 @@ export class NeedleRecordingHelper {
         if (this.chunks.length === 0) {
             return false;
         }
-        const format = this.recorder?.mimeType || "video/webm";
+        const format = this.recordingFormat || "video/webm";
         const blob = new Blob(this.chunks, { type: format });
         this.chunks.length = 0;
         const ext = format.split("/")[1];
-        const downloadName = "facefilter." + ext;
+        const downloadName = "needle-engine-facefilter." + ext;
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;

@@ -38,7 +38,16 @@ export namespace FacefilterUtils {
 
     export function makeOccluder(obj: Object3D) {
         if (!_occluderMaterial) {
-            _occluderMaterial = new MeshBasicMaterial({ colorWrite: false, depthWrite: true, side: DoubleSide, transparent: false });
+            _occluderMaterial = new MeshBasicMaterial({
+                // transparent: true,
+                // opacity: .5,
+                // wireframe: true,
+                // colorWrite: true,
+
+                colorWrite: false,
+                depthWrite: true, 
+                side: DoubleSide,
+            });
         }
 
         const occluderMaterial = _occluderMaterial as Material;

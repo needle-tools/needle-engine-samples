@@ -123,80 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &263024456
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3174323842841496923, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3174323842841496923, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216341, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_Name
-      value: Racoon
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216341, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175661276350216342, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
---- !u!1 &263024457 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6175661276350216341, guid: 8ad17e1533befec4cbca5d6c0bd21d69, type: 3}
-  m_PrefabInstance: {fileID: 263024456}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &706762903
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +203,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: -0.019033063, y: 0.9795228, z: -0.1661237, w: -0.11214158}
   m_LocalPosition: {x: 0.24645837, y: 0.5826443, z: 0.9141257}
-  m_LocalScale: {x: 1.0000081, y: 1, z: 1.0000063}
+  m_LocalScale: {x: 1.0000168, y: 1, z: 1.000024}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -393,7 +319,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
-  AutoCompress: 1
+  AutoCompress: 0
   Dependencies:
   - Name: '@needle-tools/facefilter'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/Facefilter/FaceFilter.npmdef
@@ -548,8 +474,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9cd497d671adf8a914399362e63be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.Facefilter, Needle.Engine-Samples.Runtime
-  asset: {fileID: 263024457}
-  occlusionMesh: {fileID: 7189112868617043619, guid: 4fef7a03016374744b4ea8916e81f2fb, type: 3}
+  filters:
+  - {fileID: 4122058471549234315, guid: bf1461490f54c3a43a5c11306de2e3bb, type: 3}
+  - {fileID: 2422199606438133144, guid: 877ad3d94118fa444838333795d6e58f, type: 3}
+  - {fileID: 7723327664438506464, guid: 40aeb670d80ba944ea57d1c5518a8ef6, type: 3}
+  - {fileID: 529394496927436303, guid: 5f0fef2755bd6c44ab5c538fe3181ef8, type: 3}
+  - {fileID: 1304907287834157048, guid: 688b63dcea91bf9469e4c3cf5e7fec69, type: 3}
+  - {fileID: 7639166245689837998, guid: 74245a3b5670f1344aa675ba4d79d2ab, type: 3}
+  - {fileID: 4841010660842272485, guid: 36f4cc447f294a84bbc89f62c24571a7, type: 3}
+  occlusionMesh: {fileID: 4211051851420010255, guid: 496edac131102f446961c476f29dcd72, type: 3}
+  createOcclusionMesh: 1
 --- !u!4 &804587145
 Transform:
   m_ObjectHideFlags: 0
@@ -565,53 +499,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 48.07, y: 0, z: 0}
---- !u!1 &1967917487
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1967917488}
-  - component: {fileID: 1967917489}
-  m_Layer: 0
-  m_Name: Menu
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1967917488
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967917487}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1967917489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967917487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d2c67ae7e4416a98aa03d96398832b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.NeedleMenu, Needle.Engine
-  _position: 1
-  ShowNeedleLogo: 1
-  CreateFullscreenButton: 0
-  CreateMuteButton: 0
-  CreateQRCodeButton: 1
-  ShowSpatialMenu: 0

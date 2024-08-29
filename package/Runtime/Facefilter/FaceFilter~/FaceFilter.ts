@@ -1,4 +1,4 @@
-import { AssetReference, Behaviour, ClearFlags, GameObject, getParam, ObjectUtils, serializable } from '@needle-tools/engine';
+import { AssetReference, Behaviour, ClearFlags, GameObject, getIconElement, getParam, isMobileDevice, Mathf, ObjectUtils, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult } from "@mediapipe/tasks-vision";
 import { BlendshapeName, FacefilterUtils } from './utils.js';
 import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
@@ -10,14 +10,17 @@ export class Facefilter extends Behaviour {
     /**
      * The 3D object that will be attached to the face
      */
-    @serializable(Object3D)
-    asset: Object3D | undefined = undefined;
+    @serializable(AssetReference)
+    filters: AssetReference[] = [];
 
     /**
      * The occlusion mesh that will be used to hide 3D objects behind the face
      */
     @serializable(AssetReference)
     occlusionMesh: AssetReference | undefined = undefined;
+
+    @serializable()
+    createOcclusionMesh: boolean = true;
 
     /**
      * The last result received from the face detector
@@ -35,6 +38,25 @@ export class Facefilter extends Behaviour {
     getBlendshapeValue(shape: BlendshapeName, index: number = 0): number {
         return FacefilterUtils.getBlendshapeValue(this._lastResult, shape, index);
     }
+
+
+    selectNextFilter() {
+        this.select((this._activeFilterIndex + 1) % this.filters.length);
+    }
+    selectPreviousFilter() {
+        let index = this._activeFilterIndex - 1;
+        if (index < 0) index = this.filters.length - 1;
+        this.select(index);
+    }
+    select(index: number) {
+        if (index >= 0 && index < this.filters.length && typeof index === "number") {
+            this._activeFilterIndex = index;
+            setParamWithoutReload("facefilter", index.toString());
+            return true;
+        }
+        return false;
+    }
+
 
 
     /** Face detector */
@@ -57,7 +79,7 @@ export class Facefilter extends Behaviour {
             vision,
             {
                 runningMode: "VIDEO",
-                numFaces: 1,
+                numFaces: 1, // TODO: we currently support only one face, most of the code is written with this assumption
                 baseOptions: {
                     delegate: "GPU",
                     modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
@@ -78,10 +100,29 @@ export class Facefilter extends Behaviour {
     }
     /** @internal */
     onEnable(): void {
-        if (this.asset) {
-            this.asset.visible = false;
+
+        if (this._activeFilterIndex === -1) {
+            const param = getParam("facefilter");
+            let didSelect = false;
+            if (typeof param === "string") {
+                const i = parseInt(param);
+                didSelect = this.select(i);
+            }
+            else if (typeof param === "number") {
+                didSelect = this.select(param);
+            }
+            if (!didSelect) {
+                const random = Math.floor(Math.random() * this.filters.length);
+                this.select(random);
+            }
         }
-        this._debug = getParam("debugfacefilter") == true;
+
+        for (const filter of this.filters) {
+            if (filter.asset) {
+                filter.asset.visible = false;
+            }
+        }
+        this._debug = getParam("d") == true;
         window.addEventListener("keydown", this.onKeyDown);
         this._video?.play();
     }
@@ -99,7 +140,39 @@ export class Facefilter extends Behaviour {
         video.play();
         video.addEventListener("loadeddata", () => {
             this._videoReady = true;
+
+            // Create menu Buttons
             NeedleRecordingHelper.createButton(this.context);
+            this.context.menu.appendChild({
+                label: "Next Filter",
+                icon: "comedy_mask",
+                onClick: () => {
+                    this.selectNextFilter();
+                }
+            });
+            this.context.menu.appendChild({
+                label: "Share",
+                icon: "share",
+                onClick: function() {
+                    if(isMobileDevice() && navigator.share) {
+                        navigator.share({
+                            title: "Facefilter",
+                            text: "Check out this facefilter",
+                            url: window.location.href,
+                        });
+                    }
+                    else {
+                        navigator.clipboard.writeText(window.location.href);
+                        const element = this as HTMLElement;
+                        element.innerText = "Copied";
+                        element.prepend(getIconElement("done"));
+                        setTimeout(()=>{
+                            element.innerText = "Share";
+                            element.prepend(getIconElement("share"));
+                        }, 2000)
+                    }
+                }
+            });
         });
         // Create a video texture that will be used to render the video feed
         this._videoTexture ??= new VideoTexture(video);
@@ -112,6 +185,8 @@ export class Facefilter extends Behaviour {
         this._farplaneQuad.renderOrder = -1;
     }
 
+    private _activeFilterIndex: number = -1;
+    private _activeFilter: AssetReference | null = null;
 
     /** assigned when the occluder is being created */
     private _occluderPromise: Promise<Object3D> | null = null;
@@ -156,34 +231,65 @@ export class Facefilter extends Behaviour {
      * Called when the face detector has a new result
      */
     protected onResultsUpdated() {
-        if (this.asset) {
-            const attachment = this.asset.getComponent(FaceBehaviour);
+        if (this._activeFilter) {
+            const attachment = this._activeFilter.asset.getComponent(FaceBehaviour);
             if (attachment) {
                 attachment.onResultUpdated(this);
             }
         }
     }
 
+    // TODO: move this into a separate class (not a component) that just handles rendering and encapsulates all this logic and state
     private updateRendering(res: FaceLandmarkerResult) {
 
-        if (res.facialTransformationMatrixes.length <= 0) return;
+        // If we do not have any faces
+        if (res.facialTransformationMatrixes.length <= 0) {
+            // If we have an active filter
+            if (this._activeFilter?.asset) {
+                this._activeFilter.asset.removeFromParent();
+            }
+            return;
+        }
 
-        if (this.asset) {
+        const active = this.filters[this._activeFilterIndex];
+
+        // We have an active filter and it's loaded
+        if (active?.asset) {
+
+            // Check if the active filter is still the one that *should* be active/visible
+            if (active !== this._activeFilter) {
+                this._activeFilter?.asset?.removeFromParent();
+            }
+            this._activeFilter = active; // < update the currently active
+
+
+            // TODO: handle multiple faces(?)
             const lm = res.facialTransformationMatrixes[0];
-            const obj = this.asset;
+
+            // Update the avatar rendering
+            const obj = active.asset as Object3D;
             obj.visible = true;
+            if (obj.parent != this.context.scene) {
+                this.context.scene.add(obj);
+            }
             FacefilterUtils.applyFaceLandmarkMatrixToObject3D(obj, lm, this.context.mainCamera);
+
+            // Setup/manage occlusions
             if (!this._occluder) {
-                this.createOccluder();
+                if (this.createOcclusionMesh) this.createOccluder();
             }
             else {
                 FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
             }
         }
+        // If we have an active filter make sure it loads
+        else if (active) {
+            active.loadAssetAsync();
+        }
 
     }
 
-    private createOccluder() {
+    private createOccluder(_force: boolean = false) {
         // If a occlusion mesh is assigned
         if (this.occlusionMesh) {
             // Request the occluder mesh once
@@ -221,8 +327,20 @@ export class Facefilter extends Behaviour {
     private _debugObjects: Object3D[] = [];
 
     private onKeyDown = (evt: KeyboardEvent) => {
-        if (evt.key.toLowerCase() === "d") {
+        const key = evt.key.toLowerCase();
+        if (this._debug && key) {
             this.toggleDebug();
+        }
+        switch (key) {
+            case "d":
+            case "arrowright":
+                this.selectNextFilter();
+                break;
+            case "a":
+            case "arrowleft":
+                this.selectPreviousFilter();
+                break;
+
         }
     }
     private toggleDebug = () => {
