@@ -52,9 +52,13 @@ export class FaceBlendshapes extends FaceBehaviour {
                 const name = shape.categoryName;
                 const remappedName = name; // TODO
                 for (const mesh of this._skinnedMeshes) {
-                    const mouthIndex = mesh.morphTargetDictionary[remappedName];
-                    if (mouthIndex) {
-                        mesh.morphTargetInfluences[mouthIndex] = shape.score;
+                    const index = mesh.morphTargetDictionary[remappedName];
+                    if (index !== undefined && index !== null) {
+                        mesh.morphTargetInfluences[index] = shape.score;
+                    }
+                    else {
+                        if (this.context.time.frameCount % 180 === 0)
+                            console.warn(`No morph target found for blendshape ${name}`, mesh.morphTargetDictionary)
                     }
                 }
             }

@@ -1,12 +1,8 @@
-
+using UnityEditor;
+using UnityEngine;
 
 // NEEDLE_CODEGEN_START
 // auto generated code - do not edit directly
-
-using System;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
 
 #pragma warning disable
 
@@ -30,7 +26,7 @@ namespace Needle.Typescript.GeneratedComponents
 		[CustomEditor(typeof(FaceBlendshapes))]
 		internal class Editor : UnityEditor.Editor
 		{
-			private GUIStyle optionsStyle;
+			private UnityEngine.GUIStyle optionsStyle;
 
 			public override void OnInspectorGUI()
 			{
@@ -38,7 +34,7 @@ namespace Needle.Typescript.GeneratedComponents
 				// TODO: allow for remapping with a nice GUI
 				
 				EditorGUILayout.LabelField("Supported Blendshapes", EditorStyles.boldLabel);
-				optionsStyle ??= new GUIStyle(EditorStyles.label);
+				optionsStyle ??= new UnityEngine.GUIStyle(EditorStyles.label);
 				optionsStyle.wordWrap = true;
 				optionsStyle.normal.textColor = Color.gray;
 				EditorGUILayout.LabelField(string.Join(", ", supportedBlendshapeNames), optionsStyle);

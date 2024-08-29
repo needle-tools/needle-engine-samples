@@ -1,4 +1,4 @@
-import { Context, getIconElement, showBalloonMessage } from "@needle-tools/engine";
+import { Context, getIconElement, showBalloonError, showBalloonMessage } from "@needle-tools/engine";
 
 
 export class NeedleRecordingHelper {
@@ -44,13 +44,26 @@ export class NeedleRecordingHelper {
     }
 
     static startRecording(canvas: HTMLCanvasElement) {
-        const stream = canvas.captureStream(30);
         this.recordingFormat = "video/webm";
+        const availableFormats = [
+            "video/webm",
+            "video/webm;codecs=vp9",
+            "video/webm;codecs=vp8",
+            "video/webm;codecs=h264",
+            "video/mp4",
+        ]
+        for (const format of availableFormats) {
+            if (MediaRecorder.isTypeSupported(format)) {
+                this.recordingFormat = format;
+                break;
+            }
+        }
 
         const options: MediaRecorderOptions = {
             mimeType: this.recordingFormat,
         }
         options.videoBitsPerSecond = 2500000 * 4; // 4x higher than the default 2.5mbps
+        const stream = canvas.captureStream(30);
         this.recorder = new MediaRecorder(stream, options);
         this.recorder.ondataavailable = (e) => {
             if (this.debug) showBalloonMessage("Recording data " + e.data.type + " " + e.data.size + ", " + this.chunks.length);
@@ -59,6 +72,7 @@ export class NeedleRecordingHelper {
         };
         this.recorder.onerror = (e: any) => {
             console.error(e.error.name + ": " + e.error.message);
+            showBalloonError(e.error.name + ": " + e.error.message);
         }
         this.recorder.start(100);
     }

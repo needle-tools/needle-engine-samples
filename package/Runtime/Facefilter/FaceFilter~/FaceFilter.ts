@@ -52,6 +52,13 @@ export class Facefilter extends Behaviour {
         if (index >= 0 && index < this.filters.length && typeof index === "number") {
             this._activeFilterIndex = index;
             setParamWithoutReload("facefilter", index.toString());
+
+            // preload the next filter
+            const nextIndex = (index + 1) % this.filters.length;
+            const nextFilter = this.filters[nextIndex];
+            console.log("Preload: " + nextFilter?.url)
+            nextFilter?.loadAssetAsync();
+
             return true;
         }
         return false;
@@ -153,8 +160,8 @@ export class Facefilter extends Behaviour {
             this.context.menu.appendChild({
                 label: "Share",
                 icon: "share",
-                onClick: function() {
-                    if(isMobileDevice() && navigator.share) {
+                onClick: function () {
+                    if (isMobileDevice() && navigator.share) {
                         navigator.share({
                             title: "Facefilter",
                             text: "Check out this facefilter",
@@ -166,7 +173,7 @@ export class Facefilter extends Behaviour {
                         const element = this as HTMLElement;
                         element.innerText = "Copied";
                         element.prepend(getIconElement("done"));
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             element.innerText = "Share";
                             element.prepend(getIconElement("share"));
                         }, 2000)
@@ -252,22 +259,29 @@ export class Facefilter extends Behaviour {
         }
 
         const active = this.filters[this._activeFilterIndex];
-
-        // We have an active filter and it's loaded
-        if (active?.asset) {
-
+        // If we have an active filter make sure it loads
+        if (active != this._activeFilter && !active.asset) {
+            active.loadAssetAsync();
+            // mmh or we remove the currently active filter immediately
+            this._activeFilter?.asset?.removeFromParent();
+        }
+        else if (active.asset) {
             // Check if the active filter is still the one that *should* be active/visible
             if (active !== this._activeFilter) {
                 this._activeFilter?.asset?.removeFromParent();
             }
             this._activeFilter = active; // < update the currently active
+        }
 
+
+        // We have an active filter and it's loaded
+        if (active?.asset) {
 
             // TODO: handle multiple faces(?)
             const lm = res.facialTransformationMatrixes[0];
 
             // Update the avatar rendering
-            const obj = active.asset as Object3D;
+            const obj = active?.asset as Object3D;
             obj.visible = true;
             if (obj.parent != this.context.scene) {
                 this.context.scene.add(obj);
@@ -281,10 +295,6 @@ export class Facefilter extends Behaviour {
             else {
                 FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
             }
-        }
-        // If we have an active filter make sure it loads
-        else if (active) {
-            active.loadAssetAsync();
         }
 
     }
