@@ -1,18 +1,38 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using Needle.Engine.Utils;
 using Needle.Facefilter.Scripts;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class Facefilter
+	public partial class NeedleFilterTrackingManager
 	{
 #if UNITY_EDITOR
-		private void OnDrawGizmos()
+		[UnityEditor.CustomEditor(typeof(NeedleFilterTrackingManager))]
+		private class Editor : UnityEditor.Editor
 		{
-			Utils.RenderHeadGizmo(this, this.occlusionMesh);
-		} 
+			public override void OnInspectorGUI()
+			{
+				EditorGUILayout.LabelField("How to Use", EditorStyles.boldLabel);
+				EditorGUILayout.HelpBox("Filters can be part of this scene or inside separate prefabs to speedup loading time (recommended)", MessageType.None);
+
+				GUILayout.Space(5);
+				base.OnInspectorGUI();				
+				
+				GUILayout.Space(5);
+				
+				EditorGUILayout.HelpBox("Click the button below to create a new filter prefab", MessageType.None);
+				if (GUILayout.Button("Create New Filter", GUILayout.Height(24)))
+				{
+					Utils.CreateNewFilterAsset(this.target as NeedleFilterTrackingManager);
+				}
+			}
+		}
 #endif
 	}
 	
@@ -29,7 +49,7 @@ namespace Needle.Typescript.GeneratedComponents
 			public override void OnInspectorGUI()
 			{
 				base.OnInspectorGUI();
-				EditorGUILayout.HelpBox("Add this component to an Object in your FaceFilter and place it to match the head position (Enable Gizmos if you don't see the head visualization in the scene). This will be used to place the virtual avatar", MessageType.None);
+				EditorGUILayout.HelpBox("Add this component to a GameObject in your Filter and place it to match the head position (Enable Gizmos if you don't see the head visualization in the scene). ", MessageType.None);
 			}
 		}
 #endif
@@ -54,8 +74,8 @@ namespace Needle.Typescript.GeneratedComponents
 				base.OnInspectorGUI();
 				if (!_headPosition)
 				{
-					EditorGUILayout.HelpBox("Consider defining the head position of your filter", MessageType.Info);
-					if (GUILayout.Button("Configure head position"))
+					EditorGUILayout.HelpBox("Defining the exact head position of your filter", MessageType.Info);
+					if (GUILayout.Button("Configure head position", GUILayout.Height(32)))
 					{
 						var obj = new GameObject("Needle Filter Head Position");
 						Undo.RegisterCreatedObjectUndo(obj, "Create Head Position");

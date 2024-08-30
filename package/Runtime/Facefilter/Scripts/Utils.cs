@@ -1,7 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using Needle.Engine.Utils;
+using Needle.Typescript.GeneratedComponents;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 
 namespace Needle.Facefilter.Scripts
@@ -59,6 +64,48 @@ namespace Needle.Facefilter.Scripts
 				var scale = new Vector3(.16f, .25f, .15f);
 				Gizmos.matrix = Matrix4x4.TRS(position, Quaternion.identity, scale);
 				Gizmos.DrawWireSphere(Vector3.zero, .5f);
+			}
+		}
+
+		public static void CreateNewFilterAsset(Component comp)
+		{
+			
+			var directory = "Assets/Needle Face Filter";
+			if(!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+
+			GameObject go = null;
+			
+			var templateInstancePath = AssetDatabase.GUIDToAssetPath("6c4808ce137677242a27815509fb59c5");
+			if (!string.IsNullOrEmpty(templateInstancePath))
+			{
+				go = AssetDatabase.LoadAssetAtPath<GameObject>(templateInstancePath);
+				go = Object.Instantiate(go);
+			}
+
+			if (!go)
+			{
+				go = new GameObject("My Filter");
+				Undo.RegisterCreatedObjectUndo(go, "Create Filter");
+				go.AddComponent<FaceFilterRoot>();
+				var headMarker = new GameObject("Filter Head Position Marker");
+				headMarker.AddComponent<FaceFilterHeadPosition>();
+				headMarker.transform.SetParent(go.transform, false);
+
+			}
+			
+			var path = directory + "/MyFilter.prefab";
+			path = AssetDatabase.GenerateUniqueAssetPath(path);
+			var asset = PrefabUtility.SaveAsPrefabAsset(go, path);
+			Undo.RegisterCreatedObjectUndo(asset, "Create Filter");
+			go.SafeDestroy();
+			if (asset)
+			{
+				var finalPath = AssetDatabase.GetAssetPath(asset);
+				PrefabStageUtility.OpenPrefab(finalPath);
+				var component = (NeedleFilterTrackingManager)comp;
+				var list = component.filters.ToList();
+				list.Add(asset.transform);
+				component.filters = list.ToArray();
 			}
 		}
 	}

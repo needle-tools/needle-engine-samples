@@ -1,27 +1,43 @@
-import { Camera, Material, Matrix4, Object3D, DoubleSide, MeshBasicMaterial, Mesh } from "three";
+import { Camera, Material, Matrix4, Object3D, DoubleSide, MeshBasicMaterial, Mesh, Quaternion, Color } from "three";
 import { Category, FaceLandmarkerResult, Matrix } from "@mediapipe/tasks-vision"
 import { Renderer } from "@needle-tools/engine";
+import { mirror } from "./settings.js";
 
-let _occluderMaterial: Material | null = null;
+let _occluderMaterial: MeshBasicMaterial | null = null;
 
-const flipx = new Matrix4().makeScale(-1, 1, 1);
+const flipxMat = new Matrix4().makeScale(-1, 1, 1);
+const offset = new Matrix4().makeTranslation(0.000, 0.015, -.01);
+const offsetMirror = offset.clone().premultiply(flipxMat);
 
 export namespace FacefilterUtils {
 
     const tempMatrix = new Matrix4();
 
     export function flipX(matrix: Matrix4) {
-        matrix.premultiply(flipx);
+        matrix.premultiply(flipxMat);
     }
 
     export function applyFaceLandmarkMatrixToObject3D(obj: Object3D, mat: Matrix, camera: Camera) {
         const matrix = tempMatrix.fromArray(mat.data);
         obj.matrixAutoUpdate = false;
         obj.matrix.copy(matrix);
+
         obj.matrix.elements[12] *= 0.01;
         obj.matrix.elements[13] *= 0.01;
         obj.matrix.elements[14] *= 0.01;
-        obj.matrix.premultiply(flipx);
+
+        // obj.matrix.decompose(obj.position, obj.quaternion, obj.scale);
+        // obj.position.multiplyScalar(0.01);
+        // obj.quaternion.multiply(obj.quaternion)
+        // obj.updateMatrix();
+        // obj.quaternion
+
+
+
+        // obj.matrix.premultiply(flipxMat);
+        if (mirror) obj.matrix.premultiply(offsetMirror);
+        else obj.matrix.premultiply(offset);
+
         if (obj.parent !== camera)
             camera.add(obj);
     }
@@ -46,15 +62,16 @@ export namespace FacefilterUtils {
     export function makeOccluder(obj: Object3D, renderOrder: number = -5) {
         if (!_occluderMaterial) {
             _occluderMaterial = new MeshBasicMaterial({
-                // transparent: true,
-                // opacity: .5,
-                // wireframe: true,
-                // colorWrite: true,
 
                 colorWrite: false,
                 depthWrite: true,
                 side: DoubleSide,
             });
+            // _occluderMaterial.transparent = true;
+            // _occluderMaterial.opacity = .05;
+            // _occluderMaterial.color = new Color("#ddffff");
+            // _occluderMaterial.wireframe = true;
+            // _occluderMaterial.colorWrite = true;
         }
 
         const occluderMaterial = _occluderMaterial as Material;

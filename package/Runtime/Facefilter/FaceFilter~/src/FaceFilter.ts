@@ -4,8 +4,9 @@ import { BlendshapeName, FacefilterUtils } from './utils.js';
 import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
 import { FaceFilterRoot } from './Behaviours.js';
+import { mirror } from './settings.js';
 
-export class Facefilter extends Behaviour {
+export class NeedleFilterTrackingManager extends Behaviour {
 
     /**
      * The 3D object that will be attached to the face
@@ -235,8 +236,12 @@ export class Facefilter extends Behaviour {
                 const far = this.context.mainCameraComponent.farClipPlane;
                 this._farplaneQuad.renderOrder = -1000;
                 this._farplaneQuad.position.z = -far + .01;
-                const aspect = this._video.videoWidth / this._video.videoHeight;
-                this._farplaneQuad.scale.set(aspect, -1, 1).multiplyScalar(far * Math.tan(this.context.mainCameraComponent.fieldOfView * Math.PI / 180 / 2) * 2);
+                let aspect = this._video.videoWidth / this._video.videoHeight;
+                if (!mirror) {
+                    aspect *= -1;
+                }
+                this._farplaneQuad.scale.set(aspect, -1, 1)
+                    .multiplyScalar(far * Math.tan(this.context.mainCameraComponent.fieldOfView * Math.PI / 180 / 2) * 2);
             }
         }
 
@@ -275,7 +280,6 @@ export class Facefilter extends Behaviour {
 
                 this._activeFilter = active; // < update the currently active
                 this._activeFilterBehaviour = active.asset.getOrAddComponent(FaceFilterRoot);
-                console.log(active.asset, this._activeFilterBehaviour?.destroyed)
 
                 active.asset.visible = true;
                 this.context.scene.add(active.asset);
@@ -320,10 +324,12 @@ export class Facefilter extends Behaviour {
             }
         }
         // Fallback occluder mesh if no custom occluder is assigned
-        else {
+        else 
+        {
             this._occluder = new Object3D();
             const mesh = ObjectUtils.createOccluder("Sphere");
             // mesh.material.colorWrite = true;
+            // mesh.material.wireframe = true;
             mesh.scale.x = .16;
             mesh.scale.y = .3;
             mesh.scale.z = .17;

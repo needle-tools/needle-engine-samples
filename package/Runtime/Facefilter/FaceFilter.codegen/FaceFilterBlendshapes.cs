@@ -9,7 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public object @blendshapeMap;
 		public void OnEnable(){}
-		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.Facefilter @filter){}
+		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @filter){}
 	}
 }
 

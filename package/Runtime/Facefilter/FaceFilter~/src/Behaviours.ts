@@ -1,5 +1,5 @@
 import { Animator, BehaviorExtension, Behaviour, getComponentInChildren, serializable } from '@needle-tools/engine';
-import type { Facefilter } from './FaceFilter.js';
+import type { NeedleFilterTrackingManager } from './FaceFilter.js';
 import { Matrix4, Mesh, Object3D, SkinnedMesh, Vector3 } from 'three';
 import { BlendshapeName, FacefilterUtils } from './utils.js';
 
@@ -115,10 +115,10 @@ export class FaceFilterRoot extends Behaviour {
 
 
 
-    private _filter: Facefilter | null = null;
+    private _filter: NeedleFilterTrackingManager | null = null;
     private _behaviours: FilterBehaviour[] = [];
 
-    onResultsUpdated(filter: Facefilter) {
+    onResultsUpdated(filter: NeedleFilterTrackingManager) {
         if (!this._filter) {
             this._filter = filter;
             console.log("Avatar behaviour initialized");
@@ -148,11 +148,11 @@ export class FaceFilterRoot extends Behaviour {
 
 
 export interface IFilterBehaviour {
-    onResultsUpdated(filter: Facefilter): void;
+    onResultsUpdated(filter: NeedleFilterTrackingManager): void;
 }
 
 export abstract class FilterBehaviour extends Behaviour implements IFilterBehaviour {
-    abstract onResultsUpdated(_filter: Facefilter): void;
+    abstract onResultsUpdated(_filter: NeedleFilterTrackingManager): void;
 }
 
 /**
@@ -211,7 +211,7 @@ export class FaceFilterBlendshapes extends FilterBehaviour {
             console.log("Blendshape mapping", this.blendshapeMap);
     }
 
-    onResultsUpdated(filter: Facefilter) {
+    onResultsUpdated(filter: NeedleFilterTrackingManager) {
         // TODO: handle multiple faces
         const face = filter.result?.faceBlendshapes?.[0]
         if (face && this._skinnedMeshes.length > 0) {
@@ -262,7 +262,7 @@ export class FaceFilterAnimator extends FilterBehaviour {
         this._animators = this.gameObject.getComponentsInChildren(Animator);
     }
 
-    onResultsUpdated(filter: Facefilter) {
+    onResultsUpdated(filter: NeedleFilterTrackingManager) {
         if (!this._animators?.length) return;
 
         const face = filter.result?.faceBlendshapes?.[0]

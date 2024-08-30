@@ -1,4 +1,3 @@
-
 // NEEDLE_CODEGEN_START
 // auto generated code - do not edit directly
 
@@ -6,7 +5,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class Facefilter : UnityEngine.MonoBehaviour
+	public partial class NeedleFilterTrackingManager : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.Transform[] @filters = new UnityEngine.Transform[]{ };
 		public UnityEngine.Transform @occlusionMesh;

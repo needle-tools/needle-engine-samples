@@ -6,6 +6,6 @@
 // https://docs.needle.tools/npmdef
 
 
-export { Facefilter } from "./src/FaceFilter.js"
+export { NeedleFilterTrackingManager as Facefilter } from "./src/FaceFilter.js"
 export { NeedleRecordingHelper } from './src/RecordingHelper.js';
 export { FacefilterUtils as NeedleMediaPipeUtils } from './src/utils.js';
