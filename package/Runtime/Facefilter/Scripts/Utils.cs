@@ -5,8 +5,10 @@ using Needle.Engine.Utils;
 using Needle.Typescript.GeneratedComponents;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Task = System.Threading.Tasks.Task;
 
 
 namespace Needle.Facefilter.Scripts
@@ -67,7 +69,7 @@ namespace Needle.Facefilter.Scripts
 			}
 		}
 
-		public static void CreateNewFilterAsset(Component comp)
+		public static async void CreateNewFilterAsset(Component comp)
 		{
 			
 			var directory = "Assets/Needle Face Filter";
@@ -100,12 +102,26 @@ namespace Needle.Facefilter.Scripts
 			go.SafeDestroy();
 			if (asset)
 			{
-				var finalPath = AssetDatabase.GetAssetPath(asset);
-				PrefabStageUtility.OpenPrefab(finalPath);
 				var component = (NeedleFilterTrackingManager)comp;
-				var list = component.filters.ToList();
+				var list = component.filters.Where((f => f)).ToList();
+				var isFirstAsset = list.Count == 0;
 				list.Add(asset.transform);
 				component.filters = list.ToArray();
+
+				EditorGUIUtility.PingObject(asset);
+				SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("New Needle Filter successfully created"));
+
+				if (isFirstAsset)
+					await Task.Delay(2000);
+				else await Task.Delay(500);
+				
+				var finalPath = AssetDatabase.GetAssetPath(asset);
+				Debug.Log("Successfully created new Needle Filter at " + finalPath, asset);
+				if (!isFirstAsset || EditorUtility.DisplayDialog("Needle Filter", "Congrats: you created your first filter. Do you want to open the filter asset now to customize it?", "Open the Filter to customize",
+					    "Do not open now"))
+				{
+					PrefabStageUtility.OpenPrefab(finalPath);
+				}
 			}
 		}
 	}

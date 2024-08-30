@@ -18,6 +18,7 @@ namespace Needle.Typescript.GeneratedComponents
 		{
 			public override void OnInspectorGUI()
 			{
+				var self = (NeedleFilterTrackingManager) this.target;
 				EditorGUILayout.LabelField("How to Use", EditorStyles.boldLabel);
 				EditorGUILayout.HelpBox("Filters can be part of this scene or inside separate prefabs to speedup loading time (recommended)", MessageType.None);
 
@@ -27,9 +28,10 @@ namespace Needle.Typescript.GeneratedComponents
 				GUILayout.Space(5);
 				
 				EditorGUILayout.HelpBox("Click the button below to create a new filter prefab", MessageType.None);
-				if (GUILayout.Button("Create New Filter", GUILayout.Height(24)))
+				var text = self.filters.Length <= 0 ? "Create Your First Filter" : "Create New Filter";
+				if (GUILayout.Button(text, GUILayout.Height(24)))
 				{
-					Utils.CreateNewFilterAsset(this.target as NeedleFilterTrackingManager);
+					Utils.CreateNewFilterAsset(self);
 				}
 			}
 		}

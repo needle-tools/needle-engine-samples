@@ -271,7 +271,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
         if (active != this._activeFilter && !active.asset) {
             active.loadAssetAsync();
         }
-        else if (active.asset) {
+        else if (active?.asset) {
             // Check if the active filter is still the one that *should* be active/visible
             if (active !== this._activeFilter) {
                 console.log("Switching to filter #" + this._activeFilterIndex);
