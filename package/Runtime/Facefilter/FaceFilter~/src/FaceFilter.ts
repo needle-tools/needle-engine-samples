@@ -258,6 +258,7 @@ export class Facefilter extends Behaviour {
             if (this._videoTexture && this._farplaneQuad) {
                 // this.context.scene.background = this._videoTexture;
                 const far = this.context.mainCameraComponent.farClipPlane;
+                this._farplaneQuad.renderOrder = -1000;
                 this._farplaneQuad.position.z = -far + .01;
                 const aspect = this._video.videoWidth / this._video.videoHeight;
                 this._farplaneQuad.scale.set(aspect, -1, 1).multiplyScalar(far * Math.tan(this.context.mainCameraComponent.fieldOfView * Math.PI / 180 / 2) * 2);
