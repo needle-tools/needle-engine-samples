@@ -95,23 +95,24 @@ export class NeedleRecordingHelper {
         const downloadName = "needle-engine-facefilter." + ext;
         const url = URL.createObjectURL(blob);
 
-        if("share" in navigator) {
-            await navigator.share({
-                title: "Needle Engine Facefilter",
-                text: "Facefilter recording",
-                url: url,
-            }).catch((e) => {
-                console.warn(e);
-                return false;
-            });
-        }
-        else {
-
+        // Share doesnt work with a blob url
+        // if("share" in navigator) {
+        //     await navigator.share({
+        //         title: "Needle Engine Facefilter",
+        //         text: "Facefilter recording",
+        //         url: url,
+        //     }).catch((e) => {
+        //         console.warn(e);
+        //         return false;
+        //     });
+        // }
+        // else 
+        {
             const a = document.createElement("a");
             a.href = url;
             a.download = downloadName;
             a.click();
-    
+
         }
 
         setTimeout(() => {

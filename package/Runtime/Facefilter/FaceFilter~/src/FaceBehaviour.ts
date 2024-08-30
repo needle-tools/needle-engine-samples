@@ -1,7 +1,7 @@
 import { Animator, BehaviorExtension, Behaviour, serializable } from '@needle-tools/engine';
 import type { Facefilter } from './FaceFilter.js';
 import { Mesh, SkinnedMesh } from 'three';
-import { BlendshapeName } from '@needle-tools/facefilter/utils.js';
+import { BlendshapeName } from './utils.js';
 
 /**
  * A base class for behaviours that interact with the face filter. Derive your custom behaviours from this class.
