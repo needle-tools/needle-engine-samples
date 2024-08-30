@@ -7,8 +7,8 @@ import { Object3D } from "three";
  */
 export class NeedleOcclusionMesh extends Behaviour {
 
-    awake() {
-        console.log("NeedleOcclusionMesh awake", this.gameObject)
+    onEnable() {
+        console.log("Occluder", this.gameObject)
         FacefilterUtils.makeOccluder(this.gameObject);
     }
 }

@@ -3,7 +3,7 @@ import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult } f
 import { BlendshapeName, FacefilterUtils } from './utils.js';
 import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
-import { FaceBehaviour } from './FaceBehaviour.js';
+import { FaceFilterRoot } from './Behaviours.js';
 
 export class Facefilter extends Behaviour {
 
@@ -56,7 +56,7 @@ export class Facefilter extends Behaviour {
             // preload the next filter
             const nextIndex = (index + 1) % this.filters.length;
             const nextFilter = this.filters[nextIndex];
-            console.log("Preload: " + nextFilter?.url)
+            console.log("Preload Filter #" + nextIndex)
             nextFilter?.loadAssetAsync();
 
             return true;
@@ -120,7 +120,19 @@ export class Facefilter extends Behaviour {
     }
     /** @internal */
     onEnable(): void {
+        // Ensure our filters array is valid
+        for (let i = this.filters.length - 1; i >= 0; i--) {
+            const filter = this.filters[i];
+            if (!filter) {
+                this.filters.splice(i, 1);
+                continue;
+            }
+            if (filter.asset) {
+                filter.asset.visible = false;
+            }
+        }
 
+        // Select initial filter, either from URL or choose a random one
         if (this._activeFilterIndex === -1) {
             const param = getParam("facefilter");
             let didSelect = false;
@@ -137,11 +149,6 @@ export class Facefilter extends Behaviour {
             }
         }
 
-        for (const filter of this.filters) {
-            if (filter.asset) {
-                filter.asset.visible = false;
-            }
-        }
         this._debug = getParam("debugfacefilter") == true;
         window.addEventListener("keydown", this.onKeyDown);
         this._video?.play();
@@ -167,42 +174,7 @@ export class Facefilter extends Behaviour {
         video.muted = true;
         video.addEventListener("loadeddata", () => {
             this._videoReady = true;
-
-            // Create menu Buttons
-            NeedleRecordingHelper.createButton(this.context);
-            this.context.menu.appendChild({
-                label: "Next Filter",
-                icon: "comedy_mask",
-                onClick: () => {
-                    this.selectNextFilter();
-                }
-            });
-            this.context.menu.appendChild({
-                label: "Share",
-                icon: "share",
-                onClick: function () {
-                    if (isMobileDevice() && navigator.share) {
-                        navigator.share({
-                            title: "Needle Filter",
-                            text: "Check this out",
-                            url: window.location.href,
-                        }).catch(e => {
-                            // ignore cancel
-                            console.warn(e);
-                        });
-                    }
-                    else {
-                        navigator.clipboard.writeText(window.location.href);
-                        const element = this as HTMLElement;
-                        element.innerText = "Copied";
-                        element.prepend(getIconElement("done"));
-                        setTimeout(() => {
-                            element.innerText = "Share";
-                            element.prepend(getIconElement("share"));
-                        }, 2000)
-                    }
-                }
-            });
+            this.createUI();
         });
         // Create a video texture that will be used to render the video feed
         this._videoTexture ??= new VideoTexture(video);
@@ -217,6 +189,7 @@ export class Facefilter extends Behaviour {
 
     private _activeFilterIndex: number = -1;
     private _activeFilter: AssetReference | null = null;
+    private _activeFilterBehaviour: FaceFilterRoot | null = null;
 
     /** assigned when the occluder is being created */
     private _occluderPromise: Promise<Object3D> | null = null;
@@ -224,6 +197,7 @@ export class Facefilter extends Behaviour {
 
     /** The last landmark result received */
     private _lastResult: FaceLandmarkerResult | null = null;
+    private _lastResultTime: number = -1;
 
     earlyUpdate(): void {
         if (!this._video?.srcObject || !this._landmarker) return;
@@ -239,11 +213,12 @@ export class Facefilter extends Behaviour {
         if (!("detectForVideo" in this._landmarker)) {
             return;
         }
-        if(this._video.readyState < 2) return;
+        if (this._video.readyState < 2) return;
         this._lastVideoTime = this._video.currentTime;
         const results = this._landmarker.detectForVideo(this._video, performance.now());
         this._lastResult = results;
-        this.onResultsUpdated();
+        this._lastResultTime = this.context.time.realtimeSinceStartup;
+        this.onResultsUpdated(results);
     }
 
     /** @internal */
@@ -269,65 +244,62 @@ export class Facefilter extends Behaviour {
         this.updateRendering(results);
     }
 
+    private _lastTimeWithTrackingMatrices: number = -1;
+
     /**
      * Called when the face detector has a new result
      */
-    protected onResultsUpdated() {
-        if (this._activeFilter) {
-            const attachment = this._activeFilter.asset.getComponent(FaceBehaviour);
-            if (attachment) {
-                attachment.onResultUpdated(this);
-            }
-        }
-    }
-
-    // TODO: move this into a separate class (not a component) that just handles rendering and encapsulates all this logic and state
-    private updateRendering(res: FaceLandmarkerResult) {
+    protected onResultsUpdated(res: FaceLandmarkerResult) {
 
         // If we do not have any faces
         if (res.facialTransformationMatrixes.length <= 0) {
-            // If we have an active filter
-            if (this._activeFilter?.asset) {
+            // If we have an active filter and no tracking for a few frames, hide the filter
+            if (this._activeFilter?.asset && (this.context.time.realtimeSinceStartup - this._lastTimeWithTrackingMatrices) > .5) {
                 this._activeFilter.asset.removeFromParent();
             }
             return;
         }
 
+        this._lastTimeWithTrackingMatrices = this.context.time.realtimeSinceStartup;
         const active = this.filters[this._activeFilterIndex];
         // If we have an active filter make sure it loads
         if (active != this._activeFilter && !active.asset) {
             active.loadAssetAsync();
-            // mmh or we remove the currently active filter immediately
-            this._activeFilter?.asset?.removeFromParent();
         }
         else if (active.asset) {
             // Check if the active filter is still the one that *should* be active/visible
             if (active !== this._activeFilter) {
+                console.log("Switching to filter #" + this._activeFilterIndex);
                 this._activeFilter?.asset?.removeFromParent();
+                this._activeFilterBehaviour?.destroy();
+
+                this._activeFilter = active; // < update the currently active
+                this._activeFilterBehaviour = active.asset.getOrAddComponent(FaceFilterRoot);
+                console.log(active.asset, this._activeFilterBehaviour?.destroyed)
+
+                active.asset.visible = true;
+                this.context.scene.add(active.asset);
+
             }
-            this._activeFilter = active; // < update the currently active
+            this._activeFilterBehaviour!.onResultsUpdated(this);
         }
+    }
 
-
-        // We have an active filter and it's loaded
-        if (active?.asset) {
-
-            // TODO: handle multiple faces(?)
-            const lm = res.facialTransformationMatrixes[0];
-
-            // Update the avatar rendering
-            const obj = active?.asset as Object3D;
-            obj.visible = true;
-            if (obj.parent != this.context.scene) {
-                this.context.scene.add(obj);
-            }
-            FacefilterUtils.applyFaceLandmarkMatrixToObject3D(obj, lm, this.context.mainCamera);
-
+    private updateRendering(res: FaceLandmarkerResult) {
+        // TODO: allow filters to override this
+        const lm = res.facialTransformationMatrixes[0];
+        if (lm) {
             // Setup/manage occlusions
-            if (!this._occluder) {
+            if (this._activeFilterBehaviour?.overrideDefaultOccluder) {
+                if (this._occluder) {
+                    this._occluder.visible = false;
+                }
+            }
+            else if (!this._occluder) {
                 if (this.createOcclusionMesh) this.createOccluder();
             }
             else {
+                this._occluder.visible = true;
                 FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
             }
         }
@@ -343,7 +315,7 @@ export class Facefilter extends Behaviour {
                 this._occluderPromise.then((occluder) => {
                     this._occluder = new Object3D();
                     this._occluder.add(occluder);
-                    FacefilterUtils.makeOccluder(occluder);
+                    FacefilterUtils.makeOccluder(occluder, -10);
                 });
             }
         }
@@ -362,6 +334,45 @@ export class Facefilter extends Behaviour {
             mesh.matrixAutoUpdate = false;
             this._occluder.add(mesh);
         }
+    }
+
+
+    private createUI() {
+        // Create menu Buttons
+        NeedleRecordingHelper.createButton(this.context);
+        this.context.menu.appendChild({
+            label: "Next Filter",
+            icon: "comedy_mask",
+            onClick: () => {
+                this.selectNextFilter();
+            }
+        });
+        this.context.menu.appendChild({
+            label: "Share",
+            icon: "share",
+            onClick: function () {
+                if (isMobileDevice() && navigator.share) {
+                    navigator.share({
+                        title: "Needle Filter",
+                        text: "Check this out",
+                        url: window.location.href,
+                    }).catch(e => {
+                        // ignore cancel
+                        console.warn(e);
+                    });
+                }
+                else {
+                    navigator.clipboard.writeText(window.location.href);
+                    const element = this as HTMLElement;
+                    element.innerText = "Copied";
+                    element.prepend(getIconElement("done"));
+                    setTimeout(() => {
+                        element.innerText = "Share";
+                        element.prepend(getIconElement("share"));
+                    }, 2000)
+                }
+            }
+        });
     }
 
 

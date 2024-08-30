@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class NeedleOcclusionMesh : UnityEngine.MonoBehaviour
 	{
-		public void awake(){}
+		public void OnEnable(){}
 	}
 }
 

@@ -10,6 +10,10 @@ export namespace FacefilterUtils {
 
     const tempMatrix = new Matrix4();
 
+    export function flipX(matrix: Matrix4) {
+        matrix.premultiply(flipx);
+    }
+
     export function applyFaceLandmarkMatrixToObject3D(obj: Object3D, mat: Matrix, camera: Camera) {
         const matrix = tempMatrix.fromArray(mat.data);
         obj.matrixAutoUpdate = false;
@@ -39,7 +43,7 @@ export namespace FacefilterUtils {
         return cat ? cat.score : -1;
     }
 
-    export function makeOccluder(obj: Object3D) {
+    export function makeOccluder(obj: Object3D, renderOrder: number = -5) {
         if (!_occluderMaterial) {
             _occluderMaterial = new MeshBasicMaterial({
                 // transparent: true,
@@ -48,7 +52,7 @@ export namespace FacefilterUtils {
                 // colorWrite: true,
 
                 colorWrite: false,
-                depthWrite: true, 
+                depthWrite: true,
                 side: DoubleSide,
             });
         }
@@ -59,12 +63,11 @@ export namespace FacefilterUtils {
 
         function assignMaterial(child: any) {
             const obj = child as Object3D;
-            // obj.scale.multiplyScalar(1.2);
-            obj.renderOrder = -1;
+            obj.renderOrder = renderOrder;
             obj.matrixAutoUpdate = false;
             obj.updateMatrix();
             obj.updateMatrixWorld();
-            obj.getComponents(Renderer).forEach(c => c.enabled = false);
+            obj.getComponents(Renderer).forEach(c => c.destroy());
             if (child.type === "Mesh" || child.type === "SkinnedMesh" || "material" in child) {
                 const mat = (child as Mesh).material;
                 if (Array.isArray(mat)) {
