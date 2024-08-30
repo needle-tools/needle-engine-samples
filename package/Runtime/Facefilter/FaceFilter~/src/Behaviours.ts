@@ -34,6 +34,10 @@ export class FaceFilterRoot extends Behaviour {
             head = face.gameObject;
         }
         else {
+
+            const readyPlayerMeBodyAssetNames = ["Wolf3D_Body", "Wolf3D_Outfit_Bottom", "Wolf3D_Outfit_Footwear", "Wolf3D_Outfit_Top"];
+            const bodyAssetsToHide = new Array<Object3D>();
+
             /** Fallback method to determine the head matrix */
             const scanAvatar = (obj: Object3D): void => {
 
@@ -45,6 +49,10 @@ export class FaceFilterRoot extends Behaviour {
 
                 if (obj.userData?.name === "HeadTop_End") {
                     headTopEnd = obj;
+                }
+
+                if (readyPlayerMeBodyAssetNames.includes(obj.userData?.name)) {
+                    bodyAssetsToHide.push(obj);
                 }
 
                 // Is this a ReadyPlayerMe avatar?
@@ -69,6 +77,7 @@ export class FaceFilterRoot extends Behaviour {
                     case "ReadyPlayerMe":
                         this.overrideDefaultOccluder = true;
                         headOffsetObject.position.set(0, .07, .05);
+                        bodyAssetsToHide.forEach(obj => obj.visible = false);
                         break;
                 }
             }
