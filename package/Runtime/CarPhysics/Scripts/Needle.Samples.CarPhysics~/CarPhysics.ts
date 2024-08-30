@@ -144,13 +144,13 @@ export class CarWheel extends Behaviour {
             this.skidParticleBehaviour.isSkidding = showSkid;
         }
 
+        // debug
         if (debugWheel) {
             const suspensionRest = getTempVector(0, -1, 0).multiplyScalar(this.suspensionRestLength).add(this.worldPosition); 
 
             // draw wheel
             Gizmos.DrawCircle(wheelPosition, this.right, this.radius, 0x000ff, 0, false);
             Gizmos.DrawLine(getTempVector(wheelPosition).add(this.forward.multiplyScalar(-this.radius)), getTempVector(wheelPosition).add(this.forward.multiplyScalar(this.radius)), 0x0000ff, 0, false);
-            //Gizmos.DrawLine(getTempVector(wheelPosition).add(this.up.multiplyScalar(-0.02)), getTempVector(wheelPosition).add(this.up.multiplyScalar(0.02)), 0x0000ff, 0, false);
 
             // draw susnpension line
             Gizmos.DrawLine(getTempVector(suspensionRest).add(this.forward.multiplyScalar(-0.1)), getTempVector(suspensionRest).add(this.forward.multiplyScalar(0.1)), 0xff0000, 0, false);
@@ -166,7 +166,6 @@ export class CarWheel extends Behaviour {
         if (!isOnDrivingAxel)
             acceleration = 0;
 
-        // Note: dot is not linear
         const velocity = this.car.velocity;
         let gripAmount = velocity.dot(this.car.gameObject.getWorldDirection(getTempVector()));
         gripAmount = Mathf.clamp(gripAmount, 0, 1);
@@ -287,7 +286,7 @@ export class CarPhysics extends Behaviour {
         this.rigidbody = this.gameObject.getComponent(Rigidbody)!;
 
         // await rigidbody creation
-        await delayForFrames(2);        
+        await delayForFrames(2);
 
         // get underlying rapier rigidbody
         this.rapierRigidbody = this.context.physics.engine?.getBody(this.rigidbody);
