@@ -131,7 +131,8 @@ export class FaceFilterRoot extends Behaviour {
         if (!this._filter) {
             this._filter = filter;
             console.log("Avatar behaviour initialized");
-            this.gameObject.addComponent(FaceFilterBlendshapes);
+            this.gameObject.getOrAddComponent(FaceFilterBlendshapes);
+            this.gameObject.getOrAddComponent(FaceFilterAnimator);
             this._behaviours = this.gameObject.getComponentsInChildren(FilterBehaviour);
         }
         for (const beh of this._behaviours) {

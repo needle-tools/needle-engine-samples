@@ -23,6 +23,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
     @serializable()
     createOcclusionMesh: boolean = true;
 
+
     /**
      * The last result received from the face detector
      * @returns {FaceLandmarkerResult} the last result received from the face detector
