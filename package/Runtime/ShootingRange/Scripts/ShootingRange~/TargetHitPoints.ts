@@ -55,12 +55,6 @@ export class TargetHitPointRenderer extends Behaviour {
         this._activeTextElements.push(text);
 
         text.gameObject.visible = true;
-        
-        // BUG: text appears for a single frame at word 0,0,0 
-        // workaround: hide it, let it resolve and make it visibel again
-        text.color.alpha = 0;
-        yield;
-        yield;
         text.color.alpha = 1;
     }
 
@@ -71,7 +65,7 @@ export class TargetHitPointRenderer extends Behaviour {
             text.gameObject.position.y -= this.context.time.deltaTime / .5;
             text.color.alpha *= .98;
 
-            if (text.gameObject.position.y > 10) {
+            if (text.gameObject.position.y > 10 || text.color.alpha < .1) {
                 text.gameObject.visible = false;
                 this._activeTextElements.splice(i, 1);
                 this._inactiveTextElements.push(text);

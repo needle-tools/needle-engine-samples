@@ -1,5 +1,5 @@
-import { Behaviour, Button, GameObject, Gizmos, RaycastOptions, getParam, randomNumber, serializable } from "@needle-tools/engine";
-import { Vector3, Euler, Object3D, Ray, Layers } from "three";
+import { Behaviour, GameObject, Gizmos, RaycastOptions, delayForFrames, getParam, getTempQuaternion, getTempVector, serializable, setWorldPosition, setWorldQuaternion } from "@needle-tools/engine";
+import { Vector3, Object3D, Ray, Layers } from "three";
 import { FirstPersonController } from "../FirstPersonCharacter";
 import { MobileControls } from "../MobileControls";
 
@@ -7,16 +7,40 @@ const debug = getParam("debugspawnhandler")
 
 export class SpawnHandler extends Behaviour {
 
-    //array of Object3D
     @serializable(Object3D)
     spawnPoints: Object3D[] = [];
 
     @serializable(MobileControls)
     mobileControls?: MobileControls;
 
+    @serializable()
+    autoRespawn: boolean = true;
+
+    @serializable()
+    autoRespawnLimitY: number = -10;
+
     private downVector = new Vector3(0, -1, 0);
 
-    handlePlayerSpawn(obj: GameObject) {
+    async handlePlayerSpawn(obj: GameObject) {
+        // HACK: delay for one frame otherwise the newly created collider gets read back (?) and overrides any value we set to the object
+        await delayForFrames(1);
+        
+        const spot = this.getRandomSpawnPoint();
+        this.setPlayerToSpot(obj, spot);
+
+        this.handlePlayerAutoRespawn(obj);
+
+        // hook touch controls to the spawned player
+        const player = (obj as GameObject)?.getComponent(FirstPersonController);
+        if (player && this.mobileControls) {
+            this.mobileControls.onLook.addEventListener(v => player.look(v));
+            this.mobileControls.onMove.addEventListener(v => player.move(v));
+            this.mobileControls.onJump.addEventListener(() => player.jump());
+        }
+    }
+
+    // TODO: add network authoring
+    getRandomSpawnPoint(): Object3D | undefined {
         //shuffle spawnspots
         this.spawnPoints.sort(() => Math.random() - 0.5);
 
@@ -48,23 +72,27 @@ export class SpawnHandler extends Behaviour {
             }
         }
 
-        // If there is no valid spawn point, set world 0,0,0
-        const pos = spot?.position.clone() || new Vector3();
-        const rot = spot?.rotation.clone() || new Euler();
+        return spot;
+    }
 
-        if (obj instanceof Object3D) {
-            obj.worldToLocal(pos);
+    setPlayerToSpot(instance: Object3D, spot: Object3D | undefined) {
+        if (!instance || !spot) return;
 
-            obj.position.copy(pos);
-            obj.rotation.copy(rot);
-        }
+        setWorldPosition(instance, spot.getWorldPosition(getTempVector()));
+        setWorldQuaternion(instance, spot.getWorldQuaternion(getTempQuaternion()));
+        GameObject.getComponent(instance, FirstPersonController)?.setCamRotationFromObject();
+    }
 
-        // hook touch controls to the spawned player
-        const player = (obj as GameObject)?.getComponent(FirstPersonController);
-        if (player && this.mobileControls) {
-            this.mobileControls.onLook.addEventListener(v => player.look(v));
-            this.mobileControls.onMove.addEventListener(v => player.move(v));
-            this.mobileControls.onJump.addEventListener(() => player.jump());
+    /* Watch player Y position and respawn if invalid */
+    async handlePlayerAutoRespawn(instance: Object3D) {
+        while (instance) {
+            await delayForFrames(1);
+
+            const wp = instance.getWorldPosition(getTempVector());
+            if (wp.y < this.autoRespawnLimitY) {
+                const spot = this.getRandomSpawnPoint();
+                this.setPlayerToSpot(instance, spot);
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-import { Behaviour, isDesktop } from "@needle-tools/engine";
+import { Behaviour, isDesktop, isMacOS } from "@needle-tools/engine";
 import { isMobileDevice, isiOS, isMozillaXR, isSafari, isQuest } from "@needle-tools/engine";
 import { showBalloonMessage } from "@needle-tools/engine";
 
@@ -14,6 +14,7 @@ export class DeviceDetection extends Behaviour {
         console.log("isMozillaXR", isMozillaXR());
         console.log("isSafari", isSafari());
         console.log("isQuest", isQuest());
+        console.log("isMacOS", isMacOS());
 
         // Device detection
         if (isMobileDevice()) {

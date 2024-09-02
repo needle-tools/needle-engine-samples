@@ -10,16 +10,15 @@ export class ConfiguratorControls extends Behaviour {
 
   start(): void {
     this.updateLabel();
+    this.configurator?.indexChanged?.addEventListener(() => this.updateLabel());
   }
 
   public next() {
     this.configurator?.next();
-    this.updateLabel();
   }
 
   public previous() {
     this.configurator?.previous();
-    this.updateLabel();
   }
 
   updateLabel() {

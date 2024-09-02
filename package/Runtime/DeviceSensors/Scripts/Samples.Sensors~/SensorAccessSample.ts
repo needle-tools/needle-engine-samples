@@ -29,12 +29,26 @@ export class SensorAccessSample extends Behaviour {
         this.sensorOrientation = new OrientationSensor();
         this.deviceOrientation = new DeviceMotion();
 
-        this.sensorOrientation.initialize(() => {
-            this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
-            this.deviceOrientation.initialize(() => {
-                this.orientationLabel.innerText = "No API available.";
-            });
-        });
+        this.sensorOrientation.initialize(
+            /* sensorOrientation success */
+            () => {
+                this.orientationLabel.innerText = "Using RelativeOrientationSensor API";
+            },
+            /* sensorOrientation fail */
+            () => {
+                this.orientationLabel.innerText = "Click anywhere to enable orientation data.";
+                this.deviceOrientation.initialize(
+                    /* deviceOrientation success */
+                    () => {
+                        this.orientationLabel.innerText = "Using deviceorientation event";
+                    },
+                    /* deviceOrientation fail */
+                    () => {
+                        this.orientationLabel.innerText = "No API available.";
+                    }
+                );
+            }
+        );
     }
 
     update(): void {

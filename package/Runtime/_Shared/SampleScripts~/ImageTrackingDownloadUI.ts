@@ -15,6 +15,7 @@ export class ImageTrackingDownloadUI extends Behaviour {
         const components = GameObject.findObjectsOfType(WebXRImageTracking);
         const container = document.createElement("div");
         container.style.cssText = `
+            font-family: 'Roboto flex', Ariel;
             position: absolute;
             top: 1em;
             left: 1em;

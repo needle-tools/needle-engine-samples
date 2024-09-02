@@ -89,7 +89,7 @@ export class FirstPersonController extends Behaviour {
     }
 
     start() {
-        this.calculateYRot();
+        this.setCamRotationFromObject();
     }
 
     private isInitialized = false;
@@ -163,7 +163,7 @@ export class FirstPersonController extends Behaviour {
         this.setRole(this.isLocalPlayer());
     }
 
-    protected calculateYRot() {
+    setCamRotationFromObject() {
         //adjust Y to reflect the current rotation
         const charFwd = new Vector3();
         this.yRotTarget?.getWorldDirection(charFwd);

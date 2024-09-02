@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 8d2fcbef0364b894282281887b768993, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.9549858, g: 0.9549858, b: 0.9549858, a: 1}
+  m_IndirectSpecularColor: {r: 0.6336819, g: 0.6336819, b: 0.6336819, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -139,6 +139,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -156,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0
+      value: 1.6174963e-35
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
@@ -164,11 +168,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 4.0058793e-11
+      value: 4.1650412e-11
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 14.000046
+      value: 1.8593008e+34
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -186,15 +190,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -258,6 +258,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Color by speed
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -301,15 +305,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &12834627 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 12834623}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &12834628 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -473,6 +477,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 1.5
       objectReference: {fileID: 0}
@@ -490,7 +498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0
+      value: 0.015248686
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
@@ -498,11 +506,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 4.1877782e-11
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 13.000049
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -532,15 +540,11 @@ PrefabInstance:
       propertyPath: m_EditorClassIdentifier
       value: UnityEngine.UI.Button, UnityEngine.UI
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -612,6 +616,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Texture sheet animation
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -655,15 +663,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &105790312 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 105790308}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &105790313 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -35149,17 +35157,6 @@ Transform:
   m_Father: {fileID: 1597275518}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &506037560 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 310978950080099863, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
-  m_PrefabInstance: {fileID: 6620145007597695530}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
 --- !u!114 &506037561 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5939810823389809741, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
@@ -35200,7 +35197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3851072335131035169, guid: 8b6d73d3da7bb254bbbd7e85f04ad3c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.85
+      value: 6.17
       objectReference: {fileID: 0}
     - target: {fileID: 3851072335131035169, guid: 8b6d73d3da7bb254bbbd7e85f04ad3c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -35208,7 +35205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3851072335131035169, guid: 8b6d73d3da7bb254bbbd7e85f04ad3c9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.8
+      value: -23.87
       objectReference: {fileID: 0}
     - target: {fileID: 3851072335131035169, guid: 8b6d73d3da7bb254bbbd7e85f04ad3c9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -40148,6 +40145,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -40165,7 +40166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0
+      value: 0.0019591493
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
@@ -40173,11 +40174,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 4.051354e-11
+      value: 6.4457867e-10
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 13.000047
+      value: 2.1440145e+29
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -40195,15 +40196,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -40267,10 +40264,18 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Showcase - Bubbles
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
       objectReference: {fileID: 1076221714}
+    - target: {fileID: 9024019607841096529, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: Needle.Typescript.GeneratedComponents.ClickButton, Needle.Engine-Samples.Runtime
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
 --- !u!4 &559516879 stripped
@@ -40306,15 +40311,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &559516882 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 559516878}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &559516883 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -40583,6 +40588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 629448747}
+  - component: {fileID: 629448748}
   m_Layer: 0
   m_Name: Sample
   m_TagString: Untagged
@@ -40626,6 +40632,43 @@ Transform:
   m_Father: {fileID: 1597275518}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &629448748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629448746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976314264ed7777d2a4d7abb530843f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryManager,
+    Needle.Engine-Samples.Runtime
+  pois:
+  - {fileID: 105790312}
+  - {fileID: 1657832880}
+  - {fileID: 1211870922}
+  - {fileID: 1171258283}
+  - {fileID: 1816652021}
+  - {fileID: 748108098}
+  - {fileID: 4674385975697513440}
+  - {fileID: 888294818}
+  - {fileID: 1909702901}
+  - {fileID: 12834627}
+  - {fileID: 1235464617}
+  - {fileID: 776203970}
+  - {fileID: 2098102403}
+  - {fileID: 1218415872}
+  - {fileID: 865918772}
+  - {fileID: 1104055844}
+  - {fileID: 1076221713}
+  - {fileID: 559516882}
+  galleryUI: {fileID: 1387729462}
+  categoryName: Particle Gallery
+  icon:
+    File: {fileID: 0}
+  arrowKeysNavigation: 1
 --- !u!1001 &675498414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45782,7 +45825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraSkyboxData, Needle.Engine
     $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-706762909-0
   backgroundBlurriness: 0.5
-  backgroundIntensity: 0.129
+  backgroundIntensity: 0.15
 --- !u!114 &706762910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45792,11 +45835,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 706762903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ad5c5a36203ce40d2257e3889d20169, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e9127a53c17b76459b565a76115e1a1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ThreeTonemapping,
-    Needle.Engine-Samples.Runtime
-  method: 7
+  m_EditorClassIdentifier: Needle.Engine.Components.PostProcessing.ToneMappingEffect,
+    Needle.Engine
+  mode: 1
   exposure: 1
 --- !u!1001 &748108094
 PrefabInstance:
@@ -45818,6 +45861,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -45835,19 +45882,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 6.890596e+22
+      value: 8.25e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.05e-43
+      value: 6.18e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 4.165042e-11
+      value: 6.57e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 4.757186e+30
+      value: 8.24e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -45864,14 +45911,6 @@ PrefabInstance:
     - target: {fileID: 3681418684983361284, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_TagString
       value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
@@ -45941,6 +45980,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: 'Shape: Circle'
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -45984,15 +46027,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &748108098 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 748108094}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &748108099 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -50855,6 +50898,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -50872,19 +50919,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 5.0830306e+31
+      value: 4.5026297e+30
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 3.2888364e-12
+      value: 7.2715916e+31
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.9443744e+31
+      value: 1.7595098e+22
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 1.7409433e+25
+      value: 5.5341884e-11
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -50902,15 +50949,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -50974,10 +51017,18 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Inherit velocity
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
       objectReference: {fileID: 1235464618}
+    - target: {fileID: 9024019607841096529, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: Needle.Typescript.GeneratedComponents.ClickButton, Needle.Engine-Samples.Runtime
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
 --- !u!4 &776203967 stripped
@@ -51013,15 +51064,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &776203970 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 776203966}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &776203971 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -65772,6 +65823,17 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &865918772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1912783898545015447, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+  m_PrefabInstance: {fileID: 6620145007597695530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!1001 &888294814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65800,6 +65862,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -65817,19 +65883,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0
+      value: 1.8e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.05e-43
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 4.0968288e-11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 14.000049
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -65847,15 +65913,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -65919,6 +65981,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: 'Shape: Sphere | Hemi-sphere'
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -65962,15 +66028,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &888294818 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 888294814}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &888294819 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -80699,6 +80765,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 1
       objectReference: {fileID: 0}
@@ -80716,19 +80786,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: -2.1680428e+25
+      value: 8.5e-44
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: -2.3772253e+27
+      value: 1.05e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: -2.3622093e+29
+      value: 4.0740748e-11
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: NaN
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -80746,15 +80816,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -80818,6 +80884,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: 'Showcase: Dollar bill blast!'
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -80857,15 +80927,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1076221713 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1076221709}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1076221714 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -80905,6 +80975,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -80922,15 +80996,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 2.7e-44
+      value: 1.3e-44
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 8.31e-43
+      value: 4.700279e-39
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1e-45
+      value: 3.23e-42
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
@@ -80952,15 +81026,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81024,6 +81094,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Texture sheet - random texture
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -81067,15 +81141,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1104055844 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1104055840}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1104055845 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -81115,6 +81189,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 1.5
       objectReference: {fileID: 0}
@@ -81132,19 +81210,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 8.5e-44
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.05e-43
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 5.3986152e-11
+      value: 0.13671875
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 0
+      value: 0.0390625
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -81166,15 +81244,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81246,6 +81320,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Emission
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -81285,15 +81363,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1171258283 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1171258279}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1171258284 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -81333,6 +81411,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 1.5
       objectReference: {fileID: 0}
@@ -81354,15 +81436,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 0
+      value: 7e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1e-45
+      value: 1.6253287e-35
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 0
+      value: 7e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -81384,15 +81466,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81464,6 +81542,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: 'Shape: Cone'
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -81503,15 +81585,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1211870922 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1211870918}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1211870923 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -81543,6 +81625,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -81560,19 +81646,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 5.093788e-14
+      value: 0.00000021399262
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.05e-43
+      value: 1.18664444e+27
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 0.0000006600485
+      value: 7.399485e+20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 1.0156116e+31
+      value: 4.509329e+27
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -81589,14 +81675,6 @@ PrefabInstance:
     - target: {fileID: 3681418684983361284, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_TagString
       value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
       objectReference: {fileID: 0}
     - target: {fileID: 4943828778718848204, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
@@ -81615,6 +81693,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81678,6 +81760,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Trails
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -81721,15 +81807,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1218415872 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1218415868}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1218415873 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -81761,6 +81847,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -81778,7 +81868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0
+      value: 8.5e-44
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
@@ -81786,11 +81876,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 4.2105153e-11
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 13.000054
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -81816,15 +81906,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -81888,6 +81974,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Size by speed
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -81896,6 +81986,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5ca322b7b071aaf4ab2bde313b733451, type: 2}
+    - target: {fileID: 9024019607841096529, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: Needle.Typescript.GeneratedComponents.ClickButton, Needle.Engine-Samples.Runtime
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
 --- !u!4 &1235464614 stripped
@@ -81931,15 +82025,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1235464617 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1235464613}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1235464618 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -86917,7 +87011,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1387729460}
   - component: {fileID: 1387729462}
-  - component: {fileID: 1387729461}
   m_Layer: 0
   m_Name: GalleryMenu
   m_TagString: Untagged
@@ -86940,60 +87033,6 @@ Transform:
   m_Father: {fileID: 1597275518}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1387729461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1387729459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04bee28a4bfe0a434de2ac6bf224834d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ButtonAndTextFiller,
-    Needle.Engine-Samples.Runtime
-  galleryUI: {fileID: 1387729462}
-  categoryName: Particle Gallery
-  icon:
-    File: {fileID: 0}
-  data:
-  - button: {fileID: 105790313}
-    label: {fileID: 105790312}
-  - button: {fileID: 1657832881}
-    label: {fileID: 1657832880}
-  - button: {fileID: 1211870923}
-    label: {fileID: 1211870922}
-  - button: {fileID: 1171258284}
-    label: {fileID: 1171258283}
-  - button: {fileID: 1816652022}
-    label: {fileID: 1816652021}
-  - button: {fileID: 748108099}
-    label: {fileID: 748108098}
-  - button: {fileID: 4674385975697513441}
-    label: {fileID: 4674385975697513440}
-  - button: {fileID: 888294819}
-    label: {fileID: 888294818}
-  - button: {fileID: 1909702902}
-    label: {fileID: 1909702901}
-  - button: {fileID: 12834628}
-    label: {fileID: 12834627}
-  - button: {fileID: 1235464618}
-    label: {fileID: 1235464617}
-  - button: {fileID: 776203971}
-    label: {fileID: 776203970}
-  - button: {fileID: 2098102404}
-    label: {fileID: 2098102403}
-  - button: {fileID: 1218415873}
-    label: {fileID: 1218415872}
-  - button: {fileID: 506037561}
-    label: {fileID: 506037560}
-  - button: {fileID: 1104055845}
-    label: {fileID: 1104055844}
-  - button: {fileID: 1076221714}
-    label: {fileID: 1076221713}
-  - button: {fileID: 559516883}
-    label: {fileID: 559516882}
 --- !u!114 &1387729462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101801,7 +101840,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 30ad18774a78d694c871cae02a7ad056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.42
+      value: 9.06
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 30ad18774a78d694c871cae02a7ad056, type: 3}
       propertyPath: m_LocalPosition.y
@@ -101809,7 +101848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 30ad18774a78d694c871cae02a7ad056, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.03
+      value: -12.99
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 30ad18774a78d694c871cae02a7ad056, type: 3}
       propertyPath: m_LocalRotation.w
@@ -106854,6 +106893,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.2
       objectReference: {fileID: 0}
@@ -106871,7 +106914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0
+      value: 0.0075354315
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
@@ -106879,11 +106922,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 0.0000006600485
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 1.7284e-41
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -106901,15 +106944,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -106981,6 +107020,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Custom mesh
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -107024,15 +107067,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1657832880 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1657832876}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1657832881 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -131413,6 +131456,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.2
       objectReference: {fileID: 0}
@@ -131430,19 +131477,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0.05468757
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 13
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: NaN
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -131464,15 +131511,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -131544,6 +131587,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Noise
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -131583,15 +131630,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1816652021 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1816652017}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1816652022 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -136494,6 +136541,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -136515,15 +136566,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: -2.5718495e-29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -136541,15 +136592,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -136613,6 +136660,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Sub emitter
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -136656,15 +136707,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &1909702901 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 1909702897}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &1909702902 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -146454,6 +146505,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
       value: 2.5
       objectReference: {fileID: 0}
@@ -146471,19 +146526,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 6.4458155e-10
+      value: 7.338698e+28
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.05e-43
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 4.0513547e-11
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 4.757186e+30
+      value: 1.3695922e+13
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -146501,15 +146556,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -146573,6 +146624,10 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: Velocity over lifetime
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
@@ -146616,15 +146671,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &2098102403 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 2098102399}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &2098102404 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -146793,7 +146848,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Text
-      value: Gravity
+      value: 'Shape: Circle'
       objectReference: {fileID: 0}
     - target: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_FontData.m_FontSize
@@ -146802,6 +146857,10 @@ PrefabInstance:
     - target: {fileID: 1461174690870147946, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_Intensity
@@ -146821,19 +146880,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 1.23178665e+23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 0.0001
+      value: 7e-43
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: NaN
+      value: 3.8991392e+21
       objectReference: {fileID: 0}
     - target: {fileID: 1549412361373217205, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 0
+      value: 7.618957e+31
       objectReference: {fileID: 0}
     - target: {fileID: 1796307563521204939, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_RootOrder
@@ -146851,15 +146910,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 5514045599347720876, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553528627693559141, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -146923,10 +146978,18 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 1071485815}
+    - target: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: title
+      value: 'Shape: Circle'
+      objectReference: {fileID: 0}
     - target: {fileID: 8222038715110572464, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
       propertyPath: buttonToClick
       value: 
       objectReference: {fileID: 748108099}
+    - target: {fileID: 9024019607841096529, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: Needle.Typescript.GeneratedComponents.ClickButton, Needle.Engine-Samples.Runtime
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
 --- !u!4 &4674385975697513437 stripped
@@ -146962,15 +147025,15 @@ MonoBehaviour:
   m_LightCookieOffset: {x: 0, y: 0}
 --- !u!114 &4674385975697513440 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 696395132000102839, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7382263620962919745, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
   m_PrefabInstance: {fileID: 4674385975697513436}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cdbadd05291cc0d4f703ebd18383a9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI.Text, UnityEngine.UI $ GlobalObjectId_V1-2-00000000000000000000000000000000-11407002-0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.GalleryPOI, Needle.Engine-Samples.Runtime
 --- !u!114 &4674385975697513441 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4808933637130537951, guid: 86c1ae6e0ee92004597303e0ea1a3120, type: 3}
@@ -147026,6 +147089,10 @@ PrefabInstance:
       value: -0.217
       objectReference: {fileID: 0}
     - target: {fileID: 426897740197151409, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426897740197151409, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -147046,6 +147113,10 @@ PrefabInstance:
       value: 0.2688679
       objectReference: {fileID: 0}
     - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Intensity
       value: 20
       objectReference: {fileID: 0}
@@ -147063,19 +147134,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 1.8179188e+31
+      value: 2.7e-44
       objectReference: {fileID: 0}
     - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 12
+      value: 7e-43
       objectReference: {fileID: 0}
     - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 0
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 426897740197151423, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 8.31e-43
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912783898545015447, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: title
+      value: Animated root
       objectReference: {fileID: 0}
     - target: {fileID: 2395572057136391586, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_LocalPosition.y
@@ -147105,14 +147180,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c293c23ad240d54469ea179b6a59204a, type: 2}
-    - target: {fileID: 5939810823389809741, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 706762907}
-    - target: {fileID: 5939810823389809741, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetCameraAndLookTarget
-      objectReference: {fileID: 0}
     - target: {fileID: 6620145006752601698, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -147169,6 +147236,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 6620145006833436228, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Range
       value: 10
@@ -147184,6 +147255,10 @@ PrefabInstance:
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Color.r
       value: 0.8862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Intensity
@@ -147203,19 +147278,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: -0.0054332055
+      value: 1.6253287e-35
       objectReference: {fileID: 0}
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.05e-43
+      value: 7e-43
       objectReference: {fileID: 0}
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 0
+      value: 4.3e-43
       objectReference: {fileID: 0}
     - target: {fileID: 6620145006833436250, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620145007539841497, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Range
@@ -147232,6 +147311,10 @@ PrefabInstance:
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Color.r
       value: 0.82898366
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_Intensity
@@ -147251,19 +147334,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 4.266207e-39
+      value: 6.890559e+22
       objectReference: {fileID: 0}
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 4.741809e+30
+      value: 1.05e-43
       objectReference: {fileID: 0}
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 4.3973454e+21
+      value: 4.0058797e-11
       objectReference: {fileID: 0}
     - target: {fileID: 6620145007539841503, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 7.029226e+28
+      value: 2.5353184e+30
       objectReference: {fileID: 0}
     - target: {fileID: 6685390879736629568, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: buttonToClick

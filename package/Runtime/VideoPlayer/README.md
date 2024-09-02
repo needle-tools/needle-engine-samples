@@ -12,4 +12,4 @@
 Playing videos is possible with the VideoPlayer component. Videos can be displayed on meshes, in fullscreen or you can access the video texture and adjust it however you like. This is defined by the RenderMode on the component. Under the hood, the VideoPlayer uses the HTML Video element.
 
 ### Permissions
-Audio can only play after a user interaction. Your video with sound might not auto-play without the user interacting with the page. 
+Audio can only play after a user interaction. VideoPlayer takes care of this and plays the video muted until the user has interacted with the page.

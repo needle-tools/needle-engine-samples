@@ -41,8 +41,6 @@ export class MobileControls extends Behaviour {
     protected _htmlElements: HTMLElement[] = [];
 
     awake(): void {
-        console.log(this.moveJoyColor);
-
         this._lookVector = new Vector2();
         this._movementVector = new Vector2();
     }
@@ -70,7 +68,7 @@ export class MobileControls extends Behaviour {
                 bottom: 0;
                 left: 0;
                 width:  200px;
-                height: 200px;
+                height: 150px;
                 user-select: none;
                 -webkit-user-select: none;
                 -webkit-touch-callout: none;
@@ -83,7 +81,7 @@ export class MobileControls extends Behaviour {
         const pixelThreshold = 10;
         this._movement = nipplejs.create({
             mode: 'static',
-            position: { left: '50%', top: '50%' },
+            position: { left: '50%', top: '0%' },
             catchDistance: 1000,
             zone: staticContainer,
             size: 130,

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26350212, g: 0.20570299, b: 0.15469706, a: 1}
+  m_IndirectSpecularColor: {r: 0.7098635, g: 0.6435968, b: 0.5906976, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -368,7 +368,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: -0.0025804518, y: 0.9965251, z: -0.033793643, w: -0.076086104}
-  m_LocalPosition: {x: 2.3678608, y: 4.0566897, z: 18.29312}
+  m_LocalPosition: {x: 1.83, y: 3.82, z: 14.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -400,6 +400,8 @@ MonoBehaviour:
   enableZoom: 1
   minZoom: 0
   maxZoom: 20
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -407,6 +409,7 @@ MonoBehaviour:
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!114 &706762908
@@ -588,7 +591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.RemoteSkybox, Needle.Engine $
     GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-832372438-0
-  url: small_hangar_01_2k.jpg
+  url: small_hangar_01_1k.exr
   local:
     File: {fileID: 8900000, guid: d2122f857ea1411498d8976778b0c74e, type: 3}
   allowDrop: 1
@@ -736,7 +739,7 @@ Transform:
   m_GameObject: {fileID: 1581178371}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.77556896, y: 0.77556896, z: 0.77556896}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1597275518}
@@ -756,8 +759,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.GroundProjectedEnv, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1581178373-0
   applyOnAwake: 1
+  autoFit: 1
   radius: 30
   height: 4
+  arBlending: 0
 --- !u!1 &1597275517
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,11 +851,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-06b8a702cf5718e448e201aa2221ca54-1597275521-0
-  arScale: 5
-  invertForward: 0
-  customReticle: {fileID: 0}
-  arTouchTransform: 1
-  useXRAnchor: 0
 --- !u!114 &1597275522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,8 +868,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 6
+  autoPlace: 1
+  autoCenter: 1
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0
@@ -895,6 +898,7 @@ MonoBehaviour:
   requireRoomParameter: 0
   autoRejoin: 1
   createJoinButton: 1
+  createViewOnlyButton: 0
 --- !u!114 &1597275525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,7 +1114,7 @@ Transform:
   m_GameObject: {fileID: 1776648249}
   m_LocalRotation: {x: -0, y: 0.858799, z: -0, w: 0.51231277}
   m_LocalPosition: {x: -8.234992, y: 0, z: 5.9572186}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1597275518}
@@ -1187,6 +1191,18 @@ PrefabInstance:
     - target: {fileID: 4608629947157000579, guid: 7212237e21eef644ca7f692d184f3ca0, type: 3}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608629947157000579, guid: 7212237e21eef644ca7f692d184f3ca0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 387.78445
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608629947157000579, guid: 7212237e21eef644ca7f692d184f3ca0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 387.78445
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608629947157000579, guid: 7212237e21eef644ca7f692d184f3ca0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 387.78445
       objectReference: {fileID: 0}
     - target: {fileID: 4608629947157000579, guid: 7212237e21eef644ca7f692d184f3ca0, type: 3}
       propertyPath: m_LocalPosition.x

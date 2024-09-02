@@ -28,6 +28,7 @@ namespace Needle.Typescript.GeneratedComponents
 		// public any @pointerMoveFn; → Could not resolve C# type
 		// public any @gamePadConnFn; → Could not resolve C# type
 		// public any @gamePadDisconnFn; → Could not resolve C# type
+		public void setCamRotationFromObject(){}
 		public void isMultiplayer(){}
 		public void isLocalPlayer(){}
 		public void setRole(bool @isLocal){}

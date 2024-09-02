@@ -12,6 +12,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @bindToParent = false;
 		public UnityEngine.Events.UnityEvent @onShowUnityEvent;
 		public UnityEngine.Events.UnityEvent @onHideUnityEvent;
+		public UnityEngine.Events.UnityEvent @indexChanged;
 		public void awake(){}
 		public void start(){}
 		public void next(){}
