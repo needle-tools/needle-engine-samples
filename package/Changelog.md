@@ -6,33 +6,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.18.0] - 2024-09-02
 ### Added
-- add isMacOS to DeviceDetection
-- add SyncedPlayableDirector sample script
-- add touch controls, improve wheel physics and debug gizmos to CarPhysics sample
-- add WebXR to ContactShadows sample
-- add Hotspots to JetEngine sample, enable USDZ
-- add linear mode support for Splines
-- add GalleryManager + Gallery POI logic
-- add usage of GalleryManager in Particles and AnimatedMaterials samples
+- isMacOS to DeviceDetection
+- SyncedPlayableDirector sample script
+- touch controls, improve wheel physics and debug gizmos to CarPhysics sample
+- ContactShadows sample WebXR support
+- Hotspots to the JetEngine sample 
+- linear mode support for Splines
+- GalleryManager and GalleryPOI
+- Particles and AnimatedMaterials samples using GalleryManager
+- Realtime Clock sample
 
 ### Removed
-- remove code from Scripting Snippets and simplify and leave only Realtime Clock
-- remove ThreeTonemapping component, use ToneMappingEffect
-- remove unnecessary custom component in StencilPortal sample
+- ThreeTonemapping component and replaced with the core ToneMappingEffect component
+- Scripting Snippets sample
 
 ### Fixes
-- fix scene scales when using WebXR
-- fix SwitchableWalls: interactions in AR
-- fix Scrollytelling ignoring touch
-- fix to EverywhereConfigurator's default variant handling
+- scene scales are 1:1 to real life when using WebXR
+- SwitchableWalls interactions in AR
+- Scrollytelling ignoring touch
+- EverywhereConfigurator's default variant handling
 
 ### Changes
-- change: standardize UI labels in the majority of samples
-- change: synchronize tags for USDZ, iOS and EverywhereActions samples
-- change: rename Scripting Snippets to Realtime Clock
-- change: rename USDZ Product to USDZ Configurator
-- change: rename samples that use EverywhereActions
-- change: disable SpatialGrabRaycaster in ShootingRange
+- standardize UI labels in the majority of samples
+- synchronize tags for USDZ, iOS and EverywhereActions samples
+- rename Scripting Snippets to Realtime Clock
+- rename USDZ Product to USDZ Configurator
+- rename samples that use EverywhereActions
+- disable SpatialGrabRaycaster in ShootingRange
 
 ## [0.17.2] - 2024-06-25
 - add RequirePackage component to install unity package dependencies right from the sample scene
