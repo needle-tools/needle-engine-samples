@@ -5,28 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.18.0] - 2024-09-02
+- add isMacOS to DeviceDetection
+- add SyncedPlayableDirector sample script
+- add touch controls, improve wheel physics and debug gizmos to CarPhysics sample
+- add WebXR to ContactShadows sample
+- add Hotspots to JetEngine sample, enable USDZ
+- add linear mode support for Splines
+- add GalleryManager + Gallery POI logic
+- add usage of GalleryManager in Particles and AnimatedMaterials samples
+- remove code from Scripting Snippets and simplify and leave only Realtime Clock
+- remove ThreeTonemapping component, use ToneMappingEffect
+- remove unnecessary custom component in StencilPortal sample
+- disable SpatialGrabRaycaster in ShootingRange
+- fix scene scales when using WebXR
+- fix SwitchableWalls: interactions in AR
+- fix Scrollytelling ignoring touch
+- fix to EverywhereConfigurator's defualt variant handling
+- small fixes
+- update and standardize UI labels in the majority of samples
+- update tags for USDZ, iOS and EverywhereActions samples
 - rename Scripting Snippets to Realtime Clock
 - rename USDZ Product to USDZ Configurator
 - rename samples that use EverywhereActions
-- update tags for USDZ, iOS and EverywhereActions samples
-- simplify Scripting Snippets -> Realtime Clock
-- add GalleryManager + Gallery POI logic
-- use GalleryManager in Particles and AnimatedMaterials samples
-- remove ThreeTonemapping component, use ToneMappingEffect
-- add isMacOS to DeviceDetection
-- fixes to EverywhereConfigurator
-- add SyncedPlayableDirector sample script
-- improvements to CarPhysics sample: touch controls, wheel physics, debug gizmos
-- add WebXR to ContactShadows sample
-- update and standardize UI labels in the majority of samples
-- fix scene scales when using WebXR
-- add Hotspots to JetEngine sample, enable USDZ
-- fix SwitchableWalls: interactions in AR
-- disable SpatialGrabRaycaster in ShootingRange
-- add linear mode support for Splines
-- remove unnecessary custom component in StencilPortal sample
-- fix Scrollytelling ignoring touch
-- small fixes
 
 ## [0.17.2] - 2024-06-25
 - add RequirePackage component to install unity package dependencies right from the sample scene
