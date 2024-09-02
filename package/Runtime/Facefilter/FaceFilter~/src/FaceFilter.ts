@@ -23,6 +23,9 @@ export class NeedleFilterTrackingManager extends Behaviour {
     @serializable()
     createOcclusionMesh: boolean = true;
 
+    @serializable()
+    createMenuButton: boolean = true;
+
 
     /**
      * The last result received from the face detector
@@ -75,7 +78,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
     private _videoReady: boolean = false;
     private _lastVideoTime: number = -1;
     private _videoTexture: VideoTexture | null = null;
-    private _farplaneQuad: Object3D | null = null;
+    private _videoQuad: Object3D | null = null;
 
 
 
@@ -154,11 +157,21 @@ export class NeedleFilterTrackingManager extends Behaviour {
         this._debug = getParam("debugfacefilter") == true;
         window.addEventListener("keydown", this.onKeyDown);
         this._video?.play();
+        this._buttons.forEach((button) => this.context.menu.appendChild(button));
+        if (this._activeFilterBehaviour) {
+            this._activeFilterBehaviour.enabled = true;
+        }
     }
     /** @internal */
     onDisable(): void {
         window.removeEventListener("keydown", this.onKeyDown);
         this._video?.pause();
+        this._buttons.forEach((button) => button.remove());
+        this._videoQuad?.removeFromParent();
+        if (this._activeFilterBehaviour) {
+            this._activeFilterBehaviour.enabled = false;
+        }
+        this._activeFilter?.asset?.removeFromParent();
     }
 
     private async startWebcam(video: HTMLVideoElement) {
@@ -181,12 +194,11 @@ export class NeedleFilterTrackingManager extends Behaviour {
         // Create a video texture that will be used to render the video feed
         this._videoTexture ??= new VideoTexture(video);
         this._videoTexture.colorSpace = this.context.renderer.outputColorSpace;
-        this._farplaneQuad ??= ObjectUtils.createPrimitive("Quad", {
-            parent: this.context.mainCamera,
+        this._videoQuad ??= ObjectUtils.createPrimitive("Quad", {
             rotation: new Vector3(Math.PI, Math.PI, 0),
             material: new MeshBasicMaterial({ map: this._videoTexture, depthTest: false, depthWrite: false }),
         });
-        this._farplaneQuad.renderOrder = -1;
+        this._videoQuad.renderOrder = -1;
     }
 
     private _activeFilterIndex: number = -1;
@@ -232,16 +244,19 @@ export class NeedleFilterTrackingManager extends Behaviour {
         if (this.context.mainCameraComponent) {
             this.context.mainCameraComponent.fieldOfView = 63;
             this.context.mainCameraComponent.clearFlags = ClearFlags.None;
-            if (this._videoTexture && this._farplaneQuad) {
+            if (this._videoTexture && this._videoQuad) {
+                if (this._videoQuad.parent !== this.context.mainCamera) {
+                    this.context.mainCamera.add(this._videoQuad);
+                }
                 // this.context.scene.background = this._videoTexture;
                 const far = this.context.mainCameraComponent.farClipPlane;
-                this._farplaneQuad.renderOrder = -1000;
-                this._farplaneQuad.position.z = -far + .01;
+                this._videoQuad.renderOrder = -1000;
+                this._videoQuad.position.z = -far + .01;
                 let aspect = this._video.videoWidth / this._video.videoHeight;
                 if (!mirror) {
                     aspect *= -1;
                 }
-                this._farplaneQuad.scale.set(aspect, -1, 1)
+                this._videoQuad.scale.set(aspect, -1, 1)
                     .multiplyScalar(far * Math.tan(this.context.mainCameraComponent.fieldOfView * Math.PI / 180 / 2) * 2);
             }
         }
@@ -284,7 +299,11 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
                 active.asset.visible = true;
                 this.context.scene.add(active.asset);
+            }
 
+            if (this._activeFilter.asset.parent !== this.context.scene) {
+                this._activeFilter.asset.visible = true;
+                this.context.scene.add(this._activeFilter.asset);
             }
             this._activeFilterBehaviour!.onResultsUpdated(this);
         }
@@ -325,8 +344,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
             }
         }
         // Fallback occluder mesh if no custom occluder is assigned
-        else 
-        {
+        else {
             this._occluder = new Object3D();
             const mesh = ObjectUtils.createOccluder("Sphere");
             // mesh.material.colorWrite = true;
@@ -343,18 +361,27 @@ export class NeedleFilterTrackingManager extends Behaviour {
         }
     }
 
+    private _buttons: HTMLElement[] = [];
 
     private createUI() {
+        if (!this.createMenuButton) return;
         // Create menu Buttons
-        NeedleRecordingHelper.createButton(this.context);
-        this.context.menu.appendChild({
-            label: "Next Filter",
-            icon: "comedy_mask",
-            onClick: () => {
-                this.selectNextFilter();
-            }
-        });
-        this.context.menu.appendChild({
+        const recordingButton = NeedleRecordingHelper.createButton(this.context);
+        this._buttons.push(recordingButton);
+
+        if (this.filters.length > 1) {
+            const nextFilterButton = this.context.menu.appendChild({
+                label: "Next Filter",
+                icon: "comedy_mask",
+                onClick: () => {
+                    this.selectNextFilter();
+                }
+            });
+            this._buttons.push(nextFilterButton);
+        }
+
+
+        const shareButton = this.context.menu.appendChild({
             label: "Share",
             icon: "share",
             onClick: function () {
@@ -380,6 +407,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
                 }
             }
         });
+        this._buttons.push(shareButton);
     }
 
 

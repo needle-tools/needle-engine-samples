@@ -11,7 +11,7 @@ export class NeedleRecordingHelper {
     private static recorder: MediaRecorder | null = null;
     private static recordingFormat: string = "";
 
-    static createButton(ctx: Context) {
+    static createButton(ctx: Context): HTMLButtonElement {
         if (!this.button) {
             this.button = document.createElement("button");
             this.button.innerText = "Record";
@@ -41,6 +41,8 @@ export class NeedleRecordingHelper {
                 }, 2000)
             }, 1000)
         }
+        
+        return this.button;
     }
 
     static startRecording(canvas: HTMLCanvasElement) {
