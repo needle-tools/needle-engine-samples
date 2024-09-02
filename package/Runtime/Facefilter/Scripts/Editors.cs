@@ -36,6 +36,7 @@ namespace Needle.Typescript.GeneratedComponents
 			}
 		}
 #endif
+		
 	}
 	
 	public partial class FaceFilterHeadPosition
@@ -61,23 +62,37 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class FaceFilterRoot
 	{
 #if UNITY_EDITOR
+
+		private void OnDrawGizmos()
+		{
+			if (!GetComponentInChildren<FaceFilterHeadPosition>())
+			{
+				Utils.RenderHeadGizmo(this, null);
+			}
+		}
+
 		[UnityEditor.CustomEditor(typeof(FaceFilterRoot))]
 		private class Editor : UnityEditor.Editor
 		{
 			private FaceFilterHeadPosition _headPosition;
+			private FaceFilterAnimator _animator;
 			
 			private void OnEnable()
 			{
 				_headPosition = (this.target as Component)!.GetComponentInChildren<FaceFilterHeadPosition>();
+                _animator = (this.target as Component)!.GetComponentInChildren<FaceFilterAnimator>();
 			}
 
 			public override void OnInspectorGUI()
 			{
+				EditorGUILayout.HelpBox("Put this component at the Root GameObject of your filter and add the filter to the FaceFilterManager \"Filters\" array to use it in the web.", MessageType.None);
+				
 				base.OnInspectorGUI();
+				
 				if (!_headPosition)
 				{
-					EditorGUILayout.HelpBox("Defining the exact head position of your filter", MessageType.Info);
-					if (GUILayout.Button("Configure head position", GUILayout.Height(32)))
+					EditorGUILayout.HelpBox("Click the button to position the filter.", MessageType.None);
+					if (GUILayout.Button("Configure Head Position/Size (Optional)", GUILayout.Height(32)))
 					{
 						var obj = new GameObject("Needle Filter Head Position");
 						Undo.RegisterCreatedObjectUndo(obj, "Create Head Position");
@@ -86,6 +101,13 @@ namespace Needle.Typescript.GeneratedComponents
 						Selection.activeObject = obj;
 					}
 				}
+				// if (!_animator)
+				// {
+				// 	if (GUILayout.Button("Add Animator (Optional)", GUILayout.Height(32)))
+				// 	{
+				// 		_animator = Undo.AddComponent<FaceFilterAnimator>(((Component)target).gameObject);
+				// 	}
+				// }
 			}
 		}
 #endif
@@ -108,64 +130,30 @@ namespace Needle.Typescript.GeneratedComponents
 				optionsStyle ??= new UnityEngine.GUIStyle(EditorStyles.label);
 				optionsStyle.wordWrap = true;
 				optionsStyle.normal.textColor = Color.gray;
-				EditorGUILayout.LabelField(string.Join(", ", supportedBlendshapeNames), optionsStyle);
+				EditorGUILayout.LabelField(string.Join(", ", Utils.supportedBlendshapeNames), optionsStyle);
+			}
+		}
+	}
+	
+	public partial class FaceFilterAnimator
+	{
+		[CustomEditor(typeof(FaceFilterAnimator))]
+		internal class Editor : UnityEditor.Editor
+		{
+			private UnityEngine.GUIStyle optionsStyle;
+
+			public override void OnInspectorGUI()
+			{
+				base.OnInspectorGUI();
+				// TODO: allow for remapping with a nice GUI
+				
+				EditorGUILayout.LabelField("Supported Float Parameter Names", EditorStyles.boldLabel);
+				optionsStyle ??= new UnityEngine.GUIStyle(EditorStyles.label);
+				optionsStyle.wordWrap = true;
+				optionsStyle.normal.textColor = Color.gray;
+				EditorGUILayout.LabelField("- " + string.Join("\n- ", Utils.supportedBlendshapeNames), optionsStyle);
 			}
 		}
 		
-		public static readonly string[] supportedBlendshapeNames = new[]
-		{
-			"_neutral",
-			"browDownLeft",
-			"browDownRight",
-			"browInnerUp",
-			"browOuterUpLeft",
-			"browOuterUpRight",
-			"cheekPuff",
-			"cheekSquintLeft",
-			"cheekSquintRight",
-			"eyeBlinkLeft",
-			"eyeBlinkRight",
-			"eyeLookDownLeft",
-			"eyeLookDownRight",
-			"eyeLookInLeft",
-			"eyeLookInRight",
-			"eyeLookOutLeft",
-			"eyeLookOutRight",
-			"eyeLookUpLeft",
-			"eyeLookUpRight",
-			"eyeSquintLeft",
-			"eyeSquintRight",
-			"eyeWideLeft",
-			"eyeWideRight",
-			"jawForward",
-			"jawLeft",
-			"jawOpen",
-			"jawRight",
-			"mouthClose",
-			"mouthDimpleLeft",
-			"mouthDimpleRight",
-			"mouthFrownLeft",
-			"mouthFrownRight",
-			"mouthFunnel",
-			"mouthLeft",
-			"mouthLowerDownLeft",
-			"mouthLowerDownRight",
-			"mouthPressLeft",
-			"mouthPressRight",
-			"mouthPucker",
-			"mouthRight",
-			"mouthRollLower",
-			"mouthRollUpper",
-			"mouthShrugLower",
-			"mouthShrugUpper",
-			"mouthSmileLeft",
-			"mouthSmileRight",
-			"mouthStretchLeft",
-			"mouthStretchRight",
-			"mouthUpperUpLeft",
-			"mouthUpperUpRight",
-			"noseSneerLeft",
-			"noseSneerRight"
-		};
 	}
 }
