@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.18.0] - 2024-09-02
+### Added
 - add isMacOS to DeviceDetection
 - add SyncedPlayableDirector sample script
 - add touch controls, improve wheel physics and debug gizmos to CarPhysics sample
@@ -13,20 +14,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - add linear mode support for Splines
 - add GalleryManager + Gallery POI logic
 - add usage of GalleryManager in Particles and AnimatedMaterials samples
+
+### Removed
 - remove code from Scripting Snippets and simplify and leave only Realtime Clock
 - remove ThreeTonemapping component, use ToneMappingEffect
 - remove unnecessary custom component in StencilPortal sample
-- disable SpatialGrabRaycaster in ShootingRange
+
+### Fixes
 - fix scene scales when using WebXR
 - fix SwitchableWalls: interactions in AR
 - fix Scrollytelling ignoring touch
-- fix to EverywhereConfigurator's defualt variant handling
-- small fixes
-- update and standardize UI labels in the majority of samples
-- update tags for USDZ, iOS and EverywhereActions samples
-- rename Scripting Snippets to Realtime Clock
-- rename USDZ Product to USDZ Configurator
-- rename samples that use EverywhereActions
+- fix to EverywhereConfigurator's default variant handling
+
+### Changes
+- change: standardize UI labels in the majority of samples
+- change: synchronize tags for USDZ, iOS and EverywhereActions samples
+- change: rename Scripting Snippets to Realtime Clock
+- change: rename USDZ Product to USDZ Configurator
+- change: rename samples that use EverywhereActions
+- change: disable SpatialGrabRaycaster in ShootingRange
 
 ## [0.17.2] - 2024-06-25
 - add RequirePackage component to install unity package dependencies right from the sample scene
