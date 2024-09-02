@@ -6,7 +6,7 @@ export class NeedleRecordingHelper {
     static debug = false;
 
     private static button: HTMLButtonElement | null = null;
-
+    private static isRecording = false;
     private static readonly chunks: Blob[] = [];
     private static recorder: MediaRecorder | null = null;
     private static recordingFormat: string = "";
@@ -18,6 +18,8 @@ export class NeedleRecordingHelper {
             const startIcon = getIconElement("screen_record");
             const stopIcon = getIconElement("stop_circle");
             this.button.prepend(startIcon);
+            let interval = -1;
+            let recordingStartTime = 0;
             this.button.addEventListener("click", () => {
                 if (this.debug) showBalloonMessage("State: " + this.recorder?.state);
                 if (this.chunks.length > 0) {
@@ -25,9 +27,17 @@ export class NeedleRecordingHelper {
                     this.button!.prepend(startIcon);
                     this.stopRecording();
                 } else {
-                    this.button!.innerText = "Stop";
-                    this.button!.prepend(stopIcon);
+                    recordingStartTime = Date.now();
                     this.startRecording(ctx.renderer.domElement);
+                    interval = setInterval(() => {
+                        if (!this.isRecording) {
+                            clearInterval(interval);
+                            return;
+                        }
+                        const duration = Date.now() - recordingStartTime;
+                        this.button!.innerText = "Recording " + (duration / 1000).toFixed(0) + "s";
+                        this.button!.prepend(stopIcon);
+                    }, 300);
                 }
             });
         }
@@ -41,7 +51,7 @@ export class NeedleRecordingHelper {
                 }, 2000)
             }, 1000)
         }
-        
+
         return this.button;
     }
 
@@ -73,12 +83,15 @@ export class NeedleRecordingHelper {
                 this.chunks.push(e.data);
         };
         this.recorder.onerror = (e: any) => {
+            this.isRecording = false;
             console.error(e.error.name + ": " + e.error.message);
             showBalloonError(e.error.name + ": " + e.error.message);
         }
+        this.isRecording = true;
         this.recorder.start(100);
     }
     static stopRecording() {
+        this.isRecording = false;
         this.recorder?.requestData();
         if (this.debug) showBalloonMessage("Recording stopped " + this.chunks.length);
         this.recorder!.onstop = () => {

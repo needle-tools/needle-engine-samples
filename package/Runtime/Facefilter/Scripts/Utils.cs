@@ -51,9 +51,9 @@ namespace Needle.Facefilter.Scripts
 				{
 					var t = mf.transform;
 					var mesh = mf.sharedMesh;
-					var scale = transform.localScale;
+					var scale = transform.lossyScale;
 					scale.Scale(t.localScale);
-					Gizmos.matrix = Matrix4x4.TRS(transform.position, t.rotation,  scale);
+					Gizmos.matrix = Matrix4x4.TRS(transform.position, t.rotation * transform.rotation,  scale);
 					Gizmos.DrawMesh(mesh, 0);
 					var col2 = Gizmos.color;
 					col2.a = .05f;
@@ -109,7 +109,7 @@ namespace Needle.Facefilter.Scripts
 				component.filters = list.ToArray();
 
 				EditorGUIUtility.PingObject(asset);
-				SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("New Needle Filter successfully created"));
+				SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("New Filter created and added to the filters list."));
 
 				if (isFirstAsset)
 					await Task.Delay(2000);
@@ -121,6 +121,7 @@ namespace Needle.Facefilter.Scripts
 					    "Do not open now"))
 				{
 					PrefabStageUtility.OpenPrefab(finalPath);
+					SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("Edit your filter now!"));
 				}
 			}
 		}

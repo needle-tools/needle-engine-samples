@@ -20,19 +20,19 @@ namespace Needle.Typescript.GeneratedComponents
 			{
 				var self = (NeedleFilterTrackingManager) this.target;
 				EditorGUILayout.LabelField("How to Use", EditorStyles.boldLabel);
-				EditorGUILayout.HelpBox("Filters can be part of this scene or inside separate prefabs to speedup loading time (recommended)", MessageType.None);
+				EditorGUILayout.HelpBox("You can create new prefabs using the button below or by adding the FaceFilter component to a new object. Filters can be part of this scene or inside separate prefabs to speedup loading time (recommended). Click the button below to create a new filter using our template prefab:", MessageType.None);
+				var text = self.filters.Length <= 0 ? "Create Your First Filter" : "Create New Filter";
+				if (GUILayout.Button(text, GUILayout.Height(24)))
+				{
+					Utils.CreateNewFilterAsset(self);
+				}
+				EditorGUILayout.HelpBox("Then add your filter to the \"Filters\" list below", MessageType.None);
 
 				GUILayout.Space(5);
 				base.OnInspectorGUI();				
 				
 				GUILayout.Space(5);
 				
-				EditorGUILayout.HelpBox("Click the button below to create a new filter prefab", MessageType.None);
-				var text = self.filters.Length <= 0 ? "Create Your First Filter" : "Create New Filter";
-				if (GUILayout.Button(text, GUILayout.Height(24)))
-				{
-					Utils.CreateNewFilterAsset(self);
-				}
 			}
 		}
 #endif
@@ -51,7 +51,7 @@ namespace Needle.Typescript.GeneratedComponents
 			public override void OnInspectorGUI()
 			{
 				base.OnInspectorGUI();
-				EditorGUILayout.HelpBox("Add this component to a GameObject in your Filter and place it to match the head position (Enable Gizmos if you don't see the head visualization in the scene). ", MessageType.None);
+				EditorGUILayout.HelpBox("Add this component to a GameObject in your Filter and place it to match the head position (Enable Gizmos if you don't see the head visualization in the scene).\n\nYou can either use the gizmo to place your model on the face or you can move, scale or rotate the gizmo to fit your model (it can be added anywhere in your filter hierarchy but make sure you only use it once because humans only have one head, right?)", MessageType.None);
 			}
 		}
 #endif
