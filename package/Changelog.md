@@ -6,15 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.18.0] - 2024-09-02
 ### Added
-- isMacOS to DeviceDetection
-- SyncedPlayableDirector sample script
-- touch controls, improve wheel physics and debug gizmos to CarPhysics sample
-- ContactShadows sample WebXR support
-- Hotspots to the JetEngine sample 
-- linear mode support for Splines
-- GalleryManager and GalleryPOI
-- Particles and AnimatedMaterials samples using GalleryManager
 - Realtime Clock sample
+- DeviceDetection: uses isMacOS
+- CarPhysics: Touch Controls, improve Wheel Physics and Debug Gizmos
+- ContactShadows: WebXR support
+- JetEngine: Hotspots and USDZ support
+- Splines: linear mode support 
+- GalleryManager and GalleryPOI classes
+- Particles and AnimatedMaterials samples using GalleryManager
+- SyncedPlayableDirector sample script
 
 ### Removed
 - ThreeTonemapping component and replaced with the core ToneMappingEffect component
