@@ -134,7 +134,7 @@ export class CarWheel extends Behaviour {
         const isSkidding = sideAmount > this.skidVisualSideThreshold || breakAmount > this.skidVisualBreakThreshold;
         const showSkid = isInContact && contact != undefined && isSkidding;
         
-        if (this.skidParticle) {
+        if (this.skidParticle && contact) {
             const wPos = getTempVector(contact);
             wPos.y += this.skidParticle.main.startSize.constant / 4; // offset the effect
             this.skidParticle.worldPosition = wPos;
