@@ -281,6 +281,27 @@ export class NeedleFilterTrackingManager extends Behaviour {
             return;
         }
 
+        if (mirror) {
+            if (res.faceBlendshapes) {
+                for (const face of res.faceBlendshapes) {
+                    const blendshapes = face.categories;
+                    for (let i = 0; i < blendshapes.length; i++) {
+                        const category = blendshapes[i];
+                        if (category.categoryName.endsWith("Left")) {
+                            // assuming Right is before Left so we 
+                            // flip the blendshape score with the next one
+                            // to mirror the blendshapes
+                            const left = blendshapes[i + 1];
+                            const right = blendshapes[i];
+                            const tmp = left.score;
+                            left.score = right.score;
+                            right.score = tmp;
+                        }
+                    }
+                }
+            }
+        }
+
         this._lastTimeWithTrackingMatrices = this.context.time.realtimeSinceStartup;
         const active = this.filters[this._activeFilterIndex];
         // If we have an active filter make sure it loads

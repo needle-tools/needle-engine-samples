@@ -228,6 +228,8 @@ export class FaceFilterBlendshapes extends FilterBehaviour {
             // we iterate all blendshape values and set the corresponding morph target influence
             // some meshes might have different names so we need to remap them
             for (const shape of face.categories) {
+                const blendshapeName = shape.categoryName;
+
                 let name = shape.categoryName;
 
                 const remapData: RemapData = this.blendshapeMap[name];
@@ -246,7 +248,7 @@ export class FaceFilterBlendshapes extends FilterBehaviour {
                         }
 
                         // The eye blink values seem to never exceed ranges between 0 (totally open) and 0.5 (totally closed)   
-                        else if (shape.categoryName.includes("eyeBlink")) {
+                        else if (blendshapeName.includes("eyeBlink")) {
                             value = value * 1.5;
                         }
 
