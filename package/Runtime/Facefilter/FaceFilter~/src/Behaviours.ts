@@ -170,10 +170,8 @@ export abstract class FilterBehaviour extends Behaviour implements IFilterBehavi
  */
 export class FaceFilterHeadPosition extends Behaviour {
 
-
     @serializable(Matrix4)
     matrix: Matrix4 = new Matrix4();
-
 }
 
 

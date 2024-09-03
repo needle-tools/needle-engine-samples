@@ -408,7 +408,9 @@ export class NeedleFilterTrackingManager extends Behaviour {
     private createUI() {
         if (!this.createMenuButton) return;
         // Create menu Buttons
-        const recordingButton = NeedleRecordingHelper.createButton(this.context);
+        const recordingButton = NeedleRecordingHelper.createButton({
+            context: this.context
+        });
         this._buttons.push(recordingButton);
 
         if (this.filters.length > 1) {
