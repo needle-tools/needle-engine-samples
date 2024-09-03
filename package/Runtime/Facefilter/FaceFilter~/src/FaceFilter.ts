@@ -1,4 +1,4 @@
-import { AssetReference, Behaviour, ClearFlags, GameObject, getIconElement, getParam, isMobileDevice, Mathf, ObjectUtils, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
+import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isMobileDevice, Mathf, ObjectUtils, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult } from "@mediapipe/tasks-vision";
 import { BlendshapeName, FacefilterUtils } from './utils.js';
 import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
@@ -345,11 +345,23 @@ export class NeedleFilterTrackingManager extends Behaviour {
                 this._activeFilter?.asset?.removeFromParent();
                 this._activeFilterBehaviour?.destroy();
 
+                // TODO: fix screenspace canvas onDisable not being called 
+                const canvasesOld = (this._activeFilter?.asset as Object3D)?.getComponentsInChildren(Canvas);
+                canvasesOld?.forEach(comp => {
+                    comp.enabled = false;
+                });
+
                 this._activeFilter = active; // < update the currently active
                 this._activeFilterBehaviour = active.asset.getOrAddComponent(FaceFilterRoot);
 
                 active.asset.visible = true;
                 this.context.scene.add(active.asset);
+
+                // TODO: fix screenspace canvas onDisable not being called 
+                const canvasesNew = (active?.asset as Object3D)?.getComponentsInChildren(Canvas);
+                canvasesNew?.forEach(comp => {
+                    comp.enabled = true;
+                });
             }
 
             if (this._activeFilter.asset.parent !== this.context.scene) {
