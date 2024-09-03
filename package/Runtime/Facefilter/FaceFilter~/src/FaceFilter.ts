@@ -266,6 +266,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
     }
 
     private _lastTimeWithTrackingMatrices: number = -1;
+    private _blendshapeMirrorIndexMap: Map<number, number> | null = null;
 
     /**
      * Called when the face detector has a new result
@@ -285,17 +286,37 @@ export class NeedleFilterTrackingManager extends Behaviour {
             if (res.faceBlendshapes) {
                 for (const face of res.faceBlendshapes) {
                     const blendshapes = face.categories;
-                    for (let i = 0; i < blendshapes.length; i++) {
-                        const category = blendshapes[i];
-                        if (category.categoryName.endsWith("Left")) {
-                            // assuming Right is before Left so we 
-                            // flip the blendshape score with the next one
-                            // to mirror the blendshapes
-                            const left = blendshapes[i + 1];
-                            const right = blendshapes[i];
-                            const tmp = left.score;
-                            left.score = right.score;
-                            right.score = tmp;
+                    // Check if we have an index mirror map
+                    // If not we iterate through the blendshapes and create a map once
+                    if (this._blendshapeMirrorIndexMap == null) {
+                        this._blendshapeMirrorIndexMap = new Map();
+                        for (let i = 0; i < blendshapes.length; i++) {
+                            const left = blendshapes[i];
+                            // assuming Left is before Right so we 
+                            if (left.categoryName.endsWith("Left")) {
+                                // Search for the next Right blendshape:
+                                for (let k = i + 1; k < blendshapes.length; k++) {
+                                    const right = blendshapes[k];
+                                    if (right.categoryName.endsWith("Right")) {
+                                        if (this._debug) {
+                                            console.log("Blendshape Mirror: " + left.categoryName + " ↔ " + right.categoryName);
+                                        }
+                                        this._blendshapeMirrorIndexMap.set(i, k);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        for (const [leftIndex, rightIndex] of this._blendshapeMirrorIndexMap) {
+                            const left = blendshapes[leftIndex];
+                            const right = blendshapes[rightIndex];
+                            if (left && right) {
+                                const leftScore = left.score;
+                                left.score = right.score;
+                                right.score = leftScore;
+                            }
                         }
                     }
                 }
