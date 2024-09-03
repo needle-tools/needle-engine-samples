@@ -1,6 +1,6 @@
-import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isMobileDevice, Mathf, ObjectUtils, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
-import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult } from "@mediapipe/tasks-vision";
-import { BlendshapeName, FacefilterUtils } from './utils.js';
+import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
+import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker } from "@mediapipe/tasks-vision";
+import { BlendshapeName, FacefilterUtils, MediapipeHelper } from './utils.js';
 import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
 import { FaceFilterRoot } from './Behaviours.js';
@@ -40,8 +40,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
      * The last result received from the face detector
      * @returns {FaceLandmarkerResult} the last result received from the face detector
      */
-    get result(): FaceLandmarkerResult | null {
-        return this._lastResult;
+    get facelandmarkerResult(): FaceLandmarkerResult | null {
+        return this._lastFaceLandmarkResults;
     }
     /**
      * Get the blendshape value for a given name
@@ -50,7 +50,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
      * @returns the blendshape score for a given name e.g. JawOpen. -1 if not found
      */
     getBlendshapeValue(shape: BlendshapeName, index: number = 0): number {
-        return FacefilterUtils.getBlendshapeValue(this._lastResult, shape, index);
+        return FacefilterUtils.getBlendshapeValue(this._lastFaceLandmarkResults, shape, index);
     }
 
 
@@ -81,7 +81,11 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
 
     /** Face detector */
-    private _landmarker: FaceLandmarker | null = null;
+    private _facelandmarker: FaceLandmarker | null = null;
+
+    /**  Pose detector / provides segmentation  */
+    private _poselandmarker: PoseLandmarker | null = null;
+
     /** Input */
     private _video!: HTMLVideoElement;
     private _videoReady: boolean = false;
@@ -93,44 +97,21 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
 
     async awake() {
-        const vision = await FilesetResolver.forVisionTasks(
-            "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm",
-        ).catch((e) => {
-            console.error(e);
-            return null;
-        });
-        if (!vision) {
-            console.error("Could not load vision tasks");
-            return;
-        }
-        this._landmarker = await FaceLandmarker.createFromOptions(
-            vision,
-            {
-                runningMode: "VIDEO",
-                baseOptions: {
-                    delegate: "GPU",
-                    modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
-                },
-                numFaces: 1, // TODO: we currently support only one face, most of the code is written with this assumption
-                outputFaceBlendshapes: true,
-                outputFacialTransformationMatrixes: true,
+        const tasks = new Array<Promise<any>>();
 
-            }
-        ).catch((e) => {
-            console.error(e);
-            console.error("Could not create face detector...");
-            return null;
-        });
-        if (!this._landmarker) {
-            return;
-        }
+        tasks.push(MediapipeHelper.createFaceLandmarker().then(res => this._facelandmarker = res));
+        // tasks.push(MediapipeHelper.createPoseLandmarker().then(res => this._poselandmarker = res));
+
+        console.debug("Loading detectors...");
+        await PromiseAllWithErrors(tasks);
+        console.debug("Detectors loaded!");
 
         // create and start the video playback
         this._video = document.createElement("video");
         this._video.autoplay = true;
         this._video.playsInline = true;
         this._video.style.display = "none";
-        this.startWebcam(this._video);
+        this.startCamera(this._video);
     }
     /** @internal */
     onEnable(): void {
@@ -183,7 +164,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
         this._activeFilter?.asset?.removeFromParent();
     }
 
-    private async startWebcam(video: HTMLVideoElement) {
+    private async startCamera(video: HTMLVideoElement) {
+        // TODO: support for getting a pre-existing video element
         const constraints = { video: true, audio: false };
         const stream = await navigator.mediaDevices.getUserMedia(constraints).catch((e) => {
             showBalloonMessage("Could not start webcam: " + e.message);
@@ -219,11 +201,10 @@ export class NeedleFilterTrackingManager extends Behaviour {
     private _occluder: Object3D | null = null;
 
     /** The last landmark result received */
-    private _lastResult: FaceLandmarkerResult | null = null;
-    private _lastResultTime: number = -1;
+    private _lastFaceLandmarkResults: FaceLandmarkerResult | null = null;
 
     earlyUpdate(): void {
-        if (!this._video?.srcObject || !this._landmarker) return;
+        if (!this._video?.srcObject || !this._facelandmarker) return;
         if (!this._videoReady) return;
         if (this._video.currentTime === this._lastVideoTime) {
             // iOS hack: for some reason on Safari iOS the video stops playing sometimes. Playback state stays "playing" but currentTime does not change
@@ -233,20 +214,19 @@ export class NeedleFilterTrackingManager extends Behaviour {
             return;
         }
         // Because of Safari iOS
-        if (!("detectForVideo" in this._landmarker)) {
+        if (!("detectForVideo" in this._facelandmarker)) {
             return;
         }
         if (this._video.readyState < 2) return;
         this._lastVideoTime = this._video.currentTime;
-        const results = this._landmarker.detectForVideo(this._video, performance.now());
-        this._lastResult = results;
-        this._lastResultTime = this.context.time.realtimeSinceStartup;
+        const results = this._facelandmarker.detectForVideo(this._video, performance.now());
+        this._lastFaceLandmarkResults = results;
         this.onResultsUpdated(results);
     }
 
     /** @internal */
     onBeforeRender(): void {
-        const results = this._lastResult;
+        const results = this._lastFaceLandmarkResults;
         if (!results) return;
 
         // Currently we need to force the FOV

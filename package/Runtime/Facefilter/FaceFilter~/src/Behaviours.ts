@@ -141,7 +141,7 @@ export class FaceFilterRoot extends Behaviour {
     }
 
     onBeforeRender(): void {
-        const res = this._filter?.result;
+        const res = this._filter?.facelandmarkerResult;
         if (!res) return;
         const lm = res.facialTransformationMatrixes[0];
         if (!lm) return;
@@ -221,7 +221,7 @@ export class FaceFilterBlendshapes extends FilterBehaviour {
 
     onResultsUpdated(filter: NeedleFilterTrackingManager) {
         // TODO: handle multiple faces
-        const face = filter.result?.faceBlendshapes?.[0]
+        const face = filter.facelandmarkerResult?.faceBlendshapes?.[0]
         if (face && this._skinnedMeshes.length > 0) {
             // we iterate all blendshape values and set the corresponding morph target influence
             // some meshes might have different names so we need to remap them
@@ -275,7 +275,7 @@ export class FaceFilterAnimator extends FilterBehaviour {
     onResultsUpdated(filter: NeedleFilterTrackingManager) {
         if (!this._animators?.length) return;
 
-        const face = filter.result?.faceBlendshapes?.[0]
+        const face = filter.facelandmarkerResult?.faceBlendshapes?.[0]
         if (face) {
             // we iterate all blendshape values and set the corresponding morph target influence
             // some meshes might have different names so we need to remap them

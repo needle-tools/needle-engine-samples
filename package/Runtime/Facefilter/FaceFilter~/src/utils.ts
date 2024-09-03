@@ -1,5 +1,5 @@
 import { Camera, Material, Matrix4, Object3D, DoubleSide, MeshBasicMaterial, Mesh, Quaternion, Color } from "three";
-import { Category, FaceLandmarkerResult, Matrix } from "@mediapipe/tasks-vision"
+import { Category, FaceLandmarker, FaceLandmarkerOptions, FaceLandmarkerResult, FilesetResolver, Matrix, PoseLandmarker } from "@mediapipe/tasks-vision"
 import { Renderer } from "@needle-tools/engine";
 import { mirror } from "./settings.js";
 
@@ -103,7 +103,7 @@ export namespace FacefilterUtils {
 /**
  * Blendshape Category Name options
  */
-export declare type BlendshapeName =
+export type BlendshapeName =
     | "_neutral"
     | "browDownLeft"
     | "browDownRight"
@@ -156,3 +156,83 @@ export declare type BlendshapeName =
     | "mouthUpperUpRight"
     | "noseSneerLeft"
     | "noseSneerRight";
+
+
+declare interface WasmFileset {
+    /** The path to the Wasm loader script. */
+    wasmLoaderPath: string;
+    /** The path to the Wasm binary. */
+    wasmBinaryPath: string;
+    /** The optional path to the asset loader script. */
+    assetLoaderPath?: string;
+    /** The optional path to the assets binary. */
+    assetBinaryPath?: string;
+}
+type MediapipeOpts = {
+    files: Promise<WasmFileset | null>
+}
+
+let wasm_files: Promise<WasmFileset | null> | null = null;
+
+export namespace MediapipeHelper {
+
+    export function createFiles(): Promise<WasmFileset | null> {
+        if (wasm_files) {
+            return wasm_files;
+        }
+        console.debug("Loading mediapipe wasm files...");
+        wasm_files = FilesetResolver.forVisionTasks(
+            "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm",
+        ).catch((e) => {
+            console.error(e);
+            console.error("Could not load mediapipe wasm files...");
+            return null;
+        });
+        return wasm_files;
+    }
+
+    function ensureWasmIsLoaded<T>(opts: MediapipeOpts | null | undefined, cb: (files: WasmFileset) => Promise<T | null>) {
+        // this either loads the wasm OR returns the already loaded wasm (if the opts object contains a files object already)
+        const { files = createFiles() } = opts || {};
+        if (!files) {
+            console.error("Could not load mediapipe wasm files...");
+            return Promise.resolve(null);
+        }
+        return files.then(res => {
+            if (!res) {
+                return null;
+            }
+            // call the callback with the loaded wasm
+            return cb(res);
+        })
+    }
+
+    export function createFaceLandmarker(opts?: MediapipeOpts): Promise<FaceLandmarker | null> {
+        return ensureWasmIsLoaded(opts, files => FaceLandmarker.createFromOptions(files,
+            {
+                runningMode: "VIDEO",
+                baseOptions: {
+                    delegate: "GPU",
+                    modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
+                },
+                numFaces: 1, // TODO: we currently support only one face, most of the code is written with this assumption
+                outputFaceBlendshapes: true,
+                outputFacialTransformationMatrixes: true,
+            }
+        ));
+    }
+
+    export function createPoseLandmarker(opts?: MediapipeOpts): Promise<PoseLandmarker | null> {
+        return ensureWasmIsLoaded(opts, files => PoseLandmarker.createFromOptions(files,
+            {
+                runningMode: "VIDEO",
+                baseOptions: {
+                    delegate: "GPU",
+                    modelAssetPath: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/latest/pose_landmarker_heavy.task",
+                },
+                outputSegmentationMasks: true,
+            }
+        ));
+    }
+
+}
