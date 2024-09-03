@@ -40,7 +40,7 @@ export class SplineWalker extends Behaviour {
         if (this.clamp) this._position01 = Mathf.clamp01(this._position01);
         else this._position01 = this._position01 % 1;
 
-        const t = this._position01 % 1;
+        const t = this._position01 >= 1 ? 1 : this._position01 % 1;
         const pt = this.spline.getPointAt(t);
         setWorldPosition(this.object, pt);
         if (!this.lookAt) {

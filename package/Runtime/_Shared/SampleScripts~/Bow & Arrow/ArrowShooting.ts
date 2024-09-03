@@ -169,7 +169,7 @@ export class ArrowShooting extends Behaviour {
         return from.distanceTo(to);
     }
 
-    private fakeArrow?: IGameObject;
+    private fakeArrow?: Object3D;
     private async setupPreDraw() {
         if (!this.arrowPrefab || !this.arrowSpawnSpot) return;
 

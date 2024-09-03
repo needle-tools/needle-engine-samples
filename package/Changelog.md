@@ -4,6 +4,14 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.19.0-pre] - 2024-09-03
+### Added
+- Movie Set sample
+- Face Filter sample. Create your own filters with Needle Engine and Unity. The sample includes 6 example filters
+
+### Fixed
+- SplineWalker `clamp` did not clamp the progress at 1
+
 ## [0.18.0] - 2024-09-02
 ### Added
 - Realtime Clock sample
@@ -20,13 +28,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ThreeTonemapping component and replaced with the core ToneMappingEffect component
 - Scripting Snippets sample
 
-### Fixes
+### Fixed
 - scene scales are 1:1 to real life when using WebXR
 - SwitchableWalls interactions in AR
 - Scrollytelling ignoring touch
 - EverywhereConfigurator's default variant handling
 
-### Changes
+### Changed
 - standardize UI labels in the majority of samples
 - synchronize tags for USDZ, iOS and EverywhereActions samples
 - rename Scripting Snippets to Realtime Clock
