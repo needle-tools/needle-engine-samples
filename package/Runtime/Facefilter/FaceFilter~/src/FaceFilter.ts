@@ -1,10 +1,12 @@
-import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
+import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isDevEnvironment, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker } from "@mediapipe/tasks-vision";
 import { BlendshapeName, FacefilterUtils, MediapipeHelper } from './utils.js';
 import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
 import { FaceFilterRoot } from './Behaviours.js';
 import { mirror } from './settings.js';
+
+declare type VideoClip = string;
 
 export class NeedleFilterTrackingManager extends Behaviour {
 
@@ -28,6 +30,9 @@ export class NeedleFilterTrackingManager extends Behaviour {
      */
     @serializable()
     createMenuButton: boolean = true;
+
+    @serializable(URL)
+    testVideo: VideoClip[] | null = null;
 
     /**
      * Get access to the currently playing video. This is the camera by default
@@ -165,23 +170,23 @@ export class NeedleFilterTrackingManager extends Behaviour {
     }
 
     private async startCamera(video: HTMLVideoElement) {
-        // TODO: support for getting a pre-existing video element
+        // Use camera stream
         const constraints = { video: true, audio: false };
         const stream = await navigator.mediaDevices.getUserMedia(constraints).catch((e) => {
-            showBalloonMessage("Could not start webcam: " + e.message);
-            console.error(e);
+            showBalloonMessage("Could not start camera: " + e.message);
+            console.warn("Could not start camera");
             return null;
         });
-        if (stream == null) {
-            console.warn("Could not start webcam");
-            return;
-        }
         video.srcObject = stream;
         video.muted = true;
-        video.addEventListener("loadeddata", () => {
+        const onReady = () => {
+            video.removeEventListener("loadeddata", onReady);
+            console.debug("Video ready");
             this._videoReady = true;
             this.createUI();
-        });
+        }
+        video.addEventListener("loadeddata", onReady);
+
         // Create a video texture that will be used to render the video feed
         this._videoTexture ??= new VideoTexture(video);
         this._videoTexture.colorSpace = this.context.renderer.outputColorSpace;
@@ -190,7 +195,43 @@ export class NeedleFilterTrackingManager extends Behaviour {
             material: new MeshBasicMaterial({ map: this._videoTexture, depthTest: false, depthWrite: false }),
         });
         this._videoQuad.renderOrder = -1;
+
+
+        // Add UI for switching test videos
+        if (isDevEnvironment()) {
+            if (this.testVideo && this.testVideo.length > 0) {
+                let currentIndex: number = getParam("testvideo") as number;
+                if (typeof currentIndex != "number") currentIndex = -1;
+                this.context.menu.appendChild({
+                    label: "Switch Video (Dev)",
+                    title: "Switch between test videos - this button is only visible in development mode (when you run your website in a local server)",
+                    icon: "videocam",
+                    onClick: () => {
+                        const nextIndex = (currentIndex + 1) % this.testVideo!.length;
+                        setParamWithoutReload("testvideo", nextIndex.toString());
+                        currentIndex = nextIndex;
+                        setVideoFromURL(nextIndex);
+                    }
+                });
+                const setVideoFromURL = (index: number) => {
+                    const video = this._video;
+                    const url = this.testVideo![index];
+                    if (!url) {
+                        console.debug("No test video found at index " + index);
+                        return;
+                    }
+                    video.src = url;
+                    video.srcObject = null;
+                    video.play();
+                }
+                if (currentIndex >= 0) {
+                    setVideoFromURL(currentIndex);
+                }
+            }
+        }
     }
+
+
 
     private _activeFilterIndex: number = -1;
     private _activeFilter: AssetReference | null = null;
@@ -204,7 +245,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
     private _lastFaceLandmarkResults: FaceLandmarkerResult | null = null;
 
     earlyUpdate(): void {
-        if (!this._video?.srcObject || !this._facelandmarker) return;
+        if (!this._video || !this._facelandmarker) return;
         if (!this._videoReady) return;
         if (this._video.currentTime === this._lastVideoTime) {
             // iOS hack: for some reason on Safari iOS the video stops playing sometimes. Playback state stays "playing" but currentTime does not change

@@ -11,6 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Transform @occlusionMesh;
 		public bool @createOcclusionMesh = true;
 		public bool @createMenuButton = true;
+		public UnityEngine.Video.VideoClip[] @testVideo;
 		public void getBlendshapeValue(object @shape, float @index){}
 		public void selectNextFilter(){}
 		public void selectPreviousFilter(){}
