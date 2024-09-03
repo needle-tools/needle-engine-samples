@@ -3,9 +3,6 @@ using System.IO;
 using System.Linq;
 using Needle.Engine.Utils;
 using Needle.Typescript.GeneratedComponents;
-using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Task = System.Threading.Tasks.Task;
@@ -24,6 +21,7 @@ namespace Needle.Facefilter.Scripts
 		
 		public static void RenderHeadGizmo(Component comp, Transform assignedOcclusionMesh = null)
 		{
+#if UNITY_EDITOR
 			var transform = comp.transform;
 			
 			Gizmos.color = new Color(.5f, .7f, .8f, .5f);
@@ -36,7 +34,7 @@ namespace Needle.Facefilter.Scripts
 				var assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(k_occlusionMeshGuid);
 				if (assetPath != null)
 				{
-					var go = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+					var go = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
 					_fallbackOcclusionMesh = go.transform;
 				}
 			}
@@ -67,27 +65,28 @@ namespace Needle.Facefilter.Scripts
 				Gizmos.matrix = Matrix4x4.TRS(position, Quaternion.identity, scale);
 				Gizmos.DrawWireSphere(Vector3.zero, .5f);
 			}
+#endif
 		}
 
 		public static async void CreateNewFilterAsset(Component comp)
 		{
-			
-			var directory = "Assets/Needle Face Filter";
+#if UNITY_EDITOR
+            var directory = "Assets/Needle Face Filter";
 			if(!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
 			GameObject go = null;
 			
-			var templateInstancePath = AssetDatabase.GUIDToAssetPath("6c4808ce137677242a27815509fb59c5");
+			var templateInstancePath = UnityEditor.AssetDatabase.GUIDToAssetPath("6c4808ce137677242a27815509fb59c5");
 			if (!string.IsNullOrEmpty(templateInstancePath))
 			{
-				go = AssetDatabase.LoadAssetAtPath<GameObject>(templateInstancePath);
+				go = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(templateInstancePath);
 				go = Object.Instantiate(go);
 			}
 
 			if (!go)
 			{
 				go = new GameObject("My Filter");
-				Undo.RegisterCreatedObjectUndo(go, "Create Filter");
+                UnityEditor.Undo.RegisterCreatedObjectUndo(go, "Create Filter");
 				go.AddComponent<FaceFilterRoot>();
 				var headMarker = new GameObject("Filter Head Position Marker");
 				headMarker.AddComponent<FaceFilterHeadPosition>();
@@ -96,9 +95,9 @@ namespace Needle.Facefilter.Scripts
 			}
 			
 			var path = directory + "/MyFilter.prefab";
-			path = AssetDatabase.GenerateUniqueAssetPath(path);
-			var asset = PrefabUtility.SaveAsPrefabAsset(go, path);
-			Undo.RegisterCreatedObjectUndo(asset, "Create Filter");
+			path = UnityEditor.AssetDatabase.GenerateUniqueAssetPath(path);
+			var asset = UnityEditor.PrefabUtility.SaveAsPrefabAsset(go, path);
+            UnityEditor.Undo.RegisterCreatedObjectUndo(asset, "Create Filter");
 			go.SafeDestroy();
 			if (asset)
 			{
@@ -108,25 +107,26 @@ namespace Needle.Facefilter.Scripts
 				list.Add(asset.transform);
 				component.filters = list.ToArray();
 
-				EditorGUIUtility.PingObject(asset);
-				SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("New Filter created and added to the filters list."));
+                UnityEditor.EditorGUIUtility.PingObject(asset);
+                UnityEditor.SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("New Filter created and added to the filters list."));
 
 				if (isFirstAsset)
 					await Task.Delay(2000);
 				else await Task.Delay(500);
 				
-				var finalPath = AssetDatabase.GetAssetPath(asset);
+				var finalPath = UnityEditor.AssetDatabase.GetAssetPath(asset);
 				Debug.Log("Successfully created new Needle Filter at " + finalPath, asset);
-				if (!isFirstAsset || EditorUtility.DisplayDialog("Needle Filter", "Congrats: you created your first filter. Do you want to open the filter asset now to customize it?", "Open the Filter to customize",
+				if (!isFirstAsset || UnityEditor.EditorUtility.DisplayDialog("Needle Filter", "Congrats: you created your first filter. Do you want to open the filter asset now to customize it?", "Open the Filter to customize",
 					    "Do not open now"))
 				{
-					PrefabStageUtility.OpenPrefab(finalPath);
-					SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("Edit your filter now!"));
+                    UnityEditor.SceneManagement.PrefabStageUtility.OpenPrefab(finalPath);
+                    UnityEditor.SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("Edit your filter now!"));
 				}
 			}
-		}
-		
-		public static readonly string[] supportedBlendshapeNames = new[]
+#endif
+        }
+
+        public static readonly string[] supportedBlendshapeNames = new[]
 		{
 			"_neutral",
 			"browDownLeft",
