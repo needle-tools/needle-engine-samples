@@ -23,9 +23,18 @@ export class NeedleFilterTrackingManager extends Behaviour {
     @serializable()
     createOcclusionMesh: boolean = true;
 
+    /**
+     * When enabled menu buttons for Recording, Switching Filters and Sharing will be created
+     */
     @serializable()
     createMenuButton: boolean = true;
 
+    /**
+     * Get access to the currently playing video. This is the camera by default
+     */
+    get video() {
+        return this._video;
+    }
 
     /**
      * The last result received from the face detector
@@ -149,8 +158,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
                 didSelect = this.select(param);
             }
             if (!didSelect) {
-                const random = Math.floor(Math.random() * this.filters.length);
-                this.select(random);
+                // const random = Math.floor(Math.random() * this.filters.length);
+                this.select(0);
             }
         }
 

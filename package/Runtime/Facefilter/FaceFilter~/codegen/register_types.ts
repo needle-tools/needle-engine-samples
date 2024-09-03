@@ -9,8 +9,8 @@ import { FaceFilterAnimator } from "../src/Behaviours.js";
 import { NeedleFilterTrackingManager } from "../src/FaceFilter.js";
 import { NeedleOcclusionMesh } from "../src/HelperComponents.js";
 import { NeedleBackgroundMesh } from "../src/HelperComponents.js";
-import { ReadyPlayerMeFacefilterSupport } from "../src/ReadyPlayerMe.js";
 import { NeedleRecordingHelper } from "../src/RecordingHelper.js";
+import { ReadyPlayerMeFacefilterSupport } from "../src/examples/ReadyPlayerMe.js";
 
 // Register types
 TypeStore.add("FaceFilterRoot", FaceFilterRoot);
@@ -20,5 +20,5 @@ TypeStore.add("FaceFilterAnimator", FaceFilterAnimator);
 TypeStore.add("NeedleFilterTrackingManager", NeedleFilterTrackingManager);
 TypeStore.add("NeedleOcclusionMesh", NeedleOcclusionMesh);
 TypeStore.add("NeedleBackgroundMesh", NeedleBackgroundMesh);
-TypeStore.add("ReadyPlayerMeFacefilterSupport", ReadyPlayerMeFacefilterSupport);
 TypeStore.add("NeedleRecordingHelper", NeedleRecordingHelper);
+TypeStore.add("ReadyPlayerMeFacefilterSupport", ReadyPlayerMeFacefilterSupport);
