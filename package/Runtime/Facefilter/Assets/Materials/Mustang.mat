@@ -24,7 +24,6 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
   m_ValidKeywords:
   - _BUILTIN_SURFACE_TYPE_TRANSPARENT
-  - _SURFACE_TYPE_TRANSPARENT
   - _TEXTURE_TRANSFORM_ON
   - _VERTEX_COLORS_ON
   - _VOLUME_TRANSMISSION_OFF
@@ -38,13 +37,12 @@ Material:
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Transparent
+    RenderType: Opaque
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
   - TransparentBackface
   - RayTracingPrepass
-  - DepthOnly
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -130,7 +128,7 @@ Material:
     - _CLEARCOAT: 0
     - _CastShadows: 1
     - _Cull: 0
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _IRIDESCENCE: 0
     - _NormalMapFormatXYZ: 0
     - _OverrideSurfaceMode: 0
@@ -138,7 +136,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SPECULAR: 0
-    - _SrcBlend: 5
+    - _SrcBlend: 1
     - _Surface: 0
     - _TEXTURE_TRANSFORM: 1
     - _VERTEX_COLORS: 1
@@ -146,7 +144,7 @@ Material:
     - _VOLUME_TRANSMISSION: 0
     - _WorkflowMode: 1
     - _ZTest: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
     - _ZWriteControl: 0
     - alphaCutoff: 0.5
     - attenuationDistance: 0.001
