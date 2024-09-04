@@ -229,7 +229,17 @@ export class NeedleFilterTrackingManager extends Behaviour {
                     title: "Switch between test videos - this button is only visible in development mode (when you run your website in a local server)",
                     icon: "videocam",
                     onClick: () => {
-                        const nextIndex = (currentIndex + 1) % this.testVideo!.length;
+                        let nextIndex = (currentIndex + 1);
+                        if (nextIndex === this.testVideo!.length) {
+                            currentIndex = -1;
+                            video.srcObject = stream;
+                            video.play();
+                            setParamWithoutReload("testvideo", null);
+                            return;
+                        }
+                        else if (nextIndex > this.testVideo!.length) {
+                            nextIndex = 0;
+                        }
                         setParamWithoutReload("testvideo", nextIndex.toString());
                         currentIndex = nextIndex;
                         setVideoFromURL(nextIndex);
