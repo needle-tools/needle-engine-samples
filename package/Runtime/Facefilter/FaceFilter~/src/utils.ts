@@ -1,5 +1,5 @@
 import { Camera, Material, Matrix4, Object3D, DoubleSide, MeshBasicMaterial, Mesh, Quaternion, Color } from "three";
-import { Category, FaceLandmarker, FaceLandmarkerOptions, FaceLandmarkerResult, FilesetResolver, Matrix, PoseLandmarker } from "@mediapipe/tasks-vision"
+import { Category, FaceLandmarker, FaceLandmarkerOptions, FaceLandmarkerResult, FilesetResolver, ImageSegmenter, ImageSegmenterResult, Matrix, PoseLandmarker } from "@mediapipe/tasks-vision"
 import { Renderer } from "@needle-tools/engine";
 import { mirror } from "./settings.js";
 
@@ -169,7 +169,8 @@ declare interface WasmFileset {
     assetBinaryPath?: string;
 }
 type MediapipeOpts = {
-    files: Promise<WasmFileset | null>
+    files?: Promise<WasmFileset | null>,
+    canvas?: HTMLCanvasElement,
 }
 
 let wasm_files: Promise<WasmFileset | null> | null = null;
@@ -218,6 +219,7 @@ export namespace MediapipeHelper {
                 numFaces: 1, // TODO: we currently support only one face, most of the code is written with this assumption
                 outputFaceBlendshapes: true,
                 outputFacialTransformationMatrixes: true,
+                canvas: opts?.canvas,
             }
         ));
     }
@@ -230,9 +232,25 @@ export namespace MediapipeHelper {
                     delegate: "GPU",
                     modelAssetPath: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/latest/pose_landmarker_heavy.task",
                 },
+                numPoses: 1,
                 outputSegmentationMasks: true,
+                canvas: opts?.canvas,
             }
         ));
     }
 
+
+    // https://mediapipe-studio.webapps.google.com/studio/demo/image_segmenter
+    export function createImageSegmentation(opts?: MediapipeOpts): Promise<ImageSegmenter | null> {
+        return ensureWasmIsLoaded(opts, files => ImageSegmenter.createFromOptions(files,
+            {
+                runningMode: "VIDEO",
+                baseOptions: {
+                    delegate: "GPU",
+                    modelAssetPath: "https://storage.googleapis.com/mediapipe-models/image_segmenter/deeplab_v3/float32/1/deeplab_v3.tflite",
+                },
+                canvas: opts?.canvas,
+            }
+        ));
+    }
 }

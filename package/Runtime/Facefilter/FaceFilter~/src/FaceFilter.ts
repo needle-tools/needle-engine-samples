@@ -1,10 +1,11 @@
 import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isDevEnvironment, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
-import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker } from "@mediapipe/tasks-vision";
+import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker, PoseLandmarkerResult, ImageSegmenter, ImageSegmenterResult } from "@mediapipe/tasks-vision";
 import { BlendshapeName, FacefilterUtils, MediapipeHelper } from './utils.js';
 import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
 import { FaceFilterRoot } from './Behaviours.js';
 import { mirror } from './settings.js';
+import { VideoRenderer } from './VideoRenderer.js';
 
 declare type VideoClip = string;
 
@@ -48,6 +49,19 @@ export class NeedleFilterTrackingManager extends Behaviour {
     get facelandmarkerResult(): FaceLandmarkerResult | null {
         return this._lastFaceLandmarkResults;
     }
+
+    /** # Experimental, do not use yet
+     * The last result received from the pose detector - this can be used to get the segmentation mask
+     */
+    get poselandmarkerResult(): PoseLandmarkerResult | null {
+        return this._lastPoseLandmarkResults;
+    }
+    /** # Experimental, do not use yet
+     * The last result received from the image segmentation */
+    get lastImageSegmentationResults(): ImageSegmenterResult | null {
+        return this._lastImageSegmentationResults;
+    }
+
     /**
      * Get the blendshape value for a given name
      * @param shape the name of the blendshape e.g. JawOpen
@@ -91,21 +105,32 @@ export class NeedleFilterTrackingManager extends Behaviour {
     /**  Pose detector / provides segmentation  */
     private _poselandmarker: PoseLandmarker | null = null;
 
+    private _imageSegmentation: ImageSegmenter | null = null;
+
     /** Input */
     private _video!: HTMLVideoElement;
     private _videoReady: boolean = false;
     private _lastVideoTime: number = -1;
-    private _videoTexture: VideoTexture | null = null;
-    private _videoQuad: Object3D | null = null;
 
+    private _videoRenderer: VideoRenderer | null = null;
 
 
 
     async awake() {
         const tasks = new Array<Promise<any>>();
 
-        tasks.push(MediapipeHelper.createFaceLandmarker().then(res => this._facelandmarker = res));
-        // tasks.push(MediapipeHelper.createPoseLandmarker().then(res => this._poselandmarker = res));
+        tasks.push(MediapipeHelper.createFaceLandmarker({
+            // canvas: this.context.renderer.domElement,
+        }).then(res => this._facelandmarker = res));
+
+        // TODO: doesn't work yet 
+        // tasks.push(MediapipeHelper.createPoseLandmarker({
+        //     // canvas: this.context.renderer.domElement,
+        // }).then(res => this._poselandmarker = res));
+
+        // tasks.push(MediapipeHelper.createImageSegmentation({
+        //     // canvas: this.context.renderer.domElement,
+        // }).then(res => this._imageSegmentation = res));
 
         console.debug("Loading detectors...");
         await PromiseAllWithErrors(tasks);
@@ -152,6 +177,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
         this._debug = getParam("debugfacefilter") == true;
         window.addEventListener("keydown", this.onKeyDown);
         this._video?.play();
+        this._videoRenderer?.enable();
         this._buttons.forEach((button) => this.context.menu.appendChild(button));
         if (this._activeFilterBehaviour) {
             this._activeFilterBehaviour.enabled = true;
@@ -161,8 +187,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
     onDisable(): void {
         window.removeEventListener("keydown", this.onKeyDown);
         this._video?.pause();
+        this._videoRenderer?.disable();
         this._buttons.forEach((button) => button.remove());
-        this._videoQuad?.removeFromParent();
         if (this._activeFilterBehaviour) {
             this._activeFilterBehaviour.enabled = false;
         }
@@ -187,14 +213,10 @@ export class NeedleFilterTrackingManager extends Behaviour {
         }
         video.addEventListener("loadeddata", onReady);
 
+
         // Create a video texture that will be used to render the video feed
-        this._videoTexture ??= new VideoTexture(video);
-        this._videoTexture.colorSpace = this.context.renderer.outputColorSpace;
-        this._videoQuad ??= ObjectUtils.createPrimitive("Quad", {
-            rotation: new Vector3(Math.PI, Math.PI, 0),
-            material: new MeshBasicMaterial({ map: this._videoTexture, depthTest: false, depthWrite: false }),
-        });
-        this._videoQuad.renderOrder = -1;
+        this._videoRenderer ??= new VideoRenderer(this);
+        this._videoRenderer.enable();
 
 
         // Add UI for switching test videos
@@ -243,9 +265,11 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
     /** The last landmark result received */
     private _lastFaceLandmarkResults: FaceLandmarkerResult | null = null;
+    private _lastPoseLandmarkResults: PoseLandmarkerResult | null = null;
+    private _lastImageSegmentationResults: ImageSegmenterResult | null = null;
 
     earlyUpdate(): void {
-        if (!this._video || !this._facelandmarker) return;
+        if (!this._video) return;
         if (!this._videoReady) return;
         if (this._video.currentTime === this._lastVideoTime) {
             // iOS hack: for some reason on Safari iOS the video stops playing sometimes. Playback state stays "playing" but currentTime does not change
@@ -254,45 +278,39 @@ export class NeedleFilterTrackingManager extends Behaviour {
                 this._video.play();
             return;
         }
-        // Because of Safari iOS
-        if (!("detectForVideo" in this._facelandmarker)) {
-            return;
-        }
         if (this._video.readyState < 2) return;
         this._lastVideoTime = this._video.currentTime;
-        const results = this._facelandmarker.detectForVideo(this._video, performance.now());
-        this._lastFaceLandmarkResults = results;
-        this.onResultsUpdated(results);
-    }
 
-    /** @internal */
-    onBeforeRender(): void {
-        const results = this._lastFaceLandmarkResults;
-        if (!results) return;
+        // Update face results - the extra check is because of Safari iOS
+        if (this._facelandmarker && ("detectForVideo" in this._facelandmarker)) {
+            this._lastFaceLandmarkResults = this._facelandmarker.detectForVideo(this._video, performance.now());;
+        }
+
+        if (this._poselandmarker && ("detectForVideo" in this._poselandmarker)) {
+            this._lastPoseLandmarkResults = this._poselandmarker.detectForVideo(this._video, performance.now());
+        }
+        if (this._imageSegmentation && ("segmentForVideo" in this._imageSegmentation)) {
+            this._lastImageSegmentationResults = this._imageSegmentation.segmentForVideo(this._video, performance.now());
+        }
+
+        this.onResultsUpdated();
 
         // Currently we need to force the FOV
         if (this.context.mainCameraComponent) {
             this.context.mainCameraComponent.fieldOfView = 63;
             this.context.mainCameraComponent.clearFlags = ClearFlags.None;
-            if (this._videoTexture && this._videoQuad) {
-                if (this._videoQuad.parent !== this.context.mainCamera) {
-                    this.context.mainCamera.add(this._videoQuad);
-                }
-                // this.context.scene.background = this._videoTexture;
-                const far = this.context.mainCameraComponent.farClipPlane;
-                this._videoQuad.renderOrder = -1000;
-                this._videoQuad.position.z = -far + .01;
-                let aspect = this._video.videoWidth / this._video.videoHeight;
-                if (!mirror) {
-                    aspect *= -1;
-                }
-                this._videoQuad.scale.set(aspect, -1, 1)
-                    .multiplyScalar(far * Math.tan(this.context.mainCameraComponent.fieldOfView * Math.PI / 180 / 2) * 2);
-            }
+            this._videoRenderer?.onUpdate();
         }
+    }
 
-        this.updateDebug(results);
-        this.updateRendering(results);
+    /** @internal */
+    onBeforeRender(): void {
+
+        const faceResults = this._lastFaceLandmarkResults;
+        if (faceResults) {
+            this.updateDebug(faceResults);
+            this.updateRendering(faceResults);
+        }
     }
 
     private _lastTimeWithTrackingMatrices: number = -1;
@@ -301,10 +319,13 @@ export class NeedleFilterTrackingManager extends Behaviour {
     /**
      * Called when the face detector has a new result
      */
-    protected onResultsUpdated(res: FaceLandmarkerResult) {
+    protected onResultsUpdated() {
+
+        const faceResults = this._lastFaceLandmarkResults;
+        if (!faceResults) return;
 
         // If we do not have any faces
-        if (res.facialTransformationMatrixes.length <= 0) {
+        if (faceResults.facialTransformationMatrixes.length <= 0) {
             // If we have an active filter and no tracking for a few frames, hide the filter
             if (this._activeFilter?.asset && (this.context.time.realtimeSinceStartup - this._lastTimeWithTrackingMatrices) > .5) {
                 this._activeFilter.asset.removeFromParent();
@@ -313,8 +334,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
         }
 
         if (mirror) {
-            if (res.faceBlendshapes) {
-                for (const face of res.faceBlendshapes) {
+            if (faceResults.faceBlendshapes) {
+                for (const face of faceResults.faceBlendshapes) {
                     const blendshapes = face.categories;
                     // Check if we have an index mirror map
                     // If not we iterate through the blendshapes and create a map once
@@ -583,6 +604,13 @@ export class NeedleFilterTrackingManager extends Behaviour {
         res.faceLandmarks?.forEach((landmarks) => {
             this._debugDrawing?.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_CONTOURS, { color: "#55FF44", lineWidth: 1 });
         });
+
+        this._lastPoseLandmarkResults?.landmarks.forEach((landmarks) => {
+            this._debugDrawing?.drawLandmarks(landmarks, { color: "#FF44FF", lineWidth: 1 });
+        });
+        // this._lastPoseLandmarkResults?.segmentationMasks?.forEach((mask) => {
+        //     this._debugDrawing?.drawCategoryMask(mask, [[1, 1, 1, 1]]);
+        // });
 
         if (res.faceLandmarks.length > 0) {
             for (let i = 0; i < res.facialTransformationMatrixes.length; i++) {
