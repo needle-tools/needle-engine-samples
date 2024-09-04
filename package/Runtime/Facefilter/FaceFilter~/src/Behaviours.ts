@@ -17,6 +17,9 @@ export class FaceFilterRoot extends Behaviour {
     private _headMatrix: Matrix4 | null = null;
     private _initialScale!: Vector3;
 
+    private _leftEye: Object3D | null = null;
+    private _rightEye: Object3D | null = null;
+
     awake() {
         this._initialScale ??= this.gameObject?.scale.clone();
         this._headMatrix = null;
@@ -35,6 +38,7 @@ export class FaceFilterRoot extends Behaviour {
         }
         else {
 
+            const readyPlayerMeEyeBoneNames = ["LeftEye", "RightEye"];
             const readyPlayerMeBodyAssetNames = ["Wolf3D_Body", "Wolf3D_Outfit_Bottom", "Wolf3D_Outfit_Footwear", "Wolf3D_Outfit_Top"];
             const bodyAssetsToHide = new Array<Object3D>();
 
@@ -58,6 +62,15 @@ export class FaceFilterRoot extends Behaviour {
                 // Is this a ReadyPlayerMe avatar?
                 if (obj.userData?.name === "Wolf3D_Head") {
                     this._type = "ReadyPlayerMe";
+                }
+
+                // Get eyes
+                if (obj.userData?.name === "LeftEye") {
+                    this._leftEye = obj;
+                    console.log(this);
+                }
+                else if (obj.userData?.name === "RightEye") {
+                    this._rightEye = obj;
                 }
 
                 // Traverse
@@ -120,6 +133,13 @@ export class FaceFilterRoot extends Behaviour {
             this._headMatrix = new Matrix4();
             this._headMatrix.scale(this._initialScale);
         }
+
+        if (this._leftEye || this._rightEye) {
+            const eyes = this.gameObject.getOrAddComponent(FaceFilterEyeBehaviour);
+            eyes.eyeLeft = this._leftEye;
+            eyes.eyeRight = this._rightEye;
+            this._behaviours?.push(eyes);
+        }
     }
 
 
@@ -130,7 +150,7 @@ export class FaceFilterRoot extends Behaviour {
     onResultsUpdated(filter: NeedleFilterTrackingManager) {
         if (!this._filter) {
             this._filter = filter;
-            console.log("Avatar behaviour initialized");
+            console.debug("Avatar behaviour initialized");
             this.gameObject.getOrAddComponent(FaceFilterBlendshapes);
             this.gameObject.getOrAddComponent(FaceFilterAnimator);
             this._behaviours = this.gameObject.getComponentsInChildren(FilterBehaviour);
@@ -216,7 +236,7 @@ export class FaceFilterBlendshapes extends FilterBehaviour {
         });
 
         if (Object.keys(this.blendshapeMap).length > 0)
-            console.log("Blendshape mapping", this.blendshapeMap);
+            console.debug("Blendshape mapping", this.blendshapeMap);
     }
 
     onResultsUpdated(filter: NeedleFilterTrackingManager) {
@@ -288,6 +308,60 @@ export class FaceFilterAnimator extends FilterBehaviour {
             }
         }
     }
+}
 
 
+const leftEyeDownIndex = 11;
+const rightEyeDownIndex = 12;
+const leftEyeLookInIndex = 13;
+const rightEyeLookInIndex = 14;
+const leftEyeLookOutIndex = 15;
+const rightEyeLookOutIndex = 16;
+const leftEyeLookUpIndex = 17;
+const rightEyeLookUpIndex = 18;
+
+const leftEyeBlinkIndex = 9;
+const rightEyeBlinkIndex = 10;
+
+export class FaceFilterEyeBehaviour extends FilterBehaviour {
+
+    @serializable(Object3D)
+    eyeRight: Object3D | null = null;
+
+    @serializable(Object3D)
+    eyeLeft: Object3D | null = null;
+
+    onResultsUpdated(_filter: NeedleFilterTrackingManager): void {
+        const face = _filter.facelandmarkerResult?.faceBlendshapes?.[0];
+        if (!face) return;
+
+        // TODO: we currently assume that Z is the forward axis
+
+        if (this.eyeLeft) {
+            // const leftBlink = face.categories[leftEyeBlinkIndex].score;
+            const leftDown = face.categories[leftEyeDownIndex].score;
+            const leftIn = face.categories[leftEyeLookInIndex].score;
+            const leftOut = face.categories[leftEyeLookOutIndex].score;
+            const leftUp = face.categories[leftEyeLookUpIndex].score;
+            this.updateRotation(this.eyeLeft!, leftDown, leftUp, -leftIn, -leftOut);
+        }
+
+        if (this.eyeRight) {
+            const rightDown = face.categories[rightEyeDownIndex].score;
+            const rightIn = face.categories[rightEyeLookInIndex].score;
+            const rightOut = face.categories[rightEyeLookOutIndex].score;
+            const rightUp = face.categories[rightEyeLookUpIndex].score;
+            this.updateRotation(this.eyeRight!, rightDown, rightUp, rightIn, rightOut);
+        }
+    }
+
+    private updateRotation(object: Object3D, down: number, up: number, left: number, right: number) {
+        
+        down *= 1.5;
+        up *= 1.5;
+
+        const x = ((up - down) * -0.6)
+        const y = ((left - right) * 0.6);
+        object.rotation.set(x, y, object.rotation.z);
+    }
 }

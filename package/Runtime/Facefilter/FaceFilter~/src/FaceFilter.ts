@@ -304,6 +304,10 @@ export class NeedleFilterTrackingManager extends Behaviour {
         }
 
         this.onResultsUpdated();
+    }
+
+    /** @internal */
+    onBeforeRender(): void {
 
         // Currently we need to force the FOV
         if (this.context.mainCameraComponent) {
@@ -311,10 +315,6 @@ export class NeedleFilterTrackingManager extends Behaviour {
             this.context.mainCameraComponent.clearFlags = ClearFlags.None;
             this._videoRenderer?.onUpdate();
         }
-    }
-
-    /** @internal */
-    onBeforeRender(): void {
 
         const faceResults = this._lastFaceLandmarkResults;
         if (faceResults) {
