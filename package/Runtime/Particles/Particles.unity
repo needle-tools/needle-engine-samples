@@ -441,6 +441,11 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &43197922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3842851445193542042, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+  m_PrefabInstance: {fileID: 6620145007597695530}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &105790308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45839,7 +45844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.PostProcessing.ToneMappingEffect,
     Needle.Engine
-  mode: 1
+  mode: 0
   exposure: 1
 --- !u!1001 &748108094
 PrefabInstance:
@@ -101979,12 +101984,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-1597275521-0
-  arScale: 12
-  invertForward: 0
-  customReticle: {fileID: 0}
-  arTouchTransform: 1
-  autoPlace: 0
-  useXRAnchor: 0
 --- !u!114 &1597275522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102002,8 +102001,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 1
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 1
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0
@@ -147152,6 +147154,10 @@ PrefabInstance:
       propertyPath: title
       value: Animated root
       objectReference: {fileID: 0}
+    - target: {fileID: 1912783898545015447, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
+      propertyPath: cameraView
+      value: 
+      objectReference: {fileID: 43197922}
     - target: {fileID: 2395572057136391586, guid: ae508022d1ddb7b4daa96243d6f0db06, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.168
