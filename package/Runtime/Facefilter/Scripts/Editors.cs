@@ -1,4 +1,7 @@
-﻿using Needle.Facefilter.Scripts;
+﻿using System;
+using Needle.Engine;
+using Needle.Facefilter.Scripts;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -6,6 +9,9 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class NeedleFilterTrackingManager
 	{
+		[RequireLicense(LicenseType.Pro, null, "Custom Branding requires a Needle Engine PRO license")]
+		public Texture2D customLogo;
+		
 #if UNITY_EDITOR
 		[UnityEditor.CustomEditor(typeof(NeedleFilterTrackingManager))]
 		private class Editor : UnityEditor.Editor
@@ -23,8 +29,7 @@ namespace Needle.Typescript.GeneratedComponents
                 UnityEditor.EditorGUILayout.HelpBox("Then add your filter to the \"Filters\" list below", UnityEditor.MessageType.None);
 
 				GUILayout.Space(5);
-				base.OnInspectorGUI();				
-				
+				base.OnInspectorGUI();
 				GUILayout.Space(5);
 				
 			}

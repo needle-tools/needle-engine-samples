@@ -1,9 +1,10 @@
-import { Context, disposeObjectResources, getIconElement, ObjectUtils, showBalloonError, showBalloonMessage } from "@needle-tools/engine";
+import { Context, disposeObjectResources, getIconElement, hasCommercialLicense, hasProLicense, isDevEnvironment, ObjectUtils, showBalloonError, showBalloonMessage, showBalloonWarning } from "@needle-tools/engine";
 import { DoubleSide, MeshBasicMaterial, Object3D, PerspectiveCamera, Texture, TextureLoader, Vector3 } from "three";
 
 
 declare type RecordingOptions = {
     context: Context;
+    customLogo?: Texture | null;
 }
 declare type FilterRecordingOptions = RecordingOptions & {
 }
@@ -21,6 +22,8 @@ export class NeedleRecordingHelper {
     static createButton(options: FilterRecordingOptions): HTMLButtonElement {
 
         const ctx = options.context;
+
+        // Watermark.add(ctx, options.customLogo || null);
 
         if (!this.button) {
             this.button = document.createElement("button");
@@ -54,7 +57,7 @@ export class NeedleRecordingHelper {
                         // Show a countdown before starting
                         if (isWaitingForStart) {
                             const duration = waitDuration - (Date.now() - clickTime);
-                            this.button!.innerText = "Start in " + (duration / 1000).toFixed(0) + "s";
+                            this.button!.innerText = "Start in " + Math.max(0, (duration / 1000)).toFixed(0) + "s";
                             this.button!.prepend(stopIcon);
                         }
                         // The recording has started, show how much time has passed
@@ -127,7 +130,7 @@ export class NeedleRecordingHelper {
             showBalloonError(e.error.name + ": " + e.error.message);
         }
         this.isRecording = true;
-        Watermark.add(opts.context);
+        Watermark.add(opts.context, opts.customLogo || null);
         this.recorder.start(100);
     }
     static stopRecording() {
@@ -184,18 +187,27 @@ class Watermark {
     private static object: Object3D | null = null;
     private static texture: Texture | null = null;
 
-    static async add(context: Context) {
+    static async add(context: Context, logo: Texture | null) {
         this.active = true;
         if (!this.object) {
-            const url = "https://cdn.needle.tools/static/branding/logo_needle_white_no_padding.png";
-            const textureLoader = new TextureLoader();
-            this.texture = await textureLoader.loadAsync(url);
+            const allowCustomLogo = hasProLicense();
+            if (!logo || !allowCustomLogo) {
+                const url = "https://cdn.needle.tools/static/branding/logo_needle_white_no_padding.png";
+                const textureLoader = new TextureLoader();
+                this.texture = await textureLoader.loadAsync(url);
+                if (logo) {
+                    const msg = "\n\nTo use a custom logo in your face filter please upgrade to Needle Engine Pro for custom branding: https://needle.tools/pricing\n\n";
+                    console.warn(msg);
+                }
+            }
+            else {
+                this.texture = logo;
+                this.texture.repeat.set(1, -1); // flip y
+            }
             this.texture.colorSpace = context.renderer.outputColorSpace;
             const quad = ObjectUtils.createPrimitive("Quad", {
                 texture: this.texture,
                 material: new MeshBasicMaterial({
-                    // color: "red",
-                    // depthTest: false,
                     depthWrite: false,
                     colorWrite: true,
                     transparent: true,
@@ -229,7 +241,8 @@ class Watermark {
                     const corner = new Vector3(1, .9, 1).unproject(cam);
                     cam.worldToLocal(corner);
                     object.position.copy(corner);
-                    object.position.x -= object.scale.x * .8;
+                    object.position.x -= object.scale.x * 0.5; // center
+                    object.position.x -= 4; // extra offset
                     setTimeout(() => {
                         updatePosition();
                     }, 2000);

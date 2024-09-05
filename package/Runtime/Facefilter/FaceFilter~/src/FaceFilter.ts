@@ -1,7 +1,7 @@
 import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isDevEnvironment, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker, PoseLandmarkerResult, ImageSegmenter, ImageSegmenterResult } from "@mediapipe/tasks-vision";
 import { BlendshapeName, FacefilterUtils, MediapipeHelper } from './utils.js';
-import { MeshBasicMaterial, Object3D, Vector3, VideoTexture } from 'three';
+import { MeshBasicMaterial, Object3D, Texture, Vector3, VideoTexture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
 import { FaceFilterRoot } from './Behaviours.js';
 import { mirror } from './settings.js';
@@ -31,6 +31,13 @@ export class NeedleFilterTrackingManager extends Behaviour {
      */
     @serializable()
     createMenuButton: boolean = true;
+
+    /** Assign a texture to display your logo in the recorded video.   
+     * Note: this requires an active license: https://needle.tools/pricing
+     */
+    // @nonSerialized
+    @serializable(Texture)
+    customLogo: Texture | null = null;
 
     @serializable(URL)
     testVideo: VideoClip[] | null = null;
@@ -482,7 +489,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
         if (!this.createMenuButton) return;
         // Create menu Buttons
         const recordingButton = NeedleRecordingHelper.createButton({
-            context: this.context
+            context: this.context,
+            customLogo: this.customLogo,
         });
         this._buttons.push(recordingButton);
 
