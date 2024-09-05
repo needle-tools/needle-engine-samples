@@ -250,6 +250,8 @@ export namespace MediapipeHelper {
                     modelAssetPath: "https://storage.googleapis.com/mediapipe-models/image_segmenter/deeplab_v3/float32/1/deeplab_v3.tflite",
                 },
                 canvas: opts?.canvas,
+                outputCategoryMask: false,
+                outputConfidenceMasks: true,
             }
         ));
     }

@@ -21,6 +21,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public void OnDisable(){}
 		public void earlyUpdate(){}
 		public void onBeforeRender(){}
+		public void onAfterRender(){}
 	}
 }
 

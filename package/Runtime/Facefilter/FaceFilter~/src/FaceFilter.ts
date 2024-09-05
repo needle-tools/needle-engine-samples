@@ -128,9 +128,9 @@ export class NeedleFilterTrackingManager extends Behaviour {
         //     // canvas: this.context.renderer.domElement,
         // }).then(res => this._poselandmarker = res));
 
-        // tasks.push(MediapipeHelper.createImageSegmentation({
-        //     // canvas: this.context.renderer.domElement,
-        // }).then(res => this._imageSegmentation = res));
+        tasks.push(MediapipeHelper.createImageSegmentation({
+            canvas: this.context.renderer.domElement,
+        }).then(res => this._imageSegmentation = res));
 
         console.debug("Loading detectors...");
         await PromiseAllWithErrors(tasks);
@@ -300,6 +300,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
             this._lastPoseLandmarkResults = this._poselandmarker.detectForVideo(this._video, performance.now());
         }
         if (this._imageSegmentation && ("segmentForVideo" in this._imageSegmentation)) {
+            // console.log("UPDATE CANVAS");
             this._lastImageSegmentationResults = this._imageSegmentation.segmentForVideo(this._video, performance.now());
         }
 
@@ -313,14 +314,16 @@ export class NeedleFilterTrackingManager extends Behaviour {
         if (this.context.mainCameraComponent) {
             this.context.mainCameraComponent.fieldOfView = 63;
             this.context.mainCameraComponent.clearFlags = ClearFlags.None;
-            this._videoRenderer?.onUpdate();
         }
+        this._videoRenderer?.onUpdate();
 
         const faceResults = this._lastFaceLandmarkResults;
         if (faceResults) {
             this.updateDebug(faceResults);
             this.updateRendering(faceResults);
         }
+    }
+    onAfterRender(): void {
     }
 
     private _lastTimeWithTrackingMatrices: number = -1;
@@ -618,9 +621,9 @@ export class NeedleFilterTrackingManager extends Behaviour {
         this._lastPoseLandmarkResults?.landmarks.forEach((landmarks) => {
             this._debugDrawing?.drawLandmarks(landmarks, { color: "#FF44FF", lineWidth: 1 });
         });
-        // this._lastPoseLandmarkResults?.segmentationMasks?.forEach((mask) => {
-        //     this._debugDrawing?.drawCategoryMask(mask, [[1, 1, 1, 1]]);
-        // });
+        this._lastPoseLandmarkResults?.segmentationMasks?.forEach((mask) => {
+            this._debugDrawing?.drawCategoryMask(mask, [[1, 1, 1, 1]]);
+        });
 
         if (res.faceLandmarks.length > 0) {
             for (let i = 0; i < res.facialTransformationMatrixes.length; i++) {
