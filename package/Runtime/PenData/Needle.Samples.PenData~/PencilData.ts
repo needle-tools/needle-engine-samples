@@ -75,7 +75,8 @@ export class PencilData extends Behaviour {
         this._wp.copy(vector);
 
         // set orbit center
-        this.orbit?.setCameraTargetPosition(vector, true);
+        // TODO: fix, not working as expected, camera moves hectically
+        //this.orbit?.setCameraTargetPosition(vector, true); 
     }
     
     lateUpdate() {
