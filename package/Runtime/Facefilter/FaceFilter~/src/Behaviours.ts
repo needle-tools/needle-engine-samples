@@ -1,7 +1,10 @@
 import { Animator, BehaviorExtension, Behaviour, getComponentInChildren, serializable } from '@needle-tools/engine';
 import type { NeedleFilterTrackingManager } from './FaceFilter.js';
-import { Matrix4, Mesh, Object3D, SkinnedMesh, Vector3 } from 'three';
+import { Matrix4, Mesh, MeshStandardMaterial, Object3D, SkinnedMesh, Texture, Vector3 } from 'three';
 import { BlendshapeName, FacefilterUtils } from './utils.js';
+import { FaceGeometry, MediapipeHelper as MediapipeFaceHelper, TRIANGULATION } from './utils.facemesh.js';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+// import { FaceMeshFaceGeometry } from './facemesh.js';
 
 declare type AvatarType = "Unknown" | "ReadyPlayerMe";
 
@@ -356,12 +359,58 @@ export class FaceFilterEyeBehaviour extends FilterBehaviour {
     }
 
     private updateRotation(object: Object3D, down: number, up: number, left: number, right: number) {
-        
+
         down *= 1.5;
         up *= 1.5;
 
         const x = ((up - down) * -0.6)
         const y = ((left - right) * 0.6);
         object.rotation.set(x, y, object.rotation.z);
+    }
+}
+
+
+
+export class FaceMeshBehaviour extends FilterBehaviour {
+
+    @serializable(Texture)
+    texture:Texture | null = null;
+
+    private _mesh: Mesh | null = null;
+    private _geo: FaceGeometry | null = null;
+
+    async awake() {
+
+        const geom = FaceGeometry.create();
+        const mesh = new Mesh(geom, new MeshStandardMaterial({
+            map: this.texture,
+            wireframe: !this.texture,
+            transparent: true,
+        }));
+        mesh.frustumCulled = false;
+        mesh.rotateX(-Math.PI); // flip y
+        mesh.scale.set(1, 1, 1);
+
+        this._mesh = mesh;
+        this._geo = geom;
+        
+        this.gameObject.add(mesh);
+    }
+
+    onResultsUpdated(_filter: NeedleFilterTrackingManager): void {
+        const lm = _filter.facelandmarkerResult?.faceLandmarks;
+        if (lm && lm.length > 0) {
+            const face = lm[0];
+            this._geo?.update(face);
+            if (this._mesh) {
+                const tm = _filter.facelandmarkerResult?.facialTransformationMatrixes[0];
+                // Just a HACK to revert the matrix transformation and position the mesh but it's not correct
+                // since this.gameObject is already transformed by the facialTransformationMatrix see line ~171
+                this._mesh.position.x = -tm.data[12] * 0.01;
+                this._mesh.position.y = -tm.data[13] * 0.01;
+                this._mesh.position.z = -.01;// -tm.data[14] * 0.01;
+            }
+        }
+
     }
 }

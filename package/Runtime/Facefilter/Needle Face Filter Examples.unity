@@ -182,6 +182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Racoon Filter
       objectReference: {fileID: 0}
+    - target: {fileID: 6353964895894951458, guid: 7dbc3f4a0043912408c68cfdd8724fb2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6384899994036634197, guid: 7dbc3f4a0043912408c68cfdd8724fb2, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.6250949
@@ -375,7 +379,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.027961671, y: -0.9370649, z: 0.0775167, w: 0.33929154}
   m_LocalPosition: {x: 1.0501599, y: 0.4707208, z: 1.2740422}
-  m_LocalScale: {x: 1.0000045, y: 1, z: 1.0000027}
+  m_LocalScale: {x: 1.0000072, y: 1, z: 1.000004}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -636,6 +640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager,
     Needle.Engine-Samples.Runtime
   filters:
+  - {fileID: 2115383470}
   - {fileID: 119226383}
   - {fileID: 6070944768616901068, guid: 44d25216005062b45957387e38cdf14e, type: 3}
   - {fileID: 485406196217299575, guid: 6f772fc01bab86d4dbb10ad2dd49fcdf, type: 3}
@@ -643,7 +648,7 @@ MonoBehaviour:
   - {fileID: 3658822941709120593, guid: 81f4fc978d822d14faf5f30b3952b85d, type: 3}
   - {fileID: 5825898318103575009, guid: 6c4808ce137677242a27815509fb59c5, type: 3}
   occlusionMesh: {fileID: 4211051851420010255, guid: 496edac131102f446961c476f29dcd72, type: 3}
-  createOcclusionMesh: 1
+  createOcclusionMesh: 0
   createMenuButton: 1
   testVideo:
   - {fileID: 32900000, guid: 85b544fad665357449a391f454388e11, type: 3}
@@ -707,4 +712,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2115383468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2115383470}
+  - component: {fileID: 2115383469}
+  m_Layer: 0
+  m_Name: MeshTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2115383469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115383468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc25a474ffd591d384edd0eb5127a88e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.FaceMeshBehaviour,
+    Needle.Engine-Samples.Runtime
+  texture: {fileID: 2800000, guid: 955d3bb0970f6354f8b9e86166e8dafc, type: 3}
+--- !u!4 &2115383470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115383468}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
