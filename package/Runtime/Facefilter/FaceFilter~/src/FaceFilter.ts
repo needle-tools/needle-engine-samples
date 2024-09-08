@@ -48,6 +48,14 @@ export class NeedleFilterTrackingManager extends Behaviour {
     get video() {
         return this._video;
     }
+    /** Width of the current video in pixel */
+    get videoWidth() {
+        return this._video.videoWidth;
+    }
+    /** Height of the current video in pixel */
+    get videoHeight() {
+        return this._video.videoHeight;
+    }
 
     /**
      * The last result received from the face detector

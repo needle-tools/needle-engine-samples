@@ -34,10 +34,10 @@ export class FaceGeometry extends BufferGeometry {
 
   update(normalizedLandmarks: NormalizedLandmark[]) {
     const positions = this.attributes.position.array as Float32Array;
-    for (let i = 0; i < k_landmarks; i++) {
-      positions[i * 3 + 0] = (normalizedLandmarks[i].x - .5);
-      positions[i * 3 + 1] = normalizedLandmarks[i].y - .5;
-      positions[i * 3 + 2] = normalizedLandmarks[i].z * .01;
+    for (let i = 0; i < normalizedLandmarks.length; i++) {
+      positions[i * 3 + 0] = normalizedLandmarks[i].x;
+      positions[i * 3 + 1] = normalizedLandmarks[i].y;
+      positions[i * 3 + 2] = normalizedLandmarks[i].z;
     }
     this.attributes.position.needsUpdate = true;
     this.computeVertexNormals();

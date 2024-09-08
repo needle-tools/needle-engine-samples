@@ -1,6 +1,6 @@
 import { Animator, BehaviorExtension, Behaviour, getComponentInChildren, serializable } from '@needle-tools/engine';
 import type { NeedleFilterTrackingManager } from './FaceFilter.js';
-import { Matrix4, Mesh, MeshStandardMaterial, Object3D, SkinnedMesh, Texture, Vector3 } from 'three';
+import { DoubleSide, Matrix4, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, SkinnedMesh, Texture, Vector3 } from 'three';
 import { BlendshapeName, FacefilterUtils } from './utils.js';
 import { FaceGeometry, MediapipeHelper as MediapipeFaceHelper, TRIANGULATION } from './utils.facemesh.js';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
@@ -374,43 +374,80 @@ export class FaceFilterEyeBehaviour extends FilterBehaviour {
 export class FaceMeshBehaviour extends FilterBehaviour {
 
     @serializable(Texture)
-    texture:Texture | null = null;
+    texture: Texture | null = null;
 
     private _mesh: Mesh | null = null;
     private _geo: FaceGeometry | null = null;
+    private _baseTransform: Matrix4 = new Matrix4();
+
+    private _lastVideoWidth = 0;
+    private _lastVideoHeight = 0;
+    private _lastDomWidth = 0;
+    private _lastDomHeight = 0;
 
     async awake() {
 
         const geom = FaceGeometry.create();
-        const mesh = new Mesh(geom, new MeshStandardMaterial({
+        const mat = new MeshBasicMaterial({
             map: this.texture,
             wireframe: !this.texture,
             transparent: true,
-        }));
-        mesh.frustumCulled = false;
-        mesh.rotateX(-Math.PI); // flip y
-        mesh.scale.set(1, 1, 1);
+            // depthTest: false,
+            // side: DoubleSide, 
+        });
+        const mesh = new Mesh(geom, mat);
 
         this._mesh = mesh;
         this._geo = geom;
-        
-        this.gameObject.add(mesh);
     }
 
     onResultsUpdated(_filter: NeedleFilterTrackingManager): void {
+
         const lm = _filter.facelandmarkerResult?.faceLandmarks;
         if (lm && lm.length > 0) {
             const face = lm[0];
-            this._geo?.update(face);
             if (this._mesh) {
-                const tm = _filter.facelandmarkerResult?.facialTransformationMatrixes[0];
-                // Just a HACK to revert the matrix transformation and position the mesh but it's not correct
-                // since this.gameObject is already transformed by the facialTransformationMatrix see line ~171
-                this._mesh.position.x = -tm.data[12] * 0.01;
-                this._mesh.position.y = -tm.data[13] * 0.01;
-                this._mesh.position.z = -.01;// -tm.data[14] * 0.01;
-            }
-        }
+                const videoWidth = _filter.videoWidth;
+                const videoHeight = _filter.videoHeight;
+                const domWidth = this.context.domWidth;
+                const domHeight = this.context.domHeight;
 
+                let needMatrixUpdate = false;
+                if (videoHeight !== this._lastVideoHeight || videoWidth !== this._lastVideoWidth) {
+                    needMatrixUpdate = true;
+                }
+                else if (domWidth !== this._lastDomWidth || domHeight !== this._lastDomHeight) {
+                    needMatrixUpdate = true;
+                }
+                // Whenever the video aspect changes we want to update the matrix aspect to match the new video
+                // This is so we don't have to modify the vertex positions of the mesh individually
+                if (needMatrixUpdate) {
+                    this._lastVideoWidth = videoWidth;
+                    this._lastVideoHeight = videoHeight;
+                    this._lastDomWidth = domWidth;
+                    this._lastDomHeight = domHeight;
+                    const aspect = videoWidth / videoHeight;
+                    const domAspect = domWidth / domHeight;
+                    this.updateMatrix(this._mesh, aspect / domAspect);
+                }
+            }
+            this._geo?.update(face);
+        }
+    }
+
+    /** Updates the matrix of the mesh to match the aspect ratio of the video */
+    private updateMatrix(mesh: Mesh, aspect: number) {
+        this._baseTransform ??= new Matrix4()
+        this._baseTransform
+            .identity()
+            .setPosition(new Vector3(aspect, 1, 0))
+            .scale(new Vector3(-2 * aspect, -2, 1));
+        mesh.matrixAutoUpdate = false;
+        mesh.matrixWorldAutoUpdate = true;
+        mesh.frustumCulled = false;
+        mesh.renderOrder = 1000;
+        mesh.matrix.copy(this._baseTransform).premultiply(this.context.mainCamera.projectionMatrixInverse);
+        if (mesh.parent != this.context.mainCamera)
+            this.context.mainCamera.add(mesh);
     }
 }
