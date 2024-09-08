@@ -186,6 +186,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6353964895894951458, guid: 7dbc3f4a0043912408c68cfdd8724fb2, type: 3}
+      propertyPath: m_TagString
+      value: EditorOnly
+      objectReference: {fileID: 0}
     - target: {fileID: 6384899994036634197, guid: 7dbc3f4a0043912408c68cfdd8724fb2, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.6250949
@@ -378,8 +382,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.027961671, y: -0.9370649, z: 0.0775167, w: 0.33929154}
-  m_LocalPosition: {x: 1.0501599, y: 0.4707208, z: 1.2740422}
-  m_LocalScale: {x: 1.0000072, y: 1, z: 1.000004}
+  m_LocalPosition: {x: 3.084, y: 1, z: 3.715}
+  m_LocalScale: {x: 1.0000093, y: 1, z: 1.0000055}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -471,7 +475,6 @@ GameObject:
   - component: {fileID: 784234929}
   - component: {fileID: 784234927}
   - component: {fileID: 784234931}
-  - component: {fileID: 784234932}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -494,7 +497,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   AutoExport: 1
-  AutoCompress: 0
+  AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/facefilter'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/Facefilter/FaceFilter.npmdef
@@ -592,23 +595,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.MeshCompression, Needle.Engine.GltfExport
   Compression: 1
---- !u!114 &784234932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport
-  AllowProgressiveLoading: 1
-  UseMaxSize: 1
-  MaxSize: 128
-  GenerateLODs: 0
 --- !u!1 &1387623546
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,7 +634,7 @@ MonoBehaviour:
   - {fileID: 3658822941709120593, guid: 81f4fc978d822d14faf5f30b3952b85d, type: 3}
   - {fileID: 5825898318103575009, guid: 6c4808ce137677242a27815509fb59c5, type: 3}
   occlusionMesh: {fileID: 4211051851420010255, guid: 496edac131102f446961c476f29dcd72, type: 3}
-  createOcclusionMesh: 0
+  createOcclusionMesh: 1
   createMenuButton: 1
   testVideo:
   - {fileID: 32900000, guid: 85b544fad665357449a391f454388e11, type: 3}
@@ -743,7 +729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.FaceMeshBehaviour,
     Needle.Engine-Samples.Runtime
-  texture: {fileID: 2800000, guid: 955d3bb0970f6354f8b9e86166e8dafc, type: 3}
+  texture: {fileID: 2800000, guid: 654a21ed4f3ea5d4c8b60471f0198ca3, type: 3}
 --- !u!4 &2115383470
 Transform:
   m_ObjectHideFlags: 0

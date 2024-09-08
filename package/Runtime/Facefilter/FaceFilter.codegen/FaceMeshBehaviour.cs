@@ -9,7 +9,9 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.Texture @texture;
 		public void awake(){}
-		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @_filter){}
+		public void OnEnable(){}
+		public void OnDisable(){}
+		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @filter){}
 	}
 }
 

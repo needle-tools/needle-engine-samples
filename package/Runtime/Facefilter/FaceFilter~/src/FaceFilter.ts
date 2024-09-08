@@ -1,4 +1,4 @@
-import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isDevEnvironment, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
+import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isDevEnvironment, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setActive, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
 import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker, PoseLandmarkerResult, ImageSegmenter, ImageSegmenterResult } from "@mediapipe/tasks-vision";
 import { BlendshapeName, FacefilterUtils, MediapipeHelper } from './utils.js';
 import { MeshBasicMaterial, Object3D, Texture, Vector3, VideoTexture } from 'three';
@@ -207,7 +207,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
         if (this._activeFilterBehaviour) {
             this._activeFilterBehaviour.enabled = false;
         }
-        this._activeFilter?.asset?.removeFromParent();
+        // this._activeFilter?.asset?.removeFromParent();
+        GameObject.remove(this._activeFilter?.asset);
     }
 
     private async startCamera(video: HTMLVideoElement) {
@@ -353,7 +354,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
         if (faceResults.facialTransformationMatrixes.length <= 0) {
             // If we have an active filter and no tracking for a few frames, hide the filter
             if (this._activeFilter?.asset && (this.context.time.realtimeSinceStartup - this._lastTimeWithTrackingMatrices) > .5) {
-                this._activeFilter.asset.removeFromParent();
+                // this._activeFilter.asset.removeFromParent();
+                GameObject.remove(this._activeFilter?.asset);
             }
             return;
         }
@@ -409,26 +411,10 @@ export class NeedleFilterTrackingManager extends Behaviour {
             // Check if the active filter is still the one that *should* be active/visible
             if (active !== this._activeFilter) {
                 console.log("Switching to filter #" + this._activeFilterIndex);
-                this._activeFilter?.asset?.removeFromParent();
-                this._activeFilterBehaviour?.destroy();
-
-                // TODO: fix screenspace canvas onDisable not being called 
-                const canvasesOld = (this._activeFilter?.asset as Object3D)?.getComponentsInChildren(Canvas);
-                canvasesOld?.forEach(comp => {
-                    comp.enabled = false;
-                });
-
+                GameObject.remove(this._activeFilter?.asset);
                 this._activeFilter = active; // < update the currently active
                 this._activeFilterBehaviour = active.asset.getOrAddComponent(FaceFilterRoot);
-
-                active.asset.visible = true;
-                this.context.scene.add(active.asset);
-
-                // TODO: fix screenspace canvas onDisable not being called 
-                const canvasesNew = (active?.asset as Object3D)?.getComponentsInChildren(Canvas);
-                canvasesNew?.forEach(comp => {
-                    comp.enabled = true;
-                });
+                GameObject.add(active.asset, this.context.scene);
             }
 
             if (this._activeFilter.asset.parent !== this.context.scene) {

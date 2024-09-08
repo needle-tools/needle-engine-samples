@@ -385,8 +385,7 @@ export class FaceMeshBehaviour extends FilterBehaviour {
     private _lastDomWidth = 0;
     private _lastDomHeight = 0;
 
-    async awake() {
-
+    awake() {
         const geom = FaceGeometry.create();
         const mat = new MeshBasicMaterial({
             map: this.texture,
@@ -401,14 +400,21 @@ export class FaceMeshBehaviour extends FilterBehaviour {
         this._geo = geom;
     }
 
-    onResultsUpdated(_filter: NeedleFilterTrackingManager): void {
+    onEnable(): void {
+        this._lastDomWidth = 0;
+        this._lastDomHeight = 0;
+    }
+    onDisable(): void {
+        this._mesh?.removeFromParent();
+    }
 
-        const lm = _filter.facelandmarkerResult?.faceLandmarks;
+    onResultsUpdated(filter: NeedleFilterTrackingManager): void {
+        const lm = filter.facelandmarkerResult?.faceLandmarks;
         if (lm && lm.length > 0) {
             const face = lm[0];
             if (this._mesh) {
-                const videoWidth = _filter.videoWidth;
-                const videoHeight = _filter.videoHeight;
+                const videoWidth = filter.videoWidth;
+                const videoHeight = filter.videoHeight;
                 const domWidth = this.context.domWidth;
                 const domHeight = this.context.domHeight;
 
