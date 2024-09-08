@@ -1,4 +1,4 @@
-import { Animator, BehaviorExtension, Behaviour, getComponentInChildren, serializable } from '@needle-tools/engine';
+import { Animator, BehaviorExtension, Behaviour, getComponentInChildren, NEEDLE_progressive, serializable } from '@needle-tools/engine';
 import type { NeedleFilterTrackingManager } from './FaceFilter.js';
 import { DoubleSide, Matrix4, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, SkinnedMesh, Texture, Vector3 } from 'three';
 import { BlendshapeName, FacefilterUtils } from './utils.js';
@@ -394,9 +394,14 @@ export class FaceMeshBehaviour extends FilterBehaviour {
             // depthTest: false,
             // side: DoubleSide, 
         });
-        const mesh = new Mesh(geom, mat);
+        if (this.texture) {
+            this.texture.colorSpace = this.context.renderer.outputColorSpace;
+            NEEDLE_progressive.assignTextureLOD(this.texture, 0).then(res => {
+                if (res && mat && res instanceof Texture) mat.map = res;
+            })
+        }
 
-        this._mesh = mesh;
+        this._mesh = new Mesh(geom, mat);
         this._geo = geom;
     }
 
