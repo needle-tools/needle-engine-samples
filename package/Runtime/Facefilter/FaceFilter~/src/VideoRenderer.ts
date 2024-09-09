@@ -56,6 +56,7 @@ export class VideoRenderer {
             rotation: new Vector3(Math.PI, Math.PI, 0),
             material: this._material
         });
+        this._videoQuad.name = "Video Quad (Face Filter)";
     }
 
     disable() {

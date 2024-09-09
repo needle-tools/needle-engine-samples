@@ -1,5 +1,5 @@
 import { NormalizedLandmark } from '@mediapipe/tasks-vision';
-import { Mesh, BufferGeometry, BufferAttribute } from 'three';
+import { Mesh, BufferGeometry, BufferAttribute, Vector3, Box3 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 
 // export async function loadOBJ() {
@@ -22,13 +22,16 @@ export class FaceGeometry extends BufferGeometry {
 
   static create(type: FaceLayout): FaceGeometry {
     const geo = new FaceGeometry();
+    geo.name = "FaceMeshGeometry";
     const positions = new Float32Array(k_landmarks * 3);
     geo.setAttribute("position", new BufferAttribute(positions, 3));
     geo.setAttribute("uv", new BufferAttribute(new Float32Array(k_landmarks * 2), 2));
     geo.setIndex(faces);
     geo.setUVs(type);
+    geo.updateBounds();
     return geo;
   }
+
 
   setUVs(type: FaceLayout) {
     console.debug("SETTING UV TYPE", type);
@@ -53,6 +56,7 @@ export class FaceGeometry extends BufferGeometry {
     }
   }
 
+
   update(normalizedLandmarks: NormalizedLandmark[]) {
     const positions = this.attributes.position.array as Float32Array;
     for (let i = 0; i < normalizedLandmarks.length; i++) {
@@ -62,5 +66,21 @@ export class FaceGeometry extends BufferGeometry {
     }
     this.attributes.position.needsUpdate = true;
     this.computeVertexNormals();
+    if (!this._didComputeBoundsAfterUpdate) {
+      this._didComputeBoundsAfterUpdate = true;
+      this.updateBounds();
+    }
+  }
+
+  private _didComputeBoundsAfterUpdate = false;
+
+  private updateBounds() {
+    this.computeBoundingBox();
+    // this.boundingBox ??= new Box3();
+    // // it's cheaper to just set the bounding box to the min/max possible values than to compute it every frame when the geometry is updated
+    // this.boundingBox.set(
+    //   new Vector3(-Number.MIN_VALUE, -Number.MIN_VALUE, -Number.MIN_VALUE),
+    //   new Vector3(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE)
+    // );
   }
 }

@@ -16,6 +16,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
             this.setupTextureProperties(mat);
             const geom = FaceGeometry.create(this.layout);
             this.__currentMesh = new Mesh(geom, mat);
+            this.__currentMesh.name = this.name + " (Face Mesh)";
             this.__currentGeometry = geom;
             this.__currentMaterial = mat;
         }
@@ -38,7 +39,10 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         }
     }
 
-    protected get material() { return this.__currentMaterial; }
+    /** The currently rendered face mesh (if any) */
+    get mesh() {  return this.__currentMesh; }
+    /** The currently used material for the face mesh. */
+    get material() { return this.__currentMaterial; }
 
 
     // internal state
@@ -131,7 +135,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
             .setPosition(new Vector3(aspect, 1, 0))
             .scale(new Vector3(-2 * aspect, -2, 1));
         mesh.matrixAutoUpdate = false;
-        mesh.matrixWorldAutoUpdate = true;
+        mesh.matrixWorldAutoUpdate = false;
         mesh.frustumCulled = false;
         mesh.renderOrder = 1000;
         mesh.matrix.copy(this._baseTransform).premultiply(this.context.mainCamera.projectionMatrixInverse);
@@ -179,7 +183,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
                                 mat.uniformsNeedUpdate = true;
                             }
                         }
-
+                        this.onTextureChanged();
                     });
                     break;
                 default:
@@ -187,6 +191,10 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
                     break;
             }
         }
+    }
+
+    protected onTextureChanged() {
+
     }
 }
 
@@ -220,13 +228,12 @@ export class FaceMeshTexture extends FaceMeshBehaviour {
     @serializable()
     set layout(value: FaceLayout) { this.__layout = value; }
     get layout(): FaceLayout { return this.__layout; }
-
     private __layout: FaceLayout = "mediapipe";
 
+    private _material: ShaderMaterial | null = null;
+
     protected createMaterial() {
-        return new ShaderMaterial({
-            wireframe: !this.texture,
-            transparent: true,
+        return this._material = new ShaderMaterial({
             uniforms: {
                 map: { value: this.texture },
                 mask: { value: this.mask },
@@ -234,6 +241,8 @@ export class FaceMeshTexture extends FaceMeshBehaviour {
             defines: {
                 HAS_MASK: this.mask ? true : false,
             },
+            wireframe: false,
+            transparent: true,
             fragmentShader: faceMeshTextureFrag,
             vertexShader: `
                 varying vec2 vUv;
