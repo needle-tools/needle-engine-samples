@@ -2,7 +2,7 @@ import { serializable, NEEDLE_progressive, Application } from "@needle-tools/eng
 import { Texture, Mesh, Matrix4, MeshBasicMaterial, Vector3, Material, VideoTexture, ShaderMaterial } from "three";
 import { FilterBehaviour } from "../Behaviours.js";
 import { NeedleFilterTrackingManager } from "../FaceFilter.js";
-import { FaceGeometry } from "./utils.facemesh.js";
+import { FaceGeometry, FaceLayout } from "./utils.facemesh.js";
 
 export abstract class FaceMeshBehaviour extends FilterBehaviour {
 
@@ -12,7 +12,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         if (mat) {
             NEEDLE_progressive.assignTextureLOD(mat, 0);
             this.setupTextureProperties(mat);
-            const geom = FaceGeometry.create("canonical");
+            const geom = FaceGeometry.create(this.layout);
             this._mesh = new Mesh(geom, mat);
             this._geo = geom;
         }
@@ -22,6 +22,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
     }
 
     protected abstract createMaterial(): Material | null;
+    protected get layout(): FaceLayout { return "canonical"; }
 
     protected setupTextureProperties(mat: Material) {
         const key = Object.keys(mat);
@@ -46,11 +47,8 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
     private _needsMatrixUpdate = false;
 
     /** @internal */
-    awake() {
-        this.createMesh();
-    }
-    /** @internal */
     onEnable(): void {
+        if (!this._mesh) this.createMesh();
         this._lastDomWidth = 0;
         this._lastDomHeight = 0;
     }
@@ -146,6 +144,7 @@ void main() {
 }
 `
 
+
 export class FaceMeshTexture extends FaceMeshBehaviour {
 
     @serializable(Texture)
@@ -154,8 +153,18 @@ export class FaceMeshTexture extends FaceMeshBehaviour {
     @serializable(Texture)
     mask: Texture | null = null;
 
+    // @nonSerialized
     @serializable()
-    layout: "mediapipe" | "propcreate" = "mediapipe";
+    get layout(): FaceLayout {
+        console.warn("layout", this._layout);
+        return this._layout;
+    }
+    set layout(value: FaceLayout) {
+        console.log("SET", value)
+        this._layout = value;
+    }
+
+    private _layout: FaceLayout = "mediapipe";
 
     protected createMaterial() {
         return new ShaderMaterial({

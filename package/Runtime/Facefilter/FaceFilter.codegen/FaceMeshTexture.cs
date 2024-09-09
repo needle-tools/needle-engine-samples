@@ -9,7 +9,6 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.Texture @texture;
 		public UnityEngine.Texture @mask;
-		// public "mediapipe" | "propcreate" @layout; → Could not resolve C# type
 	}
 }
 
