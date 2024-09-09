@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class FaceMeshTexture : Needle.Typescript.GeneratedComponents.FaceMeshBehaviour
 	{
 		public UnityEngine.Texture @texture;
-		// public "mediapipe" | "propcreate" @layout; → Could not resolve C# type
+		public UnityEngine.Texture @mask;
 	}
 }
 

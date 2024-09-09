@@ -150,9 +150,10 @@ namespace Needle.Typescript.GeneratedComponents
 			Procreate = 1,
 		}
 
-		public Layout _layout = Layout.Mediapipe;
+		[SerializeField]
+		private Layout _layout = Layout.Mediapipe;
 
-		public string mode
+		public string layout
 		{
 			get
 			{
