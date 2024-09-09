@@ -1,11 +1,13 @@
 import { serializable, NEEDLE_progressive, Application } from "@needle-tools/engine";
-import { Texture, Mesh, Matrix4, MeshBasicMaterial, Vector3, Material, VideoTexture, ShaderMaterial } from "three";
+import { Texture, Mesh, Matrix4, MeshBasicMaterial, Vector3, Material, VideoTexture, ShaderMaterial, TextureLoader } from "three";
 import { FilterBehaviour } from "../Behaviours.js";
 import { NeedleFilterTrackingManager } from "../FaceFilter.js";
 import { FaceGeometry, FaceLayout } from "./utils.facemesh.js";
 
 export abstract class FaceMeshBehaviour extends FilterBehaviour {
 
+    @serializable()
+    allowDrop: boolean = true;
 
     protected createMesh() {
         const mat = this.createMaterial();
@@ -15,6 +17,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
             const geom = FaceGeometry.create(this.layout);
             this._mesh = new Mesh(geom, mat);
             this._geo = geom;
+            this._material = mat;
         }
         else {
             console.warn("Failed to create material (" + this.name + ")");
@@ -35,10 +38,13 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         }
     }
 
+    protected get material() { return this._material; }
+
 
     // internal state
     private _mesh: Mesh | null = null;
     private _geo: FaceGeometry | null = null;
+    private _material: Material | null = null;
     private _baseTransform: Matrix4 = new Matrix4();
     private _lastVideoWidth = 0;
     private _lastVideoHeight = 0;
@@ -51,10 +57,17 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         if (!this._mesh) this.createMesh();
         this._lastDomWidth = 0;
         this._lastDomHeight = 0;
+        window.addEventListener("dragover", this._onDropOver);
+        window.addEventListener("drop", this._onDrop);
+        if (this.allowDrop) {
+            console.log(`Update the face filter by dropping a PNG, JPG, JPEG, WEBP or GIF image file. \nMake sure you use the \"${this.layout}\" layout`);
+        }
     }
     /** @internal */
     onDisable(): void {
         this._mesh?.removeFromParent();
+        window.removeEventListener("dragover", this._onDropOver);
+        window.removeEventListener("drop", this._onDrop);
     }
 
     /** @internal */
@@ -125,6 +138,56 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         if (mesh.parent != this.context.mainCamera)
             this.context.mainCamera.add(mesh);
     }
+
+    private _onDropOver = (evt: DragEvent) => {
+        if (!this.allowDrop) return;
+        evt.preventDefault();
+    }
+    private _onDrop = (evt: DragEvent) => {
+        if (!this.allowDrop) return;
+        evt.preventDefault();
+        if (!this._material) {
+            console.warn("Can not handle texture drop - there's no material to apply the texture to...");
+            return;
+        }
+
+        const files = evt.dataTransfer?.files;
+        if (files && files.length > 0) {
+            const file = files[0];
+            const ext = file.name.split(".").pop()?.toLowerCase();
+            const mat = this._material;
+            switch (ext) {
+                case "jpg":
+                case "jpeg":
+                case "png":
+                case "webp":
+                case "gif":
+                    const url = URL.createObjectURL(file);
+                    console.debug("Loading texture", url);
+                    new TextureLoader().loadAsync(url).then(tex => {
+                        console.debug("Loaded texture", tex, mat);
+                        tex.flipY = false;
+                        if ("map" in mat) {
+                            mat["map"] = tex;
+                            mat.needsUpdate = true;
+                        }
+                        if (mat instanceof ShaderMaterial) {
+                            if (mat.uniforms.map) {
+                                console.debug("Setting texture in map uniform");
+                                mat.uniforms.map.value = tex;
+                                mat.needsUpdate = true;
+                                mat.uniformsNeedUpdate = true;
+                            }
+                        }
+
+                    });
+                    break;
+                default:
+                    console.log("Unsupported file type: " + ext);
+                    break;
+            }
+        }
+    }
 }
 
 const faceMeshTextureFrag = `
@@ -155,16 +218,10 @@ export class FaceMeshTexture extends FaceMeshBehaviour {
 
     // @nonSerialized
     @serializable()
-    get layout(): FaceLayout {
-        console.warn("layout", this._layout);
-        return this._layout;
-    }
-    set layout(value: FaceLayout) {
-        console.log("SET", value)
-        this._layout = value;
-    }
+    set layout(value: FaceLayout) { this.__layout = value; }
+    get layout(): FaceLayout { return this.__layout; }
 
-    private _layout: FaceLayout = "mediapipe";
+    private __layout: FaceLayout = "mediapipe";
 
     protected createMaterial() {
         return new ShaderMaterial({
@@ -198,7 +255,6 @@ export class FaceMeshVideo extends FaceMeshBehaviour {
 
     private _videoElement: HTMLVideoElement | null = null;
     private _videoTexture: VideoTexture | null = null;
-    private _material: MeshBasicMaterial | null = null;
 
     protected createMaterial() {
         if (!this.video) {
@@ -222,11 +278,11 @@ export class FaceMeshVideo extends FaceMeshBehaviour {
         this._videoTexture ??= new VideoTexture(this._videoElement);
         this._videoTexture.colorSpace = this.context.renderer.outputColorSpace;
         this._videoTexture.flipY = false;
-        this._material ??= new MeshBasicMaterial({
+        const mat = new MeshBasicMaterial({
             map: this._videoTexture,
             transparent: true,
         });
-        return this._material;
+        return mat;
     }
 
     update(): void {

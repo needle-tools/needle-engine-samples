@@ -114,11 +114,11 @@ export class FaceFilterRoot extends Behaviour {
             this._headMatrix = new Matrix4();
             this._headMatrix.copy(head.matrixWorld);
             // apply the scale of the initial object
-            const scale = this._initialScale.clone();
-            scale.x = 1 / scale.x;
-            scale.y = 1 / scale.y;
-            scale.z = 1 / scale.z;
-            this._headMatrix.scale(scale);
+            // const scale = this._initialScale.clone();
+            // scale.x = 1 / scale.x;
+            // scale.y = 1 / scale.y;
+            // scale.z = 1 / scale.z;
+            // this._headMatrix.scale(scale);
             // the matrix will be used to transform the root to the head so we invert it
             this._headMatrix.invert();
             // when we are rendering in mirror mode we want to flip the head matrix
