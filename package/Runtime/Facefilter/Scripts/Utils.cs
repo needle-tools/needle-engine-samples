@@ -78,11 +78,13 @@ namespace Needle.Facefilter.Scripts
 				if (!string.IsNullOrEmpty(materialPath))
 				{
 					_material = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
+					_material = Object.Instantiate(_material);
+					_material.hideFlags = HideFlags.DontSave;
 				}
 			}
 			if (!_facemesh)
 			{
-				var faceMeshPath = UnityEditor.AssetDatabase.GUIDToAssetPath("563ab9aa763ec434ebbfb06373f646d8");
+				var faceMeshPath = UnityEditor.AssetDatabase.GUIDToAssetPath("c4913f20ddb214d678a1f7fd797c3994");
 				if (!string.IsNullOrEmpty(faceMeshPath))
 				{
 					_facemesh = AssetDatabase.LoadAssetAtPath<GameObject>(faceMeshPath)
@@ -94,7 +96,7 @@ namespace Needle.Facefilter.Scripts
 				var texturePath = UnityEditor.AssetDatabase.GUIDToAssetPath("654a21ed4f3ea5d4c8b60471f0198ca3");
 				if (!string.IsNullOrEmpty(texturePath))
 				{
-					_fallbackTexture = AssetDatabase.LoadAssetAtPath<Texture>(texturePath);
+					_fallbackTexture = AssetDatabase.LoadAssetAtPath<Texture>(texturePath); 
 				}
 			}
 		}
@@ -113,11 +115,14 @@ namespace Needle.Facefilter.Scripts
 					_material.SetTexture("baseColorTexture", _fallbackTexture);
 				}
 
+				var uv = comp.layout == "procreate" ? 1 : 0;
+				_material.SetFloat("baseColorTextureTexCoord", uv);
+
 				if (_material.SetPass(0))
 				{
 					var mat = transform.localToWorldMatrix;
-					var scaleMat = Matrix4x4.Scale(new Vector3(.1f, .1f, .1f));
-					mat = mat * scaleMat;
+					// var scaleMat = Matrix4x4.Scale(new Vector3(.1f, .1f, .1f));
+					// mat = mat * scaleMat;
 					Graphics.DrawMeshNow(_facemesh, mat, 0);
 				}
 			}
