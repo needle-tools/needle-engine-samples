@@ -1,4 +1,4 @@
-import { Animator, Behaviour, serializable } from '@needle-tools/engine';
+import { Animator, Behaviour, isDevEnvironment, serializable } from '@needle-tools/engine';
 import type { NeedleFilterTrackingManager } from './FaceFilter.js';
 import { Matrix4, Mesh, Object3D, SkinnedMesh, Vector3 } from 'three';
 import { BlendshapeName, FacefilterUtils } from './utils.js';
@@ -37,8 +37,6 @@ export class FaceFilterRoot extends Behaviour {
             head = face.gameObject;
         }
         else {
-
-            const readyPlayerMeEyeBoneNames = ["LeftEye", "RightEye"];
             const readyPlayerMeBodyAssetNames = ["Wolf3D_Body", "Wolf3D_Outfit_Bottom", "Wolf3D_Outfit_Footwear", "Wolf3D_Outfit_Top"];
             const bodyAssetsToHide = new Array<Object3D>();
 
@@ -95,7 +93,8 @@ export class FaceFilterRoot extends Behaviour {
                 }
             }
             else {
-                console.warn("No head object found in avatar rig");
+                if (isDevEnvironment()) console.warn("No head object found in filter (" + this.name + ")");
+                else console.debug("No head object found in filter (" + this.name + ")");
             }
         }
 

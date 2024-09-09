@@ -70,7 +70,7 @@ namespace Needle.Facefilter.Scripts
 		private static Material _material;
 		private static Texture _fallbackTexture;
 
-		public static void RenderFaceGizmo(FaceMeshBehaviour comp)
+		public static void RenderFaceGizmo(FaceMeshTexture comp)
 		{
 			if (!_material)
 			{

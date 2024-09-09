@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Needle.Typescript.GeneratedComponents
 {
+	[AddComponentMenu("Needle Engine/Face Filter/Face Filter Tracking Manager")]
 	public partial class NeedleFilterTrackingManager
 	{
 		[RequireLicense(LicenseType.Pro, null, "Custom Branding requires a Needle Engine PRO license")]

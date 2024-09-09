@@ -1,53 +1,37 @@
-import { serializable, NEEDLE_progressive } from "@needle-tools/engine";
-import { Texture, Mesh, Matrix4, MeshBasicMaterial, Vector3, Material } from "three";
+import { serializable, NEEDLE_progressive, Application } from "@needle-tools/engine";
+import { Texture, Mesh, Matrix4, MeshBasicMaterial, Vector3, Material, VideoTexture } from "three";
 import { FilterBehaviour } from "../Behaviours.js";
 import { NeedleFilterTrackingManager } from "../FaceFilter.js";
 import { FaceGeometry } from "./utils.facemesh.js";
 
-declare type VideoClip = string;
+export abstract class FaceMeshBehaviour extends FilterBehaviour {
 
-export class FaceMeshBehaviour extends FilterBehaviour {
 
-    @serializable()
-    mode: "texture" = "texture";
-
-    @serializable([Texture, Material, URL])
-    input: Texture | Material | VideoClip | null = null;
-
-    @serializable(Texture)
-    texture: Texture | null = null;
-
-    @serializable(URL)
-    video: VideoClip | null = null;
-
-    @serializable(Material)
-    material: Material | null = null;
-
-    private async createMesh() {
-        const mat = new MeshBasicMaterial({
-            map: this.texture,
-            wireframe: !this.texture,
-            transparent: true,
-            // depthTest: false,
-            // side: DoubleSide, 
-        });
-        if (this.texture) {
-            this.setupTextureProperties(this.texture, mat);
+    protected createMesh() {
+        const mat = this.createMaterial();
+        if (mat) {
+            NEEDLE_progressive.assignTextureLOD(mat, 0);
+            this.setupTextureProperties(mat);
+            const geom = FaceGeometry.create("canonical");
+            this._mesh = new Mesh(geom, mat);
+            this._geo = geom;
         }
-
-        const geom = await FaceGeometry.create("canonical");
-        this._mesh = new Mesh(geom, mat);
-        this._geo = geom;
+        else {
+            console.warn("Failed to create material (" + this.name + ")");
+        }
     }
 
-    private setupTextureProperties(tex: Texture, mat: Material) {
-        tex.colorSpace = this.context.renderer.outputColorSpace;
-        NEEDLE_progressive.assignTextureLOD(tex, 0).then(res => {
-            if (res && mat && res instanceof Texture) {
-                if ("map" in mat)
-                    mat.map = res;
+    protected abstract createMaterial(): Material | null;
+
+    protected setupTextureProperties(mat: Material) {
+        const key = Object.keys(mat);
+        for (const k of key) {
+            const value = mat[k];
+            // Set all textures to the right colorspace
+            if (value && (typeof value === "object") && value.isTexture) {
+                value.colorSpace = this.context.renderer.outputColorSpace;
             }
-        })
+        }
     }
 
 
@@ -142,5 +126,71 @@ export class FaceMeshBehaviour extends FilterBehaviour {
         mesh.matrix.copy(this._baseTransform).premultiply(this.context.mainCamera.projectionMatrixInverse);
         if (mesh.parent != this.context.mainCamera)
             this.context.mainCamera.add(mesh);
+    }
+}
+
+
+export class FaceMeshTexture extends FaceMeshBehaviour {
+
+    @serializable(Texture)
+    texture: Texture | null = null;
+
+    @serializable()
+    layout: "mediapipe" | "propcreate" = "mediapipe";
+
+    protected createMaterial() {
+        return new MeshBasicMaterial({
+            map: this.texture,
+            wireframe: !this.texture,
+            transparent: true,
+            // depthTest: false,
+            // side: DoubleSide, 
+        })
+    }
+}
+
+declare type VideoClip = string;
+
+export class FaceMeshVideo extends FaceMeshBehaviour {
+
+    @serializable(URL)
+    video: VideoClip | null = null;
+
+    private _videoElement: HTMLVideoElement | null = null;
+    private _videoTexture: VideoTexture | null = null;
+    private _material: MeshBasicMaterial | null = null;
+
+    protected createMaterial() {
+        if (!this.video) {
+            return null;
+        }
+        if (!this._videoElement) {
+            const el = document.createElement("video") as HTMLVideoElement;
+            this._videoElement = el;
+            el.src = this.video;
+            el.autoplay = true;
+            el.muted = Application.userInteractionRegistered;
+            el.loop = true;
+            if (el.muted) {
+                Application.registerWaitForInteraction(() => {
+                    el.muted = false;
+                    el.play();
+                });
+            }
+            el.play();
+        }
+        this._videoTexture ??= new VideoTexture(this._videoElement);
+        this._videoTexture.colorSpace = this.context.renderer.outputColorSpace;
+        this._material ??= new MeshBasicMaterial({
+            map: this._videoTexture,
+            transparent: true,
+        });
+        return this._material;
+    }
+
+    update(): void {
+        if (this._videoTexture) {
+            this._videoTexture.update();
+        }
     }
 }

@@ -8,6 +8,7 @@ using UnityEngine.Scripting;
 
 namespace Needle.Typescript.GeneratedComponents
 {
+	[AddComponentMenu("Needle Engine/Face Filter/Face Head (Gizmo)")]
 	public partial class FaceFilterHeadPosition
 	{
 #if UNITY_EDITOR
@@ -31,6 +32,7 @@ namespace Needle.Typescript.GeneratedComponents
 	}
 
 
+	[AddComponentMenu("Needle Engine/Face Filter/Face Filter Root")]
 	public partial class FaceFilterRoot
 	{
 #if UNITY_EDITOR
@@ -89,6 +91,7 @@ namespace Needle.Typescript.GeneratedComponents
 	}
 
 
+	[AddComponentMenu("Needle Engine/Face Filter/Face Blendshapes")]
 	public partial class FaceBlendshapes
 	{
 #if UNITY_EDITOR
@@ -112,6 +115,7 @@ namespace Needle.Typescript.GeneratedComponents
 #endif
 	}
 
+	[AddComponentMenu("Needle Engine/Face Filter/Face Animator")]
 	public partial class FaceFilterAnimator
 	{
 #if UNITY_EDITOR
@@ -137,60 +141,69 @@ namespace Needle.Typescript.GeneratedComponents
 #endif
 	}
 
-	public partial class FaceMeshBehaviour
+	[AddComponentMenu("Needle Engine/Face Filter/Face Mesh: Texture")]
+	public partial class FaceMeshTexture
 	{
-		public enum Mode
+		public enum Layout
 		{
-			Texture = 0,
-			Video = 1,
-			Material = 2,
+			Mediapipe = 0,
+			Procreate = 1,
 		}
-        
-		public Mode _mode = Mode.Texture;
-		public string mode {
-			get {
-				switch (_mode)
+
+		public Layout _layout = Layout.Mediapipe;
+
+		public string mode
+		{
+			get
+			{
+				switch (_layout)
 				{
-					case Mode.Texture:
-						return "texture";
-					case Mode.Video:
-						return "video";
-					case Mode.Material:
-						return "material";
+					case Layout.Mediapipe:
+						return "mediapipe";
+					case Layout.Procreate:
+						return "procreate";
 				}
 				return "";
 			}
 		}
-		
+
 		private void OnDrawGizmos()
 		{
 			Utils.RenderFaceGizmo(this);
 		}
 #if UNITY_EDITOR
-		[UnityEditor.CustomEditor(typeof(FaceMeshBehaviour))]
+		[UnityEditor.CustomEditor(typeof(FaceMeshTexture))]
 		internal class Editor : UnityEditor.Editor
 		{
+			private GUIStyle helpStyle;
+
 			public override void OnInspectorGUI()
 			{
-				var target = (FaceMeshBehaviour) this.target;
-				using (var scope = new EditorGUI.ChangeCheckScope())
+				base.OnInspectorGUI();
+				
+				helpStyle ??= GUI.skin.GetStyle("HelpBox");
+				helpStyle.richText = true;
+				
+				// ReSharper disable once LocalVariableHidesMember
+				var target = (FaceMeshTexture) this.target;
+				
+				GUILayout.Space(3);
+				switch (target._layout)
 				{
-					EditorGUILayout.PropertyField(serializedObject.FindProperty("_mode"));
-					GUILayout.Space(5);
-					switch (target._mode)
-					{
-						case Mode.Texture:
-							EditorGUILayout.HelpBox("Assign a texture below. It will be displayed on the face mesh", MessageType.None);
-							EditorGUILayout.PropertyField(serializedObject.FindProperty("texture"));
-							break;
-					}
-					if (scope.changed)
-					{
-						serializedObject.ApplyModifiedProperties();
-					}
+					case Layout.Mediapipe:
+						EditorGUILayout.TextArea("Using the Mediapipe layout. Select this if your texture was created for Meta Spark or is using the <a href=\"https://spark.meta.com/learn/articles/creating-and-prepping-assets/the-face-mask-template-in-Adobe/\">Meta Spark template</a> or another tool that is using the ARCore face mesh tracking.", helpStyle);
+						break;
+					case Layout.Procreate:
+						EditorGUILayout.HelpBox("Using the Procreate layout. Select this if your texture was created using <a href=\"https://help.procreate.com/procreate/handbook/actions/actions-canvas#pz13yy3eihh\">Procreate's FacePaint feature</a> (or another iOS app that is using Apple ARKit Face Mesh tracking)", MessageType.None);
+						break;
 				}
 			}
 		}
 #endif
+	}
+		
+	[AddComponentMenu("Needle Engine/Face Filter/Face Mesh: Video")]
+	public partial class FaceMeshVideo
+	{
 	}
 }

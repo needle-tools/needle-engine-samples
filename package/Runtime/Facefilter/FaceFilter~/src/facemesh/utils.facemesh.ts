@@ -18,7 +18,7 @@ const k_landmarks = 468;
 
 export class FaceGeometry extends BufferGeometry {
 
-  static async create(type: "canonical" | "procreate"): Promise<FaceGeometry> {
+  static create(type: "canonical" | "procreate"): FaceGeometry {
     const geo = new FaceGeometry();
     const positions = new Float32Array(k_landmarks * 3);
     geo.setAttribute("position", new BufferAttribute(positions, 3));

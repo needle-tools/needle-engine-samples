@@ -13,7 +13,8 @@ import { NeedleBackgroundMesh } from "../src/HelperComponents.js";
 import { NeedleRecordingHelper } from "../src/RecordingHelper.js";
 import { VideoRenderer } from "../src/VideoRenderer.js";
 import { ReadyPlayerMeFacefilterSupport } from "../src/examples/ReadyPlayerMe.js";
-import { FaceMeshBehaviour } from "../src/facemesh/FaceMeshBehaviour.js";
+import { FaceMeshTexture } from "../src/facemesh/FaceMeshBehaviour.js";
+import { FaceMeshVideo } from "../src/facemesh/FaceMeshBehaviour.js";
 import { FaceGeometry } from "../src/facemesh/utils.facemesh.js";
 
 // Register types
@@ -28,5 +29,6 @@ TypeStore.add("NeedleBackgroundMesh", NeedleBackgroundMesh);
 TypeStore.add("NeedleRecordingHelper", NeedleRecordingHelper);
 TypeStore.add("VideoRenderer", VideoRenderer);
 TypeStore.add("ReadyPlayerMeFacefilterSupport", ReadyPlayerMeFacefilterSupport);
-TypeStore.add("FaceMeshBehaviour", FaceMeshBehaviour);
+TypeStore.add("FaceMeshTexture", FaceMeshTexture);
+TypeStore.add("FaceMeshVideo", FaceMeshVideo);
 TypeStore.add("FaceGeometry", FaceGeometry);
