@@ -7,7 +7,11 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class FaceMeshBehaviour : Needle.Typescript.GeneratedComponents.FilterBehaviour
 	{
+		// public "texture" @mode; → Could not resolve C# type
+		public UnityEngine.Texture @input;
 		public UnityEngine.Texture @texture;
+		public UnityEngine.Video.VideoClip @video;
+		public UnityEngine.Material @material;
 		public void awake(){}
 		public void OnEnable(){}
 		public void OnDisable(){}

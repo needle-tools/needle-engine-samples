@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Needle.Engine.Utils;
 using Needle.Typescript.GeneratedComponents;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Task = System.Threading.Tasks.Task;
@@ -12,18 +13,14 @@ namespace Needle.Facefilter.Scripts
 {
 	internal static class Utils
 	{
-		private const string k_occlusionMeshGuid = "496edac131102f446961c476f29dcd72";
-		
-		[NonSerialized]
-		private static bool _searchedForOcclusionMesh = false;
-		[NonSerialized]
-		private static  Transform _fallbackOcclusionMesh;
-		
+		[NonSerialized] private static bool _searchedForOcclusionMesh = false;
+		[NonSerialized] private static Transform _fallbackOcclusionMesh;
+
 		public static void RenderHeadGizmo(Component comp, Transform assignedOcclusionMesh = null)
 		{
 #if UNITY_EDITOR
 			var transform = comp.transform;
-			
+
 			Gizmos.color = new Color(.5f, .7f, .8f, .5f);
 			var position = transform.position;
 			position.z -= .03f;
@@ -31,7 +28,7 @@ namespace Needle.Facefilter.Scripts
 			if (!assignedOcclusionMesh && !_searchedForOcclusionMesh)
 			{
 				_searchedForOcclusionMesh = true;
-				var assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(k_occlusionMeshGuid);
+				var assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath("496edac131102f446961c476f29dcd72");
 				if (assetPath != null)
 				{
 					var go = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
@@ -41,8 +38,9 @@ namespace Needle.Facefilter.Scripts
 
 
 			var occlusionMeshObject = assignedOcclusionMesh ? assignedOcclusionMesh : _fallbackOcclusionMesh;
-			var meshFilters = occlusionMeshObject ? 
-				occlusionMeshObject?.GetComponentsInChildren<MeshFilter>().ToArray() : Array.Empty<MeshFilter>();
+			var meshFilters = occlusionMeshObject
+				? occlusionMeshObject?.GetComponentsInChildren<MeshFilter>().ToArray()
+				: Array.Empty<MeshFilter>();
 			if (meshFilters?.Length > 0)
 			{
 				foreach (var mf in meshFilters)
@@ -51,7 +49,7 @@ namespace Needle.Facefilter.Scripts
 					var mesh = mf.sharedMesh;
 					var scale = transform.lossyScale;
 					scale.Scale(t.localScale);
-					Gizmos.matrix = Matrix4x4.TRS(transform.position, t.rotation * transform.rotation,  scale);
+					Gizmos.matrix = Matrix4x4.TRS(transform.position, t.rotation * transform.rotation, scale);
 					Gizmos.DrawMesh(mesh, 0);
 					var col2 = Gizmos.color;
 					col2.a = .05f;
@@ -68,14 +66,66 @@ namespace Needle.Facefilter.Scripts
 #endif
 		}
 
+		[NonSerialized] private static Mesh _facemesh;
+		private static Material _material;
+		private static Texture _fallbackTexture;
+
+		public static void RenderFaceGizmo(FaceMeshBehaviour comp)
+		{
+			if (!_material)
+			{
+				var materialPath = UnityEditor.AssetDatabase.GUIDToAssetPath("88c16fb738b72a84883ca22d5ba1536e");
+				if (!string.IsNullOrEmpty(materialPath))
+				{
+					_material = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
+				}
+			}
+			if (!_facemesh)
+			{
+				var faceMeshPath = UnityEditor.AssetDatabase.GUIDToAssetPath("563ab9aa763ec434ebbfb06373f646d8");
+				if (!string.IsNullOrEmpty(faceMeshPath))
+				{
+					_facemesh = AssetDatabase.LoadAssetAtPath<GameObject>(faceMeshPath)
+						.GetComponentInChildren<MeshFilter>().sharedMesh;
+				}
+			}
+			if (!_fallbackTexture)
+			{
+				var texturePath = UnityEditor.AssetDatabase.GUIDToAssetPath("654a21ed4f3ea5d4c8b60471f0198ca3");
+				if (!string.IsNullOrEmpty(texturePath))
+				{
+					_fallbackTexture = AssetDatabase.LoadAssetAtPath<Texture>(texturePath);
+				}
+			}
+
+			if (_material && _facemesh)
+			{
+				var transform = comp.transform;
+				if (comp.texture)
+					_material.SetTexture("baseColorTexture", comp.texture);
+				else
+				{
+					_material.SetTexture("baseColorTexture", _fallbackTexture);
+				}
+
+				if (_material.SetPass(0))
+				{
+					var mat = transform.localToWorldMatrix;
+					var scaleMat = Matrix4x4.Scale(new Vector3(.1f, .1f, .1f));
+					mat = mat * scaleMat;
+					Graphics.DrawMeshNow(_facemesh, mat, 0);
+				}
+			}
+		}
+
 		public static async void CreateNewFilterAsset(Component comp)
 		{
 #if UNITY_EDITOR
-            var directory = "Assets/Needle Face Filter";
-			if(!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+			var directory = "Assets/Needle Face Filter";
+			if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
 			GameObject go = null;
-			
+
 			var templateInstancePath = UnityEditor.AssetDatabase.GUIDToAssetPath("6c4808ce137677242a27815509fb59c5");
 			if (!string.IsNullOrEmpty(templateInstancePath))
 			{
@@ -86,18 +136,17 @@ namespace Needle.Facefilter.Scripts
 			if (!go)
 			{
 				go = new GameObject("My Filter");
-                UnityEditor.Undo.RegisterCreatedObjectUndo(go, "Create Filter");
+				UnityEditor.Undo.RegisterCreatedObjectUndo(go, "Create Filter");
 				go.AddComponent<FaceFilterRoot>();
 				var headMarker = new GameObject("Filter Head Position Marker");
 				headMarker.AddComponent<FaceFilterHeadPosition>();
 				headMarker.transform.SetParent(go.transform, false);
-
 			}
-			
+
 			var path = directory + "/MyFilter.prefab";
 			path = UnityEditor.AssetDatabase.GenerateUniqueAssetPath(path);
 			var asset = UnityEditor.PrefabUtility.SaveAsPrefabAsset(go, path);
-            UnityEditor.Undo.RegisterCreatedObjectUndo(asset, "Create Filter");
+			UnityEditor.Undo.RegisterCreatedObjectUndo(asset, "Create Filter");
 			go.SafeDestroy();
 			if (asset)
 			{
@@ -107,26 +156,30 @@ namespace Needle.Facefilter.Scripts
 				list.Add(asset.transform);
 				component.filters = list.ToArray();
 
-                UnityEditor.EditorGUIUtility.PingObject(asset);
-                UnityEditor.SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("New Filter created and added to the filters list."));
+				UnityEditor.EditorGUIUtility.PingObject(asset);
+				UnityEditor.SceneView.lastActiveSceneView?.ShowNotification(
+					new GUIContent("New Filter created and added to the filters list."));
 
 				if (isFirstAsset)
 					await Task.Delay(2000);
 				else await Task.Delay(500);
-				
+
 				var finalPath = UnityEditor.AssetDatabase.GetAssetPath(asset);
 				Debug.Log("Successfully created new Needle Filter at " + finalPath, asset);
-				if (!isFirstAsset || UnityEditor.EditorUtility.DisplayDialog("Needle Filter", "Congrats: you created your first filter. Do you want to open the filter asset now to customize it?", "Open the Filter to customize",
+				if (!isFirstAsset || UnityEditor.EditorUtility.DisplayDialog("Needle Filter",
+					    "Congrats: you created your first filter. Do you want to open the filter asset now to customize it?",
+					    "Open the Filter to customize",
 					    "Do not open now"))
 				{
-                    UnityEditor.SceneManagement.PrefabStageUtility.OpenPrefab(finalPath);
-                    UnityEditor.SceneView.lastActiveSceneView?.ShowNotification(new GUIContent("Edit your filter now!"));
+					UnityEditor.SceneManagement.PrefabStageUtility.OpenPrefab(finalPath);
+					UnityEditor.SceneView.lastActiveSceneView?.ShowNotification(
+						new GUIContent("Edit your filter now!"));
 				}
 			}
 #endif
-        }
+		}
 
-        public static readonly string[] supportedBlendshapeNames = new[]
+		public static readonly string[] supportedBlendshapeNames = new[]
 		{
 			"_neutral",
 			"browDownLeft",
