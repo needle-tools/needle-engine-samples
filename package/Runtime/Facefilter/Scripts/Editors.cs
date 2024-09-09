@@ -202,7 +202,7 @@ namespace Needle.Typescript.GeneratedComponents
 						break;
 				}
 
-				if (target.texture == target.mask)
+				if (target.texture && target.texture == target.mask)
 				{
 					EditorGUILayout.HelpBox("The texture and mask are the same. Are you sure this is correct?", MessageType.Warning);
 				}
