@@ -1,5 +1,5 @@
 import { serializable, NEEDLE_progressive, Application } from "@needle-tools/engine";
-import { Texture, Mesh, Matrix4, MeshBasicMaterial, Vector3, Material, VideoTexture } from "three";
+import { Texture, Mesh, Matrix4, MeshBasicMaterial, Vector3, Material, VideoTexture, ShaderMaterial } from "three";
 import { FilterBehaviour } from "../Behaviours.js";
 import { NeedleFilterTrackingManager } from "../FaceFilter.js";
 import { FaceGeometry } from "./utils.facemesh.js";
@@ -129,23 +129,54 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
     }
 }
 
+const faceMeshTextureFrag = `
+precision highp float;
+uniform sampler2D map;
+uniform sampler2D mask;
+varying vec2 vUv;
+void main() {
+    vec4 texColor = texture2D(map, vUv);
+#ifdef HAS_MASK
+    vec4 maskColor = texture2D(mask, vUv);
+    gl_FragColor = texColor;
+    gl_FragColor.a *= maskColor.r;
+#else
+    gl_FragColor = texColor;
+#endif
+}
+`
 
 export class FaceMeshTexture extends FaceMeshBehaviour {
 
     @serializable(Texture)
     texture: Texture | null = null;
 
+    @serializable(Texture)
+    mask: Texture | null = null;
+
     @serializable()
     layout: "mediapipe" | "propcreate" = "mediapipe";
 
     protected createMaterial() {
-        return new MeshBasicMaterial({
-            map: this.texture,
+        return new ShaderMaterial({
             wireframe: !this.texture,
             transparent: true,
-            // depthTest: false,
-            // side: DoubleSide, 
-        })
+            uniforms: {
+                map: { value: this.texture },
+                mask: { value: this.mask },
+            },
+            defines: {
+                HAS_MASK: this.mask ? true : false,
+            },
+            fragmentShader: faceMeshTextureFrag,
+            vertexShader: `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `
+        });
     }
 }
 
