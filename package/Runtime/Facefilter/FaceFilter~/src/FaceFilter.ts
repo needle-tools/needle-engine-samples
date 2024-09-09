@@ -419,7 +419,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
             if (this._activeFilter.asset.parent !== this.context.scene) {
                 this._activeFilter.asset.visible = true;
-                this.context.scene.add(this._activeFilter.asset);
+                GameObject.add(this._activeFilter.asset, this.context.scene);
             }
             this._activeFilterBehaviour!.onResultsUpdated(this);
         }
