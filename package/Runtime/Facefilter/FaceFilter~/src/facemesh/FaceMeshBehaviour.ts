@@ -181,6 +181,7 @@ export class FaceMeshVideo extends FaceMeshBehaviour {
         }
         this._videoTexture ??= new VideoTexture(this._videoElement);
         this._videoTexture.colorSpace = this.context.renderer.outputColorSpace;
+        this._videoTexture.flipY = false;
         this._material ??= new MeshBasicMaterial({
             map: this._videoTexture,
             transparent: true,
