@@ -15,9 +15,9 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
             NEEDLE_progressive.assignTextureLOD(mat, 0);
             this.setupTextureProperties(mat);
             const geom = FaceGeometry.create(this.layout);
-            this._mesh = new Mesh(geom, mat);
-            this._geo = geom;
-            this._material = mat;
+            this.__currentMesh = new Mesh(geom, mat);
+            this.__currentGeometry = geom;
+            this.__currentMaterial = mat;
         }
         else {
             console.warn("Failed to create material (" + this.name + ")");
@@ -38,13 +38,13 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         }
     }
 
-    protected get material() { return this._material; }
+    protected get material() { return this.__currentMaterial; }
 
 
     // internal state
-    private _mesh: Mesh | null = null;
-    private _geo: FaceGeometry | null = null;
-    private _material: Material | null = null;
+    private __currentMesh: Mesh | null = null;
+    private __currentGeometry: FaceGeometry | null = null;
+    private __currentMaterial: Material | null = null;
     private _baseTransform: Matrix4 = new Matrix4();
     private _lastVideoWidth = 0;
     private _lastVideoHeight = 0;
@@ -54,7 +54,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
 
     /** @internal */
     onEnable(): void {
-        if (!this._mesh) this.createMesh();
+        if (!this.__currentMesh) this.createMesh();
         this._lastDomWidth = 0;
         this._lastDomHeight = 0;
         window.addEventListener("dragover", this._onDropOver);
@@ -65,7 +65,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
     }
     /** @internal */
     onDisable(): void {
-        this._mesh?.removeFromParent();
+        this.__currentMesh?.removeFromParent();
         window.removeEventListener("dragover", this._onDropOver);
         window.removeEventListener("drop", this._onDrop);
     }
@@ -75,7 +75,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         const lm = filter.facelandmarkerResult?.faceLandmarks;
         if (lm && lm.length > 0) {
             const face = lm[0];
-            if (this._mesh) {
+            if (this.__currentMesh) {
 
                 // frame delay the matrix update since otherwise e.g. opening the dev tools on chrome (f12) will not be picked up
                 // and the aspect ratio will be wrong
@@ -102,13 +102,13 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
                     this._needsMatrixUpdate = true;
                 }
             }
-            this._geo?.update(face);
+            this.__currentGeometry?.update(face);
         }
     }
 
     /** Updates the matrix of the mesh to match the aspect ratio of the video */
     private updateMatrix(filter: NeedleFilterTrackingManager) {
-        const mesh = this._mesh;
+        const mesh = this.__currentMesh;
         if (!mesh) return;
 
         const videoWidth = filter.videoWidth;
@@ -146,7 +146,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
     private _onDrop = (evt: DragEvent) => {
         if (!this.allowDrop) return;
         evt.preventDefault();
-        if (!this._material) {
+        if (!this.__currentMaterial) {
             console.warn("Can not handle texture drop - there's no material to apply the texture to...");
             return;
         }
@@ -155,7 +155,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         if (files && files.length > 0) {
             const file = files[0];
             const ext = file.name.split(".").pop()?.toLowerCase();
-            const mat = this._material;
+            const mat = this.__currentMaterial;
             switch (ext) {
                 case "jpg":
                 case "jpeg":
@@ -243,6 +243,26 @@ export class FaceMeshTexture extends FaceMeshBehaviour {
                 }
             `
         });
+    }
+}
+
+export class FaceMeshCustomShader extends FaceMeshBehaviour {
+
+    private __material: Material | null = null;
+
+    // @type UnityEngine.Material
+    @serializable(Material)
+    public get material(): Material | null {
+        return this.__material;
+    }
+    public set material(value: Material | null) {
+        console.log(value)
+        this.__material = value;
+    }
+
+    protected createMaterial(): Material | null {
+        console.log("Creating custom material", this.material);
+        return this.material;
     }
 }
 

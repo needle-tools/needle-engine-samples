@@ -70,7 +70,7 @@ namespace Needle.Facefilter.Scripts
 		private static Material _material;
 		private static Texture _fallbackTexture;
 
-		public static void RenderFaceGizmo(FaceMeshTexture comp)
+		internal static void EnsureFaceMeshSetup()
 		{
 			if (!_material)
 			{
@@ -97,6 +97,11 @@ namespace Needle.Facefilter.Scripts
 					_fallbackTexture = AssetDatabase.LoadAssetAtPath<Texture>(texturePath);
 				}
 			}
+		}
+
+		public static void RenderFaceGizmo(FaceMeshTexture comp)
+		{
+			EnsureFaceMeshSetup();
 
 			if (_material && _facemesh)
 			{
@@ -109,6 +114,24 @@ namespace Needle.Facefilter.Scripts
 				}
 
 				if (_material.SetPass(0))
+				{
+					var mat = transform.localToWorldMatrix;
+					var scaleMat = Matrix4x4.Scale(new Vector3(.1f, .1f, .1f));
+					mat = mat * scaleMat;
+					Graphics.DrawMeshNow(_facemesh, mat, 0);
+				}
+			}
+		}
+
+		public static void RenderFaceGizmo(FaceMeshCustomShader comp)
+		{
+			EnsureFaceMeshSetup();
+
+			if (_facemesh && comp.material)
+			{
+				var transform = comp.transform;
+				
+				if (comp.material.SetPass(0))
 				{
 					var mat = transform.localToWorldMatrix;
 					var scaleMat = Matrix4x4.Scale(new Vector3(.1f, .1f, .1f));

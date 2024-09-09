@@ -150,8 +150,7 @@ namespace Needle.Typescript.GeneratedComponents
 			Procreate = 1,
 		}
 
-		[SerializeField]
-		private Layout _layout = Layout.Mediapipe;
+		[SerializeField] private Layout _layout = Layout.Mediapipe;
 
 		public string layout
 		{
@@ -181,28 +180,52 @@ namespace Needle.Typescript.GeneratedComponents
 			public override void OnInspectorGUI()
 			{
 				base.OnInspectorGUI();
-				
+
 				helpStyle ??= GUI.skin.GetStyle("HelpBox");
 				helpStyle.richText = true;
-				
+
 				// ReSharper disable once LocalVariableHidesMember
-				var target = (FaceMeshTexture) this.target;
-				
+				var target = (FaceMeshTexture)this.target;
+
 				GUILayout.Space(3);
 				switch (target._layout)
 				{
 					case Layout.Mediapipe:
-						EditorGUILayout.TextArea("Using the Mediapipe layout. Select this if your texture was created for Meta Spark or is using the <a href=\"https://spark.meta.com/learn/articles/creating-and-prepping-assets/the-face-mask-template-in-Adobe/\">Meta Spark template</a> or another tool that is using the ARCore face mesh tracking.", helpStyle);
+						EditorGUILayout.TextArea(
+							"Using the Mediapipe layout. Select this if your texture was created for Meta Spark or is using the <a href=\"https://spark.meta.com/learn/articles/creating-and-prepping-assets/the-face-mask-template-in-Adobe/\">Meta Spark template</a> or another tool that is using the ARCore face mesh tracking.",
+							helpStyle);
 						break;
 					case Layout.Procreate:
-						EditorGUILayout.HelpBox("Using the Procreate layout. Select this if your texture was created using <a href=\"https://help.procreate.com/procreate/handbook/actions/actions-canvas#pz13yy3eihh\">Procreate's FacePaint feature</a> (or another iOS app that is using Apple ARKit Face Mesh tracking)", MessageType.None);
+						EditorGUILayout.HelpBox(
+							"Using the Procreate layout. Select this if your texture was created using <a href=\"https://help.procreate.com/procreate/handbook/actions/actions-canvas#pz13yy3eihh\">Procreate's FacePaint feature</a> (or another iOS app that is using Apple ARKit Face Mesh tracking)",
+							MessageType.None);
 						break;
 				}
 			}
 		}
 #endif
 	}
-		
+
+	[AddComponentMenu("Needle Engine/Face Filter/Face Mesh: Custom Shader (not supported yet)")]
+	public partial class FaceMeshCustomShader
+	{
+		private void OnDrawGizmos()
+		{
+			Utils.RenderFaceGizmo(this);
+		}
+#if UNITY_EDITOR
+		[UnityEditor.CustomEditor(typeof(FaceMeshCustomShader))]
+		internal class Editor : UnityEditor.Editor
+		{
+			public override void OnInspectorGUI()
+			{
+				// base.OnInspectorGUI();
+				EditorGUILayout.HelpBox("This feature is not yet supported", MessageType.Warning);
+			}
+		}
+#endif
+	}
+
 	[AddComponentMenu("Needle Engine/Face Filter/Face Mesh: Video")]
 	public partial class FaceMeshVideo
 	{
