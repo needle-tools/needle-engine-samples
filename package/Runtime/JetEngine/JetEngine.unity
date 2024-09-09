@@ -513,7 +513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82173523}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.45, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -600,6 +600,7 @@ GameObject:
   - component: {fileID: 94459341}
   - component: {fileID: 94459342}
   - component: {fileID: 94459343}
+  - component: {fileID: 94459344}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -614,7 +615,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94459340}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5.027, z: 0}
   m_LocalScale: {x: 1.1326, y: 1.1326, z: 1.1326}
   m_ConstrainProportionsScale: 0
@@ -691,6 +692,24 @@ MonoBehaviour:
   castShadows: 0
   renderOrder: 1
   toneMapped: 0
+--- !u!114 &94459344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94459340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6db081035564a29af84317b8dafe597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.LookAt, Needle.Engine
+  target: {fileID: 0}
+  invertForward: 1
+  keepUpDirection: 0
+  copyTargetRotation: 1
+  copyTargetRotationInXR: 1
+  updateInEditor: 0
 --- !u!1 &97191186
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,6 +1020,7 @@ MonoBehaviour:
   invertForward: 1
   keepUpDirection: 0
   copyTargetRotation: 1
+  copyTargetRotationInXR: 0
   updateInEditor: 0
 --- !u!1 &196730843
 GameObject:
@@ -1113,6 +1133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 199619639}
+  - component: {fileID: 199619640}
   m_Layer: 5
   m_Name: Panels
   m_TagString: Untagged
@@ -1127,8 +1148,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199619638}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.31, y: -4.592, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.74, y: -4.592, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1138,6 +1159,24 @@ Transform:
   m_Father: {fileID: 734026634}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &199619640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199619638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6db081035564a29af84317b8dafe597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.LookAt, Needle.Engine
+  target: {fileID: 0}
+  invertForward: 1
+  keepUpDirection: 0
+  copyTargetRotation: 1
+  copyTargetRotationInXR: 1
+  updateInEditor: 0
 --- !u!1 &235772738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1753,6 +1792,14 @@ PrefabInstance:
       propertyPath: updateInEditor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: keepUpDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: copyTargetRotation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5823982522002054978, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: m_EditorClassIdentifier
       value: Needle.Engine.Components.SetActiveOnClick, Needle.Engine
@@ -2255,6 +2302,14 @@ PrefabInstance:
       propertyPath: updateInEditor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: keepUpDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: copyTargetRotation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5823982522002054978, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: m_EditorClassIdentifier
       value: Needle.Engine.Components.SetActiveOnClick, Needle.Engine
@@ -2686,6 +2741,14 @@ PrefabInstance:
     - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: updateInEditor
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: keepUpDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: copyTargetRotation
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5823982522002054978, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: m_EditorClassIdentifier
@@ -3794,7 +3857,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.051399563, y: -0.8652954, z: 0.090711534, w: 0.49029937}
   m_LocalPosition: {x: 40.06, y: 10.46, z: 24}
-  m_LocalScale: {x: 1.0000651, y: 0.99999887, z: 1.000062}
+  m_LocalScale: {x: 1.0000669, y: 0.99999887, z: 1.0000644}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4037,7 +4100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729007409}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -5.1847, z: 0}
+  m_LocalPosition: {x: 0, y: -0.4437003, z: -0.027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4050,8 +4113,8 @@ Transform:
   - {fileID: 1783046009}
   - {fileID: 1898891936}
   - {fileID: 280031572}
-  m_Father: {fileID: 734026634}
-  m_RootOrder: 3
+  m_Father: {fileID: 1044482677}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &732451461
 GameObject:
@@ -4163,8 +4226,7 @@ Transform:
   m_Children:
   - {fileID: 199619639}
   - {fileID: 94459341}
-  - {fileID: 1383341992}
-  - {fileID: 729007410}
+  - {fileID: 1044482677}
   m_Father: {fileID: 1187305643}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4286,12 +4348,6 @@ MonoBehaviour:
   AutoExport: 1
   AutoCompress: 1
   Dependencies:
-  - Name: needle.hotspots
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Hotspots/Scripts/Needle.Hotspots.npmdef
-    Guid: f28a022fa2c4fd44ab2f75edcae75ab6
-  - Name: needle.samples.customxrbuttons
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/HTMLCustomXRButtons/Needle.Samples.CustomXRButtons.npmdef
-    Guid: d14b2da477eb8194eab317836161db09
   - Name: '@needle-tools/samples-scripts'
     VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
@@ -5581,6 +5637,58 @@ MonoBehaviour:
   castShadows: 0
   renderOrder: 2
   toneMapped: 0
+--- !u!1 &1044482676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1044482677}
+  - component: {fileID: 1044482678}
+  m_Layer: 0
+  m_Name: Nav
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1044482677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044482676}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -4.741, z: 0.027}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1383341992}
+  - {fileID: 729007410}
+  m_Father: {fileID: 734026634}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1044482678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044482676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6db081035564a29af84317b8dafe597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.LookAt, Needle.Engine
+  target: {fileID: 0}
+  invertForward: 1
+  keepUpDirection: 0
+  copyTargetRotation: 1
+  copyTargetRotationInXR: 1
+  updateInEditor: 0
 --- !u!1 &1047823794
 GameObject:
   m_ObjectHideFlags: 0
@@ -6051,6 +6159,7 @@ MonoBehaviour:
   invertForward: 1
   keepUpDirection: 0
   copyTargetRotation: 1
+  copyTargetRotationInXR: 0
   updateInEditor: 0
 --- !u!1 &1208995745
 GameObject:
@@ -6543,7 +6652,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383341991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.741, z: 0.027}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6552,8 +6661,8 @@ Transform:
   - {fileID: 62463709}
   - {fileID: 22137414}
   - {fileID: 561600398}
-  m_Father: {fileID: 734026634}
-  m_RootOrder: 2
+  m_Father: {fileID: 1044482677}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1415890716
 GameObject:
@@ -7969,6 +8078,14 @@ PrefabInstance:
       propertyPath: updateInEditor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: keepUpDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: copyTargetRotation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5823982522002054978, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: m_EditorClassIdentifier
       value: Needle.Engine.Components.SetActiveOnClick, Needle.Engine
@@ -8623,7 +8740,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804652340}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.45000038, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9292,7 +9409,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002451448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.45000038, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9782,6 +9899,14 @@ PrefabInstance:
     - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: updateInEditor
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: keepUpDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: copyTargetRotation
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5823982522002054978, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: m_EditorClassIdentifier
@@ -10693,6 +10818,14 @@ PrefabInstance:
     - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: updateInEditor
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: keepUpDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971367761816900187, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
+      propertyPath: copyTargetRotation
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5823982522002054978, guid: 4432e1a8015f0eb479ad88dd50ad2e4c, type: 3}
       propertyPath: m_EditorClassIdentifier
