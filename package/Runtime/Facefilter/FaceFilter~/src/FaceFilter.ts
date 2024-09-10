@@ -119,7 +119,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
             // preload the next filter
             const nextIndex = (index + 1) % this.filters.length;
             const nextFilter = this.filters[nextIndex];
-            console.log("Preload Filter #" + nextIndex)
+            console.debug("Preload Filter #" + nextIndex)
             nextFilter?.loadAssetAsync();
 
             return true;
