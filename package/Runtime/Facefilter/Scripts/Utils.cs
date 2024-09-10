@@ -72,6 +72,7 @@ namespace Needle.Facefilter.Scripts
 
 		internal static void EnsureFaceMeshSetup()
 		{
+#if UNITY_EDITOR
 			if (!_material)
 			{
 				var materialPath = UnityEditor.AssetDatabase.GUIDToAssetPath("88c16fb738b72a84883ca22d5ba1536e");
@@ -99,6 +100,7 @@ namespace Needle.Facefilter.Scripts
 					_fallbackTexture = AssetDatabase.LoadAssetAtPath<Texture>(texturePath); 
 				}
 			}
+#endif
 		}
 
 		public static void RenderFaceGizmo(FaceMeshTexture comp)
