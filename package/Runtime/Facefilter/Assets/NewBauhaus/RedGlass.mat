@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8881714694383620847
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,26 +7,23 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Face Mesh Preview Material
-  m_Shader: {fileID: -6465566751694194690, guid: 59541e6caf586ca4f96ccf48a4813a51, type: 3}
+  m_Name: RedGlass
+  m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
   m_ValidKeywords:
-  - _SURFACE_TYPE_TRANSPARENT
-  - _VERTEX_COLORS_ON
-  m_InvalidKeywords:
-  - _VOLUME_TRANSMISSION_OFF
+  - _VOLUME_TRANSMISSION_ANDDISPERSION
+  m_InvalidKeywords: []
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - DepthOnly
+    RenderType: Opaque
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 647f9d3f39c141d4bbb44388e3e5d836, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -83,7 +67,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - baseColorTexture:
-        m_Texture: {fileID: 2800000, guid: c2ca6373ad1624cd59954c6a28624469, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - clearcoatRoughnessTexture:
@@ -153,7 +137,7 @@ Material:
     - _BUILTIN_Blend: 0
     - _BUILTIN_CullMode: 2
     - _BUILTIN_DstBlend: 0
-    - _BUILTIN_QueueControl: 1
+    - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _BUILTIN_SrcBlend: 1
     - _BUILTIN_Surface: 0
@@ -170,7 +154,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -181,25 +165,25 @@ Material:
     - _OcclusionStrength: 1
     - _OverrideSurfaceMode: 0
     - _Parallax: 0.005
-    - _QueueControl: -1
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SPECULAR: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 5
-    - _Surface: 1
+    - _SrcBlend: 1
+    - _Surface: 0
     - _TEXTURE_TRANSFORM: 0
     - _VERTEX_COLORS: 1
-    - _VOLUME_ON: 0
-    - _VOLUME_TRANSMISSION: 0
+    - _VOLUME_ON: 1
+    - _VOLUME_TRANSMISSION: 2
     - _WorkflowMode: 1
     - _ZTest: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
     - _ZWriteControl: 0
     - alphaCutoff: -0.5
-    - attenuationDistance: 0.001
+    - attenuationDistance: 0.3
     - baseColorTextureRotation: 0
     - baseColorTextureTexCoord: 0
     - clearcoatFactor: 0
@@ -208,10 +192,10 @@ Material:
     - clearcoatRoughnessTextureTexCoord: 0
     - clearcoatTextureRotation: 0
     - clearcoatTextureTexCoord: 0
-    - dispersion: 0
+    - dispersion: 1
     - emissiveTextureRotation: 0
     - emissiveTextureTexCoord: 0
-    - ior: 1.5
+    - ior: 1.9
     - iridescenceFactor: 0
     - iridescenceIor: 1.3
     - iridescenceTextureRotation: 0
@@ -229,16 +213,16 @@ Material:
     - occlusionStrength: 1
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
-    - roughnessFactor: 0.5
+    - roughnessFactor: 0
     - specularColorTextureRotation: 0
     - specularColorTextureTexCoord: 0
     - specularFactor: 1
     - specularTextureRotation: 0
     - specularTextureTexCoord: 0
-    - thicknessFactor: 0
+    - thicknessFactor: 1
     - thicknessTextureRotation: 0
     - thicknessTextureTexCoord: 0
-    - transmissionFactor: 0
+    - transmissionFactor: 1
     - transmissionTextureRotation: 0
     - transmissionTextureTexCoord: 0
     m_Colors:
@@ -246,12 +230,25 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
+    - attenuationColor: {r: 0.71219736, g: 0.23137254, b: 0.77254903, a: 0}
     - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
     - emissiveFactor: {r: 0, g: 0, b: 0, a: 1}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5108866918999152048
+--- !u!114 &1518093396857044966
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
+--- !u!114 &5656271698768383235
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
