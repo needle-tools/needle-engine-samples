@@ -1,6 +1,6 @@
-import { Behaviour, Context, getParam, makeIdFromRandomWords, setParam, setParamWithoutReload, showBalloonWarning, syncField } from "@needle-tools/engine";
+import { Behaviour, Context, getParam, makeIdFromRandomWords, serializable, setParam, setParamWithoutReload, showBalloonWarning, syncField } from "@needle-tools/engine";
 import { FaceMeshBehaviour } from "../facemesh/FaceMeshBehaviour";
-import { Material, ShaderMaterial, ShaderMaterialParameters, Vector3, Vector4 } from "three";
+import { Material, ShaderMaterial, ShaderMaterialParameters, Texture, Vector3, Vector4 } from "three";
 
 /*
 Shader Inputs
@@ -30,9 +30,17 @@ uniform sampler2D iChannel0;
 `
 
 const mainChunk = `
+uniform sampler2D mask;
+varying vec2 vUv;
+
 void main() {
     gl_FragColor = vec4(0.3, 1.0, 0.4, 1.0);
     mainImage(gl_FragColor, gl_FragCoord.xy);
+
+#ifdef USE_MASK
+    vec4 maskColor = texture2D(mask, vUv);
+    gl_FragColor.a *= maskColor.r;
+#endif
 }
 `
 
@@ -46,6 +54,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
 
 class ShaderToyMaterial extends ShaderMaterial {
+
     constructor(args?: ShaderMaterialParameters) {
         super(args);
         if (!args?.fragmentShader) {
@@ -54,8 +63,16 @@ class ShaderToyMaterial extends ShaderMaterial {
             shader += mainChunk;
             this.fragmentShader = shader;
         }
+        this.vertexShader = `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+        `
+        this.transparent = true;
         this.uniforms = {
-            iResolution: { value: new Vector3(window.innerWidth, window.innerHeight, 1) },
+            iResolution: { value: new Vector3(100, 100, 1) },
             iTime: { value: 0 },
             iTimeDelta: { value: 0 },
             iFrameRate: { value: 0 },
@@ -73,7 +90,7 @@ class ShaderToyMaterial extends ShaderMaterial {
     }
     update(filter: ShaderToyFaceFilter) {
         const context = filter.context;
-        this.uniforms.iResolution.value.set(context.domWidth, context.domHeight, 1);
+        this.uniforms.iResolution.value.set(context.domWidth * window.devicePixelRatio, context.domHeight * window.devicePixelRatio, 1);
         this.uniforms.iTime.value = context.time.realtimeSinceStartup;
         this.uniforms.iTimeDelta.value = context.time.deltaTime;
         this.uniforms.iFrameRate.value = context.time.smoothedFps;
@@ -90,9 +107,21 @@ class ShaderToyMaterial extends ShaderMaterial {
 
 
 export class ShaderToyFaceFilter extends FaceMeshBehaviour {
+
+    @serializable(Texture)
+    mask: Texture | null = null;
+
     protected createMaterial(): Material | null {
-        return new ShaderToyMaterial()
+        return new ShaderToyMaterial({
+            uniforms: {
+                mask: { value: this.mask }
+            },
+            defines: {
+                USE_MASK: this.mask ? true : false
+            }
+        })
     }
+
     update(): void {
         const material = this.material as ShaderToyMaterial;
         if (material) {
@@ -113,6 +142,10 @@ export class ShaderToyFaceFilter extends FaceMeshBehaviour {
     onDisable(): void {
         super.onDisable();
         window.removeEventListener("paste", this.onPaste);
+        const room = getParam("shader") as string;
+        if (room) {
+            this.context.connection.leaveRoom(room);
+        }
     }
 
     @syncField(ShaderToyFaceFilter.prototype.onShaderChanged)

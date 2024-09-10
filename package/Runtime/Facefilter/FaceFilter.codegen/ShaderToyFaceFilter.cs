@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class ShaderToyFaceFilter : Needle.Typescript.GeneratedComponents.FaceMeshBehaviour
 	{
+		public UnityEngine.Texture @mask;
 		public void update(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
