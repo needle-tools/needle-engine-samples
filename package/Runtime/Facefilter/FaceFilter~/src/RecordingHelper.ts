@@ -5,6 +5,7 @@ import { DoubleSide, MeshBasicMaterial, Object3D, PerspectiveCamera, Texture, Te
 declare type RecordingOptions = {
     context: Context;
     customLogo?: Texture | null;
+    download_name?: string | null;
 }
 declare type FilterRecordingOptions = RecordingOptions & {
 }
@@ -41,7 +42,7 @@ export class NeedleRecordingHelper {
                     shouldRecord = false;
                     this.button!.innerText = "Record";
                     this.button!.prepend(startIcon);
-                    this.stopRecording();
+                    this.stopRecording(options);
                 }// Start recording
                 else {
                     shouldRecord = true;
@@ -89,7 +90,7 @@ export class NeedleRecordingHelper {
             setTimeout(() => {
                 this.startRecording(ctx.renderer.domElement, options);
                 setTimeout(() => {
-                    this.stopRecording();
+                    this.stopRecording(options);
                 }, 2000)
             }, 1000)
         }
@@ -133,17 +134,17 @@ export class NeedleRecordingHelper {
         Watermark.add(opts.context, opts.customLogo || null);
         this.recorder.start(100);
     }
-    static stopRecording() {
+    static stopRecording(opts?: RecordingOptions) {
         this.isRecording = false;
         Watermark.remove();
         this.recorder?.requestData();
         if (this.debug) showBalloonMessage("Recording stopped " + this.chunks.length);
         this.recorder!.onstop = () => {
-            this.download();
+            this.download(opts);
         };
         this.recorder!.stop();
     }
-    private static async download() {
+    private static async download(opts?: RecordingOptions) {
         if (this.chunks.length === 0) {
             return false;
         }
@@ -151,7 +152,18 @@ export class NeedleRecordingHelper {
         const blob = new Blob(this.chunks, { type: format });
         this.chunks.length = 0;
         const ext = format.split("/")[1];
-        const downloadName = "needle-engine-facefilter." + ext;
+
+        let downloadName = "needle-engine-facefilter";
+        if (opts?.download_name?.length) {
+            if (hasProLicense())
+                downloadName = opts.download_name;
+            else {
+                console.warn("Needle Engine Pro is required to set a custom download name");
+            }
+        }
+        downloadName += "." + ext;
+        console.debug("Downloading recording as " + downloadName);
+
         const url = URL.createObjectURL(blob);
 
         // Share doesnt work with a blob url

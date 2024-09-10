@@ -7,8 +7,10 @@ namespace Needle.Typescript.GeneratedComponents
 	[AddComponentMenu("Needle Engine/Face Filter/Face Filter Tracking Manager")]
 	public partial class NeedleFilterTrackingManager
 	{
-		[RequireLicense(LicenseType.Pro, null, "Custom Branding requires a Needle Engine PRO license")]
+		[RequireLicense(LicenseType.Pro, "This logo/image will be displayed during recording using the \"Record\" button.", "Custom Branding requires a Needle Engine PRO license")]
 		public Texture2D customLogo;
+		[RequireLicense(LicenseType.Pro, "This name will be used for recorded videos using the \"Record\" button.")]
+		public string downloadName;
 		
 #if UNITY_EDITOR
 		[UnityEditor.CustomEditor(typeof(NeedleFilterTrackingManager))]

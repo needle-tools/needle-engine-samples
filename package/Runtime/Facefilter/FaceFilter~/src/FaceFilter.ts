@@ -33,12 +33,22 @@ export class NeedleFilterTrackingManager extends Behaviour {
     createMenuButton: boolean = true;
 
     /** Assign a texture to display your logo in the recorded video.   
-     * Note: this requires an active license: https://needle.tools/pricing
+     * Note: this requires an active PRO license: https://needle.tools/pricing
      */
     // @nonSerialized
     @serializable(Texture)
     customLogo: Texture | null = null;
 
+    /** The name of the downloaded video. If null the video will not be downloadable  
+     * Note: this requires an active PRO license: https://needle.tools/pricing
+     */
+    // @nonSerialized
+    downloadName: string | null = null;
+
+
+    /**
+     * Test videos that can be used to test the face tracking. This is only available in development mode
+     */
     @serializable(URL)
     testVideo: VideoClip[] | null = null;
 
@@ -485,6 +495,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
         const recordingButton = NeedleRecordingHelper.createButton({
             context: this.context,
             customLogo: this.customLogo,
+            download_name: this.downloadName || undefined,
         });
         this._buttons.push(recordingButton);
 

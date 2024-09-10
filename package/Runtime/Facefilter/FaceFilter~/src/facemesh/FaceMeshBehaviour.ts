@@ -199,19 +199,21 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
 }
 
 const faceMeshTextureFrag = `
+
 precision highp float;
 uniform sampler2D map;
 uniform sampler2D mask;
 varying vec2 vUv;
 void main() {
     vec4 texColor = texture2D(map, vUv);
+    gl_FragColor = texColor;
 #ifdef HAS_MASK
     vec4 maskColor = texture2D(mask, vUv);
-    gl_FragColor = texColor;
     gl_FragColor.a *= maskColor.r;
-#else
-    gl_FragColor = texColor;
 #endif
+
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
 }
 `
 
