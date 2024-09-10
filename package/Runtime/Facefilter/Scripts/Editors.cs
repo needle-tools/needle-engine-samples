@@ -14,7 +14,8 @@ namespace Needle.Typescript.GeneratedComponents
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
-			Utils.RenderHeadGizmo(this);
+			if(isActiveAndEnabled)
+				Utils.RenderHeadGizmo(this);
 		}
 
 		[UnityEditor.CustomEditor(typeof(FaceFilterHeadPosition))]
@@ -41,7 +42,8 @@ namespace Needle.Typescript.GeneratedComponents
 		{
 			if (!GetComponentInChildren<FaceFilterHeadPosition>())
 			{
-				Utils.RenderHeadGizmo(this, null);
+				if(isActiveAndEnabled)
+					Utils.RenderHeadGizmo(this, null);
 			}
 		}
 
@@ -49,6 +51,8 @@ namespace Needle.Typescript.GeneratedComponents
 		private class Editor : UnityEditor.Editor
 		{
 			private FaceFilterHeadPosition _headPosition;
+			private FaceMeshBehaviour _faceMeshBehaviour;
+			
 			private FaceFilterAnimator _animator;
 
 			private void OnEnable()
@@ -60,23 +64,36 @@ namespace Needle.Typescript.GeneratedComponents
 			public override void OnInspectorGUI()
 			{
 				UnityEditor.EditorGUILayout.HelpBox(
-					"Put this component at the Root GameObject of your filter and add the filter to the FaceFilterManager \"Filters\" array to use it in the web.",
+					"Put this component at the Root GameObject of your filter - then add the filter to the FaceFilterManager \"Filters\" array to use it in the web.",
 					UnityEditor.MessageType.None);
 
 				base.OnInspectorGUI();
 
 				if (!_headPosition)
 				{
-					UnityEditor.EditorGUILayout.HelpBox("Click the button to position the filter.",
+					GUILayout.Space(5);
+					UnityEditor.EditorGUILayout.HelpBox("Click the button to position the filter. This is useful if you want to create a filter that has 3D objects around or on the users head.",
 						UnityEditor.MessageType.None);
-					if (GUILayout.Button("Configure Head Position/Size (Optional)", GUILayout.Height(32)))
+					if (GUILayout.Button("Create Head Gizmo (Optional)", GUILayout.Height(32)))
 					{
 						var obj = new GameObject("Needle Filter Head Position");
-						UnityEditor.Undo.RegisterCreatedObjectUndo(obj, "Create Head Position");
+						UnityEditor.Undo.RegisterCreatedObjectUndo(obj, "Create Face Filter Head Position");
 						_headPosition = obj.AddComponent<FaceFilterHeadPosition>();
 						obj.transform.SetParent((this.target as Component)!.transform, false);
 						UnityEditor.Selection.activeObject = obj;
 					}
+				}
+				else
+				{
+					GUILayout.Space(5);
+					using (new GUILayout.HorizontalScope())
+					{
+						EditorGUILayout.PrefixLabel("Head Gizmo");
+						using(new EditorGUI.DisabledScope(true))
+							EditorGUILayout.ObjectField(_headPosition, typeof(FaceFilterHeadPosition), true);
+					}
+					EditorGUILayout.HelpBox("Use the Head Position Gizmo to position where your objects appear on or around a user's head/face. You can either move your objects to fit the gizmo or move/scale/rotate the gizmo to fit your model.",
+						MessageType.None);
 				}
 				// if (!_animator)
 				// {
@@ -169,7 +186,8 @@ namespace Needle.Typescript.GeneratedComponents
 
 		private void OnDrawGizmos()
 		{
-			Utils.RenderFaceGizmo(this);
+			if(isActiveAndEnabled)
+				Utils.RenderFaceGizmo(this);
 		}
 #if UNITY_EDITOR
 		[UnityEditor.CustomEditor(typeof(FaceMeshTexture))]

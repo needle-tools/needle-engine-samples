@@ -106,7 +106,12 @@ export class NeedleFilterTrackingManager extends Behaviour {
         if (index < 0) index = this.filters.length - 1;
         this.select(index);
     }
+    // select(index: string);
+    // select(index: number);
     select(index: number) {
+        // if (typeof index === "string") {
+        //     index = this.findIndex(index);
+        // }
         if (index >= 0 && index < this.filters.length && typeof index === "number") {
             this._activeFilterIndex = index;
             setParamWithoutReload("facefilter", index.toString());
@@ -121,6 +126,15 @@ export class NeedleFilterTrackingManager extends Behaviour {
         }
         return false;
     }
+    // private findIndex(str: string): number {
+    //     for (let i = 0; i < this.filters.length; i++) {
+    //         const filter = this.filters[i];
+    //         if (filter?.url?.includes(str)) {
+    //             return i;
+    //         }
+    //     }
+    //     return 0;
+    // }
 
 
 
