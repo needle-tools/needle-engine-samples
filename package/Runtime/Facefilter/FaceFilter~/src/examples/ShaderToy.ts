@@ -1,4 +1,4 @@
-import { Behaviour, Context, getParam, setParam, setParamWithoutReload, showBalloonWarning } from "@needle-tools/engine";
+import { Behaviour, Context, getParam, makeIdFromRandomWords, setParam, setParamWithoutReload, showBalloonWarning, syncField } from "@needle-tools/engine";
 import { FaceMeshBehaviour } from "../facemesh/FaceMeshBehaviour";
 import { Material, ShaderMaterial, ShaderMaterialParameters, Vector3, Vector4 } from "three";
 
@@ -31,21 +31,15 @@ uniform sampler2D iChannel0;
 
 const mainChunk = `
 void main() {
-    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    gl_FragColor = vec4(0.3, 1.0, 0.4, 1.0);
     mainImage(gl_FragColor, gl_FragCoord.xy);
 }
 `
 
 const fragmentShader = `
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-    // Normalized pixel coordinates (from 0 to 1)
-    vec2 uv = fragCoord/iResolution.xy;
-
-    // Time varying pixel color
+{    vec2 uv = fragCoord/iResolution.xy;
     vec3 col = 0.5 + 0.5*cos(iTime+uv.xyx+vec3(0,2,4));
-
-    // Output to screen
     fragColor = vec4(col,1.0);
 }
 `;
@@ -108,16 +102,22 @@ export class ShaderToyFaceFilter extends FaceMeshBehaviour {
     onEnable(): void {
         super.onEnable();
         window.addEventListener("paste", this.onPaste);
-        const shader = getParam("shader");
-        if (typeof shader === "string" && shader.length > 1) {
-            const shaderText = atob(shader);
-            this.trySetShader(shaderText);
+
+        let shaderRoomName = getParam("shader") as string;
+        if (typeof shaderRoomName != "string" || shaderRoomName.length < 1) {
+            shaderRoomName = makeIdFromRandomWords();
+            setParamWithoutReload("shader", shaderRoomName);
         }
+        this.context.connection.joinRoom(shaderRoomName);
     }
     onDisable(): void {
         super.onDisable();
         window.removeEventListener("paste", this.onPaste);
     }
+
+    @syncField(ShaderToyFaceFilter.prototype.onShaderChanged)
+    private _networkedShader: string | null = null;
+
     private onPaste = (e: ClipboardEvent) => {
         if (!e.clipboardData) return;
         const text = e.clipboardData.getData("text");
@@ -131,13 +131,17 @@ export class ShaderToyFaceFilter extends FaceMeshBehaviour {
             if (material) {
                 material.fragmentShader = inputsChunk + shader + mainChunk;
                 material.needsUpdate = true;
-
-                const base64str = btoa(shader);
-                setParamWithoutReload("shader", base64str);
+                if (shader != this._networkedShader) {
+                    this._networkedShader = shader;
+                }
             }
         }
         else {
             showBalloonWarning("The pasted text does not contain a mainImage function / is not a ShaderToy shader.")
         }
+    }
+    private onShaderChanged() {
+        if (this._networkedShader)
+            this.trySetShader(this._networkedShader);
     }
 }
