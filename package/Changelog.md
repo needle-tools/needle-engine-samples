@@ -4,7 +4,7 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.19.2-pre] - 2024-09-10
+## [0.19.3-pre.1] - 2024-09-10
 ### Added
 - Face Mesh support: Add a `FaceMeshTexture` or `FaceMeshVideo` component to your GameObject and add the object to the filters list in the FaceFilterTrackingManager component.
 
