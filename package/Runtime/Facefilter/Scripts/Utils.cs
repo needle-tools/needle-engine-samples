@@ -16,12 +16,12 @@ namespace Needle.Facefilter.Scripts
 		[NonSerialized] private static bool _searchedForOcclusionMesh = false;
 		[NonSerialized] private static Transform _fallbackOcclusionMesh;
 
-		public static void RenderHeadGizmo(Component comp, Transform assignedOcclusionMesh = null)
+		public static void RenderHeadGizmo(Component comp, Transform assignedOcclusionMesh = null, float alphaFactor = 1f)
 		{
 #if UNITY_EDITOR
 			var transform = comp.transform;
 
-			Gizmos.color = new Color(.5f, .7f, .8f, .5f);
+			Gizmos.color = new Color(.5f, .7f, .8f, .5f * alphaFactor);
 			var position = transform.position;
 			position.z -= .03f;
 
@@ -52,7 +52,7 @@ namespace Needle.Facefilter.Scripts
 					Gizmos.matrix = Matrix4x4.TRS(transform.position, t.rotation * transform.rotation, scale);
 					Gizmos.DrawMesh(mesh, 0);
 					var col2 = Gizmos.color;
-					col2.a = .05f;
+					col2.a = .05f * alphaFactor;
 					Gizmos.color = col2;
 					Gizmos.DrawWireMesh(mesh, 0);
 				}

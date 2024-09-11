@@ -233,6 +233,10 @@ export class FaceMeshTexture extends FaceMeshBehaviour {
     private _material: ShaderMaterial | null = null;
 
     protected createMaterial() {
+        // return new MeshBasicMaterial({
+        //     transparent: true,
+        //     // map: this.texture,
+        // });
         return this._material = new ShaderMaterial({
             uniforms: {
                 map: { value: this.texture },
