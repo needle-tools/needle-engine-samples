@@ -120,8 +120,15 @@ export class LinesDrawer extends Behaviour {
 
     private readonly _activePointers: Set<number> = new Set();
 
+    private _shouldHandle(args: NEPointerEvent) {
+        if (args.button === 0) return true;
+        // Handling for MX Ink / stylus based on button indices
+        if (args.origin instanceof NeedleXRController && args.origin.isStylus && (args.button === 4 || args.button === 5)) return true;
+        return false;
+    }
+
     private _onPointerDown = (args: NEPointerEvent) => {
-        if (args.button !== 0) return;
+        if (!this._shouldHandle(args)) return;
         if (args.used) return;
         if (args.defaultPrevented) return;
         if (!args.isSpatial && !this._allow2DDrawing) {
@@ -137,7 +144,7 @@ export class LinesDrawer extends Behaviour {
     }
 
     private _onPointerMove = (args: NEPointerEvent) => {
-        if (args.button !== 0) return;
+        if (!this._shouldHandle(args)) return;
         if (args.used) return;
         if (!this._activePointers.has(args.pointerId)) return;
         args.use();
@@ -147,7 +154,7 @@ export class LinesDrawer extends Behaviour {
 
 
     private _onPointerUp = (args: NEPointerEvent) => {
-        if (args.button !== 0) return;
+        if (!this._shouldHandle(args)) return;
         if (!this._activePointers.has(args.pointerId)) return;
         this._activePointers.delete(args.pointerId);
         if (args.origin instanceof NeedleXRController) {
@@ -162,23 +169,20 @@ export class LinesDrawer extends Behaviour {
     private onPointerUpdate(args: NEPointerEvent) {
         const finish = this.context.input.getPointerUp(args.pointerId);
         const isSpatialDevice = args.isSpatial;
+        // TODO add pointer pen support
+        const isStylusDevice = args.origin instanceof NeedleXRController && args.origin.isStylus;
 
         let width = 1;
         if (args.origin instanceof NeedleXRController) {
             const spatialLineWidth = 1;
 
             const btn = args.origin.getButton("primary");
-            if (btn != undefined) {
-                // currently, this starts at 0.1, so we remap 0.1..1 to 0..1
-                const remapped = (btn.value - 0.2) / 0.8;
-                width = remapped * spatialLineWidth;
+            if (btn != undefined && args.button === 0) {
+                width = btn.value * spatialLineWidth;
             }
-
-            // Get axis for pen tip. Currently, this requires still putting light touch on the trigger,
-            // otherwise it's not a "pointer down" event.
-            const tip2Axis = args.origin.getStick("xr-standard-thumbstick");
-            if (tip2Axis !== undefined && tip2Axis.x < 0) {
-                width = -tip2Axis.x * spatialLineWidth;
+            
+            if (args.origin.isStylus) {
+                width = args.pressure * spatialLineWidth;
             }
         }
 
@@ -196,7 +200,7 @@ export class LinesDrawer extends Behaviour {
                 this._ray.set(args.origin.rayWorldPosition, args.space.worldForward);
                 // this._ray.set(args.origin.pinchPosition, args.space.worldForward);
             }
-            this.updateLine(args.pointerId.toString(), isSpatialDevice, this._ray, width, true, finish, false);
+            this.updateLine(args.pointerId.toString(), isSpatialDevice, isStylusDevice, this._ray, width, true, finish, false);
         }
     }
 
@@ -212,7 +216,7 @@ export class LinesDrawer extends Behaviour {
 
     private _states: { [id: string]: LineState } = {};
 
-    private updateLine(id: string, isSpatial: boolean, ray: Ray, width: number, active: boolean, finish: boolean, cancel: boolean = false): LineState {
+    private updateLine(id: string, isSpatial: boolean, isStylus: boolean, ray: Ray, width: number, active: boolean, finish: boolean, cancel: boolean = false): LineState {
         let state = this._states[id];
         if (!state) {
             this._states[id] = new LineState();
@@ -313,8 +317,9 @@ export class LinesDrawer extends Behaviour {
                 }
                 if (state.lastHit) {
                     const dist = state.lastHit.distanceTo(pt);
+
                     // lazy line distance should probably be dependent on the device (pen vs controller vs hand)
-                    const lazyLineDistance = 0.0005; // 0.5mm, 1cm, 5cm for testing.
+                    const lazyLineDistance = isStylus ? 0.0005 : 0.005; // 0.5mm, 1cm, 5cm for testing.
 
                     if (dist < lazyLineDistance) {
                         Gizmos.DrawLine(state.lastHit, pt, 0xffffff);
@@ -339,16 +344,11 @@ export class LinesDrawer extends Behaviour {
                     state.lastHit = pt.clone();
                     width = 0;
                 }
-                // experiment: tapering of line start
-                /*
-                if (state.totalDistance < this.brushWidth) {
-                    width = state.totalDistance / this.brushWidth;
-                    width = Math.sqrt(2 * width - width * width);
-                }
-                */
-                this.lines.updateLine(state.currentHandle, { point: pt, width: width });
+                
                 const drawnDistance = state.lastHit.distanceTo(pt);
                 state.totalDistance += drawnDistance;
+                if (drawnDistance >= 0.00001) // safeguard against ending up drawing the same point twice
+                    this.lines.updateLine(state.currentHandle, { point: pt, width: width });
                 state.lastHit.copy(pt);
             }
 

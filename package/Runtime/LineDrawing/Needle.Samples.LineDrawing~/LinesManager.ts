@@ -73,6 +73,8 @@ export class LineInstanceHandler {
         if (!this.widths) this.widths = [];
         this.widths.push(width);
         this.setPoints();
+
+        console.log("append", this.points, this.widths);
         return vec;
     }
 
