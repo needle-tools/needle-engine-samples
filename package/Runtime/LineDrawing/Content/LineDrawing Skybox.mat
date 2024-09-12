@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7783390168580547943
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 0
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,26 +7,25 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PaletteMat
-  m_Shader: {fileID: -6465566751694194690, guid: 59541e6caf586ca4f96ccf48a4813a51, type: 3}
+  m_Name: LineDrawing Skybox
+  m_Shader: {fileID: 4800000, guid: 1b04b2014a4a28b4eb6628daa8c44bd1, type: 3}
   m_ValidKeywords:
-  - _TEXTURE_TRANSFORM_ON
-  - _VERTEX_COLORS_ON
-  m_InvalidKeywords:
-  - _TEXTURE_TRANSFORM
-  m_LightmapFlags: 6
+  - _CUBEMAP_USAGE_EXTRA
+  - _LOD_ON
+  - _NEEDLE_EDITOR_ON
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 6, y: 20}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
@@ -63,7 +49,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 6, y: 20}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -81,9 +67,9 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - baseColorTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 6, y: 20}
+    - _Tex:
+        m_Texture: {fileID: 8900000, guid: ea87b0042b1034e8b8d28e5d0b2f470e, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
@@ -100,20 +86,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _BUILTIN_AlphaClip: 0
-    - _BUILTIN_Blend: 0
-    - _BUILTIN_CullMode: 2
-    - _BUILTIN_DstBlend: 0
-    - _BUILTIN_QueueControl: 1
-    - _BUILTIN_QueueOffset: 0
-    - _BUILTIN_SrcBlend: 1
-    - _BUILTIN_Surface: 0
-    - _BUILTIN_ZTest: 4
-    - _BUILTIN_ZWrite: 1
-    - _BUILTIN_ZWriteControl: 0
+    - _AutoBakeOnChanges: 1
+    - _BackgroundBlurriness: 0
+    - _BackgroundIntensity: 0.25
+    - _BakeBlurriness: 0
     - _Blend: 0
-    - _BumpScale: 0.2
-    - _CastShadows: 1
+    - _BumpScale: 1
+    - _CUBEMAP_USAGE: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -122,37 +101,37 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _Exposure: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Intensity: 1
+    - _Lod: 1
     - _Metallic: 0
+    - _Needle_Editor: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.356
+    - _Rotation: 0
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TEXTURE_TRANSFORM: 1
-    - _VERTEX_COLORS: 1
     - _WorkflowMode: 1
-    - _ZTest: 4
     - _ZWrite: 1
-    - _ZWriteControl: 0
-    - alphaCutoff: -0.5
-    - baseColorTextureRotation: 0
-    - baseColorTextureTexCoord: 0
     m_Colors:
-    - _BaseColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
-    - _Color: {r: 0.36792448, g: 0.36792448, b: 0.36792448, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EquatorColor: {r: 0.27033645, g: 0.6969695, b: 0.7075472, a: 1}
+    - _GroundColor: {r: 0.004049486, g: 0.10717298, b: 0.122641504, a: 1}
+    - _SkyColor: {r: 1.2078432, g: 2.101961, b: 2.9960785, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - baseColorFactor: {r: 0.45283008, g: 0.45283008, b: 0.45283008, a: 1}
+    - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   m_BuildTextureStacks: []
---- !u!114 &6131499417505033194
+--- !u!114 &4609244459767432700
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,4 +143,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 4

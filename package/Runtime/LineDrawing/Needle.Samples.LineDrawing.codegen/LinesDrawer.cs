@@ -20,6 +20,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public void setColor(UnityEngine.Color @color){}
 		public void setBrush(string @name){}
 		public void setWidth(float @width){}
+		public void setAllow2DDrawing(bool @allow){}
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void start(){}
