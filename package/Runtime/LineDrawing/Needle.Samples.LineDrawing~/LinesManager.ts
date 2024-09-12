@@ -1,6 +1,8 @@
-import { Behaviour, GameObject, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, getParam, serializable } from "@needle-tools/engine";
 import { AdditiveBlending, Color, Mesh, Object3D, Texture, Vector2, Vector3 } from "three";
 import { MeshLineGeometry, MeshLineMaterial, MeshLineMaterialParameters } from 'meshline';
+
+const debug = getParam("debuglines");
 
 export declare type LineOptions = {
     material?: MeshLineMaterial;
@@ -74,7 +76,8 @@ export class LineInstanceHandler {
         this.widths.push(width);
         this.setPoints();
 
-        console.log("append", this.points, this.widths);
+        if (debug) console.log("append", this.points, this.widths);
+
         return vec;
     }
 

@@ -1,6 +1,8 @@
-import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, InputEventQueue, enableSpatialConsole, getIconElement, Gizmos, getTempVector } from "@needle-tools/engine";
+import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, InputEventQueue, getIconElement, Gizmos, getTempVector, getParam } from "@needle-tools/engine";
 import { Object3D, Color, Vector3, Ray, Intersection } from "three";
 import { LineHandle, LinesManager } from "./LinesManager";
+
+const debug = getParam("debuglines");
 
 class LineState {
     isDrawing: boolean;
@@ -60,7 +62,7 @@ export class LinesDrawer extends Behaviour {
     @serializable()
     createButton: boolean = true;
 
-    private _allow2DDrawing: boolean = false;
+    private _allow2DDrawing: boolean = true;
     private _button?: HTMLElement;
 
     setColor(color: string)
@@ -82,6 +84,12 @@ export class LinesDrawer extends Behaviour {
         this.brushWidth = width;
     }
 
+    setAllow2DDrawing(allow: boolean) {
+        this._allow2DDrawing = allow;
+        if (this.createButton) {
+            this.updateButton();
+        }
+    }
 
     onEnable(): void {
         // We want to listen to pointer events late to check if any of them have been used. this allows us to e.g. use DragControl events or buttons
@@ -89,6 +97,7 @@ export class LinesDrawer extends Behaviour {
         // We want to listen to move events early to "use" them if they belong to a drawing action
         this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: InputEventQueue.Early });
         this.context.input.addEventListener("pointerup", this._onPointerUp);
+
         if (this.createButton) {
             this.updateButton();
         }
@@ -113,7 +122,7 @@ export class LinesDrawer extends Behaviour {
             });
         }
         this._button.setAttribute("priority", "10");
-        this._button.innerText = this._allow2DDrawing ? "2D On" : "2D Off";
+        this._button.innerText = this._allow2DDrawing ? "Draw on Screen" : "Look around";
         this._button.prepend(getIconElement(this._allow2DDrawing ? "format_ink_highlighter" : "ink_highlighter")); // stylus_note
         this.context.menu.appendChild(this._button);
     }
@@ -151,7 +160,6 @@ export class LinesDrawer extends Behaviour {
         args.preventDefault();
         this.onPointerUpdate(args);
     }
-
 
     private _onPointerUp = (args: NEPointerEvent) => {
         if (!this._shouldHandle(args)) return;
@@ -322,12 +330,14 @@ export class LinesDrawer extends Behaviour {
                     const lazyLineDistance = isStylus ? 0.0005 : 0.005; // 0.5mm, 1cm, 5cm for testing.
 
                     if (dist < lazyLineDistance) {
-                        Gizmos.DrawLine(state.lastHit, pt, 0xffffff);
+                        if (debug)
+                            Gizmos.DrawLine(state.lastHit, pt, 0xffffff);
                         return state;
                     }
 
                     // lazy line is stretched, we'll draw now
-                    Gizmos.DrawLine(state.lastHit, pt, 0xff0000);
+                    if (debug)
+                        Gizmos.DrawLine(state.lastHit, pt, 0xff0000);
 
                     const direction = getTempVector(pt).sub(state.lastHit).normalize();
                     pt.sub(direction.multiplyScalar(lazyLineDistance));
