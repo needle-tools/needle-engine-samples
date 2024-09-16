@@ -143,8 +143,8 @@ export class LinesDrawer extends Behaviour {
         if (!args.isSpatial && !this._allow2DDrawing) {
             return;
         }
+        args.stopImmediatePropagation();
         args.use();
-        args.stopPropagation();
         if (args.origin instanceof NeedleXRController) {
             args.origin.pointerMoveAngleThreshold = 0;
             args.origin.pointerMoveDistanceThreshold = 0;
@@ -157,9 +157,9 @@ export class LinesDrawer extends Behaviour {
         if (!this._shouldHandle(args)) return;
         if (args.used) return;
         if (!this._activePointers.has(args.pointerId)) return;
+        args.stopImmediatePropagation();
         args.use();
-        args.stopPropagation();
-        args.preventDefault();
+        //args.preventDefault(); //events are passive!
         this.onPointerUpdate(args);
     }
 

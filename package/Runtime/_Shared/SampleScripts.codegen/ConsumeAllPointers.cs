@@ -12,6 +12,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @consumeMove = true;
 		public bool @consumeUp = true;
 		public bool @consumeHover = true;
+		public bool @stopPropagation = true;
 		public void onPointerDown(UnityEngine.EventSystems.PointerEventData @event){}
 		public void onPointerMove(UnityEngine.EventSystems.PointerEventData @event){}
 		public void onPointerUp(UnityEngine.EventSystems.PointerEventData @event){}
