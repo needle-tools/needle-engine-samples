@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class TweenScaleBob : UnityEngine.MonoBehaviour
 	{
+		public UnityEngine.GameObject @containerTween;
 		public void awake(){}
 		public void update(){}
 	}

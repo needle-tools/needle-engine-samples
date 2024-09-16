@@ -1,7 +1,12 @@
-import { Behaviour } from "@needle-tools/engine";
+import { Behaviour, serializable } from "@needle-tools/engine";
 import { Easing, Tween } from "@tweenjs/tween.js";
+import { Object3D } from "three";
 
 export class TweenScaleBob extends Behaviour {
+
+    // Repro: NE-5752
+    @serializable(Object3D)
+    containerTween?: Object3D;
 
     private tween?: Tween<{ scale: number }>;
     awake(): void {
@@ -17,6 +22,8 @@ export class TweenScaleBob extends Behaviour {
             });
 
         this.tween.start();
+
+        console.log(this.containerTween);
     }
 
     update(): void {
