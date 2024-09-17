@@ -1,4 +1,4 @@
-import { Behaviour, Camera, Mathf, PointerType, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
+import { Behaviour, Camera, Mathf, PointerType, getIconElement, getTempQuaternion, getTempVector, isMobileDevice, isQuest, serializable } from "@needle-tools/engine";
 import { Quaternion, Spherical, Vector2 } from "three";
 import { Gyroscope } from "./Gyroscope";
 
@@ -25,7 +25,7 @@ export class PanoramaControls extends Behaviour {
 
     /* Input */
 
-    @serializeable()
+    @serializable()
     gyroscopeMode: GyroscopeMode = GyroscopeMode.Enabled;
 
     @serializable()
