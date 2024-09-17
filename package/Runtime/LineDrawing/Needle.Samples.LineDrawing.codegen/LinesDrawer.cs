@@ -16,6 +16,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @useBrushColor = false;
 		public float @brushWidth = 0.01f;
 		public bool @createButton = true;
+		public bool @autoSelectDrawMode = true;
 		public void setColor(string @color){}
 		public void setColor(UnityEngine.Color @color){}
 		public void setBrush(string @name){}

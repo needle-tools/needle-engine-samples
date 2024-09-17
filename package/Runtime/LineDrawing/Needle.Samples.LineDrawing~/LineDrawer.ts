@@ -62,6 +62,9 @@ export class LinesDrawer extends Behaviour {
     @serializable()
     createButton: boolean = true;
 
+    @serializable()
+    autoSelectDrawMode: boolean = true;
+
     private _allow2DDrawing: boolean = true;
     private _button?: HTMLElement;
 
@@ -74,14 +77,17 @@ export class LinesDrawer extends Behaviour {
             this.brushColor.copy(color);
         }
         this.useBrushColor = true;
+        if (this.autoSelectDrawMode) this.setAllow2DDrawing(true);
     }
 
     setBrush(name: string) {
         this.brushName = name;
+        if (this.autoSelectDrawMode) this.setAllow2DDrawing(true);
     }
 
     setWidth(width: number) {
         this.brushWidth = width;
+        if (this.autoSelectDrawMode) this.setAllow2DDrawing(true);
     }
 
     setAllow2DDrawing(allow: boolean) {
