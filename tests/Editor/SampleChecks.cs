@@ -370,6 +370,9 @@ namespace SampleChecks
             Assert.False(string.IsNullOrEmpty(meta.title), "No title");
             Assert.False(meta.description.Equals(defaultValues.description), "Default description");
             Assert.False(string.IsNullOrEmpty(meta.description), "No description");
+            
+            // check if HtmlMeta thumbnail matches sample asset thumbnail
+            Assert.AreEqual(sample.Thumbnail, meta.image, "HtmlMeta thumbnail doesn't match sample thumbnail");
         }
 
         static string[] GetDependencies(Object obj)
