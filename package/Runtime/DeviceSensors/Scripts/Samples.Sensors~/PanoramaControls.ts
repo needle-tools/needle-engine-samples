@@ -1,4 +1,4 @@
-import { Behaviour, Camera, Mathf, PointerType, getTempQuaternion, getTempVector, serializeable } from "@needle-tools/engine";
+import { Behaviour, Camera, Mathf, PointerType, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
 import { Quaternion, Spherical, Vector2 } from "three";
 import { Gyroscope } from "./Gyroscope";
 
@@ -14,62 +14,65 @@ export class PanoramaControls extends Behaviour {
     protected spherical: Spherical = new Spherical();
     protected sphericalTarget: Spherical = new Spherical();
 
+    protected offsetQuaternion: Quaternion = new Quaternion();
+    protected gyroscopeQuaternion: Quaternion = new Quaternion();
+
     /* Input */
 
-    @serializeable()
+    @serializable()
     gyroscopeInput: boolean = true;
 
-    @serializeable()
+    @serializable()
     pointerInput: boolean = true;
 
     /* Look */
 
-    @serializeable()
+    @serializable()
     rotateSpeed: number = 1;
 
-    @serializeable()
+    @serializable()
     rotateSmoothing: number = 5;
 
     /* Zoom  */
 
-    @serializeable()
+    @serializable()
     enableZoom: boolean = true;
 
-    @serializeable()
+    @serializable()
     zoomMin: number = 40;
 
-    @serializeable()
+    @serializable()
     zoomMax: number = 90;
 
-    @serializeable()
+    @serializable()
     zoomSpeed: number = 0.1;
 
-    @serializeable()
+    @serializable()
     zoomSmoothing: number = 5;
 
     /* Auto rotate */
 
-    @serializeable()
+    @serializable()
     autoRotate: boolean = true;
 
-    @serializeable()
+    @serializable()
     autoRotateSpeed: number = 0.15;
 
-    @serializeable()
+    @serializable()
     autoRotateTimeout: number = 3;
 
     protected currentZoom: number = 0;
 
-    protected initialQuterion: Quaternion = new Quaternion();
+    protected initialQuaternion: Quaternion = new Quaternion();
     protected camera?: Camera;
     protected userInputStamp: number = Number.MIN_SAFE_INTEGER;
 
     start() {
-        this.initialQuterion.copy(this.gameObject.quaternion);
+        this.initialQuaternion.copy(this.gameObject.quaternion);
         this.camera = this.gameObject.getComponent(Camera)!;
 
         this.gyroscope.onFail.addEventListener(() => {
-            this.dispatchEvent(new Event("onfail"));
+            this.dispatchEvent(new Event("onFail"));
         });
 
         this.currentZoom = Mathf.lerp(this.zoomMin, this.zoomMax, 0.5);
@@ -78,8 +81,6 @@ export class PanoramaControls extends Behaviour {
         }
     }
 
-    protected initialTargetRotation?: Quaternion;
-    protected lastGyro: Quaternion = new Quaternion();
     onBeforeRender() {
         if (this.gyroscope.isActive !== this.gyroscopeInput) {
             if (this.gyroscopeInput) this.gyroscope.activate()
@@ -108,24 +109,21 @@ export class PanoramaControls extends Behaviour {
 
     protected applyRotation() {
         const minMax = (Math.PI / 2) - (0.017 * 5);
+        const dt = this.context.time.deltaTime;
 
         this.spherical.phi = Mathf.clamp(this.spherical.phi, -minMax, minMax);
         this.sphericalTarget.phi = Mathf.clamp(this.sphericalTarget.phi, -minMax, minMax);
 
-        const dt = this.context.time.deltaTime;
-
         this.spherical.phi = Mathf.lerp(this.spherical.phi, this.sphericalTarget.phi, dt * this.rotateSmoothing);
         this.spherical.theta = Mathf.lerp(this.spherical.theta, this.sphericalTarget.theta, dt * this.rotateSmoothing);
 
-        this.gameObject.quaternion.copy(this.initialQuterion);
-
-        const xRot = getTempQuaternion().setFromAxisAngle(getTempVector(1, 0, 0), this.spherical.phi);
+        const xRot = getTempQuaternion().setFromAxisAngle(getTempVector(1, 0, 0), -this.spherical.phi);
         const yRot = getTempQuaternion().setFromAxisAngle(getTempVector(0, 1, 0), this.spherical.theta);
 
-        this.gameObject.quaternion.copy(this.initialQuterion);
-
-        const goal = getTempVector(this.gameObject.position).add(getTempVector(0, 0, 1).applyQuaternion(xRot).applyQuaternion(yRot));
-        this.gameObject.lookAt(goal);
+        this.offsetQuaternion.copy(this.initialQuaternion).multiply(yRot).multiply(xRot);
+        
+        this.gameObject.quaternion.copy(this.offsetQuaternion);
+        this.gameObject.quaternion.multiply(this.gyroscopeQuaternion);
     }
     
     protected handleAutoRotate() {
@@ -167,31 +165,19 @@ export class PanoramaControls extends Behaviour {
     }
 
     protected handleGyro() {
-        if (!this.gyroscope.isConnected) return;
-
         const gyroQuaternion = this.gyroscope.quaternion;
-        const gyroDelta = this.gyroscope.getDelta(this.lastGyro);
 
-        if (gyroQuaternion && gyroDelta) {
-            if (!this.initialTargetRotation) {
-                this.initialTargetRotation = this.gameObject.quaternion.clone();
-            }
+        if (gyroQuaternion && this.gyroscope.isConnected) {
+            this.gyroscopeQuaternion.copy(gyroQuaternion);
 
-            const deltaVec = getTempVector(0, 0, 1).applyQuaternion(gyroDelta);
-            tempSpherical.setFromVector3(deltaVec);
-            tempSpherical.phi -= Math.PI / 2;
+            // reset xRot to 0
+            this.sphericalTarget.phi = 0;
 
-            // HACK: apply to both to skip smoothing
-            this.spherical.phi -= tempSpherical.phi;
-            this.sphericalTarget.phi -= tempSpherical.phi;
-
-            this.spherical.theta += tempSpherical.theta;
-            this.sphericalTarget.theta += tempSpherical.theta;
-
-            this.lastGyro.copy(gyroQuaternion);
-
-            if (gyroDelta.angleTo(identityQuaternion) > 0.001)
-                this.userInputStamp = this.context.time.time;
+            // never activate auto rotate when using gyro
+            this.userInputStamp = this.context.time.time;
+        }
+        else {
+            this.gyroscopeQuaternion.identity();
         }
     }
 

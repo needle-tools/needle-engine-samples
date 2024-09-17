@@ -183,7 +183,7 @@ export class DeviceMotion extends GyroscopeHandler {
         const beta = MathUtils.degToRad(event.beta); //x
         const gamma = MathUtils.degToRad(event.gamma); //y
 
-        // apply gyro rotatinons (order is important)
+        // apply gyro rotation (order is important)
         const zQuat = getTempQuaternion().setFromAxisAngle(getTempVector(0, 0, 1), alpha);
         const xQuat = getTempQuaternion().setFromAxisAngle(getTempVector(1, 0, 0), beta); 
         const yQuat = getTempQuaternion().setFromAxisAngle(getTempVector(0, 1, 0), gamma);
@@ -195,12 +195,12 @@ export class DeviceMotion extends GyroscopeHandler {
         this.handleGyroscope(q, true);
     };
 
-    initialize(onSucess?: () => void, onFail?: (msg: string) => void) {
+    initialize(onSuccess?: () => void, onFail?: (msg: string) => void) {
         if (!("DeviceMotionEvent" in globalThis)) {
             onFail?.("DeviceMotionEvent not supported.");
         }
         else {
-            onSucess?.();
+            onSuccess?.();
         }
         
         this.connectFromClick = true;
@@ -226,7 +226,7 @@ export class DeviceMotion extends GyroscopeHandler {
     }
 }
 
-/** Usually accesible on Android */
+/** Usually accessible on Android */
 export class OrientationSensor extends GyroscopeHandler {
     //@ts-ignore 
     protected sensor?: RelativeOrientationSensor;
@@ -240,7 +240,7 @@ export class OrientationSensor extends GyroscopeHandler {
         this.sensor?.stop();
     }
 
-    initialize(onSucess?: () => void, onFail?: (msg: string) => void): void {
+    initialize(onSuccess?: () => void, onFail?: (msg: string) => void): void {
         if (this.isInitialized) {
             this.connect();
             return;
@@ -277,7 +277,7 @@ export class OrientationSensor extends GyroscopeHandler {
                 .then((results) => {
                     if (results.every((result) => result.state === "granted")) {
                         this.connect();
-                        onSucess?.();
+                        onSuccess?.();
                     }
                     else
                         onFail?.("No permissions to use RelativeOrientationSensor.");

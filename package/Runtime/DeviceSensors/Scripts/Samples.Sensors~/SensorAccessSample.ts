@@ -54,13 +54,13 @@ export class SensorAccessSample extends Behaviour {
     update(): void {
         if (this.sensorOrientation.isConnected || this.deviceOrientation.isConnected) {
             this.setOrientationLabel();
-            if (this.quternion) {
-                this.gameObject.quaternion.copy(this.quternion);
+            if (this.quaternion) {
+                this.gameObject.quaternion.copy(this.quaternion);
             }
         }
     }
 
-    private get quternion(): Quaternion | null {
+    private get quaternion(): Quaternion | null {
         if (this.sensorOrientation.isConnected) {
             return this.sensorOrientation.quaternion;
         }
