@@ -1,4 +1,4 @@
-import { Behaviour, Camera, Mathf, PointerType, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
+import { Behaviour, Camera, Mathf, PointerType, getIconElement, getTempQuaternion, getTempVector, isMobileDevice, isQuest, serializable } from "@needle-tools/engine";
 import { Quaternion, Spherical, Vector2 } from "three";
 import { Gyroscope } from "./Gyroscope";
 
@@ -7,6 +7,12 @@ const referenceFOV = 90;
 const identityQuaternion = new Quaternion();
 const tempVec2_A = new Vector2();
 const tempVec2_B = new Vector2();
+
+enum GyroscopeMode {
+    Disabled = 0,
+    ControlledViaButton = 1,
+    Enabled
+}
 
 export class PanoramaControls extends Behaviour {
     protected gyroscope: Gyroscope = new Gyroscope();
@@ -20,7 +26,7 @@ export class PanoramaControls extends Behaviour {
     /* Input */
 
     @serializable()
-    gyroscopeInput: boolean = true;
+    gyroscopeMode: GyroscopeMode = GyroscopeMode.Enabled;
 
     @serializable()
     pointerInput: boolean = true;
@@ -79,16 +85,31 @@ export class PanoramaControls extends Behaviour {
         if (this.camera) {
             this.currentZoom = this.camera.fieldOfView!;
         }
+
+        switch (this.gyroscopeMode) {
+            case GyroscopeMode.Disabled:
+                this.shouldEnableGyro = false;
+                break;
+            case GyroscopeMode.ControlledViaButton:
+                this.shouldEnableGyro = false;
+                this.createGyroMenu();
+                break;
+            case GyroscopeMode.Enabled:
+                this.shouldEnableGyro = true;
+                break;
+        }
     }
 
+    protected initialTargetRotation?: Quaternion;
+    protected lastGyro: Quaternion = new Quaternion();
+    protected shouldEnableGyro: boolean = false;
     onBeforeRender() {
-        if (this.gyroscope.isActive !== this.gyroscopeInput) {
-            if (this.gyroscopeInput) this.gyroscope.activate()
+        if (this.gyroscope.isActive !== this.shouldEnableGyro) {
+            if (this.shouldEnableGyro) this.gyroscope.activate()
             else this.gyroscope.deactivate();
         }
 
-        if (this.gyroscopeInput) {
-
+        if (this.gyroscopeMode) {
             this.handleGyro();
         }
 
@@ -130,15 +151,16 @@ export class PanoramaControls extends Behaviour {
         const time = this.context.time.time;
         const dt = this.context.time.deltaTime;
         if (time - this.userInputStamp > this.autoRotateTimeout) {
+            this.currentZoom = Mathf.lerp(this.zoomMin, this.zoomMax, 0.5);
             this.sphericalTarget.theta += this.autoRotateSpeed * dt;
             this.sphericalTarget.phi = 0;
         }
     }
 
-    protected handleInput() {
+    protected handleInput() {        
         const input = this.context.input;
         const element = this.context.renderer.domElement;
-
+        
         if (input.getPointerPressedCount() == 1) {
             const delta = input.getPointerPositionDelta(0)!;
             const speed = this.rotateSpeed * (this.camera?.fieldOfView ?? referenceFOV) / referenceFOV;
@@ -201,6 +223,7 @@ export class PanoramaControls extends Behaviour {
             const pinchDistance = tempVec2_A.distanceTo(tempVec2_B);
             if(this.previousPinchDistance) {
                 delta += this.previousPinchDistance - pinchDistance;
+                //this.currentZoom = delta; // HACK: bypass zoom smooting for pinch
             }
             this.previousPinchDistance = pinchDistance;
         }
@@ -211,5 +234,40 @@ export class PanoramaControls extends Behaviour {
         // TODO: implement
 
         return delta;
+    }
+
+    setGyroscope(state: boolean) {
+        this.shouldEnableGyro = state;
+    }
+
+    protected createGyroMenu() {
+        const btn = document.createElement("button");
+
+        /* btn.classList.add("webxr-button");
+        btn.dataset["needle"] = "webxr-ar-button"; */
+        btn.innerText = "Gyroscope";
+        const icon = getIconElement("sync");
+        btn.prepend(icon);
+        btn.title = "Click to toggle Gyroscope controls";
+
+        const updateButtonIcon = () => {
+            icon.innerText = this.shouldEnableGyro ? "sync_disabled" : "sync";
+        }
+        updateButtonIcon();
+
+        btn.addEventListener("click", () => {
+            this.setGyroscope(!this.shouldEnableGyro);
+            if (this.shouldEnableGyro) this.gyroscope.activate();
+            //showBalloonMessage(`Gyro: ${this.shouldEnableGyro}`);
+            updateButtonIcon();
+        });
+
+        if (!isMobileDevice() || isQuest()) {
+            btn.style.display = "none";
+        } 
+
+        // TODO: hide in XR / spatial menu
+
+        this.context.menu.appendChild(btn);
     }
 }
