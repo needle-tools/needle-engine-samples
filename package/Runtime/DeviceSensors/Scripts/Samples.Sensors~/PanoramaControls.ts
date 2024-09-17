@@ -109,12 +109,12 @@ export class PanoramaControls extends Behaviour {
             else this.gyroscope.deactivate();
         }
 
-        if (this.gyroscopeMode) {
-            this.handleGyro();
-        }
-
         if (this.pointerInput) {
             this.handleInput();
+        }
+
+        if (this.gyroscopeMode) {
+            this.handleGyro();
         }
 
         if (this.enableZoom) {
@@ -128,17 +128,18 @@ export class PanoramaControls extends Behaviour {
         this.applyRotation();
     }
 
+    protected minPhi: number = (-Math.PI / 2) + (0.085);
+    protected maxPhi: number = ( Math.PI / 2) - (0.085);
     protected applyRotation() {
-        const minMax = (Math.PI / 2) - (0.017 * 5);
         const dt = this.context.time.deltaTime;
 
-        this.spherical.phi = Mathf.clamp(this.spherical.phi, -minMax, minMax);
-        this.sphericalTarget.phi = Mathf.clamp(this.sphericalTarget.phi, -minMax, minMax);
+        this.spherical.phi = Mathf.clamp(this.spherical.phi, this.minPhi, this.maxPhi);
+        this.sphericalTarget.phi = Mathf.clamp(this.sphericalTarget.phi, this.minPhi, this.maxPhi);
 
         this.spherical.phi = Mathf.lerp(this.spherical.phi, this.sphericalTarget.phi, dt * this.rotateSmoothing);
         this.spherical.theta = Mathf.lerp(this.spherical.theta, this.sphericalTarget.theta, dt * this.rotateSmoothing);
 
-        const xRot = getTempQuaternion().setFromAxisAngle(getTempVector(1, 0, 0), -this.spherical.phi);
+        const xRot = getTempQuaternion().setFromAxisAngle(getTempVector(1, 0, 0), this.spherical.phi);
         const yRot = getTempQuaternion().setFromAxisAngle(getTempVector(0, 1, 0), this.spherical.theta);
 
         this.offsetQuaternion.copy(this.initialQuaternion).multiply(yRot).multiply(xRot);
@@ -165,7 +166,7 @@ export class PanoramaControls extends Behaviour {
             const delta = input.getPointerPositionDelta(0)!;
             const speed = this.rotateSpeed * (this.camera?.fieldOfView ?? referenceFOV) / referenceFOV;
             this.sphericalTarget.phi +=  2 * Math.PI * delta.y / element.clientHeight * speed;
-            this.sphericalTarget.theta -= 2 * Math.PI * delta.x / element.clientWidth * speed;
+            this.sphericalTarget.theta += 2 * Math.PI * delta.x / element.clientWidth * speed;
             
             this.userInputStamp = this.context.time.time;
         }
