@@ -1,25 +1,34 @@
-import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, Mathf, getWorldPosition, PlayerColor } from "@needle-tools/engine";
-import * as THREE from 'three';
-import { Object3D, Color, Vector3 } from "three";
+import { Behaviour, GameObject, NEPointerEvent, serializable, RaycastOptions, getWorldPosition, PlayerColor, NeedleXRController, IPointerHitEventReceiver, InputEventQueue, getIconElement, Gizmos, getTempVector, getParam } from "@needle-tools/engine";
+import { Object3D, Color, Vector3, Ray, Intersection } from "three";
 import { LineHandle, LinesManager } from "./LinesManager";
-import { MeshLineMaterial } from 'three.meshline';
+
+const debug = getParam("debuglines");
 
 class LineState {
     isDrawing: boolean;
-    lastHit: Vector3;
+    lastHit: Vector3 | undefined;
     currentHandle: LineHandle | null;
     maxDistance: number;
+    totalDistance: number;
     prevDistance: number;
-    lastParent: THREE.Object3D | null;
+    lastParent: Object3D | null;
 
     constructor() {
         this.isDrawing = false;
-        this.lastHit = new Vector3();
+        this.lastHit = undefined;
         this.currentHandle = null;
+        this.totalDistance = 0;
         this.maxDistance = 0;
         this.prevDistance = 0;
         this.lastParent = null;
     }
+}
+
+declare type EvtData = {
+    origin: object & Partial<IPointerHitEventReceiver>;
+    pointerId: number;
+    isSpatial: boolean;
+    space: GameObject;
 }
 
 export class LinesDrawer extends Behaviour {
@@ -27,18 +36,77 @@ export class LinesDrawer extends Behaviour {
     //@type LinesManager
     @serializable(LinesManager)
     lines!: LinesManager;
+
     //@type UnityEngine.Transform[]
     @serializable(Object3D)
-    colliders?: THREE.Object3D[];
+    colliders?: Object3D[];
+
+    @serializable()
     alignToSurface: boolean = true;
+
+    @serializable()
     addToPaintedObject: boolean = true;
 
-    //private orbit?: OrbitControls;
+    @serializable()
+    brushName: string = "default";
+
+    @serializable(Color)
+    brushColor: Color = new Color(1, 1, 1);
+
+    @serializable()
+    useBrushColor: boolean = false;
+
+    @serializable()
+    brushWidth: number = 0.01;
+
+    @serializable()
+    createButton: boolean = true;
+
+    @serializable()
+    autoSelectDrawMode: boolean = true;
+
+    private _allow2DDrawing: boolean = false;
+    private _button?: HTMLElement;
+
+    setColor(color: string)
+    setColor(color: Color | string) {
+        if (typeof color === "string") {
+            if (!color.startsWith("#")) color = "#" + color;
+            this.brushColor.set(color);
+        } else {
+            this.brushColor.copy(color);
+        }
+        this.useBrushColor = true;
+        if (this.autoSelectDrawMode) this.setAllow2DDrawing(true);
+    }
+
+    setBrush(name: string) {
+        this.brushName = name;
+        if (this.autoSelectDrawMode) this.setAllow2DDrawing(true);
+    }
+
+    setWidth(width: number) {
+        this.brushWidth = width;
+        if (this.autoSelectDrawMode) this.setAllow2DDrawing(true);
+    }
+
+    setAllow2DDrawing(allow: boolean) {
+        this._allow2DDrawing = allow;
+        if (this.createButton) {
+            this.updateButton();
+        }
+    }
 
     onEnable(): void {
-        this.context.input.addEventListener("pointerdown", this._onPointerDown);
-        this.context.input.addEventListener("pointermove", this._onPointerMove);
+        // We want to listen to pointer events late to check if any of them have been used. this allows us to e.g. use DragControl events or buttons
+        this.context.input.addEventListener("pointerdown", this._onPointerDown, { queue: InputEventQueue.Default + 10 });
+        // We want to listen to move events early to "use" them if they belong to a drawing action
+        this.context.input.addEventListener("pointermove", this._onPointerMove, { queue: InputEventQueue.Early });
         this.context.input.addEventListener("pointerup", this._onPointerUp);
+
+        if (this.createButton) {
+            this.updateButton();
+        }
     }
 
     onDisable(): void {
@@ -47,28 +115,109 @@ export class LinesDrawer extends Behaviour {
         this.context.input.removeEventListener("pointerup", this._onPointerUp);
     }
 
+    private updateButton() {
+        if (!this.createButton) {
+            this._button?.remove();
+            return;
+        }
+        else if (!this._button) {
+            this._button = document.createElement("button");
+            this._button.addEventListener("click", () => {
+                this._allow2DDrawing = !this._allow2DDrawing;
+                this.updateButton();
+            });
+        }
+        this._button.setAttribute("priority", "10");
+        this._button.innerText = this._allow2DDrawing ? "Draw on Screen" : "Look around";
+        this._button.prepend(getIconElement(this._allow2DDrawing ? "format_ink_highlighter" : "ink_highlighter")); // stylus_note
+        this.context.menu.appendChild(this._button);
+    }
+
+    private readonly _activePointers: Set<number> = new Set();
+
+    private _shouldHandle(args: NEPointerEvent) {
+        if (args.button === 0) return true;
+        // Handling for MX Ink / stylus based on button indices
+        if (args.origin instanceof NeedleXRController && args.origin.isStylus && (args.button === 4 || args.button === 5)) return true;
+        return false;
+    }
+
     private _onPointerDown = (args: NEPointerEvent) => {
-        if (args.button !== 0) return;
+        if (!this._shouldHandle(args)) return;
+        if (args.used) return;
+        if (args.defaultPrevented) return;
+        if (!args.isSpatial && !this._allow2DDrawing) {
+            return;
+        }
+        args.stopImmediatePropagation();
+        args.use();
+        if (args.origin instanceof NeedleXRController) {
+            args.origin.pointerMoveAngleThreshold = 0;
+            args.origin.pointerMoveDistanceThreshold = 0;
+        }
+        this.lastWidth = 0;
+        this._activePointers.add(args.pointerId);
     }
 
     private _onPointerMove = (args: NEPointerEvent) => {
-        if (args.button !== 0) return;
-
-        if (!this.context.input.getPointerPressed(args.pointerId)) return;
-
+        if (!this._shouldHandle(args)) return;
+        if (args.used) return;
+        if (!this._activePointers.has(args.pointerId)) return;
+        args.stopImmediatePropagation();
+        args.use();
+        //args.preventDefault(); //events are passive!
         this.onPointerUpdate(args);
     }
 
     private _onPointerUp = (args: NEPointerEvent) => {
-        if (args.button !== 0) return;
-
+        if (!this._shouldHandle(args)) return;
+        if (!this._activePointers.has(args.pointerId)) return;
+        this._activePointers.delete(args.pointerId);
+        if (args.origin instanceof NeedleXRController) {
+            args.origin.pointerMoveAngleThreshold = 0.1;
+            args.origin.pointerMoveDistanceThreshold = 0.05;
+        }
         this.onPointerUpdate(args);
     }
 
+    private lastWidth = 0;
+    private _ray = new Ray();
     private onPointerUpdate(args: NEPointerEvent) {
         const finish = this.context.input.getPointerUp(args.pointerId);
         const isSpatialDevice = args.isSpatial;
-        this.updateLine(args.pointerId.toString(), isSpatialDevice, args.ray, true, finish, false);
+        // TODO add pointer pen support
+        const isStylusDevice = args.origin instanceof NeedleXRController && args.origin.isStylus;
+
+        let width = 1;
+        if (args.origin instanceof NeedleXRController) {
+            const spatialLineWidth = 1;
+
+            const btn = args.origin.getButton("primary");
+            if (btn != undefined && args.button === 0) {
+                width = btn.value * spatialLineWidth;
+            }
+            
+            if (args.origin.isStylus) {
+                width = args.pressure * spatialLineWidth;
+            }
+        }
+
+        if (finish || width > 0 || this.lastWidth != width) {
+            this.lastWidth = width;
+            // We're using the "interactive space" of the input, which is dynamically adjusted
+            // and is a combination of ray pose and grip pose depending on the device.
+            // For example, a pen should paint with the tip, which is the ray pose; 
+            // a hand should paint with the pinch point;
+            // a transient-pointer should paint with the grip pose;
+            // a Quest Pro controller pressure tip is a custom pose based on the grip pose.
+            this._ray.set(args.space.worldPosition, args.space.worldForward);
+            // for a hand, for now we overwrite this here and use the pinch point:
+            if (args.origin instanceof NeedleXRController && args.origin.hand) {
+                this._ray.set(args.origin.rayWorldPosition, args.space.worldForward);
+                // this._ray.set(args.origin.pinchPosition, args.space.worldForward);
+            }
+            this.updateLine(args.pointerId.toString(), isSpatialDevice, isStylusDevice, this._ray, width, true, finish, false);
+        }
     }
 
     start() {
@@ -83,7 +232,7 @@ export class LinesDrawer extends Behaviour {
 
     private _states: { [id: string]: LineState } = {};
 
-    private updateLine(id: string, isSpatial: boolean, ray: THREE.Ray, active: boolean, finish: boolean, cancel: boolean = false): LineState {
+    private updateLine(id: string, isSpatial: boolean, isStylus: boolean, ray: Ray, width: number, active: boolean, finish: boolean, cancel: boolean = false): LineState {
         let state = this._states[id];
         if (!state) {
             this._states[id] = new LineState();
@@ -93,7 +242,6 @@ export class LinesDrawer extends Behaviour {
         if (finish) {
             state.isDrawing = false;
             if (state.currentHandle) {
-                // this.sendLineUpdate();
                 this.lines.endLine(state.currentHandle);
                 state.currentHandle = null;
             }
@@ -102,8 +250,8 @@ export class LinesDrawer extends Behaviour {
             if (cancel) {
                 return state;
             }
-            let pt: THREE.Vector3 | null = null;
-            let hitParent: THREE.Object3D | null = null;
+            let pt: Vector3 | null = null;
+            let hitParent: Object3D | null = null;
             let prev = state.prevDistance;
             if (state.maxDistance === 0) {
                 state.maxDistance = this.context.mainCamera?.getWorldPosition(new Vector3()).length() ?? 0;
@@ -112,10 +260,14 @@ export class LinesDrawer extends Behaviour {
 
             if (isSpatial) {
                 const xrScale = this.context.xr?.rigScale || 1;
-                const dist = .01 * xrScale;
+                // TODO for a pen this needs to be super accurate (dist=0)
+                // but for a controller we need to add a bit of distance
+                // HACK for wrong pen alignment on v67, adjust on v68
+                const controllerOffset = 0;
+                const dist = .01 * xrScale * controllerOffset;
                 pt = ray.origin.add(ray.direction.multiplyScalar(dist));
                 // this controls how many points are drawn per unit of distance
-                state.prevDistance = xrScale * .003;
+                state.prevDistance = xrScale * .1;
             }
             else {
                 const hit = this.getHit(ray);
@@ -124,7 +276,7 @@ export class LinesDrawer extends Behaviour {
                         state.maxDistance = hit.distance;
                     }
                     pt = hit.point;
-                    if (hit.face)
+                    if (pt && hit.face)
                         pt.add(hit.face.normal.multiplyScalar(0.01));
                     state.prevDistance = hit.distance;
                     hitParent = hit.object;
@@ -142,8 +294,8 @@ export class LinesDrawer extends Behaviour {
             }
 
             if (pt) {
-                // abort the draw if the drawn segment is too long
-                if (state.lastHit.distanceTo(pt) > 6) {
+                // abort the draw if the drawn segment is too long – e.g. longer than 1m
+                if (state.lastHit !== undefined && state.lastHit.distanceTo(pt) > 1.0) {
                     if (state.currentHandle) {
                         // this.sendLineUpdate();
                         this.lines.endLine(state.currentHandle);
@@ -153,10 +305,23 @@ export class LinesDrawer extends Behaviour {
                 }
 
                 if (!state.currentHandle) {
-                    let lineParent = state.lastParent ?? this.gameObject as THREE.Object3D;
+                    let lineParent = state.lastParent ?? this.gameObject as Object3D;
                     if (this.addToPaintedObject && hitParent) lineParent = hitParent;
                     state.lastParent = lineParent;
-                    state.currentHandle = this.lines.startLine(lineParent, { material: this.createRandomMaterial() });
+                    state.currentHandle = this.lines.startLine(lineParent, this.brushName);
+                    state.lastHit = undefined;
+                    state.prevDistance = 0;
+                    state.maxDistance = 0;
+                    state.totalDistance = 0;
+
+                    // We can override the color and line width of new lines
+                    if (state.currentHandle) {
+                        const line = this.lines.getLine(state.currentHandle);
+                        if (line && line.material) {
+                            line.material.color?.set(this.getPaintColor());
+                            line.material.lineWidth = this.brushWidth * line.material["brushWidth"];
+                        }
+                    }
                 }
 
                 if (this.alignToSurface) {
@@ -166,10 +331,42 @@ export class LinesDrawer extends Behaviour {
                         state.prevDistance = newDistance;
                     }
                 }
-                if (state.lastHit && state.lastHit.distanceTo(pt) < state.prevDistance * .01) {
-                    return state;
+                if (state.lastHit) {
+                    const dist = state.lastHit.distanceTo(pt);
+
+                    // lazy line distance should probably be dependent on the device (pen vs controller vs hand)
+                    const lazyLineDistance = isStylus ? 0.0005 : 0.005; // 0.5mm, 1cm, 5cm for testing.
+
+                    if (dist < lazyLineDistance) {
+                        if (debug)
+                            Gizmos.DrawLine(state.lastHit, pt, 0xffffff);
+                        return state;
+                    }
+
+                    // lazy line is stretched, we'll draw now
+                    if (debug)
+                        Gizmos.DrawLine(state.lastHit, pt, 0xff0000);
+
+                    const direction = getTempVector(pt).sub(state.lastHit).normalize();
+                    pt.sub(direction.multiplyScalar(lazyLineDistance));
+                    
+                    // Additionally, we don't want to draw too dense, so here's another check for a minimum distance between line segments.
+                    const comp = state.prevDistance * (isSpatial ? 0.00002 : .002);
+                    if (dist < comp) {
+                        return state;
+                    }
+
                 }
-                this.lines.updateLine(state.currentHandle, { point: pt });
+                else {
+                    // first point. this is always drawn
+                    state.lastHit = pt.clone();
+                    width = 0;
+                }
+                
+                const drawnDistance = state.lastHit.distanceTo(pt);
+                state.totalDistance += drawnDistance;
+                if (drawnDistance >= 0.00001) // safeguard against ending up drawing the same point twice
+                    this.lines.updateLine(state.currentHandle, { point: pt, width: width });
                 state.lastHit.copy(pt);
             }
 
@@ -180,7 +377,7 @@ export class LinesDrawer extends Behaviour {
 
     private _raycastOptions = new RaycastOptions();
 
-    private getHit(ray: THREE.Ray): THREE.Intersection | null {
+    private getHit(ray: Ray): Intersection | null {
         if (!this.colliders || this.colliders.length === 0) {
             this.colliders = [this.gameObject];
         }
@@ -205,16 +402,16 @@ export class LinesDrawer extends Behaviour {
         return null;
     }
 
-    private createRandomMaterial() {
+    private getPaintColor() {
         let col: Color;
-        if (this.context.connection.connectionId)
+        if (this.useBrushColor) {
+            col = new Color(this.brushColor.r, this.brushColor.g, this.brushColor.b);
+        }
+        else if (this.context.connection.connectionId)
             col = PlayerColor.colorFromHashCode(PlayerColor.hashCode(this.context.connection.connectionId));
         else
-            col = new THREE.Color("hsl(" + (Math.random() * 100).toFixed(0) + ", 80%, 30%)");
+            col = new Color("hsl(" + (Math.random() * 100).toFixed(0) + ", 80%, 30%)");
 
-        return new MeshLineMaterial({
-            color: col,
-            lineWidth: Mathf.lerp(0.005, 0.01, Math.random()),
-        });
+        return col;
     }
 }
