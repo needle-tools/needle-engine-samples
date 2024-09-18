@@ -14,6 +14,12 @@ enum GyroscopeMode {
     Enabled
 }
 
+enum AutoRotateMode {
+    Disabled = 0,
+    OnlyOnceOnStart = 1,
+    Enabled = 2
+}
+
 export class PanoramaControls extends Behaviour {
     protected gyroscope: Gyroscope = new Gyroscope();
 
@@ -59,8 +65,8 @@ export class PanoramaControls extends Behaviour {
     /* Auto rotate */
 
     @serializable()
-    autoRotate: boolean = true;
-
+    autoRotate: AutoRotateMode = AutoRotateMode.OnlyOnceOnStart;
+    
     @serializable()
     autoRotateSpeed: number = 0.15;
 
@@ -121,7 +127,7 @@ export class PanoramaControls extends Behaviour {
             this.handleZoom();
         }
 
-        if (this.autoRotate) {
+        if (this.autoRotate !== AutoRotateMode.Disabled) {
             this.handleAutoRotate();
         }
 
@@ -148,13 +154,28 @@ export class PanoramaControls extends Behaviour {
         this.gameObject.quaternion.multiply(this.gyroscopeQuaternion);
     }
     
+    protected hadRotatedOnce: boolean = false;
+    protected isRotating: boolean = false;
     protected handleAutoRotate() {
         const time = this.context.time.time;
         const dt = this.context.time.deltaTime;
-        if (time - this.userInputStamp > this.autoRotateTimeout) {
+        const shouldRotate = time - this.userInputStamp > this.autoRotateTimeout;
+
+        // is stopping to rotate
+        if (!shouldRotate && this.isRotating) {
+            this.hadRotatedOnce = true;
+        }
+
+        // rotating
+        if (shouldRotate && (this.autoRotate === AutoRotateMode.OnlyOnceOnStart && !this.hadRotatedOnce)) {
+            this.isRotating = true;
             this.currentZoom = Mathf.lerp(this.zoomMin, this.zoomMax, 0.5);
             this.sphericalTarget.theta += this.autoRotateSpeed * dt;
             this.sphericalTarget.phi = 0;
+            this.isRotating = true;
+        } // not rotating
+        else {
+            this.isRotating = false;
         }
     }
 

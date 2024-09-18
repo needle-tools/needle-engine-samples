@@ -16,7 +16,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @zoomMax = 90f;
 		public float @zoomSpeed = 0.1f;
 		public float @zoomSmoothing = 5f;
-		public bool @autoRotate = true;
+		public Needle.Typescript.GeneratedComponents.AutoRotateMode @autoRotate;
 		public float @autoRotateSpeed = 0.15f;
 		public float @autoRotateTimeout = 3f;
 		public void start(){}
@@ -35,4 +35,11 @@ namespace Needle.Typescript.GeneratedComponents
 		ControlledViaButton = 1,
 		Enabled
 	}
+
+    public enum AutoRotateMode
+    {
+        Disabled = 0,
+        OnlyOnceOnStart = 1,
+        Enabled = 2
+    }
 }
