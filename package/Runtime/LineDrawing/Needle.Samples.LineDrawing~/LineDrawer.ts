@@ -65,7 +65,7 @@ export class LinesDrawer extends Behaviour {
     @serializable()
     autoSelectDrawMode: boolean = true;
 
-    private _allow2DDrawing: boolean = true;
+    private _allow2DDrawing: boolean = false;
     private _button?: HTMLElement;
 
     setColor(color: string)
