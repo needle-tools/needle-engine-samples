@@ -468,7 +468,7 @@ public class AssetChecks
     private static string[] allowedNonHdrAssets = new string[]
     {
         "f7ef59c8610b47f45b9faee4a7e5ffa3", // JapanesePanorama (no EXR version available)
-        "b980a4382dcce3e4d9f0776f367836c9", // Panorama controls (Reducing size to get 4k resolution)
+        "e8fe5af4b51dc4e4cbc7284620c099a4", // Panorama controls (Reducing size to get 4k resolution)
     };
     
     private static void CubemapsAreHDR(string assetFolder)
