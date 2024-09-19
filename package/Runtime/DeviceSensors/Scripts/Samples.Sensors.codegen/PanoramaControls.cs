@@ -9,7 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public Needle.Typescript.GeneratedComponents.GyroscopeMode @gyroscopeMode;
 		public bool @pointerInput = true;
-		public float @rotateSpeed = 1f;
+		public float @rotateSpeed = 0.16f;
 		public float @rotateSmoothing = 5f;
 		public bool @enableZoom = true;
 		public float @zoomMin = 40f;

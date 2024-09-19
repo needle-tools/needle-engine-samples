@@ -1,10 +1,7 @@
 import { Behaviour, Camera, Mathf, PointerType, getIconElement, getTempQuaternion, getTempVector, isMobileDevice, isQuest, serializable } from "@needle-tools/engine";
-import { Quaternion, Spherical, Vector2 } from "three";
+import { Quaternion, Spherical, Vector2, Vector3 } from "three";
 import { Gyroscope } from "./Gyroscope";
 
-const tempSpherical: Spherical = new Spherical();
-const referenceFOV = 90;
-const identityQuaternion = new Quaternion();
 const tempVec2_A = new Vector2();
 const tempVec2_B = new Vector2();
 
@@ -40,7 +37,7 @@ export class PanoramaControls extends Behaviour {
     /* Look */
 
     @serializable()
-    rotateSpeed: number = 1;
+    rotateSpeed: number = 0.16;
 
     @serializable()
     rotateSmoothing: number = 5;
@@ -80,6 +77,7 @@ export class PanoramaControls extends Behaviour {
     protected userInputStamp: number = Number.MIN_SAFE_INTEGER;
 
     start() {
+        console.log(this);
         this.initialQuaternion.copy(this.gameObject.quaternion);
         this.camera = this.gameObject.getComponent(Camera)!;
 
@@ -179,18 +177,42 @@ export class PanoramaControls extends Behaviour {
         }
     }
 
+    protected pointerPositionLastFrame?: Vector3;
     protected handleInput() {        
         const input = this.context.input;
-        const element = this.context.renderer.domElement;
         
         if (input.getPointerPressedCount() == 1) {
-            const delta = input.getPointerPositionDelta(0)!;
-            const speed = this.rotateSpeed * (this.camera?.fieldOfView ?? referenceFOV) / referenceFOV;
-            this.sphericalTarget.phi +=  2 * Math.PI * delta.y / element.clientHeight * speed;
-            this.sphericalTarget.theta += 2 * Math.PI * delta.x / element.clientWidth * speed;
-            
+            let projectedMouseDirection: Vector3 | undefined = undefined;
+            if (this.camera) {
+                const pos = input.getPointerPositionRC(0)!;
+                
+                const worldSpaceMousePos = getTempVector(pos.x, pos.y, -1).unproject(this.camera.cam);
+                this.camera.gameObject.worldToLocal(worldSpaceMousePos);
+                projectedMouseDirection = worldSpaceMousePos;
+            }
+
+            if (this.pointerPositionLastFrame && projectedMouseDirection) {
+                const v1 = projectedMouseDirection;
+                const v2 = this.pointerPositionLastFrame;
+
+                const deltaX = this.getAngleBetweenVectors(getTempVector(v1.x, 0, v1.z).normalize(), getTempVector(v2.x, 0, v2.z).normalize(), getTempVector(1,0,0));
+                const deltaY = this.getAngleBetweenVectors(getTempVector(0, v1.y, v1.z).normalize(), getTempVector(0, v2.y, v2.z).normalize(), getTempVector(0,-1,0));
+
+                this.sphericalTarget.phi +=     2 * Math.PI * deltaY * this.rotateSpeed;
+                this.sphericalTarget.theta +=   2 * Math.PI * deltaX * this.rotateSpeed;
+            }
+
+            this.pointerPositionLastFrame = projectedMouseDirection;
             this.userInputStamp = this.context.time.time;
         }
+        else {
+            this.pointerPositionLastFrame = undefined;
+        }
+    }
+
+    protected getAngleBetweenVectors(v1: Vector3, v2: Vector3, up: Vector3): number {
+        const sign = up.dot(v1) > up.dot(v2) ? 1 : -1;
+        return v1.angleTo(v2) * sign;
     }
 
     protected handleZoom() {
@@ -252,9 +274,6 @@ export class PanoramaControls extends Behaviour {
         else 
             this.previousPinchDistance = undefined;
 
-        // VR - joystick
-        // TODO: implement
-
         return delta;
     }
 
@@ -265,8 +284,6 @@ export class PanoramaControls extends Behaviour {
     protected createGyroMenu() {
         const btn = document.createElement("button");
 
-        /* btn.classList.add("webxr-button");
-        btn.dataset["needle"] = "webxr-ar-button"; */
         btn.innerText = "Gyroscope";
         const icon = getIconElement("sync");
         btn.prepend(icon);
@@ -280,15 +297,13 @@ export class PanoramaControls extends Behaviour {
         btn.addEventListener("click", () => {
             this.setGyroscope(!this.shouldEnableGyro);
             if (this.shouldEnableGyro) this.gyroscope.activate();
-            //showBalloonMessage(`Gyro: ${this.shouldEnableGyro}`);
+
             updateButtonIcon();
         });
 
         if (!isMobileDevice() || isQuest()) {
             btn.style.display = "none";
         } 
-
-        // TODO: hide in XR / spatial menu
 
         this.context.menu.appendChild(btn);
     }
