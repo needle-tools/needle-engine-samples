@@ -222,6 +222,7 @@ namespace Editor
 					if (x.path.EndsWith(".ts")) return Path.GetFileName(x.path);
 					return x.path;
 				})
+				.Where(x => x.path.StartsWith("engine/src/") || x.path.StartsWith("needle-engine-samples/"))
 				.Select(x =>
 				{
 					var docsUrl = "";
