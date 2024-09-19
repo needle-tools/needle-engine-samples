@@ -176,6 +176,9 @@ namespace Editor
 				if (match != null)
 				{
 					var path = match.FilePath;
+
+					path = path.Replace(@"\", "/");
+
 					// Engine scripts – relative to engine package root
 					var index = path.IndexOf("engine/src/", StringComparison.OrdinalIgnoreCase);
 					if (index >= 0)
