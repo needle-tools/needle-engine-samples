@@ -1,7 +1,7 @@
 import { Behaviour, LODGroup, Text, serializable } from "@needle-tools/engine";
 import { Vector3, LOD, Mesh, PerspectiveCamera} from "three";
 
-export class DebugLOD extends Behaviour {
+export class LODGroupUI extends Behaviour {
 
     @serializable(LODGroup)
     lodGroup?: LODGroup;

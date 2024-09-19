@@ -5,7 +5,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class DebugLOD : UnityEngine.MonoBehaviour
+	public partial class LODGroupUI : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.LODGroup @lodGroup;
 		public UnityEngine.UI.Text @text;
