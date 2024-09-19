@@ -5,7 +5,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class CameraScissor : UnityEngine.MonoBehaviour
+	public partial class CameraScissorSample : UnityEngine.MonoBehaviour
 	{
 		public float @x = 20f;
 		public float @y = 20f;

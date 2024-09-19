@@ -3,7 +3,7 @@ import { Color, Mesh, MeshBasicMaterial, OrthographicCamera, PerspectiveCamera, 
 
 // Documentation → https://docs.needle.tools/scripting
 
-export class CameraScissor extends Behaviour {
+export class CameraScissorSample extends Behaviour {
 
     @serializable()
     x: number = 20;

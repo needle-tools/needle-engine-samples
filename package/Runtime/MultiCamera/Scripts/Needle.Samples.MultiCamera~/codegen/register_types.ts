@@ -2,7 +2,7 @@
 import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { CameraScissor } from "../CameraScissor.js";
+import { CameraScissorSample } from "../CameraScissorSample.js";
 
 // Register types
-TypeStore.add("CameraScissor", CameraScissor);
+TypeStore.add("CameraScissorSample", CameraScissorSample);
