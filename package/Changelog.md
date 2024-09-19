@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - PanoramaControls panorama
+- Improved PanoramaControls dragging
 
 ## [0.19.4-pre] - 2024-09-11
 ### Added
