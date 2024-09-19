@@ -205,7 +205,7 @@ namespace Editor
 				Debug.Log($"<b>Dependencies for {Name}</b> ({dependencyPaths.Count})\n{string.Join("\n", dependencyPaths)}");
 			}
 
-			if (dependencyPaths.Count < 1)
+			if (dependencyPaths.Count < 1 && IsDebugMode)
 			{
 				Debug.LogWarning($"No dependencies found for {Name}, does the scene have an ExportInfo and a valid project directory?");
 			}
