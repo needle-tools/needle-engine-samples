@@ -104,7 +104,7 @@ namespace Needle.Engine
             hasRenderedAtLeastOnce = true;
         }
 
-        public string ConvertMarkdownToRichText(string markdown)
+        public static string ConvertMarkdownToRichText(string markdown)
         {
             // Convert headers
             markdown = Regex.Replace(markdown, @"^#\s+(.+)$",   "<b><size=24>$1</size></b>", RegexOptions.Multiline);
@@ -130,6 +130,9 @@ namespace Needle.Engine
 
             // Convert links
             markdown = Regex.Replace(markdown, @"\[([^\]]+)\]\(([^\)]+)\)","<a href=\"$2\">$1</a>");
+            
+            // Replace sequence of at least three --- with a horizontal line
+            markdown = Regex.Replace(markdown, @"-{3,}", "<color=#fff4>––––––––––</color>");
             
             return markdown;
         }

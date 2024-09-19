@@ -1,4 +1,4 @@
-import { Context, EventList, Mathf, OrbitControls, getComponent, getParam, getTempQuaternion, getTempVector } from "@needle-tools/engine";
+import { Context, EventList, Mathf, OrbitControls, getComponent, getParam, getTempQuaternion, getTempVector, showBalloonMessage } from "@needle-tools/engine";
 import { MathUtils, Quaternion } from "three";
 
 const debug = getParam("debuggyro");
@@ -102,7 +102,8 @@ abstract class GyroscopeHandler {
     /* protected _deltaQuaternion: Quaternion = new Quaternion();
     get deltaQuaternion() { return this._deltaQuaternion; } */
 
-    connect() { 
+    connect() {
+        this.disconnect();
         this.isConnected = true;
         this.isInitialized = true;
     }
@@ -171,6 +172,8 @@ export class DeviceMotion extends GyroscopeHandler {
     }
 
     disconnect() {
+        this.connectFromClick = false;
+        
         super.disconnect();
         window.removeEventListener('deviceorientation', this.deviceorientation);
     }
@@ -183,7 +186,7 @@ export class DeviceMotion extends GyroscopeHandler {
         const beta = MathUtils.degToRad(event.beta); //x
         const gamma = MathUtils.degToRad(event.gamma); //y
 
-        // apply gyro rotatinons (order is important)
+        // apply gyro rotation (order is important)
         const zQuat = getTempQuaternion().setFromAxisAngle(getTempVector(0, 0, 1), alpha);
         const xQuat = getTempQuaternion().setFromAxisAngle(getTempVector(1, 0, 0), beta); 
         const yQuat = getTempQuaternion().setFromAxisAngle(getTempVector(0, 1, 0), gamma);
@@ -195,14 +198,16 @@ export class DeviceMotion extends GyroscopeHandler {
         this.handleGyroscope(q, true);
     };
 
-    initialize(onSucess?: () => void, onFail?: (msg: string) => void) {
+    initialize(onSuccess?: () => void, onFail?: (msg: string) => void) {
         if (!("DeviceMotionEvent" in globalThis)) {
             onFail?.("DeviceMotionEvent not supported.");
         }
         else {
-            onSucess?.();
+            onSuccess?.();
         }
         
+        this.tryConnectOnClick();
+
         this.connectFromClick = true;
         // awaiting user interaction -> tryConnectOnClick
     }
@@ -218,6 +223,9 @@ export class DeviceMotion extends GyroscopeHandler {
                 if (response == 'granted') {
                     this.connect();
                 }
+                else {
+                    if (debug) console.error("DeviceMotionEvent permission denied.", response);
+                }
             });
         }
         else {
@@ -226,7 +234,7 @@ export class DeviceMotion extends GyroscopeHandler {
     }
 }
 
-/** Usually accesible on Android */
+/** Usually accessible on Android */
 export class OrientationSensor extends GyroscopeHandler {
     //@ts-ignore 
     protected sensor?: RelativeOrientationSensor;
@@ -240,7 +248,7 @@ export class OrientationSensor extends GyroscopeHandler {
         this.sensor?.stop();
     }
 
-    initialize(onSucess?: () => void, onFail?: (msg: string) => void): void {
+    initialize(onSuccess?: () => void, onFail?: (msg: string) => void): void {
         if (this.isInitialized) {
             this.connect();
             return;
@@ -277,7 +285,7 @@ export class OrientationSensor extends GyroscopeHandler {
                 .then((results) => {
                     if (results.every((result) => result.state === "granted")) {
                         this.connect();
-                        onSucess?.();
+                        onSuccess?.();
                     }
                     else
                         onFail?.("No permissions to use RelativeOrientationSensor.");

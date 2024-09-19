@@ -1919,7 +1919,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126150765}
-  m_LocalRotation: {x: -0, y: 0.3005038, z: -0, w: 0.95378065}
+  m_LocalRotation: {x: -0, y: 0.7150189, z: -0, w: 0.69910514}
   m_LocalPosition: {x: 0.13, y: 9.18, z: -0.0011785468}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1930,7 +1930,7 @@ Transform:
   - {fileID: 86442262}
   m_Father: {fileID: 1912817890}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 34.976, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 91.29, z: 0}
 --- !u!143 &126150767
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4454,8 +4454,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706762903}
-  m_LocalRotation: {x: 0.015176441, y: 0.98283976, z: -0.1576019, w: 0.09464359}
-  m_LocalPosition: {x: -0.46733046, y: 3.7375746, z: 6.174821}
+  m_LocalRotation: {x: 0.039046098, y: 0.6979584, z: -0.038129993, w: 0.7140558}
+  m_LocalPosition: {x: -7.549985, y: 2.1748986, z: -0.09657437}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4479,21 +4479,24 @@ MonoBehaviour:
   autoFit: 0
   enableRotate: 1
   autoRotate: 0
-  autoRotateSpeed: 0.3
+  autoRotateSpeed: 0
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
-  maxAzimuthAngle: Infinity
-  enableZoom: 1
+  minAzimuthAngle: -6.28
+  maxAzimuthAngle: 6.28
+  enableZoom: 0
   minZoom: 3
   maxZoom: 15
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
-  enableDamping: 1
+  enableDamping: 0
   dampingFactor: 0.1
   targetLerpDuration: 1
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 0
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 706762910}
 --- !u!114 &706762908
@@ -4544,9 +4547,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.SmoothFollow, Needle.Engine $
     GlobalObjectId_V1-2-eac4dd0f2678cca419a5cb70efd54f74-706762909-0
   target: {fileID: 1719489590}
-  followFactor: 1
+  followFactor: 3
   rotateFactor: 0
-  positionAxes: 6
+  positionAxes: -1
 --- !u!1183024399 &706762910
 LookAtConstraint:
   m_ObjectHideFlags: 0
@@ -6314,8 +6317,11 @@ MonoBehaviour:
   createSendToQuestButton: 0
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 1
   useXRAnchor: 0
   useQuicklookExport: 1
   useDepthSensing: 0

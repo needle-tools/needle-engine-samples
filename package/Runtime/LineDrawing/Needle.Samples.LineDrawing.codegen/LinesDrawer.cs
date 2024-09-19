@@ -11,6 +11,17 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Transform[] @colliders;
 		public bool @alignToSurface = true;
 		public bool @addToPaintedObject = true;
+		public string @brushName = "default";
+		public UnityEngine.Color @brushColor = new UnityEngine.Color(1f, 1f, 1f);
+		public bool @useBrushColor = false;
+		public float @brushWidth = 0.01f;
+		public bool @createButton = true;
+		public bool @autoSelectDrawMode = true;
+		public void setColor(string @color){}
+		public void setColor(UnityEngine.Color @color){}
+		public void setBrush(string @name){}
+		public void setWidth(float @width){}
+		public void setAllow2DDrawing(bool @allow){}
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void start(){}

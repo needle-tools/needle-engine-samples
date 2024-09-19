@@ -37,6 +37,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
                 value.colorSpace = this.context.renderer.outputColorSpace;
             }
         }
+        
     }
 
     /** The currently rendered face mesh (if any) */
@@ -211,9 +212,6 @@ void main() {
     vec4 maskColor = texture2D(mask, vUv);
     gl_FragColor.a *= maskColor.r;
 #endif
-
-    #include <tonemapping_fragment>
-    #include <colorspace_fragment>
 }
 `
 
@@ -235,6 +233,10 @@ export class FaceMeshTexture extends FaceMeshBehaviour {
     private _material: ShaderMaterial | null = null;
 
     protected createMaterial() {
+        // return new MeshBasicMaterial({
+        //     transparent: true,
+        //     // map: this.texture,
+        // });
         return this._material = new ShaderMaterial({
             uniforms: {
                 map: { value: this.texture },

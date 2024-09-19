@@ -18,7 +18,7 @@ export class PencilData extends Behaviour {
         this.pointerDown = this._onPointerDown.bind(this);
         this.pointerMove = this._onPointerMove.bind(this);
         this.pointerUp = this._onPointerUp.bind(this);
-
+        
         document.addEventListener("pointerdown", this.pointerDown);
         document.addEventListener("pointermove", this.pointerMove);
         document.addEventListener("pointerup", this.pointerUp);
@@ -75,7 +75,8 @@ export class PencilData extends Behaviour {
         this._wp.copy(vector);
 
         // set orbit center
-        this.orbit?.setCameraTargetPosition(vector);
+        // TODO: fix, not working as expected, camera moves hectically
+        //this.orbit?.setCameraTargetPosition(vector, true); 
     }
     
     lateUpdate() {

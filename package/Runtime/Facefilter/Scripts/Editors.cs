@@ -42,8 +42,11 @@ namespace Needle.Typescript.GeneratedComponents
 		{
 			if (!GetComponentInChildren<FaceFilterHeadPosition>())
 			{
-				if(isActiveAndEnabled)
-					Utils.RenderHeadGizmo(this, null);
+				if (isActiveAndEnabled)
+				{
+					var faceMesh = GetComponentInChildren<FaceMeshBehaviour>();
+					Utils.RenderHeadGizmo(this, null, faceMesh ? .1f : 1);
+				}
 			}
 		}
 
