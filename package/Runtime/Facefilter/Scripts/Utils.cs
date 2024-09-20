@@ -13,8 +13,10 @@ namespace Needle.Facefilter.Scripts
 {
 	internal static class Utils
 	{
+#if UNITY_EDITOR
 		[NonSerialized] private static bool _searchedForOcclusionMesh = false;
 		[NonSerialized] private static Transform _fallbackOcclusionMesh;
+#endif
 
 		public static void RenderHeadGizmo(Component comp, Transform assignedOcclusionMesh = null, float alphaFactor = 1f)
 		{
@@ -148,9 +150,9 @@ namespace Needle.Facefilter.Scripts
 			}
 		}
 
+#if UNITY_EDITOR
 		public static async void CreateNewFilterAsset(Component comp)
 		{
-#if UNITY_EDITOR
 			var directory = "Assets/Needle Face Filter";
 			if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
@@ -206,8 +208,8 @@ namespace Needle.Facefilter.Scripts
 						new GUIContent("Edit your filter now!"));
 				}
 			}
-#endif
 		}
+#endif
 
 		public static readonly string[] supportedBlendshapeNames = new[]
 		{
