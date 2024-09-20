@@ -23,7 +23,6 @@ export class PanoramaControls extends Behaviour {
     protected spherical: Spherical = new Spherical();
     protected sphericalTarget: Spherical = new Spherical();
 
-    protected offsetQuaternion: Quaternion = new Quaternion();
     protected gyroscopeQuaternion: Quaternion = new Quaternion();
 
     /* Input */
@@ -135,20 +134,23 @@ export class PanoramaControls extends Behaviour {
     protected minPhi: number = (-Math.PI / 2) + (0.085);
     protected maxPhi: number = ( Math.PI / 2) - (0.085);
     protected applyRotation() {
-        const dt = this.context.time.deltaTime;
-
+        // clamp rotations
         this.spherical.phi = Mathf.clamp(this.spherical.phi, this.minPhi, this.maxPhi);
         this.sphericalTarget.phi = Mathf.clamp(this.sphericalTarget.phi, this.minPhi, this.maxPhi);
-
+        
+        // apply smoothing
+        const dt = this.context.time.deltaTime;
         this.spherical.phi = Mathf.lerp(this.spherical.phi, this.sphericalTarget.phi, dt * this.rotateSmoothing);
         this.spherical.theta = Mathf.lerp(this.spherical.theta, this.sphericalTarget.theta, dt * this.rotateSmoothing);
 
+        // create rotations
         const xRot = getTempQuaternion().setFromAxisAngle(getTempVector(1, 0, 0), this.spherical.phi);
         const yRot = getTempQuaternion().setFromAxisAngle(getTempVector(0, 1, 0), this.spherical.theta);
 
-        this.offsetQuaternion.copy(this.initialQuaternion).multiply(yRot).multiply(xRot);
-        
-        this.gameObject.quaternion.copy(this.offsetQuaternion);
+        // apply rotations
+        this.gameObject.quaternion.copy(this.initialQuaternion).multiply(yRot).multiply(xRot);
+
+        // add gyro rotation
         this.gameObject.quaternion.multiply(this.gyroscopeQuaternion);
     }
     
