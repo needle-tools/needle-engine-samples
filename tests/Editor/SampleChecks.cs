@@ -401,11 +401,6 @@ namespace SampleChecks
             ".wav"
         };
 
-        static string[] nonSizeRestrictedSamples =
-        {
-            "18d48c333966f434fa9b7ea9283d3a2f" // face filters sample
-        };
-
         [Test]
         public void DependencySizeBelow10MB()
         {
@@ -421,9 +416,7 @@ namespace SampleChecks
             var restrictedSizeMB = restrictedSize / 1024f / 1024f;
             var nonRestrictedSizeMB = nonRestrictedSize / 1024f / 1024f;
 
-            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(sample, out var guid, out long _);
-            var isWhiteListed = nonSizeRestrictedSamples.Contains(guid);
-            AssertFileSize(restrictedSizeMB, 10, sizeRestricted.ToList(), "Dependency size is too large", !isWhiteListed);
+            AssertFileSize(restrictedSizeMB, 10, sizeRestricted.ToList(), "Dependency size is too large", true);
             AssertFileSize(restrictedSizeMB + nonRestrictedSizeMB, 10, nonSizeRestricted.ToList(), "Dependency size is critical", false);
 
             Debug.Log($"Dependency size: {restrictedSizeMB + nonRestrictedSizeMB:F2} MB");
