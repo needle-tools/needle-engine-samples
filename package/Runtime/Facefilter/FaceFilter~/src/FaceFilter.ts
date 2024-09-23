@@ -114,7 +114,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
         // }
         if (index >= 0 && index < this.filters.length && typeof index === "number") {
             this._activeFilterIndex = index;
-            setParamWithoutReload("facefilter", index.toString());
+            setParamWithoutReload("facefilter", index > 0 ? index.toString() : null);
 
             // preload the next filter
             const nextIndex = (index + 1) % this.filters.length;
