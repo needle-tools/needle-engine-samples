@@ -1,6 +1,6 @@
-import { Animator, Behaviour, isDevEnvironment, serializable } from '@needle-tools/engine';
+import { Animator, Behaviour, isDevEnvironment, NEEDLE_progressive, serializable } from '@needle-tools/engine';
 import type { NeedleFilterTrackingManager } from './FaceFilter.js';
-import { Matrix4, Mesh, Object3D, SkinnedMesh, Vector3 } from 'three';
+import { BufferAttribute, Matrix4, Mesh, Object3D, SkinnedMesh, Vector3 } from 'three';
 import { BlendshapeName, FacefilterUtils } from './utils.js';
 
 declare type AvatarType = "Unknown" | "ReadyPlayerMe";
@@ -24,6 +24,7 @@ export class FaceFilterRoot extends Behaviour {
         this._initialScale ??= this.gameObject?.scale.clone();
         this._headMatrix = null;
         this.setupHead();
+        this.loadProgressive();
     }
 
     private setupHead() {
@@ -142,6 +143,20 @@ export class FaceFilterRoot extends Behaviour {
     }
 
 
+    private loadProgressive() {
+        this.gameObject.traverse(t => {
+            if (t instanceof Mesh) {
+                const vertices = t.geometry.getAttribute("position") as BufferAttribute;
+                if (!vertices?.array || vertices.array.length < 100_000) {
+                    NEEDLE_progressive.assignMeshLOD(t, 0);
+                    NEEDLE_progressive.assignTextureLOD(t, 0);
+                }
+                else {
+                    console.debug(`Will not automatically load progressive mesh for ${t.name} because it has too many vertices (${vertices.array?.length})`);
+                }
+            }
+        })
+    }
 
     private _filter: NeedleFilterTrackingManager | null = null;
     private _behaviours: FilterBehaviour[] = [];
