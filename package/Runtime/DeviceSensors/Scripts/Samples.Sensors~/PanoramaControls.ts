@@ -1,4 +1,4 @@
-import { Behaviour, Camera, Mathf, PointerType, getIconElement, getTempQuaternion, getTempVector, isMobileDevice, isQuest, serializable } from "@needle-tools/engine";
+import { Behaviour, Camera, Mathf, NEPointerEvent, PointerType, getIconElement, getTempQuaternion, getTempVector, isMobileDevice, isQuest, serializable } from "@needle-tools/engine";
 import { Quaternion, Spherical, Vector2, Vector3 } from "three";
 import { Gyroscope } from "./Gyroscope";
 
@@ -77,7 +77,6 @@ export class PanoramaControls extends Behaviour {
     protected userInputStamp: number = Number.MIN_SAFE_INTEGER;
 
     start() {
-        console.log(this);
         this.initialQuaternion.copy(this.gameObject.quaternion);
         this.camera = this.gameObject.getComponent(Camera)!;
 
@@ -102,6 +101,16 @@ export class PanoramaControls extends Behaviour {
                 this.shouldEnableGyro = true;
                 break;
         }
+
+        this.context.input.addEventListener("pointerdown", this.onPointer);
+        this.context.input.addEventListener("pointermove", this.onPointer);
+        this.context.input.addEventListener("pointerup", this.onPointer);
+    }
+
+    onDestroy(): void {
+        this.context.input.removeEventListener("pointerdown", this.onPointer);
+        this.context.input.removeEventListener("pointermove", this.onPointer);
+        this.context.input.removeEventListener("pointerup", this.onPointer);
     }
 
     protected initialTargetRotation?: Quaternion;
@@ -111,10 +120,6 @@ export class PanoramaControls extends Behaviour {
         if (this.gyroscope.isActive !== this.shouldEnableGyro) {
             if (this.shouldEnableGyro) this.gyroscope.activate()
             else this.gyroscope.deactivate();
-        }
-
-        if (this.pointerInput) {
-            this.handleInput();
         }
 
         if (this.gyroscopeMode) {
@@ -177,37 +182,43 @@ export class PanoramaControls extends Behaviour {
         }
     }
 
-    protected pointerPositionLastFrame?: Vector3;
-    protected handleInput() {        
-        const input = this.context.input;
+    protected isPointerDragging: boolean = false;
+    protected pointerDirectionLastFrame: Vector3 = new Vector3();
+    protected pointerDirection: Vector3 = new Vector3();
+    protected onPointer = (e: NEPointerEvent) => {
+        if (!this.pointerInput) return;
+
+        // decide dragging state
+        const isDraggingSingle = this.context.input.getPointerPressedCount() === 1;
+        const dragStarted = !this.isPointerDragging && isDraggingSingle;
+
+        // abort if not dragging
+        if (!isDraggingSingle) {
+            this.isPointerDragging = false;
+            return;
+        }
+        if (!this.camera) return;
         
-        if (input.getPointerPressedCount() == 1) {
-            let projectedMouseDirection: Vector3 | undefined = undefined;
-            if (this.camera) {
-                const pos = input.getPointerPositionRC(0)!;
-                
-                const worldSpaceMousePos = getTempVector(pos.x, pos.y, -1).unproject(this.camera.cam);
-                this.camera.gameObject.worldToLocal(worldSpaceMousePos);
-                projectedMouseDirection = worldSpaceMousePos;
-            }
+        // get local direction
+        const dir = this.camera.gameObject.worldToLocal(e.space.worldForward);
 
-            if (this.pointerPositionLastFrame && projectedMouseDirection) {
-                const v1 = projectedMouseDirection;
-                const v2 = this.pointerPositionLastFrame;
+        // set directions
+        this.pointerDirectionLastFrame.copy(dragStarted ? dir : this.pointerDirection);
+        this.pointerDirection.copy(dir);
 
-                const deltaX = this.getAngleBetweenVectors(getTempVector(v1.x, 0, v1.z).normalize(), getTempVector(v2.x, 0, v2.z).normalize(), getTempVector(1,0,0));
-                const deltaY = this.getAngleBetweenVectors(getTempVector(0, v1.y, v1.z).normalize(), getTempVector(0, v2.y, v2.z).normalize(), getTempVector(0,-1,0));
+        // calculate delta and apply
+        const v1 = this.pointerDirection;
+        const v2 = this.pointerDirectionLastFrame;
 
-                this.sphericalTarget.phi +=     2 * Math.PI * deltaY * this.rotateSpeed;
-                this.sphericalTarget.theta +=   2 * Math.PI * deltaX * this.rotateSpeed;
-            }
+        // project vectors to x and y planes
+        const deltaX = this.getAngleBetweenVectors(getTempVector(v1.x, 0, v1.z).normalize(), getTempVector(v2.x, 0, v2.z).normalize(), getTempVector(1,0,0));
+        const deltaY = this.getAngleBetweenVectors(getTempVector(0, v1.y, v1.z).normalize(), getTempVector(0, v2.y, v2.z).normalize(), getTempVector(0,-1,0));
 
-            this.pointerPositionLastFrame = projectedMouseDirection;
-            this.userInputStamp = this.context.time.time;
-        }
-        else {
-            this.pointerPositionLastFrame = undefined;
-        }
+        this.sphericalTarget.phi +=     2 * Math.PI * deltaY * this.rotateSpeed;
+        this.sphericalTarget.theta +=   2 * Math.PI * deltaX * this.rotateSpeed;
+
+        this.userInputStamp = this.context.time.time;
+        this.isPointerDragging = true;
     }
 
     protected getAngleBetweenVectors(v1: Vector3, v2: Vector3, up: Vector3): number {

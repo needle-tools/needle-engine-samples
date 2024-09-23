@@ -20,6 +20,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @autoRotateSpeed = 0.15f;
 		public float @autoRotateTimeout = 3f;
 		public void start(){}
+		public void onDestroy(){}
 		public void onBeforeRender(){}
 		public void setGyroscope(bool @state){}
 	}
