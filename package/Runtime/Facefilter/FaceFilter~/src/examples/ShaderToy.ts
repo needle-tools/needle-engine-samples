@@ -1,4 +1,4 @@
-import { Behaviour, Context, getParam, makeIdFromRandomWords, serializable, setParam, setParamWithoutReload, showBalloonWarning, syncField } from "@needle-tools/engine";
+import { Behaviour, Context, getParam, makeIdFromRandomWords, serializable, setParam, setParamWithoutReload, showBalloonMessage, showBalloonWarning, syncField } from "@needle-tools/engine";
 import { FaceMeshBehaviour } from "../facemesh/FaceMeshBehaviour";
 import { Material, ShaderMaterial, ShaderMaterialParameters, Texture, Vector3, Vector4 } from "three";
 
@@ -121,12 +121,8 @@ export class ShaderToyFaceFilter extends FaceMeshBehaviour {
             }
         })
     }
-
-    update(): void {
-        const material = this.material as ShaderToyMaterial;
-        if (material) {
-            material.update(this)
-        }
+    awake() {
+        showBalloonMessage(`Copy paste <a href=\"https://shadertoy.com\" target=\"_blank\">shadertoy</a> shaders (the whole code) to use as a face filter.<br/>For example <a href=\"https://www.shadertoy.com/view/tlVGDt\" target=\"_blank\">this one</a> or <a href=\"https://www.shadertoy.com/view/ftSSRR\" target=\"_blank\">this one</a> or <a href=\"https://www.shadertoy.com/new\" target=\"_blank\">create your own</a>.`);
     }
     onEnable(): void {
         super.onEnable();
@@ -145,6 +141,13 @@ export class ShaderToyFaceFilter extends FaceMeshBehaviour {
         const room = getParam("shader") as string;
         if (room) {
             this.context.connection.leaveRoom(room);
+        }
+    }
+
+    update(): void {
+        const material = this.material as ShaderToyMaterial;
+        if (material) {
+            material.update(this)
         }
     }
 
