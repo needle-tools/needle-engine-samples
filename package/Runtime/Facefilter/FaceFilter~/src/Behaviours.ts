@@ -149,7 +149,8 @@ export class FaceFilterRoot extends Behaviour {
                 const vertices = t.geometry.getAttribute("position") as BufferAttribute;
                 if (!vertices?.array || vertices.array.length < 100_000) {
                     NEEDLE_progressive.assignMeshLOD(t, 0);
-                    NEEDLE_progressive.assignTextureLOD(t, 0);
+                    if(Array.isArray(t.material)) t.material.forEach(m => NEEDLE_progressive.assignTextureLOD(m, 0));
+                    else NEEDLE_progressive.assignTextureLOD(t.material, 0);
                 }
                 else {
                     console.debug(`Will not automatically load progressive mesh for ${t.name} because it has too many vertices (${vertices.array?.length})`);
