@@ -29,6 +29,8 @@ export class CameraScissorSample extends Behaviour {
         div.style.width = this.width + "px";
         div.style.height = this.height + "px";
         div.style.border = "2px solid white";
+        div.style.touchAction = "auto";
+        div.style.pointerEvents = "auto";
         // box-shadow
         div.style.boxShadow = "rgb(0 0 0 / 25%) 0px 0px 15px 0px;"
 
@@ -48,19 +50,20 @@ export class CameraScissorSample extends Behaviour {
         this.controls = controls;
 
         // make the header draggable
-        this.dragElement(div, null);
+        this.dragElement(div, undefined);
     }
 
-    dragElement(elmnt, header) {
+    dragElement(element: HTMLElement, header?: HTMLElement) {
         const ctrl = this.controls;
 
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         if (header) {
             // if present, the header is where you move the DIV from:
-            header.onmousedown = dragMouseDown;
+            header.onpointerdown = dragMouseDown;
         } else {
             // otherwise, move the DIV from anywhere inside the DIV:
-            elmnt.onmousedown = dragMouseDown;
+            element.onpointerdown = dragMouseDown;
+            
         }
         
         function dragMouseDown(e) {
@@ -68,7 +71,7 @@ export class CameraScissorSample extends Behaviour {
             e = e || window.event;
 
             // check if we're near the border
-            const rect = elmnt.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
             const border = 25;
             const x = e.clientX;
             const y = e.clientY;
@@ -78,28 +81,15 @@ export class CameraScissorSample extends Behaviour {
             // disable controls
             ctrl.controls!.enabled = false;
 
-            // check if resize corner (bottom right)
-            if ((x > rect.right - border && y > rect.bottom - border)) {
-                ctrl.controls!.enabled = false;
-                return;
-            }
-
-            // check if we're inside the border area
-            if (!(x > rect.right - border || x < rect.left + border || y > rect.bottom - border || y < rect.top + border)) {
-                // we're near the border, don't drag
-                ctrl.controls!.enabled = true;
-                return;
-            }
-
             e.preventDefault();
 
             // get the mouse cursor position at startup:
             pos3 = e.clientX;
             pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
+            document.onpointerup = closeDragElement;
 
             // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
+            document.onpointermove = elementDrag;
         }
         
         function elementDrag(e) {
@@ -111,8 +101,8 @@ export class CameraScissorSample extends Behaviour {
             pos3 = e.clientX;
             pos4 = e.clientY;
             // set the element's new position:
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            element.style.top = (element.offsetTop - pos2) + "px";
+            element.style.left = (element.offsetLeft - pos1) + "px";
 
             // disable orbit controls
         }
@@ -120,8 +110,8 @@ export class CameraScissorSample extends Behaviour {
         function closeDragElement() {
             if (!ctrl) return;
             // stop moving when mouse button is released:
-            document.onmouseup = null;
-            document.onmousemove = null;
+            document.onpointerup = null;
+            document.onpointermove = null;
             ctrl.controls!.enabled = true;
         }
     }
