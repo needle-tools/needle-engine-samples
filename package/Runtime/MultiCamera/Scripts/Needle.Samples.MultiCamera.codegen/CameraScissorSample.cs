@@ -12,7 +12,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @width = 200f;
 		public float @height = 200f;
 		public void awake(){}
-		public void dragElement(object @elmnt, object @header){}
+		public void dragElement(object @element, object @header){}
 		public void setScissorForElement(object @elem){}
 		public void onAfterRender(){}
 	}
