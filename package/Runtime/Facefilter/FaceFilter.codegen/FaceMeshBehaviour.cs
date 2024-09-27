@@ -10,7 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @allowDrop = true;
 		public void OnEnable(){}
 		public void OnDisable(){}
-		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @filter){}
+		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @filter, float @index){}
 	}
 }
 

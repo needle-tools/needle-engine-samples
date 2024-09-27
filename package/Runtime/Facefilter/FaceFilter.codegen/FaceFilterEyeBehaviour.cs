@@ -9,7 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.GameObject @eyeRight;
 		public UnityEngine.GameObject @eyeLeft;
-		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @_filter){}
+		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @_filter, float @index){}
 	}
 }
 

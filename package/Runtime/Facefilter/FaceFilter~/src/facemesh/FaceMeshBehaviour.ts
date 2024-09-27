@@ -37,11 +37,11 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
                 value.colorSpace = this.context.renderer.outputColorSpace;
             }
         }
-        
+
     }
 
     /** The currently rendered face mesh (if any) */
-    get mesh() {  return this.__currentMesh; }
+    get mesh() { return this.__currentMesh; }
     /** The currently used material for the face mesh. */
     get material() { return this.__currentMaterial; }
 
@@ -76,11 +76,11 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
     }
 
     /** @internal */
-    onResultsUpdated(filter: NeedleFilterTrackingManager): void {
+    onResultsUpdated(filter: NeedleFilterTrackingManager, index: number): void {
         const lm = filter.facelandmarkerResult?.faceLandmarks;
         if (lm && lm.length > 0) {
-            const face = lm[0];
-            if (this.__currentMesh) {
+            const face = lm[index];
+            if (this.__currentMesh && face) {
 
                 // frame delay the matrix update since otherwise e.g. opening the dev tools on chrome (f12) will not be picked up
                 // and the aspect ratio will be wrong

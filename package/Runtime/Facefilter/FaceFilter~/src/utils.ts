@@ -169,6 +169,7 @@ declare interface WasmFileset {
     assetBinaryPath?: string;
 }
 type MediapipeOpts = {
+    maxFaces?: number,
     files?: Promise<WasmFileset | null>,
     canvas?: HTMLCanvasElement,
 }
@@ -216,7 +217,7 @@ export namespace MediapipeHelper {
                     delegate: "GPU",
                     modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
                 },
-                numFaces: 1, // TODO: we currently support only one face, most of the code is written with this assumption
+                numFaces: opts?.maxFaces || 1, // TODO: we currently support only one face, most of the code is written with this assumption
                 outputFaceBlendshapes: true,
                 outputFacialTransformationMatrixes: true,
                 canvas: opts?.canvas,

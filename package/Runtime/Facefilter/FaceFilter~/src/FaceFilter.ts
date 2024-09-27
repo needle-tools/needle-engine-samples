@@ -1,5 +1,5 @@
-import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, isDevEnvironment, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setActive, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
-import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker, PoseLandmarkerResult, ImageSegmenter, ImageSegmenterResult } from "@mediapipe/tasks-vision";
+import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, instantiate, isDevEnvironment, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setActive, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
+import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker, PoseLandmarkerResult, ImageSegmenter, ImageSegmenterResult, Matrix } from "@mediapipe/tasks-vision";
 import { BlendshapeName, FacefilterUtils, MediapipeHelper } from './utils.js';
 import { MeshBasicMaterial, Object3D, Texture, Vector3, VideoTexture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
@@ -7,9 +7,13 @@ import { FaceFilterRoot } from './Behaviours.js';
 import { mirror } from './settings.js';
 import { VideoRenderer } from './VideoRenderer.js';
 
+
 declare type VideoClip = string;
 
 export class NeedleFilterTrackingManager extends Behaviour {
+
+    @serializable()
+    maxFaces: number = 3;
 
     /**
      * The 3D object that will be attached to the face
@@ -159,6 +163,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
         const tasks = new Array<Promise<any>>();
 
         tasks.push(MediapipeHelper.createFaceLandmarker({
+            maxFaces: this.maxFaces,
             // canvas: this.context.renderer.domElement,
         }).then(res => this._facelandmarker = res));
 
@@ -218,9 +223,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
         this._video?.play();
         this._videoRenderer?.enable();
         this._buttons.forEach((button) => this.context.menu.appendChild(button));
-        if (this._activeFilterBehaviour) {
-            this._activeFilterBehaviour.enabled = true;
-        }
+        this._states.forEach((state) => state.remove());
     }
     /** @internal */
     onDisable(): void {
@@ -228,9 +231,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
         this._video?.pause();
         this._videoRenderer?.disable();
         this._buttons.forEach((button) => button.remove());
-        if (this._activeFilterBehaviour) {
-            this._activeFilterBehaviour.enabled = false;
-        }
+        this._states.forEach((state) => state.remove());
         // this._activeFilter?.asset?.removeFromParent();
         GameObject.remove(this._activeFilter?.asset);
     }
@@ -307,11 +308,13 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
     private _activeFilterIndex: number = -1;
     private _activeFilter: AssetReference | null = null;
-    private _activeFilterBehaviour: FaceFilterRoot | null = null;
+    // private _activeFilterBehaviour: FaceFilterRoot | null = null;
+
+    private readonly _states: Array<FaceState> = [];
 
     /** assigned when the occluder is being created */
-    private _occluderPromise: Promise<Object3D> | null = null;
-    private _occluder: Object3D | null = null;
+    // private _occluderPromise: Promise<Object3D> | null = null;
+    // private _occluder: Object3D | null = null;
 
     /** The last landmark result received */
     private _lastFaceLandmarkResults: FaceLandmarkerResult | null = null;
@@ -359,11 +362,16 @@ export class NeedleFilterTrackingManager extends Behaviour {
         const faceResults = this._lastFaceLandmarkResults;
         if (faceResults) {
             this.updateDebug(faceResults);
-            this.updateRendering(faceResults);
+
+            for (let i = 0; i < faceResults.facialTransformationMatrixes.length; i++) {
+                const state = this._states[i];
+                const matrix = faceResults.facialTransformationMatrixes[i];
+                state?.render(matrix);
+                // this.updateRendering(faceResults, i);
+            }
         }
     }
 
-    private _lastTimeWithTrackingMatrices: number = -1;
     private _blendshapeMirrorIndexMap: Map<number, number> | null = null;
 
     /**
@@ -374,13 +382,24 @@ export class NeedleFilterTrackingManager extends Behaviour {
         const faceResults = this._lastFaceLandmarkResults;
         if (!faceResults) return;
 
+        const matrices = faceResults.facialTransformationMatrixes;
+
+        for (let i = 0; i < this._states.length; i++) {
+            if (i >= matrices.length) {
+                const state = this._states[i];
+                if ((this.context.time.realtimeSinceStartup - state.lastUpdateTime) > .5) {
+                    state?.remove();
+                }
+            }
+        }
+
         // If we do not have any faces
         if (faceResults.facialTransformationMatrixes.length <= 0) {
             // If we have an active filter and no tracking for a few frames, hide the filter
-            if (this._activeFilter?.asset && (this.context.time.realtimeSinceStartup - this._lastTimeWithTrackingMatrices) > .5) {
-                // this._activeFilter.asset.removeFromParent();
-                GameObject.remove(this._activeFilter?.asset);
-            }
+            // if (this._activeFilter?.asset && (this.context.time.realtimeSinceStartup - this._lastTimeWithTrackingMatrices) > .5) {
+            //     // this._activeFilter.asset.removeFromParent();
+            //     GameObject.remove(this._activeFilter?.asset);
+            // }
             return;
         }
 
@@ -425,81 +444,66 @@ export class NeedleFilterTrackingManager extends Behaviour {
             }
         }
 
-        this._lastTimeWithTrackingMatrices = this.context.time.realtimeSinceStartup;
         const active = this.filters[this._activeFilterIndex];
-        // If we have an active filter make sure it loads
-        if (active != this._activeFilter && !active.asset) {
-            active.loadAssetAsync();
-        }
-        else if (active?.asset) {
-            // Check if the active filter is still the one that *should* be active/visible
-            if (active !== this._activeFilter) {
-                console.log("Switching to filter #" + this._activeFilterIndex);
-                GameObject.remove(this._activeFilter?.asset);
-                this._activeFilter = active; // < update the currently active
-                this._activeFilterBehaviour = active.asset.getOrAddComponent(FaceFilterRoot);
-                GameObject.add(active.asset, this.context.scene);
-            }
 
-            if (this._activeFilter.asset.parent !== this.context.scene) {
-                this._activeFilter.asset.visible = true;
-                GameObject.add(this._activeFilter.asset, this.context.scene);
-            }
-            this._activeFilterBehaviour!.onResultsUpdated(this);
+        for (let i = 0; i < matrices.length; i++) {
+            const state = this._states[i] ?? new FaceState(this);
+            state.update(active, i);
+            this._states[i] = state;
         }
     }
 
-    private updateRendering(res: FaceLandmarkerResult) {
-        // TODO: allow filters to override this
-        const lm = res.facialTransformationMatrixes[0];
-        if (lm) {
-            // Setup/manage occlusions
-            if (this._activeFilterBehaviour?.overrideDefaultOccluder) {
-                if (this._occluder) {
-                    this._occluder.visible = false;
-                }
-            }
-            else if (!this._occluder) {
-                if (this.createOcclusionMesh) this.createOccluder();
-            }
-            else {
-                this._occluder.visible = true;
-                FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
-            }
-        }
+    // private updateRendering(res: FaceLandmarkerResult, index: number) {
+    //     // TODO: allow filters to override this
+    //     const lm = res.facialTransformationMatrixes[index];
+    //     if (lm) {
+    //         // Setup/manage occlusions
+    //         if (this._activeFilterBehaviour?.overrideDefaultOccluder) {
+    //             if (this._occluder) {
+    //                 this._occluder.visible = false;
+    //             }
+    //         }
+    //         else if (!this._occluder) {
+    //             if (this.createOcclusionMesh) this.createOccluder();
+    //         }
+    //         else {
+    //             this._occluder.visible = true;
+    //             FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
+    //         }
+    //     }
 
-    }
+    // }
 
-    private createOccluder(_force: boolean = false) {
-        // If a occlusion mesh is assigned
-        if (this.occlusionMesh) {
-            // Request the occluder mesh once
-            if (!this._occluderPromise) {
-                this._occluderPromise = this.occlusionMesh.loadAssetAsync();
-                this._occluderPromise.then((occluder) => {
-                    this._occluder = new Object3D();
-                    this._occluder.add(occluder);
-                    FacefilterUtils.makeOccluder(occluder, -10);
-                });
-            }
-        }
-        // Fallback occluder mesh if no custom occluder is assigned
-        else {
-            this._occluder = new Object3D();
-            const mesh = ObjectUtils.createOccluder("Sphere");
-            // mesh.material.colorWrite = true;
-            // mesh.material.wireframe = true;
-            mesh.scale.x = .16;
-            mesh.scale.y = .3;
-            mesh.scale.z = .17;
-            mesh.position.z = -.04;
-            mesh.renderOrder = -1;
-            mesh.updateMatrix();
-            mesh.updateMatrixWorld();
-            mesh.matrixAutoUpdate = false;
-            this._occluder.add(mesh);
-        }
-    }
+    // private createOccluder(_force: boolean = false) {
+    //     // If a occlusion mesh is assigned
+    //     if (this.occlusionMesh) {
+    //         // Request the occluder mesh once
+    //         if (!this._occluderPromise) {
+    //             this._occluderPromise = this.occlusionMesh.loadAssetAsync();
+    //             this._occluderPromise.then((occluder) => {
+    //                 this._occluder = new Object3D();
+    //                 this._occluder.add(occluder);
+    //                 FacefilterUtils.makeOccluder(occluder, -10);
+    //             });
+    //         }
+    //     }
+    //     // Fallback occluder mesh if no custom occluder is assigned
+    //     else {
+    //         this._occluder = new Object3D();
+    //         const mesh = ObjectUtils.createOccluder("Sphere");
+    //         // mesh.material.colorWrite = true;
+    //         // mesh.material.wireframe = true;
+    //         mesh.scale.x = .16;
+    //         mesh.scale.y = .3;
+    //         mesh.scale.z = .17;
+    //         mesh.position.z = -.04;
+    //         mesh.renderOrder = -1;
+    //         mesh.updateMatrix();
+    //         mesh.updateMatrixWorld();
+    //         mesh.matrixAutoUpdate = false;
+    //         this._occluder.add(mesh);
+    //     }
+    // }
 
     private _buttons: HTMLElement[] = [];
 
@@ -668,3 +672,107 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
 }
 
+
+class FaceState {
+    private readonly manager: NeedleFilterTrackingManager;
+
+    get context() { return this.manager.context; }
+    get lastUpdateTime() { return this._lastUpdateTime }
+    private _lastUpdateTime: number = -1;
+
+    constructor(manager: NeedleFilterTrackingManager) {
+        this.manager = manager;
+    }
+
+    private filter: AssetReference | null = null;
+    private instance: Object3D | null = null;
+    private filterBehaviour: FaceFilterRoot | null = null;
+
+    update(active: AssetReference | null, index: number) {
+        if (!active) {
+            return;
+        }
+
+        this._lastUpdateTime = this.context.time.realtimeSinceStartup;
+
+        // If we have an active filter make sure it loads
+        if (this.filter != active && !active.asset) {
+            active.loadAssetAsync();
+        }
+        else if (active?.asset) {
+            // Check if the active filter is still the one that *should* be active/visible
+            if (active !== this.filter) {
+                GameObject.remove(this.instance);
+                this.filter = active; // < update the currently active
+                this.instance = instantiate(active.asset);
+                this.filterBehaviour = this.instance.getOrAddComponent(FaceFilterRoot);
+                GameObject.add(this.instance, this.context.scene);
+            }
+
+            if (this.instance && this.instance.parent !== this.context.scene) {
+                this.instance.visible = true;
+                GameObject.add(this.instance, this.context.scene);
+            }
+            this.filterBehaviour!.onResultsUpdated(this.manager, index);
+        }
+    }
+
+    render(matrix: Matrix) {
+        // Setup/manage occlusions
+        if (this.filterBehaviour?.overrideDefaultOccluder) {
+            if (this.occluder) {
+                this.occluder.visible = false;
+            }
+        }
+        else if (!this.occluder) {
+            if (this.manager.createOcclusionMesh) {
+                this.createOccluder();
+            }
+        }
+        else {
+            this.occluder.visible = true;
+            FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this.occluder, matrix, this.manager.context.mainCamera);
+        }
+    }
+
+
+    remove() {
+        GameObject.remove(this.occluder);
+        GameObject.remove(this.instance);
+    }
+
+
+    private occluderPromise: Promise<Object3D> | null = null;
+    private occluder: Object3D | null = null;
+    private createOccluder(_force: boolean = false) {
+        // If a occlusion mesh is assigned
+        if (this.manager.occlusionMesh) {
+            // Request the occluder mesh once
+            if (!this.occluderPromise) {
+                this.occluderPromise = this.manager.occlusionMesh.loadAssetAsync() as Promise<Object3D>;
+                this.occluderPromise.then((occluder) => {
+                    this.occluder = new Object3D();
+                    this.occluder.add(instantiate(occluder));
+                    FacefilterUtils.makeOccluder(this.occluder, -10);
+                });
+            }
+        }
+        // Fallback occluder mesh if no custom occluder is assigned
+        else 
+        {
+            this.occluder = new Object3D();
+            const mesh = ObjectUtils.createOccluder("Sphere");
+            // mesh.material.colorWrite = true;
+            // mesh.material.wireframe = true;
+            mesh.scale.x = .16;
+            mesh.scale.y = .3;
+            mesh.scale.z = .17;
+            mesh.position.z = -.04;
+            mesh.renderOrder = -1;
+            mesh.updateMatrix();
+            mesh.updateMatrixWorld();
+            mesh.matrixAutoUpdate = false;
+            this.occluder.add(mesh);
+        }
+    }
+}

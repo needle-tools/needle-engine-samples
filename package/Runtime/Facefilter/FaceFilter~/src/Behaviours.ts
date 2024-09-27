@@ -149,7 +149,7 @@ export class FaceFilterRoot extends Behaviour {
                 const vertices = t.geometry.getAttribute("position") as BufferAttribute;
                 if (!vertices?.array || vertices.array.length < 100_000) {
                     NEEDLE_progressive.assignMeshLOD(t, 0);
-                    if(Array.isArray(t.material)) t.material.forEach(m => NEEDLE_progressive.assignTextureLOD(m, 0));
+                    if (Array.isArray(t.material)) t.material.forEach(m => NEEDLE_progressive.assignTextureLOD(m, 0));
                     else NEEDLE_progressive.assignTextureLOD(t.material, 0);
                 }
                 else {
@@ -161,8 +161,10 @@ export class FaceFilterRoot extends Behaviour {
 
     private _filter: NeedleFilterTrackingManager | null = null;
     private _behaviours: FilterBehaviour[] = [];
+    private _index: number = -1;
 
-    onResultsUpdated(filter: NeedleFilterTrackingManager) {
+    onResultsUpdated(filter: NeedleFilterTrackingManager, index: number) {
+        this._index = index;
         if (!this._filter) {
             this._filter = filter;
             console.debug("Avatar behaviour initialized");
@@ -171,14 +173,14 @@ export class FaceFilterRoot extends Behaviour {
             this._behaviours = this.gameObject.getComponentsInChildren(FilterBehaviour);
         }
         for (const beh of this._behaviours) {
-            beh.onResultsUpdated(filter);
+            beh.onResultsUpdated(filter, index);
         }
     }
 
     onBeforeRender(): void {
         const res = this._filter?.facelandmarkerResult;
-        if (!res) return;
-        const lm = res.facialTransformationMatrixes[0];
+        if (!res || this._index == -1) return;
+        const lm = res.facialTransformationMatrixes[this._index];
         if (!lm) return;
         FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this.gameObject, lm, this.context.mainCamera);
         this.gameObject.matrixAutoUpdate = false;
@@ -193,11 +195,11 @@ export class FaceFilterRoot extends Behaviour {
 
 
 export interface IFilterBehaviour {
-    onResultsUpdated(filter: NeedleFilterTrackingManager): void;
+    onResultsUpdated(filter: NeedleFilterTrackingManager, index: number): void;
 }
 
 export abstract class FilterBehaviour extends Behaviour implements IFilterBehaviour {
-    abstract onResultsUpdated(_filter: NeedleFilterTrackingManager): void;
+    abstract onResultsUpdated(_filter: NeedleFilterTrackingManager, index: number): void;
 }
 
 /**
@@ -254,9 +256,9 @@ export class FaceFilterBlendshapes extends FilterBehaviour {
             console.debug("Blendshape mapping", this.blendshapeMap);
     }
 
-    onResultsUpdated(filter: NeedleFilterTrackingManager) {
+    onResultsUpdated(filter: NeedleFilterTrackingManager, index: number) {
         // TODO: handle multiple faces
-        const face = filter.facelandmarkerResult?.faceBlendshapes?.[0]
+        const face = filter.facelandmarkerResult?.faceBlendshapes?.[index]
         if (face && this._skinnedMeshes.length > 0) {
             // we iterate all blendshape values and set the corresponding morph target influence
             // some meshes might have different names so we need to remap them
@@ -307,10 +309,10 @@ export class FaceFilterAnimator extends FilterBehaviour {
         this._animators = this.gameObject.getComponentsInChildren(Animator);
     }
 
-    onResultsUpdated(filter: NeedleFilterTrackingManager) {
+    onResultsUpdated(filter: NeedleFilterTrackingManager, index: number): void {
         if (!this._animators?.length) return;
 
-        const face = filter.facelandmarkerResult?.faceBlendshapes?.[0]
+        const face = filter.facelandmarkerResult?.faceBlendshapes?.[index];
         if (face) {
             // we iterate all blendshape values and set the corresponding morph target influence
             // some meshes might have different names so we need to remap them
@@ -346,8 +348,8 @@ export class FaceFilterEyeBehaviour extends FilterBehaviour {
     @serializable(Object3D)
     eyeLeft: Object3D | null = null;
 
-    onResultsUpdated(_filter: NeedleFilterTrackingManager): void {
-        const face = _filter.facelandmarkerResult?.faceBlendshapes?.[0];
+    onResultsUpdated(_filter: NeedleFilterTrackingManager, index: number): void {
+        const face = _filter.facelandmarkerResult?.faceBlendshapes?.[index];
         if (!face) return;
 
         // TODO: we currently assume that Z is the forward axis

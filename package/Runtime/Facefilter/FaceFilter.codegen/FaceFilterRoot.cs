@@ -9,7 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public bool @overrideDefaultOccluder = false;
 		public void awake(){}
-		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @filter){}
+		public void onResultsUpdated(Needle.Typescript.GeneratedComponents.NeedleFilterTrackingManager @filter, float @index){}
 		public void onBeforeRender(){}
 	}
 }
