@@ -7,7 +7,8 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class NeedleFilterTrackingManager : UnityEngine.MonoBehaviour
 	{
-		public float @maxFaces = 3f;
+		public bool @autoManagePerformance = true;
+		public float @maxFaces = 1f;
 		public UnityEngine.Transform[] @filters = new UnityEngine.Transform[]{ };
 		public UnityEngine.Transform @occlusionMesh;
 		public bool @createOcclusionMesh = true;
@@ -20,6 +21,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public void awake(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
+		public void onDestroy(){}
 		public void earlyUpdate(){}
 		public void onBeforeRender(){}
 	}

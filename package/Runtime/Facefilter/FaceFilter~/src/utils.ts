@@ -1,13 +1,15 @@
 import { Camera, Material, Matrix4, Object3D, DoubleSide, MeshBasicMaterial, Mesh, Quaternion, Color } from "three";
 import { Category, FaceLandmarker, FaceLandmarkerOptions, FaceLandmarkerResult, FilesetResolver, ImageSegmenter, ImageSegmenterResult, Matrix, PoseLandmarker } from "@mediapipe/tasks-vision"
-import { Renderer } from "@needle-tools/engine";
+import { Mathf, Renderer } from "@needle-tools/engine";
 import { mirror } from "./settings.js";
+import { $BuiltInTypeFlag } from "@needle-tools/engine";
 
 let _occluderMaterial: MeshBasicMaterial | null = null;
 
 const flipxMat = new Matrix4().makeScale(-1, 1, 1);
 const offset = new Matrix4().makeTranslation(0.000, 0.015, -.01);
 const offsetMirror = offset.clone().premultiply(flipxMat);
+const $rawMatrixSymbol = Symbol("rawMatrix");
 
 export namespace FacefilterUtils {
 
@@ -18,13 +20,22 @@ export namespace FacefilterUtils {
     }
 
     export function applyFaceLandmarkMatrixToObject3D(obj: Object3D, mat: Matrix, camera: Camera) {
-        const matrix = tempMatrix.fromArray(mat.data);
+        const raw = tempMatrix.fromArray(mat.data);
         obj.matrixAutoUpdate = false;
-        obj.matrix.copy(matrix);
+        if (obj.parent !== camera)
+            camera.add(obj);
 
-        obj.matrix.elements[12] *= 0.01;
-        obj.matrix.elements[13] *= 0.01;
-        obj.matrix.elements[14] *= 0.01;
+        const requiresSmoothing = false;
+        let matrix = obj.matrix;
+
+        if (requiresSmoothing)
+            matrix = obj[$rawMatrixSymbol] || (obj[$rawMatrixSymbol] = new Matrix4());
+
+
+        matrix.copy(raw);
+        matrix.elements[12] *= 0.01;
+        matrix.elements[13] *= 0.01;
+        matrix.elements[14] *= 0.01;
 
         // obj.matrix.decompose(obj.position, obj.quaternion, obj.scale);
         // obj.position.multiplyScalar(0.01);
@@ -32,14 +43,19 @@ export namespace FacefilterUtils {
         // obj.updateMatrix();
         // obj.quaternion
 
-
-
         // obj.matrix.premultiply(flipxMat);
-        if (mirror) obj.matrix.premultiply(offsetMirror);
-        else obj.matrix.premultiply(offset);
+        if (mirror) matrix.premultiply(offsetMirror);
+        else matrix.premultiply(offset);
 
-        if (obj.parent !== camera)
-            camera.add(obj);
+
+        // Interpolate matrix
+        if (matrix != obj.matrix) {
+            for (let i = 0; i < matrix.elements.length; i++) {
+                obj.matrix.elements[i] = Mathf.lerp(obj.matrix.elements[i], matrix.elements[i], 0.3);
+            }
+        }
+
+
     }
 
     export function getBlendshape(result: FaceLandmarkerResult | null, shape: BlendshapeName, index: number = 0): Category | null {
@@ -217,7 +233,7 @@ export namespace MediapipeHelper {
                     delegate: "GPU",
                     modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
                 },
-                numFaces: opts?.maxFaces || 1, // TODO: we currently support only one face, most of the code is written with this assumption
+                numFaces: opts?.maxFaces || 1,
                 outputFaceBlendshapes: true,
                 outputFacialTransformationMatrixes: true,
                 canvas: opts?.canvas,

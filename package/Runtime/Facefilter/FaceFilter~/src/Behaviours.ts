@@ -1,4 +1,4 @@
-import { Animator, Behaviour, isDevEnvironment, NEEDLE_progressive, serializable } from '@needle-tools/engine';
+import { Animator, Behaviour, isDevEnvironment, Mathf, NEEDLE_progressive, serializable } from '@needle-tools/engine';
 import type { NeedleFilterTrackingManager } from './FaceFilter.js';
 import { BufferAttribute, Matrix4, Mesh, Object3D, SkinnedMesh, Vector3 } from 'three';
 import { BlendshapeName, FacefilterUtils } from './utils.js';
@@ -256,10 +256,12 @@ export class FaceFilterBlendshapes extends FilterBehaviour {
             console.debug("Blendshape mapping", this.blendshapeMap);
     }
 
-    onResultsUpdated(filter: NeedleFilterTrackingManager, index: number) {
-        // TODO: handle multiple faces
-        const face = filter.facelandmarkerResult?.faceBlendshapes?.[index]
+    onResultsUpdated(filter: NeedleFilterTrackingManager, _index: number) {
+        const face = filter.facelandmarkerResult?.faceBlendshapes?.[_index]
         if (face && this._skinnedMeshes.length > 0) {
+
+            const t = this.context.time.deltaTime / .03;
+
             // we iterate all blendshape values and set the corresponding morph target influence
             // some meshes might have different names so we need to remap them
             for (const shape of face.categories) {
@@ -287,7 +289,12 @@ export class FaceFilterBlendshapes extends FilterBehaviour {
                             value = value * 1.5;
                         }
 
-                        mesh.morphTargetInfluences[index] = value;
+                        if (filter.maxFaces === 1) {
+                            mesh.morphTargetInfluences[index] = value;
+                        }
+                        else {
+                            mesh.morphTargetInfluences[index] = Mathf.lerp(mesh.morphTargetInfluences[index], value, t);
+                        }
                     }
                     // else {
                     //     if (this.context.time.frameCount % 180 === 0)

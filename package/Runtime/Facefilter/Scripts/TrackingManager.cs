@@ -1,5 +1,6 @@
 ﻿using Needle.Engine;
 using Needle.Facefilter.Scripts;
+using UnityEditor;
 using UnityEngine;
 
 namespace Needle.Typescript.GeneratedComponents
@@ -27,6 +28,11 @@ namespace Needle.Typescript.GeneratedComponents
 					Utils.CreateNewFilterAsset(self);
 				}
 				UnityEditor.EditorGUILayout.HelpBox("Then add your filter to the \"Filters\" list below", UnityEditor.MessageType.None);
+
+				if (self.maxFaces > 1)
+				{
+					EditorGUILayout.HelpBox("Warning: Face tracking is set to track " + self.maxFaces + " faces - tracking more than one face is currently experimental and less stable. Please set \"Max Faces\" to 1 for production.", MessageType.Warning);
+				}
 
 				GUILayout.Space(5);
 				base.OnInspectorGUI();

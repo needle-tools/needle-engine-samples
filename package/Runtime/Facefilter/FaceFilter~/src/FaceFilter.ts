@@ -1,7 +1,7 @@
-import { ActionBuilder, AssetReference, Behaviour, Canvas, ClearFlags, GameObject, getIconElement, getParam, instantiate, isDevEnvironment, isMobileDevice, Mathf, ObjectUtils, PromiseAllWithErrors, serializable, setActive, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
-import { FilesetResolver, FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker, PoseLandmarkerResult, ImageSegmenter, ImageSegmenterResult, Matrix } from "@mediapipe/tasks-vision";
+import { AssetReference, Behaviour, ClearFlags, GameObject, getIconElement, getParam, instantiate, isDevEnvironment, isMobileDevice, ObjectUtils, PromiseAllWithErrors, serializable, setParamWithoutReload, showBalloonMessage } from '@needle-tools/engine';
+import { FaceLandmarker, DrawingUtils, FaceLandmarkerResult, PoseLandmarker, PoseLandmarkerResult, ImageSegmenter, ImageSegmenterResult, Matrix } from "@mediapipe/tasks-vision";
 import { BlendshapeName, FacefilterUtils, MediapipeHelper } from './utils.js';
-import { MeshBasicMaterial, Object3D, Texture, Vector3, VideoTexture } from 'three';
+import { Object3D, Texture } from 'three';
 import { NeedleRecordingHelper } from './RecordingHelper.js';
 import { FaceFilterRoot } from './Behaviours.js';
 import { mirror } from './settings.js';
@@ -12,8 +12,16 @@ declare type VideoClip = string;
 
 export class NeedleFilterTrackingManager extends Behaviour {
 
+    /**
+     * When enabled the max faces will be reduced if the performance is low
+     */
+    autoManagePerformance: boolean = true;
+
+    /**
+     * The maximum number of faces that will be tracked
+     */
     @serializable()
-    maxFaces: number = 3;
+    maxFaces: number = 1;
 
     /**
      * The 3D object that will be attached to the face
@@ -167,6 +175,10 @@ export class NeedleFilterTrackingManager extends Behaviour {
             // canvas: this.context.renderer.domElement,
         }).then(res => this._facelandmarker = res));
 
+        if (isDevEnvironment()) {
+            if (this.maxFaces > 1) console.warn(`Note: Face Tracking is set to ${this.maxFaces} faces. Smoothing is currently not applied`);
+        }
+
         // TODO: doesn't work yet 
         // tasks.push(MediapipeHelper.createPoseLandmarker({
         //     // canvas: this.context.renderer.domElement,
@@ -232,8 +244,11 @@ export class NeedleFilterTrackingManager extends Behaviour {
         this._videoRenderer?.disable();
         this._buttons.forEach((button) => button.remove());
         this._states.forEach((state) => state.remove());
-        // this._activeFilter?.asset?.removeFromParent();
-        GameObject.remove(this._activeFilter?.asset);
+    }
+    onDestroy(): void {
+        this._facelandmarker?.close();
+        this._poselandmarker?.close();
+        this._imageSegmentation?.close();
     }
 
     private async startCamera(video: HTMLVideoElement) {
@@ -307,14 +322,11 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
 
     private _activeFilterIndex: number = -1;
-    private _activeFilter: AssetReference | null = null;
-    // private _activeFilterBehaviour: FaceFilterRoot | null = null;
 
     private readonly _states: Array<FaceState> = [];
 
-    /** assigned when the occluder is being created */
-    // private _occluderPromise: Promise<Object3D> | null = null;
-    // private _occluder: Object3D | null = null;
+    private _lastTimeOptionsChanged: number = -1;
+    private _currentMaxFaces: number = -1;
 
     /** The last landmark result received */
     private _lastFaceLandmarkResults: FaceLandmarkerResult | null = null;
@@ -333,6 +345,23 @@ export class NeedleFilterTrackingManager extends Behaviour {
         }
         if (this._video.readyState < 2) return;
         this._lastVideoTime = this._video.currentTime;
+
+
+        // Auto reduce tracked faces count if performance is low
+        if (this.autoManagePerformance) {
+            if (this._currentMaxFaces == -1) { this._currentMaxFaces = this.maxFaces; }
+            if (this.context.time.smoothedFps < 26 && this._currentMaxFaces > 1 && this.context.time.frame % 10 === 0) {
+                if (this._lastTimeOptionsChanged == -1) this._lastTimeOptionsChanged = this.context.time.realtimeSinceStartup;
+                if (this.context.time.realtimeSinceStartup - this._lastTimeOptionsChanged > 5) {
+                    this._lastTimeOptionsChanged = this.context.time.realtimeSinceStartup;
+                    this._currentMaxFaces -= 1;
+                    console.warn("Reducing tracked faces to " + this.maxFaces + " due to low performance");
+                    this._facelandmarker?.setOptions({
+                        numFaces: this._currentMaxFaces,
+                    });
+                }
+            }
+        }
 
         // Update face results - the extra check is because of Safari iOS
         if (this._facelandmarker && ("detectForVideo" in this._facelandmarker)) {
@@ -367,7 +396,6 @@ export class NeedleFilterTrackingManager extends Behaviour {
                 const state = this._states[i];
                 const matrix = faceResults.facialTransformationMatrixes[i];
                 state?.render(matrix);
-                // this.updateRendering(faceResults, i);
             }
         }
     }
@@ -384,6 +412,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
         const matrices = faceResults.facialTransformationMatrixes;
 
+        // Handle loosing face tracking
         for (let i = 0; i < this._states.length; i++) {
             if (i >= matrices.length) {
                 const state = this._states[i];
@@ -395,11 +424,6 @@ export class NeedleFilterTrackingManager extends Behaviour {
 
         // If we do not have any faces
         if (faceResults.facialTransformationMatrixes.length <= 0) {
-            // If we have an active filter and no tracking for a few frames, hide the filter
-            // if (this._activeFilter?.asset && (this.context.time.realtimeSinceStartup - this._lastTimeWithTrackingMatrices) > .5) {
-            //     // this._activeFilter.asset.removeFromParent();
-            //     GameObject.remove(this._activeFilter?.asset);
-            // }
             return;
         }
 
@@ -452,58 +476,6 @@ export class NeedleFilterTrackingManager extends Behaviour {
             this._states[i] = state;
         }
     }
-
-    // private updateRendering(res: FaceLandmarkerResult, index: number) {
-    //     // TODO: allow filters to override this
-    //     const lm = res.facialTransformationMatrixes[index];
-    //     if (lm) {
-    //         // Setup/manage occlusions
-    //         if (this._activeFilterBehaviour?.overrideDefaultOccluder) {
-    //             if (this._occluder) {
-    //                 this._occluder.visible = false;
-    //             }
-    //         }
-    //         else if (!this._occluder) {
-    //             if (this.createOcclusionMesh) this.createOccluder();
-    //         }
-    //         else {
-    //             this._occluder.visible = true;
-    //             FacefilterUtils.applyFaceLandmarkMatrixToObject3D(this._occluder, lm, this.context.mainCamera);
-    //         }
-    //     }
-
-    // }
-
-    // private createOccluder(_force: boolean = false) {
-    //     // If a occlusion mesh is assigned
-    //     if (this.occlusionMesh) {
-    //         // Request the occluder mesh once
-    //         if (!this._occluderPromise) {
-    //             this._occluderPromise = this.occlusionMesh.loadAssetAsync();
-    //             this._occluderPromise.then((occluder) => {
-    //                 this._occluder = new Object3D();
-    //                 this._occluder.add(occluder);
-    //                 FacefilterUtils.makeOccluder(occluder, -10);
-    //             });
-    //         }
-    //     }
-    //     // Fallback occluder mesh if no custom occluder is assigned
-    //     else {
-    //         this._occluder = new Object3D();
-    //         const mesh = ObjectUtils.createOccluder("Sphere");
-    //         // mesh.material.colorWrite = true;
-    //         // mesh.material.wireframe = true;
-    //         mesh.scale.x = .16;
-    //         mesh.scale.y = .3;
-    //         mesh.scale.z = .17;
-    //         mesh.position.z = -.04;
-    //         mesh.renderOrder = -1;
-    //         mesh.updateMatrix();
-    //         mesh.updateMatrixWorld();
-    //         mesh.matrixAutoUpdate = false;
-    //         this._occluder.add(mesh);
-    //     }
-    // }
 
     private _buttons: HTMLElement[] = [];
 
@@ -664,8 +636,8 @@ export class NeedleFilterTrackingManager extends Behaviour {
                     this._debugObjects[i] = obj;
                 }
                 const obj = this._debugObjects[i];
-                const data = res.facialTransformationMatrixes[i];
-                FacefilterUtils.applyFaceLandmarkMatrixToObject3D(obj, data, this.context.mainCamera);
+                const matrix = res.facialTransformationMatrixes[i];
+                FacefilterUtils.applyFaceLandmarkMatrixToObject3D(obj, matrix, this.context.mainCamera);
             }
         }
     }
@@ -758,8 +730,7 @@ class FaceState {
             }
         }
         // Fallback occluder mesh if no custom occluder is assigned
-        else 
-        {
+        else {
             this.occluder = new Object3D();
             const mesh = ObjectUtils.createOccluder("Sphere");
             // mesh.material.colorWrite = true;
