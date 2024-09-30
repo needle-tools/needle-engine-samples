@@ -283,7 +283,7 @@ export namespace MediapipeHelper {
         for (let i = 0; i < results.faceBlendshapes.length; i++) {
             const bs = results.faceBlendshapes[i];
             for (const cat of bs.categories) {
-                const filter = bsfilters[i] ??= new OneEuroFilter(0.05, .5, 1);
+                const filter = bsfilters[i] ??= new OneEuroFilter(0.05, .2, 1);
                 bsfilters[i] = filter;
                 cat.score = filter.filter(cat.score, time);
             }
