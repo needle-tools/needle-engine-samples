@@ -264,22 +264,63 @@ export namespace MediapipeHelper {
             }
         ));
     }
+    
 
+    
+    function flip(results: FaceLandmarkerResult, i0: number, i1: number) {
+        if (results.facialTransformationMatrixes) {
+            const mat0 = results.facialTransformationMatrixes[i0];
+            const mat1 = results.facialTransformationMatrixes[i1];
+            results.facialTransformationMatrixes[i0] = mat1;
+            results.facialTransformationMatrixes[i1] = mat0;
+        }
+
+        if (results.faceBlendshapes) {
+            const bs0 = results.faceBlendshapes[i0];
+            const bs1 = results.faceBlendshapes[i1];
+            results.faceBlendshapes[i0] = bs1;
+            results.faceBlendshapes[i1] = bs0;
+        }
+        if (results.faceLandmarks) {
+            const lm0 = results.faceLandmarks[i0];
+            const lm1 = results.faceLandmarks[i1];
+            results.faceLandmarks[i0] = lm1;
+            results.faceLandmarks[i1] = lm0;
+        }
+    }
 
     const bsfilters = new Array<OneEuroFilter>();
     const matrixFilters = new Array<OneEuroFilterMatrix4>();
     const tempMatrix = new Matrix4();
-
+    
     export function applyFiltering(results: FaceLandmarkerResult, time: number) {
 
+        // if we have multiple faces we need to sort them (left to right)
+        if (results.facialTransformationMatrixes?.length > 1) {
+            for (let index = 0; index < results.facialTransformationMatrixes.length; index++) {
+                const mat = results.facialTransformationMatrixes[index];
+                const x = mat.data[12];
+                for (let i = 0; i < results.facialTransformationMatrixes.length; i++) {
+                    const cur = results.facialTransformationMatrixes[i];
+                    const x2 = cur.data[12];
+                    if (x2 < x) {
+                        flip(results, index, i);
+                        break;
+                    }
+                }
+            }
+        }
+
+
         for (let i = 0; i < results.facialTransformationMatrixes.length; i++) {
-            const mat = results.facialTransformationMatrixes[i];
+            const cur = results.facialTransformationMatrixes[i];
             const filter = matrixFilters[i] ??= new OneEuroFilterMatrix4(3, 0.5, 1.0);
             matrixFilters[i] = filter;
-            const raw = tempMatrix.fromArray(mat.data);
+            const raw = tempMatrix.fromArray(cur.data);
             const filtered = filter.filter(raw, time);
-            mat.data = filtered.elements;
+            cur.data = filtered.elements;
         }
+
         for (let i = 0; i < results.faceBlendshapes.length; i++) {
             const bs = results.faceBlendshapes[i];
             for (const cat of bs.categories) {
