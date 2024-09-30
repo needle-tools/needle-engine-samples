@@ -4,6 +4,13 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.19.7-pre] - 2024-09-30
+### Added
+- FaceFilter support for tracking multiple faces
+
+### Changed
+- Bump Needle Engine dependency to 3.48.3
+
 ## [0.19.6-pre] - 2024-09-23
 ### Added
 - ShaderToy Face Filter example scene
