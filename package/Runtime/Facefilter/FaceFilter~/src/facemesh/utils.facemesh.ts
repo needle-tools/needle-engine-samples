@@ -1,4 +1,5 @@
 import { NormalizedLandmark } from '@mediapipe/tasks-vision';
+import { Mathf } from '@needle-tools/engine';
 import { Mesh, BufferGeometry, BufferAttribute, Vector3, Box3 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 
@@ -57,12 +58,20 @@ export class FaceGeometry extends BufferGeometry {
   }
 
 
-  update(normalizedLandmarks: NormalizedLandmark[]) {
+  update(normalizedLandmarks: NormalizedLandmark[], needsSmoothing: boolean) {
     const positions = this.attributes.position.array as Float32Array;
     for (let i = 0; i < normalizedLandmarks.length; i++) {
-      positions[i * 3 + 0] = normalizedLandmarks[i].x;
-      positions[i * 3 + 1] = normalizedLandmarks[i].y;
-      positions[i * 3 + 2] = normalizedLandmarks[i].z;
+      if (!needsSmoothing) {
+        positions[i * 3 + 0] = normalizedLandmarks[i].x;
+        positions[i * 3 + 1] = normalizedLandmarks[i].y;
+        positions[i * 3 + 2] = normalizedLandmarks[i].z;
+      }
+      else {
+        const t = 0.5;
+        positions[i * 3 + 0] = Mathf.lerp(positions[i * 3 + 0], normalizedLandmarks[i].x, t);
+        positions[i * 3 + 1] = Mathf.lerp(positions[i * 3 + 1], normalizedLandmarks[i].y, t);
+        positions[i * 3 + 2] = Mathf.lerp(positions[i * 3 + 2], normalizedLandmarks[i].z, t);
+      }
     }
     this.attributes.position.needsUpdate = true;
     this.computeVertexNormals();

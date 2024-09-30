@@ -138,6 +138,9 @@ export class NeedleFilterTrackingManager extends Behaviour {
         }
         return false;
     }
+    get currentFilterIndex() {
+        return this._activeFilterIndex;
+    }
     // private findIndex(str: string): number {
     //     for (let i = 0; i < this.filters.length; i++) {
     //         const filter = this.filters[i];
@@ -174,10 +177,6 @@ export class NeedleFilterTrackingManager extends Behaviour {
             maxFaces: this.maxFaces,
             // canvas: this.context.renderer.domElement,
         }).then(res => this._facelandmarker = res));
-
-        if (isDevEnvironment()) {
-            if (this.maxFaces > 1) console.warn(`Note: Face Tracking is set to ${this.maxFaces} faces. Smoothing is currently not applied`);
-        }
 
         // TODO: doesn't work yet 
         // tasks.push(MediapipeHelper.createPoseLandmarker({
@@ -425,6 +424,10 @@ export class NeedleFilterTrackingManager extends Behaviour {
         // If we do not have any faces
         if (faceResults.facialTransformationMatrixes.length <= 0) {
             return;
+        }
+
+        if(this.maxFaces > 1){
+            MediapipeHelper.applyFiltering(faceResults, this.context.time.time);
         }
 
         if (mirror) {

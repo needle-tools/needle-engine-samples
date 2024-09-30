@@ -1,15 +1,15 @@
-import { Camera, Material, Matrix4, Object3D, DoubleSide, MeshBasicMaterial, Mesh, Quaternion, Color } from "three";
-import { Category, FaceLandmarker, FaceLandmarkerOptions, FaceLandmarkerResult, FilesetResolver, ImageSegmenter, ImageSegmenterResult, Matrix, PoseLandmarker } from "@mediapipe/tasks-vision"
-import { Mathf, Renderer } from "@needle-tools/engine";
+import { Camera, Material, Matrix4, Object3D, DoubleSide, MeshBasicMaterial, Mesh } from "three";
+import { Category, FaceLandmarker, FaceLandmarkerResult, FilesetResolver, ImageSegmenter, Matrix, PoseLandmarker } from "@mediapipe/tasks-vision"
+import { OneEuroFilter, Renderer } from "@needle-tools/engine";
 import { mirror } from "./settings.js";
-import { $BuiltInTypeFlag } from "@needle-tools/engine";
+import { OneEuroFilterMatrix4 } from "./utils.filter.js";
 
 let _occluderMaterial: MeshBasicMaterial | null = null;
 
 const flipxMat = new Matrix4().makeScale(-1, 1, 1);
 const offset = new Matrix4().makeTranslation(0.000, 0.015, -.01);
 const offsetMirror = offset.clone().premultiply(flipxMat);
-const $rawMatrixSymbol = Symbol("rawMatrix");
+const $filter = Symbol("filter")
 
 export namespace FacefilterUtils {
 
@@ -25,13 +25,7 @@ export namespace FacefilterUtils {
         if (obj.parent !== camera)
             camera.add(obj);
 
-        const requiresSmoothing = false;
         let matrix = obj.matrix;
-
-        if (requiresSmoothing)
-            matrix = obj[$rawMatrixSymbol] || (obj[$rawMatrixSymbol] = new Matrix4());
-
-
         matrix.copy(raw);
         matrix.elements[12] *= 0.01;
         matrix.elements[13] *= 0.01;
@@ -49,11 +43,11 @@ export namespace FacefilterUtils {
 
 
         // Interpolate matrix
-        if (matrix != obj.matrix) {
-            for (let i = 0; i < matrix.elements.length; i++) {
-                obj.matrix.elements[i] = Mathf.lerp(obj.matrix.elements[i], matrix.elements[i], 0.3);
-            }
-        }
+        // if (matrix != obj.matrix) {
+        //     for (let i = 0; i < matrix.elements.length; i++) {
+        //         obj.matrix.elements[i] = Mathf.lerp(obj.matrix.elements[i], matrix.elements[i], 0.3);
+        //     }
+        // }
 
 
     }
@@ -270,4 +264,30 @@ export namespace MediapipeHelper {
             }
         ));
     }
+
+
+    const bsfilters = new Array<OneEuroFilter>();
+    const matrixFilters = new Array<OneEuroFilterMatrix4>();
+    const tempMatrix = new Matrix4();
+
+    export function applyFiltering(results: FaceLandmarkerResult, time: number) {
+
+        for (let i = 0; i < results.facialTransformationMatrixes.length; i++) {
+            const mat = results.facialTransformationMatrixes[i];
+            const filter = matrixFilters[i] ??= new OneEuroFilterMatrix4(3, 0.5, 1.0);
+            matrixFilters[i] = filter;
+            const raw = tempMatrix.fromArray(mat.data);
+            const filtered = filter.filter(raw, time);
+            mat.data = filtered.elements;
+        }
+        for (let i = 0; i < results.faceBlendshapes.length; i++) {
+            const bs = results.faceBlendshapes[i];
+            for (const cat of bs.categories) {
+                const filter = bsfilters[i] ??= new OneEuroFilter(0.05, .5, 1);
+                bsfilters[i] = filter;
+                cat.score = filter.filter(cat.score, time);
+            }
+        }
+    }
+
 }

@@ -75,10 +75,14 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
         window.removeEventListener("drop", this._onDrop);
     }
 
+    private _lastFilterIndex: number = -1;
+
     /** @internal */
     onResultsUpdated(filter: NeedleFilterTrackingManager, index: number): void {
         const lm = filter.facelandmarkerResult?.faceLandmarks;
         if (lm && lm.length > 0) {
+
+            const needsSmoothing = filter.maxFaces > 1 && this._lastFilterIndex === filter.currentFilterIndex;
             const face = lm[index];
             if (this.__currentMesh && face) {
 
@@ -106,8 +110,9 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
                 if (needMatrixUpdate) {
                     this._needsMatrixUpdate = true;
                 }
+                this._lastFilterIndex = filter.currentFilterIndex;
             }
-            this.__currentGeometry?.update(face);
+            this.__currentGeometry?.update(face, needsSmoothing);
         }
     }
 
