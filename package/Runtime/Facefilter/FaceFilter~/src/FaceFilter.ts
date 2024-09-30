@@ -151,6 +151,12 @@ export class NeedleFilterTrackingManager extends Behaviour {
     //     return 0;
     // }
 
+    /**
+     * @returns the internal face landmarker instance (if any). This accessor can be used to modify the face detector options via the `setOptions` method
+     */
+    get faceLandmarker() {
+        return this._facelandmarker;
+    }
 
 
     /** Face detector */
@@ -426,7 +432,7 @@ export class NeedleFilterTrackingManager extends Behaviour {
             return;
         }
 
-        if(this.maxFaces > 1){
+        if (this.maxFaces > 1) {
             MediapipeHelper.applyFiltering(faceResults, this.context.time.time);
         }
 
