@@ -408,19 +408,26 @@ namespace SampleChecks
             var nonSizeRestricted = dependencies.Where(x => nonSizeRestrictedExtensions.Any(x.EndsWith)).ToList();
             var sizeRestricted = dependencies.Where(x => !nonSizeRestricted.Contains(x)).ToList();
 
+            AssertFileListSizes(sizeRestricted, nonSizeRestricted, "Dependency");
+        }
+
+        private static void AssertFileListSizes(List<string> sizeRestrictedFiles, List<string> nonSizeRestrictedFiles,
+            string messagePrefix)
+        {
+            
             // summarize file size of all of them
-            var restrictedSize = sizeRestricted.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
-            var nonRestrictedSize = nonSizeRestricted.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
+            var restrictedSize = sizeRestrictedFiles.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
+            var nonRestrictedSize = nonSizeRestrictedFiles.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
 
             // check if below 10 MB
-            var restrictedSizeMB = restrictedSize / 1024f / 1024f;
-            var nonRestrictedSizeMB = nonRestrictedSize / 1024f / 1024f;
+            var restrictedSizeMb = restrictedSize / 1024f / 1024f;
+            var nonRestrictedSizeMb = nonRestrictedSize / 1024f / 1024f;
 
-            AssertFileSize(restrictedSizeMB, 10, sizeRestricted, "Dependency size is too large", true);
-            AssertFileSize(restrictedSizeMB + nonRestrictedSizeMB, 10, nonSizeRestricted.Union(sizeRestricted).ToList(), "Dependency size including is critical", false);
+            AssertFileSize(restrictedSizeMb, 10, sizeRestrictedFiles, $"{messagePrefix} size is too large", true);
+            AssertFileSize(restrictedSizeMb + nonRestrictedSizeMb, 10, nonSizeRestrictedFiles.Union(sizeRestrictedFiles).ToList(), $"{messagePrefix} size including typically larger file types (" + string.Join(", ", nonSizeRestrictedExtensions) + " is too large", false);
 
-            Debug.Log($"Dependency size: {restrictedSizeMB + nonRestrictedSizeMB:F2} MB");
-        }
+            Debug.Log($"{messagePrefix} size: {restrictedSizeMb + nonRestrictedSizeMb:F2} MB");
+        } 
 
         [Test]
         public void DependenciesInsideKnownPackages()
@@ -600,24 +607,13 @@ namespace SampleChecks
                 return "Packages/com.needle.engine-samples/" + f;
             }).ToList();
 
-            var nonSizeRestricted = files.Where(x => nonSizeRestrictedExtensions.Any(x.EndsWith));
-            var sizeRestricted = files.Where(x => !nonSizeRestricted.Contains(x));
+            var nonSizeRestricted = files.Where(x => nonSizeRestrictedExtensions.Any(x.EndsWith)).ToList();
+            var sizeRestricted = files.Where(x => !nonSizeRestricted.Contains(x)).ToList();
 
-            // summarize file size of all of them
-            var restrictedSize = sizeRestricted.Sum(file => file.Length);
-            var nonRestrictedSize = nonSizeRestricted.Sum(file => file.Length);
-
-            // check if below 10 MB
-            var restrictedSizeMb = restrictedSize / 1024f / 1024f;
-            var nonRestrictedSizeMb = nonRestrictedSize / 1024f / 1024f;
-            
-            // check if below 10 MB
-            AssertFileSize(restrictedSizeMb, 10, files, "Folder size is too large", true);
-            AssertFileSize(restrictedSizeMb + nonRestrictedSizeMb, 10, files, "Folder size including typically larger file types (" + string.Join(", ", nonSizeRestrictedExtensions) + " is too large", false);
-            Debug.Log($"Folder size: {restrictedSizeMb + nonRestrictedSizeMb:F2} MB");
+            AssertFileListSizes(sizeRestricted, nonSizeRestricted, "Folder");
         }
 
-        private void AssertFileSize(float sizeInMb, float allowedSize, List<string> files, string message, bool assert)
+        private static void AssertFileSize(float sizeInMb, float allowedSize, List<string> files, string message, bool assert)
         {
             var t = $"{message}: {sizeInMb:F2} MB. List of files ({files.Count}): \n" + string.Join("\n",
                 files
