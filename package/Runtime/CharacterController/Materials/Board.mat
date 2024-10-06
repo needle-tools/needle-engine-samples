@@ -9,11 +9,10 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Board
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _VOLUME_TRANSMISSION_OFF
+  m_InvalidKeywords:
   - _VERTEX_COLORS_ON
-  m_InvalidKeywords: []
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -21,7 +20,6 @@ Material:
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -105,6 +103,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - sheenColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - sheenRoughnessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - specularColorTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -166,11 +172,14 @@ Material:
     - _GlossyReflections: 0
     - _IRIDESCENCE: 0
     - _Metallic: 0
+    - _NormalMapFormatXYZ: 0
     - _OcclusionStrength: 1
+    - _OverrideSurfaceMode: 0
     - _Parallax: 0.005
     - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SHEEN: 0
     - _SPECULAR: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -195,6 +204,7 @@ Material:
     - clearcoatRoughnessTextureTexCoord: 0
     - clearcoatTextureRotation: 0
     - clearcoatTextureTexCoord: 0
+    - dispersion: 0
     - emissiveTextureRotation: 0
     - emissiveTextureTexCoord: 0
     - ior: 1.5
@@ -216,6 +226,11 @@ Material:
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
     - roughnessFactor: 0.5
+    - sheenColorTextureRotation: 0
+    - sheenColorTextureTexCoord: 0
+    - sheenRoughnessFactor: 0
+    - sheenRoughnessTextureRotation: 0
+    - sheenRoughnessTextureTexCoord: 0
     - specularColorTextureRotation: 0
     - specularColorTextureTexCoord: 0
     - specularFactor: 1
@@ -235,6 +250,7 @@ Material:
     - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
     - baseColorFactor: {r: 0.9056604, g: 0.58650947, b: 0.3203987, a: 1}
     - emissiveFactor: {r: 0, g: 0, b: 0, a: 1}
+    - sheenColorFactor: {r: 0, g: 0, b: 0, a: 0}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &3828005408802939276
