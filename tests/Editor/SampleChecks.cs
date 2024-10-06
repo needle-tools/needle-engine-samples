@@ -393,7 +393,7 @@ namespace SampleChecks
             return dependencies;
         }
 
-        static string[] nonSizeRestrictedExtensions =
+        private static string[] nonSizeRestrictedExtensions =
         {
             ".mp4",
             ".webm",
@@ -405,8 +405,8 @@ namespace SampleChecks
         public void DependencySizeBelow10MB()
         {
             var dependencies = GetDependencies(sample.Scene);
-            var nonSizeRestricted = dependencies.Where(x => nonSizeRestrictedExtensions.Any(y => x.EndsWith(y)));
-            var sizeRestricted = dependencies.Where(x => !nonSizeRestricted.Contains(x));
+            var nonSizeRestricted = dependencies.Where(x => nonSizeRestrictedExtensions.Any(x.EndsWith)).ToList();
+            var sizeRestricted = dependencies.Where(x => !nonSizeRestricted.Contains(x)).ToList();
 
             // summarize file size of all of them
             var restrictedSize = sizeRestricted.Sum(dependency => File.Exists(dependency) ? new FileInfo(dependency).Length : 0);
@@ -416,8 +416,8 @@ namespace SampleChecks
             var restrictedSizeMB = restrictedSize / 1024f / 1024f;
             var nonRestrictedSizeMB = nonRestrictedSize / 1024f / 1024f;
 
-            AssertFileSize(restrictedSizeMB, 10, sizeRestricted.ToList(), "Dependency size is too large", true);
-            AssertFileSize(restrictedSizeMB + nonRestrictedSizeMB, 10, nonSizeRestricted.ToList(), "Dependency size is critical", false);
+            AssertFileSize(restrictedSizeMB, 10, sizeRestricted, "Dependency size is too large", true);
+            AssertFileSize(restrictedSizeMB + nonRestrictedSizeMB, 10, nonSizeRestricted.Union(sizeRestricted).ToList(), "Dependency size including is critical", false);
 
             Debug.Log($"Dependency size: {restrictedSizeMB + nonRestrictedSizeMB:F2} MB");
         }
@@ -600,7 +600,7 @@ namespace SampleChecks
                 return "Packages/com.needle.engine-samples/" + f;
             }).ToList();
 
-            var nonSizeRestricted = files.Where(x => nonSizeRestrictedExtensions.Any(y => x.EndsWith(y)));
+            var nonSizeRestricted = files.Where(x => nonSizeRestrictedExtensions.Any(x.EndsWith));
             var sizeRestricted = files.Where(x => !nonSizeRestricted.Contains(x));
 
             // summarize file size of all of them
@@ -608,13 +608,13 @@ namespace SampleChecks
             var nonRestrictedSize = nonSizeRestricted.Sum(file => file.Length);
 
             // check if below 10 MB
-            var restrictedSizeMB = restrictedSize / 1024f / 1024f;
-            var nonRestrictedSizeMB = nonRestrictedSize / 1024f / 1024f;
+            var restrictedSizeMb = restrictedSize / 1024f / 1024f;
+            var nonRestrictedSizeMb = nonRestrictedSize / 1024f / 1024f;
             
             // check if below 10 MB
-            AssertFileSize(restrictedSizeMB, 10, files, "Folder size is too large", true);
-            AssertFileSize(restrictedSizeMB + nonRestrictedSizeMB, 10, files, "Folder size is critical", false);
-            Debug.Log($"Folder size: {restrictedSizeMB + nonRestrictedSizeMB:F2} MB");
+            AssertFileSize(restrictedSizeMb, 10, files, "Folder size is too large", true);
+            AssertFileSize(restrictedSizeMb + nonRestrictedSizeMb, 10, files, "Folder size including typically larger file types (" + string.Join(", ", nonSizeRestrictedExtensions) + " is too large", false);
+            Debug.Log($"Folder size: {restrictedSizeMb + nonRestrictedSizeMb:F2} MB");
         }
 
         private void AssertFileSize(float sizeInMb, float allowedSize, List<string> files, string message, bool assert)
