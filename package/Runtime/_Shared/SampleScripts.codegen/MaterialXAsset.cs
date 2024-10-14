@@ -13,7 +13,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public FileReference @materialXAsset;
 		public Needle.Engine.ImageReference[] @images = new Needle.Engine.ImageReference[]{ };
 		public void awake(){}
-		public void update(){}
 		public void loadMaterialX(string @path){}
 	}
 }
