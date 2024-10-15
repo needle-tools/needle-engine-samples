@@ -5,6 +5,7 @@ export class ObjectConfigurator extends Configurator {
   @serializable()
   autoDetectChildren: boolean = true;
 
+  @serializable(Configurator)
   objects: Configurator[] = [];
 
   awake() {
@@ -18,7 +19,7 @@ export class ObjectConfigurator extends Configurator {
         }
       });
     }
-
+    
     this.selectionCount = this.objects.length;
   }
 
@@ -37,10 +38,12 @@ export class ObjectConfigurator extends Configurator {
     for (let i = 0; i < this.objects.length; i++) {
       const obj = this.objects[i];
 
-      if (i == this.currentIndex) toEnable = obj;
+      if (i == this.currentIndex) {
+        toEnable = obj;
+      }
       else if (obj.gameObject.activeSelf) {
         GameObject.setActive(obj.gameObject, false);
-        obj.gameObject.getComponent(Configurator)?.onHide();
+        obj.onHide();
       }
     }
 
