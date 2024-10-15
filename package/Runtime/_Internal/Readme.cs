@@ -126,7 +126,7 @@ namespace Needle.Engine
             markdown = Regex.Replace(markdown, @"\`(.+?)\`", "<color=#aaa><i>$1</i></color>");
             
             // Convert lists (assuming unordered lists)
-            markdown = Regex.Replace(markdown, @"^\s*-\s+(.+)$", "• $1", RegexOptions.Multiline);
+            markdown = Regex.Replace(markdown, @"^(\s*)-\s+(.+)$", "$1• $2", RegexOptions.Multiline);
 
             // Convert links
             markdown = Regex.Replace(markdown, @"\[([^\]]+)\]\(([^\)]+)\)","<a href=\"$2\">$1</a>");
