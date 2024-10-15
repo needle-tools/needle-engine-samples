@@ -1,8 +1,3 @@
-# Miscellaneous Scripting
+# Realtime Clock
 
-A collection of scripts showcasing different small features like for example:
-
-- Render a Clock
-- Render a camera into a custom texture (TVScreen)
-- Create a 3D Text object
-
+This sample showcases an example code of an analogue clock which is an excellent starting point for learning how to code in TypeScript and Needle.

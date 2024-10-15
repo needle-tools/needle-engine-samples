@@ -6,7 +6,7 @@
 
 - Scale - sphere's scale
 - Radius - density of the floor
-- Height - density of the sides
+- Height - density on the sides
 
 [GroundProjectedEnv](https://threejs.org/examples/webgl_materials_envmaps_groundprojected.html) from Three.js
 
@@ -14,7 +14,7 @@
 
 ## RemoteSkybox
 
-Is a component that lets you download a skybox from other sources. This means that you can supply a link where the panorama is hosted instead of including it in the build, this can reduce the initial download size.
+Is a component that lets you download a skybox from other sources. This means that you can set a link where the panorama is hosted instead of including it in the build, this can reduce the initial download size.
 
 ---
 

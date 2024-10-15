@@ -1,8 +1,8 @@
 # Movie Set
 
-This sample shows how to use a RenderTexture to display the output of a camera on a TV screen.    
+This sample shows how to use RenderTexture to display the output of a camera onto a 3D model.
 
-A RenderTexture can be assigned to a camera to output a camera view into a texture. This texture can then be assigned to objects and materials in your scene to be displayed or as input for custom shaders.  
+A RenderTexture can be assigned to a camera to output the camera's view into a texture. This texture can then be assigned to materials in your scene as you would with any other texture.
 
 ## Setup
 

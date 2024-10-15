@@ -1,24 +1,16 @@
 # Configurator
 
-If we want to showcase the variety of a given product it's best to make a configurator that can serve as a way how to present your product to your customers.
-
-This sample is focused on the configurator logic, other samples can showcase better user input, such as the Hotspot sample or VR Hands. For the best user experience, it's best to choose the type of input based on the application's concept and target platform.
-
----
-
-This sample showcases how to switch between
- - GameObjects
- - Materials
+This sample showcases how to switch between Objects and Materials.
 
 Every switching mechanism has a base API to be called from outside of the object. That is crucial for the User input.
 
-All switching mechanisms are based on the same class called `Configurator`. Which has this API to be interacted with:
+All switching mechanisms are based on the same class called `Configurator`, which has these methods:
  - next()
  - previous()
  - getSize()
  - currentIndex
 
-It has also OnShow and OnHide events. This is important if we want to chain configurators after each other. A good example would be if we would have an object configurator where we would be switching between a plane and a car. And when we enable a car, it would also show that you can change the paint job.
+It has also OnShow and OnHide events. This is important if we want to chain configurators after each other. A good example would be if we would have an object configurator where we would be switching between a plane and a car. When a user selects a car, it also enables the paint job configuration.
 
 If we want a configurator to be activated and deactivated at the same time as a parent, set the `Bind to parent` checkbox on every configurator.
 
@@ -30,13 +22,9 @@ If we want a configurator to be activated and deactivated at the same time as a 
 
 ## Object Configurator
 
-Switches game objects by turning them off and on based on the current index.
+Switches objects by turning them off and on based on the current index. The target object has to have the `ConfigurationElement` component on itself.
 
 You can manually define the objects by populating the array in the editor or you can enable `Auto detect children` which searches for the objects in the configurator's children. Mind that it searches only for 1 depth in the hierarchy.
-
-You can't add just game objects, since we want to support configurator chaining.
-
-For simple objects that are not configurators, please add the `ConfigurationElement` to them so the `ObjectConfigurator` recognizes them.
 
 ### Sync Configurator Transform
 
@@ -60,7 +48,7 @@ And lastly, populate your Material array with the materials you want on your mod
 
 You can always extend the Configurator and add your own.
 
-Look at the Object Configurator as a reference on how to implement it. Mind always calling the `super. Method()` so the original logic still works. Even for events like `awake` or `start`.
+Look at the Object Configurator as a reference on how to implement it. Mind always calling the `super.method()` so the original logic still works. Even for events like `awake` or `start`.
 
 ---
 

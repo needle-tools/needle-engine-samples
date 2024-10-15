@@ -4,6 +4,8 @@ Material X is a widely supported shader system that allows for easy shader defin
 
 It supports both node graphs for easy iteration and a code-driven approach, enabling you to construct shaders with an approachable high-level API directly in JavaScript/TypeScript.
 
-You can download the Material X editor from [GitHub](https://github.com/AcademySoftwareFoundation/MaterialX).
+There are more options when choosing a Material X editor:
+- [QuiltiX](ttps://github.com/PrismPipeline/QuiltiX)
+- [Official editor](https://github.com/AcademySoftwareFoundation/MaterialX/blob/main/documents/DeveloperGuide/GraphEditor.md)
 
-For more information on three.js feature coverage, see this [GitHub issue](https://github.com/mrdoob/three.js/issues/24674).
+For more information on the three.js feature coverage, see this [GitHub issue](https://github.com/mrdoob/three.js/issues/24674).

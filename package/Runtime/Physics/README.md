@@ -6,3 +6,8 @@ Needle Engine supports Box-, Sphere-, Capsule- and Meshcolliders, gravity and dr
 
 If you need more control you can use the built-in event functions to react to collision or trigger events or interact with the underlying physics engine (Rapier) directly.
 
+## Joints
+
+`HingeJoint`: A hinge which can rotate only on one axis in a allowed angle range (used for doors, chains or pendulums)
+
+`FixedJoint`: A hinge that is used to mimic a fixed connection e.g. this can be used when you can't parent objects under one another

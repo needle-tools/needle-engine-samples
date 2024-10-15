@@ -1,8 +1,7 @@
 # Image Tracking
 
 Demonstrates how to attach 3D content onto a custom image marker.
-Start the scene below in AR on Android or iOS, and point your phone's camera at the image marker on a screen.
-You can also print the marker out.  
+Just simply when in AR or Quicklook, point your phone's camera at the image marker. You can use your monitor or print out the marker.
 
 Image tracking on iOS is natively supported.
 

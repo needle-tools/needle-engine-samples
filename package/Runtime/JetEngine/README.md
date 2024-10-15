@@ -1,5 +1,5 @@
 # Jet Engine
 
-The EverywhereConfigurator is a component that allows variant switching to work everywhere, including QuickLook.
+This sample is built around the EverywhereConfigurator component that allows for variant switching to work everywhere, including QuickLook. Such a component allows you to create product showcases that function seamlessly across all platforms.
 
-This enables you to create product showcases that function seamlessly across all platforms.
+Another important feature that is showcased in this sample is the hotspots that also work in QuickLook. That is again thanks to the EverywhereConfigurator component.

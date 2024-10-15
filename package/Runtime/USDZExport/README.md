@@ -14,21 +14,25 @@ To be able to have a cross-platform experience, there are [Everywhere Actions](h
 
 # Samples
 
-## USDZ Interactivity
+## Interactivity (Everywhere Actions)
 
 Showcases the basic actions in isolated use cases.
 
-## USDZ Characters
+## Characters (Everywhere Actions)
 
 By using relative movement actions, you are able to make minigames with characters like these that work everywhere, including iOS AR.
 
-## USDZ Animator
+## Animator (Everywhere Actions)
 
 Skinned mesh animated character working everywhere.
 
-## USDZ Product
+## Configurator (Everywhere Actions)
 
 Simple configurator showcasing high-quality assets and materials for both the web and automatic conversion to QuickLook / USDZ.
+
+## ColorMenu (Everywhere Actions)
+
+Demonstrates a mini color configurator with HUD UI controls.
 
 ## Musical Instrument
 

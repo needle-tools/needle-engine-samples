@@ -1,9 +1,7 @@
 # Custom XR Buttons
 
-AR and VR can be started from a regular website when clicking on the respective button. 
+You can enter AR and VR by calling methods on the WebXR component from an HTML or UI button, it is essential that the call originates from a click interaction.
 
-Using the `WebXR` component adds these buttons automatically on supported devices, and you can choose if you want to allow AR, VR, or both.  
+On the WebXR component, you need to disable the `Create AR Button` and `Create VR Button` options which control the presence of the built-in buttons in the needle menu.
 
-## Customizing the Buttons
-
-The buttons can be customized by creating your own buttons and connecting them to the respective events on the `WebXR` component. The relevant code is in `CustomXRButtons.ts`.
+See the relevant code in `CustomXRButtons.ts`.
