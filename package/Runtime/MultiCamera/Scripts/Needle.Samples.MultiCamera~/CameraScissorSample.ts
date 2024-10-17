@@ -76,10 +76,13 @@ export class CameraScissorSample extends Behaviour {
             const x = e.clientX;
             const y = e.clientY;
 
-            console.log(x,y, rect);
-
             // disable controls
             ctrl.controls!.enabled = false;
+
+            // check if resize corner (bottom right)
+            if ((x > rect.right - border && y > rect.bottom - border)) {
+                return;
+            }
 
             e.preventDefault();
 
