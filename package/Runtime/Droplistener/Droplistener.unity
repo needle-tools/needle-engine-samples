@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: fee91218d9c68df4b859fa5115079256, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4594015, g: 0.4594015, b: 0.4594015, a: 1}
+  m_IndirectSpecularColor: {r: 0.026596038, g: 0.03579706, b: 0.044799864, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: a7930b8ef92456d4fbb6ac789f1b0c07, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 1e81e13f54d128d46a091dbd09111981, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -152,11 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3678e6ee7af44e4d9fecf9a0f082ba74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.SyncedRoom, Needle.Engine
-  roomName: Droplistener
-  urlParameterName: room
   joinRandomRoom: 1
-  requireRoomParameter: 0
   autoRejoin: 1
+  roomPrefix: Droplistener
+  urlParameterName: room
+  requireRoomParameter: 0
   createJoinButton: 1
   createViewOnlyButton: 1
 --- !u!4 &381308810
@@ -173,6 +173,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &449794802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 449794804}
+  - component: {fileID: 449794803}
+  m_Layer: 0
+  m_Name: Drag and Drop Gallery UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &449794803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449794802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b388919347a32273d0ab61e3c4f8142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.DragAndDropGalleryUI,
+    Needle.Engine-Samples.Runtime
+  urls:
+  - name: Shoe 3D model
+    url: https://github.com/KhronosGroup/glTF-Sample-Models/raw/refs/heads/main/2.0/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb
+  - name: Toy Car 3D model
+    url: https://github.com/KhronosGroup/glTF-Sample-Models/raw/refs/heads/main/2.0/ToyCar/glTF-Binary/ToyCar.glb
+  - name: Character 3D model
+    url: https://github.com/KhronosGroup/glTF-Sample-Models/raw/refs/heads/main/2.0/BrainStem/glTF-Binary/BrainStem.glb
+  - name: Water Bottle 3D model
+    url: https://github.com/KhronosGroup/glTF-Sample-Models/raw/refs/heads/main/2.0/WaterBottle/glTF-Binary/WaterBottle.glb
+  - name: Lamp 3D model
+    url: https://github.com/KhronosGroup/glTF-Sample-Models/raw/refs/heads/main/2.0/IridescenceLamp/glTF-Binary/IridescenceLamp.glb
+  - name: Olive Dish 3D model
+    url: https://github.com/KhronosGroup/glTF-Sample-Models/raw/refs/heads/main/2.0/IridescentDishWithOlives/glTF-Binary/IridescentDishWithOlives.glb
+--- !u!4 &449794804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449794802}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.6035885, y: 2.8618388, z: -1.2389209}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &706762903
 GameObject:
@@ -255,7 +313,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.18075769, y: -0.79129726, z: 0.27861917, w: 0.51336807}
   m_LocalPosition: {x: 3.4103942, y: 3.3781543, z: 0.8129222}
-  m_LocalScale: {x: 1.0000303, y: 1.0000005, z: 1.0000322}
+  m_LocalScale: {x: 1.000032, y: 1.0000005, z: 1.0000339}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -281,7 +339,7 @@ MonoBehaviour:
   autoRotateSpeed: 0.3
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
@@ -464,8 +522,11 @@ MonoBehaviour:
   createSendToQuestButton: 0
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 1
-  arSceneScale: 2
+  arScale: 2
+  autoPlace: 1
+  autoCenter: 1
   useXRAnchor: 0
   useQuicklookExport: 1
   useDepthSensing: 0
@@ -508,7 +569,10 @@ MonoBehaviour:
   RemoteUrl: https://github.com/needle-engine/svelte-sample/tree/sample
   AutoExport: 1
   AutoCompress: 0
-  Dependencies: []
+  Dependencies:
+  - Name: '@needle-tools/samples-scripts'
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Guid: a54d66e790a1fe74b86cebd5eae8145d
 --- !u!4 &784234924
 Transform:
   m_ObjectHideFlags: 0
@@ -5626,7 +5690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2155663484706976034, guid: f4e3d6439aa31aa4bbedcdc49a41c2fc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.0000048
+      value: 1.0000067
       objectReference: {fileID: 0}
     - target: {fileID: 2155663484706976034, guid: f4e3d6439aa31aa4bbedcdc49a41c2fc, type: 3}
       propertyPath: m_LocalScale.y
@@ -5634,7 +5698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2155663484706976034, guid: f4e3d6439aa31aa4bbedcdc49a41c2fc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.0000048
+      value: 1.0000067
       objectReference: {fileID: 0}
     - target: {fileID: 2155663484706976034, guid: f4e3d6439aa31aa4bbedcdc49a41c2fc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5782,7 +5846,7 @@ Transform:
   m_GameObject: {fileID: 1609064305}
   m_LocalRotation: {x: 0.12271808, y: -0.8504162, z: 0.3608218, w: 0.36268488}
   m_LocalPosition: {x: 3.65, y: 9.02, z: 5.13}
-  m_LocalScale: {x: 1.0000188, y: 1.000001, z: 1.0000098}
+  m_LocalScale: {x: 1.0000222, y: 1.000001, z: 1.0000114}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
