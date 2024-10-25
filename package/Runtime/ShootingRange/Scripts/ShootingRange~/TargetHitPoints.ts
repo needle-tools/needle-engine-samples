@@ -34,12 +34,12 @@ export class TargetHitPointRenderer extends Behaviour {
         const text = this.getTextElement();
         
         if (text) {
-            this.startCoroutine(this.spawnHitPoint(text, targetPosition, count));
+            this.spawnHitPoint(text, targetPosition, count);
         }
 
     }
 
-    *spawnHitPoint(text: Text, targetPosition: Vector3, count: number) {
+    spawnHitPoint(text: Text, targetPosition: Vector3, count: number) {
 
         text.text = count.toFixed();
         text.color = this.getRandomColor();
@@ -65,7 +65,7 @@ export class TargetHitPointRenderer extends Behaviour {
             text.gameObject.position.y -= this.context.time.deltaTime / .5;
             text.color.alpha *= .98;
 
-            if (text.gameObject.position.y > 10 || text.color.alpha < .1) {
+            if (text.gameObject.position.y > 10/*  || text.color.alpha < .1 */) {
                 text.gameObject.visible = false;
                 this._activeTextElements.splice(i, 1);
                 this._inactiveTextElements.push(text);
