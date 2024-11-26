@@ -6,7 +6,7 @@ namespace Needle.Tests
 {
 	public static class TestReminder
 	{
-		[InitializeOnLoadMethod]
+		// [InitializeOnLoadMethod]
 		private static async void Init()
 		{
 			var recompileCount = SessionState.GetInt("Needle.Tests.RecompileCount", 0);
