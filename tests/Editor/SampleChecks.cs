@@ -140,7 +140,7 @@ namespace SampleChecks
                 }
             }
 
-            enginePackageVersions.OrderBy(x => x.major)
+            enginePackageVersions = enginePackageVersions.OrderBy(x => x.major)
                                  .ThenBy(x => x.minor)
                                  .ThenBy(x => x.patch)
                                  .ThenBy(x => x.suffix)
