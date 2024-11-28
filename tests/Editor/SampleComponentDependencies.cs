@@ -171,8 +171,8 @@ namespace Editor
 			var dependencyPaths = componentTypes.Select(type =>
 			{
 				var typeName = type.Name;
-				var match = types.FirstOrDefault(k =>
-					string.Equals(k.TypeName, typeName, StringComparison.InvariantCultureIgnoreCase));
+				var match = types?.FirstOrDefault(k =>
+					string.Equals(k?.TypeName, typeName, StringComparison.InvariantCultureIgnoreCase));
 				if (match != null)
 				{
 					var path = match.FilePath;
