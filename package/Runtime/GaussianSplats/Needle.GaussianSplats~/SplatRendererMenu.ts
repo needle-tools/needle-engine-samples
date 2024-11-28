@@ -1,5 +1,5 @@
 import { Behaviour, GameObject, serializable, setParam } from '@needle-tools/engine';
-import { SplatRenderer } from './SplatRenderer.js';
+import { SplatRenderer } from './SplatRenderer';
 
 export class SplatRendererMenu extends Behaviour {
     
@@ -21,5 +21,12 @@ export class SplatRendererMenu extends Behaviour {
             setParam('url', select.value);
         });
         this.context.menu.appendChild(label);
+
+        const btn = document.createElement('button');
+        btn.textContent = 'Download .ksplat';
+        btn.addEventListener('click', () => {
+            GameObject.findObjectOfType(SplatRenderer)?.downloadOptimizedSplat();
+        });
+        this.context.menu.appendChild(btn);
     }
 }

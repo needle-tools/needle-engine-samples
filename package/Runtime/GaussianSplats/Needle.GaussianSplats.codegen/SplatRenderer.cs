@@ -13,6 +13,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @showLoadingUI = true;
 		public void OnEnable(){}
 		public void load(string @path){}
+		public void downloadOptimizedSplat(){}
 	}
 }
 
