@@ -6,4 +6,6 @@ The sample currently uses `adapter-static` to output a statically generated page
 
 ## Learn more
 
+Download or fork our [sveltekit template from github](https://github.com/needle-engine/sveltekit-sample)
+
 For more information, see the [SvelteKit docs](https://kit.svelte.dev/docs/introduction).
