@@ -7,13 +7,14 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class SplatRenderer : UnityEngine.MonoBehaviour
 	{
-		public string @path = "https://huggingface.co/cakewalk/splat-data/resolve/main/bicycle.splat";
-		public bool @dynamicObject = true;
+		public string @path;
+		public bool @dynamicObject = false;
 		public bool @progressiveLoading = true;
-		public bool @showLoadingUI = true;
+		public bool @showLoadingUI = false;
 		public void OnEnable(){}
+		public void OnDisable(){}
+		public void getBoundingBox(){}
 		public void load(string @path){}
-		public void downloadOptimizedSplat(){}
 	}
 }
 

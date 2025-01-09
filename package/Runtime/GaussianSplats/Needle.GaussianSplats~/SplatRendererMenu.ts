@@ -2,11 +2,11 @@ import { Behaviour, GameObject, serializable, setParam } from '@needle-tools/eng
 import { SplatRenderer } from './SplatRenderer';
 
 export class SplatRendererMenu extends Behaviour {
-    
+
     @serializable(Array<string>)
     urls: string[] = [];
 
-    onEnable(): void {
+    start(): void {
         const label = document.createElement('label');
         label.textContent = 'Select Splat';
         const select = document.createElement('select');
@@ -18,14 +18,22 @@ export class SplatRendererMenu extends Behaviour {
         }
         label.appendChild(select);
         select.addEventListener('change', () => {
-            setParam('url', select.value);
+            const url = select.value;
+            const splatRenderer = GameObject.findObjectOfType(SplatRenderer);
+            if (splatRenderer) {
+                splatRenderer.load(url);
+            }
         });
         this.context.menu.appendChild(label);
 
         const btn = document.createElement('button');
         btn.textContent = 'Download .ksplat';
         btn.addEventListener('click', () => {
-            GameObject.findObjectOfType(SplatRenderer)?.downloadOptimizedSplat();
+            const renderer = GameObject.findObjectOfType(SplatRenderer);
+            if (!renderer) {
+                console.error('No SplatRenderer found');
+            }
+            else if (renderer.path) SplatRenderer.downloadOptimizedSplat(renderer.path);
         });
         this.context.menu.appendChild(btn);
     }

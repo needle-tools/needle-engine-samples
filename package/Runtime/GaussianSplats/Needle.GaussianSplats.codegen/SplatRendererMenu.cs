@@ -8,7 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class SplatRendererMenu : UnityEngine.MonoBehaviour
 	{
 		public string[] @urls = new string[]{ };
-		public void OnEnable(){}
+		public void start(){}
 	}
 }
 
