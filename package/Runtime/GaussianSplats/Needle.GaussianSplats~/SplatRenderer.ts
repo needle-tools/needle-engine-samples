@@ -1,4 +1,4 @@
-import { Behaviour, destroy, FileReference, getParam, Gizmos, isDevEnvironment, serializable, setParam, showBalloonMessage } from '@needle-tools/engine';
+import { Behaviour, destroy, FileReference, getParam, getTempVector, Gizmos, isDevEnvironment, serializable, setParam, showBalloonMessage } from '@needle-tools/engine';
 import { DropInViewer, PlyLoader, KSplatLoader } from '@mkkellogg/gaussian-splats-3d';
 import { _DropInViewer } from './types.js';
 import { Box3 } from 'three';
@@ -53,6 +53,9 @@ export class SplatRenderer extends Behaviour {
     @serializable()
     showLoadingUI: boolean = false;
 
+    @serializable()
+    autoCenter?: boolean = false;
+
     onEnable() {
         this._viewer = new DropInViewer({
             // 'selfDrivenMode': false,
@@ -69,12 +72,12 @@ export class SplatRenderer extends Behaviour {
             inMemoryCompressionLevel: 2, // Can't be used when progressive loading is on
             splatRenderMode: 0, //0 = ThreeD, 1 = TwoD
             // lodLevel: 1,
-            splatSortDistanceMapPrecision: 16, 
+            splatSortDistanceMapPrecision: 16,
             // sceneFadeInRateMultiplier: .01,
 
         }) as _DropInViewer;
 
-        if (isDevEnvironment()) console.debug('SplatRenderer', this._viewer);
+        if (isDevEnvironment()) console.debug('SplatRenderer', this);
         this._viewer.layers.set(2);
         this.gameObject.add(this._viewer);
 
@@ -122,8 +125,22 @@ export class SplatRenderer extends Behaviour {
     private isLoading: boolean = false;
 
     async load(path: string | FileReference): Promise<boolean> {
+        const autoCenter = this.autoCenter;
+        return this.internalLoad(path).then(res => {
+            if (autoCenter && res) {
+                const bounds = this.getBoundingBox();
+                if (bounds) {
+                    const center = bounds.getCenter(getTempVector());
+                    this.splatMesh?.position.sub(center);
+                }
+            }
+            return res;
+        })
+    }
 
-        if(typeof path === 'object') {
+    private async internalLoad(path: string | FileReference): Promise<boolean> {
+
+        if (typeof path === 'object') {
             path = path.url;
         }
 
@@ -187,13 +204,9 @@ export class SplatRenderer extends Behaviour {
                     this.isLoading = false;
                     return resolve(false);
                 }
-
-                if (!isProgressiveLoading) {
-                    resolve(true);
-                }
-
+                await res.promise;
+                resolve(true);
                 // viewer.splatMesh.setPointCloudModeEnabled(true);
-
 
             }).then(() => {
                 this.isLoading = false;

@@ -11,6 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @dynamicObject = false;
 		public bool @progressiveLoading = true;
 		public bool @showLoadingUI = false;
+		public bool @autoCenter = false;
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void getBoundingBox(){}
