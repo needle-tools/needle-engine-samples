@@ -69,6 +69,8 @@ export class SplatRenderer extends Behaviour {
             inMemoryCompressionLevel: 2, // Can't be used when progressive loading is on
             splatRenderMode: 0, //0 = ThreeD, 1 = TwoD
             // lodLevel: 1,
+            splatSortDistanceMapPrecision: 16, 
+            // sceneFadeInRateMultiplier: .01,
 
         }) as _DropInViewer;
 
@@ -144,6 +146,11 @@ export class SplatRenderer extends Behaviour {
         console.debug('Loading splat scene', path);
         try {
             const isProgressiveLoading = this.progressiveLoading;
+
+            if (isProgressiveLoading && this._viewer?.viewer.dynamicScene) {
+                console.warn('Progressive loading is not supported with dynamic scene');
+            }
+
             const promise = new Promise(async (resolve) => {
                 const res = this._viewer?.viewer.addSplatScene(path, {
                     showLoadingUI: this.showLoadingUI,
@@ -151,14 +158,15 @@ export class SplatRenderer extends Behaviour {
                     showControlPlane: false,
                     progressiveLoad: isProgressiveLoading,
                     splatAlphaRemovalThreshold: 0.9,
-                    position: [0, 0, 0],
+                    // position: [0, 0, 0],
                     rotation: [1, 0, 0, 0],
                     onProgress: (_perc, label, status) => {
-                        console.debug({ status, progress: label, url: path });
+                        console.debug(status, label, path);
                         if (status === 1) {
                             // waiting
                         }
                         else if (status === 2) {
+                            console.debug("Finished loading!", _perc);
                             this.isLoading = false;
                             resolve(true);
                         }

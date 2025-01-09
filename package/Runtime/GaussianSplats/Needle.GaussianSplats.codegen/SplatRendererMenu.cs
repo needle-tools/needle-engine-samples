@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public string[] @urls = new string[]{ };
 		public void start(){}
+		public void OnEnable(){}
 	}
 }
 

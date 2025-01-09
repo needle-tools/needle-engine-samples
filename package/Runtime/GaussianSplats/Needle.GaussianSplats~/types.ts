@@ -28,6 +28,7 @@ export type _DropInViewer = Group & {
     viewer: {
         antialiased: boolean;
         focalAdjustment: number,
+        dynamicScene: boolean,
         addSplatScene: (path: string, opts: AddSplatSceneOptions) => AbortablePromise;
         removeSplatScene(number: number): Promise<void>;
         removeSplatScenes(): Promise<void>;

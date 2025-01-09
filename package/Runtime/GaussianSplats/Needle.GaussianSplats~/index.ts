@@ -4,3 +4,8 @@
 
 // Learn more about npm definition packages: 
 // https://docs.needle.tools/npmdef
+
+
+export * from "./SplatRenderer.js";
+export * from "./SplatRendererMenu.js";
+export * from "./types.js";
