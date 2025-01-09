@@ -1,4 +1,4 @@
-import { Behaviour, destroy, getParam, Gizmos, isDevEnvironment, serializable, setParam, showBalloonMessage } from '@needle-tools/engine';
+import { Behaviour, destroy, FileReference, getParam, Gizmos, isDevEnvironment, serializable, setParam, showBalloonMessage } from '@needle-tools/engine';
 import { DropInViewer, PlyLoader, KSplatLoader } from '@mkkellogg/gaussian-splats-3d';
 import { _DropInViewer } from './types.js';
 import { Box3 } from 'three';
@@ -41,8 +41,8 @@ export class SplatRenderer extends Behaviour {
 
     private _viewer: _DropInViewer | null = null;
 
-    @serializable()
-    path: string | null = null;
+    @serializable(FileReference)
+    path: FileReference | string | null = null;
 
     @serializable()
     dynamicObject: boolean = false;
@@ -121,7 +121,11 @@ export class SplatRenderer extends Behaviour {
 
     private isLoading: boolean = false;
 
-    async load(path: string): Promise<boolean> {
+    async load(path: string | FileReference): Promise<boolean> {
+
+        if(typeof path === 'object') {
+            path = path.url;
+        }
 
         if (!this._viewer) {
             return false;

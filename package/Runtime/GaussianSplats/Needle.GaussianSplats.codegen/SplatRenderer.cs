@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class SplatRenderer : UnityEngine.MonoBehaviour
 	{
-		public string @path;
+		public Needle.Engine.FileReference @path;
 		public bool @dynamicObject = false;
 		public bool @progressiveLoading = true;
 		public bool @showLoadingUI = false;
