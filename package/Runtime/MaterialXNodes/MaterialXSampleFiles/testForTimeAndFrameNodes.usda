@@ -1,0 +1,71 @@
+#usda 1.0
+(
+    upAxis = "Y"
+    metersPerUnit = 0.01
+    defaultPrim = "Root"
+    # We're defining time codes here so that we can use time scrubbers etc.,
+    # since some of the materials use time/frame nodes.
+    startTimeCode = 1
+    endTimeCode = 100
+)
+
+# Reference external MaterialX files. They all import as <MaterialX> prim. 
+# They can contain one or more materials.
+def Scope "MaterialX" (
+    references = [
+        # from https://github.com/usd-wg/assets/blob/main/test_assets/MaterialXTest/usd_preview_surface_plastic.mtlx
+        @./usd_preview_surface_plastic.mtlx@</MaterialX>,
+        # from https://github.com/AcademySoftwareFoundation/MaterialX/blob/main/resources/Materials/Examples/StandardSurface/standard_surface_marble_solid.mtlx
+        # but extended with a time_float node
+        @./marbleTime.mtlx@</MaterialX>,
+        # from https://github.com/AcademySoftwareFoundation/MaterialX/blob/main/resources/Materials/TestSuite/stdlib/application/time_frame.mtlx
+        @./time_frame.mtlx@</MaterialX>
+    ]
+)
+{
+}
+
+def Xform "Root" (
+    # Define which variant this prim should use by default
+    # Define where the variants come from – the variantSets 
+    variants = {
+        string materialvariants = "TimeSample"
+    }
+    prepend variantSets = "materialvariants"
+)
+{
+    # We're going to display the materials on a simple sphere
+    def Sphere "Sphere" (
+        # We're declaring the MaterialBindingAPI here so that we don't have to do it per variant
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+
+    }
+
+    # Define the variants. Each variant has a name and a set of overrides.
+    # The hierarchy must match the hierarchy of the prim that the variant is applied to.
+    variantSet "materialvariants" = {
+        "Plastic" {
+            over "Sphere" {
+                rel material:binding = </MaterialX/Materials/USD_Plastic>
+            }
+
+        }
+        "MarbleTime" {
+            over "Sphere" {
+                rel material:binding = </MaterialX/Materials/Marble_3D>
+            }
+        }
+        "TimeSample" {
+            over "Sphere" {
+                rel material:binding = </MaterialX/Materials/timeGraph>
+            }
+        }
+        "FrameSample" {
+            over "Sphere" {
+                rel material:binding = </MaterialX/Materials/frameGraph>
+            }
+        }
+    }
+}
