@@ -1335,7 +1335,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706762903}
-  m_LocalRotation: {x: 0.058189016, y: -0.88905805, z: 0.11798186, w: 0.43848616}
+  m_LocalRotation: {x: 0.05818904, y: -0.889058, z: 0.11798185, w: 0.43848634}
   m_LocalPosition: {x: 9.75, y: 3.79, z: 7.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1363,7 +1363,7 @@ MonoBehaviour:
   autoRotateSpeed: 0.3
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
@@ -2101,12 +2101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-6cdc62d53d9dc014195cabef7c8fcb76-969208506-0
-  arScale: 10
-  invertForward: 0
-  customReticle: {fileID: 0}
-  arTouchTransform: 0
-  autoPlace: 0
-  useXRAnchor: 0
 --- !u!114 &969208507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2304,7 +2298,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1211803453}
   - component: {fileID: 1211803452}
-  - component: {fileID: 1211803454}
   m_Layer: 0
   m_Name: XR
   m_TagString: Untagged
@@ -2329,8 +2322,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
-  usePlacementAdjustment: 0
-  arSceneScale: 1
+  customARPlacementReticle: {fileID: 0}
+  usePlacementAdjustment: 1
+  arScale: 5
+  autoPlace: 1
+  autoCenter: 0
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0
@@ -2353,22 +2349,6 @@ Transform:
   m_Father: {fileID: 1597275518}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1211803454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211803451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c35427eb3cff477458f940cd27afaf91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.XR.XRControllerModel, Needle.Engine
-  CreateControllerModel: 0
-  CreateHandModel: 0
-  customLeftHand: {fileID: 0}
-  customRightHand: {fileID: 0}
 --- !u!1001 &1212400329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2714,12 +2694,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3678e6ee7af44e4d9fecf9a0f082ba74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.SyncedRoom, Needle.Engine $ GlobalObjectId_V1-2-6cdc62d53d9dc014195cabef7c8fcb76-1365103854-0
-  roomName: GlitchTemplate
-  urlParameterName: room
   joinRandomRoom: 1
-  requireRoomParameter: 0
   autoRejoin: 1
+  roomPrefix: GlitchTemplate
+  urlParameterName: room
+  requireRoomParameter: 0
   createJoinButton: 1
+  createViewOnlyButton: 0
 --- !u!4 &1365103855
 Transform:
   m_ObjectHideFlags: 0
