@@ -11,14 +11,12 @@ export class CustomXRButtons extends Behaviour {
         // WebXR and USDZExporter should have their default buttons
         // disabled on their components.
         const usdzExporter = GameObject.findObjectOfType(USDZExporter);
-        
-        const xrModes = await Promise.all([ NeedleXRSession.isARSupported(), NeedleXRSession.isVRSupported()]);
-        const haveAR = xrModes[0];
-        const haveVR = xrModes[1];
+
+        const [haveAR, haveVR] = await Promise.all([NeedleXRSession.isARSupported(), NeedleXRSession.isVRSupported()]);
 
         const a = document.createElement("a");
         const haveQuickLook = a.relList.supports("ar") && usdzExporter;
-        
+
         const btnFactory = WebXRButtonFactory.getOrCreate();
         const startAR = btnFactory.createARButton();
         const startVR = btnFactory.createVRButton();
@@ -30,19 +28,19 @@ export class CustomXRButtons extends Behaviour {
         // We're using the AR button both for WebXR AR and QuickLook AR on iOS.
         const arButton = document.querySelector(".ar-button")!;
         if (haveAR) {
-            arButton.addEventListener("click", () => { 
+            arButton.addEventListener("click", () => {
                 startAR.click();
             });
         }
         else if (haveQuickLook) {
             arButton.addEventListener("click", () => {
-                usdzExporter.exportAsync();
+                usdzExporter.exportAndOpen();
             });
         }
 
         const vrButton = document.querySelector(".vr-button")!;
         if (haveVR) {
-            vrButton.addEventListener("click", () => { 
+            vrButton.addEventListener("click", () => {
                 startVR.click();
             });
         }
