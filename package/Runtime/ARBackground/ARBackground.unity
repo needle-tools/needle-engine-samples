@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.89167345, g: 0.8397932, b: 0.7978974, a: 1}
+  m_IndirectSpecularColor: {r: 0.89167345, g: 0.83979315, b: 0.7978974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 251576946}
   - component: {fileID: 251576947}
   - component: {fileID: 251576948}
+  - component: {fileID: 251576949}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -202,14 +203,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251576942}
-  m_LocalRotation: {x: 0.5100321, y: -0.45245653, z: 0.36348826, w: 0.63484377}
-  m_LocalPosition: {x: 1.38, y: 6.21, z: -0.66}
+  m_LocalRotation: {x: 0.24264824, y: -0.5540199, z: 0.17292333, w: 0.7773553}
+  m_LocalPosition: {x: 3.66, y: 2.96, z: -1.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 488474454}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 34.67, y: -70.955, z: -0.001}
 --- !u!114 &251576946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,11 +231,13 @@ MonoBehaviour:
   autoRotateSpeed: 0.2
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -242,6 +245,7 @@ MonoBehaviour:
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!114 &251576947
@@ -290,6 +294,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5788589ee445e45bf87cdf1ec6ee90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: RoughRefraction, UnityGltf.RenderPipelines $ GlobalObjectId_V1-2-6970efae85fc0304caaa0ddae51e2e5b-251576948-0
+--- !u!114 &251576949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251576942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff643486cb84b8194a9e9c5f3d71788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraARData, Needle.Engine
+  ARBackgroundAlpha: 0.752
 --- !u!1 &280035139
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +319,6 @@ GameObject:
   - component: {fileID: 280035143}
   - component: {fileID: 280035142}
   - component: {fileID: 280035141}
-  - component: {fileID: 280035144}
   m_Layer: 0
   m_Name: Sphere (2)
   m_TagString: Untagged
@@ -395,27 +411,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 280035139}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!95 &280035144
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 280035139}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d1e009d891582d64d8c07d33ec2b9fee, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &433719422
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +423,6 @@ GameObject:
   - component: {fileID: 433719426}
   - component: {fileID: 433719425}
   - component: {fileID: 433719424}
-  - component: {fileID: 433719427}
   m_Layer: 0
   m_Name: Sphere (1)
   m_TagString: Untagged
@@ -521,27 +515,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433719422}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!95 &433719427
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 433719422}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d1e009d891582d64d8c07d33ec2b9fee, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &488474452
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,8 +587,11 @@ MonoBehaviour:
   createSendToQuestButton: 0
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 0
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0
@@ -636,11 +612,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-6970efae85fc0304caaa0ddae51e2e5b-488474456-0
-  arScale: 1
-  invertForward: 1
-  customReticle: {fileID: 0}
-  arTouchTransform: 1
-  useXRAnchor: 0
 --- !u!114 &488474457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,7 +792,6 @@ GameObject:
   - component: {fileID: 879220828}
   - component: {fileID: 879220827}
   - component: {fileID: 879220826}
-  - component: {fileID: 879220829}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -914,27 +884,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879220824}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!95 &879220829
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879220824}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d1e009d891582d64d8c07d33ec2b9fee, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1012055729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1045,6 @@ GameObject:
   - component: {fileID: 1150156799}
   - component: {fileID: 1150156798}
   - component: {fileID: 1150156797}
-  - component: {fileID: 1150156800}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1189,27 +1137,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1150156795}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!95 &1150156800
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150156795}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d1e009d891582d64d8c07d33ec2b9fee, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1154372374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2489356572636543509, guid: c6c92bca7ef6a874394667be40594b07, type: 3}
@@ -1565,7 +1492,6 @@ GameObject:
   - component: {fileID: 1690631972}
   - component: {fileID: 1690631971}
   - component: {fileID: 1690631970}
-  - component: {fileID: 1690631973}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -1658,27 +1584,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1690631968}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!95 &1690631973
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690631968}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d1e009d891582d64d8c07d33ec2b9fee, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2005835372
 GameObject:
   m_ObjectHideFlags: 0
