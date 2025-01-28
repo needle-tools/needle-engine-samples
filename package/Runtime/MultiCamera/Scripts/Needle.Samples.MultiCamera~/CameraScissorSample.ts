@@ -63,9 +63,9 @@ export class CameraScissorSample extends Behaviour {
         } else {
             // otherwise, move the DIV from anywhere inside the DIV:
             element.onpointerdown = dragMouseDown;
-            
+
         }
-        
+
         function dragMouseDown(e) {
             if (!ctrl) return;
             e = e || window.event;
@@ -94,7 +94,7 @@ export class CameraScissorSample extends Behaviour {
             // call a function whenever the cursor moves:
             document.onpointermove = elementDrag;
         }
-        
+
         function elementDrag(e) {
             e = e || window.event;
             e.preventDefault();
@@ -109,7 +109,7 @@ export class CameraScissorSample extends Behaviour {
 
             // disable orbit controls
         }
-        
+
         function closeDragElement() {
             if (!ctrl) return;
             // stop moving when mouse button is released:
@@ -126,21 +126,21 @@ export class CameraScissorSample extends Behaviour {
         const renderer = this.context.renderer;
         const canvasRect = canvas.getBoundingClientRect();
         const elemRect = elem.getBoundingClientRect();
-    
+
         // compute a canvas relative rectangle
         const right = Math.min(elemRect.right, canvasRect.right) - canvasRect.left;
         const left = Math.max(0, elemRect.left - canvasRect.left);
         const bottom = Math.min(elemRect.bottom, canvasRect.bottom) - canvasRect.top;
         const top = Math.max(0, elemRect.top - canvasRect.top);
-    
+
         const width = Math.min(canvasRect.width, right - left);
         const height = Math.min(canvasRect.height, bottom - top);
-    
+
         // setup the scissor to only render to that part of the canvas
         const positiveYUpBottom = canvasRect.height - bottom;
         renderer.setScissor(left, positiveYUpBottom, width, height);
         renderer.setViewport(left, positiveYUpBottom, width, height);
-    
+
         // return the aspect
         return width / height;
     }
@@ -157,15 +157,16 @@ export class CameraScissorSample extends Behaviour {
 
         // set scissor
         const aspect = this.setScissorForElement(this.renderDiv);
-        const threeCam = this.camera.cam as PerspectiveCamera;
-        threeCam.aspect = aspect;
+        const threeCam = this.camera.threeCamera;
+        if (threeCam instanceof PerspectiveCamera)
+            threeCam.aspect = aspect;
         threeCam.updateProjectionMatrix();
 
         if (this.camera.clearFlags === ClearFlags.SolidColor) {
             // Lazily intialize a fullscreen quad for custom clearing,
             // when we're rendering into a scissor we can't use the regular clear calls.
             if (!this.fullscreenQuad) {
-                this.fullscreenQuadMat = new MeshBasicMaterial({color: '#000', depthWrite: false, transparent: true});
+                this.fullscreenQuadMat = new MeshBasicMaterial({ color: '#000', depthWrite: false, transparent: true });
                 this.fullscreenQuad = new Mesh(
                     new PlaneGeometry(2, 2),
                     this.fullscreenQuadMat,
@@ -177,13 +178,13 @@ export class CameraScissorSample extends Behaviour {
 
             this.context.scene.background = null;
             if (this.fullscreenQuadMat) {
-                this.fullscreenQuadMat.color.copy(this.camera.backgroundColor as Color);
+                this.fullscreenQuadMat.color.copy(this.camera.backgroundColor as unknown as Color);
                 this.fullscreenQuadMat.opacity = this.camera.backgroundColor?.a ?? 1;
             }
             this.context.renderer.render(this.fullscreenQuad, this.orthoCamera);
         }
         this.context.renderNow(this.camera.cam);
-        
+
         // reset viewport
         this.setScissorForElement(this.context.renderer.domElement);
 
