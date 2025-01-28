@@ -7,8 +7,10 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class ImageTrackingDownloadUI : UnityEngine.MonoBehaviour
 	{
-		public void awake(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
 		public void update(){}
+		public void onUpdateXR(object @args){}
 	}
 }
 

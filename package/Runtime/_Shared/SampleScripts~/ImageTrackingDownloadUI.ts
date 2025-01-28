@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, WebXRImageTracking } from "@needle-tools/engine";
+import { Behaviour, DeviceUtilities, GameObject, NeedleXREventArgs, WebXRImageTracking } from "@needle-tools/engine";
 
 
 
@@ -9,10 +9,14 @@ import { Behaviour, GameObject, WebXRImageTracking } from "@needle-tools/engine"
 export class ImageTrackingDownloadUI extends Behaviour {
 
     private _ui: HTMLElement | null = null;
+    private _incubationsHint: HTMLElement | null = null;
+    private _components: WebXRImageTracking[] = [];
 
-    awake() {
+    onEnable() {
+        this._ui?.remove();
+
         // Find all ImageTracking components
-        const components = GameObject.findObjectsOfType(WebXRImageTracking);
+        this._components = GameObject.findObjectsOfType(WebXRImageTracking);
         const container = document.createElement("div");
         container.style.cssText = `
             font-family: 'Roboto flex', Ariel;
@@ -41,9 +45,12 @@ export class ImageTrackingDownloadUI extends Behaviour {
         description.style.userSelect = "all";
         container.appendChild(description);
 
-        for (const imageTracking of components) {
+        for (const imageTracking of this._components) {
             this.createDownloadImageUI(imageTracking, container);
         }
+    }
+    onDisable(): void {
+        this._ui?.remove();
     }
 
     update(): void {
@@ -55,16 +62,33 @@ export class ImageTrackingDownloadUI extends Behaviour {
         }
     }
 
+    onUpdateXR(args: NeedleXREventArgs): void {
+        if (args.xr.frame && !("getImageTrackingResults" in args.xr.frame)) {
+            if (!this._incubationsHint && this._ui && DeviceUtilities.isAndroidDevice()) {
+                const hint = document.createElement("p");
+                hint.style.cssText = `
+                    background: rgba(255, 100, 100, .7);
+                    border-radius: .5rem;
+                    padding: .4rem;
+                `
+                hint.innerText = "WebXR ImageTracking is not enabled. Go to chrome://flags/#webxr-incubations and enable #webxr-incubations";
+                this._ui.append(hint);
+                this._incubationsHint = hint;
+            }
+        }
+    }
+
     private createDownloadImageUI(imageTracking: WebXRImageTracking, container: HTMLElement) {
         if (!imageTracking.trackedImages) return;
         for (const imageModel of imageTracking.trackedImages) {
             if (!imageModel.image) continue;
-            const a = document.createElement("a");
+            const a = document.createElement("a") as HTMLAnchorElement;
             a.href = imageModel.image;
+            a.target = "_blank";
             // const imgName = imageModel.image.split("/").pop();
             // a.setAttribute("download", imgName ?? "image.png");
             container.appendChild(a);
-            const img = document.createElement("img");
+            const img = document.createElement("img") as HTMLImageElement;
             img.src = imageModel.image;
             img.style.cssText = `
                 min-width: 180px;
