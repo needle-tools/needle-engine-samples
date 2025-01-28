@@ -24,9 +24,6 @@ export class FirstPersonController extends Behaviour {
     sprintSpeed: number = 80;
 
     @serializable()
-    stoppingDecay: number = 7;
-
-    @serializable()
     maxSpeed: number = 7;
 
     @serializable()

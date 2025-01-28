@@ -12,7 +12,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @lookSensitivity = 1f;
 		public float @movementSpeed = 50f;
 		public float @sprintSpeed = 80f;
-		public float @stoppingDecay = 7f;
 		public float @maxSpeed = 7f;
 		public float @maxSprintSpeed = 7f;
 		public float @jumpSpeed = 5f;
