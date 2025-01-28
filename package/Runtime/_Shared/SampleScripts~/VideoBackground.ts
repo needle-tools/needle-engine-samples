@@ -2,28 +2,32 @@ import { Behaviour, ClearFlags, RGBAColor } from "@needle-tools/engine";
 
 export class VideoBackground extends Behaviour {
 
-    async awake() {
+    private _video: HTMLVideoElement | null = null;
+
+    async onEnable() {
         // create video element and put it inside the <needle-engine> component
-        const video = document.createElement("video");
-        video.style.cssText = `
+        this._video ??= document.createElement("video");
+        this._video.style.cssText = `
             position: fixed;
-            min-width: 100%;
-            min-height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
+            object-fit: cover;
         `
-        this.context.domElement.shadowRoot!.appendChild(video);
+        this.context.domElement.shadowRoot!.appendChild(this._video);
 
         // get webcam input
         const input = await navigator.mediaDevices.getUserMedia({ video: true })
-        if (!input) return;
-        video.srcObject = input;
-        video.play();
-
-        // make sure the camera background is transparent
-        const camera = this.context.mainCameraComponent;
-        if (camera) {
-            camera.clearFlags = ClearFlags.SolidColor;
-            camera.backgroundColor = new RGBAColor(125, 125, 125, 0);
-        }
+        if (!input || !this.enabled) return;
+        this._video.srcObject = input;
+        this._video.play();
+    }
+    onDisable(): void {
+        this._video?.pause();
+        this._video?.remove();
     }
 }

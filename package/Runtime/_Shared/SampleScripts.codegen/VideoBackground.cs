@@ -7,7 +7,8 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class VideoBackground : UnityEngine.MonoBehaviour
 	{
-		public void awake(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
 	}
 }
 

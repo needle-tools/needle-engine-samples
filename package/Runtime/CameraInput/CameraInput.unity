@@ -160,8 +160,8 @@ Camera:
   m_GameObject: {fileID: 706762903}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.18195197, g: 0.042052336, b: 0.3301887, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.7419825, g: 0.5425863, b: 0.8396226, a: 0.1764706}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -222,13 +222,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-49068307165cdb346a242c48a6528235-706762907-0
+  autoTarget: 1
   autoFit: 0
   enableRotate: 1
   autoRotate: 1
   autoRotateSpeed: 0.3
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: -6.2831845
+  maxAzimuthAngle: 6.2831855
   enableZoom: 1
   minZoom: 0
   maxZoom: 10000
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -236,6 +243,7 @@ MonoBehaviour:
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!114 &706762908
@@ -518,8 +526,8 @@ MonoBehaviour:
   size: 10
   divisions: 10
   offset: -0.001
-  color0: {r: 0.25, g: 0.25, b: 0.25, a: 1}
-  color1: {r: 0.18, g: 0.18, b: 0.18, a: 1}
+  color0: {r: 0.46226418, g: 0.25075653, b: 0.4602498, a: 1}
+  color1: {r: 0.29241937, g: 0.1549929, b: 0.4056604, a: 1}
 --- !u!4 &806518227
 Transform:
   m_ObjectHideFlags: 0
@@ -689,11 +697,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-49068307165cdb346a242c48a6528235-1597275521-0
-  arScale: 1
-  invertForward: 0
-  customReticle: {fileID: 0}
-  arTouchTransform: 0
-  useXRAnchor: 0
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,7 +841,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
   Guid: 
 --- !u!4 &1718888889
 Transform:
