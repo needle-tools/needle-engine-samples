@@ -23,6 +23,6 @@ export class ParticleSphere extends Behaviour {
             return
         }
         if (this._rb) this._rb.useGravity = false;
-        this.gameObject.position.lerp(this._targetPosition, this.context.time.deltaTime);
+        this.gameObject.position.lerp(this._targetPosition, this.context.time.deltaTime / .3);
     }
 }
