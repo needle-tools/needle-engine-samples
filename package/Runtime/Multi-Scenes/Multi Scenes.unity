@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45746067, g: 0.45591512, b: 0.45746067, a: 1}
+  m_IndirectSpecularColor: {r: 0.4568469, g: 0.4568469, b: 0.4568469, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: a84a79467aa823f48a102028f3a0b399, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -152,8 +152,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1458125670}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &208071534
 MonoBehaviour:
@@ -222,8 +222,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1458125670}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1132596504
 MonoBehaviour:
@@ -424,32 +424,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1458125670}
-  - component: {fileID: 1458125669}
   - component: {fileID: 1597275520}
   - component: {fileID: 1597275521}
   - component: {fileID: 1458125671}
   - component: {fileID: 1597275522}
   m_Layer: 0
-  m_Name: MultiScenes
+  m_Name: Scenes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1458125669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458125668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa3493724830445e9abb470aad0aec1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-1458125669-0
-  SuppressExport: 0
-  EmbedSkybox: 1
 --- !u!4 &1458125670
 Transform:
   m_ObjectHideFlags: 0
@@ -461,11 +446,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1132596503}
-  - {fileID: 208071533}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1458125671
 MonoBehaviour:
@@ -481,6 +464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.SceneSwitcher, Needle.Engine
     $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-1458125671-0
   autoLoadFirstScene: 1
+  createMenuButtons: 1
   scenes:
   - asset: {fileID: 102900000, guid: 4e4791ec7b488bb4599825a551430b73, type: 3}
   - asset: {fileID: 102900000, guid: 37b057fe12700594a9a1fbe1c047e8de, type: 3}
@@ -494,9 +478,13 @@ MonoBehaviour:
   useKeyboard: 1
   useSwipe: 0
   useSceneLighting: 1
+  useSceneBackground: 1
   preloadNext: 1
   preloadPrevious: 1
   preloadConcurrent: 2
+  sceneLoaded:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1591123022
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,11 +559,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-1597275521-0
-  arScale: 1
-  invertForward: 0
-  customReticle: {fileID: 0}
-  arTouchTransform: 1
-  useXRAnchor: 0
 --- !u!114 &1597275522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,8 +576,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 0
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0
@@ -645,5 +631,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
