@@ -141,7 +141,7 @@ export abstract class FaceMeshBehaviour extends FilterBehaviour {
             .setPosition(new Vector3(aspect, 1, 0))
             .scale(new Vector3(-2 * aspect, -2, 1));
         mesh.matrixAutoUpdate = false;
-        mesh.matrixWorldAutoUpdate = false;
+        mesh.matrixWorldAutoUpdate = true; // < needs to be enabled since three 169
         mesh.frustumCulled = false;
         mesh.renderOrder = 1000;
         mesh.matrix.copy(this._baseTransform).premultiply(this.context.mainCamera.projectionMatrixInverse);
