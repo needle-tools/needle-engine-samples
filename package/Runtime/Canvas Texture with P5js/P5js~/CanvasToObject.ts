@@ -9,8 +9,9 @@ export class CanvasToObject extends Behaviour {
     renderers: Renderer[] = [];
 
     start() {
-        const canvas = document.querySelector("canvas.p5Canvas");
+        const canvas = document.querySelector<HTMLCanvasElement>("canvas.p5Canvas");
         if (!canvas) return;
+        canvas.style.display = "none";
         const tex = new CanvasTexture(canvas);
         this._canvasTexture = tex;
 
