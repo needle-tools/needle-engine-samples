@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 1e3dbbeb468face46bbc3759a24a7db2, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 5e805639f01ed5c45848249edb932427, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.89167345, g: 0.8397932, b: 0.7978974, a: 1}
+  m_IndirectSpecularColor: {r: 0.8777393, g: 0.82514787, b: 0.7819647, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: d85f9fda33667ed459b0a5267de1e439, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -160,13 +160,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144912123}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &157611134
 PrefabInstance:
@@ -1149,7 +1149,6 @@ GameObject:
   - component: {fileID: 1408803975}
   - component: {fileID: 1408803978}
   - component: {fileID: 1408803979}
-  - component: {fileID: 1408803980}
   - component: {fileID: 1408803981}
   m_Layer: 0
   m_Name: Main Camera
@@ -1216,7 +1215,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408803974}
-  m_LocalRotation: {x: -0, y: 0.82911265, z: -0.5590817, w: 0}
+  m_LocalRotation: {x: -0, y: 0.8291127, z: -0.55908155, w: 0}
   m_LocalPosition: {x: 0, y: 5.07, z: 2.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1244,7 +1243,7 @@ MonoBehaviour:
   autoRotateSpeed: 0.2
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
@@ -1295,21 +1294,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &1408803980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1408803974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 693de1e48d1f0764d9bc83022f353103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraSkyboxData, Needle.Engine
-    $ GlobalObjectId_V1-2-1ff470193d6411f4a9532cd61b595e4b-1408803980-0
-  backgroundBlurriness: 1
-  backgroundIntensity: 1
 --- !u!1183024399 &1408803981
 LookAtConstraint:
   m_ObjectHideFlags: 0
@@ -1437,7 +1421,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2084322108}
-  - component: {fileID: 2084322107}
   - component: {fileID: 2084322110}
   - component: {fileID: 2084322109}
   - component: {fileID: 2084322111}
@@ -1449,20 +1432,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2084322107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084322106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa3493724830445e9abb470aad0aec1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-1ff470193d6411f4a9532cd61b595e4b-2084322107-0
-  SuppressExport: 0
-  EmbedSkybox: 1
 --- !u!4 &2084322108
 Transform:
   m_ObjectHideFlags: 0
@@ -1489,7 +1458,7 @@ Transform:
   - {fileID: 1313082124}
   - {fileID: 1916728704}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2084322109
 MonoBehaviour:
@@ -1515,7 +1484,9 @@ MonoBehaviour:
     CallToActionURL: 
   exportFileName: Needle
   customUsdzFile:
+    Mode: 0
     File: {fileID: 0}
+    String: 
 --- !u!114 &2084322110
 MonoBehaviour:
   m_ObjectHideFlags: 0
