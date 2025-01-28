@@ -446,7 +446,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 274968157}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -468,8 +468,8 @@ Transform:
   - {fileID: 1625479155}
   - {fileID: 563119493}
   - {fileID: 1981117516}
-  m_Father: {fileID: 1597275518}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &274968159
 MonoBehaviour:
@@ -1160,7 +1160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.RemoteSkybox, Needle.Engine
   url: https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/studio_small_03_1k.exr
   local:
+    Mode: 0
     File: {fileID: 0}
+    String: 
   allowDrop: 0
   background: 0
   environment: 1
@@ -1334,7 +1336,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &706762903
 GameObject:
@@ -1415,7 +1417,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706762903}
-  m_LocalRotation: {x: 0.070885465, y: -0.92455846, z: 0.21273066, w: 0.30807897}
+  m_LocalRotation: {x: 0.07088553, y: -0.9245584, z: 0.21273065, w: 0.30807924}
   m_LocalPosition: {x: 11.53, y: 12.27, z: 15.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1443,11 +1445,13 @@ MonoBehaviour:
   autoRotateSpeed: 0.3
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: 10000
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -1455,6 +1459,7 @@ MonoBehaviour:
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 706762909}
 --- !u!1183024399 &706762909
@@ -1548,7 +1553,7 @@ MonoBehaviour:
   AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/javascript-communication-sample'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Javascript Communication/Needle.SamplesJavascriptCommunication.npmdef
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Javascript Communication/Needle.Samples.JavascriptCommunication.npmdef
     Guid: ce524f0a82e6a774888f8833f267876a
 --- !u!4 &784234924
 Transform:
@@ -1867,8 +1872,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1597275518}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &967688237
 MonoBehaviour:
@@ -2509,7 +2514,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1472726468}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2520,8 +2525,8 @@ Transform:
   - {fileID: 1691608572}
   - {fileID: 445075138}
   - {fileID: 954992306}
-  m_Father: {fileID: 1597275518}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1554549170
 GameObject:
@@ -2650,89 +2655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9892f9e504ca4ddc79305e357a8da9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ClickToSplit, Needle.Engine-Samples.Runtime
---- !u!1 &1597275517
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1597275518}
-  - component: {fileID: 1597275519}
-  - component: {fileID: 1597275520}
-  - component: {fileID: 1597275521}
-  m_Layer: 0
-  m_Name: SceneRoot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1597275518
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597275517}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 274968158}
-  - {fileID: 1472726469}
-  - {fileID: 967688236}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1597275519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597275517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa3493724830445e9abb470aad0aec1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-9418790b34c9f884d99dec74061b32fb-1597275519-0
-  SuppressExport: 0
-  EmbedSkybox: 1
---- !u!114 &1597275520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597275517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42798c1a37db46409660e69421ebdd09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
-    $ GlobalObjectId_V1-2-9418790b34c9f884d99dec74061b32fb-1597275520-0
-  IgnoreSkinnedMeshes: 0
---- !u!114 &1597275521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597275517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0d486f15de1d234da162ec54633ab10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
-    $ GlobalObjectId_V1-2-9418790b34c9f884d99dec74061b32fb-1597275521-0
-  arScale: 1
-  invertForward: 0
-  customReticle: {fileID: 0}
-  arTouchTransform: 0
-  useXRAnchor: 0
 --- !u!1 &1609064305
 GameObject:
   m_ObjectHideFlags: 0
