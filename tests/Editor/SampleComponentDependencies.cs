@@ -119,6 +119,11 @@ namespace Editor
 					if (!traversed.Add(c)) continue;
 					if (c is Transform) continue;
 					if (c is MeshFilter) continue;
+					if (!c || c == null)
+					{
+						Debug.LogError("Missing component in " + root.name, root);
+						continue;
+					}
 					componentTypes.Add(c.GetType());
 					
 					// Debug.Log("Traversing " + c.gameObject.name + " (" + c.GetType().Name + ")");
