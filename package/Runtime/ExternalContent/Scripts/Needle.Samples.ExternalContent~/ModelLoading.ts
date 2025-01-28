@@ -13,12 +13,10 @@ export class ModelLoading extends Behaviour {
     }
 
     load() {
-
         this.downloadAndApply("https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Embedded/DamagedHelmet.gltf");
     }
 
     loadFromParam() {
-
         const url = getParam("model") as string
         if (url && url != "")
             this.downloadAndApply(url);
@@ -27,7 +25,7 @@ export class ModelLoading extends Behaviour {
     async downloadAndApply(url: string) {
         const asset = AssetReference.getOrCreate(this.sourceId ?? url, url, this.context);
 
-        const instance = await asset.instantiate(this.parent) as GameObject;
+        const instance = await asset.instantiate(this.parent);
 
         this.currentObject?.destroy();
         this.currentObject = instance;
