@@ -30298,7 +30298,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &452393077
 GameObject:
@@ -40672,7 +40672,9 @@ MonoBehaviour:
   galleryUI: {fileID: 1387729462}
   categoryName: Particle Gallery
   icon:
+    Mode: 0
     File: {fileID: 0}
+    String: 
   arrowKeysNavigation: 1
 --- !u!1001 &675498414
 PrefabInstance:
@@ -45765,7 +45767,7 @@ MonoBehaviour:
   autoRotateSpeed: 0.3
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
@@ -51188,6 +51190,7 @@ GameObject:
   - component: {fileID: 784234925}
   - component: {fileID: 784234927}
   - component: {fileID: 784234928}
+  - component: {fileID: 784234929}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -51281,6 +51284,21 @@ MonoBehaviour:
     title: Particles
     description: Particle Systems and Trails
     image: {fileID: 2800000, guid: 60893a96aa12bc642839142db4751e96, type: 3}
+--- !u!114 &784234929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b98ea17d00d4b13963c594067a209be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Shaders.SkyboxExportSettings, Needle.Engine.Shaders
+    $ GlobalObjectId_V1-2-a562a3a904f539d4d8c4e250724f89a1-1597275523-0
+  <SkyboxResolution>k__BackingField: 64
+  <HDR>k__BackingField: 1
 --- !u!1 &820425207
 GameObject:
   m_ObjectHideFlags: 0
@@ -87053,7 +87071,9 @@ MonoBehaviour:
   categories:
   - title: Particle Gallery
     icon:
+      Mode: 0
       File: {fileID: 102900000, guid: 1a45f9ac4a35a2c4b943808b5f3ec2fd, type: 3}
+      String: 
     select:
       m_PersistentCalls:
         m_Calls: []
@@ -101907,11 +101927,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1597275518}
-  - component: {fileID: 1597275519}
   - component: {fileID: 1597275520}
   - component: {fileID: 1597275521}
   - component: {fileID: 1597275522}
-  - component: {fileID: 1597275523}
   m_Layer: 0
   m_Name: Particles
   m_TagString: Untagged
@@ -101941,22 +101959,8 @@ Transform:
   - {fileID: 1387729460}
   - {fileID: 1686590166}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1597275519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597275517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa3493724830445e9abb470aad0aec1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-1597275519-0
-  SuppressExport: 0
-  EmbedSkybox: 1
 --- !u!114 &1597275520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102013,21 +102017,6 @@ MonoBehaviour:
   showControllerModels: 1
   showHandModels: 1
   defaultAvatar: {fileID: 0}
---- !u!114 &1597275523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597275517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b98ea17d00d4b13963c594067a209be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Shaders.SkyboxExportSettings, Needle.Engine.Shaders
-    $ GlobalObjectId_V1-2-a562a3a904f539d4d8c4e250724f89a1-1597275523-0
-  <SkyboxResolution>k__BackingField: 64
-  <HDR>k__BackingField: 1
 --- !u!1 &1602066737
 GameObject:
   m_ObjectHideFlags: 0
