@@ -10,7 +10,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @speed = 1f;
 		public void OnEnable(){}
 		public void start(){}
-		// public undefined @inputs; → Could not resolve C# type
 		public void lateUpdate(){}
 	}
 }

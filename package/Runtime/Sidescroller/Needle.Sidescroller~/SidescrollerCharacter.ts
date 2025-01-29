@@ -38,15 +38,16 @@ export class SidescrollerCharacter extends Behaviour {
         });
     }
 
-    inputs = {
+    // @nonSerialized
+    private readonly inputs = {
         horizontal: new InputValue(),
         vertical: new InputValue(),
     }
 
     lateUpdate() {
         const moveAmount = this.speed * this.context.time.deltaTime;
-        const pos = this.gameObject.transform.position;
-        const rot = this.gameObject.transform.rotation; 
+        const pos = this.gameObject.position;
+        const rot = this.gameObject.rotation; 
         
         let haveMovement = false;  
         

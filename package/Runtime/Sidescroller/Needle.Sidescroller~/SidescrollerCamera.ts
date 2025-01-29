@@ -19,7 +19,7 @@ export class SidescrollerCamera extends Behaviour {
     private gamepadIndex: number | null = null;
 
     onEnable() {
-        this.targetY = this.gameObject.transform.position.y;
+        this.targetY = this.gameObject.position.y;
 
         // collect all SpriteRenderers so we can align them to the camera later
         this.renderers = GameObject.findObjectsOfType(SpriteRenderer);
@@ -50,8 +50,8 @@ export class SidescrollerCamera extends Behaviour {
 
         if (this.target) {
             // camera smoothly follows the player
-            const p = this.gameObject.transform.position; 
-            const targetP = this.target.transform.position;
+            const p = this.gameObject.position; 
+            const targetP = this.target.position;
             p.x = Mathf.lerp(p.x, targetP.x, this.context.time.deltaTime * this.followStrength);
             p.y = Mathf.lerp(p.y, this.targetY, this.context.time.deltaTime * this.followStrength);
             
@@ -76,7 +76,7 @@ export class SidescrollerCamera extends Behaviour {
                 renderer.gameObject.quaternion.copy(this.gameObject.quaternion);
 
                 // set opacity of sprites based on distance to camera plane
-                const z = renderer.gameObject.transform.position.z;
+                const z = renderer.gameObject.position.z;
                 const zDiff = z - targetP.z;
                 let mapping = zDiff / (p.y * 0.2);
                 if (mapping > zDiff) mapping = zDiff;

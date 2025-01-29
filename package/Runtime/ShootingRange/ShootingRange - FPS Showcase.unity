@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.56750774, g: 1.0639898, b: 1.2937788, a: 1}
+  m_IndirectSpecularColor: {r: 0.5675077, g: 1.0639896, b: 1.2937787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1058,13 +1058,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451527163}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &476139376
 GameObject:
@@ -1362,7 +1362,7 @@ GameObject:
   - component: {fileID: 503258323}
   - component: {fileID: 503258324}
   m_Layer: 0
-  m_Name: Scene
+  m_Name: ShootingRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1405,7 +1405,7 @@ Transform:
   - {fileID: 592671035}
   - {fileID: 1959521901}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &503258322
 MonoBehaviour:
@@ -9020,11 +9020,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3678e6ee7af44e4d9fecf9a0f082ba74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.SyncedRoom, Needle.Engine $ GlobalObjectId_V1-2-3d69242830986b14f90e2e0f2d94f753-1517084513-0
-  roomName: FPS
-  urlParameterName: county
   joinRandomRoom: 0
-  requireRoomParameter: 0
   autoRejoin: 1
+  roomPrefix: FPS
+  urlParameterName: county
+  requireRoomParameter: 0
   createJoinButton: 0
   createViewOnlyButton: 0
 --- !u!1 &1536336423
@@ -14790,7 +14790,6 @@ MonoBehaviour:
   lookSensitivity: 1
   movementSpeed: 50
   sprintSpeed: 80
-  stoppingDecay: 7
   maxSpeed: 6
   maxSprintSpeed: 10
   jumpSpeed: 5
