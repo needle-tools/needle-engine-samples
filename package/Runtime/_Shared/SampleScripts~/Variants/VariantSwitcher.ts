@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, Mathf, Text, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, Mathf, Text, getParam, serializable, setParamWithoutReload, syncField } from "@needle-tools/engine";
 import { Object3D } from "three";
 import { VariantInfo } from "./VariantInfo";
 
@@ -7,37 +7,32 @@ export class VariantSwitcher extends Behaviour {
     objects: Object3D[] = [];
 
     @serializable()
-    hideContentOnStart:boolean = true;
+    hideContentOnStart: boolean = true;
 
     @serializable(Text)
     lable?: Text;
-    
+
+    @syncField(function (this: VariantSwitcher) { this.apply(); }) // < networking index, when index changes remotely we just apply the new value
     private index = -1;
+
     awake(): void {
-        if (!this.hideContentOnStart)
-            this.index = 0;
-
-        this.apply();
-    }
-    
-    next() {
-        this.index++;
-
-        if (this.index >= this.objects.length) {
+        if (!this.hideContentOnStart) {
             this.index = 0;
         }
 
+        const param = getParam("variant");
+        if (typeof param === "string") this.index = parseInt(param);
+        else if (typeof param === "number") this.index = param;
+
         this.apply();
+    }
+
+    next() {
+        this.select(this.index + 1);
     }
 
     previous() {
-        this.index--;
-
-        if (this.index < 0) {
-            this.index = this.objects.length - 1;
-        }
-
-        this.apply();
+        this.select(this.index - 1);
     }
 
     apply() {
@@ -49,14 +44,16 @@ export class VariantSwitcher extends Behaviour {
             const obj = this.objects[this.index];
             if (obj) {
                 const info = GameObject.getComponent(obj, VariantInfo);
-                this.lable.text = info?.displayName ?? obj.name;            
+                this.lable.text = info?.displayName ?? obj.name;
             }
-        }            
+        }
     }
 
     select(index: number) {
-        this.index = index;
+        if (index < 0) index = this.objects.length - 1;
+        this.index = index % this.objects.length;
         this.index = Mathf.clamp(this.index, 0, this.objects.length - 1);
+        setParamWithoutReload("variant", this.index.toString());
         this.apply();
     }
 }

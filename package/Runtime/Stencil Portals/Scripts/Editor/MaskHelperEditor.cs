@@ -33,7 +33,7 @@ namespace Needle
 
             isInitalized = true;
 
-            instructionStyle = new GUIStyle(GUI.skin.box);
+            instructionStyle = new GUIStyle(EditorStyles.helpBox);
             instructionStyle.normal.textColor = EditorStyles.label.normal.textColor;
 
             correctLayerStyle = new GUIStyle(EditorStyles.label);
@@ -43,8 +43,8 @@ namespace Needle
             renamedLayerStyle.normal.textColor = new Color(0.81f, 0.6f, 0.15f);
 
             invalidLayerStyle = new GUIStyle(EditorStyles.label);
-            invalidLayerStyle.normal.textColor = new Color(0.74f, 0.18f, 0.18f);
-            invalidLayerStyle.fontStyle = FontStyle.Bold;
+            // invalidLayerStyle.normal.textColor = new Color(0.85f, 0.7f, 0.5f);
+            // invalidLayerStyle.fontStyle = FontStyle.Bold;
         }
 
         public override void OnInspectorGUI()
@@ -56,10 +56,11 @@ namespace Needle
                 return;
 
             string message = script.IsLayersHelper ?
-                             "This sample requires these missing tags." :
-                             "It's recommended to add all layers that this sample uses. You don't need to have the exact same names as the sample has.";
+                             "This sample requires the tags listed below." :
+                             "This sample uses layers. You can set the layer names with the UI below. This step is optional if you're just testing out the sample.";
 
             GUILayout.Box(message, instructionStyle);
+            GUILayout.Space(5);
 
             using (new GUILayout.HorizontalScope())
             {
@@ -108,16 +109,14 @@ namespace Needle
                 string status = overallState switch
                 {
                     MaskState.correct => "All is setup correctly.",
-                    MaskState.renamed => "All masks are added.",
-                    MaskState.missing => "Some masks are missing!",
+                    MaskState.renamed => "All layers are added.",
+                    MaskState.missing => "Some layers are not set.",
                     _ => ""
                 };
                 GUILayout.Label(status);
-
-                if (overallState == MaskState.missing && GUILayout.Button("Add missing masks"))
-                    FixAll(masks);
-
                 GUILayout.FlexibleSpace();
+                if (overallState == MaskState.missing && GUILayout.Button("Set all missing layers"))
+                    FixAll(masks);
             }
         }
 
@@ -149,7 +148,7 @@ namespace Needle
                 GUILayout.Space(10);
                 GUILayout.Label($"{mask.Data.Index:00}", style, GUILayout.Width(30));
                 GUILayout.Space(10);
-                GUILayout.Label($"{currentValue}", style, GUILayout.MaxWidth(120));
+                GUILayout.Label($"{(string.IsNullOrEmpty(currentValue) ? "No name set" : currentValue)}", style, GUILayout.MaxWidth(120));
                 if (mask.State != MaskState.correct)
                 {
                     GUILayout.Label(" ➜ ", style);

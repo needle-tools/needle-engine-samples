@@ -1749,7 +1749,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &639223281
 PrefabInstance:
@@ -1924,11 +1924,11 @@ Transform:
   m_GameObject: {fileID: 680039232}
   m_LocalRotation: {x: -0.10136984, y: 0.88560313, z: -0.22971392, w: -0.39072096}
   m_LocalPosition: {x: 3.196073, y: 3.1662626, z: 3.075428}
-  m_LocalScale: {x: 1.0000031, y: 1, z: 1.0000027}
+  m_LocalScale: {x: 1.0000033, y: 1, z: 1.000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &680039236
 MonoBehaviour:
@@ -1950,11 +1950,13 @@ MonoBehaviour:
   autoRotateSpeed: 0.2
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -1962,6 +1964,7 @@ MonoBehaviour:
   enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
 --- !u!114 &680039237
@@ -2762,7 +2765,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1124577008
 MonoBehaviour:
@@ -4441,11 +4444,11 @@ Transform:
   m_GameObject: {fileID: 1554642579}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50.000244, z: 50.000244}
+  m_LocalScale: {x: 50, y: 50.000263, z: 50.000263}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1554642581
 MeshFilter:
@@ -5895,7 +5898,7 @@ Transform:
   - {fileID: 541227065}
   - {fileID: 1820383017}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972030114
 GameObject:
@@ -6064,7 +6067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-54e0d634fbfeecc47b2de4de2737984b-1987085564-0
-  compilerDirectory: sveltekit-sample/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/sveltekit-sample/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &1987085565
 MonoBehaviour:
@@ -6131,67 +6134,6 @@ MonoBehaviour:
     title: SvelteKit integration
     description: Integration with SvelteKit for dynamic or static pages
     image: {fileID: 2800000, guid: 16be7c4e6f0a847118cc5eb6783f036f, type: 3}
---- !u!1 &2008819108
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2008819109}
-  - component: {fileID: 2008819110}
-  m_Layer: 0
-  m_Name: Scene Switcher
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2008819109
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008819108}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2008819110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008819108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2938273b1a364736b73df79395a0c934, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.SceneSwitcher, Needle.Engine
-    $ GlobalObjectId_V1-2-54e0d634fbfeecc47b2de4de2737984b-2008819110-0
-  autoLoadFirstScene: 1
-  scenes:
-  - asset: {fileID: 102900000, guid: 27cd477cebb854f759470d201f7852b0, type: 3}
-  - asset: {fileID: 102900000, guid: 78936c5e06fa64cc69aa121b64978736, type: 3}
-  loadingScene:
-    asset: {fileID: 0}
-  queryParameterName: scene
-  useSceneName: 1
-  clamp: 0
-  useHistory: 1
-  useKeyboard: 1
-  useSwipe: 1
-  useSceneLighting: 0
-  preloadNext: 1
-  preloadPrevious: 1
-  preloadConcurrent: 2
 --- !u!1 &2013622787
 GameObject:
   m_ObjectHideFlags: 0
