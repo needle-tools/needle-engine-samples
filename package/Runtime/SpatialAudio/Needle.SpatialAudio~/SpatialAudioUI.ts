@@ -15,7 +15,7 @@ export class SpatialAudioUI extends Behaviour {
 
     private template() {
         return /*html*/`
-            <div>
+            <div class="root">
                 <div class="spatial-audio-ui">
                     <button class="left">‹</button>
                     <p class="name">Instrument</p>
@@ -38,6 +38,12 @@ export class SpatialAudioUI extends Behaviour {
 
     private style() {
         return /*css*/`
+            @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..900&family=Roboto:ital,wght@0,100..600;1,100..600&display=swap');
+
+            .root {
+                font-family: "Open Sans", serif;
+            }
+
             .spatial-audio-ui {
                 position: absolute;
                 top: 50px;
@@ -48,6 +54,11 @@ export class SpatialAudioUI extends Behaviour {
                 transform: translateX(-50%);
                 vertical-align: middle;
                 min-width: 100%; /* to avoid text wrapping */
+            }
+
+            
+            .spatial-audio-ui .name {
+                /* min-width: 8ch; */
             }
 
             .spatial-audio-ui button {
@@ -146,7 +157,7 @@ export class SpatialAudioUI extends Behaviour {
             }
         `;
     }
-    
+
     private element?: HTMLElement;
     private styleElement?: HTMLStyleElement;
 
@@ -170,7 +181,7 @@ export class SpatialAudioUI extends Behaviour {
         this.element.querySelector('.start')?.addEventListener('click', () => {
             this.element?.querySelector('.explainer')?.remove();
         });
-        
+
         // detect swipe gesture to swipe next/previous
         this._touchstart = this.touchstart.bind(this);
         this.context.domElement.addEventListener('pointerdown', this._touchstart);
@@ -207,7 +218,7 @@ export class SpatialAudioUI extends Behaviour {
     update() {
 
         // get orbit origin of the camera instead of its position
-        if(this.orbitControls && this.orbitControls.controls)
+        if (this.orbitControls && this.orbitControls.controls)
             this.camPos = this.orbitControls.controls.target;
 
         /* const cam = this.context.mainCamera; */
@@ -227,7 +238,7 @@ export class SpatialAudioUI extends Behaviour {
 
         if (closest !== this.currentCenterPoint && closest) {
             this.currentCenterPoint = closest;
-            if(this.element && closest.gameObject.parent)
+            if (this.element && closest.gameObject.parent)
                 this.element.querySelector('.name')!.textContent = closest.gameObject.parent.name;
         }
     }
@@ -249,10 +260,10 @@ export class SpatialAudioUI extends Behaviour {
         const endX = e.clientX;
         const diff = endX - this.startX;
         const timeDiff = Date.now() - this.startTime;
-        if (timeDiff < 250 
-            && Math.abs(diff) > 20 
+        if (timeDiff < 250
+            && Math.abs(diff) > 20
             // || Math.abs(diff) > this.context.domWidth / 2
-        ){
+        ) {
             if (diff > 0) {
                 this.changeIndex(-1);
             } else {
