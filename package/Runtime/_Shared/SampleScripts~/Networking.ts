@@ -1,5 +1,5 @@
 // START MARKER network color change
-import { Behaviour, IPointerClickHandler, PointerEventData, Renderer, RoomEvents, delay, serializable, showBalloonMessage, syncField } from "@needle-tools/engine";
+import { Behaviour, IPointerClickHandler, PointerEventData, Renderer, serializable, showBalloonMessage, syncField } from "@needle-tools/engine";
 import { Color } from "three"
 
 export class Networking_ClickToChangeColor extends Behaviour implements IPointerClickHandler {
@@ -24,7 +24,8 @@ export class Networking_ClickToChangeColor extends Behaviour implements IPointer
         this.color = randomColor;
     }
 
-    onEnable() {
+    onEnable() {        
+        showBalloonMessage(`<strong>Click an object</strong> to change the color. Open this window in another browser tab/window to see the networking in action...`);
         this.setColorToMaterials();
     }
 
@@ -49,25 +50,17 @@ export class Networking_ClickToChangeColor extends Behaviour implements IPointer
 // START MARKER network syncfield array
 export class Networking_StringArray extends Behaviour {
 
-
     @syncField(Networking_StringArray.prototype.onArrayChanged)
     private myArray: string[] = [];
 
-    awake(): void {
-        showBalloonMessage("Open this window in another browser tab/window to see the networking in action...");
-
-        this.context.connection.beginListen(RoomEvents.JoinedRoom, async () => {
-            console.log("Will append a new value every 10 seconds")
-            setInterval(this.updateArray, 10000);
-            await delay(100);
-            this.updateArray();
-        })
-    }
-
-
     private onArrayChanged() {
         console.log("< Received array", this.myArray[this.myArray.length - 1], this.myArray);
-        showBalloonMessage("<strong>< Received</strong> \"" + this.myArray[this.myArray.length - 1] + "\", we now have " + this.myArray.length + " elements")
+        showBalloonMessage(`<strong>< Received</strong> \"${this.myArray[this.myArray.length - 1]}\", we now have ${this.myArray.length} elements`)
+    }
+
+    start(): void {
+        showBalloonMessage("Open this window in another browser tab/window to see the networking in action...");
+        setInterval(this.updateArray, 4000);
     }
 
     private updateArray = () => {
@@ -81,10 +74,10 @@ export class Networking_StringArray extends Behaviour {
         }
 
         this.myArray.push(currentTime);
-        // Assigning the array to itself will trigger the syncField
+        // Assign the array again to trigger a change and send the array.
         this.myArray = this.myArray;
 
-        showBalloonMessage("<strong>> Sent</strong> \"" + currentTime + "\", we now have " + this.myArray.length + " elements")
+        showBalloonMessage(`<strong>> Send</strong> \"${currentTime}\", ${this.myArray.length} elements`)
     }
 }
 // END MARKER network syncfield array
@@ -94,7 +87,6 @@ export class Networking_StringArray extends Behaviour {
 // START MARKER network syncfield array
 class MyObject {
     name: string = "";
-    // @syncField(MyObject.prototype.onChanged) < currently not supported
     age: number = 0;
 }
 
@@ -103,29 +95,20 @@ export class Networking_Object extends Behaviour {
     @syncField(Networking_Object.prototype.onObjectChanged)
     private myObject: MyObject = new MyObject();
 
-    @syncField()
-    private _mockAge : number = 0;
+    private onObjectChanged() {
+        console.log("< Received object", this.myObject);
+        showBalloonMessage(`<strong>< Received</strong> \"${this.myObject.name}\" is ${this.myObject.age} years old`)
+    }
 
     awake(): void {
         showBalloonMessage("Open this window in another browser tab/window to see the networking in action...");
-
-        this.context.connection.beginListen(RoomEvents.JoinedRoom, async () => {
-            // Wait for a tick until the state has been restored
-            await delay(1);
-            this.updateObject();
-        })
-    }
-
-
-    private onObjectChanged() {
-        console.log("< Received object", this.myObject);
-        showBalloonMessage("<strong>< Received</strong> \"" + this.myObject.name + "\" is " + this.myObject.age + " years old")
+        setInterval(this.updateObject, 5000);
     }
 
     private updateObject = () => {
         this.myObject.name = this.context.connection.connectionId!;
-        this._mockAge += 1;
-        this.myObject.age = this._mockAge;
+        this.myObject.age += 1;
+        // Assign the object again to trigger a change and send the object
         this.myObject = this.myObject;
         console.log("> Updated", this.myObject);
         showBalloonMessage("<strong>> Sent</strong> \"" + this.myObject.name + "\" is " + this.myObject.age + " years old")

@@ -70,7 +70,6 @@ export class SendMessageExample extends Behaviour {
 }
 
 // IModel implements the guid and dont_save properties which control the storing state logic on the server.
-// Mind that you don't have to implement the IModel interface and that you don't 
 class SendMessage_Model implements IModel {
     // Unique id for the message, it is up to us to define how much unique it is. 
     // Often the use case is that this represents this instance of SendMessageExample.
