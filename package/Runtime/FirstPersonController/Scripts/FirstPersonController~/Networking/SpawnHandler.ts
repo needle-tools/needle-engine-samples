@@ -58,11 +58,10 @@ export class SpawnHandler extends Behaviour {
 
             element.getWorldPosition(options.ray.origin);
             options.ray.origin.y += 3;
-
             options.ray.direction.copy(this.downVector);
 
             if (debug)
-                Gizmos.DrawLine(options.ray.origin, options.ray.origin.clone().add(options.ray.direction.clone().multiplyScalar(options.maxDistance)), 0xff0000, 50, true);
+                Gizmos.DrawRay(options.ray.origin, options.ray.direction, 0xff0000, 50, true);
 
             const result = this.context.physics.raycast(options);
 
@@ -78,17 +77,17 @@ export class SpawnHandler extends Behaviour {
     setPlayerToSpot(instance: Object3D, spot: Object3D | undefined) {
         if (!instance || !spot) return;
 
-        setWorldPosition(instance, spot.getWorldPosition(getTempVector()));
-        setWorldQuaternion(instance, spot.getWorldQuaternion(getTempQuaternion()));
+        instance.worldPosition = spot.worldPosition;
+        instance.worldQuaternion = spot.worldQuaternion;
         GameObject.getComponent(instance, FirstPersonController)?.setCamRotationFromObject();
     }
 
     /* Watch player Y position and respawn if invalid */
     async handlePlayerAutoRespawn(instance: Object3D) {
         while (instance) {
-            await delayForFrames(1);
+            await delayForFrames(5);
 
-            const wp = instance.getWorldPosition(getTempVector());
+            const wp = instance.worldPosition;
             if (wp.y < this.autoRespawnLimitY) {
                 const spot = this.getRandomSpawnPoint();
                 this.setPlayerToSpot(instance, spot);
