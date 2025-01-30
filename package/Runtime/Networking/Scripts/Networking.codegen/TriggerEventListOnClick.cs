@@ -10,7 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Events.UnityEvent @onClicked;
 		public void OnEnable(){}
 		public void OnDisable(){}
-		public void handleOnClickMsg(object @model){}
+		// public undefined @onRemoteClick; → Could not resolve C# type
 		public void onPointerClick(object @_){}
 	}
 }
