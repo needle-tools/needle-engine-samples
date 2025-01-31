@@ -160,12 +160,18 @@ export class SplatRenderer extends Behaviour {
         this.isLoading = true;
         this.path = path;
 
-        // Unload previously loaded scene
-        await this._viewer?.viewer.removeSplatScenes();
-
-
-        console.debug('Loading splat scene', path);
         try {
+
+            // Unload previously loaded scene
+            const scenecount = this._viewer.viewer.getSceneCount();
+            for (let i = scenecount - 1; i >= 0; i--) {
+                await this._viewer.viewer.removeSplatScene(0);
+            }
+            // await this._viewer?.viewer.removeSplatScenes().catch(err => {
+            //     console.error(err.message);
+            // });
+
+            console.debug('Loading splat scene', path);
             const isProgressiveLoading = this.progressiveLoading;
 
             if (isProgressiveLoading && this._viewer?.viewer.dynamicScene) {
