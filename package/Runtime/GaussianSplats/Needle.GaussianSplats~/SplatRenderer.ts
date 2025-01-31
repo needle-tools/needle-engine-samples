@@ -5,7 +5,10 @@ import { Box3 } from 'three';
 
 export class SplatRenderer extends Behaviour {
 
-    static async downloadOptimizedSplat(url: string, opts?: { onProgress?: Function }) {
+    static async downloadOptimizedSplat(url: string | FileReference, opts?: { onProgress?: Function }) {
+        if (url instanceof FileReference) {
+            url = url.url;
+        }
 
         if (url.endsWith(".ksplat")) {
             console.error("File is already a .ksplat file");
