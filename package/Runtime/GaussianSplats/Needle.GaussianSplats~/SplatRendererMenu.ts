@@ -8,16 +8,18 @@ export class SplatRendererMenu extends Behaviour {
 
     start(): void {
         if (this.urls.length) {
-            const label = document.createElement('label');
-            label.textContent = 'Select Splat';
+            const splatRenderer = GameObject.findObjectOfType(SplatRenderer);
             const select = document.createElement('select');
+            select.style.maxWidth = `24ch`;
             for (const url of this.urls) {
                 const option = document.createElement('option');
                 option.value = url;
-                option.textContent = new URL(url).pathname;
+                option.textContent = `Select: ${new URL(url).pathname.split('/').pop()}`;
                 select.appendChild(option);
+                if(splatRenderer && splatRenderer.path === url) {
+                    option.selected = true;
+                }
             }
-            label.appendChild(select);
             select.addEventListener('change', () => {
                 const url = select.value;
                 const splatRenderer = GameObject.findObjectOfType(SplatRenderer);
@@ -25,7 +27,7 @@ export class SplatRendererMenu extends Behaviour {
                     splatRenderer.load(url);
                 }
             });
-            this.context.menu.appendChild(label);
+            this.context.menu.appendChild(select);
         }
 
         const btn = document.createElement('button');
