@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public string[] @urls = new string[]{ };
 		public bool @downloadButton = true;
+		public void awake(){}
 		public void start(){}
 		public void OnEnable(){}
 	}

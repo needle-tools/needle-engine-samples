@@ -63,6 +63,7 @@ export class SplatRenderer extends Behaviour {
     @serializable()
     autoCenter?: boolean = false;
 
+
     onEnable() {
         this._viewer = new DropInViewer({
             // 'selfDrivenMode': false,
@@ -84,17 +85,16 @@ export class SplatRenderer extends Behaviour {
 
         }) as _DropInViewer;
 
-        if (isDevEnvironment()) console.debug('SplatRenderer', this);
+        if (isDevEnvironment()) console.debug('SplatRenderer', this.path, this);
         this._viewer.layers.set(2);
         this.gameObject.add(this._viewer);
 
-        const pathParam = getParam("url") as string;
         let path = this.path;
-        if (pathParam) path = pathParam;
         if (path) {
             this.load(path)
                 .then(res => {
-                    console.debug('Scene loaded', res, this._viewer);
+                    if (isDevEnvironment())
+                        console.debug('Scene loaded', res, this._viewer);
                     // const splat = this._viewer.children[0].
                     // console.debug(this._viewer?.splatMesh);
                     // const bounds = this._viewer?.splatMesh?.computeBoundingBox(true, 0);
@@ -127,10 +127,6 @@ export class SplatRenderer extends Behaviour {
         return this._viewer?.splatMesh || null;
     }
 
-
-
-    private isLoading: boolean = false;
-
     async load(path: string | FileReference): Promise<boolean> {
         const autoCenter = this.autoCenter;
         return this.internalLoad(path).then(res => {
@@ -145,6 +141,9 @@ export class SplatRenderer extends Behaviour {
         })
     }
 
+    private _lastLoaded: string | null = null;
+    private _isLoading: boolean = false;
+
     private async internalLoad(path: string | FileReference): Promise<boolean> {
 
         if (typeof path === 'object') {
@@ -154,18 +153,19 @@ export class SplatRenderer extends Behaviour {
         if (!this._viewer) {
             return false;
         }
-        if (this.path === path) {
+        if (this._lastLoaded === path) {
             console.debug('Scene already loaded');
             return false;
         }
-        if (this.isLoading) {
+        
+        if (this._isLoading) {
             showBalloonMessage('Please wait for the current scene to load before loading another scene.');
             return false;
         }
 
 
-        this.isLoading = true;
-        this.path = path;
+        this._isLoading = true;
+        this._lastLoaded = path;
 
         try {
 
@@ -201,12 +201,12 @@ export class SplatRenderer extends Behaviour {
                         }
                         else if (status === 2) {
                             console.debug("Finished loading!", _perc);
-                            this.isLoading = false;
+                            this._isLoading = false;
                             resolve(true);
                         }
                         // 1 is waiting, 0 is running, 2 is done
                         else if (status > 1) {
-                            this.isLoading = false;
+                            this._isLoading = false;
                             resolve(false);
                         }
                     },
@@ -214,7 +214,7 @@ export class SplatRenderer extends Behaviour {
 
                 if (!res) {
                     console.error('Failed to load splat scene', path);
-                    this.isLoading = false;
+                    this._isLoading = false;
                     return resolve(false);
                 }
                 await res.promise;
@@ -222,7 +222,7 @@ export class SplatRenderer extends Behaviour {
                 // viewer.splatMesh.setPointCloudModeEnabled(true);
 
             }).then(() => {
-                this.isLoading = false;
+                this._isLoading = false;
                 return true;
             })
             return promise;
@@ -231,7 +231,7 @@ export class SplatRenderer extends Behaviour {
             console.error(err);
         }
         finally {
-            this.isLoading = false;
+            this._isLoading = false;
         }
 
         return false;
