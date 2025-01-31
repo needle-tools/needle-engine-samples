@@ -6,6 +6,9 @@ export class SplatRendererMenu extends Behaviour {
     @serializable(Array<string>)
     urls: string[] = [];
 
+    @serializable()
+    downloadButton: boolean = true;
+
     start(): void {
         if (this.urls.length) {
             const splatRenderer = GameObject.findObjectOfType(SplatRenderer);
@@ -16,7 +19,7 @@ export class SplatRendererMenu extends Behaviour {
                 option.value = url;
                 option.textContent = `Select: ${new URL(url).pathname.split('/').pop()}`;
                 select.appendChild(option);
-                if(splatRenderer && splatRenderer.path === url) {
+                if (splatRenderer && splatRenderer.path === url) {
                     option.selected = true;
                 }
             }
@@ -30,16 +33,26 @@ export class SplatRendererMenu extends Behaviour {
             this.context.menu.appendChild(select);
         }
 
-        const btn = document.createElement('button');
-        btn.textContent = 'Download KSplat';
-        btn.addEventListener('click', () => {
-            const renderer = GameObject.findObjectOfType(SplatRenderer);
-            if (!renderer) {
-                console.error('No SplatRenderer found');
-            }
-            else if (renderer.path) SplatRenderer.downloadOptimizedSplat(renderer.path);
-        });
-        this.context.menu.appendChild(btn);
+        if (this.downloadButton) {
+            const btn = document.createElement('button');
+            btn.textContent = 'Download KSplat';
+            let isDownloading = false;
+            btn.addEventListener('click', () => {
+                const renderer = GameObject.findObjectOfType(SplatRenderer);
+                if (!renderer) {
+                    console.error('No SplatRenderer found');
+                }
+                else if (renderer.path) {
+                    isDownloading = true;
+                    btn.disabled = true;
+                    SplatRenderer.downloadOptimizedSplat(renderer.path).finally(() => {
+                        btn.disabled = false;
+                        isDownloading = false;
+                    });
+                }
+            });
+            this.context.menu.appendChild(btn);
+        }
     }
 
     onEnable(): void {

@@ -12,32 +12,36 @@ export class SplatRenderer extends Behaviour {
 
         if (url.endsWith(".ksplat")) {
             console.error("File is already a .ksplat file");
-            return false;
+            return null;
         }
 
         let filename = url.split('/').pop();
         let ext = filename?.lastIndexOf('.');
         if (ext) filename = filename?.substring(0, ext);
 
-        console.debug(`Start downloading optimized splat: ${filename}`);
+        console.debug(`Request ksplat download: ${filename} from ${url}`);
 
         const compressionLevel = 1;
         const sphericalHarmonicsDegree = 1;
-        // const splatAlphaRemovalThreshold = 5; // out of 255
-
+        const splatAlphaRemovalThreshold = 1; // out of 255
+        const optimizeSplatData = true;
         return PlyLoader.loadFromURL(url,
             opts?.onProgress,
             false,
             false,
-            1,
+            splatAlphaRemovalThreshold,
             compressionLevel,
-            true,
+            optimizeSplatData,
             sphericalHarmonicsDegree)
             .then((splatBuffer) => {
                 console.debug("Downloaded optimized splat");
                 KSplatLoader.downloadFile(splatBuffer, `${filename || "converted_file"}.ksplat`);
                 return splatBuffer;
-            });
+            })
+            .catch((err) => {
+                console.error(err);
+                return null;
+            })
     }
 
 
