@@ -1,6 +1,6 @@
 import { DynamicRayCastVehicleController, World, Quaternion, Vector, RigidBody as RapierRigidbody } from "@dimforge/rapier3d-compat";
 
-import { Behaviour, Gizmos, Mathf, Rigidbody, delayForFrames, getParam, getTempVector, serializable, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, QTrailParticle, getTempQuaternion, getWorldDirection, setWorldPosition, FrameEvent, WaitForFrames } from "@needle-tools/engine";
+import { Behaviour, Gizmos, Mathf, Rigidbody, delayForFrames, getParam, getTempVector, serializable, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, QTrailParticle, getTempQuaternion, getWorldDirection, setWorldPosition, FrameEvent, WaitForFrames, NEEDLE_ENGINE_MODULES } from "@needle-tools/engine";
 
 import { Vector3, Vector2, Object3D } from "three";
 
@@ -285,15 +285,13 @@ export class CarPhysics extends Behaviour {
         // get or create needle rigidbody
         this.rigidbody = this.gameObject.getComponent(Rigidbody)!;
 
-        // await rigidbody creation
-        await delayForFrames(2);
-
         // get underlying rapier rigidbody
+        await this.context.physics.engine?.initialize();
         this.rapierRigidbody = this.context.physics.engine?.getBody(this.rigidbody);
         const world = this.context.physics.engine?.world as World;
 
         if (!world) throw new Error("Physics engine (Rapier) not found");
-        if (!this.rapierRigidbody) throw new Error("Rapier Rigidbody not found");        
+        if (!this.rapierRigidbody) throw new Error("Rapier Rigidbody not found");
 
         // create vehicle physics
         this.vehicle = world.createVehicleController(this.rapierRigidbody);
@@ -359,7 +357,7 @@ export class CarPhysics extends Behaviour {
                 this.vehicle.updateVehicle(dt);
             }
 
-            yield WaitForFrames(1);
+            yield null;
         }
     }
 
