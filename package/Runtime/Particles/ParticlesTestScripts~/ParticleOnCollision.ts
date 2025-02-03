@@ -24,7 +24,8 @@ export class ParticleOnCollision extends Behaviour {
     onCollisionEnter(col: Collision) {
         if (this.particles) {
             const normal = col.contacts[0].normal.multiplyScalar(-1);
-            setWorldPosition(this.particles.gameObject, col.contacts[0].point.add(normal.clone().multiplyScalar(0.05)))
+            // Gizmos.DrawDirection(col.contacts[0].point, normal, 0xff0000, 2, false);
+            this.particles.gameObject.worldPosition = col.contacts[0].point.add(normal.clone().multiplyScalar(0.05));
             this.particles.gameObject.quaternion.setFromUnitVectors(new Vector3(0, 1, 0), normal);
             this.particles.main.startColor.colorMin = this.updateRGBAColorFromColor(this.rgbColor1, this.color1);
             this.particles.main.startColor.colorMax = this.updateRGBAColorFromColor(this.rgbColor2, this.color2);
