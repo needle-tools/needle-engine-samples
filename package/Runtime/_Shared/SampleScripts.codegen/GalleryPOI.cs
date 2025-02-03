@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.GameObject @cameraView;
 		public string @title = "";
+		public void start(){}
 		public void focus(){}
 		public void focusNext(){}
 		public void focusPrevious(){}

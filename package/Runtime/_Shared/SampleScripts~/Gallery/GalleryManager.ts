@@ -39,7 +39,9 @@ export class GalleryManager extends Behaviour {
                 item.name = x.title;
                 item.icon = this.icon;
                 item.click = new EventList();
-                item.click?.addEventListener(() => x.focus());
+                item.click.addEventListener(() => {
+                    x.focus()
+                });
                 category.items.push(item);
             });
         }
@@ -67,7 +69,7 @@ export class GalleryManager extends Behaviour {
             const input = this.context.input;
             if (input.isKeyDown("ArrowRight")) {
                 this.focusNext();
-            } 
+            }
             else if (input.isKeyDown("ArrowLeft")) {
                 this.focusPrevious();
             }

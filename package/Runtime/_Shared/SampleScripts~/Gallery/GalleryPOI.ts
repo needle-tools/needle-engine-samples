@@ -1,4 +1,4 @@
-import { Behaviour, findObjectOfType, OrbitControls, serializable } from "@needle-tools/engine"
+import { Behaviour, findObjectOfType, getParam, OrbitControls, serializable, setParamWithoutReload } from "@needle-tools/engine"
 import { Object3D } from "three";
 import { GalleryManager } from "./GalleryManager";
 
@@ -10,24 +10,35 @@ export class GalleryPOI extends Behaviour {
     @serializable()
     title: string = "";
 
-    private galleryManager?: GalleryManager
+    private galleryManager?: GalleryManager;
+    private slug: string = "";
 
     //@nonSerialized
     initialize(manager: GalleryManager) {
         this.galleryManager = manager;
     }
 
+    start() {
+        this.slug = toSlug(this.title);
+        if (getParam("poi") === this.slug) {
+            this.focus();
+        }
+    }
+
     private previousOrbitControls?: OrbitControls;
     focus() {
+        setParamWithoutReload("poi", this.slug);
         this.galleryManager?.poiFocused(this);
-
         if (!this.cameraView) return;
-        let orbitControls = this.previousOrbitControls;
-        orbitControls ??= findObjectOfType(OrbitControls)!;
-        orbitControls?.setCameraAndLookTarget(this.cameraView);
-        this.previousOrbitControls = orbitControls;
+        this.previousOrbitControls ??= findObjectOfType(OrbitControls)!;
+        this.previousOrbitControls?.setCameraAndLookTarget(this.cameraView);
     }
 
     focusNext() { this.galleryManager?.focusNext(); }
     focusPrevious() { this.galleryManager?.focusPrevious(); }
+}
+
+
+function toSlug(name: string) {
+    return name.trim().toLowerCase().replace(/ /g, "-");
 }
