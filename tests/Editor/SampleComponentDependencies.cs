@@ -116,6 +116,7 @@ namespace Editor
 				}
 				foreach (var c in root.GetComponentsInChildren<Component>())
 				{
+					if (!c) continue;
 					if (!traversed.Add(c)) continue;
 					if (c is Transform) continue;
 					if (c is MeshFilter) continue;
