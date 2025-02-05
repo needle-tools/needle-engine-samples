@@ -10,7 +10,7 @@ const debugWheel = getParam("debugwheel");
 export enum CarAxle { front, rear }
 export enum CarDrive { front, rear, all }
 
-function rapierVectorToThreeVector(v: Vector | null): Vector3 | undefined { 
+function rapierVectorToThreeVector(v: Vector | null): Vector3 | undefined {
     if (v == null) {
         return undefined;
     }
@@ -80,8 +80,8 @@ export class CarWheel extends Behaviour {
 
         const wPos = this.worldPosition;
         const rPos = this.car.gameObject.worldToLocal(wPos);
-        
-        const suspensionDirection = getTempVector(0,-1,0);
+
+        const suspensionDirection = getTempVector(0, -1, 0);
         const axleDirection = getTempVector(-1, 0, 0);
 
         this.vehicle.addWheel(rPos, suspensionDirection, axleDirection, this.suspensionRestLength, this.radius);
@@ -95,15 +95,15 @@ export class CarWheel extends Behaviour {
         this.vehicle.setWheelSideFrictionStiffness(i, this.sideFrictionStiffness);
         this.vehicle.setWheelFrictionSlip(i, this.frictionSlip.y);
 
-        if(this.skidParticle) {
+        if (this.skidParticle) {
             this.skidParticleBehaviour = new SkidTrailBehaviour();
             this.skidParticle.addBehaviour(this.skidParticleBehaviour);
         }
 
-        this.wheelModelOffset = new Vector3(0,0,0).copy(target.getWorldPosition(getTempVector()).sub(this.worldPosition));
+        this.wheelModelOffset = new Vector3(0, 0, 0).copy(target.getWorldPosition(getTempVector()).sub(this.worldPosition));
         this.wheelModelOffset.y = 0; // will be set by suspension
     }
-    
+
     updateVisuals() {
         const target = this.wheelModel ?? this.gameObject;
 
@@ -117,7 +117,7 @@ export class CarWheel extends Behaviour {
         const rot = yRot.multiply(xRot);
 
         target.quaternion.copy(rot);
-        
+
         // position
         const contact = rapierVectorToThreeVector(this.vehicle.wheelContactPoint(this.wheelIndex) as Vector);
         const isInContact = this.vehicle.wheelIsInContact(this.wheelIndex);
@@ -133,7 +133,7 @@ export class CarWheel extends Behaviour {
         const breakAmount = Math.abs(this.vehicle.wheelBrake(this.wheelIndex) ?? 0);
         const isSkidding = sideAmount > this.skidVisualSideThreshold || breakAmount > this.skidVisualBreakThreshold;
         const showSkid = isInContact && contact != undefined && isSkidding;
-        
+
         if (this.skidParticle && contact) {
             const wPos = getTempVector(contact);
             wPos.y += this.skidParticle.main.startSize.constant / 4; // offset the effect
@@ -146,7 +146,7 @@ export class CarWheel extends Behaviour {
 
         // debug
         if (debugWheel) {
-            const suspensionRest = getTempVector(0, -1, 0).multiplyScalar(this.suspensionRestLength).add(this.worldPosition); 
+            const suspensionRest = getTempVector(0, -1, 0).multiplyScalar(this.suspensionRestLength).add(this.worldPosition);
 
             // draw wheel
             Gizmos.DrawCircle(wheelPosition, this.right, this.radius, 0x000ff, 0, false);
@@ -160,8 +160,8 @@ export class CarWheel extends Behaviour {
 
     applyPhysics(acceleration: number, breaking: number, steeringRad: number) {
         const isOnDrivingAxel = (this.car.carDrive == CarDrive.front && this.axle == CarAxle.front) ||
-                                (this.car.carDrive == CarDrive.rear && this.axle == CarAxle.rear) ||
-                                this.car.carDrive == CarDrive.all;
+            (this.car.carDrive == CarDrive.rear && this.axle == CarAxle.rear) ||
+            this.car.carDrive == CarDrive.all;
 
         if (!isOnDrivingAxel)
             acceleration = 0;
@@ -194,14 +194,14 @@ export class SkidTrailBehaviour extends ParticleSystemBaseBehaviour {
 
     update(particle: QParticle, _delta: number): void {
         const trail = particle as QTrailParticle;
-        if(this.system.trails?.enabled && trail) {
+        if (this.system.trails?.enabled && trail) {
             // the most new particle wouldn't get affected
             if (!this.isSkidding) {
                 particle.color.setW(0);
             }
 
             let tail = trail.previous?.tail;
-            while(tail && tail.hasPrev()) {
+            while (tail && tail.hasPrev()) {
                 const myTail = tail as any;
                 myTail.data ??= {};
 
@@ -209,7 +209,7 @@ export class SkidTrailBehaviour extends ParticleSystemBaseBehaviour {
                     myTail.data["isSkidding"] = this.isSkidding;
                 }
 
-                if(myTail.data["isSkidding"] === false) {
+                if (myTail.data["isSkidding"] === false) {
                     tail.data.color?.setW(0);
                 }
                 tail = tail.prev;
@@ -231,7 +231,7 @@ export class CarPhysics extends Behaviour {
 
     @serializable()
     accelerationForce: number = 75;
-    
+
     @serializable()
     breakForce: number = 1;
 
@@ -256,7 +256,7 @@ export class CarPhysics extends Behaviour {
     private rotOnStart!: Quaternion;
 
     // @nonSerialized
-    get velocity() { return this.rigidbody.getVelocity(); }    
+    get velocity() { return this.rigidbody.getVelocity(); }
 
     awake(): void {
         if (!this.rigidbody) {
@@ -308,7 +308,7 @@ export class CarPhysics extends Behaviour {
             console.log(`wheels: (${this.wheels.length})`, this.wheels);
         }
 
-        this.wheels.forEach((wheel, i) => { 
+        this.wheels.forEach((wheel, i) => {
             wheel.initialize(this, this.vehicle, i);
         });
     }
@@ -343,7 +343,7 @@ export class CarPhysics extends Behaviour {
     }
 
     *physicsLoop() {
-        while(true) {
+        while (true) {
             if (this.vehicle) {
                 if (this.context.input.isKeyDown("r")) {
                     this.reset();
@@ -353,7 +353,7 @@ export class CarPhysics extends Behaviour {
                 this.resetWhenFallingoff();
 
                 const dt = this.context.time.deltaTime;
-                this.rigidbody.wakeUp(); 
+                this.rigidbody.wakeUp();
                 this.vehicle.updateVehicle(dt);
             }
 
@@ -365,26 +365,6 @@ export class CarPhysics extends Behaviour {
     earlyUpdate(): void {
         this.currSteer = 0;
         this.currAcc = 0;
-    }
-
-    private desktopInput() {
-        let steer = 0;
-        if (this.context.input.isKeyPressed("a")) {
-            steer -= 1;
-        }
-        else if (this.context.input.isKeyPressed("d")) {
-            steer += 1;
-        }
-
-        let accel = 0;
-        if (this.context.input.isKeyPressed("s")) {
-            accel -= 1;
-        }
-        if (this.context.input.isKeyPressed("w")) {
-            accel += 1;
-        }
-        this.steerInput(steer);
-        this.accelerationInput(accel);
     }
 
     reset() {
@@ -408,6 +388,40 @@ export class CarPhysics extends Behaviour {
         }
     }
 
+    private desktopInput() {
+        let steer = 0;
+        let accel = 0;
+
+        if (this.context.xr) {
+            accel += this.context.xr.rightController?.getButton("a-button")?.value || 0;
+            accel -= this.context.xr.leftController?.getButton("x-button")?.value || 0;
+
+            const squeezeLeft = this.context.xr.rightController?.getButton("xr-standard-squeeze")?.value || 0;
+            const squeezeRight = this.context.xr.leftController?.getButton("xr-standard-squeeze")?.value || 0;
+            if (squeezeLeft > .5 && squeezeRight > .5) {
+                const yDiff = this.context.xr.leftController!.gripPosition.y - this.context.xr.rightController!.gripPosition.y;
+                steer = Mathf.clamp(yDiff, -2, 2);
+            }
+        }
+        else {
+            if (this.context.input.isKeyPressed("a")) {
+                steer -= 1;
+            }
+            else if (this.context.input.isKeyPressed("d")) {
+                steer += 1;
+            }
+
+            if (this.context.input.isKeyPressed("s")) {
+                accel -= 1;
+            }
+            if (this.context.input.isKeyPressed("w")) {
+                accel += 1;
+            }
+        }
+        this.steerInput(steer);
+        this.accelerationInput(accel);
+    }
+
     private applyPhysics() {
         let breakForce = 0;
         let accelForce = 0;
@@ -424,7 +438,7 @@ export class CarPhysics extends Behaviour {
 
         // acceleration
         const isAccelerating = this.currAcc != 0 && !isBreaking && !reachedTopSpeed;
-        if(isAccelerating)
+        if (isAccelerating)
             accelForce = this.accelerationForce * this.currAcc;
 
         // steer
@@ -435,9 +449,9 @@ export class CarPhysics extends Behaviour {
             wheel.applyPhysics(accelForce, breakForce, steer);
         });
     }
-    
+
     private updateWheelVisual() {
-        this.wheels.forEach((wheel) => { 
+        this.wheels.forEach((wheel) => {
             wheel.updateVisuals();
         });
     }
@@ -463,7 +477,7 @@ export class CarPhysics extends Behaviour {
             this.rescueVehicle();
         }
     }
-    
+
     // TODO: add raycast to determine normal of the surface the car is resetting to
     private async rescueVehicle() {
         const pos = this.worldPosition;
@@ -473,7 +487,7 @@ export class CarPhysics extends Behaviour {
         fwd.y = 0;
         fwd.normalize();
 
-        const rot = getTempQuaternion().setFromUnitVectors(getTempVector(0,0,-1), fwd);
+        const rot = getTempQuaternion().setFromUnitVectors(getTempVector(0, 0, -1), fwd);
 
         this.teleportVehicle(pos, rot);
     }
