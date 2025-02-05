@@ -4,6 +4,11 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.20.0-pre] - 2025-02-05
+- Add: GalleryPoi now saves the last activated POI in a query parameter
+- Update Car Physics and particles samples
+- Update Needle Engine dependency
+
 ## [0.20.0-exp.2] - 2025-01-31
 - Updated various sample scenes for latest Needle Engine 4.1 beta
 
