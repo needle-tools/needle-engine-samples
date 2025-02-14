@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: c0c9491b8edc441a7a6702515660236d, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.23873895, g: 0.24495709, b: 0.38581422, a: 1}
+  m_IndirectSpecularColor: {r: 0.2389487, g: 0.2451722, b: 0.3861522, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -628,6 +628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.AudioSourceData, Needle.Engine
   preload: 1
+  playInBackground: 0
 --- !u!1 &105937521
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,6 +886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.AudioSourceData, Needle.Engine
   preload: 1
+  playInBackground: 0
 --- !u!1 &144949452
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,7 +988,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227155130}
-  m_LocalRotation: {x: -0.00029212981, y: 0.011061026, z: 0.00016185816, w: 0.99993885}
+  m_LocalRotation: {x: -0.70727, y: 0.007706725, z: 0.007935891, w: 0.706857}
   m_LocalPosition: {x: -0.014312039, y: -0.00036562514, z: -0.00082943926}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -994,7 +996,7 @@ Transform:
   - {fileID: 282106528}
   m_Father: {fileID: 918951950}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.972, y: 0, z: 1.286}
 --- !u!114 &227155133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1024,9 +1026,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fed8bef97bd7a09c2077c570746b0c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.ArrowShooting, Needle.Engine-Samples.Runtime
+  bowObject: {fileID: 282106529}
+  animationComponent: {fileID: 282106532}
+  arrowPrefab: {fileID: 229769267}
+  arrowSpawnSpot: {fileID: 1107799087}
   power: 1.5
-  drawMaxPhysicalDistance: 0.47269
-  drawMinPhysicalDistance: 0.1132593
   drawProgression:
     serializedVersion: 2
     m_Curve:
@@ -1069,17 +1073,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cameraParent: {fileID: 151841532}
-  desktopIdleDrawAmount: 0.25
-  interactionPixelOrigin: {x: 0.5, y: 0.65}
-  interactionPixelTreshold: 85
-  drawMaxPixelDistance: 100
-  bowObject: {fileID: 282106529}
-  animationComponent: {fileID: 282106532}
-  arrowPrefab: {fileID: 229769267}
-  arrowSpawnSpot: {fileID: 1107799087}
+  drawMaxPhysicalDistance: 0.47269
+  drawMinPhysicalDistance: 0.1132593
   sound: {fileID: 282106533}
-  fakeArrowRespawnDuration: 0.3
 --- !u!1 &229769266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,23 +1348,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: -0.4999998
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7071068
+      value: 0.50000036
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0.49999985
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.5000001
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -3910990755373119420, guid: 0bee620368aae134d971b2c04aecc3c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -1753,6 +1749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.AudioSourceData, Needle.Engine
   preload: 1
+  playInBackground: 0
 --- !u!111 &282106532
 Animation:
   m_ObjectHideFlags: 0
@@ -7071,7 +7068,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 918951950}
-  - component: {fileID: 918951949}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Untagged
@@ -7079,23 +7075,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &918951949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918951948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dc42e416ed2841579012d721281ee41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.XRControllerFollow, Needle.Engine
-  _side: 1
-  controller: 1
-  hands: 1
-  controlVisibility: 1
-  useGripSpace: 0
 --- !u!4 &918951950
 Transform:
   m_ObjectHideFlags: 0
@@ -7105,7 +7084,7 @@ Transform:
   m_GameObject: {fileID: 918951948}
   m_LocalRotation: {x: -0.03670665, y: 0.025559444, z: 0.69724864, w: 0.7154325}
   m_LocalPosition: {x: -0.0029822488, y: 1.4065756, z: -2.0415866}
-  m_LocalScale: {x: 0.99999994, y: 1, z: 1}
+  m_LocalScale: {x: 0.9999991, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 229769267}
@@ -7136,14 +7115,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107799087}
-  m_LocalRotation: {x: -0.7372774, y: 0, z: 0, w: 0.67559016}
+  m_LocalRotation: {x: -0.7193398, y: 0, z: 0, w: 0.69465846}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 282106530}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -95, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -92, y: 0, z: 0}
 --- !u!1 &1213961346
 GameObject:
   m_ObjectHideFlags: 0
@@ -7388,8 +7367,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 0
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 0
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0

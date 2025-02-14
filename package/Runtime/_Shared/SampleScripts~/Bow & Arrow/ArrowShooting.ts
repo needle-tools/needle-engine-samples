@@ -1,83 +1,85 @@
-import { Animation, AnimationCurve, AssetReference, AudioSource, Behaviour, Collider, GameObject, Gizmos, IGameObject, Mathf, NEPointerEvent, NeedleXRController, NeedleXREventArgs, NeedleXRSession, ParticleSystem, Rigidbody, RigidbodyConstraints, XRControllerFollow, delay, delayForFrames, getComponent, getParam, getTempQuaternion, getTempVector, serializable } from "@needle-tools/engine";
-import { AnimationAction, AnimationMixer, Object3D, Vector3, Vector2, Quaternion, Matrix4 } from "three";
+import { Animation, AnimationCurve, AssetReference, AudioSource, Behaviour, Collider, GameObject, Gizmos, Mathf, NEPointerEvent, NeedleXRController, NeedleXRSession, ParticleSystem, Rigidbody, XRControllerFollow, delayForFrames, getParam, getTempVector, serializable } from "@needle-tools/engine";
+import { AnimationAction, AnimationMixer, Object3D, Vector3, Vector2, Quaternion, Matrix4, Plane, Raycaster, Line3 } from "three";
 import { Arrow } from "./Arrow";
-
 
 const debug = getParam("debugarrow");
 
 export class ArrowShooting extends Behaviour {
-    // STATS
+
+    @serializable(Object3D)
+    bowObject!: GameObject;
+    
+    @serializable(Animation)
+    animationComponent!: Animation;
+
+    @serializable(AssetReference)
+    arrowPrefab!: AssetReference;
+
+    @serializable(Object3D)
+    arrowSpawnSpot!: Object3D;
+
     /** Power of the arrow when fully drawn */
     @serializable()
     power: number = 1.5;
 
-    // VR
-    /** How much physical distance is needed between controllers to match full draw */
-    @serializable()
-    drawMaxPhysicalDistance: number = 0.47269; // data from anim (-0.11326 - -0.58595)
-
-    /** Distance between origin and string position when the bow is fully released */
-    @serializable()
-    drawMinPhysicalDistance: number = 0.1132593; // data from anim (-0.1132594)
-    
     /** The shoot animation is not linear, this curve compensates that */
     @serializable(AnimationCurve)
     drawProgression?: AnimationCurve;
-
-    // DESKTOP
-    /** Where to mount the bow outside of VR */
-    @serializable(Object3D)
-    cameraParent?: Object3D;
-
-    /** Drives the bow in a slightly drawned position when not interacting to give the user an intensive to drag and shoot */
-    @serializable()
-    desktopIdleDrawAmount: number = 0.25;
     
-    /** Proportionally <0,1> on a screen where the draw origin is */
-    @serializable(Vector2)
-    interactionPixelOrigin: Vector2 = new Vector2(0.5, 0.65);
-
-    /** Only count drags that are in this treshold from the interactionPixelOrigin */
+    // These values are derived from the bow animation clip – they're used to match physical hand motion to bow draw animation.
     @serializable()
-    interactionPixelTreshold: number = 85;
-
-    /** Amount of pixel user needs to drag to draw the bow fully */
+    drawMaxPhysicalDistance: number = 0.47269; // data from anim (0.58595 - 0.11326)
     @serializable()
-    drawMaxPixelDistance: number = 100;
+    drawMinPhysicalDistance: number = 0.1132593; // data from anim (-0.1132594);
 
-    private nonMountedParent?: Object3D;
-    awake(): void {
-        if (this.arrowPrefab?.asset) {
-            this.arrowPrefab.asset.visible = false;
-        }
-        if (this.bowObject) {
-            this._initRot.copy(this.bowObject.quaternion);
-        }
+    @serializable(AudioSource)
+    sound?: AudioSource;
 
-        // set a non mounted parent ref
-        this.nonMountedParent = this.gameObject.parent!;
+    private get _hasControllers(): boolean { return (this.context.xr?.controllers.length ?? 0) > 0; }
 
-        this.mount();
-    }
+    /** Visuals and effects */
+    private _tempLookMatrix = new Matrix4();
+    private _tempLookRot = new Quaternion();
+    private _mixer?: AnimationMixer;
+    private _animation!: AnimationAction;
+    private _drawingArrow?: Object3D;
+    private _lastShotTimestamp = Number.MIN_SAFE_INTEGER;
 
-    /** true while aiming */
     private _isAiming = false;
-    /** id of aiming pointer */
-    private _aimingPointerId: number | undefined;
-    /** start pos of aiming pointer */
-    private _aimingPointerStartPos: Vector2 = new Vector2(0, 0);
     /** the controller index holding the bow */
     private _bowController?: number = undefined;
     /** the controller index dragging the string */
+    private _stringPointerId: number | undefined;
     private _stringController?: number = undefined;
+    /** the component that makes the bow follow the controller hand */
+    private _controllerFollow: XRControllerFollow | null = null;
+    private _aimingPointerStartPos: Vector3 = new Vector3();
+    private _initialBowObjectRotation: Quaternion = new Quaternion();
+    private _initialBowObjectPosition: Vector3 = new Vector3();
+    /** For dragging on the screen outside XR */
+    private _screenDragRaycaster: Raycaster = new Raycaster();
+    private _screenDragPlane: Plane = new Plane();
+    private _screenDragRayLine: Line3 = new Line3();
+
+    awake(): void {
+        if (this.arrowPrefab?.asset)
+            this.arrowPrefab.asset.visible = false;
+    }
 
     async onEnable() {
         await this.arrowPrefab?.loadAssetAsync();
         this._isAiming = false;
+        this._controllerFollow = this.bowObject.getComponentInParent(XRControllerFollow) || null;
+        
+        this._initialBowObjectRotation = this.bowObject.quaternion.clone();
+        this._initialBowObjectPosition = this.bowObject.position.clone();
+        // slightly tilted upwards plane to drag on
+        this._screenDragPlane.setFromNormalAndCoplanarPoint(getTempVector(0,1,-0.2), this.bowObject.worldPosition);
+        
         this.context.input.addEventListener("pointerdown", this.onDown);
         this.context.input.addEventListener("pointerup", this.onRelease);
 
-        this.setupPreDraw();
+        this.setupArrowInstances();
     }
 
     onDisable(): void {
@@ -89,8 +91,10 @@ export class ArrowShooting extends Behaviour {
     protected onDown = (evt: NEPointerEvent) => {
         if (evt.origin instanceof NeedleXRController) {
             if (evt.button === 0) {
-                if (this._bowController === undefined)
+                if (this._bowController === undefined) {
                     this._bowController = evt.origin.index;
+                    this.bowObject.quaternion.copy(this._initialBowObjectRotation);
+                }
                 else if (this._stringController === undefined) {
                     this._stringController = evt.origin.index;
                 }
@@ -98,8 +102,10 @@ export class ArrowShooting extends Behaviour {
                 if (this._bowController === this._stringController)
                     this._stringController = undefined;
 
-                const follow = this.bowObject?.getComponentInParent(XRControllerFollow);
-                if (follow) follow.side = this._bowController;
+                if (this._controllerFollow) {
+                    this._controllerFollow.side = this._bowController;
+                    this._controllerFollow.enabled = this._bowController !== undefined;
+                }
 
                 this._isAiming = this._stringController !== undefined;
             }
@@ -107,24 +113,24 @@ export class ArrowShooting extends Behaviour {
         else {
             if (evt.button === 0) {
                 this._isAiming = true;
-                this._aimingPointerId = evt.pointerId;
+                this._stringPointerId = evt.pointerId;
+                this.getScreenDragPoint(evt.pointerId, this._aimingPointerStartPos);
             }
         }
     }
 
+    // Restore bow position and rotation when leaving XR
+    onLeaveXR(): void {
+        this.bowObject.quaternion.copy(this._initialBowObjectRotation);
+        this.bowObject.position.copy(this._initialBowObjectPosition);
+    }
+
     protected onRelease = (evt: NEPointerEvent) => {
-        if (evt.button !== 0) {
-            return;
-        }
+        if (evt.button !== 0) return;
 
-        // don't shoot when not previously aiming
-        if (!this._isAiming) return;
-
-        this._isAiming = false;
-        this._aimingPointerId = undefined;
         if (evt.origin instanceof NeedleXRController) {
             const ctrl = evt.origin;
-            if (ctrl.index === this._stringController && ctrl.index !== this._bowController && typeof this._bowController == "number") {
+            if (this._isAiming && ctrl.index === this._stringController && ctrl.index !== this._bowController && typeof this._bowController == "number") {
                 const other = NeedleXRSession.active?.getController(this._bowController);
                 if (ctrl && other) {
                     const point = ctrl.gripWorldPosition;
@@ -133,65 +139,67 @@ export class ArrowShooting extends Behaviour {
 
                         let dist = other.object.worldPosition.distanceTo(ctrl.object.worldPosition);
                         dist -= this.drawMinPhysicalDistance;
-                        const t = Mathf.clamp01(dist / this.drawMaxPhysicalDistance);
+                        const t = Mathf.clamp01(dist / this.drawMaxPhysicalDistance) * this.power;
 
-                        dir.normalize().multiplyScalar(t * this.power);
+                        dir.normalize().multiplyScalar(t);
                         
                         this.shoot(point, dir);
                         if (debug) Gizmos.DrawArrow(point, dir.clone().add(point), 0xffff00, 1);
                     }
                 }
             }
-            if (ctrl.index === this._bowController) {
+            if (ctrl.index === this._bowController)
                 this._bowController = undefined;
-            }
-            if (ctrl.index === this._stringController) {
+            if (ctrl.index === this._stringController)
                 this._stringController = undefined;
-            }
+
+            this._isAiming = this._bowController !== undefined && this._stringController !== undefined;
+            if (this._controllerFollow)
+                this._controllerFollow.enabled = this._bowController !== undefined;
         }
         else {
-            if (this.arrowSpawnSpot) {
-                const pos = this.arrowSpawnSpot.getWorldPosition(getTempVector());
-                const dir = this.gameObject.getWorldDirection(getTempVector());
 
-                const distnace = this.getPointerDinstanceTo(this._aimingPointerStartPos, evt.pointerId);
-                const power = Mathf.clamp01(distnace / this.drawMaxPixelDistance) * this.power;
-                dir.multiplyScalar(power);
+            const to = this._aimingPointerStartPos;
+            const from = this.getScreenDragPoint(this._stringPointerId, getTempVector());
 
-                if (distnace > this.interactionPixelTreshold)
-                    this.shoot(pos, dir);
-            }
+            const pos = this.arrowSpawnSpot.getWorldPosition(getTempVector());
+            const dir = this.bowObject.getWorldDirection(getTempVector()).multiplyScalar(-1);
+
+            const distance = to.distanceTo(from);
+            const t = Mathf.clamp01(distance / this.drawMaxPhysicalDistance) * this.power;
+            dir.normalize().multiplyScalar(t);
+            this.shoot(pos, dir);
         }
+
+        this._stringPointerId = undefined;
     }
 
-    private getPointerDinstanceTo(from: Vector2, pointerId: number): number {
+    private getPointerDistanceTo(from: Vector2, pointerId: number): number {
         const to = this.context.input.getPointerPosition(pointerId)!;
         return from.distanceTo(to);
     }
 
-    private fakeArrow?: Object3D;
-    private async setupPreDraw() {
+    private async setupArrowInstances() {
         if (!this.arrowPrefab || !this.arrowSpawnSpot) return;
 
         // don't predraw if already predrawed
-        if (this.fakeArrow) return;
+        if (this._drawingArrow) return;
 
         const instance = await this.arrowPrefab.instantiate({ parent: this.arrowSpawnSpot });
         
         if (instance) {
             instance.visible = true;
             instance.worldScale = getTempVector(1,1,1);
-            this.fakeArrow = instance;
+            this._drawingArrow = instance;
 
+            // remove interactive components from the visual instance for drawing the arrow
             instance.getComponent(Arrow)?.destroy();
             instance.getComponent(Rigidbody)?.destroy();
             instance.getComponentInChildren(ParticleSystem)?.destroy();
-            instance.getComponentsInChildren(Collider)
-                    .forEach(c => c.destroy());
+            instance.getComponentsInChildren(Collider).forEach(c => c.destroy());
         }
     }
 
-    private shotStamp = Number.MIN_SAFE_INTEGER;
     /**
      * shoot an arrow
      * @param from position to shoot from
@@ -200,7 +208,7 @@ export class ArrowShooting extends Behaviour {
     private async shoot(from: Vector3, vec: Vector3) {
         if (!this.arrowPrefab) return;
         
-        this.shotStamp = this.context.time.time;
+        this._lastShotTimestamp = this.context.time.time;
 
         const pos = from.clone();
         const lookGoal = pos.clone().add(vec);
@@ -210,7 +218,7 @@ export class ArrowShooting extends Behaviour {
         const instance = await this.arrowPrefab.instantiate({ parent: this.context.scene });
 
         if (!instance) {
-            console.error("Failed to instantiate arrow prefab");
+            console.error("Failed to instantiate arrow prefab, please check that objects are assigned correctly.");
             return;
         }
 
@@ -233,66 +241,19 @@ export class ArrowShooting extends Behaviour {
         }
     }
 
-    /** Mounting */
+    private getScreenDragPoint(pointerId: number, target: Vector3): Vector3 {
+        const rc = this.context.input.getPointerPositionRC(pointerId)!;
+        this._screenDragRaycaster.setFromCamera(rc, this.context.mainCamera);
+        const ray = this._screenDragRaycaster.ray;
+        this._screenDragRayLine.set(ray.origin, ray.direction.multiplyScalar(100000));
+        if (!this._screenDragPlane.intersectLine(this._screenDragRayLine, target))
+            target.set(0,0,0);
 
-    mount() {
-        // start in mounted state
-        if (this.cameraParent) {
-            this.gameObject.parent = this.cameraParent;
-            this.gameObject.position.set(0, 0, 0);
-            this.gameObject.quaternion.set(0, 0, 0, 1);
-        }
+        if (debug) Gizmos.DrawWireSphere(target, 0.01, 0xff0000, 1);
+
+        return target;
     }
 
-    unmount() {
-        this.gameObject.parent = this.nonMountedParent!;
-    }
-
-
-
-    /** Visuals and effects */
-
-
-    @serializable(Object3D)
-    bowObject?: GameObject;
-    
-    @serializable(Animation)
-    animationComponent?: Animation;
-
-    @serializable(AssetReference)
-    arrowPrefab?: AssetReference;
-
-    @serializable(Object3D)
-    arrowSpawnSpot?: Object3D;
-
-    @serializable(AudioSource)
-    sound?: AudioSource;
-
-    /** After firing the fake arrow is hidden and is popped back after this delay */
-    @serializable()
-    fakeArrowRespawnDuration: number = 0.3;
-
-    private _initRot: Quaternion = new Quaternion();
-    private _tempLookMatrix = new Matrix4();
-    private _tempLookRot = new Quaternion();
-    private _rotate90 = new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), Math.PI / 2);
-    private _mixer?: AnimationMixer;
-    private _animation!: AnimationAction;
-
-    private get _hasControllers(): boolean { return (this.context.xr?.controllers.length ?? 0) > 0; }
-
-    onEnterXR(_args: NeedleXREventArgs): void {
-        if (_args.xr.isVR || _args.xr.isPassThrough) {
-            this.unmount();
-        }
-    }
-
-    onLeaveXR(_args: NeedleXREventArgs): void {
-        this.mount();
-    }
-
-    private tempDir: Vector2 = new Vector2();
-    private tempUpRef: Vector2 = new Vector2();
     onBeforeRender(): void {
         if (!this.animationComponent || !this.bowObject) return;
 
@@ -304,111 +265,57 @@ export class ArrowShooting extends Behaviour {
                 this._animation = this._mixer.clipAction(anim);
         }
 
-        const animGoalSmoothing = .1;
+        const animGoalSmoothing = 0.1;
         let animTimeGoal = 0;
     
+        const from = getTempVector();
+        const to = getTempVector();
+        const bowUp = getTempVector(this.bowObject.worldUp);
+
         // VR Logic
         if (this._hasControllers) {
             if (!this._isAiming) {
                 animTimeGoal = 0;
-                this.shotStamp = this.context.time.time; // hide the arrow
+                this._lastShotTimestamp = this.context.time.time; // hide the arrow
             }
             else if (this.context.xr && this.context.xr.controllers.length > 1 && this._bowController !== undefined && this._stringController !== undefined) {
                 const holdingString = this.context.xr.controllers[this._stringController];
                 const holdingBow = this.context.xr.controllers[this._bowController];
     
-                // This should not happen, but seems when transient pointers are in use we 
-                // sometimes get invalid entries here
+                // sanity check: do we have valid controllers?
                 if (!holdingString || !holdingBow) return;
-    
-                // TODO fix this, currently we're allowing all kinds of controllers here.
-                // We should explicitly only allow hands and controllers, not transient inputs
-    
-                // console.log(holdingBow?.targetRayMode, holdingString?.targetRayMode);
-    
-                let bowUp = getTempVector(0, 1, 0);
-                if (!holdingBow.hand && holdingBow.targetRayMode === "tracked-pointer") {
-                    // if this is a controller, we rotate by 90° because Meta Browser...
-                    bowUp.applyQuaternion(this._rotate90);
-                }
-                bowUp.applyQuaternion(holdingBow.gripWorldQuaternion).normalize();
 
-                this._tempLookMatrix.lookAt(holdingString.gripWorldPosition, holdingBow.gripWorldPosition, bowUp);
-                this._tempLookRot.setFromRotationMatrix(this._tempLookMatrix);
-                this.bowObject.worldQuaternion = this._tempLookRot;
-                
-                let dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
-                dist -= this.drawMinPhysicalDistance;
-                animTimeGoal = Mathf.clamp01(dist / this.drawMaxPhysicalDistance);
-            }    
-            /*else if (this.context.xr && this.context.xr.controllers.length > 1) {
-                const holdingString = this.context.xr.controllers[this._stringController];
-                const holdingBow = this.context.xr.controllers[1 - this._stringController];
-    
-                let dir = getTempVector(holdingBow.rayWorldPosition).sub(holdingString.rayWorldPosition)
-    
-                const lookRotation = getTempQuaternion().setFromUnitVectors(getTempVector(0, 0, 1), dir.normalize());
-                this.bowObject.worldQuaternion = lookRotation.multiply(this._initRot);
-    
-                const dist = holdingString.object.worldPosition.distanceTo(holdingBow.object.worldPosition);
-                animTimeGoal = Mathf.clamp01(dist * 1.5);
-            } */
+                from.copy(holdingString.gripWorldPosition);
+                to.copy(holdingBow.gripWorldPosition);
+            }
         }
         // Non-VR Logic
         else {
-            const screenOrigin = this.interactionPixelOrigin;
-            this._aimingPointerStartPos.set(this.context.domWidth * screenOrigin.x, this.context.domHeight * screenOrigin.y);
 
-            if (!this._isAiming) {
-                animTimeGoal = this.desktopIdleDrawAmount;
-            }
-            else {
-                const input = this.context.input;
-
-                if (this._aimingPointerId != undefined) {
-                    const from = this._aimingPointerStartPos;
-                    const to = input.getPointerPosition(this._aimingPointerId)!;
-                    const dir = this.tempDir.copy(to).sub(from);
-                    const pixelDist = dir.length();
-                    const dist = pixelDist;// / this.context.domHeight;
-
-                    const dir3 = getTempVector();
-                    dir3.x = dir.x;
-                    dir3.z = dir.y;
-                    dir3.normalize();
-
-                    const objDir3 = this.gameObject.getWorldDirection(getTempVector());
-                    objDir3.y = 0;
-                    objDir3.normalize();
-
-                    const dirDiffDot = dir3.dot(objDir3); 
-
-                    const applyRot = dist > this.interactionPixelTreshold;
-                    const applyDraw = dirDiffDot > 0 || applyRot;
-
-                    if (applyDraw) {
-                        animTimeGoal = Mathf.clamp01(dist / this.drawMaxPixelDistance);
-                    }
-
-                    this.tempUpRef.set(1, 0);
-                    const sign = this.tempUpRef.dot(dir) > 0 ? -1 : 1;
-
-                    this.tempUpRef.set(0, 1);
-                    const angle = this.tempUpRef.angleTo(dir) * sign;
-
-                    if (applyRot) {
-                        const goal = getTempQuaternion().setFromAxisAngle(getTempVector().set(1, 0, 0), angle);
-
-                        this.gameObject.quaternion.slerp(goal, this.context.time.deltaTime / .05);
-                    }
-                }
+            if (this._stringPointerId !== undefined) {
+                to.copy(this._aimingPointerStartPos);
+                from.copy(this.getScreenDragPoint(this._stringPointerId, getTempVector()));
             }
         }
 
+        if (this._isAiming && (from.dot(from) > 0 && to.dot(to) > 0)) {
+            let dist = from.distanceTo(to);
+            let animation01 = Mathf.clamp01((dist - this.drawMinPhysicalDistance) / this.drawMaxPhysicalDistance);
+            animTimeGoal = animation01;
+            
+            if (dist > 0.025) {
+                this._tempLookMatrix.lookAt(from, to, bowUp);
+                this._tempLookRot.setFromRotationMatrix(this._tempLookMatrix);
+                this.bowObject.worldQuaternion = this._tempLookRot;
+            }
+        }
+        
         // apply draw curve
-        if (this.drawProgression) {
+        if (this.drawProgression)
             animTimeGoal = this.drawProgression.evaluate(animTimeGoal);
-        }
+        
+        if (!this._isAiming && !this._hasControllers)
+            animTimeGoal = 0.25;
 
         this._animation.timeScale = 0;
         const newT = Mathf.lerp(this._animation.time, animTimeGoal, this.context.time.deltaTime / animGoalSmoothing);
@@ -423,10 +330,11 @@ export class ArrowShooting extends Behaviour {
 
         this._mixer.update(this.context.time.deltaTime);
 
-        if (this.fakeArrow) {
-            let t = (this.context.time.time - this.shotStamp) / this.fakeArrowRespawnDuration;
+        if (this._drawingArrow) {
+            const fadeDuration = 0.3; // time to scale a new arrow in when the last was
+            let t = (this.context.time.time - this._lastShotTimestamp) / fadeDuration;
             t = this.easeInOutSine(Mathf.clamp01(t));
-            this.fakeArrow.worldScale = getTempVector(1, 1, 1).multiplyScalar(t);
+            this._drawingArrow.worldScale = getTempVector(1, 1, 1).multiplyScalar(t);
         }
     }
 
