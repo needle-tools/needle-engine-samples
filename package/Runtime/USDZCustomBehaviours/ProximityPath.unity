@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.91863465, g: 0.8734665, b: 0.83077973, a: 1}
+  m_IndirectSpecularColor: {r: 0.03906251, g: 0.03906251, b: 0.03906251, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -290,13 +290,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-660e8120b859a0144a35923f81ebe7b7-203286393-0
+  autoTarget: 1
   autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
+  minPolarAngle: 0
+  maxPolarAngle: 3.1415927
+  minAzimuthAngle: -6.2831845
+  maxAzimuthAngle: 6.2831855
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -304,6 +311,7 @@ MonoBehaviour:
   enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 203286396}
 --- !u!114 &203286394
@@ -353,8 +361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraSkyboxData, Needle.Engine
     $ GlobalObjectId_V1-2-660e8120b859a0144a35923f81ebe7b7-203286395-0
-  backgroundBlurriness: 1
-  backgroundIntensity: 1
+  backgroundBlurriness: 0.323
+  backgroundIntensity: 0.184
 --- !u!1183024399 &203286396
 LookAtConstraint:
   m_ObjectHideFlags: 0
@@ -565,7 +573,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 391271251}
-  - component: {fileID: 391271250}
   - component: {fileID: 391271252}
   - component: {fileID: 391271253}
   - component: {fileID: 391271254}
@@ -576,20 +583,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &391271250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 391271249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa3493724830445e9abb470aad0aec1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.GltfObject, Needle.Engine $ GlobalObjectId_V1-2-660e8120b859a0144a35923f81ebe7b7-391271250-0
-  SuppressExport: 0
-  EmbedSkybox: 1
 --- !u!4 &391271251
 Transform:
   m_ObjectHideFlags: 0
@@ -647,7 +640,9 @@ MonoBehaviour:
     CallToActionURL: 
   exportFileName: Needle
   customUsdzFile:
+    Mode: 0
     File: {fileID: 0}
+    String: 
 --- !u!114 &391271254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,8 +660,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 0
   useXRAnchor: 0
   useQuicklookExport: 1
   useDepthSensing: 0
@@ -2238,6 +2236,7 @@ GameObject:
   - component: {fileID: 2057643704}
   - component: {fileID: 2057643703}
   - component: {fileID: 2057643706}
+  - component: {fileID: 2057643707}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -2278,7 +2277,7 @@ MonoBehaviour:
   AutoCompress: 1
   Dependencies:
   - Name: needle.customusdzbehaviours
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/DirectAR/Needle.CustomUSDZBehaviours.npmdef
+    VersionOrPath: Packages/com.needle.engine-samples/Runtime/USDZCustomBehaviours/Needle.CustomUSDZBehaviours.npmdef
     Guid: ff74c38cc3bdff34a98f333737a8b54b
 --- !u!4 &2057643705
 Transform:
@@ -2309,6 +2308,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToGlitch, Needle.Engine.Deployment
     $ GlobalObjectId_V1-2-660e8120b859a0144a35923f81ebe7b7-2057643706-0
   Glitch: {fileID: 1022380663}
+--- !u!114 &2057643707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057643702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
+    Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 1
+  GenerateMeshLODs: 1
 --- !u!1001 &7019939739363052436
 PrefabInstance:
   m_ObjectHideFlags: 0
