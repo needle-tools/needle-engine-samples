@@ -286,8 +286,8 @@ GameObject:
   - component: {fileID: 671381876}
   - component: {fileID: 671381875}
   - component: {fileID: 671381874}
-  - component: {fileID: 671381877}
   - component: {fileID: 671381878}
+  - component: {fileID: 671381879}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -348,23 +348,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &671381877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 671381873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
-    $ GlobalObjectId_V1-2-375db29c7005fb54587043b09654568b-671381877-0
-  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /networking_players
-  OverrideGzipCompression: 1
-  UseGzipCompression: 0
 --- !u!114 &671381878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,9 +362,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta
   meta:
     title: Networking Players
-    description: Spawn and control players - this sample also shows the lifecycle
+    description: Spawn and control players. This sample also shows the lifecycle
       of networked players
     image: {fileID: 2800000, guid: 158af30540f9b44449bfdfef82acc1a4, type: 3}
+--- !u!114 &671381879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671381873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
+    Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 1
+  GenerateMeshLODs: 1
 --- !u!1 &869501959
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,7 +475,7 @@ Transform:
   m_GameObject: {fileID: 869501959}
   m_LocalRotation: {x: -0.44684628, y: 0.31690383, z: -0.17321481, w: -0.8184723}
   m_LocalPosition: {x: 20.6, y: 49.3, z: -22.6}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.9999998}
+  m_LocalScale: {x: 0.9999995, y: 0.9999999, z: 0.9999991}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
