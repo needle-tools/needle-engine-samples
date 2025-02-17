@@ -2,13 +2,14 @@ import { ActionBuilder, BehaviorModel, Behaviour, GameObject, TriggerBuilder, ge
 import { UsdzBehaviour } from "@needle-tools/engine";
 import { USDObject } from "@needle-tools/engine";
 import { Matrix4, MeshStandardMaterial, Object3D, Vector3 } from "three";
+import { DeviceUtilities } from "@needle-tools/engine";
 
 // Documentation → https://docs.needle.tools/scripting
 
 export class FadeOnProximity extends Behaviour implements UsdzBehaviour {
 
-    @serializable(Object3D)
-    target?: Object3D;
+    @serializable(GameObject)
+    target: GameObject;
 
     @serializable()
     distance: number = 0.5;
@@ -22,16 +23,46 @@ export class FadeOnProximity extends Behaviour implements UsdzBehaviour {
     @serializable()
     hideOnStart: boolean = true;
     
+
+    start() {
+        if (this.hideOnStart && !DeviceUtilities.isiOS()) this.target.scale.set(0, 0, 0);
+    }
+
+    private tempVector: Vector3 = new Vector3();
+    update() {
+        this.tempVector.copy(this.context.mainCameraComponent!.worldPosition);
+        const distance = this.tempVector.sub(this.worldPosition).length();
+        if (distance < this.distance) {
+            /*
+            let anim = this.target.getComponent(TRSAnimatable);
+            if (this.targetState) {
+                if (anim) anim.playAt(1);
+                else this.target.scale.set(1, 1, 1);
+            }
+            else {
+                if (anim) anim.playAt(0);
+                else this.target.scale.set(0, 0, 0);
+            }
+            */
+            this.enabled = false;
+        }
+    }
+
     createBehaviours(ext, model, _context) {
         if (model.uuid === this.gameObject.uuid) {
-            const targetObj = this.target ?? this.gameObject;
+            
+            const targetObj = this.target ? this.target : this.gameObject;
 
+            
             if (this.hideOnStart) {
                 ext.addBehavior(new BehaviorModel("SetActiveOnProximity_active_" + this.gameObject.name,
                     TriggerBuilder.sceneStartTrigger(),
                     ActionBuilder.fadeAction(targetObj, 0, !this.targetState)
                 ));
             }
+
+  /*           const fadeAction = ActionBuilder.fadeAction(targetObj, this.fadeDuration, this.targetState);
+            fadeAction.multiplePerformOperation = "ignore"; */
 
             ext.addBehavior(new BehaviorModel("SetActiveOnProximity_" + this.gameObject.name,
                 TriggerBuilder.proximityToCameraTrigger(this.gameObject, this.distance),

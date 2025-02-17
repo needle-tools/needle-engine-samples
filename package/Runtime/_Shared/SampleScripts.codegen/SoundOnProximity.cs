@@ -5,14 +5,14 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class FadeOnProximity : UnityEngine.MonoBehaviour
+	public partial class SoundOnProximity : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.GameObject @target;
+		public UnityEngine.AudioSource @target;
+		public UnityEngine.AudioClip @clip;
 		public float @distance = 0.5f;
-		public float @fadeDuration = 1f;
 		public bool @targetState = true;
-		public bool @hideOnStart = true;
 		public void createBehaviours(object @ext, object @model, object @_context){}
+		public void afterSerialize(object @_ext, object @context){}
 	}
 }
 
