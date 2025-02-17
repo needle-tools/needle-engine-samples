@@ -19,12 +19,12 @@ export class XRLifecycleEvents extends Behaviour {
     }
 
     private onWebXRStarted() {
-        logHierarchy(this.context.scene, false);
+        // logHierarchy(this.context.scene, false);
         this.onSessionStart.invoke();
     }
 
     private onWebXREnded() {
-        logHierarchy(this.context.scene, false);
+        // logHierarchy(this.context.scene, false);
         this.onSessionEnd.invoke();
     }
 }
