@@ -134,9 +134,9 @@ GameObject:
   - component: {fileID: 25417594}
   - component: {fileID: 25417593}
   - component: {fileID: 25417592}
-  - component: {fileID: 25417595}
   - component: {fileID: 25417596}
   - component: {fileID: 25417597}
+  - component: {fileID: 25417598}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -191,23 +191,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &25417595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 25417591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
-    $ GlobalObjectId_V1-2-00000000000000000000000000000000-25417595-0
-  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /usdz-animator
-  OverrideGzipCompression: 1
-  UseGzipCompression: 0
 --- !u!114 &25417596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,8 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-e9f1535860a50a14cb85e49bb0635ae9-25417596-0
   meta:
-    title: Animator (Eveywhere Actions)
-    description: Skinned mesh animated character
+    title: Animator (Everywhere Actions)
+    description: Humanoid character with switchable animations
     image: {fileID: 2800000, guid: ad7d326f1c6e4dd4686fefea7452a031, type: 3}
 --- !u!114 &25417597
 MonoBehaviour:
@@ -237,6 +220,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.NeedleEngineModules, Needle.Engine.Common
   PhysicsEngine: 0
+--- !u!114 &25417598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25417591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
+    Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 1
+  GenerateMeshLODs: 1
 --- !u!1001 &30548293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -548,7 +551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.24466667
+      value: 0.2446669
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.y
@@ -556,7 +559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.24466667
+      value: 0.2446669
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1046,7 +1049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.24466647
+      value: 0.24466659
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.y
@@ -1054,7 +1057,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.24466647
+      value: 0.24466659
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1283,7 +1286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.24466647
+      value: 0.24466659
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.y
@@ -1291,7 +1294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.24466647
+      value: 0.24466659
       objectReference: {fileID: 0}
     - target: {fileID: 5778810348287920684, guid: 3363c7f8948ac1b408f019b6766741ed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1980,7 +1983,7 @@ Transform:
   m_GameObject: {fileID: 2102536295}
   m_LocalRotation: {x: -0.015136572, y: 0.97927344, z: -0.08037203, w: -0.18529671}
   m_LocalPosition: {x: 1.08, y: 1.14, z: 3.23}
-  m_LocalScale: {x: 1.0000004, y: 1, z: 1.0000005}
+  m_LocalScale: {x: 1.0000011, y: 1, z: 1.0000012}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
