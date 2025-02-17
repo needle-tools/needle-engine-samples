@@ -179,8 +179,8 @@ GameObject:
   - component: {fileID: 51175815}
   - component: {fileID: 51175814}
   - component: {fileID: 51175813}
-  - component: {fileID: 51175818}
   - component: {fileID: 51175816}
+  - component: {fileID: 51175819}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -257,7 +257,7 @@ MonoBehaviour:
     title: Room Tracking & Passthrough
     description: Physics, Passthrough, Walls and Furniture on Quest / Quest Pro
     image: {fileID: 2800000, guid: ca86c0b349e362c45882a9b3ed39e289, type: 3}
---- !u!114 &51175818
+--- !u!114 &51175819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,14 +266,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 51175812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
-    $ GlobalObjectId_V1-2-4df8ad6383ca955479e2c1e64907811e-51175818-0
-  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /presence-platform
-  OverrideGzipCompression: 1
-  UseGzipCompression: 0
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
+    Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 1
+  GenerateMeshLODs: 1
 --- !u!1 &96984252
 GameObject:
   m_ObjectHideFlags: 0
