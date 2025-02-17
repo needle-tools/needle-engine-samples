@@ -1,11 +1,11 @@
-import { Behaviour, Context, FileReference, GameObject, INeedleGLTFExtensionPlugin, TransformGizmo, UIDProvider, addCustomExtensionPlugin, getLoader, serializable } from "@needle-tools/engine";
-import { VRMLoaderPlugin } from "@pixiv/three-vrm";
-import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
+import { Animation, Behaviour, Context, FileReference, INeedleGLTFExtensionPlugin, UIDProvider, addCustomExtensionPlugin, getLoader, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
+import { VRMLoaderPlugin } from "@pixiv/three-vrm";
+import { loadMixamoAnimation } from "./MixamoAnimationLoader.js";
 
 // Register the VRMLoaderPlugin
 addCustomExtensionPlugin({
-    name: "VRM",
+    name: 'VRM',
     onImport: (loader, _url, _context) => {
         loader.register(parser => new VRMLoaderPlugin(parser));
     },
@@ -31,10 +31,21 @@ export class VRMLoader extends Behaviour {
     @serializable(FileReference)
     vrmModel?: FileReference;
 
+    @serializable(FileReference)
+    fbxAnimation?: FileReference;
+
+    @serializable()
+    allowDropFBX = true;
+
+    private vrm: any;
+
     start() {
-        if (this.vrmModel?.url) {
+        if (this.vrmModel?.url)
             this.spawnModel(this.vrmModel.url);
-        }
+    }
+
+    update(): void {
+        this.vrm?.update(this.context.time.deltaTime);
     }
 
     async spawnModel(url: string) {
@@ -51,26 +62,55 @@ export class VRMLoader extends Behaviour {
             return;
         }
 
-        // TODO basic IK
-        const humanoid = model.userData.vrm.humanoid;
+        // Load VRM data
+        const vrm = this.vrm = model.userData.vrm;
+        const humanoid = vrm.humanoid;
+        const scene = vrm.scene;
+        const animation = scene.addComponent(Animation);
 
-        addGizmos(["leftUpperArm", "rightUpperArm"]);
+        // Helper to load an animation in the Mixamo FBX format
+        function loadFBX(animationUrl) {
+            humanoid.resetNormalizedPose();
 
-        function addGizmos(bones: string[]) {
-            bones.forEach(boneKey => {
-                const bone = humanoid.humanBones[boneKey].node;
-
-                const transform = new TransformGizmo();
-                GameObject.addComponent(bone, transform);
-                const controls = transform.control as unknown as TransformControls;
-                if (controls) {
-                    controls.setMode("translate");
-                    controls.setSize(0.3);
-                    controls.showZ = false;
-                }
-
+            loadMixamoAnimation(animationUrl, vrm).then((clip) => {
+                animation.addClip(clip);
+                animation.play(clip);
             });
-        };
+        }
 
+        // If an FBX was provided as part of this object's configuration, load that directly
+        if (this.fbxAnimation?.url)
+            loadFBX(this.fbxAnimation.url);
+
+        const context = this.context;
+
+        // When a user drops an FBX file, we assume that it's following the Mixamo animation format.
+        function setUpFBXDropping() {
+            context.domElement.addEventListener('drop', (event: DragEvent) => {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const file = event.dataTransfer?.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+                    if (!event.target) return;
+                    const contents = event.target.result;
+                    loadFBX(contents);
+                };
+
+                if (file) reader.readAsDataURL(file);
+                else  console.error('No file dropped', event);
+            } );
+
+            // Prevent the default behavior of the browser when a file is dragged over the window.
+            context.domElement.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        }
+
+        if (this.allowDropFBX)
+            setUpFBXDropping();
     }
 }
