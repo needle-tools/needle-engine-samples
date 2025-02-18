@@ -7,7 +7,8 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class DeviceDetection : UnityEngine.MonoBehaviour
 	{
-		public void start(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
 	}
 }
 
