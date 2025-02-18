@@ -38,10 +38,8 @@ export class SpatialAudioUI extends Behaviour {
 
     private style() {
         return /*css*/`
-            @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..900&family=Roboto:ital,wght@0,100..600;1,100..600&display=swap');
-
             .root {
-                font-family: "Open Sans", serif;
+                font-family: "Roboto Flex", serif;
             }
 
             .spatial-audio-ui {
