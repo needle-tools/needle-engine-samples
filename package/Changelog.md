@@ -4,6 +4,19 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.20.1] - 2025-02-19
+- Deploy samples to Needle Cloud
+- Update Diamond Ring / Jewelry sample: fixing diamon shader regression for iOS 18.3 (issue FB16525288)
+- Update Car Physics sample: adding gamepad controller support and music
+- Update VRM sample
+- Update Bow & Arrow sample
+- Update Voxel editor sample
+- Update Spatial Audio sample
+- Update DeviceDetection sample
+- Update MX ink sample scenes
+- Update DepthSensing sample
+- Update Mesh tracking sample
+
 ## [0.20.0] - 2025-02-13
 - Update Needle Engine dependency
 
