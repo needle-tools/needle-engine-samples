@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8345642, g: 0.8242235, b: 0.8455437, a: 1}
+  m_IndirectSpecularColor: {r: 0.83443934, g: 0.824093, b: 0.8454254, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -409,8 +409,11 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
   usePlacementAdjustment: 0
-  arSceneScale: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 0
   useXRAnchor: 0
   useQuicklookExport: 0
   useDepthSensing: 0
@@ -456,7 +459,9 @@ MonoBehaviour:
     CallToActionURL: https://needle.tools
   exportFileName: Needle
   customUsdzFile:
+    Mode: 0
     File: {fileID: 0}
+    String: 
 --- !u!1 &1486746961
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,7 +782,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625788023}
-  m_LocalRotation: {x: 0.051604092, y: -0.9396269, z: 0.16382943, w: 0.29596996}
+  m_LocalRotation: {x: 0.05160407, y: -0.93962693, z: 0.16382936, w: 0.29597}
   m_LocalPosition: {x: 0.4516339, y: 0.35941416, z: 0.6457806}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -805,11 +810,13 @@ MonoBehaviour:
   autoRotateSpeed: 0.2
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -817,6 +824,7 @@ MonoBehaviour:
   enableKeys: 0
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 1625788029}
 --- !u!114 &1625788028
@@ -901,6 +909,7 @@ GameObject:
   - component: {fileID: 1982933256}
   - component: {fileID: 1982933257}
   - component: {fileID: 1982933258}
+  - component: {fileID: 1982933259}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -921,7 +930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-ef02bffc2c9043d40b0a324be262325e-1982933253-0
-  compilerDirectory: Library/Needle/Jewelry/node_modules/@needle-tools/needle-component-compiler/src
+  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
   Debug: 0
 --- !u!114 &1982933254
 MonoBehaviour:
@@ -1004,6 +1013,26 @@ MonoBehaviour:
     title: Diamond Ring
     description: Jewelry rendering and caustics bake
     image: {fileID: 2800000, guid: d15322a588b4b418d9322a770807d528, type: 3}
+--- !u!114 &1982933259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982933252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
+    Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 1
+  GenerateMeshLODs: 1
 --- !u!1 &2049127150
 GameObject:
   m_ObjectHideFlags: 0
