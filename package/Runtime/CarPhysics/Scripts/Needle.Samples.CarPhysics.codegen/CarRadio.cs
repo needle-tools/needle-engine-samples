@@ -5,14 +5,11 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class CarController : UnityEngine.MonoBehaviour
+	public partial class CarRadio : UnityEngine.MonoBehaviour
 	{
-		public Needle.Typescript.GeneratedComponents.CarPhysics @carPhysics;
-		public float @yResetThreshold;
-		public void reset(){}
+		public string @url = "https://stream.laut.fm/gta-classics";
 		public void OnEnable(){}
 		public void OnDisable(){}
-		public void onBeforeRender(){}
 	}
 }
 

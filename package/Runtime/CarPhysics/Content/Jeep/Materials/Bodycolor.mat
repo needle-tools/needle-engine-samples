@@ -37,10 +37,11 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
   m_ValidKeywords:
   - _CLEARCOAT_ON
+  - _SHEEN_ON
   - _TEXTURE_TRANSFORM_ON
-  - _VERTEX_COLORS_ON
   - _VOLUME_TRANSMISSION_OFF
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _VERTEX_COLORS_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
@@ -84,6 +85,14 @@ Material:
         m_Scale: {x: 40, y: 40}
         m_Offset: {x: 0, y: 0}
     - occlusionTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - sheenColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - sheenRoughnessTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -140,6 +149,7 @@ Material:
     - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SHEEN: 1
     - _SPECULAR: 0
     - _SrcBlend: 1
     - _Surface: 0
@@ -183,6 +193,11 @@ Material:
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
     - roughnessFactor: 0.081
+    - sheenColorTextureRotation: 0
+    - sheenColorTextureTexCoord: 0
+    - sheenRoughnessFactor: 2.2
+    - sheenRoughnessTextureRotation: 0
+    - sheenRoughnessTextureTexCoord: 0
     - specularColorTextureRotation: 0
     - specularColorTextureTexCoord: 0
     - specularFactor: 1
@@ -196,7 +211,8 @@ Material:
     - transmissionTextureTexCoord: 0
     m_Colors:
     - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
-    - baseColorFactor: {r: 0.7433, g: 0.8490566, b: 0.17221431, a: 1}
+    - baseColorFactor: {r: 0.52269924, g: 0.8490566, b: 0.09211465, a: 1}
     - emissiveFactor: {r: 0, g: 0, b: 0, a: 0}
+    - sheenColorFactor: {r: 1, g: 0.84244245, b: 0.043137252, a: 0}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

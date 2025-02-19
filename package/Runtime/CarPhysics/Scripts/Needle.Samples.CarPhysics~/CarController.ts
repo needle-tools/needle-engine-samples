@@ -1,9 +1,6 @@
-import { Behaviour, getTempQuaternion, getTempVector, Mathf, serializable } from "@needle-tools/engine";
+import { Behaviour, Collision, getTempQuaternion, getTempVector, Mathf, serializable } from "@needle-tools/engine";
 import { CarPhysics } from "./CarPhysics";
 import { Vector3, Quaternion } from "three";
-import { RigidBody } from "@dimforge/rapier3d-compat";
-
-
 
 export class CarController extends Behaviour {
 
@@ -13,15 +10,32 @@ export class CarController extends Behaviour {
     @serializable()
     yResetThreshold: number = -5;
 
+    /**
+     * Resets the car to the starting position and orientation
+     */
+    reset() {
+        this.carPhysics?.teleport(this.posOnStart, this.rotOnStart, true);
+    }
+
 
     private posOnStart!: Vector3;
     private rotOnStart!: Quaternion;
+    private gamepad: Gamepad | null = null;
 
     onEnable() {
         // save start orientation
         this.posOnStart = this.gameObject.position.clone();
         this.rotOnStart = this.gameObject.quaternion.clone();
-        this.carPhysics = this.carPhysics || this.gameObject.getComponent(CarPhysics);
+        this.carPhysics ||= this.gameObject.getComponent(CarPhysics);
+        window.addEventListener("gamepadconnected", this._onGamepadConnected);
+    }
+    onDisable(): void {
+        window.removeEventListener("gamepadconnected", this._onGamepadConnected);
+    }
+
+    private _onGamepadConnected = (event: GamepadEvent) => {
+        console.debug("Gamepad connected", event.gamepad);
+        this.gamepad = event.gamepad;
     }
 
     onBeforeRender() {
@@ -31,10 +45,6 @@ export class CarController extends Behaviour {
         this.handleInput();
         this.resetWhenRolledOver();
         this.resetWhenFallingoff();
-    }
-
-    reset() {
-        this.carPhysics?.teleport(this.posOnStart, this.rotOnStart, true);
     }
 
     private resetWhenFallingoff() {
@@ -79,6 +89,9 @@ export class CarController extends Behaviour {
         this.carPhysics.teleport(pos, rot);
     }
 
+    private _lastVehicleVelocity: number = 0;
+    private _lastHeroRumbleTime: number = -1;
+
     private handleInput() {
         if (!this.carPhysics) return;
 
@@ -110,6 +123,86 @@ export class CarController extends Behaviour {
             if (this.context.input.isKeyPressed("w")) {
                 accel += 1;
             }
+        }
+
+        if (this.gamepad?.connected) {
+            steer += this.gamepad.axes[0];
+            accel += -this.gamepad.axes[1];
+
+            const aButton = this.gamepad.buttons[0];
+            const bButton = this.gamepad.buttons[1];
+            const ltButton = this.gamepad.buttons[6];
+            const rtButton = this.gamepad.buttons[7];
+
+            if (aButton.pressed || rtButton.pressed) {
+                accel += 1;
+            }
+            if (bButton.pressed || ltButton.pressed) {
+                accel -= 1;
+            }
+
+            const xButton = this.gamepad.buttons[2];
+            if (xButton.pressed) {
+                this.reset();
+            }
+
+            const velocity = this.carPhysics.velocity.length();
+
+            // base motor rumble
+            const timeSinceHeroRumble = this.context.time.realtimeSinceStartup - this._lastHeroRumbleTime;
+            if (timeSinceHeroRumble > 0.3) {
+                // base motor rumble
+
+                if (velocity > .01) {
+                    this.gamepad.vibrationActuator.playEffect("dual-rumble", {
+                        startDelay: 0,
+                        duration: this.context.time.deltaTime,
+                        weakMagnitude: .1,
+                        strongMagnitude: .1,
+                    });
+                }
+
+                // wheels force rumble
+                const wheels = this.carPhysics.wheels;
+                const maxForce = 200;
+                let largestForce = 0;
+                for (const wheel of wheels) {
+                    const force = this.carPhysics.vehicle.wheelSuspensionForce(wheel.index);
+                    // if (force != undefined) suspensionForce += force;
+                    if (force && force < maxForce) {
+                        const factor = 1 - (force / maxForce);
+                        largestForce = Math.max(largestForce, factor);
+                    }
+                }
+                if (largestForce > 0) {
+                    const expFactor = Math.pow(largestForce, 2);
+                    this.gamepad.vibrationActuator.playEffect("dual-rumble", {
+                        startDelay: 0,
+                        duration: largestForce * 500,
+                        weakMagnitude: expFactor * 1.0,
+                        strongMagnitude: expFactor * 1.0,
+                    });
+                }
+            }
+
+            // if the car hits something
+            if (velocity) {
+                const lastVelocity = this._lastVehicleVelocity;
+                this._lastVehicleVelocity = velocity;
+                const diff = lastVelocity - velocity;
+                if (diff > 1) {
+                    this._lastHeroRumbleTime = this.context.time.realtimeSinceStartup;
+                    this.gamepad.vibrationActuator.playEffect("dual-rumble", {
+                        startDelay: 0,
+                        duration: 150,
+                        weakMagnitude: Mathf.clamp01(diff / 3),
+                        strongMagnitude: Mathf.clamp01(diff / 3),
+                    });
+                }
+            }
+
+            // get latest gamepad data
+            this.gamepad = navigator.getGamepads()[this.gamepad.index];
         }
 
         this.carPhysics.steerInput(steer);

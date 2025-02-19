@@ -18,6 +18,10 @@ function rapierVectorToThreeVector(v: Vector | null): Vector3 | undefined {
 }
 
 export class CarWheel extends Behaviour {
+
+    /** The wheel index in the car */
+    get index() { return this._wheelIndex; }
+
     @serializable(Object3D)
     wheelModel?: Object3D
 
@@ -67,11 +71,12 @@ export class CarWheel extends Behaviour {
 
     private car!: CarPhysics;
     private vehicle!: DynamicRayCastVehicleController;
-    private wheelIndex: number = -1;
+    private _wheelIndex: number = -1;
+
     initialize(car: CarPhysics, vehicle: DynamicRayCastVehicleController, i: number) {
         this.car = car;
         this.vehicle = vehicle;
-        this.wheelIndex = i;
+        this._wheelIndex = i;
 
         const target = (this.wheelModel ?? this.gameObject);
         this.wheelModelUp = target.up;
@@ -108,8 +113,8 @@ export class CarWheel extends Behaviour {
         const target = this.wheelModel ?? this.gameObject;
 
         // rotation
-        const wheelRotX = this.vehicle.wheelRotation(this.wheelIndex)!;
-        const wheelRotY = this.vehicle.wheelSteering(this.wheelIndex)!;
+        const wheelRotX = this.vehicle.wheelRotation(this._wheelIndex)!;
+        const wheelRotY = this.vehicle.wheelSteering(this._wheelIndex)!;
 
         const yRot = getTempQuaternion().setFromAxisAngle(this.wheelModelUp, wheelRotY);
         const xRot = getTempQuaternion().setFromAxisAngle(this.wheelModelRight, wheelRotX);
@@ -119,8 +124,8 @@ export class CarWheel extends Behaviour {
         target.quaternion.copy(rot);
 
         // position
-        const contact = rapierVectorToThreeVector(this.vehicle.wheelContactPoint(this.wheelIndex) as Vector);
-        const isInContact = this.vehicle.wheelIsInContact(this.wheelIndex);
+        const contact = rapierVectorToThreeVector(this.vehicle.wheelContactPoint(this._wheelIndex) as Vector);
+        const isInContact = this.vehicle.wheelIsInContact(this._wheelIndex);
         const wheelPosition = getTempVector();
         if (contact) {
             wheelPosition.copy(this.car.gameObject.worldUp).multiplyScalar(this.radius).add(contact);
@@ -129,8 +134,8 @@ export class CarWheel extends Behaviour {
         }
 
         // skid
-        const sideAmount = Math.abs(this.vehicle.wheelSideImpulse(this.wheelIndex) ?? 0);
-        const breakAmount = Math.abs(this.vehicle.wheelBrake(this.wheelIndex) ?? 0);
+        const sideAmount = Math.abs(this.vehicle.wheelSideImpulse(this._wheelIndex) ?? 0);
+        const breakAmount = Math.abs(this.vehicle.wheelBrake(this._wheelIndex) ?? 0);
         const isSkidding = sideAmount > this.skidVisualSideThreshold || breakAmount > this.skidVisualBreakThreshold;
         const showSkid = isInContact && contact != undefined && isSkidding;
 
@@ -159,9 +164,9 @@ export class CarWheel extends Behaviour {
     }
 
     applyPhysics(acceleration: number, breaking: number, steeringRad: number) {
-        const isOnDrivingAxle = (this.car.carDrive == CarDrive.front && this.axle == CarAxle.front) 
-        || (this.car.carDrive == CarDrive.rear && this.axle == CarAxle.rear) 
-        || (this.car.carDrive == CarDrive.all);
+        const isOnDrivingAxle = (this.car.carDrive == CarDrive.front && this.axle == CarAxle.front)
+            || (this.car.carDrive == CarDrive.rear && this.axle == CarAxle.rear)
+            || (this.car.carDrive == CarDrive.all);
 
         if (!isOnDrivingAxle)
             acceleration = 0;
@@ -175,16 +180,16 @@ export class CarWheel extends Behaviour {
         }
 
         // accel & break
-        this.vehicle.setWheelEngineForce(this.wheelIndex, acceleration);
-        this.vehicle.setWheelBrake(this.wheelIndex, breaking);
+        this.vehicle.setWheelEngineForce(this._wheelIndex, acceleration);
+        this.vehicle.setWheelBrake(this._wheelIndex, breaking);
 
         // steer
         if (this.axle == CarAxle.front) {
-            this.vehicle.setWheelSteering(this.wheelIndex, -steeringRad); // inverted X
+            this.vehicle.setWheelSteering(this._wheelIndex, -steeringRad); // inverted X
         }
 
         // slip
-        this.vehicle.setWheelFrictionSlip(this.wheelIndex, Mathf.lerp(this.frictionSlip.x, this.frictionSlip.y, gripAmount));
+        this.vehicle.setWheelFrictionSlip(this._wheelIndex, Mathf.lerp(this.frictionSlip.x, this.frictionSlip.y, gripAmount));
     }
 }
 
@@ -260,8 +265,11 @@ export class CarPhysics extends Behaviour {
 
     /** Rapier Physics Rigidbody */
     get rigidbody() { return this._rigidbody; }
+    get vehicle() { return this._vehicle; }
+    // @nonSerialized
+    get velocity() { return this._rigidbody?.getVelocity(); }
 
-    protected vehicle!: DynamicRayCastVehicleController;
+    private _vehicle!: DynamicRayCastVehicleController;
     private _rigidbody!: Rigidbody;
     private rapierRigidbody!: RapierRigidbody;
 
@@ -270,8 +278,6 @@ export class CarPhysics extends Behaviour {
     private currAcc: number = 0;
 
 
-    // @nonSerialized
-    get velocity() { return this._rigidbody.getVelocity(); }
 
     /** @internal */
     awake(): void {
@@ -285,7 +291,6 @@ export class CarPhysics extends Behaviour {
     private _physicsRoutine?: Generator;
     /** @internal */
     onEnable(): void {
-        
         this._physicsRoutine = this.startCoroutine(this.physicsLoop(), FrameEvent.PostPhysicsStep);
     }
     /** @internal */
@@ -310,10 +315,10 @@ export class CarPhysics extends Behaviour {
         if (!this.rapierRigidbody) throw new Error("Rapier Rigidbody not found");
 
         // create vehicle physics
-        this.vehicle = world.createVehicleController(this.rapierRigidbody);
+        this._vehicle = world.createVehicleController(this.rapierRigidbody);
 
-        this.vehicle.indexUpAxis = 1;
-        this.vehicle.setIndexForwardAxis = 2;
+        this._vehicle.indexUpAxis = 1;
+        this._vehicle.setIndexForwardAxis = 2;
 
         // initialize wheels
         if (this.wheels.length == 0) {
@@ -325,13 +330,13 @@ export class CarPhysics extends Behaviour {
         }
 
         this.wheels.forEach((wheel, i) => {
-            wheel.initialize(this, this.vehicle, i);
+            wheel.initialize(this, this._vehicle, i);
         });
     }
 
     /** @internal */
     onBeforeRender() {
-        if (!this.vehicle) return;
+        if (!this._vehicle) return;
 
         // steering smoothing
         this.currSteerSmooth = Mathf.lerp(this.currSteerSmooth, this.currSteer, this.steerSmoothingFactor * this.context.time.deltaTime);
@@ -350,16 +355,12 @@ export class CarPhysics extends Behaviour {
             Gizmos.DrawLabel(pos, text, 0.1, 0, 0xffffff, 0x000000);
             this.wheels.forEach(x => Gizmos.DrawLine(this.worldPosition, x.worldPosition, 0x0000ff, 0, false));
         }
-        
 
-        const dt = this.context.time.deltaTime;
-        this._rigidbody.wakeUp();
-        this.vehicle.updateVehicle(dt);
     }
 
     // @nonSerialized
     teleport(worldPosition: Vector3 | undefined, worldRotation: Quaternion | undefined, resetVelocities: boolean = true) {
-        if (!this.rapierRigidbody || !this.vehicle) return;
+        if (!this.rapierRigidbody || !this._vehicle) return;
 
         if (worldPosition) {
             this.rapierRigidbody.setTranslation(worldPosition, true);
@@ -376,9 +377,11 @@ export class CarPhysics extends Behaviour {
 
     private *physicsLoop() {
         while (true) {
-            if (this.vehicle) {
+            if (this._vehicle) {
+                const dt = this.context.time.deltaTime;
+                this._rigidbody.wakeUp();
+                this._vehicle?.updateVehicle(dt);
             }
-
             yield null;
         }
     }
