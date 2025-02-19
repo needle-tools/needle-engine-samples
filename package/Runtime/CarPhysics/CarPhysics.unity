@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 94b862cf4436a214ebb310fa2fc784eb, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: cb7dac6f699eb3841bc9345754be12f2, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -9617,7 +9617,7 @@ Transform:
   m_GameObject: {fileID: 912443686}
   m_LocalRotation: {x: 0.1340564, y: -0.8595035, z: 0.40079275, w: 0.28748542}
   m_LocalPosition: {x: 8.98, y: 27.53, z: 8.22}
-  m_LocalScale: {x: 1.0000148, y: 1, z: 1.0000106}
+  m_LocalScale: {x: 1.0000172, y: 1, z: 1.0000124}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -18753,6 +18753,7 @@ GameObject:
   - component: {fileID: 1669998220}
   - component: {fileID: 1669998223}
   - component: {fileID: 1669998224}
+  - component: {fileID: 1669998225}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -18844,6 +18845,26 @@ MonoBehaviour:
     title: Car Physics
     description: Car driving example with vehicle physics
     image: {fileID: 2800000, guid: 79cc58c66cdab85468c5b5a89b13ca59, type: 3}
+--- !u!114 &1669998225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669998219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
+    Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 1
+  GenerateMeshLODs: 1
 --- !u!1001 &1671784853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21395,6 +21416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1815979876}
   - component: {fileID: 1815979880}
+  - component: {fileID: 1815979881}
   - component: {fileID: 1815979879}
   - component: {fileID: 1815979878}
   m_Layer: 0
@@ -21477,7 +21499,20 @@ MonoBehaviour:
   breakForce: 5
   topSpeed: 13
   carDrive: 2
-  yResetThreshold: -10
+--- !u!114 &1815979881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815979875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf9fba2132396f9d119649126ffe624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarController, Needle.Engine-Samples.Runtime
+  carPhysics: {fileID: 1815979880}
+  yResetThreshold: -5
 --- !u!1001 &1828160606
 PrefabInstance:
   m_ObjectHideFlags: 0

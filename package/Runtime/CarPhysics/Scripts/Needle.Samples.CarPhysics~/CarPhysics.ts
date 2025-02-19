@@ -1,6 +1,6 @@
 import { DynamicRayCastVehicleController, World, Quaternion, Vector, RigidBody as RapierRigidbody } from "@dimforge/rapier3d-compat";
 
-import { Behaviour, Gizmos, Mathf, Rigidbody, delayForFrames, getParam, getTempVector, serializable, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, QTrailParticle, getTempQuaternion, getWorldDirection, setWorldPosition, FrameEvent, WaitForFrames, NEEDLE_ENGINE_MODULES } from "@needle-tools/engine";
+import { Behaviour, Gizmos, Mathf, Rigidbody, getParam, getTempVector, serializable, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, QTrailParticle, getTempQuaternion, getWorldDirection, setWorldPosition, FrameEvent } from "@needle-tools/engine";
 
 import { Vector3, Vector2, Object3D } from "three";
 
@@ -159,11 +159,11 @@ export class CarWheel extends Behaviour {
     }
 
     applyPhysics(acceleration: number, breaking: number, steeringRad: number) {
-        const isOnDrivingAxel = (this.car.carDrive == CarDrive.front && this.axle == CarAxle.front) ||
-            (this.car.carDrive == CarDrive.rear && this.axle == CarAxle.rear) ||
-            this.car.carDrive == CarDrive.all;
+        const isOnDrivingAxle = (this.car.carDrive == CarDrive.front && this.axle == CarAxle.front) 
+        || (this.car.carDrive == CarDrive.rear && this.axle == CarAxle.rear) 
+        || (this.car.carDrive == CarDrive.all);
 
-        if (!isOnDrivingAxel)
+        if (!isOnDrivingAxle)
             acceleration = 0;
 
         const velocity = this.car.velocity;
@@ -241,53 +241,69 @@ export class CarPhysics extends Behaviour {
     @serializable()
     carDrive: CarDrive = CarDrive.all;
 
-    @serializable()
-    yResetThreshold: number = -5;
+    /**
+     * Steer the car. -1 is full left, 1 is full right
+     * @param steerAmount -1 to 1
+     */
+    steerInput(steerAmount: number) {
+        this.currSteer = Mathf.clamp(this.currSteer + steerAmount, -1, 1);
+    }
+
+    /**
+     * Increase or decrease acceleration
+     * @param accelAmount -1 to 1
+     */
+    accelerationInput(accelAmount: number) {
+        this.currAcc = Mathf.clamp(this.currAcc + accelAmount, -1, 1);
+    }
+
+
+    /** Rapier Physics Rigidbody */
+    get rigidbody() { return this._rigidbody; }
 
     protected vehicle!: DynamicRayCastVehicleController;
-    private rigidbody!: Rigidbody;
+    private _rigidbody!: Rigidbody;
     private rapierRigidbody!: RapierRigidbody;
 
     private currSteerSmooth: number = 0;
     private currSteer: number = 0;
     private currAcc: number = 0;
 
-    private posOnStart!: Vector3;
-    private rotOnStart!: Quaternion;
 
     // @nonSerialized
-    get velocity() { return this.rigidbody.getVelocity(); }
+    get velocity() { return this._rigidbody.getVelocity(); }
 
+    /** @internal */
     awake(): void {
-        if (!this.rigidbody) {
-            this.rigidbody = this.gameObject.addComponent(Rigidbody);
-            this.rigidbody.autoMass = false;
-            this.rigidbody.mass = 250;
+        if (!this._rigidbody) {
+            this._rigidbody = this.gameObject.addComponent(Rigidbody);
+            this._rigidbody.autoMass = false;
+            this._rigidbody.mass = 250;
         }
     }
 
     private _physicsRoutine?: Generator;
+    /** @internal */
     onEnable(): void {
-        this.onDisable();
+        
         this._physicsRoutine = this.startCoroutine(this.physicsLoop(), FrameEvent.PostPhysicsStep);
     }
+    /** @internal */
     onDisable(): void {
         if (this._physicsRoutine) {
             this.stopCoroutine(this._physicsRoutine);
         }
     }
 
+    /** @internal */
     async start() {
-        // save start orientation
-        this.posOnStart = this.gameObject.position.clone();
-        this.rotOnStart = this.gameObject.quaternion.clone();
 
         // get or create needle rigidbody
-        this.rigidbody = this.gameObject.getComponent(Rigidbody)!;
+        this._rigidbody = this.gameObject.getComponent(Rigidbody)!;
 
         // get underlying rapier rigidbody
         await this.context.physics.engine?.initialize();
-        this.rapierRigidbody = this.context.physics.engine?.getBody(this.rigidbody);
+        this.rapierRigidbody = this.context.physics.engine?.getBody(this._rigidbody);
         const world = this.context.physics.engine?.world as World;
 
         if (!world) throw new Error("Physics engine (Rapier) not found");
@@ -313,66 +329,36 @@ export class CarPhysics extends Behaviour {
         });
     }
 
-    steerInput(steerAmount: number) {
-        this.currSteer = Mathf.clamp(this.currSteer + steerAmount, -1, 1);
-    }
-
-    accelerationInput(accelAmount: number) {
-        this.currAcc = Mathf.clamp(this.currAcc + accelAmount, -1, 1);
-    }
-
+    /** @internal */
     onBeforeRender() {
         if (!this.vehicle) return;
-
-        this.desktopInput();
 
         // steering smoothing
         this.currSteerSmooth = Mathf.lerp(this.currSteerSmooth, this.currSteer, this.steerSmoothingFactor * this.context.time.deltaTime);
 
         this.applyPhysics();
 
+        this.currSteer = 0;
+        this.currAcc = 0;
+
         // update visuals
         this.updateWheelVisual();
 
         if (debugCarPhysics) {
             const pos = getTempVector(this.worldPosition).add(getTempVector(0, 1.5, 0));
-            const text = `vel: ${this.rigidbody.getVelocity().length().toFixed(2)}`;
+            const text = `vel: ${this._rigidbody.getVelocity().length().toFixed(2)}`;
             Gizmos.DrawLabel(pos, text, 0.1, 0, 0xffffff, 0x000000);
             this.wheels.forEach(x => Gizmos.DrawLine(this.worldPosition, x.worldPosition, 0x0000ff, 0, false));
         }
-    }
+        
 
-    *physicsLoop() {
-        while (true) {
-            if (this.vehicle) {
-                if (this.context.input.isKeyDown("r")) {
-                    this.reset();
-                }
-
-                this.resetWhenRolledOver();
-                this.resetWhenFallingoff();
-
-                const dt = this.context.time.deltaTime;
-                this.rigidbody.wakeUp();
-                this.vehicle.updateVehicle(dt);
-            }
-
-            yield null;
-        }
-    }
-
-    // reset input
-    earlyUpdate(): void {
-        this.currSteer = 0;
-        this.currAcc = 0;
-    }
-
-    reset() {
-        this.teleportVehicle(this.posOnStart, this.rotOnStart, true);
+        const dt = this.context.time.deltaTime;
+        this._rigidbody.wakeUp();
+        this.vehicle.updateVehicle(dt);
     }
 
     // @nonSerialized
-    teleportVehicle(worldPosition: Vector3 | undefined, worldRotation: Quaternion | undefined, resetVelocities: boolean = true) {
+    teleport(worldPosition: Vector3 | undefined, worldRotation: Quaternion | undefined, resetVelocities: boolean = true) {
         if (!this.rapierRigidbody || !this.vehicle) return;
 
         if (worldPosition) {
@@ -384,49 +370,24 @@ export class CarPhysics extends Behaviour {
         }
 
         if (resetVelocities) {
-            this.rigidbody.setVelocity(0, 0, 0);
+            this._rigidbody.setVelocity(0, 0, 0);
         }
     }
 
-    private desktopInput() {
-        let steer = 0;
-        let accel = 0;
-
-        if (this.context.xr) {
-            accel += this.context.xr.rightController?.getButton("a-button")?.value || 0;
-            accel -= this.context.xr.leftController?.getButton("x-button")?.value || 0;
-
-            const squeezeLeft = this.context.xr.rightController?.getButton("xr-standard-squeeze")?.value || 0;
-            const squeezeRight = this.context.xr.leftController?.getButton("xr-standard-squeeze")?.value || 0;
-            if (squeezeLeft > .5 && squeezeRight > .5) {
-                const yDiff = this.context.xr.leftController!.gripPosition.y - this.context.xr.rightController!.gripPosition.y;
-                steer = Mathf.clamp(yDiff, -2, 2);
+    private *physicsLoop() {
+        while (true) {
+            if (this.vehicle) {
             }
+
+            yield null;
         }
-        else {
-            if (this.context.input.isKeyPressed("a")) {
-                steer -= 1;
-            }
-            else if (this.context.input.isKeyPressed("d")) {
-                steer += 1;
-            }
-
-            if (this.context.input.isKeyPressed("s")) {
-                accel -= 1;
-            }
-            if (this.context.input.isKeyPressed("w")) {
-                accel += 1;
-            }
-        }
-        this.steerInput(steer);
-        this.accelerationInput(accel);
     }
 
     private applyPhysics() {
         let breakForce = 0;
         let accelForce = 0;
 
-        const velDir = this.rigidbody.getVelocity();
+        const velDir = this._rigidbody.getVelocity();
         const vel = velDir.length();
         const reachedTopSpeed = vel > this.topSpeed;
 
@@ -454,41 +415,5 @@ export class CarPhysics extends Behaviour {
         this.wheels.forEach((wheel) => {
             wheel.updateVisuals();
         });
-    }
-
-    private resetWhenFallingoff() {
-        if (this.worldPosition.y < this.yResetThreshold) {
-            this.reset();
-        }
-    }
-
-    private rolledOverDuration: number = 0;
-    private resetWhenRolledOver() {
-        const isRolledOver = this.gameObject.worldUp.dot(getTempVector(0, 1, 0)) < 0.65;
-        const isSlow = this.rigidbody.getVelocity().length() < 0.1;
-        if (isRolledOver && isSlow) {
-            this.rolledOverDuration += this.context.time.deltaTime;
-        }
-        else {
-            this.rolledOverDuration = 0;
-        }
-
-        if (this.rolledOverDuration > 1) {
-            this.rescueVehicle();
-        }
-    }
-
-    // TODO: add raycast to determine normal of the surface the car is resetting to
-    private async rescueVehicle() {
-        const pos = this.worldPosition;
-        pos.y += 1;
-
-        const fwd = this.forward;
-        fwd.y = 0;
-        fwd.normalize();
-
-        const rot = getTempQuaternion().setFromUnitVectors(getTempVector(0, 0, -1), fwd);
-
-        this.teleportVehicle(pos, rot);
     }
 }
