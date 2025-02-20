@@ -115,17 +115,17 @@ export class CarController extends Behaviour {
             }
         }
         else {
-            if (this.context.input.isKeyPressed("a")) {
+            if (this.context.input.isKeyPressed("a") || this.context.input.isKeyPressed("ArrowLeft")) {
                 steer -= 1;
             }
-            else if (this.context.input.isKeyPressed("d")) {
+            else if (this.context.input.isKeyPressed("d") || this.context.input.isKeyPressed("ArrowRight")) {
                 steer += 1;
             }
 
-            if (this.context.input.isKeyPressed("s")) {
+            if (this.context.input.isKeyPressed("s") || this.context.input.isKeyPressed("ArrowDown")) {
                 accel -= 1;
             }
-            if (this.context.input.isKeyPressed("w")) {
+            if (this.context.input.isKeyPressed("w") || this.context.input.isKeyPressed("ArrowUp")) {
                 accel += 1;
             }
         }
