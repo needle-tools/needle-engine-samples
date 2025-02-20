@@ -172,7 +172,7 @@ export class CarWheel extends Behaviour {
             acceleration = 0;
 
         const velocity = this.car.velocity;
-        let gripAmount = velocity.dot(this.car.gameObject.getWorldDirection(getTempVector()));
+        let gripAmount = velocity.dot(this.car.gameObject.worldForward);
         gripAmount = Mathf.clamp(gripAmount, 0, 1);
 
         if (velocity.length() < 1) {
@@ -339,7 +339,7 @@ export class CarPhysics extends Behaviour {
         if (!this._vehicle) return;
 
         // steering smoothing
-        this.currSteerSmooth = Mathf.lerp(this.currSteerSmooth, this.currSteer, this.steerSmoothingFactor * this.context.time.deltaTime);
+        this.currSteerSmooth = Mathf.lerp(this.currSteerSmooth, this.currSteer, Mathf.clamp01(this.context.time.deltaTime / Math.max(.0001, this.steerSmoothingFactor)));
 
         this.applyPhysics();
 
@@ -403,7 +403,7 @@ export class CarPhysics extends Behaviour {
         // acceleration
         const isAccelerating = this.currAcc != 0 && !isBreaking && !reachedTopSpeed;
         if (isAccelerating)
-            accelForce = this.accelerationForce * this.currAcc;
+            accelForce = (this.accelerationForce / this.context.time.deltaTime) * this.currAcc;
 
         // steer
         const steer = this.currSteerSmooth * this.maxSteer * Mathf.Deg2Rad;
