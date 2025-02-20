@@ -38,27 +38,29 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		private void OnDrawGizmos()
 		{
-			Color oldColor = Gizmos.color;
+			var t = transform;
 
-			// DrawSuspensiton
-			var socketOrigin = transform.position;
+			// Draw suspension
+			var up = t.up;
+			var center = t.position;
+			center.y += radius * .5f;
+			
+			Gizmos.matrix = Matrix4x4.TRS(center, Quaternion.Euler(0, 90, 0), Vector3.one);
 
-			var restingSuspension = socketOrigin + -transform.up * suspensionRestLength;
-			var minSuspension = restingSuspension + transform.up * -suspensionTravel;
-			var maxSuspension = restingSuspension + transform.up * suspensionTravel;
+			var restingSuspension = -up * suspensionRestLength;
+			var minSuspension = restingSuspension + up * -suspensionTravel;
+			var maxSuspension = restingSuspension + up * suspensionTravel;
 
 			Gizmos.color = Color.gray;
 			Gizmos.DrawLine(minSuspension, maxSuspension);
 			Gizmos.color = Color.red;
-			Gizmos.DrawLine(restingSuspension + transform.forward * 0.1f, restingSuspension + transform.forward * -0.1f);
+			Gizmos.DrawLine(restingSuspension + t.forward * 0.1f, restingSuspension + t.forward * -0.1f);
 
 
 			// Draw Wheel
 			DrawWheel(restingSuspension, Color.blue);
 			DrawWheel(minSuspension, Color.blue, alpha: 0.25f);
 			DrawWheel(maxSuspension, Color.blue, alpha: 0.25f);
-
-			Gizmos.color = oldColor;
 		}
 
 		void DrawWheel(Vector3 origin, Color color, float alpha = 1f, int segments = 32)

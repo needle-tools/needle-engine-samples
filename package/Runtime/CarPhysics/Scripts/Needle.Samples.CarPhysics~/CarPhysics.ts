@@ -13,8 +13,8 @@ export enum CarDrive {
     front = 2,
 }
 export enum CarAxle {
-    front = 1,
-    rear = 2
+    front = 0,
+    rear = 1,
 }
 
 
@@ -82,7 +82,7 @@ export class CarWheel extends Behaviour {
         const target = this.wheelModel ?? this.gameObject;
         this.wheelModelUp = target.up;
         this.wheelModelRight = target.worldForward.clone();
-        this.wheelModelRight.applyQuaternion(car.gameObject.worldQuaternion);
+        this.wheelModelRight.applyQuaternion(car.gameObject.worldQuaternion.invert());
 
         const wPos = this.worldPosition;
         const lPos = this.car.gameObject.worldToLocal(wPos);
@@ -129,7 +129,7 @@ export class CarWheel extends Behaviour {
         const contact = this.vehicle.wheelContactPoint(this._wheelIndex);
         const isInContact = this.vehicle.wheelIsInContact(this._wheelIndex);
         const wheelPosition = getTempVector();
-        if (contact) {        
+        if (contact) {
             wheelPosition.copy(this.car.gameObject.worldUp).multiplyScalar(this.radius).add(contact);
             /* wheelPosition.add(this.wheelModelOffset); */
             setWorldPosition(target, wheelPosition);
@@ -166,8 +166,8 @@ export class CarWheel extends Behaviour {
     }
 
     applyPhysics(acceleration: number, breaking: number, steeringRad: number) {
-        const isOnDrivingAxle = 
-               (this.car.carDrive == CarDrive.front && this.axle == CarAxle.front)
+        const isOnDrivingAxle =
+            (this.car.carDrive == CarDrive.front && this.axle == CarAxle.front)
             || (this.car.carDrive == CarDrive.rear && this.axle == CarAxle.rear)
             || (this.car.carDrive == CarDrive.all);
 
@@ -231,6 +231,9 @@ export class CarPhysics extends Behaviour {
     @serializable()
     carDrive: CarDrive = CarDrive.all;
 
+    @serializable()
+    mass: number = 150;
+
     // @tooltip The maximum steering angle in degrees
     @serializable()
     maxSteer: number = 45;
@@ -287,12 +290,14 @@ export class CarPhysics extends Behaviour {
     awake(): void {
         if (!this._rigidbody) {
             this._rigidbody = this.gameObject.addComponent(Rigidbody);
-            this._rigidbody.autoMass = false;
-            this._rigidbody.mass = 250;
         }
         // Ensure we have a collider
         if (!this.gameObject.getComponentInChildren(Collider)) {
-            BoxCollider.add(this.gameObject);
+            const collider = BoxCollider.add(this.gameObject);
+            collider.center.y += collider.size.y * .1;
+            collider.size.y *= .9;
+            collider.size.multiplyScalar(.9);
+            collider.updateProperties();
         }
     }
 
@@ -301,6 +306,8 @@ export class CarPhysics extends Behaviour {
     async onEnable() {
         // get or create needle rigidbody
         this._rigidbody = this.gameObject.getOrAddComponent(Rigidbody)!;
+        this._rigidbody.autoMass = false;
+        this._rigidbody.mass = this.mass;
 
         // get underlying rapier rigidbody
         await this.context.physics.engine?.initialize().then(() => delayForFrames(1));
@@ -329,7 +336,7 @@ export class CarPhysics extends Behaviour {
         if (this.wheels.length === 0) {
             this.wheels.push(...this.gameObject.getComponentsInChildren(CarWheel).filter(x => x.activeAndEnabled));
         }
-        if(this.wheels.length <= 0){
+        if (this.wheels.length <= 0) {
             console.warn(`[CarPhysics] No wheels found on ${this.gameObject.name}`);
         }
 

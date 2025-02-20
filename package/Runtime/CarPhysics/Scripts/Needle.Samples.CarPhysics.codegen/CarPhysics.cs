@@ -2,7 +2,7 @@
 namespace Needle.Typescript.GeneratedComponents
 {
     public enum CarDrive { all = 0, rear = 1, front = 2 }
-    public enum CarAxle { front = 1, rear = 2 }
+    public enum CarAxle { front = 0, rear = 1 }
 }
 
 // NEEDLE_CODEGEN_START
@@ -15,6 +15,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class CarPhysics : UnityEngine.MonoBehaviour
 	{
 		public Needle.Typescript.GeneratedComponents.CarDrive @carDrive;
+		public float @mass = 150f;
 		[UnityEngine.Tooltip("The maximum steering angle in degrees")]
 		public float @maxSteer = 45f;
 		public float @steerSmoothingFactor = 0.5f;
