@@ -9617,7 +9617,7 @@ Transform:
   m_GameObject: {fileID: 912443686}
   m_LocalRotation: {x: 0.1340564, y: -0.8595035, z: 0.40079275, w: 0.28748542}
   m_LocalPosition: {x: 8.98, y: 27.53, z: 8.22}
-  m_LocalScale: {x: 1.0000231, y: 1, z: 1.0000167}
+  m_LocalScale: {x: 1.000026, y: 1, z: 1.0000186}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -14526,6 +14526,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1315531090}
   - component: {fileID: 1315531089}
+  - component: {fileID: 1315531091}
+  - component: {fileID: 1315531092}
   m_Layer: 0
   m_Name: Postprocessing
   m_TagString: Untagged
@@ -14565,6 +14567,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1315531091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315531088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9127a53c17b76459b565a76115e1a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.PostProcessing.ToneMappingEffect,
+    Needle.Engine
+  mode: 3
+  exposure: 1
+--- !u!114 &1315531092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315531088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0955e75fbedced44b54eb802a49deeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.PostProcessing.ScreenSpaceAmbientOcclusionN8,
+    Needle.Engine
+  gammaCorrection: 1
+  intensity: 2
+  falloff: 1
+  aoRadius: 3
+  screenspaceRadius: 0
+  color: {r: 0, g: 0, b: 0, a: 1}
+  quality: 2
 --- !u!1 &1323748525
 GameObject:
   m_ObjectHideFlags: 0
