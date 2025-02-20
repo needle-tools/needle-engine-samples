@@ -1,4 +1,4 @@
-import { Behaviour, Collision, getTempQuaternion, getTempVector, Mathf, serializable } from "@needle-tools/engine";
+import { Behaviour, Collision, getTempQuaternion, getTempVector, Mathf, OrbitControls, serializable } from "@needle-tools/engine";
 import { CarPhysics } from "./CarPhysics";
 import { Vector3, Quaternion } from "three";
 
@@ -15,17 +15,22 @@ export class CarController extends Behaviour {
      */
     reset() {
         this.carPhysics?.teleport(this.posOnStart, this.rotOnStart, true);
+        // reset orbit control start pos
+        const orbt = this.context.mainCamera.getComponent(OrbitControls);
+        orbt?.setCameraTargetPosition(this.camStartPos!, true);
     }
 
 
     private posOnStart!: Vector3;
     private rotOnStart!: Quaternion;
+    private camStartPos!: Vector3;
     private gamepad: Gamepad | null = null;
 
     onEnable() {
         // save start orientation
         this.posOnStart = this.gameObject.position.clone();
         this.rotOnStart = this.gameObject.quaternion.clone();
+        this.camStartPos = this.context.mainCamera.position.clone();
         this.carPhysics ||= this.gameObject.getComponent(CarPhysics);
         window.addEventListener("gamepadconnected", this._onGamepadConnected);
     }
