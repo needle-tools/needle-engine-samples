@@ -93,7 +93,7 @@ export class CarController extends Behaviour {
     private _lastHeroRumbleTime: number = -1;
 
     private handleInput() {
-        if (!this.carPhysics) return;
+        if (!this.carPhysics?.vehicle) return;
 
         let steer = 0;
         let accel = 0;
@@ -154,7 +154,7 @@ export class CarController extends Behaviour {
                 // base motor rumble
 
                 if (velocity > .01) {
-                    this.gamepad.vibrationActuator.playEffect("dual-rumble", {
+                    this.gamepad.vibrationActuator?.playEffect("dual-rumble", {
                         startDelay: 0,
                         duration: this.context.time.deltaTime,
                         weakMagnitude: .1,
@@ -176,7 +176,7 @@ export class CarController extends Behaviour {
                 }
                 if (largestForce > 0) {
                     const expFactor = Math.pow(largestForce, 2);
-                    this.gamepad.vibrationActuator.playEffect("dual-rumble", {
+                    this.gamepad.vibrationActuator?.playEffect("dual-rumble", {
                         startDelay: 0,
                         duration: largestForce * 500,
                         weakMagnitude: expFactor * 1.0,
@@ -192,7 +192,7 @@ export class CarController extends Behaviour {
                 const diff = lastVelocity - velocity;
                 if (diff > 1) {
                     this._lastHeroRumbleTime = this.context.time.realtimeSinceStartup;
-                    this.gamepad.vibrationActuator.playEffect("dual-rumble", {
+                    this.gamepad.vibrationActuator?.playEffect("dual-rumble", {
                         startDelay: 0,
                         duration: 150,
                         weakMagnitude: Mathf.clamp01(diff / 3),
