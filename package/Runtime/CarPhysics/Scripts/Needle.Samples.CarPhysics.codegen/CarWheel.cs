@@ -9,15 +9,15 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.GameObject @wheelModel;
 		public Needle.Typescript.GeneratedComponents.CarAxle @axle;
-		public float @radius = 1f;
-		public float @suspensionCompression = 0.82f;
-		public float @suspensionRelax = 0.88f;
-		public float @suspensionRestLength = 0.2f;
-		public float @suspensionStiff = 5.8f;
+		public float @radius = 0.25f;
+		public float @suspensionCompression = 0.5f;
+		public float @suspensionRelax = 2.5f;
+		public float @suspensionRestLength = 0.25f;
+		public float @suspensionStiff = 45f;
 		public float @maxSuspensionForce = 6000f;
-		public float @suspensionTravel = 5f;
+		public float @suspensionTravel = 0.1f;
 		public float @sideFrictionStiffness = 0.5f;
-		public UnityEngine.Vector2 @frictionSlip = new UnityEngine.Vector2(2f, 10.5f);
+		public UnityEngine.Vector2 @frictionSlip = new UnityEngine.Vector2(2f, 50f);
 		public UnityEngine.ParticleSystem @skidParticle;
 		public float @skidVisualSideThreshold = 5f;
 		public float @skidVisualBreakThreshold = 0.1f;

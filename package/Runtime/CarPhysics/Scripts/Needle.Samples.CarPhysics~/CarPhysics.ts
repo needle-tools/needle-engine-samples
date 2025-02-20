@@ -29,28 +29,28 @@ export class CarWheel extends Behaviour {
     axle: CarAxle = CarAxle.front;
 
     @serializable()
-    radius: number = 1;
+    radius: number = .25;
 
     // ---  Suspension --- 
     @serializable()
-    suspensionCompression: number = 0.82;
+    suspensionCompression: number = 0.5;
     @serializable()
-    suspensionRelax: number = 0.88;
+    suspensionRelax: number = 2.5;
     @serializable()
-    suspensionRestLength: number = 0.2;
+    suspensionRestLength: number = 0.25;
     @serializable()
-    suspensionStiff: number = 5.8;
+    suspensionStiff: number = 45;
     @serializable()
     maxSuspensionForce: number = 6000;
     @serializable()
-    suspensionTravel: number = 5;
+    suspensionTravel: number = .1;
 
     // --- Friction ---
     @serializable()
     sideFrictionStiffness: number = 0.5;
 
     @serializable(Vector2)
-    frictionSlip: Vector2 = new Vector2(2, 10.5);
+    frictionSlip: Vector2 = new Vector2(2, 50);
 
     // --- Visuals ---
     @serializable(ParticleSystem)
@@ -229,19 +229,19 @@ export class CarPhysics extends Behaviour {
 
     // @tooltip The maximum steering angle in degrees
     @serializable()
-    maxSteer: number = 35;
+    maxSteer: number = 45;
 
     @serializable()
-    steerSmoothingFactor: number = 3;
+    steerSmoothingFactor: number = .5;
 
     @serializable()
-    accelerationForce: number = 75;
+    accelerationForce: number = 3;
 
     @serializable()
     breakForce: number = 1;
 
     @serializable()
-    topSpeed: number = 20;
+    topSpeed: number = 15;
 
     @serializable()
     carDrive: CarDrive = CarDrive.all;
