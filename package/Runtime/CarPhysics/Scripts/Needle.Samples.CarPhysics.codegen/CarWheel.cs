@@ -14,7 +14,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @suspensionRelax = 2.5f;
 		public float @suspensionRestLength = 0.1f;
 		public float @suspensionStiff = 45f;
-		public float @maxSuspensionForce = 6000f;
+		public float @maxSuspensionForce = 1000f;
 		public float @suspensionTravel = 0.1f;
 		public float @sideFrictionStiffness = 0.5f;
 		public UnityEngine.Vector2 @frictionSlip = new UnityEngine.Vector2(2f, 50f);
@@ -44,7 +44,7 @@ namespace Needle.Typescript.GeneratedComponents
 			var up = Vector3.up;
 			// center.y += radius * .5f;
 			
-			Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation * Quaternion.Euler(0, 90, 0), Vector3.one);
+			Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, Vector3.one);
 
 			var offset = new Vector3(0, 0, 0);
 
@@ -57,10 +57,13 @@ namespace Needle.Typescript.GeneratedComponents
 			Gizmos.DrawLine(restingSuspension, top);
 			Gizmos.DrawSphere(top, .05f);
 			
-			Gizmos.color = Color.blue;
+			Gizmos.color = Color.red;
 			Gizmos.DrawLine(restingSuspension + new Vector3(-radius, 0, 0), restingSuspension + new Vector3(radius, 0, 0));
 			Gizmos.DrawSphere(restingSuspension + new Vector3(radius, 0, 0), .05f);
-			// Gizmos.DrawLine(restingSuspension + t.forward * 0.1f, restingSuspension + t.forward * -0.1f);
+
+			Gizmos.color = Color.blue;
+			Gizmos.DrawLine(restingSuspension, restingSuspension + Vector3.forward * radius * 1.1f);
+			Gizmos.DrawSphere(restingSuspension + Vector3.forward * radius * 1.1f, .05f);
 
 
 			// Draw Wheel

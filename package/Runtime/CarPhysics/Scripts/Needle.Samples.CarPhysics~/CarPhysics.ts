@@ -147,20 +147,23 @@ export class CarPhysics extends Behaviour {
 
         this.applyPhysics();
 
-        this.currSteer = 0;
-        this.currAcc = 0;
-
-        // update visuals
-        this.updateWheelVisual();
-
         if (debugCarPhysics) {
-            const pos = getTempVector(this.worldPosition).add(getTempVector(0, 2, 0));
-            const text = `vel: ${this._rigidbody.getVelocity().length().toFixed(2)}`;
-            Gizmos.DrawLabel(pos, text, 0.1, 0, 0xffffff, 0x000000);
-            this.wheels.forEach(x => Gizmos.DrawLine(this.worldPosition, x.worldPosition, 0x0000ff, 0, false));
+            const wp = this.worldPosition;
+            const labelPos = getTempVector(wp).add(getTempVector(0, 2, 0));
+            const text = `vel: ${this._vehicle.currentVehicleSpeed().toFixed(2)}`;
+            Gizmos.DrawLabel(labelPos, text, 0.1, 0, 0xffffff, 0x000000);
+            this.wheels.forEach(x => Gizmos.DrawLine(wp, x.worldPosition, 0x0000ff, 0, false));
         }
 
+        // update visuals
+        this.wheels.forEach((wheel) => {
+            wheel.updateVisuals();
+        });
+
+        this.currSteer = 0;
+        this.currAcc = 0;
     }
+
 
     teleport(worldPosition: Vector3 | undefined, worldRotation: Quaternion | undefined, resetVelocities: boolean = true) {
         if (!this.rapierRigidbody || !this._vehicle) return;
@@ -214,12 +217,6 @@ export class CarPhysics extends Behaviour {
         // updateWheels
         this.wheels.forEach((wheel) => {
             wheel.applyPhysics(accelForce, breakForce, steer);
-        });
-    }
-
-    private updateWheelVisual() {
-        this.wheels.forEach((wheel) => {
-            wheel.updateVisuals();
         });
     }
 }
