@@ -78,13 +78,13 @@ export class CarWheel extends Behaviour {
         // this.wheelModelRightCarSpace = this.wheelModelRight.clone();
         this.wheelModelRight.applyQuaternion(car.gameObject.worldQuaternion.invert());
 
-        // if (!this.wheelModel) this._wheelModelRotationOffset.identity();
-        // else {
-        //     this._wheelModelRotationOffset//.setFromEuler(new Euler(0, 0, 0));
-        //         .copy(this.wheelModel.quaternion)
-        //         .invert()
-        //     // .premultiply(target.quaternion);
-        // }
+        if (!this.wheelModel) this._wheelModelRotationOffset.identity();
+        else {
+            this._wheelModelRotationOffset//.setFromEuler(new Euler(0, 0, 0));
+                .copy(this.gameObject.worldQuaternion.invert())
+                .multiply(this.wheelModel.worldQuaternion)
+            // .premultiply(target.quaternion);
+        }
 
         const wPos = this.worldPosition;
         const lPos = this.car.gameObject.worldToLocal(wPos);
@@ -152,9 +152,11 @@ export class CarWheel extends Behaviour {
 
         const yRot = getTempQuaternion().setFromAxisAngle(this.wheelModelUp, wheelTurn);
         const xRot = getTempQuaternion().setFromAxisAngle(this.wheelModelRight, wheelRot);
-        const rot = yRot.multiply(xRot);
+        // xRot.premultiply(this._wheelModelRotationOffset);
+        // const rot = yRot.multiply(xRot);
+        // rot.multiply(this._wheelModelRotationOffset);
 
-        target.quaternion.copy(rot);
+        target.quaternion.copy(yRot);
         // target.quaternion.premultiply(this._wheelModelRotationOffset);
 
         // position
