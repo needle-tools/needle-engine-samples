@@ -29,7 +29,28 @@ namespace Needle.Typescript.GeneratedComponents
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void onBeforeRender(){}
+		public void teleport(UnityEngine.Vector3 @worldPosition, UnityEngine.Quaternion @worldRotation, bool @resetVelocities){}
 	}
 }
 
 // NEEDLE_CODEGEN_END
+
+namespace Needle.Typescript.GeneratedComponents
+{
+	using System;
+	using UnityEngine;
+
+	public partial class CarPhysics : UnityEngine.MonoBehaviour
+	{
+		private void OnDrawGizmos()
+		{
+			var t = transform;
+			Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
+			Gizmos.color = new Color(0, .5f, 1f);
+			Gizmos.DrawWireCube(Vector3.zero, new Vector3(1.5f, 0f, 4f));
+			var forwardPt = Vector3.forward * 2f;
+			Gizmos.DrawLine(Vector3.zero, forwardPt);
+			Gizmos.DrawSphere(forwardPt, .1f);
+		}
+	}
+}

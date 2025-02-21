@@ -12,7 +12,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @radius = 0.25f;
 		public float @suspensionCompression = 0.5f;
 		public float @suspensionRelax = 2.5f;
-		public float @suspensionRestLength = 0.25f;
+		public float @suspensionRestLength = 0.1f;
 		public float @suspensionStiff = 45f;
 		public float @maxSuspensionForce = 6000f;
 		public float @suspensionTravel = 0.1f;
@@ -22,8 +22,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @skidVisualSideThreshold = 5f;
 		public float @skidVisualBreakThreshold = 0.1f;
 		public void initialize(Needle.Typescript.GeneratedComponents.CarPhysics @car, object @vehicle, float @i){}
-		public void updateVisuals(){}
 		public void applyPhysics(float @acceleration, float @breaking, float @steeringRad){}
+		public void updateVisuals(){}
 	}
 }
 
@@ -41,36 +41,38 @@ namespace Needle.Typescript.GeneratedComponents
 			var t = transform;
 
 			// Draw suspension
-			var up = t.up;
-			var center = t.position;
-			center.y += radius * .5f;
+			var up = Vector3.up;
+			// center.y += radius * .5f;
 			
-			Gizmos.matrix = Matrix4x4.TRS(center, Quaternion.Euler(0, 90, 0), Vector3.one);
+			Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation * Quaternion.Euler(0, 90, 0), Vector3.one);
 
-			var restingSuspension = -up * suspensionRestLength;
+			var offset = new Vector3(0, 0, 0);
+
+			var restingSuspension = offset;// + -up * suspensionRestLength;
 			var minSuspension = restingSuspension + up * -suspensionTravel;
 			var maxSuspension = restingSuspension + up * suspensionTravel;
 
-			Gizmos.color = Color.gray;
-			Gizmos.DrawLine(minSuspension, maxSuspension);
-			Gizmos.color = Color.red;
-			Gizmos.DrawLine(restingSuspension + t.forward * 0.1f, restingSuspension + t.forward * -0.1f);
+			Gizmos.color = Color.green;
+			var top = restingSuspension + up * radius;
+			Gizmos.DrawLine(restingSuspension, top);
+			Gizmos.DrawSphere(top, .05f);
+			
+			Gizmos.color = Color.blue;
+			Gizmos.DrawLine(restingSuspension + new Vector3(-radius, 0, 0), restingSuspension + new Vector3(radius, 0, 0));
+			Gizmos.DrawSphere(restingSuspension + new Vector3(radius, 0, 0), .05f);
+			// Gizmos.DrawLine(restingSuspension + t.forward * 0.1f, restingSuspension + t.forward * -0.1f);
 
 
 			// Draw Wheel
 			DrawWheel(restingSuspension, Color.blue);
-			DrawWheel(minSuspension, Color.blue, alpha: 0.25f);
-			DrawWheel(maxSuspension, Color.blue, alpha: 0.25f);
+			DrawWheel(minSuspension, Color.blue, 0.25f);
+			DrawWheel(maxSuspension, Color.blue, 0.25f);
 		}
 
 		void DrawWheel(Vector3 origin, Color color, float alpha = 1f, int segments = 32)
 		{
-			Color c = Gizmos.color;
-
 			color.a = alpha;
 			Gizmos.color = color;
-
-			var rotation = transform.rotation;
 
 			float angleStep = 2 * (float)Math.PI / segments;
 			for (int i = 0; i < segments - 1; i++)
@@ -78,13 +80,11 @@ namespace Needle.Typescript.GeneratedComponents
 				float angleFrom = angleStep * i;
 				float angleTo = angleStep * (i + 1);
 
-				var from = rotation * new Vector3(0, Mathf.Sin(angleFrom) * radius, Mathf.Cos(angleFrom) * radius);
-				var to = rotation * new Vector3(0, Mathf.Sin(angleTo) * radius, Mathf.Cos(angleTo) * radius);
+				var from = new Vector3(0, Mathf.Sin(angleFrom) * radius, Mathf.Cos(angleFrom) * radius);
+				var to = new Vector3(0, Mathf.Sin(angleTo) * radius, Mathf.Cos(angleTo) * radius);
 
 				Gizmos.DrawLine(origin + from, origin + to);
 			}
-
-			Gizmos.color = c;
 		}
 	}
 }
