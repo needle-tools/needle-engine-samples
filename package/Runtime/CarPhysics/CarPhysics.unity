@@ -1123,9 +1123,9 @@ MonoBehaviour:
   wheelModel: {fileID: 1648293035}
   axle: 1
   radius: 0.3
+  suspensionRestLength: 0.2
   suspensionCompression: 0.5
   suspensionRelax: 2.5
-  suspensionRestLength: 0.2
   suspensionStiff: 45
   maxSuspensionForce: 1000
   suspensionTravel: 0.1
@@ -1973,9 +1973,9 @@ MonoBehaviour:
   wheelModel: {fileID: 1648293034}
   axle: 1
   radius: 0.3
+  suspensionRestLength: 0.2
   suspensionCompression: 0.5
   suspensionRelax: 2.5
-  suspensionRestLength: 0.2
   suspensionStiff: 45
   maxSuspensionForce: 1000
   suspensionTravel: 0.1
@@ -2426,6 +2426,10 @@ PrefabInstance:
     - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
       propertyPath: suspensionForce
       value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
+      propertyPath: suspensionCompression
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
       propertyPath: skidVisualSideTreshold
@@ -3793,9 +3797,9 @@ MonoBehaviour:
   wheelModel: {fileID: 1648293036}
   axle: 0
   radius: 0.3
+  suspensionRestLength: 0.2
   suspensionCompression: 0.5
   suspensionRelax: 2.5
-  suspensionRestLength: 0.2
   suspensionStiff: 45
   maxSuspensionForce: 1000
   suspensionTravel: 0.1
@@ -4907,89 +4911,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1768956079008960411, guid: c17eb04c4c7605a4e9d744a5f0eb1105, type: 3}
   m_PrefabInstance: {fileID: 377258829}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &385550914
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 385550915}
-  - component: {fileID: 385550917}
-  - component: {fileID: 385550916}
-  m_Layer: 0
-  m_Name: Sphere (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &385550915
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385550914}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.052804846, y: 0.6, z: 0.6}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1657705384}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &385550916
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385550914}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 21c6fb366dd32a240a715fb56f230ddc, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &385550917
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385550914}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &386042301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6098,6 +6019,32 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3142330088725783095, guid: decfe7745ea2357488458821e29de65b, type: 3}
   m_PrefabInstance: {fileID: 516591295}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &519440550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066076754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
+  wheelModel: {fileID: 0}
+  axle: 0
+  radius: 0.3
+  suspensionRestLength: 0.2
+  suspensionCompression: 0.5
+  suspensionRelax: 2.5
+  suspensionStiff: 45
+  maxSuspensionForce: 1000
+  suspensionTravel: 0.1
+  sideFrictionStiffness: 0.5
+  frictionSlip: {x: 2, y: 50}
+  skidParticle: {fileID: 0}
+  skidVisualSideThreshold: 5
+  skidVisualBreakThreshold: 0.1
 --- !u!1 &525899130
 GameObject:
   m_ObjectHideFlags: 0
@@ -6522,19 +6469,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 585597256}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.82, y: 0.43, z: 10.5}
+  m_LocalRotation: {x: -0, y: -0.98804396, z: -0, w: 0.15417235}
+  m_LocalPosition: {x: 5.52, y: 0.43, z: 4.77}
   m_LocalScale: {x: 1.0000067, y: 1, z: 1.0000067}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2066076753}
-  - {fileID: 649810912}
-  - {fileID: 1511110701}
-  - {fileID: 1972369646}
-  - {fileID: 1657705384}
   m_Father: {fileID: 0}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -162.262, z: 0}
 --- !u!114 &585597259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7312,64 +7255,6 @@ Transform:
   m_Father: {fileID: 1045967544}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!1 &649810911
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 649810912}
-  - component: {fileID: 649810913}
-  m_Layer: 0
-  m_Name: Wheel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &649810912
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 649810911}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.732, y: 0.136, z: 1.208}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 585597258}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &649810913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 649810911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
-  wheelModel: {fileID: 2066076755}
-  axle: 0
-  radius: 0.3
-  suspensionCompression: 0.5
-  suspensionRelax: 2.5
-  suspensionRestLength: 0.25
-  suspensionStiff: 45
-  maxSuspensionForce: 6000
-  suspensionTravel: 0.1
-  sideFrictionStiffness: 0.5
-  frictionSlip: {x: 2, y: 50}
-  skidParticle: {fileID: 0}
-  skidVisualSideThreshold: 5
-  skidVisualBreakThreshold: 0.1
 --- !u!1001 &654379756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7595,11 +7480,11 @@ GameObject:
   - component: {fileID: 703315466}
   m_Layer: 0
   m_Name: Truck
-  m_TagString: EditorOnly
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &703315466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7613,12 +7498,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarPhysics, Needle.Engine-Samples.Runtime
   carDrive: 0
-  mass: 60
+  mass: 300
   maxSteer: 45
   steerSmoothingFactor: 0.5
   accelerationForce: 3
-  breakForce: 1
-  topSpeed: 15
+  breakForce: 5
+  topSpeed: 10
   wheels: []
 --- !u!114 &703315467
 MonoBehaviour:
@@ -7641,19 +7526,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703315465}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.62, y: 0.61, z: 9.65}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: -4.6, y: 0.53, z: 10.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1147157775}
-  - {fileID: 1768362952}
-  - {fileID: 1257236692}
-  - {fileID: 1226210757}
   - {fileID: 187800910}
   m_Father: {fileID: 0}
   m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &706601591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8962,9 +8843,9 @@ MonoBehaviour:
   wheelModel: {fileID: 1648293033}
   axle: 0
   radius: 0.3
+  suspensionRestLength: 0.2
   suspensionCompression: 0.5
   suspensionRelax: 2.5
-  suspensionRestLength: 0.2
   suspensionStiff: 45
   maxSuspensionForce: 1000
   suspensionTravel: 0.1
@@ -10157,7 +10038,7 @@ Transform:
   m_GameObject: {fileID: 912443686}
   m_LocalRotation: {x: 0.1340564, y: -0.8595035, z: 0.40079275, w: 0.28748542}
   m_LocalPosition: {x: 8.98, y: 27.53, z: 8.22}
-  m_LocalScale: {x: 1.0000837, y: 1, z: 1.000061}
+  m_LocalScale: {x: 1.0000937, y: 1, z: 1.0000684}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -11624,16 +11505,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045967542}
-  m_LocalRotation: {x: -0, y: 0.95543975, z: -0, w: -0.29518634}
-  m_LocalPosition: {x: 1.78, y: 0.6, z: 13.62}
-  m_LocalScale: {x: 1.0000172, y: 1, z: 1.0000172}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.66, y: 0.6, z: 13.42}
+  m_LocalScale: {x: 1.0000229, y: 1, z: 1.0000229}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 646949629}
   - {fileID: 1211992844}
   m_Father: {fileID: 0}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 214.337, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &1055136507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11883,6 +11764,10 @@ PrefabInstance:
     - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
       propertyPath: suspensionForce
       value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
+      propertyPath: suspensionCompression
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
       propertyPath: skidVisualSideTreshold
@@ -13045,64 +12930,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3142330088725783095, guid: decfe7745ea2357488458821e29de65b, type: 3}
   m_PrefabInstance: {fileID: 1135180064}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1147157774
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1147157775}
-  - component: {fileID: 1147157776}
-  m_Layer: 0
-  m_Name: Wheel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1147157775
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147157774}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.8791604, y: 0.14476085, z: 1.9473152}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 703315468}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!114 &1147157776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147157774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
-  wheelModel: {fileID: 1496906018}
-  axle: 0
-  radius: 0.33
-  suspensionCompression: 0.5
-  suspensionRelax: 2.5
-  suspensionRestLength: 0.1
-  suspensionStiff: 45
-  maxSuspensionForce: 6000
-  suspensionTravel: 0.1
-  sideFrictionStiffness: 0.5
-  frictionSlip: {x: 2, y: 50}
-  skidParticle: {fileID: 0}
-  skidVisualSideThreshold: 5
-  skidVisualBreakThreshold: 0.1
 --- !u!1001 &1147690779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13867,6 +13694,32 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3071171394535633142, guid: a6afd02996085a14086aa2ddc1ef5e7b, type: 3}
   m_PrefabInstance: {fileID: 1496906013}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1213455709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213455708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
+  wheelModel: {fileID: 0}
+  axle: 0
+  radius: 0.4
+  suspensionRestLength: 0
+  suspensionCompression: 0.5
+  suspensionRelax: 2.5
+  suspensionStiff: 45
+  maxSuspensionForce: 10000
+  suspensionTravel: 0.1
+  sideFrictionStiffness: 0.5
+  frictionSlip: {x: 2, y: 50}
+  skidParticle: {fileID: 0}
+  skidVisualSideThreshold: 5
+  skidVisualBreakThreshold: 0.1
 --- !u!1 &1219411199
 GameObject:
   m_ObjectHideFlags: 0
@@ -14151,64 +14004,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1226210756
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1226210757}
-  - component: {fileID: 1226210758}
-  m_Layer: 0
-  m_Name: Wheel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1226210757
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1226210756}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.95321894, y: 0.14476097, z: 1.9473152}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 703315468}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!114 &1226210758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1226210756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
-  wheelModel: {fileID: 1213455708}
-  axle: 0
-  radius: 0.33
-  suspensionCompression: 0.5
-  suspensionRelax: 2.5
-  suspensionRestLength: 0.1
-  suspensionStiff: 45
-  maxSuspensionForce: 6000
-  suspensionTravel: 0.1
-  sideFrictionStiffness: 0.5
-  frictionSlip: {x: 2, y: 50}
-  skidParticle: {fileID: 0}
-  skidVisualSideThreshold: 5
-  skidVisualBreakThreshold: 0.1
 --- !u!1001 &1232052478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14431,64 +14226,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1768956079008960411, guid: c17eb04c4c7605a4e9d744a5f0eb1105, type: 3}
   m_PrefabInstance: {fileID: 1245770408}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1257236691
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1257236692}
-  - component: {fileID: 1257236693}
-  m_Layer: 0
-  m_Name: Wheel (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1257236692
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257236691}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.90012884, y: 0.14476097, z: -1.3449068}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 703315468}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!114 &1257236693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257236691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
-  wheelModel: {fileID: 1496906016}
-  axle: 1
-  radius: 0.33
-  suspensionCompression: 0.5
-  suspensionRelax: 2.5
-  suspensionRestLength: 0
-  suspensionStiff: 45
-  maxSuspensionForce: 6000
-  suspensionTravel: 0.1
-  sideFrictionStiffness: 0.5
-  frictionSlip: {x: 2, y: 50}
-  skidParticle: {fileID: 0}
-  skidVisualSideThreshold: 5
-  skidVisualBreakThreshold: 0.1
 --- !u!1 &1258217637
 GameObject:
   m_ObjectHideFlags: 0
@@ -14821,6 +14558,10 @@ PrefabInstance:
       value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
+      propertyPath: suspensionCompression
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
       propertyPath: skidVisualSideTreshold
       value: 7
       objectReference: {fileID: 0}
@@ -14839,89 +14580,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5368702013199596313, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
   m_PrefabInstance: {fileID: 1275517454}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1290280966
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1290280967}
-  - component: {fileID: 1290280969}
-  - component: {fileID: 1290280968}
-  m_Layer: 0
-  m_Name: Sphere (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1290280967
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1290280966}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.042, y: 0.116, z: 0}
-  m_LocalScale: {x: 0.052804846, y: 0.6, z: 0.6}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1657705384}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1290280968
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1290280966}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 4c448a5aa77788f4c83418d93d92e661, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1290280969
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1290280966}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1290552903
 GameObject:
   m_ObjectHideFlags: 0
@@ -17572,7 +17230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: a6afd02996085a14086aa2ddc1ef5e7b, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: a6afd02996085a14086aa2ddc1ef5e7b, type: 3}
       propertyPath: m_LocalScale.x
@@ -17592,7 +17250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: a6afd02996085a14086aa2ddc1ef5e7b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.69
+      value: -0.297
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: a6afd02996085a14086aa2ddc1ef5e7b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17643,80 +17301,84 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -8211022215666106032, guid: a6afd02996085a14086aa2ddc1ef5e7b, type: 3}
   m_PrefabInstance: {fileID: 1496906013}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1511110700
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1511110701}
-  - component: {fileID: 1511110702}
-  - component: {fileID: 1511110703}
-  m_Layer: 0
-  m_Name: Wheel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1511110701
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511110700}
-  m_LocalRotation: {x: 0, y: 0.2164396, z: 0, w: 0.97629607}
-  m_LocalPosition: {x: 0.771, y: 0.13600004, z: 1.233}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 585597258}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 25, z: 0}
---- !u!114 &1511110702
+--- !u!114 &1496906019
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511110700}
+  m_GameObject: {fileID: 1496906016}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
-  wheelModel: {fileID: 2066076754}
-  axle: 0
-  radius: 0.3
+  wheelModel: {fileID: 0}
+  axle: 1
+  radius: 0.4
+  suspensionRestLength: 0
   suspensionCompression: 0.5
   suspensionRelax: 2.5
-  suspensionRestLength: 0.25
   suspensionStiff: 45
-  maxSuspensionForce: 6000
+  maxSuspensionForce: 10000
   suspensionTravel: 0.1
   sideFrictionStiffness: 0.5
   frictionSlip: {x: 2, y: 50}
   skidParticle: {fileID: 0}
   skidVisualSideThreshold: 5
   skidVisualBreakThreshold: 0.1
---- !u!114 &1511110703
+--- !u!114 &1496906020
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511110700}
+  m_GameObject: {fileID: 1496906017}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 141c4525abe049cc8376792dfeed6718, type: 3}
+  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.AxesHelper, Needle.Engine
-  Length: 0.5
-  DepthTest: 1
-  IsGizmo: 0
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
+  wheelModel: {fileID: 0}
+  axle: 1
+  radius: 0.4
+  suspensionRestLength: 0
+  suspensionCompression: 0.5
+  suspensionRelax: 2.5
+  suspensionStiff: 45
+  maxSuspensionForce: 10000
+  suspensionTravel: 0.1
+  sideFrictionStiffness: 0.5
+  frictionSlip: {x: 2, y: 50}
+  skidParticle: {fileID: 0}
+  skidVisualSideThreshold: 5
+  skidVisualBreakThreshold: 0.1
+--- !u!114 &1496906021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496906018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
+  wheelModel: {fileID: 0}
+  axle: 0
+  radius: 0.4
+  suspensionRestLength: 0
+  suspensionCompression: 0.5
+  suspensionRelax: 2.5
+  suspensionStiff: 45
+  maxSuspensionForce: 10000
+  suspensionTravel: 0.1
+  sideFrictionStiffness: 0.5
+  frictionSlip: {x: 2, y: 50}
+  skidParticle: {fileID: 0}
+  skidVisualSideThreshold: 5
+  skidVisualBreakThreshold: 0.1
 --- !u!1 &1516453129
 GameObject:
   m_ObjectHideFlags: 0
@@ -19712,83 +19374,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649967546}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1657705383
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1657705384}
-  - component: {fileID: 1657705386}
-  - component: {fileID: 1657705385}
-  m_Layer: 0
-  m_Name: Wheel (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1657705384
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657705383}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.74300003, y: 0.13600004, z: -1.3910002}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 385550915}
-  - {fileID: 1785507283}
-  - {fileID: 1290280967}
-  m_Father: {fileID: 585597258}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1657705385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657705383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 141c4525abe049cc8376792dfeed6718, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.AxesHelper, Needle.Engine
-  Length: 0.5
-  DepthTest: 1
-  IsGizmo: 0
---- !u!114 &1657705386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657705383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
-  wheelModel: {fileID: 2066076756}
-  axle: 1
-  radius: 0.3
-  suspensionCompression: 0.5
-  suspensionRelax: 2.5
-  suspensionRestLength: 0.25
-  suspensionStiff: 45
-  maxSuspensionForce: 6000
-  suspensionTravel: 1
-  sideFrictionStiffness: 0.5
-  frictionSlip: {x: 2, y: 50}
-  skidParticle: {fileID: 0}
-  skidVisualSideThreshold: 5
-  skidVisualBreakThreshold: 0.1
 --- !u!1 &1663137570
 GameObject:
   m_ObjectHideFlags: 0
@@ -21216,12 +20801,12 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
-      propertyPath: suspensionRestLength
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
       propertyPath: sideFrictionStiffness
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
+      propertyPath: suspensionCompression
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5368702013199596314, guid: 1a86aeace7467d540b0e806ee9f0911d, type: 3}
       propertyPath: skidVisualSideTreshold
@@ -21663,64 +21248,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1768121361}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1768362951
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1768362952}
-  - component: {fileID: 1768362953}
-  m_Layer: 0
-  m_Name: Wheel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1768362952
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768362951}
-  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -0.8294153, y: 0.1447609, z: -1.3449068}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 703315468}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1768362953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768362951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
-  wheelModel: {fileID: 1496906017}
-  axle: 1
-  radius: 0.33
-  suspensionCompression: 0.5
-  suspensionRelax: 2.5
-  suspensionRestLength: 0
-  suspensionStiff: 45
-  maxSuspensionForce: 6000
-  suspensionTravel: 0.1
-  sideFrictionStiffness: 0.5
-  frictionSlip: {x: 2, y: 50}
-  skidParticle: {fileID: 0}
-  skidVisualSideThreshold: 5
-  skidVisualBreakThreshold: 0.1
 --- !u!1 &1774947748
 GameObject:
   m_ObjectHideFlags: 0
@@ -21997,89 +21524,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1768956079008960411, guid: c17eb04c4c7605a4e9d744a5f0eb1105, type: 3}
   m_PrefabInstance: {fileID: 1782364439}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1785507282
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1785507283}
-  - component: {fileID: 1785507285}
-  - component: {fileID: 1785507284}
-  m_Layer: 0
-  m_Name: Sphere
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1785507283
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785507282}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.042, y: -0.126, z: 0}
-  m_LocalScale: {x: 0.052804846, y: 0.6, z: 0.6}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1657705384}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1785507284
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785507282}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 57b9f1484fb535548b08d27cb4a30f71, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1785507285
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785507282}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1787407535 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2600118545495291538, guid: f654f86b00fda594aa20828bfe5c3fef, type: 3}
@@ -22643,9 +22087,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1811080746}
-  m_LocalRotation: {x: -0, y: 0.313394, z: -0, w: 0.9496233}
-  m_LocalPosition: {x: 1.26, y: 0.617, z: 6.34}
-  m_LocalScale: {x: 1.0000014, y: 1, z: 1.0000014}
+  m_LocalRotation: {x: -0, y: 0.72256684, z: -0, w: -0.6913011}
+  m_LocalPosition: {x: 2.57, y: 0.617, z: 7.19}
+  m_LocalScale: {x: 1.0000024, y: 1, z: 1.0000024}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1834885495}
@@ -22655,7 +22099,7 @@ Transform:
   - {fileID: 118913659}
   m_Father: {fileID: 0}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 36.528, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 267.466, z: 0}
 --- !u!1 &1813102790
 GameObject:
   m_ObjectHideFlags: 0
@@ -22854,9 +22298,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815979875}
-  m_LocalRotation: {x: -0, y: -0.4025506, z: -0, w: 0.91539776}
-  m_LocalPosition: {x: -0.83, y: 0.889, z: 9.87}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.891168, z: -0, w: -0.45367345}
+  m_LocalPosition: {x: -1.57, y: 0.889, z: 5.99}
+  m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1800723198}
@@ -22867,7 +22311,7 @@ Transform:
   - {fileID: 319660805}
   m_Father: {fileID: 0}
   m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: -47.475, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -233.959, z: 0}
 --- !u!114 &1815979880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24785,64 +24229,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1768956079008960411, guid: c17eb04c4c7605a4e9d744a5f0eb1105, type: 3}
   m_PrefabInstance: {fileID: 1960631475}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1972369645
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1972369646}
-  - component: {fileID: 1972369647}
-  m_Layer: 0
-  m_Name: Wheel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1972369646
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972369645}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.71, y: 0.13600004, z: -1.391}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 585597258}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1972369647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972369645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
-  wheelModel: {fileID: 2066076757}
-  axle: 1
-  radius: 0.3
-  suspensionCompression: 0.5
-  suspensionRelax: 2.5
-  suspensionRestLength: 1
-  suspensionStiff: 45
-  maxSuspensionForce: 6000
-  suspensionTravel: 0.2
-  sideFrictionStiffness: 0.5
-  frictionSlip: {x: 2, y: 50}
-  skidParticle: {fileID: 0}
-  skidVisualSideThreshold: 5
-  skidVisualBreakThreshold: 0.1
 --- !u!1 &1975222853
 GameObject:
   m_ObjectHideFlags: 0
@@ -26190,11 +25576,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: aac630701e78fc04e8175872b36621ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: -0.001
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: aac630701e78fc04e8175872b36621ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: -0.128
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: aac630701e78fc04e8175872b36621ac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -26243,6 +25629,84 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -1806930257787152686, guid: aac630701e78fc04e8175872b36621ac, type: 3}
   m_PrefabInstance: {fileID: 2066076752}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2066076758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066076756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
+  wheelModel: {fileID: 0}
+  axle: 1
+  radius: 0.3
+  suspensionRestLength: 0.2
+  suspensionCompression: 0.5
+  suspensionRelax: 2.5
+  suspensionStiff: 45
+  maxSuspensionForce: 1000
+  suspensionTravel: 0.1
+  sideFrictionStiffness: 0.5
+  frictionSlip: {x: 2, y: 50}
+  skidParticle: {fileID: 0}
+  skidVisualSideThreshold: 5
+  skidVisualBreakThreshold: 0.1
+--- !u!114 &2066076759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066076757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
+  wheelModel: {fileID: 0}
+  axle: 1
+  radius: 0.3
+  suspensionRestLength: 0.2
+  suspensionCompression: 0.5
+  suspensionRelax: 2.5
+  suspensionStiff: 45
+  maxSuspensionForce: 1000
+  suspensionTravel: 0.1
+  sideFrictionStiffness: 0.5
+  frictionSlip: {x: 2, y: 50}
+  skidParticle: {fileID: 0}
+  skidVisualSideThreshold: 5
+  skidVisualBreakThreshold: 0.1
+--- !u!114 &2066076760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066076755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea5ce5a4debdf46bce437182e8517c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.CarWheel, Needle.Engine-Samples.Runtime
+  wheelModel: {fileID: 0}
+  axle: 0
+  radius: 0.3
+  suspensionRestLength: 0.2
+  suspensionCompression: 0.5
+  suspensionRelax: 2.5
+  suspensionStiff: 45
+  maxSuspensionForce: 1000
+  suspensionTravel: 0.1
+  sideFrictionStiffness: 0.5
+  frictionSlip: {x: 2, y: 50}
+  skidParticle: {fileID: 0}
+  skidVisualSideThreshold: 5
+  skidVisualBreakThreshold: 0.1
 --- !u!1001 &2081206342
 PrefabInstance:
   m_ObjectHideFlags: 0

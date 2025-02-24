@@ -69,7 +69,7 @@ export class CarWheel extends Behaviour {
         this._wheelIndex = i;
 
         const target = this.wheelModel || this.gameObject;
-        
+
         // Assuming that all car wheels have the same car-relative axis. 
         // Meaning car-relative X is to the side of the car and Z is forward
         // If we don't reset the rotations here the wheel may be rotated in a weird way
@@ -77,11 +77,15 @@ export class CarWheel extends Behaviour {
         this.wheelModel?.quaternion.identity();
         this.gameObject?.quaternion.identity();
 
+        // const carForward = this.car.gameObject.worldForward;
+        const carRight = this.car.gameObject.worldRight.clone();
+
         // Figure out which axis the wheel should rotate around
         const axesDiff = new Quaternion();
-        if (target != this.gameObject) {
-            axesDiff.copy(this.gameObject.worldQuaternion).multiply(target.worldQuaternion.invert());
-        }
+        // if (target != this.gameObject) {
+        // }
+        axesDiff.copy(target.worldQuaternion)
+            .multiply(car.worldQuaternion.clone().invert());
 
         this.wheelModelUp = new Vector3(0, 1, 0)
             .clone()
@@ -91,8 +95,10 @@ export class CarWheel extends Behaviour {
             .clone()
             .applyQuaternion(axesDiff);
 
+        Gizmos.DrawDirection(target.worldPosition, this.wheelModelRight, 0xff0000, 10, false);
 
-        const wPos = this.worldPosition;
+
+        const wPos = target.worldPosition;
         const lPos = this.car.gameObject.worldToLocal(wPos);
         // Move the wheel up by half radius (assuming our component is centered to the wheel model)
         lPos.y += this.radius * .5;
@@ -133,10 +139,9 @@ export class CarWheel extends Behaviour {
         const velocity = this.car.velocity;
         let gripAmount = velocity.dot(this.car.gameObject.worldRight);
         gripAmount = Mathf.clamp(gripAmount, 0, 1);
-
-        // if (velocity.length() < 1) {
-        //     gripAmount = 1;
-        // }
+        if (velocity.length() < 1) {
+            gripAmount = 1;
+        }
 
         // accel & break
         this.vehicle.setWheelEngineForce(this._wheelIndex, acceleration);
@@ -162,7 +167,6 @@ export class CarWheel extends Behaviour {
         const yRot = getTempQuaternion().setFromAxisAngle(this.wheelModelUp, wheelTurn);
         const xRot = getTempQuaternion().setFromAxisAngle(this.wheelModelRight, wheelRot);
         const rot = yRot.multiply(xRot);
-
         target.quaternion.copy(rot);
 
         // position
@@ -170,8 +174,10 @@ export class CarWheel extends Behaviour {
         const isInContact = this.vehicle.wheelIsInContact(this._wheelIndex);
         const wheelPosition = getTempVector();
         if (contact) {
+            // const local = target.worldToLocal(getTempVector(contact));
+            // target.position.copy(local);
             wheelPosition.copy(this.car.gameObject.worldUp).multiplyScalar(this.radius).add(contact);
-            target.worldPosition = wheelPosition;
+            // target.worldPosition = contact;
         }
 
         // debug
