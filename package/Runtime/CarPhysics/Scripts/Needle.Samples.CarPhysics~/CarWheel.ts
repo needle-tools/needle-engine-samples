@@ -55,15 +55,12 @@ export class CarWheel extends Behaviour {
     private skidParticleBehaviour?: SkidTrailBehaviour;
 
     private wheelModelRight!: Vector3;
-    // private wheelModelRightCarSpace!: Vector3;
     private wheelModelUp!: Vector3;
 
-    // private wheelModelOffset!: Vector3;
 
     private car!: CarPhysics;
     private vehicle!: DynamicRayCastVehicleController;
     private _wheelIndex: number = -1;
-    private readonly _wheelModelRotationOffset: Quaternion = new Quaternion(0, 0, 0, 1);
 
     initialize(car: CarPhysics, vehicle: DynamicRayCastVehicleController, i: number) {
         this.car = car;
@@ -71,28 +68,36 @@ export class CarWheel extends Behaviour {
         this._wheelIndex = i;
 
         const target = this.wheelModel || this.gameObject;
-        this.wheelModelUp = target.worldUp.clone();
-        // this.wheelModelUp.applyQuaternion(car.gameObject.worldQuaternion.invert());
+        
+        // Assuming that all car wheels have the same car-relative axis. 
+        // Meaning car-relative X is to the side of the car and Z is forward
+        // If we don't reset the rotations here the wheel may be rotated in a weird way
+        // This should normally only an issue for vehicles with non-standard wheel orientations
+        this.wheelModel?.quaternion.identity();
+        this.gameObject?.quaternion.identity();
 
-        this.wheelModelRight = target.worldRight.clone().multiplyScalar(-1);
-        // this.wheelModelRightCarSpace = this.wheelModelRight.clone();
-        this.wheelModelRight.applyQuaternion(car.gameObject.worldQuaternion.invert());
-
-        if (!this.wheelModel) this._wheelModelRotationOffset.identity();
-        else {
-            this._wheelModelRotationOffset//.setFromEuler(new Euler(0, 0, 0));
-                .copy(this.gameObject.worldQuaternion.invert())
-                .multiply(this.wheelModel.worldQuaternion)
-            // .premultiply(target.quaternion);
+        // Figure out which axis the wheel should rotate around
+        const axesDiff = new Quaternion();
+        if (target != this.gameObject) {
+            axesDiff.copy(this.gameObject.worldQuaternion).multiply(target.worldQuaternion.invert());
         }
+
+        this.wheelModelUp = new Vector3(0, 1, 0)
+            .clone()
+            .applyQuaternion(axesDiff);
+
+        this.wheelModelRight = new Vector3(1, 0, 0)
+            .clone()
+            .applyQuaternion(axesDiff);
+
 
         const wPos = this.worldPosition;
         const lPos = this.car.gameObject.worldToLocal(wPos);
         // Move the wheel up by half radius (assuming our component is centered to the wheel model)
         lPos.y += this.radius * .5;
 
-        const suspensionDirection = getTempVector(0, -1, 0);// getTempVector(0, -1, 0);
-        const axleDirection = getTempVector(-1, 0, 0) //getTempVector(-1, 0, 0);
+        const suspensionDirection = getTempVector(0, -1, 0); // Y axis
+        const axleDirection = getTempVector(-1, 0, 0); // X axis
 
         this.vehicle.addWheel(lPos, suspensionDirection, axleDirection, this.suspensionRestLength, this.radius);
         this.vehicle.setWheelSuspensionCompression(i, this.suspensionCompression);
@@ -107,9 +112,6 @@ export class CarWheel extends Behaviour {
             this.skidParticleBehaviour = new SkidTrailBehaviour();
             this.skidParticle.addBehaviour(this.skidParticleBehaviour);
         }
-
-        // this.wheelModelOffset = new Vector3(0, 0, 0).copy(target.worldPosition.sub(this.worldPosition));
-        // this.wheelModelOffset.y = 0; // will be set by suspension
     }
 
     applyPhysics(acceleration: number, breaking: number, steeringRad: number) {
@@ -152,12 +154,9 @@ export class CarWheel extends Behaviour {
 
         const yRot = getTempQuaternion().setFromAxisAngle(this.wheelModelUp, wheelTurn);
         const xRot = getTempQuaternion().setFromAxisAngle(this.wheelModelRight, wheelRot);
-        // xRot.premultiply(this._wheelModelRotationOffset);
-        // const rot = yRot.multiply(xRot);
-        // rot.multiply(this._wheelModelRotationOffset);
+        const rot = yRot.multiply(xRot);
 
-        target.quaternion.copy(yRot);
-        // target.quaternion.premultiply(this._wheelModelRotationOffset);
+        target.quaternion.copy(rot);
 
         // position
         const contact = this.vehicle.wheelContactPoint(this._wheelIndex);

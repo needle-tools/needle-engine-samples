@@ -49,8 +49,8 @@ namespace Needle.Typescript.GeneratedComponents
 			var offset = new Vector3(0, 0, 0);
 
 			var restingSuspension = offset;// + -up * suspensionRestLength;
-			var minSuspension = restingSuspension + up * -suspensionTravel;
-			var maxSuspension = restingSuspension + up * suspensionTravel;
+			var minSuspension = restingSuspension + up * -suspensionRestLength;
+			var maxSuspension = restingSuspension + up * suspensionRestLength;
 
 			Gizmos.color = Color.green;
 			var top = restingSuspension + up * radius;
@@ -67,9 +67,9 @@ namespace Needle.Typescript.GeneratedComponents
 
 
 			// Draw Wheel
-			DrawWheel(restingSuspension, Color.blue);
-			DrawWheel(minSuspension, Color.blue, 0.25f);
-			DrawWheel(maxSuspension, Color.blue, 0.25f);
+			DrawWheel(restingSuspension, Color.white);
+			DrawWheel(minSuspension, Color.white, 0.25f);
+			DrawWheel(maxSuspension, Color.white, 0.25f);
 		}
 
 		void DrawWheel(Vector3 origin, Color color, float alpha = 1f, int segments = 32)
