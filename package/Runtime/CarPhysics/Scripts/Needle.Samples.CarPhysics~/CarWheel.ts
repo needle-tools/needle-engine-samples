@@ -23,11 +23,12 @@ export class CarWheel extends Behaviour {
 
     // ---  Suspension --- 
     @serializable()
+    suspensionRestLength: number = -1;
+
+    @serializable()
     suspensionCompression: number = 0.5;
     @serializable()
     suspensionRelax: number = 2.5;
-    @serializable()
-    suspensionRestLength: number = 0.1;
     @serializable()
     suspensionStiff: number = 45;
     @serializable()
@@ -99,10 +100,16 @@ export class CarWheel extends Behaviour {
         const suspensionDirection = getTempVector(0, -1, 0); // Y axis
         const axleDirection = getTempVector(-1, 0, 0); // X axis
 
-        this.vehicle.addWheel(lPos, suspensionDirection, axleDirection, this.suspensionRestLength, this.radius);
+
+        let restLength = this.suspensionRestLength;
+        if (!restLength || restLength < 0) {
+            restLength = this.radius * .6;
+        }
+
+        this.vehicle.addWheel(lPos, suspensionDirection, axleDirection, restLength, this.radius);
+        this.vehicle.setWheelSuspensionStiffness(i, this.suspensionStiff);
         this.vehicle.setWheelSuspensionCompression(i, this.suspensionCompression);
         this.vehicle.setWheelSuspensionRelaxation(i, this.suspensionRelax);
-        this.vehicle.setWheelSuspensionStiffness(i, this.suspensionStiff);
         this.vehicle.setWheelMaxSuspensionForce(i, this.maxSuspensionForce);
         this.vehicle.setWheelMaxSuspensionTravel(i, this.suspensionTravel);
         this.vehicle.setWheelSideFrictionStiffness(i, this.sideFrictionStiffness);
@@ -124,8 +131,8 @@ export class CarWheel extends Behaviour {
             acceleration = 0;
 
         const velocity = this.car.velocity;
-        // let gripAmount = velocity.dot(this.car.gameObject.worldRight);
-        // gripAmount = Mathf.clamp(gripAmount, 0, 1);
+        let gripAmount = velocity.dot(this.car.gameObject.worldRight);
+        gripAmount = Mathf.clamp(gripAmount, 0, 1);
 
         // if (velocity.length() < 1) {
         //     gripAmount = 1;
@@ -141,8 +148,8 @@ export class CarWheel extends Behaviour {
         }
 
         // slip
-        // const friction = Mathf.lerp(this.frictionSlip.x, this.frictionSlip.y, gripAmount);
-        this.vehicle.setWheelFrictionSlip(this._wheelIndex, 50);
+        const friction = Mathf.lerp(this.frictionSlip.x, this.frictionSlip.y, gripAmount);
+        this.vehicle.setWheelFrictionSlip(this._wheelIndex, friction);
     }
 
     updateVisuals() {
@@ -174,7 +181,9 @@ export class CarWheel extends Behaviour {
 
             // draw wheel
             // const up = this.gameObject.worldUp.applyEuler(new Euler(0, wheelTurn, 0));
-            const right = getTempVector(this.gameObject.worldRight).multiplyScalar(-1);
+            const right = getTempVector(this.wheelModelRight)
+                .multiplyScalar(-1)
+            // .applyMatrix4(target.matrixWorld)
             right.applyEuler(new Euler(0, wheelTurn, 0));
             Gizmos.DrawCircle(wheelPosition, right, this.radius, 0x0000ff, 0, false);
 
