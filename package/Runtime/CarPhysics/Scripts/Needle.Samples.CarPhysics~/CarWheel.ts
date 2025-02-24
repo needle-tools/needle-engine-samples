@@ -77,16 +77,19 @@ export class CarWheel extends Behaviour {
         this.wheelModel?.quaternion.identity();
         this.gameObject?.quaternion.identity();
 
-        // const carForward = this.car.gameObject.worldForward;
-        const carRight = this.car.gameObject.worldRight.clone();
-
         // Figure out which axis the wheel should rotate around
+        // Get the rotation in car space
+        // TODO: This is a bit hacky, but it works for now
+        const quat = car.gameObject.worldQuaternion.clone();
+        car.gameObject.worldQuaternion = new Quaternion();
         const axesDiff = new Quaternion();
-        // if (target != this.gameObject) {
-        // }
-        axesDiff.copy(target.worldQuaternion)
-            .multiply(car.worldQuaternion.clone().invert());
+        axesDiff.copy(car.gameObject.worldQuaternion)
+            .multiply(target.worldQuaternion.clone().invert());
+        car.gameObject.worldQuaternion = quat;
 
+
+
+        // Create rotation axis vectors
         this.wheelModelUp = new Vector3(0, 1, 0)
             .clone()
             .applyQuaternion(axesDiff);
@@ -94,8 +97,6 @@ export class CarWheel extends Behaviour {
         this.wheelModelRight = new Vector3(1, 0, 0)
             .clone()
             .applyQuaternion(axesDiff);
-
-        Gizmos.DrawDirection(target.worldPosition, this.wheelModelRight, 0xff0000, 10, false);
 
 
         const wPos = target.worldPosition;
@@ -174,10 +175,8 @@ export class CarWheel extends Behaviour {
         const isInContact = this.vehicle.wheelIsInContact(this._wheelIndex);
         const wheelPosition = getTempVector();
         if (contact) {
-            // const local = target.worldToLocal(getTempVector(contact));
-            // target.position.copy(local);
-            wheelPosition.copy(this.car.gameObject.worldUp).multiplyScalar(this.radius).add(contact);
-            // target.worldPosition = contact;
+            // TODO: this is not correct
+            target.worldPosition = wheelPosition.copy(this.car.gameObject.worldUp).multiplyScalar(this.radius).add(contact);;
         }
 
         // debug
