@@ -1,12 +1,12 @@
 import { DynamicRayCastVehicleController, World, RigidBody as RapierRigidbody } from "@dimforge/rapier3d-compat";
 
-import { Behaviour, Gizmos, Mathf, Rigidbody, getParam, getTempVector, serializable, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, QTrailParticle, getTempQuaternion, getWorldDirection, setWorldPosition, FrameEvent, delayForFrames, Collider, getBoundingBox, BoxCollider, euler } from "@needle-tools/engine";
+import { Behaviour, Gizmos, Mathf, Rigidbody, getParam, getTempVector, serializable, FrameEvent, delayForFrames, Collider, BoxCollider } from "@needle-tools/engine";
 
-import { Vector3, Vector2, Object3D, Quaternion, Euler } from "three";
-import { CarAxle, CarDrive } from "./constants.js";
+import { Vector3, Quaternion, Object3D } from "three";
+import { CarDrive } from "./constants.js";
 import { CarWheel } from "./CarWheel.js";
 
-const debugCarPhysics = getParam("debugcarphysics");
+const debugCar = getParam("debugcar");
 
 export class CarPhysics extends Behaviour {
 
@@ -67,7 +67,6 @@ export class CarPhysics extends Behaviour {
     private currAcc: number = 0;
 
 
-
     /** @internal */
     awake(): void {
         if (!this._rigidbody) {
@@ -76,9 +75,19 @@ export class CarPhysics extends Behaviour {
         // Ensure we have a collider
         if (!this.gameObject.getComponentInChildren(Collider)) {
             const collider = BoxCollider.add(this.gameObject);
+            // Move the collider to a child object
+            // Otherwise the offset of the collider doesnt play well with the car rigidbody - needs investigation
+            // See https://linear.app/needle/issue/NE-6452
+            const obj = new Object3D();
+            obj.addComponent(collider);
+            this.gameObject.add(obj);
+
             collider.center.y += collider.size.y * .1;
-            collider.size.y *= .9;
-            collider.size.multiplyScalar(.9);
+            obj.position.copy(collider.center);
+            collider.center.set(0, 0, 0);
+
+            collider.size.y *= .8;
+            collider.size.multiplyScalar(.95);
             collider.updateProperties();
         }
     }
@@ -91,11 +100,13 @@ export class CarPhysics extends Behaviour {
         this._rigidbody.autoMass = false;
         this._rigidbody.mass = this.mass;
 
+
         // get underlying rapier rigidbody
         await this.context.physics.engine?.initialize().then(() => delayForFrames(1));
-        if (!this.enabled) return;
+        if (!this.activeAndEnabled) return;
 
         this.rapierRigidbody = this.context.physics.engine?.getBody(this._rigidbody);
+
         const world = this.context.physics.engine?.world as World;
 
         if (!world) {
@@ -122,8 +133,8 @@ export class CarPhysics extends Behaviour {
             console.warn(`[CarPhysics] No wheels found on ${this.gameObject.name}`);
         }
 
-        if (debugCarPhysics) {
-            console.log(`[CarPhysics] Wheels: (${this.wheels.length})`, this.wheels);
+        if (debugCar) {
+            console.log(`[CarPhysics] ${this.name} has ${this.wheels.length} wheels:`, this.wheels);
         }
 
         this.wheels.forEach((wheel, i) => {
@@ -147,12 +158,21 @@ export class CarPhysics extends Behaviour {
 
         this.applyPhysics();
 
-        if (debugCarPhysics) {
-            const wp = this.worldPosition;
+        if (debugCar) {
+            const chassis = this._vehicle.chassis();
+            const wp = chassis.translation();
+            // const wp = this.worldPosition;
             const labelPos = getTempVector(wp).add(getTempVector(0, 2, 0));
             const text = `vel: ${this._vehicle.currentVehicleSpeed().toFixed(2)}`;
             Gizmos.DrawLabel(labelPos, text, 0.1, 0, 0xffffff, 0x000000);
-            this.wheels.forEach(x => Gizmos.DrawLine(wp, x.worldPosition, 0x0000ff, 0, false));
+
+            this.wheels.forEach(x => {
+                const cwp = this._vehicle.wheelChassisConnectionPointCs(x.index);
+                if (cwp) {
+
+                    Gizmos.DrawLine(getTempVector(wp), getTempVector(cwp).applyQuaternion(chassis.rotation()).add(wp), 0x0000ff, 0, false);
+                }
+            });
         }
 
         // update visuals
@@ -185,7 +205,7 @@ export class CarPhysics extends Behaviour {
         while (true) {
             if (this._vehicle) {
                 const dt = this.context.time.deltaTime;
-                this._rigidbody.wakeUp();
+                // this._rigidbody.wakeUp();
                 this._vehicle?.updateVehicle(dt);
             }
             yield null;

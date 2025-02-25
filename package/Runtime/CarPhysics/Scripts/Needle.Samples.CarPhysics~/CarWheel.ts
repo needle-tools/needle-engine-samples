@@ -1,6 +1,6 @@
 import { DynamicRayCastVehicleController } from "@dimforge/rapier3d-compat";
-import { Behaviour, getParam, getTempQuaternion, getTempVector, Gizmos, Mathf, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, QTrailParticle, serializable } from "@needle-tools/engine";
-import { Object3D, Vector2, Vector3, Quaternion, Euler } from "three";
+import { Behaviour, delayForFrames, getParam, getTempQuaternion, getTempVector, Gizmos, Mathf, ObjectUtils, ParticleSystem, ParticleSystemBaseBehaviour, QParticle, QTrailParticle, serializable } from "@needle-tools/engine";
+import { Object3D, Vector2, Vector3, Quaternion, Euler, Matrix4 } from "three";
 import type { CarPhysics } from "./CarPhysics.js";
 import { CarAxle, CarDrive } from "./constants.js";
 
@@ -63,7 +63,7 @@ export class CarWheel extends Behaviour {
     private vehicle!: DynamicRayCastVehicleController;
     private _wheelIndex: number = -1;
 
-    initialize(car: CarPhysics, vehicle: DynamicRayCastVehicleController, i: number) {
+    async initialize(car: CarPhysics, vehicle: DynamicRayCastVehicleController, i: number) {
         this.car = car;
         this.vehicle = vehicle;
         this._wheelIndex = i;
@@ -88,7 +88,6 @@ export class CarWheel extends Behaviour {
         car.gameObject.worldQuaternion = quat;
 
 
-
         // Create rotation axis vectors
         this.wheelModelUp = new Vector3(0, 1, 0)
             .clone()
@@ -98,20 +97,18 @@ export class CarWheel extends Behaviour {
             .clone()
             .applyQuaternion(axesDiff);
 
-
         const wPos = target.worldPosition;
         const lPos = this.car.gameObject.worldToLocal(wPos);
+
         // Move the wheel up by half radius (assuming our component is centered to the wheel model)
         lPos.y += this.radius * .5;
+        let restLength = this.suspensionRestLength;
+        if (!restLength || restLength < 0) {
+            restLength = this.radius * .5;
+        }
 
         const suspensionDirection = getTempVector(0, -1, 0); // Y axis
         const axleDirection = getTempVector(-1, 0, 0); // X axis
-
-
-        let restLength = this.suspensionRestLength;
-        if (!restLength || restLength < 0) {
-            restLength = this.radius * .6;
-        }
 
         this.vehicle.addWheel(lPos, suspensionDirection, axleDirection, restLength, this.radius);
         this.vehicle.setWheelSuspensionStiffness(i, this.suspensionStiff);
@@ -121,6 +118,7 @@ export class CarWheel extends Behaviour {
         this.vehicle.setWheelMaxSuspensionTravel(i, this.suspensionTravel);
         this.vehicle.setWheelSideFrictionStiffness(i, this.sideFrictionStiffness);
         this.vehicle.setWheelFrictionSlip(i, this.frictionSlip.y);
+
 
         if (this.skidParticle) {
             this.skidParticleBehaviour = new SkidTrailBehaviour();
@@ -167,37 +165,39 @@ export class CarWheel extends Behaviour {
 
         const yRot = getTempQuaternion().setFromAxisAngle(this.wheelModelUp, wheelTurn);
         const xRot = getTempQuaternion().setFromAxisAngle(this.wheelModelRight, wheelRot);
-        const rot = yRot.multiply(xRot);
-        target.quaternion.copy(rot);
+        const wheelRotation = yRot.multiply(xRot);
+        target.quaternion.copy(wheelRotation);
 
         // position
         const contact = this.vehicle.wheelContactPoint(this._wheelIndex);
         const isInContact = this.vehicle.wheelIsInContact(this._wheelIndex);
         const wheelPosition = getTempVector();
         if (contact) {
-            // TODO: this is not correct
-            target.worldPosition = wheelPosition.copy(this.car.gameObject.worldUp).multiplyScalar(this.radius).add(contact);;
+            if (debugWheel) Gizmos.DrawWireSphere(contact, .02, 0xffff55, 0, false);
+            wheelPosition.copy(this.car.gameObject.worldUp).multiplyScalar(this.radius);
+            wheelPosition.add(contact);
+            target.worldPosition = wheelPosition;
+            // const wp = target.worldPosition;
+            // target.worldPosition = wp.lerp(wheelPosition, this.context.time.deltaTime / .05);
         }
 
         // debug
         if (debugWheel) {
-            const sphereSize = this.radius * .15;
-            // const suspensionRest = getTempVector(0, -1, 0).multiplyScalar(this.suspensionRestLength).add(this.worldPosition);
+            const sphereSize = this.radius * .1;
 
             // draw wheel
-            // const up = this.gameObject.worldUp.applyEuler(new Euler(0, wheelTurn, 0));
-            const right = getTempVector(this.wheelModelRight)
-                .multiplyScalar(-1)
-            // .applyMatrix4(target.matrixWorld)
-            right.applyEuler(new Euler(0, wheelTurn, 0));
-            Gizmos.DrawCircle(wheelPosition, right, this.radius, 0x0000ff, 0, false);
+            const normal = getTempVector(this.car.gameObject.worldRight).multiplyScalar(-1)
+            normal.applyEuler(new Euler(0, wheelTurn, 0));
 
-            const inner = getTempVector(wheelPosition).add(getTempVector(right).multiplyScalar(-this.radius * .5));
-            const out = getTempVector(wheelPosition).add(getTempVector(right).multiplyScalar(this.radius));
+            Gizmos.DrawCircle(wheelPosition, normal, this.radius, 0x0000ff, 0, false);
+
+            const inner = getTempVector(wheelPosition);
+            const out = getTempVector(wheelPosition).add(getTempVector(normal).multiplyScalar(this.radius));
             Gizmos.DrawLine(inner, out, 0xff0000, 0, false);
             Gizmos.DrawSphere(out, sphereSize, 0xff0000, 0, false);
 
-            const forward = getTempVector(this.gameObject.worldForward).multiplyScalar(this.radius * 1.5);
+            const forward = getTempVector(this.car.gameObject.worldForward)
+                .multiplyScalar(this.radius * 1);
             forward.applyEuler(new Euler(0, wheelTurn, 0));
             const end = getTempVector(wheelPosition).add(forward);
             Gizmos.DrawLine(wheelPosition, end, 0x0000ff, 0, false);
