@@ -1,5 +1,7 @@
-import { Behaviour, Camera, GameObject, getComponentInChildren, getComponentInParent, PointerEventData, serializable, SmoothFollow } from "@needle-tools/engine";
+import { Behaviour, Camera, findObjectOfType, GameObject, getComponentInChildren, getComponentInParent, PointerEventData, serializable, SmoothFollow } from "@needle-tools/engine";
 import { CarController } from "./CarController";
+import { CarTouchControls } from "./CarTouchControls";
+import { CarPhysics } from "./CarPhysics";
 
 
 
@@ -83,6 +85,12 @@ export class CarSelection extends Behaviour {
         const car = this.cars![index];
         if (car) {
             car.enabled = true;
+
+            const touchControls = findObjectOfType(CarTouchControls);
+            if(touchControls) {
+                touchControls.carPhysics = car.gameObject.getComponentInChildren(CarPhysics) || undefined;
+            }
+
             const camera = car.gameObject.getComponentInChildren(Camera);
             if (camera) {
                 this.context.setCurrentCamera(camera);
