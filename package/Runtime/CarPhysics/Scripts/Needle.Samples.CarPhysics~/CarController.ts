@@ -43,7 +43,7 @@ export class CarController extends Behaviour {
         this.resetWhenFallingoff();
     }
 
-    private onBlur = (_e: FocusEvent) => {
+    private onBlur = (_se: FocusEvent) => {
         if (!this.context.application.hasFocus) {
             const gamepad = navigator.getGamepads()?.[0];
             if (gamepad) {

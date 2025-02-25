@@ -78,7 +78,7 @@ export class CarPhysics extends Behaviour {
 
     /**
      * Increase or decrease acceleration
-     * @param accelAmount -1 to 1
+     * @param accelAmount -1 to 1 where -1 is full brake and 1 is full acceleration
      */
     accelerationInput(accelAmount: number) {
         this.currAcc = Mathf.clamp(this.currAcc + accelAmount, -1, 1);
@@ -292,7 +292,7 @@ export class CarPhysics extends Behaviour {
     }
 
     private applyPhysics() {
-        let breakForce = .05;
+        let breakForce = this.currAcc === 0 ? .05 : 0;
         let accelForce = 0;
 
         const velDir = this._rigidbody.getVelocity();
@@ -300,13 +300,14 @@ export class CarPhysics extends Behaviour {
         const reachedTopSpeed = vel > this.topSpeed;
 
         // breaking
+        // apply break if we're receiving negative input and are moving forward
         const isBreaking = this.currAcc < 0 && vel > 0.05 && velDir.dot(this.gameObject.worldForward) > 0;
         if (isBreaking) {
             breakForce = this.breakForce;
         }
 
         // acceleration
-        const isAccelerating = this.currAcc != 0 && !isBreaking && !reachedTopSpeed;
+        const isAccelerating = this.currAcc != 0 && !reachedTopSpeed;
         if (isAccelerating) {
             accelForce = (this.accelerationForce / this.context.time.deltaTime) * this.currAcc;
         }
