@@ -144,7 +144,7 @@ export class CarController extends Behaviour {
 
             if (Math.abs(sideAxis) > .01) {  // make sure the tiny deadzone is not used
                 const negative = sideAxis < 0 ? -1 : 1;
-                steer += Math.pow(sideAxis, 2) * negative;
+                steer += Math.pow(sideAxis, 4) * negative;
             }
             if (Math.abs(forwardAxis) > .01) { // make sure the tiny deadzone is not used
                 accel -= forwardAxis;

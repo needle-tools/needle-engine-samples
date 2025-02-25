@@ -303,7 +303,7 @@ export class CarPhysics extends Behaviour {
         // apply break if we're receiving negative input and are moving forward
         const isBreaking = this.currAcc < 0 && vel > 0.05 && velDir.dot(this.gameObject.worldForward) > 0;
         if (isBreaking) {
-            breakForce = this.breakForce;
+            breakForce = this.breakForce * -this.currAcc;
         }
 
         // acceleration
