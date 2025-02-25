@@ -3,7 +3,7 @@ import { DynamicRayCastVehicleController, World, RigidBody as RapierRigidbody } 
 import { Behaviour, Gizmos, Mathf, Rigidbody, getParam, getTempVector, serializable, FrameEvent, delayForFrames, Collider, BoxCollider } from "@needle-tools/engine";
 
 import { Vector3, Quaternion, Object3D } from "three";
-import { CarDrive } from "./constants.js";
+import { CarAxle, CarDrive } from "./constants.js";
 import { CarWheel } from "./CarWheel.js";
 
 const debugCar = getParam("debugcar");
@@ -17,21 +17,54 @@ export class CarPhysics extends Behaviour {
     mass: number = 150;
 
     // @tooltip The maximum steering angle in degrees
+    /**
+     * The maximum steering angle in degrees
+     * @default 50
+     */
     @serializable()
-    maxSteer: number = 45;
+    maxSteer: number = 50;
 
+    /**
+     * The steering smoothing factor. The higher the value, the slower the steering response (the more smoothing will be applied)
+     * @default .3
+     */
     @serializable()
-    steerSmoothingFactor: number = .5;
+    steerSmoothingFactor: number = .3;
 
+    /**
+     * The acceleration force in Newtons
+     * @default 5
+     */
     @serializable()
-    accelerationForce: number = 3;
+    accelerationForce: number = 5;
 
+    /**
+     * The breaking force in Newtons
+     * @default 5
+     */
     @serializable()
-    breakForce: number = 1;
+    breakForce: number = 5;
 
+    /**
+     * The top speed of the car in m/s
+     * @default 15
+     */
     @serializable()
     topSpeed: number = 15;
 
+    /**
+     * The wheels of the car. If none are provided, the script will try to find them in the child hierarchy based on their name.   
+     * The name should contain "wheel" and "front" or "rear" or "fl" or "fr" or "rl" or "rr" to determine the axle.
+     * E.g. 
+     * - "WheelFrontLeft"
+     * - "WheelFrontRight"
+     * - "WheelRearLeft"
+     * - "WheelRearRight"
+     * - "WheelFL"
+     * - "WheelFR"
+     * - ...
+     * @default []
+     */
     @serializable(CarWheel)
     wheels: CarWheel[] = [];
 
@@ -52,19 +85,44 @@ export class CarPhysics extends Behaviour {
     }
 
 
-    /** Rapier Physics Rigidbody */
+    /** Rigidbody component */
     get rigidbody() { return this._rigidbody; }
+    /**
+     * Rapier Physics Rigidbody (owned by the rigidbody componenti)
+     */
+    get rapierRigidbody(): RapierRigidbody {
+        return this.context.physics.engine?.getBody(this._rigidbody)!;
+    }
+    /**
+     * Rapier Physics Vehicle Controller
+     */
     get vehicle() { return this._vehicle; }
-    // @nonSerialized
+
+    /**
+     * The rigidbody velocity vector of the car in worldspace
+     */
     get velocity() { return this._rigidbody?.getVelocity(); }
+    /**
+     * Current vehicle speed
+     */
+    get currentSpeed() {
+        return this._vehicle.currentVehicleSpeed();
+    }
+
+    /** 
+     * The airtime of the car in seconds
+     */
+    get airtime() {
+        return this._airtime;
+    }
 
     private _vehicle!: DynamicRayCastVehicleController;
     private _rigidbody!: Rigidbody;
-    private rapierRigidbody!: RapierRigidbody;
 
     private currSteerSmooth: number = 0;
     private currSteer: number = 0;
     private currAcc: number = 0;
+    private _airtime: number = 0;
 
 
     /** @internal */
@@ -73,7 +131,7 @@ export class CarPhysics extends Behaviour {
             this._rigidbody = this.gameObject.addComponent(Rigidbody);
         }
         // Ensure we have a collider
-        if (!this.gameObject.getComponentInChildren(Collider)) {
+        if (!this.gameObject.getComponentInChildren(BoxCollider)) {
             const collider = BoxCollider.add(this.gameObject);
             // Move the collider to a child object
             // Otherwise the offset of the collider doesnt play well with the car rigidbody - needs investigation
@@ -95,24 +153,24 @@ export class CarPhysics extends Behaviour {
     private _physicsRoutine?: Generator;
     /** @internal */
     async onEnable() {
+        if (this.mass <= 0) {
+            this.mass = 1;
+        }
         // get or create needle rigidbody
         this._rigidbody = this.gameObject.getOrAddComponent(Rigidbody)!;
-        this._rigidbody.autoMass = false;
         this._rigidbody.mass = this.mass;
+        this._rigidbody.autoMass = this.mass <= 0;
 
-
-        // get underlying rapier rigidbody
         await this.context.physics.engine?.initialize().then(() => delayForFrames(1));
         if (!this.activeAndEnabled) return;
 
-        this.rapierRigidbody = this.context.physics.engine?.getBody(this._rigidbody);
-
         const world = this.context.physics.engine?.world as World;
-
         if (!world) {
             console.error("[CarPhysics] Physics world not found");
             return;
         }
+
+        // get rapier rigidbody
         if (!this.rapierRigidbody) {
             console.error("[CarPhysics] Rigidbody not found");
             return;
@@ -121,13 +179,22 @@ export class CarPhysics extends Behaviour {
         // create vehicle physics
         if (!this._vehicle) {
             this._vehicle = world.createVehicleController(this.rapierRigidbody);
-            this._vehicle.indexUpAxis = 1;
-            this._vehicle.setIndexForwardAxis = 2;
         }
+        this._vehicle.indexUpAxis = 1;
+        this._vehicle.setIndexForwardAxis = 2;
 
         // initialize wheels
         if (this.wheels.length === 0) {
             this.wheels.push(...this.gameObject.getComponentsInChildren(CarWheel).filter(x => x.activeAndEnabled));
+        }
+        // automatically try to find wheel objects in child hierarchy
+        if (this.wheels.length <= 0) {
+            console.debug(`[CarPhysics] No wheels found on ${this.gameObject.name}, trying to find them`);
+            const objs = tryFindWheels(this);
+            if (objs.length > 0) {
+                console.debug(`[CarPhysics] Found ${objs.length} wheels: ${objs.map(x => `${x.name} (${CarAxle[x.axle]})`).join(", ")}`);
+                this.wheels.push(...objs);
+            }
         }
         if (this.wheels.length <= 0) {
             console.warn(`[CarPhysics] No wheels found on ${this.gameObject.name}`);
@@ -145,9 +212,14 @@ export class CarPhysics extends Behaviour {
     }
     /** @internal */
     onDisable(): void {
+        this.context.physics.engine?.world.removeVehicleController(this._vehicle);
+        this._vehicle?.free();
+        this._vehicle = null!;
         if (this._physicsRoutine) {
             this.stopCoroutine(this._physicsRoutine);
         }
+    }
+    onDestroy(): void {
     }
     /** @internal */
     onBeforeRender() {
@@ -169,16 +241,23 @@ export class CarPhysics extends Behaviour {
             this.wheels.forEach(x => {
                 const cwp = this._vehicle.wheelChassisConnectionPointCs(x.index);
                 if (cwp) {
-
                     Gizmos.DrawLine(getTempVector(wp), getTempVector(cwp).applyQuaternion(chassis.rotation()).add(wp), 0x0000ff, 0, false);
                 }
             });
         }
 
         // update visuals
+        let anyWheelHasGroundContact = false;
         this.wheels.forEach((wheel) => {
             wheel.updateVisuals();
+            if (!anyWheelHasGroundContact) {
+                anyWheelHasGroundContact ||= this._vehicle.wheelIsInContact(wheel.index);
+            }
         });
+        if (!anyWheelHasGroundContact) {
+            this._airtime += this.context.time.deltaTime;
+        }
+        else this._airtime = 0;
 
         this.currSteer = 0;
         this.currAcc = 0;
@@ -213,7 +292,7 @@ export class CarPhysics extends Behaviour {
     }
 
     private applyPhysics() {
-        let breakForce = 0;
+        let breakForce = .05;
         let accelForce = 0;
 
         const velDir = this._rigidbody.getVelocity();
@@ -221,15 +300,16 @@ export class CarPhysics extends Behaviour {
         const reachedTopSpeed = vel > this.topSpeed;
 
         // breaking
-        const isBreaking = this.currAcc < 0 && vel > 0.1 && velDir.dot(this.gameObject.worldForward) > 0;
+        const isBreaking = this.currAcc < 0 && vel > 0.05 && velDir.dot(this.gameObject.worldForward) > 0;
         if (isBreaking) {
             breakForce = this.breakForce;
         }
 
         // acceleration
         const isAccelerating = this.currAcc != 0 && !isBreaking && !reachedTopSpeed;
-        if (isAccelerating)
+        if (isAccelerating) {
             accelForce = (this.accelerationForce / this.context.time.deltaTime) * this.currAcc;
+        }
 
         // steer
         const steer = this.currSteerSmooth * this.maxSteer * Mathf.Deg2Rad;
@@ -239,4 +319,40 @@ export class CarPhysics extends Behaviour {
             wheel.applyPhysics(accelForce, breakForce, steer);
         });
     }
+}
+
+
+function tryFindWheels(car: CarPhysics): CarWheel[] {
+
+    const wheels = new Array<CarWheel>();
+    traverse(car.gameObject);
+    return wheels;
+
+    function traverse(obj: Object3D) {
+
+
+        for (const ch of obj.children) {
+            const name = ch.name.toLowerCase();
+            if (name.startsWith("wheel")) {
+                if (!ch.getComponent(CarWheel)) {
+                    const front = name.includes("front") || name.includes("fl") || name.includes("fr");
+                    // const right = name.includes("right") || name.includes("fr") || name.includes("rr");
+                    const wheel = ch.addComponent(CarWheel, {
+                        axle: front ? CarAxle.front : CarAxle.rear,
+                        suspensionStiff: 45 + (car.mass * .7),
+                    });
+                    wheels.push(wheel);
+                }
+            }
+        }
+
+        for (const ch of obj.children) {
+            if (wheels.length > 0) break;
+            if (ch instanceof Object3D) {
+                traverse(ch);
+            }
+        }
+
+    }
+
 }

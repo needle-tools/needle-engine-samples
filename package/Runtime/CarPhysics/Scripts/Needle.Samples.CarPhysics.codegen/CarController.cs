@@ -8,10 +8,9 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class CarController : UnityEngine.MonoBehaviour
 	{
 		public Needle.Typescript.GeneratedComponents.CarPhysics @carPhysics;
-		public float @yResetThreshold;
 		public void reset(){}
+		public void awake(){}
 		public void OnEnable(){}
-		public void OnDisable(){}
 		public void onBeforeRender(){}
 	}
 }

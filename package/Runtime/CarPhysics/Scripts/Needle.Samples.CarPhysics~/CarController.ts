@@ -7,9 +7,6 @@ export class CarController extends Behaviour {
     @serializable(CarPhysics)
     carPhysics?: CarPhysics | null;
 
-    @serializable()
-    yResetThreshold: number = -5;
-
     /**
      * Resets the car to the starting position and orientation
      */
@@ -24,7 +21,6 @@ export class CarController extends Behaviour {
     private posOnStart!: Vector3;
     private rotOnStart!: Quaternion;
     private camStartPos!: Vector3;
-    private gamepad: Gamepad | null = null;
 
     onEnable() {
         // save start orientation
@@ -32,15 +28,6 @@ export class CarController extends Behaviour {
         this.rotOnStart = this.gameObject.quaternion.clone();
         this.camStartPos = this.context.mainCamera.position.clone();
         this.carPhysics ||= this.gameObject.getComponent(CarPhysics);
-        window.addEventListener("gamepadconnected", this._onGamepadConnected);
-    }
-    onDisable(): void {
-        window.removeEventListener("gamepadconnected", this._onGamepadConnected);
-    }
-
-    private _onGamepadConnected = (event: GamepadEvent) => {
-        console.debug("Gamepad connected", event.gamepad);
-        this.gamepad = event.gamepad;
     }
 
     onBeforeRender() {
@@ -53,7 +40,7 @@ export class CarController extends Behaviour {
     }
 
     private resetWhenFallingoff() {
-        if (this.worldPosition.y < this.yResetThreshold) {
+        if (this.carPhysics && this.carPhysics.airtime > 5) {
             this.reset();
         }
     }
@@ -82,10 +69,10 @@ export class CarController extends Behaviour {
     private async rescueVehicle() {
         if (!this.carPhysics) return;
 
-        const pos = this.worldPosition;
-        pos.y += 1;
+        const pos = this.gameObject.worldPosition;
+        pos.y += .5;
 
-        const fwd = this.forward;
+        const fwd = this.gameObject.worldForward;
         fwd.y = 0;
         fwd.normalize();
 
@@ -130,14 +117,24 @@ export class CarController extends Behaviour {
             }
         }
 
-        if (this.gamepad?.connected) {
-            steer += this.gamepad.axes[0];
-            accel += -this.gamepad.axes[1];
+        const gamepad = navigator.getGamepads()?.[0];
+        if (gamepad?.connected) {
 
-            const aButton = this.gamepad.buttons[0];
-            const bButton = this.gamepad.buttons[1];
-            const ltButton = this.gamepad.buttons[6];
-            const rtButton = this.gamepad.buttons[7];
+            const sideAxis = gamepad.axes[0];
+            const forwardAxis = gamepad.axes[1];
+
+            if (Math.abs(sideAxis) > .01) {  // make sure the tiny deadzone is not used
+                const negative = sideAxis < 0 ? -1 : 1;
+                steer += Math.pow(sideAxis, 2) * negative;
+            }
+            if (Math.abs(forwardAxis) > .01) { // make sure the tiny deadzone is not used
+                accel -= forwardAxis;
+            }
+
+            const aButton = gamepad.buttons[0];
+            const bButton = gamepad.buttons[1];
+            const ltButton = gamepad.buttons[6];
+            const rtButton = gamepad.buttons[7];
 
             if (aButton.pressed || rtButton.pressed) {
                 accel += 1;
@@ -146,7 +143,7 @@ export class CarController extends Behaviour {
                 accel -= 1;
             }
 
-            const xButton = this.gamepad.buttons[2];
+            const xButton = gamepad.buttons[2];
             if (xButton.pressed) {
                 this.reset();
             }
@@ -159,7 +156,7 @@ export class CarController extends Behaviour {
                 // base motor rumble
 
                 if (velocity > .01) {
-                    this.gamepad.vibrationActuator?.playEffect("dual-rumble", {
+                    gamepad.vibrationActuator?.playEffect("dual-rumble", {
                         startDelay: 0,
                         duration: this.context.time.deltaTime,
                         weakMagnitude: .1,
@@ -181,7 +178,7 @@ export class CarController extends Behaviour {
                 }
                 if (largestForce > 0) {
                     const expFactor = Math.pow(largestForce, 2);
-                    this.gamepad.vibrationActuator?.playEffect("dual-rumble", {
+                    gamepad.vibrationActuator?.playEffect("dual-rumble", {
                         startDelay: 0,
                         duration: largestForce * 500,
                         weakMagnitude: expFactor * 1.0,
@@ -197,7 +194,7 @@ export class CarController extends Behaviour {
                 const diff = lastVelocity - velocity;
                 if (diff > 1) {
                     this._lastHeroRumbleTime = this.context.time.realtimeSinceStartup;
-                    this.gamepad.vibrationActuator?.playEffect("dual-rumble", {
+                    gamepad.vibrationActuator?.playEffect("dual-rumble", {
                         startDelay: 0,
                         duration: 150,
                         weakMagnitude: Mathf.clamp01(diff / 3),
@@ -205,9 +202,6 @@ export class CarController extends Behaviour {
                     });
                 }
             }
-
-            // get latest gamepad data
-            this.gamepad = navigator.getGamepads()[this.gamepad.index];
         }
 
         this.carPhysics.steerInput(steer);
