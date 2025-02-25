@@ -1,4 +1,4 @@
-import { Behaviour, Collision, getTempQuaternion, getTempVector, Mathf, OrbitControls, serializable } from "@needle-tools/engine";
+import { Application, Behaviour, Collision, getTempQuaternion, getTempVector, Mathf, OrbitControls, serializable } from "@needle-tools/engine";
 import { CarPhysics } from "./CarPhysics";
 import { Vector3, Quaternion } from "three";
 
@@ -28,6 +28,10 @@ export class CarController extends Behaviour {
         this.rotOnStart = this.gameObject.quaternion.clone();
         this.camStartPos = this.context.mainCamera.position.clone();
         this.carPhysics ||= this.gameObject.getComponent(CarPhysics);
+        window.addEventListener("blur", this.onBlur);
+    }
+    onDisable(): void {
+        window.removeEventListener("blur", this.onBlur);
     }
 
     onBeforeRender() {
@@ -37,6 +41,21 @@ export class CarController extends Behaviour {
         this.handleInput();
         this.resetWhenRolledOver();
         this.resetWhenFallingoff();
+    }
+
+    private onBlur = (_e: FocusEvent) => {
+        if (!this.context.application.hasFocus) {
+            const gamepad = navigator.getGamepads()?.[0];
+            if (gamepad) {
+                // stop gamepad rumble when the scene loses focus
+                gamepad.vibrationActuator?.playEffect("dual-rumble", {
+                    startDelay: 0,
+                    duration: 0,
+                    weakMagnitude: 1,
+                    strongMagnitude: 1,
+                });
+            }
+        }
     }
 
     private resetWhenFallingoff() {

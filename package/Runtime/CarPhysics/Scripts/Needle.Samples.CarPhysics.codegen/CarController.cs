@@ -9,8 +9,8 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public Needle.Typescript.GeneratedComponents.CarPhysics @carPhysics;
 		public void reset(){}
-		public void awake(){}
 		public void OnEnable(){}
+		public void OnDisable(){}
 		public void onBeforeRender(){}
 	}
 }
