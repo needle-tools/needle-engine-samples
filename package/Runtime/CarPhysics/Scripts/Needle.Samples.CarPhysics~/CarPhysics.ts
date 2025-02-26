@@ -1,6 +1,6 @@
-import { DynamicRayCastVehicleController, World, RigidBody as RapierRigidbody } from "@dimforge/rapier3d-compat";
+import { DynamicRayCastVehicleController, World, RigidBody as RapierRigidbody, Collider as RapierCollider } from "@dimforge/rapier3d-compat";
 
-import { Behaviour, Gizmos, Mathf, Rigidbody, getParam, getTempVector, serializable, FrameEvent, delayForFrames, Collider, BoxCollider } from "@needle-tools/engine";
+import { Behaviour, Gizmos, Mathf, Rigidbody, getParam, getTempVector, serializable, FrameEvent, delayForFrames, Collider, BoxCollider, getBoundingBox } from "@needle-tools/engine";
 
 import { Vector3, Quaternion, Object3D } from "three";
 import { CarAxle, CarDrive } from "./constants.js";
@@ -139,12 +139,22 @@ export class CarPhysics extends Behaviour {
             const obj = new Object3D();
             obj.addComponent(collider);
             this.gameObject.add(obj);
-
-            collider.center.y += collider.size.y * .1;
             obj.position.copy(collider.center);
             collider.center.set(0, 0, 0);
 
-            collider.size.y *= .8;
+            // if an object is higher than longer/wider we clamp the height 
+            // this avoids offsetting the mass too much to the top which will make stuff easily fall over
+            // rapier uses the attached colliders to calculate the center of mass and it seems like
+            // the only way to modify the center of mass in rigidbodies is via additional mass
+            // https://rapier.rs/docs/user_guides/javascript/rigid_bodies#mass-properties
+            // TODO: test if we can set the centerOfMass of our Rigidbody component.
+            // const maxSurface = Math.max(collider.size.x, collider.size.z);
+            // if(maxSurface < collider.size.y) {
+            //     collider.size.y = maxSurface * 1.2;
+            // }
+
+            collider.center.y += collider.size.y * .1;
+            collider.size.y *= .9;
             collider.size.multiplyScalar(.95);
             collider.updateProperties();
         }
@@ -160,6 +170,7 @@ export class CarPhysics extends Behaviour {
         this._rigidbody = this.gameObject.getOrAddComponent(Rigidbody)!;
         this._rigidbody.mass = this.mass;
         this._rigidbody.autoMass = this.mass <= 0;
+        // this._rigidbody.centerOfMass.copy(this._rigidbody.gameObject.worldUp.multiplyScalar(100))
 
         await this.context.physics.engine?.initialize().then(() => delayForFrames(1));
         if (!this.activeAndEnabled) return;
@@ -190,7 +201,7 @@ export class CarPhysics extends Behaviour {
         // automatically try to find wheel objects in child hierarchy
         if (this.wheels.length <= 0) {
             console.debug(`[CarPhysics] No wheels found on ${this.gameObject.name}, trying to find them`);
-            const objs = tryFindWheels(this);
+            const objs = trySetupWheelsAutomatically(this);
             if (objs.length > 0) {
                 console.debug(`[CarPhysics] Found ${objs.length} wheels: ${objs.map(x => `${x.name} (${CarAxle[x.axle]})`).join(", ")}`);
                 this.wheels.push(...objs);
@@ -323,14 +334,71 @@ export class CarPhysics extends Behaviour {
 }
 
 
-function tryFindWheels(car: CarPhysics): CarWheel[] {
+function trySetupWheelsAutomatically(car: CarPhysics): CarWheel[] {
 
     const wheels = new Array<CarWheel>();
     traverse(car.gameObject);
+
+    if (wheels.length <= 0) {
+        const bounds = getBoundingBox(car.gameObject);
+
+        const height = bounds.max.y - bounds.min.y;
+        const maxHorizontalSurface = Math.max(bounds.max.x - bounds.min.x, bounds.max.z - bounds.min.z);
+        const heightVsMaxSurface = height / maxHorizontalSurface;
+
+        const size = bounds.getSize(new Vector3());
+        const wheelRadius = (size.length()) * .1;
+        const wheelY = bounds.min.y + wheelRadius;
+        let insetFactorHorizontal = (bounds.max.x - bounds.min.x) * .1;
+        let insetFactorVertical = (bounds.max.z - bounds.min.z) * .1;
+
+        // if the object is much higher than it is wide, we want to push the wheels out!
+        if (heightVsMaxSurface > 1) {
+            insetFactorHorizontal *= -heightVsMaxSurface * 1.5;
+            insetFactorVertical *= -heightVsMaxSurface * 1.5;
+        }
+
+        // creating 4 wheels in the corners
+        const frontLeft = new Object3D();
+        frontLeft.position.set(bounds.min.x + insetFactorHorizontal, wheelY, bounds.max.z - insetFactorVertical);
+        frontLeft.name = "WheelFrontLeft";
+        wheels.push(frontLeft.addComponent(CarWheel, {
+            axle: CarAxle.front,
+            radius: wheelRadius,
+        }));
+        car.gameObject.attach(frontLeft);
+
+        const frontRight = new Object3D();
+        frontRight.position.set(bounds.max.x - insetFactorHorizontal, wheelY, bounds.max.z - insetFactorVertical);
+        frontRight.name = "WheelFrontRight";
+        wheels.push(frontRight.addComponent(CarWheel, {
+            axle: CarAxle.front,
+            radius: wheelRadius,
+        }));
+        car.gameObject.attach(frontRight);
+
+        const rearLeft = new Object3D();
+        rearLeft.position.set(bounds.min.x + insetFactorHorizontal, wheelY, bounds.min.z + insetFactorVertical);
+        rearLeft.name = "WheelRearLeft";
+        wheels.push(rearLeft.addComponent(CarWheel, {
+            axle: CarAxle.rear,
+            radius: wheelRadius,
+        }));
+        car.gameObject.attach(rearLeft);
+
+        const rearRight = new Object3D();
+        rearRight.position.set(bounds.max.x - insetFactorHorizontal, wheelY, bounds.min.z + insetFactorVertical);
+        rearRight.name = "WheelRearRight";
+        wheels.push(rearRight.addComponent(CarWheel, {
+            axle: CarAxle.rear,
+            radius: wheelRadius,
+        }));
+        car.gameObject.attach(rearRight);
+
+    }
     return wheels;
 
     function traverse(obj: Object3D) {
-
 
         for (const ch of obj.children) {
             const name = ch.name.toLowerCase();

@@ -11,15 +11,18 @@ export class CarSelection extends Behaviour {
     cameraRig: Camera | null = null;
 
     @serializable(CarController)
-    cars?: CarController[];
+    cars!: CarController[];
 
+    awake(): void {
+        this.cars ??= [];
+    }
 
     start(): void {
         if (!this.cars?.length) {
             this.cars = [...GameObject.findObjectsOfType(CarController)];
         }
         if (this.cars.length > 0) {
-            this.selectCar(0);
+            this.selectCarByIndex(0);
         }
     }
     onEnable(): void {
@@ -29,6 +32,15 @@ export class CarSelection extends Behaviour {
     onDisable(): void {
         this.context.input.removeEventListener("keyup", this.onKey);
         this.context.domElement.removeEventListener("click", this.onClick);
+    }
+    selectCar(car: CarController) {
+        if (!this.cars) this.cars = [];
+        let index = this.cars.indexOf(car);
+        if (index === -1) {
+            this.cars.push(car);
+            index = this.cars.length - 1;
+        }
+        this.selectCarByIndex(index);
     }
 
     private gamepadButtonDown = false;
@@ -43,7 +55,7 @@ export class CarSelection extends Behaviour {
                     if (active) {
                         const activeIndex = active ? this.cars!.indexOf(active) : -1;
                         const nextIndex = (activeIndex + 1) % this.cars!.length;
-                        this.selectCar(nextIndex);
+                        this.selectCarByIndex(nextIndex);
                     }
                 }
             }
@@ -56,7 +68,7 @@ export class CarSelection extends Behaviour {
     private onKey: (evt: KeyboardEvent) => void = (evt) => {
         const index = parseInt(evt.key) - 1;
         if (index >= 0 && index < this.cars!.length) {
-            this.selectCar(index);
+            this.selectCarByIndex(index);
         }
     };
     private onClick = (_evt: Event) => {
@@ -71,14 +83,14 @@ export class CarSelection extends Behaviour {
             const car = hits[0]?.object.getComponentInParent(CarController);
             const index = car ? this.cars!.indexOf(car) : -1;
             if (index >= 0) {
-                this.selectCar(index);
+                this.selectCarByIndex(index);
             }
 
         }
     }
 
 
-    private selectCar(index: number) {
+    private selectCarByIndex(index: number) {
         for (const car of this.cars!) {
             car.enabled = false;
         }
@@ -87,7 +99,7 @@ export class CarSelection extends Behaviour {
             car.enabled = true;
 
             const touchControls = findObjectOfType(CarTouchControls);
-            if(touchControls) {
+            if (touchControls) {
                 touchControls.carPhysics = car.gameObject.getComponentInChildren(CarPhysics) || undefined;
             }
 

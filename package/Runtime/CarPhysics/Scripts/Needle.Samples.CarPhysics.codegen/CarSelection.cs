@@ -9,9 +9,11 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.Camera @cameraRig;
 		public Needle.Typescript.GeneratedComponents.CarController[] @cars;
+		public void awake(){}
 		public void start(){}
 		public void OnEnable(){}
 		public void OnDisable(){}
+		public void selectCar(Needle.Typescript.GeneratedComponents.CarController @car){}
 		public void update(){}
 	}
 }
