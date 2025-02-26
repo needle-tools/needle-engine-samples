@@ -84,6 +84,7 @@ export class CarWheel extends Behaviour {
     private vehicle!: DynamicRayCastVehicleController;
     private _wheelIndex: number = -1;
     private _activeRadius : number = -1;
+    private _initialQuaternion!: Quaternion;
 
     async initialize(car: CarPhysics, vehicle: DynamicRayCastVehicleController, i: number) {
         this.car = car;
@@ -92,14 +93,6 @@ export class CarWheel extends Behaviour {
 
         const target = this.wheelModel || this.gameObject;
 
-        // Assuming that all car wheels have the same car-relative axis. 
-        // Meaning car-relative X is to the side of the car and Z is forward
-        // If we don't reset the rotations here the wheel may be rotated in a weird way
-        // This should normally only an issue for vehicles with non-standard wheel orientations
-        this.wheelModel?.quaternion.identity();
-        this.gameObject?.quaternion.identity();
-
-        
 
         // Automatically calculate the radius if it's not set
         let radius = this.radius;
@@ -114,8 +107,18 @@ export class CarWheel extends Behaviour {
         this._activeRadius = Math.max(.01, radius);
 
 
+        // TODO: snap the up rotation (around car-relative Y) to the car's up rotation
+        this._initialQuaternion = target.quaternion.clone();
 
 
+        // Assuming that all car wheels have the same car-relative axis. 
+        // Meaning car-relative X is to the side of the car and Z is forward
+        // If we don't reset the rotations here the wheel may be rotated in a weird way
+        // This should normally only an issue for vehicles with non-standard wheel orientations
+        this.wheelModel?.quaternion.identity();
+        this.gameObject?.quaternion.identity();
+
+        
         // Figure out which axis the wheel should rotate around
         // Get the rotation in car space
         // TODO: This is a bit hacky, but it works for now
@@ -214,6 +217,7 @@ export class CarWheel extends Behaviour {
         const xRot = getTempQuaternion().setFromAxisAngle(this.wheelModelRight, wheelRot);
         const wheelRotation = yRot.multiply(xRot);
         target.quaternion.copy(wheelRotation);
+        target.quaternion.multiply(this._initialQuaternion);
 
         // position
         const contact = this.vehicle.wheelContactPoint(this._wheelIndex);

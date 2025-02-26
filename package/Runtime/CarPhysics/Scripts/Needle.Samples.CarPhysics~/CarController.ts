@@ -24,8 +24,8 @@ export class CarController extends Behaviour {
 
     onEnable() {
         // save start orientation
-        this.posOnStart = this.gameObject.position.clone();
-        this.rotOnStart = this.gameObject.quaternion.clone();
+        this.posOnStart = this.gameObject.worldPosition.clone();
+        this.rotOnStart = this.gameObject.worldQuaternion.clone();
         this.camStartPos = this.context.mainCamera.position.clone();
         this.carPhysics ||= this.gameObject.getComponent(CarPhysics);
         window.addEventListener("blur", this.onBlur);
@@ -89,7 +89,7 @@ export class CarController extends Behaviour {
         if (!this.carPhysics) return;
 
         const pos = this.gameObject.worldPosition;
-        pos.y += .5;
+        pos.y += 1;
 
         const fwd = this.gameObject.worldForward;
         fwd.y = 0;

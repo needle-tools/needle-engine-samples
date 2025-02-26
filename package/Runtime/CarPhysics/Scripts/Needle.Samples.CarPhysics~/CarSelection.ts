@@ -92,7 +92,7 @@ export class CarSelection extends Behaviour {
 
     private selectCarByIndex(index: number) {
         for (const car of this.cars!) {
-            car.enabled = false;
+            if (car) car.enabled = false;
         }
         const car = this.cars![index];
         if (car) {
