@@ -22,11 +22,14 @@ export class CarController extends Behaviour {
     private rotOnStart!: Quaternion;
     private camStartPos!: Vector3;
 
-    onEnable() {
+    start() {
         // save start orientation
         this.posOnStart = this.gameObject.worldPosition.clone();
         this.rotOnStart = this.gameObject.worldQuaternion.clone();
         this.camStartPos = this.context.mainCamera.position.clone();
+    }
+
+    onEnable() {
         this.carPhysics ||= this.gameObject.getComponent(CarPhysics);
         window.addEventListener("blur", this.onBlur);
     }

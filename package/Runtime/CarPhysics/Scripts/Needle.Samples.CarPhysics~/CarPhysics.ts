@@ -310,9 +310,11 @@ export class CarPhysics extends Behaviour {
         const vel = velDir.length();
         const reachedTopSpeed = vel > this.topSpeed;
 
+        this._rigidbody.applyImpulse(getTempVector(0, -this.context.time.deltaTime * 9.81 * vel, 0))
+
         // breaking
         // apply break if we're receiving negative input and are moving forward
-        const isBreaking = this.currAcc < 0 && vel > 0.05 && velDir.dot(this.gameObject.worldForward) > 0;
+        const isBreaking = this.currAcc < 0 && vel > 0.05 && velDir.dot(this.gameObject.worldForward) > 0;777
         if (isBreaking) {
             breakForce = this.breakForce * -this.currAcc;
         }
@@ -340,7 +342,13 @@ function trySetupWheelsAutomatically(car: CarPhysics): CarWheel[] {
     traverse(car.gameObject);
 
     if (wheels.length <= 0) {
+        const pos = car.gameObject.worldPosition;
+        const quat = car.gameObject.worldQuaternion;
+        car.gameObject.worldPosition = new Vector3();
+        car.gameObject.worldQuaternion = new Quaternion();
         const bounds = getBoundingBox(car.gameObject);
+        car.gameObject.worldQuaternion = quat;
+        car.gameObject.worldPosition = pos;
 
         const height = bounds.max.y - bounds.min.y;
         const maxHorizontalSurface = Math.max(bounds.max.x - bounds.min.x, bounds.max.z - bounds.min.z);
@@ -366,7 +374,7 @@ function trySetupWheelsAutomatically(car: CarPhysics): CarWheel[] {
             axle: CarAxle.front,
             radius: wheelRadius,
         }));
-        car.gameObject.attach(frontLeft);
+        car.gameObject.add(frontLeft);
 
         const frontRight = new Object3D();
         frontRight.position.set(bounds.max.x - insetFactorHorizontal, wheelY, bounds.max.z - insetFactorVertical);
@@ -375,7 +383,7 @@ function trySetupWheelsAutomatically(car: CarPhysics): CarWheel[] {
             axle: CarAxle.front,
             radius: wheelRadius,
         }));
-        car.gameObject.attach(frontRight);
+        car.gameObject.add(frontRight);
 
         const rearLeft = new Object3D();
         rearLeft.position.set(bounds.min.x + insetFactorHorizontal, wheelY, bounds.min.z + insetFactorVertical);
@@ -384,7 +392,7 @@ function trySetupWheelsAutomatically(car: CarPhysics): CarWheel[] {
             axle: CarAxle.rear,
             radius: wheelRadius,
         }));
-        car.gameObject.attach(rearLeft);
+        car.gameObject.add(rearLeft);
 
         const rearRight = new Object3D();
         rearRight.position.set(bounds.max.x - insetFactorHorizontal, wheelY, bounds.min.z + insetFactorVertical);
@@ -393,7 +401,7 @@ function trySetupWheelsAutomatically(car: CarPhysics): CarWheel[] {
             axle: CarAxle.rear,
             radius: wheelRadius,
         }));
-        car.gameObject.attach(rearRight);
+        car.gameObject.add(rearRight);
 
     }
     return wheels;
