@@ -1,5 +1,5 @@
 import { Context, Behaviour, DeviceUtilities, GameObject, USDZExporter, delay, serializable } from "@needle-tools/engine";
-import { Object3D, ShaderMaterial, Vector2, Color, Mesh, BufferGeometry } from "three"
+import { Object3D, ShaderMaterial, Vector2, Color, Mesh, BufferGeometry, MeshBasicMaterial } from "three"
 import { shaderStructs, shaderIntersectFunction, MeshBVHUniformStruct, MeshBVH, SAH } from "three-mesh-bvh";
 
 export class Diamond extends Behaviour {
@@ -45,7 +45,7 @@ export class Diamond extends Behaviour {
         return DeviceUtilities.isiOS() || DeviceUtilities.isMobileDevice() || DeviceUtilities.isQuest();
     }
 
-	private static _diamondMaterial: ShaderMaterial | undefined;
+	private static _diamondMaterials: Map<string, ShaderMaterial | undefined> = new Map();
 	private static _mesh: Map<BufferGeometry, MeshBVH> = new Map();
 
 	private original?: Object3D;
@@ -60,7 +60,14 @@ export class Diamond extends Behaviour {
 				const geo = mesh.geometry.clone();
 				this._mesh.set(mesh.geometry, new MeshBVH(geo, { strategy: SAH, maxLeafTris: 1 }));
 			}
-			const mat = this.getDiamondMaterial(context);
+			const existingMaterial = mesh.material as MeshBasicMaterial;
+			const existingColor = existingMaterial?.color;
+
+			const mat = this.getDiamondMaterial(context, {
+				color: existingColor || new Color(1, 1, 1),
+				ior: 2.4
+			});
+
             const bvh = this._mesh.get(mesh.geometry)!;
 			mesh = new Mesh();
 			mesh.geometry = bvh.geometry;
@@ -88,8 +95,9 @@ export class Diamond extends Behaviour {
     // Diamond custom shader. Could also switch to https://github.com/pmndrs/drei/blob/master/src/core/MeshRefractionMaterial.tsx
 
 	//@nonSerialized
-	static getDiamondMaterial(context: Context): ShaderMaterial {
-		if (this._diamondMaterial) return this._diamondMaterial;
+	static getDiamondMaterial(context: Context, settings: { color: Color, ior: number } = { color: new Color(1,1,1), ior: 2.4 }): ShaderMaterial {
+		const key = JSON.stringify(settings);
+		if (this._diamondMaterials.has(key)) return this._diamondMaterials.get(key)!;
 
 		// simplify features for mobile devices to save performance
         const bounces = this.isMobile() ? 2 : 3;
@@ -98,7 +106,7 @@ export class Diamond extends Behaviour {
 
 		const cam = context.mainCamera;
 		// initialize the diamond material
-		return new ShaderMaterial({
+		const material = new ShaderMaterial({
 			uniforms: {
 				// scene / geometry information
 				envMap: { value: context.scene.environment },
@@ -111,10 +119,10 @@ export class Diamond extends Behaviour {
 
 				// internal reflection settings
 				bounces: { value: bounces },
-				ior: { value: 2.4 },
+				ior: { value: settings.ior },
 
 				// chroma and color settings
-				color: { value: new Color(1, 1, 1) },
+				color: { value: settings.color },
 				fastChroma: { value: fastChroma },
 				aberrationStrength: { value: aberrationStrength },
 			},
@@ -272,6 +280,8 @@ export class Diamond extends Behaviour {
 			  #include <${169 >= 154 ? 'colorspace_fragment' : 'encodings_fragment'}>
 			}`
 		});
+		this._diamondMaterials.set(key, material);
+		return material;
 	}
 }
 
