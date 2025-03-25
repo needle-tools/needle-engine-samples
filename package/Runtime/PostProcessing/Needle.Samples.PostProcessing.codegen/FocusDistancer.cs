@@ -10,6 +10,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Rendering.Volume @post;
 		public bool @autoFocus = true;
 		public bool @displayDebugGizmo = true;
+		public void OnEnable(){}
+		public void OnDisable(){}
 		public void onBeforeRender(){}
 	}
 }
