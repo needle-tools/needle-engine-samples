@@ -3,7 +3,7 @@ import { SplatRenderer } from './SplatRenderer';
 
 export class SplatRendererMenu extends Behaviour {
 
-    @serializable(Array<string>)
+    @serializable()
     urls: string[] = [];
 
     @serializable()
@@ -27,7 +27,8 @@ export class SplatRendererMenu extends Behaviour {
             for (const url of this.urls) {
                 const option = document.createElement('option');
                 option.value = url;
-                option.textContent = `Select: ${new URL(url).pathname.split('/').pop()}`;
+                const urlPath = url?.startsWith('http') ? url : url;
+                option.textContent = `Select: ${urlPath.split('/').pop()}`;
                 select.appendChild(option);
                 if (splatRenderer && splatRenderer.path === url) {
                     option.selected = true;
