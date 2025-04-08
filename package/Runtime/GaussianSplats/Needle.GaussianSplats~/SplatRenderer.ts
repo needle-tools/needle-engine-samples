@@ -67,7 +67,9 @@ export class SplatRenderer extends Behaviour {
     onEnable() {
         this._viewer = new DropInViewer({
             // 'selfDrivenMode': false,
-            // renderer: this.context.renderer,
+            renderer: this.context.renderer,
+            camera: this.context.mainCamera,
+            useBuiltInControls: false,
             // rootElement: this.context.domElement,
             enableSIMDInSort: true,
             integerBasedSort: true,
