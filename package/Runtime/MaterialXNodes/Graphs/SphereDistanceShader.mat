@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2643022841571080224
+--- !u!114 &-8361630332457116493
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,24 +20,23 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_LitGraph
-  m_Shader: {fileID: -6465566751694194690, guid: cd4c645795ad54feba3a4aef223336cf, type: 3}
-  m_ValidKeywords:
-  - _USEEMISSION
+  m_Name: SphereDistanceShader
+  m_Shader: {fileID: -6465566751694194690, guid: 106c1958bb0694a04bbffc4a918c4245, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Map:
-        m_Texture: {fileID: 2800000, guid: 39d187f56e064b048a6d20ef887c500b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -52,11 +51,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Hardness: 0.85
+    - _Hue: 1.1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _USEEMISSION: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Emission: {r: 0, g: 0, b: 0, a: 0}
-    - _MetallicRough: {r: 0, g: 1, b: 0, a: 0}
+    - _Radius: 0.3
+    - _Saturation: 0.83
+    - _Tile: 20
+    m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
