@@ -20,7 +20,10 @@ namespace Needle.Engine
 		{
 			// Listen to assembly reload to determine if unity package with sample scene got installed....
 			EditorApplication.delayCall += OnDelayCall;
-			EditorSceneManager.sceneOpened += (_, _) => { OpenIfPossible(false); };
+			EditorSceneManager.sceneOpened += (_, _) =>
+			{
+				OnDelayCall();
+			};
 			return;
 
 			static async void OnDelayCall()
@@ -48,18 +51,15 @@ namespace Needle.Engine
 					var currentScene = SceneManager.GetActiveScene();
 					if (currentScene.path != scene)
 					{
-						EditorApplication.delayCall += () =>
+						Debug.Log("Open sample scene: " + scene);
+						try
 						{
-							Debug.Log("Open sample scene: " + scene);
-							try
-							{
-								SamplesWindow.OpenScene(scene);
-							}
-							catch (Exception e)
-							{
-								Debug.LogException(e);
-							}
-						};
+							SamplesWindow.OpenScene(scene);
+						}
+						catch (Exception e)
+						{
+							Debug.LogException(e);
+						}
 					}
 					else
 					{
