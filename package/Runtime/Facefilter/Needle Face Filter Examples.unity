@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: ee6535eea7974dc44bf7204aca0223da, type: 3}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0.74677277, g: 0.6931995, b: 0.58606195, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -103,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 3
+    serializedVersion: 2
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -116,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    buildHeightMesh: 0
+    accuratePlacement: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -132,11 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 784234924}
   - component: {fileID: 784234923}
-  - component: {fileID: 784234925}
-  - component: {fileID: 784234928}
-  - component: {fileID: 784234929}
-  - component: {fileID: 784234927}
-  - component: {fileID: 784234932}
   - component: {fileID: 784234933}
   m_Layer: 0
   m_Name: Export
@@ -171,90 +167,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 784234922}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &784234925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 438e3fec673b477cbc6d39ba011bf158, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
-    $ GlobalObjectId_V1-2-d541a43e59ef6e94b8483da1bfc954ea-784234925-0
-  compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
---- !u!114 &784234927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf2ffc5481d126c498a97e14b35c2fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-4b0acd05539d50444975840c4da7864b-784234927-0
-  meta:
-    title: Face Filter with Needle
-    description: Create your own unique face filters with blendshapes, animations
-      and particles. Record videos for your social media or share the link with friends
-      and family
-    image: {fileID: 2800000, guid: 8225250d29f1a2046863efbe520b2c39, type: 3}
---- !u!114 &784234928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b98ea17d00d4b13963c594067a209be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Shaders.SkyboxExportSettings, Needle.Engine.Shaders
-    $ GlobalObjectId_V1-2-d541a43e59ef6e94b8483da1bfc954ea-784234928-0
-  <SkyboxResolution>k__BackingField: 256
-  <HDR>k__BackingField: 1
---- !u!114 &784234929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
-    $ GlobalObjectId_V1-2-4b0acd05539d50444975840c4da7864b-784234929-0
-  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /facefilter
-  OverrideGzipCompression: 1
-  UseGzipCompression: 0
---- !u!114 &784234932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcc605ea0754e9a4aab7a0e867f70e01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToNeedleCloud, Needle.Engine.Deployment
 --- !u!114 &784234933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,13 +233,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556694686}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2057815168
 GameObject:
@@ -360,18 +280,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057815168}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1660057539 &9223372036854775807
-SceneRoots:
-  m_ObjectHideFlags: 0
-  m_Roots:
-  - {fileID: 784234924}
-  - {fileID: 1556694688}
-  - {fileID: 2057815170}
