@@ -17,3 +17,7 @@ To make your animation react to faces simply create `Float` parameters and use [
 ### How to use in Unity  
 
 Add the "Needle Filter Tracking Manager" to your scene and click the "Create New Filter" button to get started. Your filter can be edited visually in the Scene View.   
+
+### Npm
+
+[Needle Facefilter are also published on NPM](https://www.npmjs.com/package/@needle-tools/facefilter) and can be installed independently as well: `npm i @needle-tools/facefilter` 
