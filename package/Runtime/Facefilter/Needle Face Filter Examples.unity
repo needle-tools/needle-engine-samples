@@ -204,7 +204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7506834600844795425, guid: 7dbc3f4a0043912408c68cfdd8724fb2, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7506834600844795425, guid: 7dbc3f4a0043912408c68cfdd8724fb2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -383,7 +383,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.027961671, y: -0.9370649, z: 0.0775167, w: 0.33929154}
   m_LocalPosition: {x: 3.084, y: 1, z: 3.715}
-  m_LocalScale: {x: 1.0000422, y: 1, z: 1.0000088}
+  m_LocalScale: {x: 1.0000432, y: 1, z: 1.0000088}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -474,8 +474,8 @@ GameObject:
   - component: {fileID: 784234928}
   - component: {fileID: 784234929}
   - component: {fileID: 784234927}
-  - component: {fileID: 784234931}
   - component: {fileID: 784234932}
+  - component: {fileID: 784234933}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -497,12 +497,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-d541a43e59ef6e94b8483da1bfc954ea-784234923-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 0
   Dependencies:
-  - Name: '@needle-engine/facefilter'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Facefilter/FaceFilter.npmdef
-    Guid: 06489df698d9822449a39c8043f44a32
+  - Name: '@needle-tools/facefilter'
+    Version: 1.0.0-beta.12
+    Path: Packages/com.needle.engine-samples/Runtime/Facefilter/FaceFilter.npmdef
+    Guid: 8a360188428e47a428dc0e23be4353d6
+  CloudName: Needle Face Filter Examples
+  CloudTeam: 
 --- !u!4 &784234924
 Transform:
   m_ObjectHideFlags: 0
@@ -532,7 +535,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-d541a43e59ef6e94b8483da1bfc954ea-784234925-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &784234927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,19 +585,6 @@ MonoBehaviour:
   Path: /facefilter
   OverrideGzipCompression: 1
   UseGzipCompression: 0
---- !u!114 &784234931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784234922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b6166c533b54254a033bb2509157705, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.MeshCompression, Needle.Engine.GltfExport
-  Compression: 1
 --- !u!114 &784234932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,7 +597,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc605ea0754e9a4aab7a0e867f70e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToNeedleCloud, Needle.Engine.Deployment
-  projectName: face filter
+--- !u!114 &784234933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &1387623546
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,7 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
-  Guid: 6ddbe7eef8355734b9164aa86961f573
+  Guid: 60c704ca82d94a84995a6d8abd670e3c
 --- !u!4 &1556694688
 Transform:
   m_ObjectHideFlags: 0
@@ -733,7 +742,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 606769069450465576, guid: e700cd77c75191a4789e74dac95978ca, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 606769069450465576, guid: e700cd77c75191a4789e74dac95978ca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -833,5 +842,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
