@@ -4,6 +4,10 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-exp] - 2025-08-14
+- Change: Install Face Filter sample from NPM
+- Update Needle Engine Unity Plugin dependency to 4.8.0
+
 ## [0.20.1] - 2025-02-19
 - Deploy samples to Needle Cloud
 - Update Diamond Ring / Jewelry sample: fixing diamon shader regression for iOS 18.3 (issue FB16525288)

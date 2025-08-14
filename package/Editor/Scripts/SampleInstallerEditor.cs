@@ -57,6 +57,8 @@ namespace Needle.Engine
 					}
 					return true;
 				}
+				
+				Debug.LogWarning("Could not find sample scene with guid " + installer.SceneGuid);
 			}
 			return false;
 		}
