@@ -112,6 +112,8 @@ namespace Needle.Engine
 		[ContextMenu(nameof(Install))]
 		internal static async void Install(SampleInstaller t)
 		{
+			if (!t) return;
+			
 			if (isInstalling) return;
 			isInstalling = true;
 			try
