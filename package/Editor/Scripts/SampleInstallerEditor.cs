@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Needle.Engine.ProjectBundle;
 using Needle.Engine.Samples;
 using Needle.Engine.Utils;
 using UnityEditor;
@@ -23,7 +22,15 @@ namespace Needle.Engine
 			EditorSceneManager.sceneOpened += OnSceneOpened;
 			return;
 
-			void OnSceneOpened(Scene scene, OpenSceneMode mode) => OnDelayCall();
+			async void OnSceneOpened(Scene scene, OpenSceneMode mode)
+			{
+				await Task.Delay(1000);
+				if (!OpenIfPossible(false))
+				{
+					var installer = Object.FindObjectOfType<SampleInstaller>();
+					Install(installer);
+				}
+			}
 
 			static async void OnDelayCall()
 			{
@@ -36,46 +43,6 @@ namespace Needle.Engine
 			}
 		}
 
-		private static void OpenIfPossible(bool force)
-		{
-			var installer = Object.FindObjectOfType<SampleInstaller>();
-			if (!installer || string.IsNullOrEmpty(installer.SceneGuid))
-				return;
-			
-			var scene = AssetDatabase.GUIDToAssetPath(installer.SceneGuid);
-			if (!string.IsNullOrWhiteSpace(scene))
-			{
-				if (!force && !Path.GetFullPath(Constants.SamplesPackagePath).Contains("PackageCache"))
-				{
-					Debug.LogWarning(
-						$"[Sample Installer] Will not open another scene because the samples package is installed locally (development mode) - otherwise the scene {scene} would be opened.",
-						AssetDatabase.LoadAssetAtPath<Object>(scene));
-					return;
-				}
-				var currentScene = SceneManager.GetActiveScene();
-				if (currentScene.path != scene && File.Exists(scene))
-				{
-					Debug.Log("Open sample scene: " + scene);
-					try
-					{
-						SamplesWindow.OpenScene(scene, true);
-						// TODO: set web project path in newly opened scene
-					}
-					catch (Exception e)
-					{
-						Debug.LogException(e);
-					}
-				}
-				else
-				{
-					Debug.LogWarning($"Sample scene is already open: {scene}");
-				}
-				return;
-			}
-
-			Debug.LogWarning("Could not find sample scene with guid " + installer.SceneGuid);
-		}
-
 		public override void OnInspectorGUI()
 		{
 			using (new EditorGUI.DisabledScope(true))
@@ -85,7 +52,7 @@ namespace Needle.Engine
 			GUILayout.Space(10);
 			if (GUILayout.Button("Install " + t.PackageName, GUILayout.Height(32)))
 			{
-				Install();
+				Install(t);
 			}
 			
 			if (!string.IsNullOrEmpty(t.SceneGuid))
@@ -101,35 +68,73 @@ namespace Needle.Engine
 			}
 		}
 
-		private bool isInstalling = false;
+		private static bool OpenIfPossible(bool force)
+		{
+			var installer = Object.FindObjectOfType<SampleInstaller>();
+			if (!installer || string.IsNullOrEmpty(installer.SceneGuid))
+				return false;
+			
+			var scene = AssetDatabase.GUIDToAssetPath(installer.SceneGuid);
+			if (!string.IsNullOrWhiteSpace(scene))
+			{
+				if (!force && !Path.GetFullPath(Constants.SamplesPackagePath).Contains("PackageCache"))
+				{
+					Debug.LogWarning(
+						$"[Sample Installer] Will not open another scene because the samples package is installed locally (development mode) - otherwise the scene {scene} would be opened.",
+						AssetDatabase.LoadAssetAtPath<Object>(scene));
+					return true;
+				}
+				var currentScene = SceneManager.GetActiveScene();
+				if (currentScene.path != scene && File.Exists(scene))
+				{
+					Debug.Log("Open sample scene: " + scene);
+					try
+					{
+						SamplesWindow.OpenScene(scene, true);
+						// TODO: set web project path in newly opened scene
+					}
+					catch (Exception e)
+					{
+						Debug.LogException(e);
+					}
+					return true;
+				}
+				else
+				{
+					Debug.LogWarning($"Sample scene is already open: {scene}");
+				}
+			}
+			return false;
+		}
+
+		private static bool isInstalling = false;
 
 		[ContextMenu(nameof(Install))]
-		public async void Install()
+		internal static async void Install(SampleInstaller t)
 		{
 			if (isInstalling) return;
 			isInstalling = true;
 			try
 			{
-				var t = (SampleInstaller)this.target;
 				var packageName = t.PackageName;
 				var packageVersion = t.PackageVersion;
 
 				if (!string.IsNullOrWhiteSpace(packageName) && !string.IsNullOrWhiteSpace(packageVersion))
 				{
-					Debug.Log($"Checking if package exists on npm: {packageName}@{packageVersion}", this);
+					Debug.Log($"Checking if package exists on npm: {packageName}@{packageVersion}", t);
 					EditorGUIUtility.PingObject(t);
 					if (!await NpmUtils.PackageExists(packageName, packageVersion))
 					{
 						Debug.LogError(
 							$"Package {packageName}@{packageVersion} does not exist on npm, please check the name and version.",
-							this);
+							t);
 					}
 					else
 					{
 						var exp = ExportInfo.Get();
 						if (exp && exp.Exists())
 						{
-							Debug.Log($"Add dependency to package.json: {packageName}@{packageVersion}", this);
+							Debug.Log($"Add dependency to package.json: {packageName}@{packageVersion}", t);
 							var projectPath = exp.GetProjectDirectory() + "/package.json";
 							if (PackageUtils.TryReadDependencies(projectPath, out var deps))
 							{
@@ -138,7 +143,7 @@ namespace Needle.Engine
 								{
 									Debug.Log(
 										$"Added {packageName} to dependencies - now installing (please wait)...\n${exp.PackageJsonPath}",
-										this);
+										t);
 									await Task.Delay(1000);
 									var path = exp.GetProjectDirectory();
 									var cmd =
@@ -146,21 +151,21 @@ namespace Needle.Engine
 									if (await ProcessHelper.RunCommand(cmd, exp.GetProjectDirectory()))
 									{
 										EditorGUIUtility.PingObject(t);
-										Debug.Log($"Successfully installed {packageName}@{packageVersion}", this);
+										Debug.Log($"Successfully installed {packageName}@{packageVersion}", t);
 										ProjectBundle.Actions.RequestWebProjectScanning(path);
 									}
 									else
 									{
 										Debug.LogWarning(
 											$"Failed to install {packageName}@{packageVersion} - please check the console for errors.",
-											this);
+											t);
 									}
 								}
 							}
 						}
 						else
 						{
-							Debug.LogError("Missing Needle Engine component", this);
+							Debug.LogError("Missing Needle Engine component", t);
 						}
 					}
 				}
