@@ -62,7 +62,8 @@ namespace Needle.Engine
 						Debug.Log("Open sample scene: " + scene);
 						try
 						{
-							SamplesWindow.OpenScene(scene);
+							SamplesWindow.OpenScene(scene, true);
+							// TODO: set web project path in newly opened scene
 						}
 						catch (Exception e)
 						{
