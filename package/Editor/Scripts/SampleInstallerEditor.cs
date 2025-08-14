@@ -20,15 +20,23 @@ namespace Needle.Engine
 		{
 			// Listen to assembly reload to determine if unity package with sample scene got installed....
 			EditorApplication.delayCall += OnDelayCall;
-			EditorSceneManager.sceneOpened += (_, _) =>
-			{
-				OnDelayCall();
-			};
+			EditorSceneManager.sceneOpened += OnSceneOpened;
 			return;
+            
+			void OnSceneOpened(Scene scene, OpenSceneMode mode)
+			{
+				// Only listen to scene opened once
+				EditorSceneManager.sceneOpened -= OnSceneOpened;
+				OnDelayCall();
+			}
 
 			static async void OnDelayCall()
 			{
-				while (EditorApplication.isCompiling || EditorApplication.isUpdating) await Task.Delay(100);
+				await Task.Delay(1000);
+				while (EditorApplication.isCompiling || EditorApplication.isUpdating)
+				{
+					await Task.Delay(100);
+				}
 				OpenIfPossible(false);
 			}
 		}
@@ -78,7 +86,7 @@ namespace Needle.Engine
 			using (new EditorGUI.DisabledScope(true))
 				base.OnInspectorGUI();
 
-			var t = (SampleInstaller)this.target; 
+			var t = (SampleInstaller)this.target;
 			GUILayout.Space(10);
 			if (GUILayout.Button("Install " + t.PackageName, GUILayout.Height(32)))
 			{
@@ -102,6 +110,7 @@ namespace Needle.Engine
 				if (!string.IsNullOrWhiteSpace(packageName) && !string.IsNullOrWhiteSpace(packageVersion))
 				{
 					Debug.Log($"Checking if package exists on npm: {packageName}@{packageVersion}", this);
+					EditorGUIUtility.PingObject(t);
 					if (!await NpmUtils.PackageExists(packageName, packageVersion))
 					{
 						Debug.LogError(
@@ -129,6 +138,7 @@ namespace Needle.Engine
 										$"{NpmUtils.GetInstallCommand(exp.GetProjectDirectory())} --silent {packageName}@{packageVersion} && npm update {packageName} --silent";
 									if (await ProcessHelper.RunCommand(cmd, exp.GetProjectDirectory()))
 									{
+										EditorGUIUtility.PingObject(t);
 										Debug.Log($"Successfully installed {packageName}@{packageVersion}", this);
 										ProjectBundle.Actions.RequestWebProjectScanning(path);
 									}
