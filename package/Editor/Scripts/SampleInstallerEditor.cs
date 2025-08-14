@@ -53,7 +53,7 @@ namespace Needle.Engine
 					return;
 				}
 				var currentScene = SceneManager.GetActiveScene();
-				if (currentScene.path != scene)
+				if (currentScene.path != scene && File.Exists(scene))
 				{
 					Debug.Log("Open sample scene: " + scene);
 					try
