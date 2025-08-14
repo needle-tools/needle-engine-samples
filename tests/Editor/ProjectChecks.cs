@@ -25,7 +25,7 @@ internal class ProjectChecks
         Assert.AreEqual(GraphicsSettings.lightsUseColorTemperature, true);
     }
 
-    [MenuItem("Needle Engine/Internal/Set lighting settings to Linear")]
+    [MenuItem("Needle Engine/Internal/Set lighting settings to Linear (Dev)")]
     static void SetLightingSettingsToLinear()
     {
         PlayerSettings.colorSpace = ColorSpace.Linear;

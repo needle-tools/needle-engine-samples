@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Needle.Engine.Problems;
 using Needle.Engine.Samples;
 using Needle.Engine.Utils;
 using UnityEditor;
@@ -43,7 +44,7 @@ namespace Needle.Engine
 				{
 					if (!force && !Path.GetFullPath(Constants.SamplesPackagePath).Contains("PackageCache"))
 					{
-						Debug.LogWarning("[Sample Installer] Will not open another scene");
+						Debug.LogWarning($"[Sample Installer] Will not open another scene because the samples package is installed locally (development mode) - otherwise the scene {scene} would be opened.", AssetDatabase.LoadAssetAtPath<Object>(scene));
 						return true;
 					}
 					Debug.Log("Open sample scene: " + scene);
@@ -104,10 +105,18 @@ namespace Needle.Engine
 							deps[packageName] = packageVersion;
 							if (PackageUtils.TryWriteDependencies(projectPath, deps))
 							{
-								Debug.Log("Dependency added successfully - installing...", this);
-								if (await Actions.InstallPackage(false))
+								Debug.Log($"Added ${packageName} to dependencies - now installing (please wait)...\n${exp.PackageJsonPath}", this);
+								await Task.Delay(1000);
+								var cmd =
+									$"{NpmUtils.GetInstallCommand(exp.GetProjectDirectory())} --silent {packageName}@{packageVersion} && npm update {packageName} --silent";
+								if (await ProcessHelper.RunCommand(cmd, exp.GetProjectDirectory()))
 								{
+									Debug.Log($"Successfully installed {packageName}@{packageVersion}", this);
 									OpenIfPossible(true);
+								}
+								else
+								{
+									Debug.LogWarning($"Failed to install {packageName}@{packageVersion} - please check the console for errors.", this);
 								}
 							}
 						}
