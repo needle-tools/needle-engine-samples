@@ -22,13 +22,8 @@ namespace Needle.Engine
 			EditorApplication.delayCall += OnDelayCall;
 			EditorSceneManager.sceneOpened += OnSceneOpened;
 			return;
-            
-			void OnSceneOpened(Scene scene, OpenSceneMode mode)
-			{
-				// Only listen to scene opened once
-				EditorSceneManager.sceneOpened -= OnSceneOpened;
-				OnDelayCall();
-			}
+
+			void OnSceneOpened(Scene scene, OpenSceneMode mode) => OnDelayCall();
 
 			static async void OnDelayCall()
 			{
@@ -41,45 +36,44 @@ namespace Needle.Engine
 			}
 		}
 
-		private static bool OpenIfPossible(bool force)
+		private static void OpenIfPossible(bool force)
 		{
 			var installer = Object.FindObjectOfType<SampleInstaller>();
-			if (installer && !string.IsNullOrEmpty(installer.SceneGuid))
+			if (!installer || string.IsNullOrEmpty(installer.SceneGuid))
+				return;
+			
+			var scene = AssetDatabase.GUIDToAssetPath(installer.SceneGuid);
+			if (!string.IsNullOrWhiteSpace(scene))
 			{
-				var scene = AssetDatabase.GUIDToAssetPath(installer.SceneGuid);
-				if (!string.IsNullOrWhiteSpace(scene))
+				if (!force && !Path.GetFullPath(Constants.SamplesPackagePath).Contains("PackageCache"))
 				{
-					if (!force && !Path.GetFullPath(Constants.SamplesPackagePath).Contains("PackageCache"))
-					{
-						Debug.LogWarning(
-							$"[Sample Installer] Will not open another scene because the samples package is installed locally (development mode) - otherwise the scene {scene} would be opened.",
-							AssetDatabase.LoadAssetAtPath<Object>(scene));
-						return true;
-					}
-					var currentScene = SceneManager.GetActiveScene();
-					if (currentScene.path != scene)
-					{
-						Debug.Log("Open sample scene: " + scene);
-						try
-						{
-							SamplesWindow.OpenScene(scene, true);
-							// TODO: set web project path in newly opened scene
-						}
-						catch (Exception e)
-						{
-							Debug.LogException(e);
-						}
-					}
-					else
-					{
-						Debug.LogWarning($"Sample scene is already open: {scene}");
-					}
-					return true;
+					Debug.LogWarning(
+						$"[Sample Installer] Will not open another scene because the samples package is installed locally (development mode) - otherwise the scene {scene} would be opened.",
+						AssetDatabase.LoadAssetAtPath<Object>(scene));
+					return;
 				}
-
-				Debug.LogWarning("Could not find sample scene with guid " + installer.SceneGuid);
+				var currentScene = SceneManager.GetActiveScene();
+				if (currentScene.path != scene)
+				{
+					Debug.Log("Open sample scene: " + scene);
+					try
+					{
+						SamplesWindow.OpenScene(scene, true);
+						// TODO: set web project path in newly opened scene
+					}
+					catch (Exception e)
+					{
+						Debug.LogException(e);
+					}
+				}
+				else
+				{
+					Debug.LogWarning($"Sample scene is already open: {scene}");
+				}
+				return;
 			}
-			return false;
+
+			Debug.LogWarning("Could not find sample scene with guid " + installer.SceneGuid);
 		}
 
 		public override void OnInspectorGUI()
@@ -92,6 +86,18 @@ namespace Needle.Engine
 			if (GUILayout.Button("Install " + t.PackageName, GUILayout.Height(32)))
 			{
 				Install();
+			}
+			
+			if (!string.IsNullOrEmpty(t.SceneGuid))
+			{
+				var scene = AssetDatabase.GUIDToAssetPath(t.SceneGuid);
+				if (!string.IsNullOrEmpty(scene))
+				{
+					if (GUILayout.Button("Open Sample"))
+					{
+						OpenIfPossible(true);
+					}
+				}
 			}
 		}
 
