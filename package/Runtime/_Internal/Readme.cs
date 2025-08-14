@@ -67,7 +67,7 @@ namespace Needle.Engine
             if(!hasData && hasGuid)
             {
                 var path = AssetDatabase.GUIDToAssetPath(readme.Guid);
-                var root = Path.GetDirectoryName(path);
+                var root = !string.IsNullOrEmpty(path) ? Path.GetDirectoryName(path) : null;
                 var readmePath = $"{root}/README.md";
                 if (File.Exists(readmePath))
                 {
