@@ -73,6 +73,7 @@ import { ConsumeAllPointers } from "../PointerHandlers/ConsumeAllPointers.js";
 import { ReflectionsSwitcher } from "../ReflectionProbes/ReflectionsSwitcher.js";
 import { VariantInfo } from "../Variants/VariantInfo.js";
 import { VariantSwitcher } from "../Variants/VariantSwitcher.js";
+import { Water } from "../Water/Water.js";
 
 // Register types
 TypeStore.add("AspectRatioFitterUI", AspectRatioFitterUI);
@@ -146,3 +147,4 @@ TypeStore.add("ConsumeAllPointers", ConsumeAllPointers);
 TypeStore.add("ReflectionsSwitcher", ReflectionsSwitcher);
 TypeStore.add("VariantInfo", VariantInfo);
 TypeStore.add("VariantSwitcher", VariantSwitcher);
+TypeStore.add("Water", Water);
