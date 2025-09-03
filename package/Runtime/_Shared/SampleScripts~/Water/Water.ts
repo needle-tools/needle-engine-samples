@@ -1,6 +1,8 @@
 import { AxesHelper, Behaviour, getTempVector, Gizmos, serializable } from '@needle-tools/engine'
 import {
     Color,
+    DepthFormat,
+    DepthTexture,
     FrontSide,
     LinearFilter,
     LinearMipmapLinearFilter,
@@ -14,6 +16,7 @@ import {
     Texture,
     UniformsLib,
     UniformsUtils,
+    UnsignedShortType,
     Vector3,
     Vector4,
     WebGLRenderTarget,
@@ -156,7 +159,8 @@ class _Water extends Mesh {
         const renderTarget = new WebGLRenderTarget(textureWidth, textureHeight)
         renderTarget.texture.generateMipmaps = true
         renderTarget.texture.minFilter = LinearMipmapLinearFilter
-        renderTarget.texture.magFilter = LinearFilter;
+        renderTarget.texture.magFilter = LinearFilter
+        
 
         const mirrorShader = {
             uniforms: UniformsUtils.merge([
@@ -269,14 +273,77 @@ class _Water extends Mesh {
 
 					vec2 distortion = surfaceNormal.xz * ( 0.001 + 1.0 / distance ) * distortionScale;
 					
-					// Sample reflection with roughness-based mip level
+					// Sample reflection with high-quality multi-sampling
 					vec2 reflectCoord = mirrorCoord.xy / mirrorCoord.w + distortion;
+					vec3 reflectionSample = vec3(0.0);
 					
-					// Map roughness to mip level (0 = sharp, higher = blurrier)
-					// Calculate available mip levels based on texture size
-					float maxMipLevel = log2(float(textureSize(mirrorSampler, 0).x));
-					float mipLevel = roughness * min(maxMipLevel, 8.0);
-					vec3 reflectionSample = texture2DLodEXT( mirrorSampler, reflectCoord, mipLevel ).rgb;
+					if (roughness < 0.01) {
+						// Sharp reflection for smooth surfaces
+						reflectionSample = texture2D( mirrorSampler, reflectCoord ).rgb;
+					} else {
+						// Ultra high-quality 25-tap sampling with roughness-based blur
+						float blurRadius = roughness * 0.03;
+						
+						// Add noise jittering to break up patterns
+						vec2 noiseOffset = (noise.xy * 2.0 - 1.0) * blurRadius * 0.25;
+						
+						// Extended Poisson disk sample offsets for ultra-smooth blur
+						vec2 offsets[24];
+						offsets[0] = vec2(0.0, 0.0);
+						offsets[1] = vec2(0.54, 0.0);
+						offsets[2] = vec2(0.16, 0.52);
+						offsets[3] = vec2(-0.44, 0.28);
+						offsets[4] = vec2(-0.38, -0.44);
+						offsets[5] = vec2(0.13, -0.51);
+						offsets[6] = vec2(0.79, -0.13);
+						offsets[7] = vec2(-0.24, 0.11);
+						offsets[8] = vec2(0.24, 0.27);
+						offsets[9] = vec2(-0.06, -0.22);
+						offsets[10] = vec2(0.4, -0.35);
+						offsets[11] = vec2(-0.67, -0.05);
+						offsets[12] = vec2(0.87, 0.28);
+						offsets[13] = vec2(-0.85, 0.33);
+						offsets[14] = vec2(0.29, -0.84);
+						offsets[15] = vec2(-0.31, -0.81);
+						offsets[16] = vec2(0.73, 0.71);
+						offsets[17] = vec2(-0.72, -0.68);
+						offsets[18] = vec2(-0.77, 0.64);
+						offsets[19] = vec2(0.68, -0.76);
+						offsets[20] = vec2(0.91, -0.51);
+						offsets[21] = vec2(-0.93, -0.26);
+						offsets[22] = vec2(0.15, 0.94);
+						offsets[23] = vec2(-0.19, -0.97);
+						
+						// Hybrid sampling: LOD for base blur + regular for detail
+						float baseMipLevel = roughness * 4.0;
+						
+						// Center sample uses LOD for base blur quality
+						reflectionSample += texture2DLodEXT( mirrorSampler, reflectCoord + noiseOffset, baseMipLevel ).rgb * 0.3;
+						
+						// Inner ring: mix of LOD and regular sampling
+						for (int i = 1; i < 12; i++) {
+							vec2 sampleCoord = reflectCoord + offsets[i] * blurRadius + noiseOffset * 0.4;
+							if (i % 3 == 0) {
+								// Every 3rd sample uses LOD for smooth base
+								reflectionSample += texture2DLodEXT( mirrorSampler, sampleCoord, baseMipLevel * 0.7 ).rgb * 0.04;
+							} else {
+								// Regular samples for detail
+								reflectionSample += texture2D( mirrorSampler, sampleCoord ).rgb * 0.035;
+							}
+						}
+						
+						// Outer ring: mostly regular sampling with occasional LOD
+						for (int i = 12; i < 24; i++) {
+							vec2 sampleCoord = reflectCoord + offsets[i] * blurRadius + noiseOffset * 0.3;
+							if (i % 4 == 0) {
+								// Every 4th sample uses higher LOD for distant blur
+								reflectionSample += texture2DLodEXT( mirrorSampler, sampleCoord, baseMipLevel ).rgb * 0.02;
+							} else {
+								// Regular samples for sharp detail
+								reflectionSample += texture2D( mirrorSampler, sampleCoord ).rgb * 0.015;
+							}
+						}
+					}
 
 					float theta = max( dot( eyeDirection, surfaceNormal ), 0.0 );
 					float rf0 = mix(0.02, 0.3, roughness); // Rougher surfaces have higher base reflectance
