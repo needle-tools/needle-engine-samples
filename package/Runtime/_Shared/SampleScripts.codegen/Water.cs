@@ -12,6 +12,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @distortionScale = 1f;
 		public UnityEngine.Texture @waterNormals;
 		public UnityEngine.Color @waterColor = new UnityEngine.Color(1f, 1f, 1f);
+		public float @roughness = 0.5f;
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void update(){}
