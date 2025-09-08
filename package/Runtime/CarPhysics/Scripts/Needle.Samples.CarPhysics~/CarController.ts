@@ -106,6 +106,13 @@ export class CarController extends Behaviour {
         if (this.context.xr) {
             accel += this.context.xr.rightController?.getButton("a-button")?.value || 0;
             accel -= this.context.xr.leftController?.getButton("x-button")?.value || 0;
+            accel += this.context.xr.rightController?.getButton("xr-standard-trigger")?.value || 0;
+            accel -= this.context.xr.leftController?.getButton("xr-standard-trigger")?.value || 0;
+            const leftStick = this.context.xr.leftController?.getStick("primary");
+            if (leftStick) {
+                steer -= leftStick.x;
+                accel += leftStick.y;
+            }
 
             const squeezeLeft = this.context.xr.rightController?.getButton("xr-standard-squeeze")?.value || 0;
             const squeezeRight = this.context.xr.leftController?.getButton("xr-standard-squeeze")?.value || 0;
