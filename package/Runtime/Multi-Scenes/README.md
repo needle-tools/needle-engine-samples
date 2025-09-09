@@ -1,20 +1,22 @@
-# Multi-scene
+# Multi Scene Example
 
-This sample is comprised of 2 scenes. 
+With Needle Engine it's **simple to load and unload interactive scenes** that bring their own objects, materials, lighting, cameras and interactive components. This idea is one of the fundamental concepts and pillars of Needle Engine which makes it so powerful. 
 
-### Utilizing prefabs
-Scene name: `Multi Scenes (Prefabs)`
+## How it works
 
-Prefabs are objects which contain components. Objects can have children.
+### Export
+Referenced Prefab and Scene Assets (in Unity) or Blend files (in Blender) in your components are exported as individual glTF scenes that can be loaded and instantiated into your scene at any time. All the necessary data is stored in those glTF files which can be loaded in either Needle Engine or any three.js based project.
 
-### Utilizing scenes
-scene name: `Multi Scenes`
+### Loading
+Use either the built-in [SceneSwitcher component](https://engine.needle.tools/docs/api/classes/Built-in_Components.SceneSwitcher.html) as a no-code solution or one of the options below:
 
-The scene is a collection of such objects, but it has extra information and built-in features like lightmaps and the embedded skybox. So if you want to bake lighting, it is ideal to use scenes.
+- [AssetReference](https://engine.needle.tools/docs/api/classes/Engine_Core.AssetReference.html)
+- [LoadAsset](https://engine.needle.tools/docs/api/functions/Engine_Core.loadAsset.html)
 
----
+## Showcase Examples
 
-In reality, both scenes and prefabs are exported as separate .glb files and since they are separate, it means this should significantly reduce the initial download size. This is a recommended way how to handle large applications in a single needle instance.
+[![](https://engine.needle.tools/samples/showcase/soc/thumbnail.webp)](https://engine.needle.tools/samples/songs-of-cultures/)
+[Songs Of Cultures](https://engine.needle.tools/samples/songs-of-cultures/)
 
-Under the hood, the sample utilizes the [**AssetReference**](https://engine.needle.tools/docs/scripting.html#assetreference-and-addressables) which ensures proper content handling and asynchronous loading. 
-
+[![](https://engine.needle.tools/samples/showcase/needle%20website/thumbnail.webp)](https://engine.needle.tools/samples/needle-website)
+[Needle Website](https://engine.needle.tools/samples/needle-website)
