@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.11818653, g: 0.11776421, b: 0.11818653, a: 1}
+  m_IndirectSpecularColor: {r: 0.11798735, g: 0.11798735, b: 0.11798735, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 141e7e46caac2c7479441d7671ce1d11, type: 2}
+  m_LightingDataAsset: {fileID: 112000004, guid: a84a79467aa823f48a102028f3a0b399, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 813c885d91ab1e241b8c409e2c2d72bd, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -162,7 +162,7 @@ Transform:
   m_GameObject: {fileID: 117747216}
   m_LocalRotation: {x: -0, y: 0.9238797, z: -0, w: -0.38268322}
   m_LocalPosition: {x: 1.371, y: 0.049, z: 1.437}
-  m_LocalScale: {x: 0.7000004, y: 0.7, z: 0.7000004}
+  m_LocalScale: {x: 0.7000061, y: 0.7, z: 0.7000061}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -276,9 +276,8 @@ GameObject:
   - component: {fileID: 735036270}
   - component: {fileID: 735036273}
   - component: {fileID: 735036272}
-  - component: {fileID: 735036271}
   m_Layer: 0
-  m_Name: Point Light - Red
+  m_Name: Light - Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,25 +298,6 @@ Transform:
   m_Father: {fileID: 1746161129}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -21.38, y: -219.827, z: -0.002}
---- !u!114 &735036271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735036269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0929a0e2816040a49b0d2f687e715e57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.AdditionalData.LightShadowData, Needle.Engine
-  shadowWidth: 10
-  shadowHeight: 10
-  shadowDistance: 300
-  shadowResolution: 2048
-  shadowBias: 0.00001
-  shadowNormalBias: 0.015
-  _overrideShadowBiasSettings: 1
 --- !u!114 &735036272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +393,7 @@ GameObject:
   - component: {fileID: 816909458}
   - component: {fileID: 816909457}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -604,7 +584,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909199948}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -623,9 +603,8 @@ GameObject:
   - component: {fileID: 1033995714}
   - component: {fileID: 1033995713}
   - component: {fileID: 1033995715}
-  - component: {fileID: 1033995716}
   m_Layer: 0
-  m_Name: Point Light - Blue
+  m_Name: Light - Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -729,25 +708,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
---- !u!114 &1033995716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033995712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0929a0e2816040a49b0d2f687e715e57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.AdditionalData.LightShadowData, Needle.Engine
-  shadowWidth: 10
-  shadowHeight: 10
-  shadowDistance: 300
-  shadowResolution: 2048
-  shadowBias: 0.00001
-  shadowNormalBias: 0.015
-  _overrideShadowBiasSettings: 1
 --- !u!1001 &1190077507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -814,10 +774,6 @@ PrefabInstance:
     - target: {fileID: 8771091787928289351, guid: 69ea9fc6b71b1a84e9f6c8929415d8ed, type: 3}
       propertyPath: m_Name
       value: Statue
-      objectReference: {fileID: 0}
-    - target: {fileID: 8771091787928289351, guid: 69ea9fc6b71b1a84e9f6c8929415d8ed, type: 3}
-      propertyPath: m_Layer
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8771091787928289351, guid: 69ea9fc6b71b1a84e9f6c8929415d8ed, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -971,11 +927,13 @@ MonoBehaviour:
   autoRotateSpeed: 0.2
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -983,6 +941,7 @@ MonoBehaviour:
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 1426173382}
 --- !u!1183024399 &1426173382
@@ -1041,6 +1000,58 @@ Transform:
   - {fileID: 2007503029}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1860400268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1860400270}
+  - component: {fileID: 1860400269}
+  m_Layer: 0
+  m_Name: Remote Environment
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1860400269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860400268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 356a354e8e3243768275aff0d941f63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.RemoteSkybox, Needle.Engine
+  url: https://cdn.needle.tools/static/hdris/studio_small_09_2k.pmrem.ktx2
+  local:
+    Mode: 0
+    File: {fileID: 0}
+    String: 
+  allowDrop: 1
+  background: 0
+  environment: 1
+--- !u!4 &1860400270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860400268}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2007503028
 GameObject:
@@ -1150,9 +1161,8 @@ GameObject:
   - component: {fileID: 2130720828}
   - component: {fileID: 2130720831}
   - component: {fileID: 2130720830}
-  - component: {fileID: 2130720829}
   m_Layer: 0
-  m_Name: Point Light - White
+  m_Name: Light - White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1173,25 +1183,6 @@ Transform:
   m_Father: {fileID: 1746161129}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -21.38, y: -219.827, z: -0.002}
---- !u!114 &2130720829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130720827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0929a0e2816040a49b0d2f687e715e57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.AdditionalData.LightShadowData, Needle.Engine
-  shadowWidth: 10
-  shadowHeight: 10
-  shadowDistance: 300
-  shadowResolution: 2048
-  shadowBias: 0.00001
-  shadowNormalBias: 0.015
-  _overrideShadowBiasSettings: 1
 --- !u!114 &2130720830
 MonoBehaviour:
   m_ObjectHideFlags: 0
