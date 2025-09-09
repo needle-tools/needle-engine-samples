@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 587120148}
-  - component: {fileID: 587120149}
   m_Layer: 0
   m_Name: ProgressiveLoading Settings
   m_TagString: EditorOnly
@@ -155,23 +154,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &587120149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587120147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport $ GlobalObjectId_V1-2-1209dc86e5a79324389ed95570bebe69-587120149-0
-  AllowProgressiveLoading: 1
-  UseMaxSize: 1
-  MaxSize: 128
-  GenerateLODs: 1
 --- !u!1 &706762903
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +234,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.018794317, y: -0.98113525, z: 0.1407689, w: 0.13116652}
   m_LocalPosition: {x: 0.43142128, y: 1.0074084, z: 1.5958093}
-  m_LocalScale: {x: 1.0000056, y: 1, z: 1.0000067}
+  m_LocalScale: {x: 1.0000066, y: 1, z: 1.0000079}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -342,6 +324,7 @@ GameObject:
   - component: {fileID: 784234925}
   - component: {fileID: 784234927}
   - component: {fileID: 784234928}
+  - component: {fileID: 784234929}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -363,12 +346,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-1209dc86e5a79324389ed95570bebe69-784234923-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
+  CloudName: ProgressiveLoading
+  CloudTeam: 
 --- !u!4 &784234924
 Transform:
   m_ObjectHideFlags: 0
@@ -398,7 +384,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-1209dc86e5a79324389ed95570bebe69-784234925-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &784234927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +417,27 @@ MonoBehaviour:
     title: Deferred Textures
     description: Faster load times, smaller payloads
     image: {fileID: 2800000, guid: ceb24e22af3c1f549bb179797428d28e, type: 3}
+--- !u!114 &784234929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &877878005
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +570,7 @@ Transform:
   m_GameObject: {fileID: 1371627399}
   m_LocalRotation: {x: -0, y: 0.9690223, z: -0, w: -0.24697348}
   m_LocalPosition: {x: 0.908, y: 0, z: 1.442}
-  m_LocalScale: {x: 1.0000038, y: 1, z: 1.0000038}
+  m_LocalScale: {x: 1.0000044, y: 1, z: 1.0000044}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

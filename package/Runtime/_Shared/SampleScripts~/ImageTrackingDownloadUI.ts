@@ -21,21 +21,23 @@ export class ImageTrackingDownloadUI extends Behaviour {
         container.style.cssText = `
             font-family: 'Roboto flex', Ariel;
             position: absolute;
-            top: 1em;
-            left: 1em;
-            line-height: 1.5em;
-            display: block;
-            width: 200px;
+            top: .5rem;
+            left: 1rem;
+            color: rgba(255, 255, 255, .7);
+            line-height: 1.2em;
+            display: flex;
+            gap: 1em;
+            max-width: 400px;
         `
         this.context.domElement.appendChild(container);
         this._ui = container;
 
+        const textContainer = document.createElement("div");
+        container.appendChild(textContainer);
+
         const header = document.createElement("h2");
-        header.style.cssText = `
-            margin-bottom: .7em;
-        `
         header.innerText = "Sample Images";
-        container.appendChild(header);
+        textContainer.appendChild(header);
 
         const description = document.createElement("p");
         description.innerHTML = `Download the image and print it or you can also open the image in your browser
@@ -43,7 +45,14 @@ export class ImageTrackingDownloadUI extends Behaviour {
         <br>Visit our <a target="_blank" href="https://docs.needle.tools/image-tracking">ImageTracking documentation</a> for more information.
         `;
         description.style.userSelect = "all";
-        container.appendChild(description);
+        description.style.backdropFilter = "blur(5px)";
+        description.style.borderRadius = ".5rem";
+        description.style.padding = ".5rem 0";
+        textContainer.appendChild(description);
+        description.querySelectorAll("a").forEach(a => {
+            a.style.color = "rgba(255, 255, 255, .8)";
+            a.style.textDecoration = "underline";
+        });
 
         for (const imageTracking of this._components) {
             this.createDownloadImageUI(imageTracking, container);
@@ -91,17 +100,17 @@ export class ImageTrackingDownloadUI extends Behaviour {
             const img = document.createElement("img") as HTMLImageElement;
             img.src = imageModel.image;
             img.style.cssText = `
-                min-width: 180px;
-                max-width: 220px;
-                width: 15vw;
+                flex: .5;
+                min-width: 100px;
+                max-width: 160px;
                 height: auto;
                 aspect-ratio: 1.3;
                 object-fit: cover;
                 background: rgba(0,0,0,0.5);
-                border-radius: 10px;
-                border: 2px solid rgba(255,255,255,1);
+                border-radius: .5rem;
+                border: 1px solid rgba(255,255,255,.9);
                 box-shadow: 0 0 10px rgba(0,0,0,.2);
-                margin-left: -.5em;
+                margin-right: 1rem;
             `
             a.appendChild(img);
         }

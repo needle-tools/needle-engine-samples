@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: f0fe2ff02a3cbde40ac60243cd454a43, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 779cdef1ed8224e32821714f83b0ca8c, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45724857, g: 0.45724857, b: 0.45724857, a: 1}
+  m_IndirectSpecularColor: {r: 0.021225026, g: 0.021225026, b: 0.021225026, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -521,7 +521,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &329129047
 Transform:
@@ -531,7 +531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329129046}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1029, y: -0.0545, z: 0.0367}
+  m_LocalPosition: {x: -0.0728, y: -0.0886, z: 0.0178}
   m_LocalScale: {x: 0.0313642, y: 0.0313642, z: 0.0313642}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -709,7 +709,7 @@ Transform:
   m_GameObject: {fileID: 417177468}
   m_LocalRotation: {x: 0.20492174, y: 0.9481907, z: -0.15850283, w: 0.18389808}
   m_LocalPosition: {x: -0.24200091, y: -0.4200002, z: 0.7299998}
-  m_LocalScale: {x: 1.000007, y: 1, z: 1.0000072}
+  m_LocalScale: {x: 1.0000106, y: 1, z: 1.0000105}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -795,7 +795,7 @@ Transform:
   m_GameObject: {fileID: 577633981}
   m_LocalRotation: {x: 0.13871287, y: -0.28233197, z: 0.0034358222, w: 0.94922894}
   m_LocalPosition: {x: -0.201, y: 0.208, z: 0}
-  m_LocalScale: {x: 2.2562, y: 2.2562013, z: 2.2562}
+  m_LocalScale: {x: 2.2562, y: 2.2562037, z: 2.2562}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -825,6 +825,7 @@ MonoBehaviour:
     CreateObjectInstance: 0
     ImageDoesNotMove: 0
     HideWhenTrackingIsLost: 0
+  ShowGizmos: 1
 --- !u!114 &577633984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1527,7 +1528,7 @@ Transform:
   m_GameObject: {fileID: 1266078809}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.25, z: 0}
-  m_LocalScale: {x: 1.0000048, y: 1.0000048, z: 1.0000048}
+  m_LocalScale: {x: 1.0000048, y: 1.0000072, z: 1.0000072}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 352067191}
@@ -1881,7 +1882,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1616761119
 Transform:
@@ -1891,7 +1892,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616761118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0638, y: -0.1484, z: -0.0555}
+  m_LocalPosition: {x: -0.0575, y: -0.0344, z: -0.0555}
   m_LocalScale: {x: 0.0313642, y: 0.0313642, z: 0.0313642}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2143,7 +2144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-cbf4489e1f7cfe44a8c739a511b0e4c7-1739218767-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &1739218768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2158,12 +2158,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-cbf4489e1f7cfe44a8c739a511b0e4c7-1739218768-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
-  AutoCompress: 1
+  ExportOnSave: 1
+  AutoCompress: 0
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
+  CloudName: ImageTracking
+  CloudTeam: 
 --- !u!4 &1739218769
 Transform:
   m_ObjectHideFlags: 0
@@ -2206,8 +2209,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
-    Needle.Engine.GltfExport
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
   DefaultTextureFormat: 1
   TextureMaxSize: 8192
   GenerateTextureLODs: 1
@@ -2215,6 +2217,8 @@ MonoBehaviour:
   LODsMaxSize: 128
   MeshCompression: 1
   GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &1913951372
 GameObject:
   m_ObjectHideFlags: 0
@@ -2314,7 +2318,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2001669533
 Transform:
@@ -2324,7 +2328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001669532}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1094, y: -0.0567, z: -0.0222}
+  m_LocalPosition: {x: 0.1094, y: -0.0976, z: 0.0004}
   m_LocalScale: {x: 0.042837225, y: 0.042837225, z: 0.042837225}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2405,8 +2409,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005045373}
-  m_LocalRotation: {x: 0.092299305, y: 0.7010574, z: 0.70105654, w: -0.0922992}
-  m_LocalPosition: {x: 0.029299969, y: 0.1296001, z: 0.07199986}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0225, y: 0.1705, z: 0.0141}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2415,7 +2419,7 @@ Transform:
   - {fileID: 2001669533}
   m_Father: {fileID: 1384266630}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -344.999}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2005045375
 Animator:
   serializedVersion: 5
@@ -2571,14 +2575,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2123263960}
-  m_LocalRotation: {x: 0.00082196, y: -0.9858538, z: 0.16751266, w: 0.0055857142}
-  m_LocalPosition: {x: 0.0001, y: 0.2178, z: 0.5314}
-  m_LocalScale: {x: 1.0000048, y: 1, z: 1}
+  m_LocalRotation: {x: 0.0003743042, y: -0.9960662, z: 0.088432066, w: 0.005633447}
+  m_LocalPosition: {x: 2.0784842e-10, y: 0.153, z: 0.554}
+  m_LocalScale: {x: 1.0000072, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 10.147, y: -179.351, z: 0.015}
 --- !u!114 &2123263964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2593,7 +2597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.OrbitControls, Needle.Engine
     $ GlobalObjectId_V1-2-cbf4489e1f7cfe44a8c739a511b0e4c7-2123263964-0
   autoTarget: 1
-  autoFit: 1
+  autoFit: 0
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
@@ -2602,8 +2606,8 @@ MonoBehaviour:
   minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
-  minZoom: 0
-  maxZoom: Infinity
+  minZoom: 0.1
+  maxZoom: 2
   zoomSpeed: 1
   zoomToCursor: 0
   enablePan: 1
