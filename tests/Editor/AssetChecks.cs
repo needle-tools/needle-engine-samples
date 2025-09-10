@@ -167,7 +167,7 @@ public class AssetChecks
             .Where(x => !(AssetImporter.GetAtPath(x) is ModelImporter modelImporter))
             .ToArray();
 
-        bool HasInvalidDependencies(bool recursive, bool logInfo, params string[] allAssetsInFolder)
+        bool HasInvalidDependencies(string prefix, bool recursive, bool logInfo, List<(string, Object)> errors, params string[] allAssetsInFolder)
         {
             // replace path for a scenetemplate with the embeding scene to avoid a default material dependency
             // which can be a URP Lit material causing the test to fail
@@ -217,18 +217,18 @@ public class AssetChecks
             {
                 if (allowedPackageNames.Contains(kvp.Key))
                 {
-                    if (logInfo) Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#0f0>(allowed)</color>");
+                    if (logInfo) Debug.Log($"{prefix} Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#0f0>(allowed)</color>");
                     continue;
                 }
                 kvp.Value.Sort();
                 if (kvp.Value.Count == 0)
                 {
-                    if (logInfo) Debug.Log($"Found dependencies in {kvp.Key} <color=#0f0>(but all of them are allowed)</color>");
+                    if (logInfo) Debug.Log($"{prefix} Found dependencies in {kvp.Key} <color=#0f0>(but all of them are allowed)</color>");
                 }
                 else
                 {
                     anyNotAllowedDependenciesFound = true;
-                    Debug.Log($"Found {kvp.Value.Count} dependencies in {kvp.Key} <color=#f00>(NOT ALLOWED)</color>:\n - {string.Join("\n - ", kvp.Value)}");
+                    errors.Add(($"Found {kvp.Value.Count} dependencies in package {kvp.Key} which is not allowed:\n - {string.Join("\n - ", kvp.Value)}", null));
                 }
             }
             return anyNotAllowedDependenciesFound;
@@ -243,14 +243,20 @@ public class AssetChecks
         // GetDependencies on each asset to figure out where the problem is
         foreach (var assetPath in allAssetsInFolder)
         {
-            var hasInvalidDependencies = HasInvalidDependencies(false, false, assetPath);
+            var prefix = $"<b>{Path.GetFileName(assetPath)}</b>→";
+            var errors = new List<(string, Object)>();
+            var hasInvalidDependencies = HasInvalidDependencies(prefix, false, false, errors, assetPath);
             if (hasInvalidDependencies)
-                Debug.LogError($"Found external dependencies in {assetPath}.");
+            {
+                Debug.LogError($"{prefix} Found invalid dependencies in {assetPath}:", AssetDatabase.LoadAssetAtPath<Object>(assetPath));
+                foreach (var e in errors)
+                    Debug.Log($"↪ {e.Item1}", e.Item2);
+            }
             anyNotAllowedDependenciesFound |= hasInvalidDependencies;
         }
         
         if (anyNotAllowedDependenciesFound)
-            Assert.Fail("Found external dependencies, please see the logs for more details.");
+            Assert.Fail("Found invalid dependencies, please see the logs for more details.");
     }
     
     private static readonly string[] AllowedShaderNames = new string[]
@@ -425,9 +431,9 @@ public class AssetChecks
 
         if (errors.Any())
         {
-            Debug.LogError($"Found {errors.Count} materials that are now allowed. See the logs below for more info. Open the affected scenes and run \"Tools/Needle/Log Invalid Materials\" to find renderers referencing invalid materials.");
+            Debug.LogError($"<b>Found {errors.Count} materials that are now allowed</b>. See the logs below for more info. Open the affected scenes and run \"Tools/Needle/Log Invalid Materials\" to find renderers referencing invalid materials.");
             foreach (var e in errors)
-                Debug.LogError(e.Item1, e.Item2);
+                Debug.Log($"↪ {e.Item1}", e.Item2);
             Assert.Fail($"Found {errors.Count} materials that are now allowed.");
         }
     }
@@ -462,6 +468,8 @@ public class AssetChecks
                 Debug.Log("Shader isn't configured correctly: " + shaderPath, AssetDatabase.LoadAssetAtPath<Shader>(shaderPath));
             
         }
+        if(problems.Count == 0) 
+            Debug.Log($"No shader problems found in {assetFolder}");
         Assert.AreEqual(0, problems.Count, string.Join("\n", problems) + "\n\nProblems:");
     }
 
