@@ -1,0 +1,132 @@
+html {
+    height: -webkit-fill-available;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #eeee;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: black;
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+a {
+    color: inherit;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+needle-engine {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.section {
+    position: relative;
+    height: 90vh;
+    padding: 1rem;
+    padding-left: 10rem;
+    padding-top: 10vh;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+
+    & .highlight {
+        color: #000;
+        /* text-shadow: 0 0 1em rgb(165, 34, 226), 0 1em 2em rgb(34, 79, 226), 0 0 .1em rgba(0, 0, 0, .2); */
+        font-weight: normal;
+        /* font-style: italic; */
+    }
+
+    & h1 {
+        font-size: 13rem;
+        line-height: .9em;
+        pointer-events: painted;
+    }
+
+    & h2 {
+        font-size: 10rem;
+        line-height: .9em;
+        pointer-events: painted;
+    }
+
+    & .secondary {
+        color: #999;
+        font-weight: 500;
+    }
+
+    @media (max-width: 1500px) {
+
+        padding-left: 5rem;
+
+        & h1 {
+            font-size: 8rem;
+        }
+
+        & h2 {
+            font-size: 6rem;
+            white-space: initial;
+        }
+    }
+
+    @media (max-width: 800px) {
+
+        padding-left: 2rem;
+        padding-top: 5vh;
+
+        & h1 {
+            font-size: 5rem;
+            line-height: 1em;
+        }
+
+        & h2 {
+            font-size: 4rem;
+            line-height: 1em;
+            white-space: initial;
+        }
+    }
+
+    &.invert {
+        color: white;
+        mix-blend-mode: difference;
+
+        &::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -200;
+        }
+    }
+
+}
+
+
+.behind {
+    z-index: -100;
+    color: black !important;
+    text-shadow: none !important;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1.5s ease-out, transform 2s ease-out;
+}
