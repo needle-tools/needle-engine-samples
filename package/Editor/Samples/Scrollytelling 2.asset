@@ -19,7 +19,7 @@ MonoBehaviour:
   Thumbnail: {fileID: 2800000, guid: 43a7c16a135b06c4b83523795decdd6b, type: 3}
   Scene: {fileID: 102900000, guid: abb9fbb56c5cb9747b6a572debb62908, type: 3}
   LiveUrl: https://scrollytelling-2-z23hmxby7c6x.needle.run/
-  Priority: 30
+  Priority: 50
   Tags:
   - {fileID: 11400000, guid: 7c9389e06e70fd44499179508a35f4c5, type: 2}
   - {fileID: 11400000, guid: d637a1131da5ea14aaa3e463cf59ec92, type: 2}
@@ -28,14 +28,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d506d95e0646c4e4db7faf11bf9b7fbf, type: 2}
   reference: {fileID: 0}
   UsedComponents:
-  - Component: MouseRotation
-    Path: needle-engine-samples/package/Runtime/Scrollytelling/Needle.Samples.Scrollytelling~/MouseRotation.ts
-    MoreInfoUrl: https://github.com/needle-tools/needle-engine-samples//tree/main/package/Runtime/Scrollytelling/Needle.Samples.Scrollytelling~/MouseRotation.ts
-  - Component: ScrollTimeline
-    Path: needle-engine-samples/package/Runtime/Scrollytelling/Needle.Samples.Scrollytelling~/ScrollTimeline.ts
-    MoreInfoUrl: https://github.com/needle-tools/needle-engine-samples//tree/main/package/Runtime/Scrollytelling/Needle.Samples.Scrollytelling~/ScrollTimeline.ts
   - Component: Animator
     Path: engine/src/engine-components/Animator.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
+  - Component: Attractor
+    Path: engine/src/engine-components/physics/Attractor.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
   - Component: AudioListener
     Path: engine/src/engine-components/AudioListener.ts
@@ -43,14 +40,20 @@ MonoBehaviour:
   - Component: Camera
     Path: engine/src/engine-components/Camera.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: EventSystem
-    Path: engine/src/engine-components/ui/EventSystem.ts
+  - Component: BoxCollider
+    Path: engine/src/engine-components/Collider.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
+  - Component: SphereCollider
+    Path: engine/src/engine-components/Collider.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
+  - Component: CursorFollow
+    Path: engine/src/engine-components/web/CursorFollow.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
+  - Component: DragControls
+    Path: engine/src/engine-components/DragControls.ts
+    MoreInfoUrl: https://fwd.needle.tools/needle-engine/help
   - Component: Light
     Path: engine/src/engine-components/Light.ts
-    MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: NeedleMenu
-    Path: engine/src/engine-components/NeedleMenu.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
   - Component: PlayableDirector
     Path: engine/src/engine-components/timeline/PlayableDirector.ts
@@ -58,15 +61,9 @@ MonoBehaviour:
   - Component: MeshRenderer
     Path: engine/src/engine-components/Renderer.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: USDZExporter
-    Path: engine/src/engine-components/export/usdz/USDZExporter.ts
+  - Component: Rigidbody
+    Path: engine/src/engine-components/RigidBody.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: Volume
-    Path: engine/src/engine-components/postprocessing/Volume.ts
-    MoreInfoUrl: https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@12.1/manual/Volumes.html
-  - Component: WebXR
-    Path: engine/src/engine-components/webxr/WebXR.ts
+  - Component: ScrollFollow
+    Path: engine/src/engine-components/web/ScrollFollow.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: XRFlag
-    Path: engine/src/engine-components/webxr/XRFlag.ts
-    MoreInfoUrl: https://fwd.needle.tools/needle-engine/help
