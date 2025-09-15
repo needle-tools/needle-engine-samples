@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Samples.SampleInfo, Needle.Engine.Samples.Editor
     $ GlobalObjectId_V1-3-5e997ace18fc99d4d82f2ad43806453d-11400000-0
   DisplayName: Look At Cursor Interactive 3D Header
-  Description: Create a unique and interactive website header with Needle Engine
-    and make him follow your mouse cursor.
+  Description: Create a unique and interactive website header with. Make a character
+    look at your mouse cursor.
   Thumbnail: {fileID: 2800000, guid: 4adb30f0d31be64408361156879931ab, type: 3}
   Scene: {fileID: 102900000, guid: 5ef410b870bea2c4680956da3440eff5, type: 3}
   LiveUrl: https://engine.needle.tools/samples-uploads/html-custom-layout
@@ -29,30 +29,36 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 44782f56eb518b640a8ab29550fa117a, type: 2}
   reference: {fileID: 0}
   UsedComponents:
+  - Component: Attractor
+    Path: engine/src/engine-components/physics/Attractor.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/api/Attractor
   - Component: AudioListener
     Path: engine/src/engine-components/AudioListener.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
+  - Component: AxesHelper
+    Path: engine/src/engine-components/AxesHelper.ts
+    MoreInfoUrl: https://fwd.needle.tools/needle-engine/help
   - Component: Camera
     Path: engine/src/engine-components/Camera.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
+  - Component: SphereCollider
+    Path: engine/src/engine-components/Collider.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
+  - Component: CursorFollow
+    Path: engine/src/engine-components/web/CursorFollow.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/api/CursorFollow
   - Component: DragControls
     Path: engine/src/engine-components/DragControls.ts
     MoreInfoUrl: https://engine.needle.tools/docs/api/DragControls
   - Component: Light
     Path: engine/src/engine-components/Light.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: LookAtConstraint
-    Path: engine/src/engine-components/LookAtConstraint.ts
+  - Component: LookAt
+    Path: engine/src/engine-components/utils/LookAt.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: NeedleMenu
-    Path: engine/src/engine-components/NeedleMenu.ts
-    MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: OrbitControls
-    Path: engine/src/engine-components/OrbitControls.ts
-    MoreInfoUrl: https://engine.needle.tools/docs/api/OrbitControls
   - Component: MeshRenderer
     Path: engine/src/engine-components/Renderer.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
-  - Component: ShadowCatcher
-    Path: engine/src/engine-components/ShadowCatcher.ts
-    MoreInfoUrl: https://engine.needle.tools/docs/api/ShadowCatcher
+  - Component: Rigidbody
+    Path: engine/src/engine-components/RigidBody.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
