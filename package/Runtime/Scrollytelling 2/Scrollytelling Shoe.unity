@@ -219,7 +219,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 893688015}
-  - {fileID: 569509650}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -234,8 +233,9 @@ GameObject:
   - component: {fileID: 569509650}
   - component: {fileID: 569509652}
   - component: {fileID: 569509651}
+  - component: {fileID: 569509653}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,13 +248,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 569509649}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 0}
-  m_LocalScale: {x: 2.9711, y: 2.9711, z: 1.499217}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.042774, y: -0.29808003, z: 0.48352}
+  m_LocalScale: {x: 3.649073, y: 3.649073, z: 3.649073}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 256550705}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &569509651
 ParticleSystemRenderer:
@@ -278,6 +278,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a73a52ee91e93a14983af85139f27bf0, type: 2}
+  - {fileID: 2100000, guid: 91101aa97febab043906566e4540cddc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -518,7 +519,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5803922, g: 0.25490198, b: 0.054901965, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -580,7 +581,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.01
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -960,11 +961,11 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 0, z: 1}
+    m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -1162,7 +1163,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4231,7 +4232,7 @@ ParticleSystem:
         m_RotationOrder: 4
     maxLights: 20
   TrailModule:
-    enabled: 0
+    enabled: 1
     mode: 0
     ratio: 1
     lifetime:
@@ -4291,7 +4292,7 @@ ParticleSystem:
     textureMode: 0
     ribbonCount: 1
     shadowBias: 0.5
-    worldSpace: 0
+    worldSpace: 1
     dieWithParticles: 1
     sizeAffectsWidth: 1
     sizeAffectsLifetime: 0
@@ -5044,6 +5045,22 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &569509653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569509649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e887f1c3ee463881c1913204ca9388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 256550705}
+  followFactor: 1
+  rotateFactor: 0
+  positionAxes: -1
 --- !u!1 &708655206
 GameObject:
   m_ObjectHideFlags: 0
@@ -5175,7 +5192,7 @@ MonoBehaviour:
   ExportOnSave: 1
   AutoCompress: 0
   Dependencies: []
-  CloudName: scrollytelling-2
+  CloudName: scrollytelling-shoe
   CloudTeam: jg3twr0f7zgf
 --- !u!4 &784234924
 Transform:
@@ -5261,7 +5278,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &893688014
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
