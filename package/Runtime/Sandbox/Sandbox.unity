@@ -1572,6 +1572,7 @@ GameObject:
   - component: {fileID: 784234928}
   - component: {fileID: 784234927}
   - component: {fileID: 784234929}
+  - component: {fileID: 784234930}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -1593,10 +1594,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-6cdc62d53d9dc014195cabef7c8fcb76-784234923-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies: []
-  CloudName: Sandbox
+  CloudName: CollaborativeSandbox
   CloudTeam: 
 --- !u!4 &784234924
 Transform:
@@ -1627,7 +1628,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-6cdc62d53d9dc014195cabef7c8fcb76-784234925-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &784234927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1676,6 +1676,27 @@ MonoBehaviour:
     title: Collaborative Sandbox
     description: Networking, WebXR, Drag & Duplicate
     image: {fileID: 2800000, guid: 528048f5c06e6154997bb792a7e162e0, type: 3}
+--- !u!114 &784234930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1001 &790516071
 PrefabInstance:
   m_ObjectHideFlags: 0
