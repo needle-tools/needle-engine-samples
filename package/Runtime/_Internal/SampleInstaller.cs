@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Needle
 {
-    
+    [NeedleDefaultHeader]
     public class SampleInstaller : MonoBehaviour
     {
         // The package to install

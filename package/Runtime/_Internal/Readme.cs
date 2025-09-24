@@ -9,6 +9,7 @@ using UnityEditorInternal;
 namespace Needle.Engine
 {
     [AddComponentMenu("")]
+    [NeedleDefaultHeader]
     public class Readme : MonoBehaviour
     {
         public string Guid;

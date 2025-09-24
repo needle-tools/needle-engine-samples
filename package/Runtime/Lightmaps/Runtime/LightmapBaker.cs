@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Needle.Engine;
 using Needle.Engine.Utils;
 using UnityEditor;
 using UnityEngine;
 
 namespace Needle.MultiLightmaps
 {
+	[NeedleDefaultHeader]
 	public class LightmapBaker : MonoBehaviour
 	{
 	

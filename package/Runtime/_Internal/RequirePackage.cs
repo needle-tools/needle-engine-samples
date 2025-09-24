@@ -8,6 +8,7 @@ using UnityEditor.PackageManager;
 namespace Needle.Engine
 {
     [AddComponentMenu("")]
+    [NeedleDefaultHeader]
     internal class RequirePackage : MonoBehaviour
     {
         public string packageName;
