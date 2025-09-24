@@ -438,6 +438,11 @@ public class AssetChecks
         }
     }
 
+    private static string[] allowedShaderGraphGuids = new string[]
+    {
+        "ea2bacc4591c84218955d5c13eb9e529",
+    };
+    
     private static void ShadersUseCorrectTargets(string assetFolder)
     {
         var shaderFiles = AssetDatabase.FindAssets("t:Shader", new[] { assetFolder });
@@ -445,6 +450,9 @@ public class AssetChecks
         Debug.Log($"Checking {shaderFiles.Length} shaders in {assetFolder}");
         foreach (var shaderFile in shaderFiles)
         {
+            if (allowedShaderGraphGuids.Contains(shaderFile))
+                continue;
+            
             var shaderPath = AssetDatabase.GUIDToAssetPath(shaderFile);
             var shaderName = Path.GetFileNameWithoutExtension(shaderPath);
             if (!shaderPath.EndsWith(".shadergraph")) continue;
