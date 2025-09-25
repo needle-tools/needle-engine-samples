@@ -1,0 +1,329 @@
+﻿<?xml version="1.0"?>
+<materialx version="1.39" colorspace="lin_rec709" >
+	<!-- Node definition for Shader Graph "SimpleTerrain" -->
+	<nodedef name="ND_SimpleTerrain" node="Shader_Graphs_SimpleTerrain" >
+		<input name="_BaseMap_R" type="filename" uniform="true" />
+		<input name="_SplatMap" type="filename" uniform="true" />
+		<input name="_BaseMap_G" type="filename" uniform="true" />
+		<input name="_BaseMap_B" type="filename" uniform="true" />
+		<input name="_BaseMap_A" type="filename" uniform="true" />
+		<input name="_NormalMap_R" type="filename" uniform="true" />
+		<input name="_NormalMap_G" type="filename" uniform="true" />
+		<input name="_NormalMap_B" type="filename" uniform="true" />
+		<input name="_NormalMap_A" type="filename" uniform="true" />
+		<output name="out" type="surfaceshader" />
+	</nodedef>
+	
+	<!-- Node graph for Shader Graph "SimpleTerrain" -->
+	<nodegraph name="NG_SimpleTerrain" nodedef="ND_SimpleTerrain" >
+		<texcoord name="uv_2" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2" />
+		</convert>
+		<image name="tex" type="color4" >
+			<input name="file" type="filename" interfacename="_BaseMap_R" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2" />
+			<input name="default" type="color4" value="1.0, 1.0, 1.0, 1.0" />
+		</image>
+		<convert name="color4_to_vector4" type="vector4" >
+			<input name="in" type="color4" nodename="tex" />
+		</convert>
+		<texcoord name="uv_2_1" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2_1" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2_1" />
+		</convert>
+		<image name="tex_1" type="color4" >
+			<input name="file" type="filename" interfacename="_SplatMap" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2_1" />
+			<input name="default" type="color4" value="1.0, 1.0, 1.0, 1.0" />
+		</image>
+		<convert name="color4_to_vector4_1" type="vector4" >
+			<input name="in" type="color4" nodename="tex_1" />
+		</convert>
+		<separate4 name="separate_color4_to_float_tex" type="multioutput" >
+			<input name="in" type="color4" nodename="tex_1" />
+		</separate4>
+		<SG_NormalStrength name="normal_strength" type="vector3" >
+			<input name="in" type="vector3" nodename="unpack_normal_1" />
+			<input name="strength" type="float" output="outg" nodename="separate_color4_to_float_tex" />
+		</SG_NormalStrength>
+		<SG_NormalStrength name="normal_strength_1" type="vector3" >
+			<input name="in" type="vector3" nodename="unpack_normal_3" />
+			<input name="strength" type="float" output="outa" nodename="separate_color4_to_float_tex" />
+		</SG_NormalStrength>
+		<multiply name="mult" type="vector4" >
+			<input name="in1" type="vector4" nodename="color4_to_vector4" />
+			<input name="in2" type="vector4" nodename="color4_to_vector4_1" />
+		</multiply>
+		<texcoord name="uv_2_2" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2_2" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2_2" />
+		</convert>
+		<multiply name="mult_1" type="vector4" >
+			<input name="in1" type="vector4" nodename="color4_to_vector4_4" />
+			<input name="in2" type="vector4" nodename="color4_to_vector4_1" />
+		</multiply>
+		<texcoord name="uv_2_3" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2_3" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2_3" />
+		</convert>
+		<add name="add" type="vector4" >
+			<input name="in1" type="vector4" nodename="mult" />
+			<input name="in2" type="vector4" nodename="mult_1" />
+		</add>
+		<multiply name="mult_2" type="vector4" >
+			<input name="in1" type="vector4" nodename="color4_to_vector4_3" />
+			<input name="in2" type="vector4" nodename="color4_to_vector4_1" />
+		</multiply>
+		<texcoord name="uv_2_4" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2_4" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2_4" />
+		</convert>
+		<add name="add_1" type="vector4" >
+			<input name="in1" type="vector4" nodename="add" />
+			<input name="in2" type="vector4" nodename="mult_2" />
+		</add>
+		<multiply name="mult_3" type="vector4" >
+			<input name="in1" type="vector4" nodename="color4_to_vector4_2" />
+			<input name="in2" type="vector4" nodename="color4_to_vector4_1" />
+		</multiply>
+		<clamp name="clamp_base_color" type="color3" >
+			<input name="in" type="color3" nodename="vector4_to_color3" />
+		</clamp>
+		<add name="add_2" type="vector4" >
+			<input name="in1" type="vector4" nodename="add_1" />
+			<input name="in2" type="vector4" nodename="mult_3" />
+		</add>
+		<convert name="vector4_to_color3" type="color3" >
+			<input name="in" type="vector4" nodename="add_2" />
+		</convert>
+		<texcoord name="uv_2_5" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2_5" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2_5" />
+		</convert>
+		<image name="tex_2" type="vector3" >
+			<input name="file" type="filename" interfacename="_NormalMap_R" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2_5" />
+			<input name="default" type="vector3" value="0.5, 0.5, 1.0" />
+		</image>
+		<remap name="unpack_normal" type="vector3" >
+			<input name="in" type="vector3" nodename="tex_2" />
+			<input name="outlow" type="float" value="-1.0" />
+		</remap>
+		<SG_NormalBlend name="normal_blend" type="vector3" >
+			<input name="in1" type="vector3" nodename="normal_strength_3" />
+			<input name="in2" type="vector3" value="0.0, 0.0, 1.0" />
+		</SG_NormalBlend>
+		<texcoord name="uv_2_6" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2_6" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2_6" />
+		</convert>
+		<image name="tex_3" type="vector3" >
+			<input name="file" type="filename" interfacename="_NormalMap_G" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2_6" />
+			<input name="default" type="vector3" value="0.5, 0.5, 1.0" />
+		</image>
+		<remap name="unpack_normal_1" type="vector3" >
+			<input name="in" type="vector3" nodename="tex_3" />
+			<input name="outlow" type="float" value="-1.0" />
+		</remap>
+		<SG_NormalBlend name="normal_blend_1" type="vector3" >
+			<input name="in1" type="vector3" nodename="normal_blend" />
+			<input name="in2" type="vector3" nodename="normal_strength" />
+		</SG_NormalBlend>
+		<texcoord name="uv_2_7" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2_7" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2_7" />
+		</convert>
+		<image name="tex_4" type="vector3" >
+			<input name="file" type="filename" interfacename="_NormalMap_B" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2_7" />
+			<input name="default" type="vector3" value="0.5, 0.5, 1.0" />
+		</image>
+		<remap name="unpack_normal_2" type="vector3" >
+			<input name="in" type="vector3" nodename="tex_4" />
+			<input name="outlow" type="float" value="-1.0" />
+		</remap>
+		<SG_NormalBlend name="normal_blend_2" type="vector3" >
+			<input name="in1" type="vector3" nodename="normal_blend_1" />
+			<input name="in2" type="vector3" nodename="normal_strength_2" />
+		</SG_NormalBlend>
+		<texcoord name="uv_2_8" type="vector3" >
+			<input name="index" type="integer" value="0" />
+		</texcoord>
+		<convert name="vector3_to_vector2_8" type="vector2" >
+			<input name="in" type="vector3" nodename="uv_2_8" />
+		</convert>
+		<image name="tex_5" type="vector3" >
+			<input name="file" type="filename" interfacename="_NormalMap_A" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2_8" />
+			<input name="default" type="vector3" value="0.5, 0.5, 1.0" />
+		</image>
+		<remap name="unpack_normal_3" type="vector3" >
+			<input name="in" type="vector3" nodename="tex_5" />
+			<input name="outlow" type="float" value="-1.0" />
+		</remap>
+		<SG_NormalBlend name="normal_blend_3" type="vector3" >
+			<input name="in1" type="vector3" nodename="normal_blend_2" />
+			<input name="in2" type="vector3" nodename="normal_strength_1" />
+		</SG_NormalBlend>
+		<normalize name="normalize_normal" type="vector3" >
+			<input name="in" type="vector3" nodename="normal_blend_3" />
+		</normalize>
+		<remap name="pack_normal" type="vector3" >
+			<input name="in" type="vector3" nodename="normalize_normal" />
+			<input name="inlow" type="float" value="-1" />
+		</remap>
+		<normalmap name="normalmap" type="vector3" >
+			<input name="in" type="vector3" nodename="pack_normal" />
+		</normalmap>
+		<SG_NormalStrength name="normal_strength_2" type="vector3" >
+			<input name="in" type="vector3" nodename="unpack_normal_2" />
+			<input name="strength" type="float" output="outb" nodename="separate_color4_to_float_tex" />
+		</SG_NormalStrength>
+		<SG_NormalStrength name="normal_strength_3" type="vector3" >
+			<input name="in" type="vector3" nodename="unpack_normal" />
+			<input name="strength" type="float" output="outr" nodename="separate_color4_to_float_tex" />
+		</SG_NormalStrength>
+		<convert name="color4_to_vector4_2" type="vector4" >
+			<input name="in" type="color4" nodename="tex_6" />
+		</convert>
+		<image name="tex_6" type="color4" >
+			<input name="file" type="filename" interfacename="_BaseMap_A" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2_4" />
+			<input name="default" type="color4" value="1.0, 1.0, 1.0, 1.0" />
+		</image>
+		<image name="tex_7" type="color4" >
+			<input name="file" type="filename" interfacename="_BaseMap_B" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2_3" />
+			<input name="default" type="color4" value="1.0, 1.0, 1.0, 1.0" />
+		</image>
+		<convert name="color4_to_vector4_3" type="vector4" >
+			<input name="in" type="color4" nodename="tex_7" />
+		</convert>
+		<image name="tex_8" type="color4" >
+			<input name="file" type="filename" interfacename="_BaseMap_G" uniform="true" />
+			<input name="texcoord" type="vector2" nodename="vector3_to_vector2_2" />
+			<input name="default" type="color4" value="1.0, 1.0, 1.0, 1.0" />
+		</image>
+		<convert name="color4_to_vector4_4" type="vector4" >
+			<input name="in" type="color4" nodename="tex_8" />
+		</convert>
+		<standard_surface name="needle_standard_surface" type="surfaceshader" >
+			<input name="base_color" type="color3" nodename="clamp_base_color" />
+			<input name="normal" type="vector3" nodename="normalmap" />
+			<input name="metalness" type="float" value="0.0" />
+			<input name="specular_roughness" type="float" value="1.0" />
+		</standard_surface>
+		<displacement name="needle_displacement" type="displacementshader" />
+		<output name="out" type="surfaceshader" nodename="needle_standard_surface" />
+	</nodegraph>
+	
+	<!-- Node definition for built-in "Normal Blend" node -->
+	<nodedef name="ND_NormalBlend" node="SG_NormalBlend" >
+		<input name="in1" type="vector3" />
+		<input name="in2" type="vector3" />
+		<output name="out" type="vector3" />
+	</nodedef>
+	
+	<!-- Node graph for built-in "Normal Blend" node -->
+	<nodegraph name="NG_NormalBlend" type="vector3" nodedef="ND_NormalBlend" >
+		<separate3 name="separate_normal_a" type="multioutput" >
+			<input name="in" type="vector3" interfacename="in1" />
+		</separate3>
+		<separate3 name="separate_normal_b" type="multioutput" >
+			<input name="in" type="vector3" interfacename="in2" />
+		</separate3>
+		<add name="add_y" type="float" >
+			<input name="in1" type="float" output="outy" nodename="separate_normal_a" />
+			<input name="in2" type="float" output="outy" nodename="separate_normal_b" />
+		</add>
+		<multiply name="mult_z" type="float" >
+			<input name="in1" type="float" output="outz" nodename="separate_normal_a" />
+			<input name="in2" type="float" output="outz" nodename="separate_normal_b" />
+		</multiply>
+		<add name="add_x" type="float" >
+			<input name="in1" type="float" output="outx" nodename="separate_normal_a" />
+			<input name="in2" type="float" output="outx" nodename="separate_normal_b" />
+		</add>
+		<combine3 name="combine_normal_blend" type="vector3" >
+			<input name="in1" type="float" nodename="add_x" />
+			<input name="in2" type="float" nodename="add_y" />
+			<input name="in3" type="float" nodename="mult_z" />
+		</combine3>
+		<normalize name="normalize_normal_blend" type="vector3" >
+			<input name="in" type="vector3" nodename="combine_normal_blend" />
+		</normalize>
+		<output name="out" type="vector3" nodename="normalize_normal_blend" />
+	</nodegraph>
+	
+	<!-- Node definition for built-in "Normal Strength" node -->
+	<nodedef name="ND_NormalStrength" node="SG_NormalStrength" >
+		<input name="in" type="vector3" />
+		<input name="strength" type="float" />
+		<output name="out" type="vector3" />
+	</nodedef>
+	
+	<!-- Node graph for built-in "Normal Strength" node -->
+	<nodegraph name="NG_NormalStrength" type="vector3" nodedef="ND_NormalStrength" >
+		<separate3 name="separate_normal" type="multioutput" >
+			<input name="in" type="vector3" interfacename="in" />
+		</separate3>
+		<multiply name="multiply_y" type="float" >
+			<input name="in1" type="float" output="outy" nodename="separate_normal" />
+			<input name="in2" type="float" interfacename="strength" />
+		</multiply>
+		<clamp name="saturate_strength" type="float" >
+			<input name="in" type="float" interfacename="strength" />
+		</clamp>
+		<multiply name="multiply_x" type="float" >
+			<input name="in1" type="float" output="outx" nodename="separate_normal" />
+			<input name="in2" type="float" interfacename="strength" />
+		</multiply>
+		<mix name="lerp_strength" type="float" >
+			<input name="bg" type="float" value="1.0" />
+			<input name="fg" type="float" output="outz" nodename="separate_normal" />
+			<input name="mix" type="float" nodename="saturate_strength" />
+		</mix>
+		<combine3 name="combine_normal_strength" type="vector3" >
+			<input name="in1" type="float" nodename="multiply_x" />
+			<input name="in2" type="float" nodename="multiply_y" />
+			<input name="in3" type="float" nodename="lerp_strength" />
+		</combine3>
+		<output name="out" type="vector3" nodename="combine_normal_strength" />
+	</nodegraph>
+	
+	<!-- Material "Shader_Graphs_SimpleTerrain" -->
+	<surfacematerial name="Shader_Graphs_SimpleTerrain" type="material" >
+		<input name="surfaceshader" type="surfaceshader" nodename="Shader_Graphs_SimpleTerrain_properties" />
+	</surfacematerial>
+	
+	<Shader_Graphs_SimpleTerrain name="Shader_Graphs_SimpleTerrain_properties" type="surfaceshader" >
+		<input name="_BaseMap_R" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+		<input name="_SplatMap" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+		<input name="_BaseMap_G" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+		<input name="_BaseMap_B" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+		<input name="_BaseMap_A" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+		<input name="_NormalMap_R" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+		<input name="_NormalMap_G" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+		<input name="_NormalMap_B" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+		<input name="_NormalMap_A" type="filename" value="../../Shaders/Editor/MaterialX/DefaultMaps/white.png" colorspace="srgb_texture" uniform="true" />
+	</Shader_Graphs_SimpleTerrain>
+	
+</materialx>
