@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.926476, g: 0.88088727, b: 0.83786464, a: 1}
+  m_IndirectSpecularColor: {r: 0.044281013, g: 0.044281013, b: 0.044281013, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -214,7 +214,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1464404555}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &53066235
 MonoBehaviour:
@@ -741,7 +741,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &850905528
 Transform:
   m_ObjectHideFlags: 0
@@ -755,7 +755,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1464404555}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &850905529
 MonoBehaviour:
@@ -1212,7 +1212,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-b9fe30db803400c448a13702599e6e77-1296487681-0
   compilerDirectory: Packages/com.needle.engine-samples/WebProjects~/Scrollytelling/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &1296487682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1227,12 +1226,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-b9fe30db803400c448a13702599e6e77-1296487682-0
   DirectoryName: Packages/com.needle.engine-samples/WebProjects~/Scrollytelling
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: needle.samples.scrollytelling
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Scrollytelling/Needle.Samples.Scrollytelling.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/Scrollytelling/Needle.Samples.Scrollytelling.npmdef
     Guid: 95c226fd37f76804282b6a6e432879be
+  CloudName: Scrollytelling
+  CloudTeam: 
 --- !u!4 &1296487683
 Transform:
   m_ObjectHideFlags: 0
@@ -1292,12 +1294,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport
-  AllowProgressiveLoading: 1
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
   UseMaxSize: 1
-  MaxSize: 2048
-  GenerateLODs: 0
+  LODsMaxSize: 2048
+  MeshCompression: 10
+  GenerateMeshLODs: 0
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &1319072830
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,7 +1367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1464404555}
   m_Layer: 0
-  m_Name: SCROLL VARIANTS
+  m_Name: Scroll Follow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1379,6 +1385,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1749466237}
   - {fileID: 850905528}
   - {fileID: 53066234}
   - {fileID: 2118352701}
@@ -1504,6 +1511,58 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1749466236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1749466237}
+  - component: {fileID: 1749466238}
+  m_Layer: 0
+  m_Name: 'VAR 0: Built-in'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1749466237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749466236}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1464404555}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1749466238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749466236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c0879537a6da143b5e086fa4b6efd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.ScrollFollow, Needle.Engine
+  target:
+  - {fileID: 455340344}
+  damping: 0.4
+  invert: 0
+  changed:
+    m_PersistentCalls:
+      m_Calls: []
+  htmlSelector: 
 --- !u!1 &1818885286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,7 +1775,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1464404555}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2118352702
 MonoBehaviour:
