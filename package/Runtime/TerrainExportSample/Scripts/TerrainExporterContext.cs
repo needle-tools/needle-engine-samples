@@ -72,7 +72,7 @@ namespace Needle.Terrain
         public override bool BeforeMaterialExport(GLTFSceneExporter exporter, GLTFRoot gltfRoot, Material material, GLTFMaterial materialNode)
         {
             if (!_terrainMaterials.Contains(material))
-                return true;
+                return false;
 
             var ext = new Needle_Terrain_Material();
             materialNode.AddExtension(Needle_Terrain_Material.EXTENSION_NAME, ext);
@@ -103,7 +103,7 @@ namespace Needle.Terrain
             ext.normalMapB = Export("_NormalMap_B", normalExportSettings);
             ext.normalMapA = Export("_NormalMap_A", normalExportSettings);
             
-            return false;
+            return true;
         }
 
         private static void SafeDestroy(Object o)
