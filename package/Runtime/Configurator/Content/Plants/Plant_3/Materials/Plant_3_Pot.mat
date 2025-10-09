@@ -24,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - anisotropyTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 0}
     - baseColorTexture:
         m_Texture: {fileID: 2800000, guid: 75a80543f832bf04eb6209a858438460, type: 3}
         m_Scale: {x: 1, y: -1}
@@ -60,6 +64,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 27e1c55af70f76843bea88984a845fce, type: 3}
         m_Scale: {x: 1, y: -1}
         m_Offset: {x: 0, y: 0}
+    - sheenColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - sheenRoughnessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - specularColorTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -90,6 +102,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ANISOTROPY: 0
     - _AlphaClip: 1
     - _AlphaToMask: 1
     - _AutoSurfaceMode: 0
@@ -116,6 +129,7 @@ Material:
     - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SHEEN: 0
     - _SPECULAR: 0
     - _SrcBlend: 1
     - _Surface: 0
@@ -128,6 +142,10 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     - alphaCutoff: -0.0001
+    - anisotropyRotation: 0
+    - anisotropyStrength: 0
+    - anisotropyTextureRotation: 0
+    - anisotropyTextureTexCoord: 0
     - attenuationDistance: 0.001
     - baseColorTextureRotation: 0
     - baseColorTextureTexCoord: 0
@@ -159,6 +177,11 @@ Material:
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
     - roughnessFactor: 0.921
+    - sheenColorTextureRotation: 0
+    - sheenColorTextureTexCoord: 0
+    - sheenRoughnessFactor: 0
+    - sheenRoughnessTextureRotation: 0
+    - sheenRoughnessTextureTexCoord: 0
     - specularColorTextureRotation: 0
     - specularColorTextureTexCoord: 0
     - specularFactor: 1
@@ -174,6 +197,7 @@ Material:
     - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
     - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
     - emissiveFactor: {r: 0, g: 0, b: 0, a: 0}
+    - sheenColorFactor: {r: 0, g: 0, b: 0, a: 0}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &9007809054440121619
