@@ -103,7 +103,7 @@ export class SeeThroughFade extends Behaviour {
             if (!mat) continue;
             mat.transparent = !this.useAlphaHash;
             mat.alphaHash = this.useAlphaHash;
-            mat.opacity = Mathf.lerp(mat.opacity, targetAlpha, this.context.time.deltaTime / this.fadeDuration);
+            mat.opacity = Mathf.lerp(mat.opacity, targetAlpha, this.fadeDuration <= 0 ? 1 : this.context.time.deltaTime / this.fadeDuration);
         }
     }
 
