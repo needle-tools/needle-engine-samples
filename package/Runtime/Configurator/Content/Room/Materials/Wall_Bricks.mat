@@ -24,10 +24,10 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
   m_ValidKeywords:
   - _TEXTURE_TRANSFORM_ON
-  - _VERTEX_COLORS_ON
   - _VOLUME_TRANSMISSION_OFF
   m_InvalidKeywords:
   - _METALLICSPECGLOSSMAP
+  - _VERTEX_COLORS_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -82,6 +82,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - anisotropyTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 0}
     - baseColorTexture:
         m_Texture: {fileID: 2800000, guid: 8646616708bc9b94babb1853b95c82b0, type: 3}
         m_Scale: {x: 2.5, y: 2.5}
@@ -107,7 +111,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - metallicRoughnessTexture:
-        m_Texture: {fileID: 2800000, guid: 4a99c404c2c7c98489fde0689a8b79fd, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - normalTexture:
@@ -115,6 +119,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - occlusionTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - sheenColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - sheenRoughnessTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -148,6 +160,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ANISOTROPY: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _BUILTIN_AlphaClip: 0
@@ -186,6 +199,7 @@ Material:
     - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SHEEN: 0
     - _SPECULAR: 0
     - _Smoothness: 0.195
     - _SmoothnessTextureChannel: 0
@@ -201,6 +215,10 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     - alphaCutoff: 0.5
+    - anisotropyRotation: 0
+    - anisotropyStrength: 0
+    - anisotropyTextureRotation: 0
+    - anisotropyTextureTexCoord: 0
     - attenuationDistance: 0.001
     - baseColorTextureRotation: 0
     - baseColorTextureTexCoord: 0
@@ -222,7 +240,7 @@ Material:
     - iridescenceThicknessMinimum: 100
     - iridescenceThicknessTextureRotation: 0
     - iridescenceThicknessTextureTexCoord: 0
-    - metallicFactor: 0.152
+    - metallicFactor: 0.199
     - metallicRoughnessTextureRotation: 0
     - metallicRoughnessTextureTexCoord: 0
     - normalScale: 0.01
@@ -231,7 +249,12 @@ Material:
     - occlusionStrength: 1
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
-    - roughnessFactor: 0.827
+    - roughnessFactor: 1
+    - sheenColorTextureRotation: 0
+    - sheenColorTextureTexCoord: 0
+    - sheenRoughnessFactor: 0
+    - sheenRoughnessTextureRotation: 0
+    - sheenRoughnessTextureTexCoord: 0
     - specularColorTextureRotation: 0
     - specularColorTextureTexCoord: 0
     - specularFactor: 1
@@ -251,6 +274,7 @@ Material:
     - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
     - baseColorFactor: {r: 1, g: 0.9103774, b: 0.9103774, a: 1}
     - emissiveFactor: {r: 0, g: 0, b: 0, a: 1}
+    - sheenColorFactor: {r: 0, g: 0, b: 0, a: 0}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7648453913181478804
