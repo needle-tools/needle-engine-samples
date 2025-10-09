@@ -588,6 +588,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 106327847}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &113511091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 113511093}
+  - component: {fileID: 113511092}
+  m_Layer: 0
+  m_Name: README
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &113511092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113511091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c280f685421ecc46a892fedfe14dfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Readme, Needle.Engine-Samples.Runtime
+  Guid: 
+--- !u!4 &113511093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113511091}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &118035579
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +882,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 205898081}
-  - component: {fileID: 205898082}
   m_Layer: 0
   m_Name: Shelf
   m_TagString: Untagged
@@ -861,23 +905,6 @@ Transform:
   m_Father: {fileID: 695704628}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &205898082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 205898080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a0d09599dc5044ff2d380783233407, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SeeThroughFade,
-    Needle.Engine-Samples.Runtime
-  center: {fileID: 1054008141}
-  fadeDuration: 0.05
-  minAlpha: 0
-  useAlphaHash: 1
 --- !u!1 &219255612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1071,7 @@ GameObject:
   - component: {fileID: 353942322}
   - component: {fileID: 353942321}
   m_Layer: 0
-  m_Name: Post
+  m_Name: Postprocessing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1095,7 +1122,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &423579838
 PrefabInstance:
@@ -1235,7 +1262,7 @@ Transform:
   - {fileID: 183810469}
   - {fileID: 1014791836}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &625337245
 GameObject:
@@ -1270,7 +1297,7 @@ Transform:
   - {fileID: 1146046915}
   - {fileID: 15772128}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &669478706 stripped
 Transform:
@@ -1430,7 +1457,7 @@ MonoBehaviour:
     Version: 1.0.0
     Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
-  CloudName: Room Interior Demo
+  CloudName: see-through-walls
   CloudTeam: 
 --- !u!4 &712576436
 Transform:
@@ -1847,7 +1874,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &856530970
 GameObject:
@@ -2063,7 +2090,7 @@ Transform:
   - {fileID: 1037338410}
   - {fileID: 827736486}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &905419735
 GameObject:
@@ -2306,7 +2333,7 @@ RectTransform:
   - {fileID: 184336656}
   - {fileID: 873782253}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3460,6 +3487,51 @@ Transform:
   m_Father: {fileID: 695704628}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1579951940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1579951942}
+  - component: {fileID: 1579951941}
+  m_Layer: 0
+  m_Name: XR Rig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1579951941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579951940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
+--- !u!4 &1579951942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579951940}
+  m_LocalRotation: {x: -0, y: 0.9668855, z: -0, w: 0.2552106}
+  m_LocalPosition: {x: -2.604, y: 0, z: 3.759}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 150.428, z: 0}
 --- !u!1 &1604984635
 GameObject:
   m_ObjectHideFlags: 0
@@ -3710,7 +3782,7 @@ MonoBehaviour:
   center: {fileID: 905419735}
   fadeDuration: 0.05
   minAlpha: 0.2
-  useAlphaHash: 1
+  useAlphaHash: 0
 --- !u!1 &1689612636
 GameObject:
   m_ObjectHideFlags: 0
@@ -4036,6 +4108,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412543469665479986, guid: 7b33330ef24d2ab4ca3f2e23246e41fa, type: 3}
   m_PrefabInstance: {fileID: 1781288594}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1781288596 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8871322399214970161, guid: 7b33330ef24d2ab4ca3f2e23246e41fa, type: 3}
+  m_PrefabInstance: {fileID: 1781288594}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1781288597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781288596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a0d09599dc5044ff2d380783233407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SeeThroughFade,
+    Needle.Engine-Samples.Runtime
+  center: {fileID: 905419735}
+  fadeDuration: 0.05
+  minAlpha: 0
+  useAlphaHash: 1
 --- !u!1 &1821343845
 GameObject:
   m_ObjectHideFlags: 0
@@ -4137,6 +4231,67 @@ MonoBehaviour:
   fadeDuration: 0.05
   minAlpha: 0
   useAlphaHash: 1
+--- !u!1 &1840116456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1840116458}
+  - component: {fileID: 1840116457}
+  m_Layer: 0
+  m_Name: WebXR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1840116457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840116456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
+  createVRButton: 1
+  createARButton: 1
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
+  usePlacementAdjustment: 1
+  arScale: 5
+  autoPlace: 1
+  autoCenter: 0
+  useXRAnchor: 0
+  useQuicklookExport: 1
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
+--- !u!4 &1840116458
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840116456}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1848992507
 GameObject:
   m_ObjectHideFlags: 0
@@ -4175,7 +4330,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.8980393, g: 0.9725491, b: 0.8980393, a: 1}
+  m_BackGroundColor: {r: 0.78, g: 1, b: 0.78, a: 0.7294118}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -4215,13 +4370,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1848992507}
-  m_LocalRotation: {x: 0.08597122, y: 0.91373426, z: -0.27813956, w: 0.28343803}
-  m_LocalPosition: {x: -3.1441176, y: 6.110461, z: 7.068042}
-  m_LocalScale: {x: 1.0000012, y: 1, z: 1.0000163}
+  m_LocalRotation: {x: -0.08103323, y: -0.89936393, z: 0.1888769, w: -0.3858805}
+  m_LocalPosition: {x: -7.9855556, y: 6.079617, z: 5.632344}
+  m_LocalScale: {x: 1.0000038, y: 1, z: 1.0000216}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1848992511
 MonoBehaviour:
@@ -4534,7 +4689,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1899273545}
-  - component: {fileID: 1899273546}
   m_Layer: 0
   m_Name: Shelf
   m_TagString: Untagged
@@ -4558,23 +4712,6 @@ Transform:
   m_Father: {fileID: 1014791836}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1899273546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1899273544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a0d09599dc5044ff2d380783233407, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SeeThroughFade,
-    Needle.Engine-Samples.Runtime
-  center: {fileID: 905419735}
-  fadeDuration: 0.05
-  minAlpha: 0
-  useAlphaHash: 1
 --- !u!1 &1905143835
 GameObject:
   m_ObjectHideFlags: 0
@@ -4729,7 +4866,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &190392784613787045
 PrefabInstance:
@@ -4821,6 +4958,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412543469665479986, guid: 7b33330ef24d2ab4ca3f2e23246e41fa, type: 3}
   m_PrefabInstance: {fileID: 190392784613787045}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &190392784613787047 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8871322399214970161, guid: 7b33330ef24d2ab4ca3f2e23246e41fa, type: 3}
+  m_PrefabInstance: {fileID: 190392784613787045}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &190392784613787048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190392784613787047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a0d09599dc5044ff2d380783233407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.SeeThroughFade,
+    Needle.Engine-Samples.Runtime
+  center: {fileID: 1054008141}
+  fadeDuration: 0.05
+  minAlpha: 0
+  useAlphaHash: 1
 --- !u!1001 &688238839509305419
 PrefabInstance:
   m_ObjectHideFlags: 0

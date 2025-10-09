@@ -1,5 +1,5 @@
 
-import { Behaviour, getParam, getTempVector, Gizmos, Mathf, Renderer, serializable, showBalloonMessage } from "@needle-tools/engine";
+import { Behaviour, getParam, getTempVector, Gizmos, Mathf, Renderer, serializable } from "@needle-tools/engine";
 import { Material, Object3D, Vector3 } from "three";
 
 const debugSeeThrough = getParam("debugst");
@@ -38,6 +38,9 @@ export class SeeThroughFade extends Behaviour {
 
             this.center ??= this.context.scene;
 
+            // NOTE: instead of using the object's anchor (gameObject.worldPosition) we could also get the object's bounding box center:
+            // getBoundingBox(this.gameObject); // < import { getBoundingBox } from "@needle-tools/engine";
+
             this._centerVec.copy(this.gameObject.worldPosition.sub(this.center.worldPosition));
             this._centerDistance = this._centerVec.length();
             this._centerDir.copy(this._centerVec)
@@ -52,7 +55,7 @@ export class SeeThroughFade extends Behaviour {
         this._renderer ??= this.gameObject.getComponentsInChildren(Renderer);
 
         const dot = this._centerDir.dot(this.context.mainCamera.worldForward);
-        const shouldHide = dot > .2;
+        const shouldHide = dot > .1;
 
         if(debugSeeThrough && this.center) {
             const wp = this.gameObject.worldPosition;
