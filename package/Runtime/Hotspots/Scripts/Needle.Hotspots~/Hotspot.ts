@@ -1,5 +1,5 @@
-import { Behaviour, Button, Canvas, CanvasGroup, GameObject, getTempVector, InstantiateOptions, Mathf, serializable, Text } from "@needle-tools/engine";
-import { Vector3 } from "three";
+import { Behaviour, Button, Canvas, CanvasGroup, EventList, GameObject, getTempVector, getWorldPosition, Gizmos, InstantiateOptions, Mathf, OrbitControls, serializable, Text } from "@needle-tools/engine";
+import { Object3D, Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -30,6 +30,12 @@ export class HotspotBehaviour extends Behaviour {
     @serializable(CanvasGroup)
     headerCanvasGroup?: CanvasGroup;
 
+    @serializable(Object3D)
+    viewPoint: Object3D | null = null;
+
+    @serializable(EventList)
+    onActivate: EventList = new EventList();
+
     private selected: boolean = false;
     private contentFadeTimestamp: number = -999;
     private isVisible: boolean = false;
@@ -37,9 +43,14 @@ export class HotspotBehaviour extends Behaviour {
     private button?: Button | null = null;
 
     private startForward: Vector3 = new Vector3();
+    private viewStartPoint?: Vector3;
 
     onEnable(): void {
         this.startForward.copy(this.gameObject.worldForward);
+        if (this.viewPoint) {
+            this.viewStartPoint = getWorldPosition(this.viewPoint as any).clone() as any;
+        }
+
         this.button = this.headerCanvasGroup?.gameObject.getComponentInChildren(Button);
         this.button?.onClick?.addEventListener(this.onButtonClicked);
         HotspotManager.Instance.registerHotspot(this);
@@ -51,10 +62,28 @@ export class HotspotBehaviour extends Behaviour {
     }
 
     onButtonClicked = () => {
-        this.selected = !this.selected;
-        this.contentFadeTimestamp = this.context.time.time;
-        if (this.selected && HotspotManager.Instance)
-            HotspotManager.Instance.onSelect(this);
+        if (this.selected) {
+            this.deselect();
+        }
+        else {
+            this.select();
+        }
+    }
+
+    select() {
+        if (!this.selected) {
+            this.selected = true;
+            this.contentFadeTimestamp = this.context.time.time;
+            HotspotManager.Instance?.onSelect(this);
+            this.onActivate?.invoke();
+            if (this.viewPoint) {
+                const orbit = this.context.mainCamera.getComponent(OrbitControls);
+                if (orbit) {
+                    orbit.setCameraTargetPosition(this.viewStartPoint as any);
+                    orbit.setLookTargetPosition(this.gameObject as any);
+                }
+            }
+        }
     }
 
     deselect() {
@@ -131,15 +160,14 @@ export class HotspotBehaviour extends Behaviour {
         const angle = Mathf.toDegrees(hotspotFwd.angleTo(dirToCam));
 
         const newIsVisible = angle < this.viewAngle;
-        if (newIsVisible != this.isVisible) {
+        if (!this.selected && newIsVisible != this.isVisible) {
             this.hotspotFadeTimestamp = this.context.time.time;
-            if (this.button)
-                this.button.enabled = newIsVisible;
+        //     if (this.button) this.button.enabled = newIsVisible;
 
-            if (!newIsVisible && this.selected) {
-                this.selected = false;
-                this.contentFadeTimestamp = this.context.time.time;
-            }
+        //     // if (!newIsVisible && this.selected) {
+        //     //     this.selected = false;
+        //     //     this.contentFadeTimestamp = this.context.time.time;
+        //     // }
         }
 
         this.isVisible = newIsVisible;
@@ -147,7 +175,7 @@ export class HotspotBehaviour extends Behaviour {
     }
 
     private applyFade() {
-        const goal1 = this.isVisible ? 1 : 0;
+        const goal1 = this.selected || this.isVisible ? 1 : 0;
         const t1 = Mathf.clamp01((this.context.time.time - this.hotspotFadeTimestamp) / this.hotspotFadeDuration);
         const angleAlpha = Mathf.lerp(1 - goal1, goal1, t1);
 

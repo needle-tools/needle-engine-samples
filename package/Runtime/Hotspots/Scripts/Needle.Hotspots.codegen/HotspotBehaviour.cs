@@ -13,9 +13,12 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Canvas @canvas;
 		public UnityEngine.CanvasGroup @contentCanvasGroup;
 		public UnityEngine.CanvasGroup @headerCanvasGroup;
+		public UnityEngine.GameObject @viewPoint;
+		public UnityEngine.Events.UnityEvent @onActivate = new UnityEngine.Events.UnityEvent();
 		public void OnEnable(){}
 		public void OnDisable(){}
 		// public undefined @onButtonClicked; → Could not resolve C# type
+		public void select(){}
 		public void deselect(){}
 		public void onBeforeRender(object @frame){}
 	}
