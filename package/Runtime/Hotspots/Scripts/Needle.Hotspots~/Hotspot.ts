@@ -40,7 +40,7 @@ export class HotspotBehaviour extends Behaviour {
 
     onEnable(): void {
         this.startForward.copy(this.gameObject.worldForward);
-        this.button = this.gameObject.getComponentInChildren(Button);
+        this.button = this.headerCanvasGroup?.gameObject.getComponentInChildren(Button);
         this.button?.onClick?.addEventListener(this.onButtonClicked);
         HotspotManager.Instance.registerHotspot(this);
 
