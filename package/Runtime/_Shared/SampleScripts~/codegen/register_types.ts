@@ -69,7 +69,6 @@ import { ShadeWithMaterialX } from "../Material X/MaterialXNodeGraph.js";
 import { SyncedPlayableDirector } from "../Networking/SyncedPlayableDirector.js";
 import { ConsumeAllPointers } from "../PointerHandlers/ConsumeAllPointers.js";
 import { ReflectionsSwitcher } from "../ReflectionProbes/ReflectionsSwitcher.js";
-import { SeeThroughFade } from "../See-through Walls/SeeThrough.js";
 import { VariantInfo } from "../Variants/VariantInfo.js";
 import { VariantSwitcher } from "../Variants/VariantSwitcher.js";
 
@@ -141,6 +140,5 @@ TypeStore.add("ShadeWithMaterialX", ShadeWithMaterialX);
 TypeStore.add("SyncedPlayableDirector", SyncedPlayableDirector);
 TypeStore.add("ConsumeAllPointers", ConsumeAllPointers);
 TypeStore.add("ReflectionsSwitcher", ReflectionsSwitcher);
-TypeStore.add("SeeThroughFade", SeeThroughFade);
 TypeStore.add("VariantInfo", VariantInfo);
 TypeStore.add("VariantSwitcher", VariantSwitcher);
