@@ -1,60 +1,14 @@
 import { Behaviour, Button, Canvas, CanvasGroup, GameObject, getTempVector, InstantiateOptions, Mathf, serializable, Text } from "@needle-tools/engine";
-import { getWorldPosition, getWorldQuaternion, getWorldScale, setWorldQuaternion } from "@needle-tools/engine";
+import { Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
-export class Hotspot extends Behaviour {
-
-    @serializable()
-    titleText: string = "Title";
-
-    @serializable()
-    contentText: string = "Content";
+export class HotspotBehaviour extends Behaviour {
 
     @serializable()
     viewAngle: number = 40;
 
-    private instance: GameObject | null = null;
-    private hotspot?: HotspotBehaviour | null | undefined;
-
-    // TODO figure out why onEnable doesn't work here
-    start() {
-        // instantiate a hotspot here
-        const options = new InstantiateOptions();
-        options.parent = this.gameObject;
-        this.instance = GameObject.instantiate(HotspotManager.Instance.hotspotTemplate.gameObject, options);
-        if(!this.instance) console.error("No hotspot template assigned to HotspotManager!")
-        else {
-            this.instance.removeFromParent();
-            this.gameObject.add(this.instance);
-            this.hotspot = this.instance?.getComponent(HotspotBehaviour);
-            if (this.hotspot) {
-                GameObject.setActive(this.hotspot.gameObject, true);
-                this.hotspot.init(this);
-                HotspotManager.Instance.registerHotspot(this.hotspot);
-            }
-        }
-    }
-
-    destroy() {
-        if (!this.instance) return;
-
-        GameObject.destroy(this.instance);
-        this.instance = null;
-        this.hotspot = null;
-    }
-}
-
-export class HotspotBehaviour extends Behaviour {
-    
-    @serializable(Text)
-    label?: Text;
-
-    @serializable(Text)
-    content?: Text;
-
     // OPTIONAL forward shifting
-    
     // @serializable(GameObject)
     // shift?: GameObject;
 
@@ -77,52 +31,48 @@ export class HotspotBehaviour extends Behaviour {
     headerCanvasGroup?: CanvasGroup;
 
     private selected: boolean = false;
-    private hotspot?: Hotspot;
     private contentFadeTimestamp: number = -999;
     private isVisible: boolean = false;
     private hotspotFadeTimestamp: number = -999;
-
     private button?: Button | null = null;
 
-    init(hotspot: Hotspot) {
-        this.hotspot = hotspot;
-        if (this.label)
-            this.label.text = hotspot.titleText;
-        if (this.content)
-            this.content.text = hotspot.contentText;
+    private startForward: Vector3 = new Vector3();
 
+    onEnable(): void {
+        this.startForward.copy(this.gameObject.worldForward);
         this.button = this.gameObject.getComponentInChildren(Button);
-        this.button?.onClick?.addEventListener(this.onButtonClicked.bind(this));
+        this.button?.onClick?.addEventListener(this.onButtonClicked);
+        HotspotManager.Instance.registerHotspot(this);
+
     }
-    
-    onButtonClicked() {
+    onDisable(): void {
+        this.button?.onClick?.removeEventListener(this.onButtonClicked);
+        HotspotManager.Instance.unregisterHotspot(this);
+    }
+
+    onButtonClicked = () => {
         this.selected = !this.selected;
         this.contentFadeTimestamp = this.context.time.time;
-
-        if(this.selected && HotspotManager.Instance)
+        if (this.selected && HotspotManager.Instance)
             HotspotManager.Instance.onSelect(this);
     }
 
     deselect() {
-        if(this.selected) {
+        if (this.selected) {
             this.contentFadeTimestamp = this.context.time.time;
             this.selected = false;
         }
     }
 
-    
     onBeforeRender(frame: XRFrame | null): void {
-        
-        if (!this.hotspot) return;
-        if (!this.gameObject.parent) return;
+
 
         const cam = this.context.mainCamera;
-        if(cam == null) return;
+        if (cam == null) return;
 
         // use camera rotation directly
         if (this.context.isInXR) {
-            const lookFrom = getWorldPosition(cam);
-            this.gameObject.lookAt(lookFrom);
+            const lookFrom = cam.worldPosition;
             // check if we're on a screen (not immersive) - then we should aim to render camera plane aligned
             //@ts-ignore
             const arSessionOnAScreen = this.context.xrSession.interactionMode === "screen-space";
@@ -130,9 +80,12 @@ export class HotspotBehaviour extends Behaviour {
                 const forwardPoint = lookFrom.sub(this.forward);
                 this.gameObject.lookAt(forwardPoint);
             }
+            else {
+                this.gameObject.lookAt(lookFrom);
+            }
         } else {
-            const camRotation = getWorldQuaternion(cam);
-            setWorldQuaternion(this.gameObject, camRotation);
+            const camRotation = cam.worldQuaternion;
+            this.gameObject.worldQuaternion = camRotation;
         }
 
         if (frame) {
@@ -143,11 +96,11 @@ export class HotspotBehaviour extends Behaviour {
         }
 
         // scale by distance to camera
-        const parentScale = getWorldScale(this.gameObject.parent!);
-        const cameraScale = getWorldScale(cam);
+        const parentScale = this.gameObject.parent!.worldScale;
+        const cameraScale = cam.worldScale;
         /* console.log(cameraScale) */
-        const worldPosition = getWorldPosition(this.gameObject).clone();
-        const inCameraSpace = worldPosition.clone();
+        const worldPosition = this.gameObject.worldPosition;
+        const inCameraSpace = getTempVector(worldPosition);
         cam.worldToLocal(inCameraSpace);
         const distance = -1 * inCameraSpace.z * cameraScale.x;
 
@@ -168,38 +121,32 @@ export class HotspotBehaviour extends Behaviour {
         // const vectorTowardsCameraInGameObjectSpace = this.gameObject.worldToLocal(HotspotBehaviour._tempVector1.copy(cam.position)).normalize().multiplyScalar(this.zOffset);
         // if (this.shift) 
         //     this.shift.position.set(vectorTowardsCameraInGameObjectSpace.x, vectorTowardsCameraInGameObjectSpace.y, vectorTowardsCameraInGameObjectSpace.z);
-        
+
         // handle visiblity angle
-        const hotspotFwd = this.hotspot!.gameObject.getWorldDirection(getTempVector());
+        const hotspotFwd = this.startForward;
 
-        const hotspotPos = this.hotspot!.worldPosition;
-        const camPos = cam.getWorldPosition(getTempVector());
-        const dirToCam = getTempVector(camPos).sub(hotspotPos).normalize();
-
+        const hotspotPos = this.worldPosition;
+        const camPos = cam.worldPosition;
+        const dirToCam = getTempVector(camPos).sub(hotspotPos).normalize() as any as Vector3;
         const angle = Mathf.toDegrees(hotspotFwd.angleTo(dirToCam));
 
-        const newIsVisible = angle < this.hotspot.viewAngle ;
-        if (newIsVisible != this.isVisible) 
-        {
+        const newIsVisible = angle < this.viewAngle;
+        if (newIsVisible != this.isVisible) {
             this.hotspotFadeTimestamp = this.context.time.time;
-            if(this.button)
+            if (this.button)
                 this.button.enabled = newIsVisible;
 
-            if(!newIsVisible && this.selected)
-            {
+            if (!newIsVisible && this.selected) {
                 this.selected = false;
                 this.contentFadeTimestamp = this.context.time.time;
             }
         }
 
         this.isVisible = newIsVisible;
-        
-
         this.applyFade();
     }
 
-    applyFade() 
-    {
+    private applyFade() {
         const goal1 = this.isVisible ? 1 : 0;
         const t1 = Mathf.clamp01((this.context.time.time - this.hotspotFadeTimestamp) / this.hotspotFadeDuration);
         const angleAlpha = Mathf.lerp(1 - goal1, goal1, t1);
@@ -208,14 +155,12 @@ export class HotspotBehaviour extends Behaviour {
         const t2 = Mathf.clamp01((this.context.time.time - this.contentFadeTimestamp) / this.contentFadeDuration);
         const stateAlpha = Mathf.lerp(1 - goal2, goal2, t2);
 
-        if (this.contentCanvasGroup) 
-        {
+        if (this.contentCanvasGroup) {
             this.contentCanvasGroup.alpha = Math.min(angleAlpha, stateAlpha);
             this.contentCanvasGroup.interactable = this.selected;
         }
-        
-        if (this.headerCanvasGroup)
-        {
+
+        if (this.headerCanvasGroup) {
             this.headerCanvasGroup.alpha = angleAlpha;
             this.headerCanvasGroup.interactable = this.isVisible;
         }
@@ -223,40 +168,34 @@ export class HotspotBehaviour extends Behaviour {
 }
 
 export class HotspotManager extends Behaviour {
-    @serializable(HotspotBehaviour)
-    hotspotTemplate!: HotspotBehaviour;
+
+    static Instance: HotspotManager;
 
     @serializable()
     forceSingleActive: boolean = true;
 
-    static Instance: HotspotManager;
+    private readonly activeHotspots: HotspotBehaviour[] = [];
 
-    private activeHotspots: HotspotBehaviour[] = [];
-
-    awake() 
-    {
+    constructor() {
+        super();
         HotspotManager.Instance = this;
-        this.hotspotTemplate.gameObject.position.set(0, 0, 0);
-        this.hotspotTemplate.gameObject.scale.set(1, 1, 1);
-        this.hotspotTemplate.gameObject.quaternion.identity();
-        this.hotspotTemplate.gameObject.removeFromParent();
-        GameObject.setActive(this.hotspotTemplate.gameObject, false);
     }
 
-    registerHotspot(hotspot: HotspotBehaviour) 
-    {
+    registerHotspot(hotspot: HotspotBehaviour) {
         // add to active hotspots only if it's not already there
         if (this.activeHotspots.indexOf(hotspot) === -1)
             this.activeHotspots.push(hotspot);
     }
+    unregisterHotspot(hotspot: HotspotBehaviour) {
+        const index = this.activeHotspots.indexOf(hotspot);
+        if (index !== -1) this.activeHotspots.splice(index, 1);
+    }
 
-    onSelect(hotspot: HotspotBehaviour) 
-    {
-        if (!this.forceSingleActive) 
+    onSelect(hotspot: HotspotBehaviour) {
+        if (!this.forceSingleActive)
             return;
 
-        for (const h of this.activeHotspots) 
-        {
+        for (const h of this.activeHotspots) {
             if (h !== hotspot && h)
                 h.deselect();
         }

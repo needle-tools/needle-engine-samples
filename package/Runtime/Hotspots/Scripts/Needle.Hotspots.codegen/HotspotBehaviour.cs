@@ -7,18 +7,17 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class HotspotBehaviour : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.UI.Text @label;
-		public UnityEngine.UI.Text @content;
+		public float @viewAngle = 40f;
 		public float @contentFadeDuration;
 		public float @hotspotFadeDuration;
 		public UnityEngine.Canvas @canvas;
 		public UnityEngine.CanvasGroup @contentCanvasGroup;
 		public UnityEngine.CanvasGroup @headerCanvasGroup;
-		public void init(Needle.Typescript.GeneratedComponents.Hotspot @hotspot){}
-		public void onButtonClicked(){}
+		public void OnEnable(){}
+		public void OnDisable(){}
+		// public undefined @onButtonClicked; → Could not resolve C# type
 		public void deselect(){}
 		public void onBeforeRender(object @frame){}
-		public void applyFade(){}
 	}
 }
 

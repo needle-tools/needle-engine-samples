@@ -6,41 +6,18 @@ using UnityEngine;
 
 namespace Needle.Typescript.GeneratedComponents
 {
-    [CustomEditor(typeof(Hotspot)), CanEditMultipleObjects]
+    [CustomEditor(typeof(HotspotBehaviour)), CanEditMultipleObjects]
     public class HotspotEditor : Editor
     {
-        SerializedProperty titleProperty;
-        SerializedProperty contentProperty;
-        SerializedProperty viewAngleProperty;
-
-        private void OnEnable()
-        {
-            titleProperty = serializedObject.FindProperty("titleText");
-            contentProperty = serializedObject.FindProperty("contentText");
-            viewAngleProperty = serializedObject.FindProperty("viewAngle");
-        }
-
-        public override void OnInspectorGUI()
-        {
-            serializedObject.Update();
-
-            EditorGUILayout.PropertyField(titleProperty);
-            EditorGUILayout.PropertyField(contentProperty);
-            EditorGUILayout.Slider(viewAngleProperty, 0, 180);
-
-            serializedObject.ApplyModifiedProperties();
-        }
-
         private const float GizmosConeLength = 5;
         private const int GizmosConeSegments = 50;
-        private Hotspot hotspot => target as Hotspot;
+        private HotspotBehaviour hotspot => target as HotspotBehaviour;
         private Transform transform => hotspot.transform;
 
         private void OnSceneGUI()
         {
             Handles.color = Color.blue;
             Handles.DrawDottedLine(transform.position, transform.position + transform.forward * 2, 5);
-
             DrawCone(transform, Color.red, hotspot.viewAngle);
         }
 
