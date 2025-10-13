@@ -196,12 +196,14 @@ export class HotspotBehaviour extends Behaviour {
 
         if (this.contentCanvasGroup) {
             this.contentCanvasGroup.alpha = Math.min(angleAlpha, stateAlpha);
-            this.contentCanvasGroup.interactable = this.selected;
+            this.contentCanvasGroup.interactable = this.isVisible || this.selected;
+            this.contentCanvasGroup.blocksRaycasts = this.isVisible || this.selected;
         }
 
         if (this.headerCanvasGroup) {
             this.headerCanvasGroup.alpha = angleAlpha;
             this.headerCanvasGroup.interactable = this.isVisible || this.selected;
+            this.headerCanvasGroup.blocksRaycasts = this.isVisible || this.selected;
         }
     }
 }
