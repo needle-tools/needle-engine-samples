@@ -8,6 +8,9 @@ export class HotspotBehaviour extends Behaviour {
     @serializable()
     viewAngle: number = 40;
 
+    @serializable()
+    maxDistance: number = 150;
+
     // OPTIONAL forward shifting
     // @serializable(GameObject)
     // shift?: GameObject;
@@ -94,8 +97,6 @@ export class HotspotBehaviour extends Behaviour {
     }
 
     onBeforeRender(frame: XRFrame | null): void {
-
-
         const cam = this.context.mainCamera;
         if (cam == null) return;
 
@@ -124,50 +125,60 @@ export class HotspotBehaviour extends Behaviour {
             // three has Quaternion.setFromUnitVectors
         }
 
-        // scale by distance to camera
-        const parentScale = this.gameObject.parent!.worldScale;
-        const cameraScale = cam.worldScale;
-        /* console.log(cameraScale) */
-        const worldPosition = this.gameObject.worldPosition;
-        const inCameraSpace = getTempVector(worldPosition);
-        cam.worldToLocal(inCameraSpace);
-        const distance = -1 * inCameraSpace.z * cameraScale.x;
+        const distanceToHotspot = cam.worldPosition.distanceTo(this.gameObject.worldPosition);
 
-        // from a certain point, FOV doesn't appear larger anymore
-        // (e.g. in a VR headset the size of hotspots should be the same no matter
-        // 70° or 90° or 150° field of view since that is behind me)
-        // May look nicer with some limiting function that is not linear
-        // TODO we may want hotspots to become a bit smaller the further away they are, feels "too big" in VR
-        // Keep constant screensize independent of fov
-        // @ts-ignore
-        const clampedFov = Mathf.clamp(cam.fov, 0, 70);
-        const multiplier = 0.25 * Math.tan(clampedFov * Mathf.Deg2Rad / 2);
+        let newIsVisible = true;
+        if (distanceToHotspot > this.maxDistance) {
+            newIsVisible = false;
+        }
+        else {
 
-        const scale = multiplier * distance / parentScale.x; // scale factor is heuristic, could also be exposed
-        this.gameObject.scale.set(scale, scale, scale);
+            // scale by distance to camera
+            const parentScale = this.gameObject.parent!.worldScale;
+            const cameraScale = cam.worldScale;
+            /* console.log(cameraScale) */
+            const worldPosition = this.gameObject.worldPosition;
+            const inCameraSpace = getTempVector(worldPosition);
+            cam.worldToLocal(inCameraSpace);
+            const distance = -1 * inCameraSpace.z * cameraScale.x;
 
-        // OPTIONAL shift towards camera a bit
-        // const vectorTowardsCameraInGameObjectSpace = this.gameObject.worldToLocal(HotspotBehaviour._tempVector1.copy(cam.position)).normalize().multiplyScalar(this.zOffset);
-        // if (this.shift) 
-        //     this.shift.position.set(vectorTowardsCameraInGameObjectSpace.x, vectorTowardsCameraInGameObjectSpace.y, vectorTowardsCameraInGameObjectSpace.z);
+            // from a certain point, FOV doesn't appear larger anymore
+            // (e.g. in a VR headset the size of hotspots should be the same no matter
+            // 70° or 90° or 150° field of view since that is behind me)
+            // May look nicer with some limiting function that is not linear
+            // TODO we may want hotspots to become a bit smaller the further away they are, feels "too big" in VR
+            // Keep constant screensize independent of fov
+            // @ts-ignore
+            const clampedFov = Mathf.clamp(cam.fov, 0, 70);
+            const multiplier = 0.25 * Math.tan(clampedFov * Mathf.Deg2Rad / 2);
 
-        // handle visiblity angle
-        const hotspotFwd = this.startForward;
+            const scale = multiplier * distance / parentScale.x; // scale factor is heuristic, could also be exposed
+            this.gameObject.scale.set(scale, scale, scale);
 
-        const hotspotPos = this.worldPosition;
-        const camPos = cam.worldPosition;
-        const dirToCam = getTempVector(camPos).sub(hotspotPos).normalize() as any as Vector3;
-        const angle = Mathf.toDegrees(hotspotFwd.angleTo(dirToCam));
+            // OPTIONAL shift towards camera a bit
+            // const vectorTowardsCameraInGameObjectSpace = this.gameObject.worldToLocal(HotspotBehaviour._tempVector1.copy(cam.position)).normalize().multiplyScalar(this.zOffset);
+            // if (this.shift) 
+            //     this.shift.position.set(vectorTowardsCameraInGameObjectSpace.x, vectorTowardsCameraInGameObjectSpace.y, vectorTowardsCameraInGameObjectSpace.z);
 
-        const newIsVisible = angle < this.viewAngle;
+            // handle visiblity angle
+            const hotspotFwd = this.startForward;
+
+            const hotspotPos = this.worldPosition;
+            const camPos = cam.worldPosition;
+            const dirToCam = getTempVector(camPos).sub(hotspotPos).normalize() as any as Vector3;
+            const angle = Mathf.toDegrees(hotspotFwd.angleTo(dirToCam));
+
+            newIsVisible = angle < this.viewAngle;
+        }
+
         if (!this.selected && newIsVisible != this.isVisible) {
             this.hotspotFadeTimestamp = this.context.time.time;
-        //     if (this.button) this.button.enabled = newIsVisible;
+            //     if (this.button) this.button.enabled = newIsVisible;
 
-        //     // if (!newIsVisible && this.selected) {
-        //     //     this.selected = false;
-        //     //     this.contentFadeTimestamp = this.context.time.time;
-        //     // }
+            //     // if (!newIsVisible && this.selected) {
+            //     //     this.selected = false;
+            //     //     this.contentFadeTimestamp = this.context.time.time;
+            //     // }
         }
 
         this.isVisible = newIsVisible;
@@ -190,7 +201,7 @@ export class HotspotBehaviour extends Behaviour {
 
         if (this.headerCanvasGroup) {
             this.headerCanvasGroup.alpha = angleAlpha;
-            this.headerCanvasGroup.interactable = this.isVisible;
+            this.headerCanvasGroup.interactable = this.isVisible || this.selected;
         }
     }
 }

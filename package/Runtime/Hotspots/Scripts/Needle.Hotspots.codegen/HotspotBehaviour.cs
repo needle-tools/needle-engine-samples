@@ -8,6 +8,7 @@ namespace Needle.Typescript.GeneratedComponents
 	public partial class HotspotBehaviour : UnityEngine.MonoBehaviour
 	{
 		public float @viewAngle = 40f;
+		public float @maxDistance = 150f;
 		public float @contentFadeDuration;
 		public float @hotspotFadeDuration;
 		public UnityEngine.Canvas @canvas;
