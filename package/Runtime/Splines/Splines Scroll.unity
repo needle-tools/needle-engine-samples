@@ -421,7 +421,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: -11.421, z: 0}
 --- !u!114 &336520731
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 372445727}
   - component: {fileID: 372445726}
   m_Layer: 0
-  m_Name: Path
+  m_Name: Spline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -582,12 +582,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372445724}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.58457, y: 0.58457, z: 0.58457}
+  m_LocalPosition: {x: -5.73, y: 0.243, z: -1.5}
+  m_LocalScale: {x: 4.2597857, y: 4.2597857, z: 4.2597857}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1685254909}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &505327765
 GameObject:
@@ -634,6 +634,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &550956226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 550956228}
+  - component: {fileID: 550956227}
+  m_Layer: 0
+  m_Name: XR Rig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &550956227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550956226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babe471bb9745c49bc168b0d44b4a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.XRRig, Needle.Engine
+  priority: 0
+--- !u!4 &550956228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550956226}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -5.32, y: 0, z: 0}
+  m_LocalScale: {x: 1.0000014, y: 1, z: 1.0000014}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &673803881
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,7 +759,7 @@ Transform:
   m_GameObject: {fileID: 673803881}
   m_LocalRotation: {x: 0.00027027936, y: -0.5381201, z: -0.00017193245, w: -0.84286815}
   m_LocalPosition: {x: -9.21, y: 2.1, z: -4.25}
-  m_LocalScale: {x: 1.0000038, y: 1, z: 1.0000107}
+  m_LocalScale: {x: 1.0000048, y: 1, z: 1.0000107}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -771,13 +816,13 @@ MonoBehaviour:
   enableRotate: 1
   autoRotate: 0
   autoRotateSpeed: 0.2
-  minPolarAngle: 0
-  maxPolarAngle: 3.1415927
+  minPolarAngle: 0.39
+  maxPolarAngle: 2.8
   minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
-  minZoom: 1.5
-  maxZoom: 100
+  minZoom: 4
+  maxZoom: 20
   zoomSpeed: 1
   zoomToCursor: 0
   enablePan: 1
@@ -922,7 +967,6 @@ GameObject:
   - component: {fileID: 1451658798}
   - component: {fileID: 1451658797}
   - component: {fileID: 1451658800}
-  - component: {fileID: 1451658801}
   - component: {fileID: 1451658802}
   m_Layer: 0
   m_Name: Export Info
@@ -994,22 +1038,6 @@ MonoBehaviour:
     title: Splines
     description: Paths made out of bezier curves
     image: {fileID: 2800000, guid: 4a365ecf8083fc4419239b1fb8d0ec3b, type: 3}
---- !u!114 &1451658801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451658796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032be61c99af4d068a11adffb37721ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToFTP, Needle.Engine.Deployment
-  FTPServer: {fileID: 11400000, guid: b302aecddeb36624eada38ec53765003, type: 2}
-  Path: /splines
-  OverrideGzipCompression: 1
-  UseGzipCompression: 0
 --- !u!114 &1451658802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1031,6 +1059,67 @@ MonoBehaviour:
   GenerateMeshLODs: 1
   TextureOverrides: []
   MeshOverrides: []
+--- !u!1 &1546706286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1546706288}
+  - component: {fileID: 1546706287}
+  m_Layer: 0
+  m_Name: WebXR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1546706287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546706286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
+  createVRButton: 1
+  createARButton: 1
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
+  usePlacementAdjustment: 1
+  arScale: 1
+  autoPlace: 1
+  autoCenter: 0
+  useXRAnchor: 0
+  useQuicklookExport: 1
+  useDepthSensing: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 8817559676569467057, guid: dc55b2cca6c9bdc4187b43e34b1b51cf, type: 3}
+--- !u!4 &1546706288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546706286}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.68, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1670667606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,39 +1150,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1685254908
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1685254909}
-  m_Layer: 0
-  m_Name: Spline
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1685254909
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1685254908}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.73, y: 0.243, z: -1.5}
-  m_LocalScale: {x: 7.2870417, y: 7.2870417, z: 7.2870417}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 372445727}
-  - {fileID: 7360880874807300891}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2107607325
 GameObject:
@@ -1128,7 +1184,7 @@ Transform:
   - {fileID: 292042701}
   - {fileID: 294481690}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &44111243531772458
 GameObject:
@@ -1142,7 +1198,7 @@ GameObject:
   - component: {fileID: 2215993314931449252}
   - component: {fileID: 7360880874807300892}
   m_Layer: 0
-  m_Name: Walker
+  m_Name: Spline Walker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1177,12 +1233,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44111243531772458}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0.2472}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -5.73, y: 0.243, z: 0.30135643}
+  m_LocalScale: {x: 7.287041, y: 7.287041, z: 7.287041}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1685254909}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7360880874807300892
 MonoBehaviour:
@@ -1198,7 +1254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ScrollFollow, Needle.Engine
   target:
   - {fileID: 2215993314931449252}
-  damping: 0.05
+  damping: 0.2
   invert: 0
   changed:
     m_PersistentCalls:
