@@ -1,5 +1,5 @@
 # Transmission
 
-Three.js has couple of essential materials already built-in. One of them is the [Mesh Physical Material](https://threejs.org/docs/#api/en/materials/MeshPhysicalMaterial) that translates to the `UnityGLTF /PBR Graph` shader in Unity.
+Transmission effects using [Mesh Physical Material](https://threejs.org/docs/#api/en/materials/MeshPhysicalMaterial). The sample is created in Unity with the UnityGLTF/PBRGraph shader.
 
-This sample showcases the Transmission effect, that takes the rendered frame of opaque objects and then uses it to bend the image to mimic refraction.
+**Learn more in our Tutorial:** [Create Realistic Glass Materials for Web & Real-Time with three.js and Unity](https://www.youtube.com/watch?v=WXzDNkJltyQ&)
