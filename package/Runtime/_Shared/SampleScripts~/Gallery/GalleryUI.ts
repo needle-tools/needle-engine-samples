@@ -174,17 +174,15 @@ const css = /* css */`
     top: 16px;
     right: 16px;
     display: flex;
+    padding: 4px;
     flex-direction: column;
     align-items: center;
-    width: 54px;
-    height: auto;
     background: rgba(229, 230, 233, 0.8);
-    border-radius: 27px;
+    border-radius: 50%;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     box-shadow: 0 0 4px rgba(2, 2, 43, 0.2);
     z-index: 1;
-    padding-top: 6px;
 
     /* default font settings */
     font-size: 1rem;
@@ -199,7 +197,6 @@ const css = /* css */`
     height: 42px;
     border: none;
     border-radius: 50%;
-    margin-bottom: 4px;
     background: transparent;
     transition: background-color 0.5s;
     outline: rgba(0, 0, 0, 0) 1px solid;
