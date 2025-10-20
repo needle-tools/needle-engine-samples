@@ -34,8 +34,8 @@ export class GalleryPOI extends Behaviour {
         this.previousOrbitControls?.setCameraAndLookTarget(this.cameraView);
     }
 
-    focusNext() { this.galleryManager?.focusNext(); }
-    focusPrevious() { this.galleryManager?.focusPrevious(); }
+    focusNext() { this.galleryManager?.focusNext(this); }
+    focusPrevious() { this.galleryManager?.focusPrevious(this); }
 }
 
 

@@ -14,8 +14,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @arrowKeysNavigation = true;
 		public void awake(){}
 		public void poiFocused(Needle.Typescript.GeneratedComponents.GalleryPOI @poi){}
-		public void focusNext(){}
-		public void focusPrevious(){}
+		public void focusNext(Needle.Typescript.GeneratedComponents.GalleryPOI @poi){}
+		public void focusPrevious(Needle.Typescript.GeneratedComponents.GalleryPOI @poi){}
 		public void update(){}
 	}
 }

@@ -54,12 +54,14 @@ export class GalleryManager extends Behaviour {
         this.selectedPOIIndex = index;
     }
 
-    focusNext() {
+    focusNext(poi?:GalleryPOI) {
+        if(poi) this.selectedPOIIndex = this.pois.indexOf(poi);
         this.selectedPOIIndex = (this.selectedPOIIndex + 1) % this.pois.length;
         this.pois[this.selectedPOIIndex]?.focus();
     }
 
-    focusPrevious() {
+    focusPrevious(poi?:GalleryPOI) {
+        if(poi) this.selectedPOIIndex = this.pois.indexOf(poi);
         this.selectedPOIIndex = (this.selectedPOIIndex - 1 + this.pois.length) % this.pois.length;
         this.pois[this.selectedPOIIndex]?.focus();
     }
