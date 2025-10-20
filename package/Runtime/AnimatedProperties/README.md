@@ -1,18 +1,16 @@
 # Animated Properties
 
-You can animate the majority of the properties of your components very much like animating them in Blender.
+You can animate anything in Needle Engine: object properties, materials, components, lights or cameras. 
 
 This sample showcases how to animate:
 
- - Material properties such as color or roughness
- - Blends shapes / morph targets
- - Object position, rotation and scale
-    - Even for bones of a skinned / skeletal mesh
- - Spotlight parameters 
+ - Material properties such as color, roughness, texture transforms
+ - Blendshapes and morph targets
+ - Object position, rotation and scale. It also works for bones of a skinned / skeletal meshes
+ - Light parameters
 
- ---
 
- Open the Animation tab (right click any tab -> `Add tab / Animation`)
- and then select an object that you are interested in. It should automatically open an animation that animates that object.
+ ### Related Links
+ - [Animated Materials](https://engine.needle.tools/samples/animated-materials/)
+ - [Official three.js Example](https://threejs.org/examples/?q=animation%20pointer#webgl_loader_gltf_animation_pointer)
 
- The default view is a dope sheet, but you can also switch to curves.
