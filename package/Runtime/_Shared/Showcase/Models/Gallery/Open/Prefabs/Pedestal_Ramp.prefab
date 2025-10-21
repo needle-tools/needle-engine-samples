@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6710767488832314286}
+  - component: {fileID: 8110665756739118313}
   m_Layer: 0
   m_Name: Pedestal_Ramp
   m_TagString: Untagged
@@ -26,12 +27,29 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 21.55, y: -0.110000186, z: -2.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7594032410966040219}
   - {fileID: 3658414568890057461}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8110665756739118313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4095979716452209138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a0d09599dc5044ff2d380783233407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.SeeThrough, Needle.Engine
+  referencePoint: {fileID: 0}
+  fadeDuration: 0.05
+  minAlpha: 0
+  useAlphaHash: 1
 --- !u!1001 &2367260213528565471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -188,11 +206,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8771091787928289351, guid: a39ed7787b6e77948a2f3156290fbbc5, type: 3}
   m_PrefabInstance: {fileID: 8898006805618641585}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3658414568890057461 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -3910990755373119420, guid: a39ed7787b6e77948a2f3156290fbbc5, type: 3}
-  m_PrefabInstance: {fileID: 8898006805618641585}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4799917386253225687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,3 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ec385cd68b69447a510846141e8e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &3658414568890057461 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3910990755373119420, guid: a39ed7787b6e77948a2f3156290fbbc5, type: 3}
+  m_PrefabInstance: {fileID: 8898006805618641585}
+  m_PrefabAsset: {fileID: 0}
