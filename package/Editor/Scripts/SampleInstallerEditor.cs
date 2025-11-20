@@ -27,7 +27,11 @@ namespace Needle.Engine
 				await Task.Delay(1000);
 				if (!OpenIfPossible(false))
 				{
+#if UNITY_6000_0_OR_NEWER
+					var installer = Object.FindFirstObjectByType<SampleInstaller>();
+#else
 					var installer = Object.FindObjectOfType<SampleInstaller>();
+#endif
 					Install(installer);
 				}
 			}
@@ -70,7 +74,11 @@ namespace Needle.Engine
 
 		private static bool OpenIfPossible(bool force)
 		{
+#if UNITY_6000_0_OR_NEWER
+			var installer = Object.FindFirstObjectByType<SampleInstaller>();
+#else
 			var installer = Object.FindObjectOfType<SampleInstaller>();
+#endif
 			if (!installer || string.IsNullOrEmpty(installer.SceneGuid))
 				return false;
 			
