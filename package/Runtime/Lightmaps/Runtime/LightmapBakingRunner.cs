@@ -26,10 +26,14 @@ namespace Needle.MultiLightmaps
 			isBaking = true;
 			Lightmapping.bakeCompleted -= OnBakeDone;
 			Lightmapping.bakeCompleted += OnBakeDone;
+#if !UNITY_6000_0_OR_NEWER
 			var prevMode = Lightmapping.giWorkflowMode;
+#endif
 			try
 			{
+#if !UNITY_6000_0_OR_NEWER
 				Lightmapping.giWorkflowMode = Lightmapping.GIWorkflowMode.OnDemand;
+#endif
 				var started = Lightmapping.BakeAsync();
 				while (isBaking && started) await Task.Delay(300);
 				if (!started)
@@ -70,7 +74,9 @@ namespace Needle.MultiLightmaps
 			}
 			finally
 			{
+#if !UNITY_6000_0_OR_NEWER
 				Lightmapping.giWorkflowMode = prevMode;
+#endif
 			}
 			return null;
 		}
