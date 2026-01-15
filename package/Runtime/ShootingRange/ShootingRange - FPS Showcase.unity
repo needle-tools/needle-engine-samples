@@ -14041,7 +14041,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-3d69242830986b14f90e2e0f2d94f753-1666012066-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &1666012067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14056,18 +14055,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-3d69242830986b14f90e2e0f2d94f753-1666012067-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
-  AutoCompress: 1
+  ExportOnSave: 1
+  AutoCompress: 0
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
   - Name: firstpersoncontroller
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/FirstPersonController/Scripts/FirstPersonController.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/FirstPersonController/Scripts/FirstPersonController.npmdef
     Guid: ee750e073bd25fc4eb89db0ca44c0416
   - Name: shooting-range
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/ShootingRange/Scripts/ShootingRange.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/ShootingRange/Scripts/ShootingRange.npmdef
     Guid: 15a5d0a5fd0ca6547a79e0d433c9b357
+  CloudName: ShootingRange
+  CloudTeam: 
 --- !u!4 &1666012068
 Transform:
   m_ObjectHideFlags: 0
@@ -14094,12 +14098,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport $ GlobalObjectId_V1-2-3d69242830986b14f90e2e0f2d94f753-1666012070-0
-  AllowProgressiveLoading: 1
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
   UseMaxSize: 1
-  MaxSize: 128
-  GenerateLODs: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!114 &1666012071
 MonoBehaviour:
   m_ObjectHideFlags: 0
