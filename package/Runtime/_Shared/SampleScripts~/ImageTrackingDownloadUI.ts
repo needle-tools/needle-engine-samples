@@ -21,13 +21,16 @@ export class ImageTrackingDownloadUI extends Behaviour {
         container.style.cssText = `
             font-family: 'Roboto flex', Ariel;
             position: absolute;
-            top: .5rem;
-            left: 1rem;
+            top: .5em;
+            left: 1em;
+            right: .2em;
             color: rgba(255, 255, 255, .7);
             line-height: 1.2em;
             display: flex;
-            gap: 1em;
-            max-width: 400px;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
         `
         this.context.domElement.appendChild(container);
         this._ui = container;
@@ -35,19 +38,14 @@ export class ImageTrackingDownloadUI extends Behaviour {
         const textContainer = document.createElement("div");
         container.appendChild(textContainer);
 
-        const header = document.createElement("h2");
-        header.innerText = "Sample Images";
-        textContainer.appendChild(header);
-
         const description = document.createElement("p");
-        description.innerHTML = `Download the image and print it or you can also open the image in your browser
-        <br><strong>Then enter AR and scan it with your camera.</strong>
-        <br>Visit our <a target="_blank" href="https://docs.needle.tools/image-tracking">ImageTracking documentation</a> for more information.
+        description.innerHTML = `Visit the <a target="_blank" href="https://docs.needle.tools/image-tracking">ImageTracking documentation</a> for more information.
         `;
+        description.style.marginTop = ".5em";
+        description.style.maxWidth = "33ch";
         description.style.userSelect = "all";
         description.style.backdropFilter = "blur(5px)";
         description.style.borderRadius = ".5rem";
-        description.style.padding = ".5rem 0";
         textContainer.appendChild(description);
         description.querySelectorAll("a").forEach(a => {
             a.style.color = "rgba(255, 255, 255, .8)";
@@ -100,9 +98,9 @@ export class ImageTrackingDownloadUI extends Behaviour {
             const img = document.createElement("img") as HTMLImageElement;
             img.src = imageModel.image;
             img.style.cssText = `
-                flex: .5;
-                min-width: 100px;
-                max-width: 160px;
+                flex: .3;
+                min-width: 80px;
+                max-width: 130px;
                 height: auto;
                 aspect-ratio: 1.3;
                 object-fit: cover;
