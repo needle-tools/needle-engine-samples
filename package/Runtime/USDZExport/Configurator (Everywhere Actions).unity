@@ -418,7 +418,7 @@ Transform:
   m_GameObject: {fileID: 210950892}
   m_LocalRotation: {x: -0.021199698, y: 0.95170194, z: -0.06745824, w: -0.2987699}
   m_LocalPosition: {x: 0.38505992, y: 0.07491267, z: 0.58704203}
-  m_LocalScale: {x: 1.0000014, y: 1, z: 1.0000007}
+  m_LocalScale: {x: 1.0000029, y: 1, z: 1.0000015}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -461,6 +461,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 103894125}
+  targetBounds: {fileID: 0}
 --- !u!114 &210950897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,8 +509,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.AdditionalData.CameraSkyboxData, Needle.Engine
     $ GlobalObjectId_V1-2-ce875773ed6007c46a18dbf0d81e686e-210950898-0
-  backgroundBlurriness: 1
-  backgroundIntensity: 1
+  backgroundBlurriness: 0.8
+  backgroundIntensity: 0.35
 --- !u!1 &503963839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1367,8 +1368,8 @@ MonoBehaviour:
   autoPlace: 1
   autoCenter: 1
   useXRAnchor: 0
-  useQuicklookExport: 1
   useDepthSensing: 0
+  useQuicklookExport: 1
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -1919,7 +1920,7 @@ Transform:
   m_GameObject: {fileID: 1835624691}
   m_LocalRotation: {x: -0.08653425, y: -0.8365465, z: 0.138897, w: -0.52288574}
   m_LocalPosition: {x: -0.23579863, y: 0.071815684, z: 0.15604916}
-  m_LocalScale: {x: 1.0000007, y: 1, z: 1.0000014}
+  m_LocalScale: {x: 1.0000014, y: 1, z: 1.0000029}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1981,7 +1982,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-ce875773ed6007c46a18dbf0d81e686e-1883279411-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &1883279412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,9 +1996,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-ce875773ed6007c46a18dbf0d81e686e-1883279412-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies: []
+  CloudName: usdz-product
+  CloudTeam: 
 --- !u!4 &1883279413
 Transform:
   m_ObjectHideFlags: 0
@@ -2054,15 +2056,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
-    Needle.Engine.GltfExport
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
   DefaultTextureFormat: 3
   TextureMaxSize: 8192
   GenerateTextureLODs: 1
   UseMaxSize: 1
-  LODsMaxSize: 2048
+  LODsMaxSize: 512
   MeshCompression: 1
   GenerateMeshLODs: 0
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &1886932072
 GameObject:
   m_ObjectHideFlags: 0
