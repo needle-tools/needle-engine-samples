@@ -173,13 +173,13 @@ MonoBehaviour:
   createQRCode: 1
   usePlacementReticle: 1
   customARPlacementReticle: {fileID: 0}
-  usePlacementAdjustment: 0
+  usePlacementAdjustment: 1
   arScale: 1
   autoPlace: 1
   autoCenter: 0
   useXRAnchor: 0
-  useQuicklookExport: 0
   useDepthSensing: 0
+  useQuicklookExport: 0
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -575,64 +575,6 @@ PlayableDirector:
     value: {fileID: 1647645839}
   m_ExposedReferences:
     m_References: []
---- !u!1 &622914236
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 622914238}
-  - component: {fileID: 622914240}
-  m_Layer: 0
-  m_Name: Quicklook
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &622914238
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622914236}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &622914240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622914236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92a86a2db1f5d20489f1387bdc57b5aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.USDZExporter, Needle.Engine
-  objectToExport: {fileID: 767174361}
-  allowCreateQuicklookButton: 1
-  autoExportAnimations: 1
-  interactive: 1
-  customBranding:
-    CheckoutTitle: 
-    CheckoutSubtitle: 
-    CallToAction: 
-    CallToActionURL: 
-  exportFileName: Needle
-  customUsdzFile:
-    Mode: 0
-    File: {fileID: 0}
-    String: 
 --- !u!1001 &767174360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -961,7 +903,7 @@ Transform:
   - {fileID: 455340342}
   - {fileID: 1830922557}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1206424029
 GameObject:
@@ -1390,7 +1332,7 @@ Transform:
   - {fileID: 53066234}
   - {fileID: 2118352701}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1559428896
 GameObject:
@@ -1511,6 +1453,56 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1719759659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1719759661}
+  - component: {fileID: 1719759660}
+  m_Layer: 0
+  m_Name: ContactShadows
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1719759660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719759659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02b67dd02032423381aa26c5571503f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.ContactShadows, Needle.Engine
+  autoFit: 0
+  darkness: 1
+  opacity: 0.5
+  blur: 4
+  occludeBelowGround: 0
+  backfaceShadows: 1
+--- !u!4 &1719759661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719759659}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.228}
+  m_LocalScale: {x: 1.5, y: 1, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1749466236
 GameObject:
   m_ObjectHideFlags: 0
