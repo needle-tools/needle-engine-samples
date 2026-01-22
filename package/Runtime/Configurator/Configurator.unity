@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1.1381154, g: 1.1336019, b: 1.1381154, a: 1}
+  m_IndirectSpecularColor: {r: 0.7932327, g: 0.7932327, b: 0.7932327, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1453,7 +1453,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-f3358783656e15d469be50d1ad87dd35-712576434-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &712576435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1468,12 +1467,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-f3358783656e15d469be50d1ad87dd35-712576435-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: configurator
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Configurator/Scripts/Configurator.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/Configurator/Scripts/Configurator.npmdef
     Guid: 8e641ef49619d8d499100b74b92b8281
+  CloudName: Configurator
+  CloudTeam: 
 --- !u!4 &712576436
 Transform:
   m_ObjectHideFlags: 0
@@ -1500,12 +1502,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport $ GlobalObjectId_V1-2-f3358783656e15d469be50d1ad87dd35-712576437-0
-  AllowProgressiveLoading: 1
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
   UseMaxSize: 0
-  MaxSize: 128
-  GenerateLODs: 0
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 0
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!114 &712576439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1994,12 +2000,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3678e6ee7af44e4d9fecf9a0f082ba74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.SyncedRoom, Needle.Engine $ GlobalObjectId_V1-2-f3358783656e15d469be50d1ad87dd35-1370896370-0
-  roomName: Configurator
-  urlParameterName: room
   joinRandomRoom: 1
-  requireRoomParameter: 0
   autoRejoin: 1
+  roomPrefix: Configurator
+  urlParameterName: room
+  requireRoomParameter: 0
   createJoinButton: 1
+  createViewOnlyButton: 0
 --- !u!1 &1419824610
 GameObject:
   m_ObjectHideFlags: 0
@@ -3277,11 +3284,13 @@ MonoBehaviour:
   autoRotateSpeed: 0.2
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0
   maxZoom: Infinity
+  zoomSpeed: 1
+  zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
@@ -3289,8 +3298,10 @@ MonoBehaviour:
   enableKeys: 1
   middleClickToFocus: 1
   doubleClickToFocus: 1
+  clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
+  targetBounds: {fileID: 0}
 --- !u!114 &1848992512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3517,7 +3528,7 @@ GameObject:
   - component: {fileID: 1964046025}
   - component: {fileID: 1964046026}
   m_Layer: 0
-  m_Name: MyScene
+  m_Name: Configurator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3574,11 +3585,14 @@ MonoBehaviour:
   createSendToQuestButton: 1
   createQRCode: 1
   usePlacementReticle: 1
-  usePlacementAdjustment: 0
-  arSceneScale: 1
+  customARPlacementReticle: {fileID: 0}
+  usePlacementAdjustment: 1
+  arScale: 4
+  autoPlace: 1
+  autoCenter: 0
   useXRAnchor: 0
-  useQuicklookExport: 0
   useDepthSensing: 0
+  useQuicklookExport: 0
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -3596,11 +3610,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
     $ GlobalObjectId_V1-2-f3358783656e15d469be50d1ad87dd35-1964046026-0
-  arScale: 5
-  invertForward: 0
-  customReticle: {fileID: 0}
-  arTouchTransform: 1
-  useXRAnchor: 0
 --- !u!1001 &2126302155
 PrefabInstance:
   m_ObjectHideFlags: 0
