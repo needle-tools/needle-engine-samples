@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.40980935, g: 0.40980935, b: 0.40980935, a: 1}
+  m_IndirectSpecularColor: {r: 0.1217651, g: 0.13561992, b: 0.13537572, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4029,7 +4029,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
   compilerDirectory: Library/Needle/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &660778459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4044,12 +4043,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
+  CloudName: Snowglobe
+  CloudTeam: 
 --- !u!4 &660778460
 Transform:
   m_ObjectHideFlags: 0
@@ -4076,12 +4078,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport
-  AllowProgressiveLoading: 1
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
   UseMaxSize: 1
-  MaxSize: 128
-  GenerateLODs: 0
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 0
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!114 &660778462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5767,8 +5773,8 @@ MonoBehaviour:
   autoPlace: 1
   autoCenter: 1
   useXRAnchor: 0
-  useQuicklookExport: 1
   useDepthSensing: 0
+  useQuicklookExport: 1
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -10113,6 +10119,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
+  targetBounds: {fileID: 0}
 --- !u!114 &1820698730
 MonoBehaviour:
   m_ObjectHideFlags: 0
