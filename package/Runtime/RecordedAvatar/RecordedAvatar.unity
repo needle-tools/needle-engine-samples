@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37732714, g: 0.31271818, b: 0.44366026, a: 1}
+  m_IndirectSpecularColor: {r: 0.11926271, g: 0.10852065, b: 0.12902813, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -396,8 +396,8 @@ MonoBehaviour:
   autoPlace: 1
   autoCenter: 1
   useXRAnchor: 0
-  useQuicklookExport: 1
   useDepthSensing: 0
+  useQuicklookExport: 1
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -514,6 +514,7 @@ GameObject:
   - component: {fileID: 1264363538}
   - component: {fileID: 1264363541}
   - component: {fileID: 1264363543}
+  - component: {fileID: 1264363544}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -534,7 +535,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &1264363539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,9 +549,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies: []
+  CloudName: avatar recording
+  CloudTeam: 
 --- !u!4 &1264363540
 Transform:
   m_ObjectHideFlags: 0
@@ -599,6 +601,27 @@ MonoBehaviour:
     title: Recorded Avatars
     description: Simple way how to animate avatars
     image: {fileID: 2800000, guid: bcb62d6ba71125f499bbd85868dd6088, type: 3}
+--- !u!114 &1264363544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264363537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &1883288139
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,7 +702,7 @@ Transform:
   m_GameObject: {fileID: 1883288139}
   m_LocalRotation: {x: -0.0058524692, y: 0.9887798, z: -0.04037791, w: -0.14370096}
   m_LocalPosition: {x: 0.393, y: 0.634, z: 1.4850931}
-  m_LocalScale: {x: 1.0000038, y: 0.9999989, z: 1.0000079}
+  m_LocalScale: {x: 1.0000042, y: 0.9999989, z: 1.0000086}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -721,6 +744,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
+  targetBounds: {fileID: 0}
 --- !u!114 &1883288144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,7 +868,7 @@ Transform:
   m_GameObject: {fileID: 1910930100}
   m_LocalRotation: {x: 0.2406322, y: -0.94698524, z: 0.21192761, w: -0.02004555}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999979, y: 0.9999998, z: 1.0000032}
+  m_LocalScale: {x: 0.9999979, y: 0.9999998, z: 1.0000039}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
