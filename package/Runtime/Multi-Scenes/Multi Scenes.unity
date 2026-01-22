@@ -361,7 +361,7 @@ MonoBehaviour:
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
   ExportOnSave: 1
-  AutoCompress: 1
+  AutoCompress: 0
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
     Version: 
@@ -421,6 +421,67 @@ MonoBehaviour:
   GenerateMeshLODs: 1
   TextureOverrides: []
   MeshOverrides: []
+--- !u!1 &1219620900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219620902}
+  - component: {fileID: 1219620901}
+  m_Layer: 0
+  m_Name: WebXR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1219620901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219620900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
+  createVRButton: 1
+  createARButton: 1
+  createSendToQuestButton: 1
+  createQRCode: 1
+  usePlacementReticle: 1
+  customARPlacementReticle: {fileID: 0}
+  usePlacementAdjustment: 1
+  arScale: 1.5
+  autoPlace: 1
+  autoCenter: 0
+  useXRAnchor: 0
+  useDepthSensing: 0
+  useQuicklookExport: 0
+  useDefaultControls: 1
+  showControllerModels: 1
+  showHandModels: 1
+  defaultAvatar: {fileID: 0}
+--- !u!4 &1219620902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219620900}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1458125668
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,9 +492,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1458125670}
   - component: {fileID: 1597275520}
-  - component: {fileID: 1597275521}
   - component: {fileID: 1458125671}
-  - component: {fileID: 1597275522}
   m_Layer: 0
   m_Name: Scenes
   m_TagString: Untagged
@@ -552,48 +611,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Components.ObjectRaycaster, Needle.Engine
     $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-1597275520-0
   IgnoreSkinnedMeshes: 0
---- !u!114 &1597275521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458125668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0d486f15de1d234da162ec54633ab10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.WebARSessionRoot, Needle.Engine
-    $ GlobalObjectId_V1-2-c3abca07dfda3f44e980dac321a1461a-1597275521-0
---- !u!114 &1597275522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458125668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf409ffccda34166b926284faafa75c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
-  createVRButton: 1
-  createARButton: 1
-  createSendToQuestButton: 1
-  createQRCode: 1
-  usePlacementReticle: 1
-  customARPlacementReticle: {fileID: 0}
-  usePlacementAdjustment: 0
-  arScale: 1
-  autoPlace: 1
-  autoCenter: 0
-  useXRAnchor: 0
-  useQuicklookExport: 0
-  useDepthSensing: 0
-  useDefaultControls: 1
-  showControllerModels: 1
-  showHandModels: 1
-  defaultAvatar: {fileID: 0}
 --- !u!1 &1767876990
 GameObject:
   m_ObjectHideFlags: 0
