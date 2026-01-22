@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.087957464, g: 0.19850707, b: 0.22671922, a: 1}
+  m_IndirectSpecularColor: {r: 0.087955154, g: 0.19850399, b: 0.22671728, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1665,6 +1665,7 @@ GameObject:
   - component: {fileID: 1058999306}
   - component: {fileID: 1058999307}
   - component: {fileID: 1058999308}
+  - component: {fileID: 1058999309}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -1685,7 +1686,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &1058999303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1700,15 +1700,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/line-drawing'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/LineDrawing/Needle.Samples.LineDrawing.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/LineDrawing/Needle.Samples.LineDrawing.npmdef
     Guid: 8183d20497e1813459dbb48c9488aecc
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
+  CloudName: LineDrawing
+  CloudTeam: 
 --- !u!4 &1058999304
 Transform:
   m_ObjectHideFlags: 0
@@ -1768,7 +1772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc605ea0754e9a4aab7a0e867f70e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Deployment.DeployToNeedleCloud, Needle.Engine.Deployment
-  projectName: Line Drawing
 --- !u!114 &1058999308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1783,6 +1786,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Shaders.SkyboxExportSettings, Needle.Engine.Shaders
   <SkyboxResolution>k__BackingField: 1024
   <HDR>k__BackingField: 1
+--- !u!114 &1058999309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058999301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &1060226911
 GameObject:
   m_ObjectHideFlags: 0
@@ -7095,8 +7119,8 @@ MonoBehaviour:
   autoPlace: 0
   autoCenter: 0
   useXRAnchor: 0
-  useQuicklookExport: 0
   useDepthSensing: 0
+  useQuicklookExport: 0
   useDefaultControls: 0
   showControllerModels: 1
   showHandModels: 1
@@ -7291,7 +7315,7 @@ MonoBehaviour:
   autoRotateSpeed: 0.2
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0.1
@@ -7308,6 +7332,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
+  targetBounds: {fileID: 0}
 --- !u!114 &1456882952
 MonoBehaviour:
   m_ObjectHideFlags: 0
