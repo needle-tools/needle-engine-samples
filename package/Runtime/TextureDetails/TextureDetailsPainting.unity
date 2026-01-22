@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.05785726, g: 0.05785726, b: 0.05785726, a: 1}
+  m_IndirectSpecularColor: {r: 0.057857256, g: 0.057857256, b: 0.057857256, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 22652767}
   - component: {fileID: 22652768}
-  - component: {fileID: 22652769}
   - component: {fileID: 22652771}
   - component: {fileID: 22652772}
   - component: {fileID: 22652773}
@@ -182,44 +181,17 @@ MonoBehaviour:
   createQRCode: 1
   usePlacementReticle: 1
   customARPlacementReticle: {fileID: 0}
-  usePlacementAdjustment: 0
+  usePlacementAdjustment: 1
   arScale: 1
   autoPlace: 1
   autoCenter: 0
   useXRAnchor: 0
-  useQuicklookExport: 1
   useDepthSensing: 0
+  useQuicklookExport: 0
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
   defaultAvatar: {fileID: 0}
---- !u!114 &22652769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22652765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92a86a2db1f5d20489f1387bdc57b5aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.USDZExporter, Needle.Engine $
-    GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-22652769-0
-  objectToExport: {fileID: 285631416}
-  allowCreateQuicklookButton: 1
-  autoExportAnimations: 0
-  interactive: 1
-  customBranding:
-    CheckoutTitle: 
-    CheckoutSubtitle: 
-    CallToAction: 
-    CallToActionURL: 
-  exportFileName: Needle
-  customUsdzFile:
-    Mode: 0
-    File: {fileID: 0}
-    String: 
 --- !u!114 &22652771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,7 +462,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-492380014-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &492380015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,12 +476,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-d8000741f0164d447ad3599561026dbc-492380015-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
+  CloudName: texture details
+  CloudTeam: 
 --- !u!4 &492380016
 Transform:
   m_ObjectHideFlags: 0
@@ -567,8 +541,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
-    Needle.Engine.GltfExport
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
   DefaultTextureFormat: 1
   TextureMaxSize: 8192
   GenerateTextureLODs: 1
@@ -576,6 +549,8 @@ MonoBehaviour:
   LODsMaxSize: 4096
   MeshCompression: 1
   GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &930661536
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,6 +770,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
+  targetBounds: {fileID: 0}
 --- !u!114 &1214626831
 MonoBehaviour:
   m_ObjectHideFlags: 0
