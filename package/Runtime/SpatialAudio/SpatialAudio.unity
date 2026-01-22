@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1901658, g: 0.1811787, b: 0.17194256, a: 1}
+  m_IndirectSpecularColor: {r: 0.19012293, g: 0.18120633, b: 0.17192008, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -159,7 +159,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-100908519-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &100908520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,12 +173,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-100908520-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: needle.spatialaudio
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/SpatialAudio/Needle.SpatialAudio.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/SpatialAudio/Needle.SpatialAudio.npmdef
     Guid: 12b514c7bd72e7542a18379e6e308d11
+  CloudName: spatial-audio
+  CloudTeam: 
 --- !u!4 &100908521
 Transform:
   m_ObjectHideFlags: 0
@@ -252,8 +254,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.NeedleCompressionSettings,
-    Needle.Engine.GltfExport
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
   DefaultTextureFormat: 1
   TextureMaxSize: 8192
   GenerateTextureLODs: 1
@@ -261,6 +262,8 @@ MonoBehaviour:
   LODsMaxSize: 128
   MeshCompression: 1
   GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1001 &113195863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -376,7 +379,6 @@ GameObject:
   m_Component:
   - component: {fileID: 147928117}
   - component: {fileID: 147928119}
-  - component: {fileID: 147928122}
   m_Layer: 0
   m_Name: WebXR
   m_TagString: Untagged
@@ -417,44 +419,17 @@ MonoBehaviour:
   createQRCode: 1
   usePlacementReticle: 1
   customARPlacementReticle: {fileID: 0}
-  usePlacementAdjustment: 0
+  usePlacementAdjustment: 1
   arScale: 1
   autoPlace: 1
   autoCenter: 0
   useXRAnchor: 0
-  useQuicklookExport: 0
   useDepthSensing: 0
+  useQuicklookExport: 0
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
   defaultAvatar: {fileID: 0}
---- !u!114 &147928122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 147928115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92a86a2db1f5d20489f1387bdc57b5aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Components.USDZExporter, Needle.Engine $
-    GlobalObjectId_V1-2-87a0faca15d16764d8fc01acfc1e3f1e-147928122-0
-  objectToExport: {fileID: 0}
-  allowCreateQuicklookButton: 1
-  autoExportAnimations: 0
-  interactive: 1
-  customBranding:
-    CheckoutTitle: 
-    CheckoutSubtitle: 
-    CallToAction: 
-    CallToActionURL: 
-  exportFileName: Needle
-  customUsdzFile:
-    Mode: 0
-    File: {fileID: 0}
-    String: 
 --- !u!1001 &159813407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1013,9 +988,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869960923}
-  m_LocalRotation: {x: 0.012743883, y: 0.9530328, z: -0.2998762, w: 0.040501684}
+  m_LocalRotation: {x: 0.012743845, y: 0.9530328, z: -0.2998764, w: 0.040501025}
   m_LocalPosition: {x: -0.389, y: 1.022, z: 0.284}
-  m_LocalScale: {x: 1.000001, y: 0.9999999, z: 1.0000012}
+  m_LocalScale: {x: 1.0000021, y: 0.9999999, z: 1.000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1058,6 +1033,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 869960929}
+  targetBounds: {fileID: 0}
 --- !u!114 &869960928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1212,7 +1188,7 @@ Transform:
   m_GameObject: {fileID: 904715014}
   m_LocalRotation: {x: -0, y: 0.99986255, z: -0, w: 0.016581116}
   m_LocalPosition: {x: -0.414, y: 0, z: 1.052}
-  m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
+  m_LocalScale: {x: 1.0000011, y: 1, z: 1.0000011}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
