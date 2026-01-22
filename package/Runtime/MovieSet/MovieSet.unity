@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: fee91218d9c68df4b859fa5115079256, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.87030566, g: 0.6217097, b: 0.24122907, a: 1}
+  m_IndirectSpecularColor: {r: 0.8703216, g: 0.6216721, b: 0.24123372, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -915,8 +915,8 @@ MonoBehaviour:
   autoPlace: 1
   autoCenter: 1
   useXRAnchor: 0
-  useQuicklookExport: 0
   useDepthSensing: 0
+  useQuicklookExport: 0
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -1046,7 +1046,7 @@ Transform:
   m_GameObject: {fileID: 945322828}
   m_LocalRotation: {x: 0.2544697, y: 0.7081133, z: -0.58108556, w: 0.3100973}
   m_LocalPosition: {x: -2.5133333, y: 2.3466666, z: 0.13666667}
-  m_LocalScale: {x: 1.0000157, y: 1.0000001, z: 1.0000138}
+  m_LocalScale: {x: 1.000016, y: 1.0000001, z: 1.0000141}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1193,9 +1193,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262517133}
-  m_LocalRotation: {x: 0.0042040013, y: -0.9862049, z: 0.025354447, w: 0.16352189}
+  m_LocalRotation: {x: 0.004203907, y: -0.9862049, z: 0.025354464, w: 0.16352178}
   m_LocalPosition: {x: 2.42, y: 1.5766666, z: 5.87}
-  m_LocalScale: {x: 1.0000068, y: 1, z: 1.0000261}
+  m_LocalScale: {x: 1.0000068, y: 1, z: 1.0000265}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1254,7 +1254,7 @@ MonoBehaviour:
   autoRotateSpeed: 0.2
   minPolarAngle: 0
   maxPolarAngle: 3.1415927
-  minAzimuthAngle: Infinity
+  minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
   minZoom: 0.1
@@ -1271,6 +1271,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 1262517139}
+  targetBounds: {fileID: 0}
 --- !u!1183024399 &1262517139
 LookAtConstraint:
   m_ObjectHideFlags: 0
@@ -1400,7 +1401,7 @@ Transform:
   m_GameObject: {fileID: 1369137175}
   m_LocalRotation: {x: 0.04719662, y: 0.8983227, z: 0.09969662, w: -0.4252641}
   m_LocalPosition: {x: 2.4366667, y: 3.24, z: 1.3199999}
-  m_LocalScale: {x: 1.0000155, y: 0.99999994, z: 1.0000157}
+  m_LocalScale: {x: 1.000016, y: 0.99999994, z: 1.0000162}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1464,6 +1465,7 @@ GameObject:
   - component: {fileID: 1507289189}
   - component: {fileID: 1507289192}
   - component: {fileID: 1507289194}
+  - component: {fileID: 1507289195}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -1484,7 +1486,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &1507289190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1499,12 +1500,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 0
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
+  CloudName: MovieSet
+  CloudTeam: 
 --- !u!4 &1507289191
 Transform:
   m_ObjectHideFlags: 0
@@ -1552,6 +1556,27 @@ MonoBehaviour:
     title: Movie Set
     description: RenderTexture sample
     image: {fileID: 2800000, guid: 1f8fc2b3bd16ac6469e1e48a8322689d, type: 3}
+--- !u!114 &1507289195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507289188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &1893617517
 GameObject:
   m_ObjectHideFlags: 0
