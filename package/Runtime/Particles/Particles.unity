@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 8d2fcbef0364b894282281887b768993, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.32987472, g: 0.32987472, b: 0.32987472, a: 1}
+  m_IndirectSpecularColor: {r: 0.6329438, g: 0.6329438, b: 0.6329438, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -45810,6 +45810,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
+  targetBounds: {fileID: 0}
 --- !u!114 &706762908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51187,6 +51188,7 @@ GameObject:
   - component: {fileID: 784234927}
   - component: {fileID: 784234928}
   - component: {fileID: 784234929}
+  - component: {fileID: 784234930}
   m_Layer: 0
   m_Name: Export
   m_TagString: EditorOnly
@@ -51208,15 +51210,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-784234923-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
   - Name: particlestestscripts
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/Particles/ParticlesTestScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/Particles/ParticlesTestScripts.npmdef
     Guid: 71621ede96876cf4c9b8edbb107e121e
+  CloudName: Particles
+  CloudTeam: 
 --- !u!4 &784234924
 Transform:
   m_ObjectHideFlags: 0
@@ -51246,7 +51252,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-2ba6afd4622b4454685d58bdab703e5f-784234925-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &784234927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51295,6 +51300,27 @@ MonoBehaviour:
     $ GlobalObjectId_V1-2-a562a3a904f539d4d8c4e250724f89a1-1597275523-0
   <SkyboxResolution>k__BackingField: 64
   <HDR>k__BackingField: 1
+--- !u!114 &784234930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784234922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &820425207
 GameObject:
   m_ObjectHideFlags: 0
