@@ -79,7 +79,7 @@ export class HotspotBehaviour extends Behaviour {
             this.contentFadeTimestamp = this.context.time.time;
             HotspotManager.Instance?.onSelect(this);
             this.onActivate?.invoke();
-            if (this.viewPoint) {
+            if (this.viewPoint && !this.context.isInXR) {
                 const orbit = this.context.mainCamera.getComponent(OrbitControls);
                 if (orbit) {
                     orbit.setCameraTargetPosition(this.viewStartPoint as any);
