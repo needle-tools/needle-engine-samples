@@ -294,7 +294,7 @@ Transform:
   m_GameObject: {fileID: 149310405}
   m_LocalRotation: {x: 0.10938282, y: 0.8754255, z: -0.40821758, w: 0.23457217}
   m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1.0000062, y: 1.0000005, z: 1.0000051}
+  m_LocalScale: {x: 1.0000076, y: 1.0000005, z: 1.0000062}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -482,7 +482,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &924113867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,9 +496,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
-  AutoCompress: 1
+  ExportOnSave: 1
+  AutoCompress: 0
   Dependencies: []
+  CloudName: ContactShadows
+  CloudTeam: 
 --- !u!4 &924113868
 Transform:
   m_ObjectHideFlags: 0
@@ -526,12 +527,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport
-  AllowProgressiveLoading: 1
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
   UseMaxSize: 1
-  MaxSize: 1024
-  GenerateLODs: 1
+  LODsMaxSize: 1024
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!114 &924113870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,7 +685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351283399}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.615, y: 0, z: 1.928}
+  m_LocalPosition: {x: -0.16, y: 0, z: 2.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -712,7 +717,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494896418}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.524, y: 0, z: -0.381}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.8343823, y: 0.9656218, z: 3.8343823}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -783,7 +788,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953058980}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.843, y: 0, z: 0}
+  m_LocalPosition: {x: 0.138, y: 0, z: 0.335}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -883,8 +888,8 @@ MonoBehaviour:
   autoPlace: 1
   autoCenter: 1
   useXRAnchor: 0
-  useQuicklookExport: 1
   useDepthSensing: 0
+  useQuicklookExport: 1
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -984,8 +989,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009429379}
   m_LocalRotation: {x: -0.0020322318, y: 0.9913018, z: -0.13071221, w: -0.01519979}
-  m_LocalPosition: {x: 0.598, y: 1.867, z: 2.873}
-  m_LocalScale: {x: 1.0000019, y: 1.0000005, z: 1.0000008}
+  m_LocalPosition: {x: 0.019, y: 1.545, z: 2.881}
+  m_LocalScale: {x: 1.0000023, y: 1.0000005, z: 1.000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1027,6 +1032,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 0}
+  targetBounds: {fileID: 0}
 --- !u!114 &2009429384
 MonoBehaviour:
   m_ObjectHideFlags: 0
