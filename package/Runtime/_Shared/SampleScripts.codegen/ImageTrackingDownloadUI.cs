@@ -10,7 +10,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void update(){}
-		public void onUpdateXR(object @args){}
 	}
 }
 
