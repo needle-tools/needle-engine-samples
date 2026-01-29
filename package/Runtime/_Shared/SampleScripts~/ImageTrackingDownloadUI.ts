@@ -15,6 +15,19 @@ export class ImageTrackingDownloadUI extends Behaviour {
     onEnable() {
         this._ui?.remove();
 
+        const linkBtn = document.createElement("a");
+        linkBtn.href = "https://docs.needle.tools/image-tracking";
+        linkBtn.target = "_blank";
+        this.context.menu.appendChild({
+            onClick: () => {
+                window.open("https://docs.needle.tools/image-tracking", "_blank");
+            },
+            title: "View Marker",
+            label: "View Marker",
+            icon: "image",
+            priority: 1000,
+        });
+
         // Find all ImageTracking components
         this._components = GameObject.findObjectsOfType(WebXRImageTracking);
         const container = document.createElement("div");
