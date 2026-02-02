@@ -4,10 +4,11 @@
       "path": "."
     },
     {
-      "path": "./node_modules/@needle-tools/engine"
+      "path": "./node_modules/@needle-tools/engine",
+      "name": "🌵 Needle Engine"
     },
     {
-      "name": "@needle-tools/engine",
+      "name": "🌵 Needle Engine",
       "path": "node_modules/@needle-tools/engine"
     },
     {
@@ -17,6 +18,11 @@
     {
       "name": "samplescripts",
       "path": "node_modules/samplescripts"
+    },
+    {
+      "name": "@needle-tools/samples-scripts",
+      "path": "node_modules/@needle-tools/samples-scripts",
+      "@needle:managed": true
     }
   ],
   "settings": {
@@ -28,6 +34,9 @@
       "**/node_modules": true,
       "**/*.meta": true
     },
-    "window.title": "AROverlay"
+    "window.title": "AROverlay",
+    "html.customData": [
+      "./../node_modules/@needle-tools/engine/custom-elements.json"
+    ]
   }
 }

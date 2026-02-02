@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="favicon.ico">
@@ -27,37 +28,84 @@
       bottom: 6em;
     }
 
-    div.buttons {
+    .overlay-content {
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       width: 100%;
+      gap: 1em;
+
+      & a {
+        color: inherit;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      & .description {
+        display: block;
+        max-width: 70ch;
+        padding: 0 2em;
+        user-select: text;
+        pointer-events: all;
+
+        & h1 {
+          margin: 0;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .buttons {
+      display: flex;
+      align-items: flex-start;
       bottom: 80px;
       pointer-events: initial;
+      gap: 10px;
+
+      @media screen and (width < 400px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
     }
 
     #overlay button {
-      margin: 10px;
-      background-color: rgba(0, 0, 0, .8);
-      font-size: 30px;
-      border-radius: 20px;
+      background-color: rgba(252, 252, 252, 0.5);
+      color: black;
+      backdrop-filter: blur(10px);
+
+      font-size: 1.5em;
+      border-radius: 100vw;
       padding: 15px;
       padding-top: 13px;
       border: none;
-      transition: transform 0.1s;
+      transition: all 0.2s ease-in-out .05s;
+      min-width: 10ch;
     }
 
     #overlay button:hover {
-      transform: scale(1.2);
+      transform: scale(1.05);
       cursor: pointer;
     }
 
-    .quit-ar {
-      display: none;
+    .desktop-only {
+      display: initial !important;
     }
 
-    .ar-session-active .quit-ar {
-      display: initial;
+    .ar-only {
+      display: none !important;
+    }
+
+    .ar-session-active {
+      & .ar-only {
+        display: initial !important;
+      }
+
+      & .desktop-only {
+        display: none !important;
+      }
     }
   </style>
 </head>
@@ -68,15 +116,32 @@
 
   <needle-engine>
     <!-- Elements inside <needle-engine> that have classes "ar", "desktop" will be shown in that respective mode. "desktop ar" will be shown in both modes -->
-    <!-- AR mode uses the optional feature "dom-overlay", which may not be supported on all browsers / devices. -->  
+    <!-- AR mode uses the optional feature "dom-overlay", which may not be supported on all browsers / devices. -->
     <div id="overlay" class="desktop ar">
-      <div class="buttons">
-        <button class="prev">👈</button>
-        <button class="next">👉</button>
+
+      <div class="overlay-content">
+
+        <div class="buttons">
+          <button class="prev">Previous</button>
+          <button class="next">Next</button>
+        </div>
 
         <!-- Custom AR Quit Button - if you leave this out, a default "X" button will be created -->
-        <button class="quit-ar">❌</button>
+        <button class="ar-only">Quit AR</button>
+
+        <div class="description desktop-only">
+          This is a custom HTML overlay example. The page has some buttons that you can click to change the 3D content.
+          Links work the same way. For example you can click on <a href="https://needle.tools"
+            target="_blank">https://needle.tools</a> to open the Needle website.
+        </div>
+
+        <div class="description ar-only">
+          <h1>Hey cool you now are in AR mode!</h1> You can still interact with the 3D content using the buttons above.
+          To exit AR, click the "Quit AR" button. Here's also a link to <a href="https://needle.tools"
+            target="_blank">https://needle.tools</a> for testing. You can click it if you want 💚
+        </div>
       </div>
+
     </div>
   </needle-engine>
 
@@ -85,7 +150,7 @@
     const needleEngine = document.querySelector('needle-engine');
 
     needleEngine.addEventListener('enter-ar', () => {
-      console.log("Entering AR!"); 
+      console.log("Entering AR!");
     });
 
     needleEngine.addEventListener('exit-ar', () => {
@@ -94,4 +159,5 @@
 
   </script>
 </body>
+
 </html>

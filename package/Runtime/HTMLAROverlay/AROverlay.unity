@@ -278,6 +278,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 144437618}
+  targetBounds: {fileID: 0}
 --- !u!114 &144437617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,13 +500,13 @@ MonoBehaviour:
   createQRCode: 1
   usePlacementReticle: 1
   customARPlacementReticle: {fileID: 0}
-  usePlacementAdjustment: 0
+  usePlacementAdjustment: 1
   arScale: 1
   autoPlace: 1
   autoCenter: 0
   useXRAnchor: 0
-  useQuicklookExport: 0
   useDepthSensing: 0
+  useQuicklookExport: 0
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -836,6 +837,7 @@ GameObject:
   - component: {fileID: 1079656937}
   - component: {fileID: 1079656940}
   - component: {fileID: 1079656941}
+  - component: {fileID: 1079656942}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -857,7 +859,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-091aedc0f36d8824abbc523c525b85f8-1079656937-0
   compilerDirectory: Packages/com.needle.engine-samples/WebProjects~/AROverlay/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &1079656938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,12 +873,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-091aedc0f36d8824abbc523c525b85f8-1079656938-0
   DirectoryName: Packages/com.needle.engine-samples/WebProjects~/AROverlay
   RemoteUrl: 
-  AutoExport: 1
+  ExportOnSave: 1
   AutoCompress: 1
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
+  CloudName: ar-dom-overlay
+  CloudTeam: 
 --- !u!4 &1079656939
 Transform:
   m_ObjectHideFlags: 0
@@ -885,7 +889,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1079656936}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -926,6 +930,27 @@ MonoBehaviour:
     title: HTML AR Overlay
     description: Custom DOM Overlays in AR
     image: {fileID: 2800000, guid: f9a6ecf43f849f84faab328dbeac72d7, type: 3}
+--- !u!114 &1079656942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079656936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
+  UseMaxSize: 1
+  LODsMaxSize: 128
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &1081792946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,7 +1172,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730898430}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
