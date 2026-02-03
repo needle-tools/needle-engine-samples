@@ -26,6 +26,8 @@
       pointer-events: none;
       width: 100%;
       bottom: 6em;
+      display: flex;
+      justify-content: center;
     }
 
     .overlay-content {
@@ -33,11 +35,26 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      width: 100%;
       gap: 1em;
+      background: rgba(255, 255, 255, .2);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+
+      & h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-weight: normal;
+      }
+
+      &>* {
+        pointer-events: all;
+      }
 
       & a {
         color: inherit;
+
         &:hover {
           text-decoration: none;
         }
@@ -45,8 +62,7 @@
 
       & .description {
         display: block;
-        max-width: 70ch;
-        padding: 0 2em;
+        max-width: 40ch;
         user-select: text;
         pointer-events: all;
 
@@ -58,9 +74,11 @@
     }
 
     .buttons {
+      width: 100%;
       display: flex;
-      align-items: flex-start;
-      bottom: 80px;
+      align-items: center;
+      justify-content: space-between;
+
       pointer-events: initial;
       gap: 10px;
 
@@ -71,7 +89,8 @@
       }
     }
 
-    #overlay button {
+    #overlay button,
+    needle-button {
       background-color: rgba(252, 252, 252, 0.5);
       color: black;
       backdrop-filter: blur(10px);
@@ -85,7 +104,8 @@
       min-width: 10ch;
     }
 
-    #overlay button:hover {
+    #overlay button:hover,
+    needle-button:hover {
       transform: scale(1.05);
       cursor: pointer;
     }
@@ -121,14 +141,6 @@
 
       <div class="overlay-content">
 
-        <div class="buttons">
-          <button class="prev">Previous</button>
-          <button class="next">Next</button>
-        </div>
-
-        <!-- Custom AR Quit Button - if you leave this out, a default "X" button will be created -->
-        <button class="ar-only">Quit AR</button>
-
         <div class="description desktop-only">
           This is a custom HTML overlay example. The page has some buttons that you can click to change the 3D content.
           Links work the same way. For example you can click on <a href="https://needle.tools"
@@ -140,6 +152,22 @@
           To exit AR, click the "Quit AR" button. Here's also a link to <a href="https://needle.tools"
             target="_blank">https://needle.tools</a> for testing. You can click it if you want 💚
         </div>
+
+        <div class="buttons">
+          <button class="prev">← Previous</button>
+          <button class="next">Next →</button>
+        </div>
+
+        <needle-button ar></needle-button>
+
+        <!-- <div class="buttons">
+          <needle-button ar>Enter AR</needle-button>
+          <needle-button qrcode></needle-button>
+        </div> -->
+
+
+        <!-- Custom AR Quit Button - the quit-ar class is used by Needle Engine to detect that the button should quit an active AR session when clicked -->
+        <button class="ar-only quit-ar">Quit AR</button>
       </div>
 
     </div>

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 60f5b6a6d41b7354a94568c04312ded5, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: ef5e291c5818c434c9cf5c2f2600e00e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.024969848, g: 0.21326917, b: 0.19203505, a: 1}
+  m_IndirectSpecularColor: {r: 0.14564845, g: 0.8401385, b: 0.39010304, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -147,12 +147,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27124670}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.059, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0096, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &144437612
 GameObject:
@@ -233,13 +233,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144437612}
-  m_LocalRotation: {x: 0.06756059, y: -0, z: -0, w: 0.99771523}
+  m_LocalRotation: {x: 0.10809608, y: -0, z: -0, w: 0.9941405}
   m_LocalPosition: {x: 0, y: 0.139, z: -0.588}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 5.806, y: 0, z: 0}
 --- !u!114 &144437616
 MonoBehaviour:
@@ -264,21 +264,21 @@ MonoBehaviour:
   minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
-  minZoom: 0
-  maxZoom: Infinity
+  minZoom: 0.3
+  maxZoom: 1.1
   zoomSpeed: 1
   zoomToCursor: 0
   enablePan: 1
   enableDamping: 1
   dampingFactor: 0.1
   targetLerpDuration: 1
-  enableKeys: 1
-  middleClickToFocus: 1
-  doubleClickToFocus: 1
+  enableKeys: 0
+  middleClickToFocus: 0
+  doubleClickToFocus: 0
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 144437618}
-  targetBounds: {fileID: 0}
+  targetBounds: {fileID: 560560319}
 --- !u!114 &144437617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +332,37 @@ LookAtConstraint:
   m_Sources:
   - sourceTransform: {fileID: 27124671}
     weight: 1
+--- !u!1 &560560318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 560560319}
+  m_Layer: 0
+  m_Name: Camera Bounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &560560319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560560318}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.19999997, z: 0.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &685730353
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +511,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &743016996
 MonoBehaviour:
@@ -495,7 +526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.WebXR, Needle.Engine
   createVRButton: 0
-  createARButton: 1
+  createARButton: 0
   createSendToQuestButton: 0
   createQRCode: 1
   usePlacementReticle: 1
@@ -689,7 +720,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &967688237
 MonoBehaviour:
@@ -1046,7 +1077,7 @@ Transform:
   - {fileID: 685730354}
   - {fileID: 996993977}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1265000508
 MonoBehaviour:
@@ -1179,6 +1210,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1751375775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1751375777}
+  - component: {fileID: 1751375776}
+  m_Layer: 0
+  m_Name: ContactShadows
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1751375776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751375775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02b67dd02032423381aa26c5571503f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.ContactShadows, Needle.Engine
+  autoFit: 0
+  darkness: 1
+  opacity: 0.5
+  blur: 4
+  occludeBelowGround: 0
+  backfaceShadows: 1
+--- !u!4 &1751375777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751375775}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.005, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1976205821
 PrefabInstance:
