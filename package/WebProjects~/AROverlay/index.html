@@ -25,7 +25,7 @@
       position: fixed;
       pointer-events: none;
       width: 100%;
-      bottom: 6em;
+      bottom: 100px;
       display: flex;
       justify-content: center;
     }
@@ -36,10 +36,12 @@
       justify-content: center;
       align-items: center;
       gap: 1em;
-      background: rgba(255, 255, 255, .2);
+      background: rgba(170, 255, 215, 0.4);
       border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, .3);
       padding: 20px;
       backdrop-filter: blur(10px);
+      max-width: min(80vw, 60ch);
 
       & h1,
       h2,
@@ -62,7 +64,6 @@
 
       & .description {
         display: block;
-        max-width: 40ch;
         user-select: text;
         pointer-events: all;
 
@@ -78,6 +79,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
 
       pointer-events: initial;
       gap: 10px;
@@ -91,8 +93,10 @@
 
     #overlay button,
     needle-button {
-      background-color: rgba(252, 252, 252, 0.5);
-      color: black;
+      background-color: rgba(20, 167, 33, 0.5);
+      color: rgba(255, 255, 255, 1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), inset 0 0 1rem rgba(0, 0, 0, 0.2);
+      outline: 1px solid rgba(255, 255, 255, .5);
       backdrop-filter: blur(10px);
 
       font-size: 1.5em;
@@ -102,6 +106,7 @@
       border: none;
       transition: all 0.2s ease-in-out .05s;
       min-width: 10ch;
+      white-space: nowrap;
     }
 
     #overlay button:hover,
@@ -142,7 +147,7 @@
       <div class="overlay-content">
 
         <div class="description desktop-only">
-          This is a custom HTML overlay example. The page has some buttons that you can click to change the 3D content.
+          <strong>This is a HTML overlay example for mobile, desktop and AR!</strong><br/> The page has some buttons that you can click to change the 3D content.
           Links work the same way. For example you can click on <a href="https://needle.tools"
             target="_blank">https://needle.tools</a> to open the Needle website.
         </div>
@@ -155,10 +160,10 @@
 
         <div class="buttons">
           <button class="prev">← Previous</button>
+          <needle-button ar></needle-button>
           <button class="next">Next →</button>
         </div>
 
-        <needle-button ar></needle-button>
 
         <!-- <div class="buttons">
           <needle-button ar>Enter AR</needle-button>
