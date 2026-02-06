@@ -20,7 +20,7 @@ export class ImageTrackingDownloadUI extends Behaviour {
             title: "View Marker",
             label: "View Marker",
             icon: "image",
-            priority: 1000,
+            priority: 50,
         });
     }
     onDisable(): void {
