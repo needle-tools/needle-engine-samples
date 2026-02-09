@@ -1,9 +1,5 @@
-import { Behaviour, GameObject, INeedleGLTFExtensionPlugin, ImageReference, Renderer, SourceIdentifier, addCustomExtensionPlugin, getParam, serializable } from "@needle-tools/engine";
-import { Loader, LoadingManager, Material, Texture } from "three";
-
-import { MaterialXLoader } from 'three/examples/jsm/loaders/MaterialXLoader.js';
-
-import { type GLTFLoaderPlugin, GLTFParser, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { Behaviour, GameObject, ImageReference, Renderer, getParam, serializable } from "@needle-tools/engine";
+import { TextureLoader } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -21,47 +17,75 @@ export class MaterialXAsset extends Behaviour {
     // we need to manually assign all textures that are referenced in the .mtlx file.
     @serializable(ImageReference)
     images: Array<ImageReference> = [];
-    
-    async awake () {
-        if (!this.materialXAsset) return;
+
+    awake() {
+        if (!this.materialXAsset) {
+            console.warn(`MaterialXAsset: No .mtlx file assigned on ${this.name}, can't load material.`);
+            return;
+        }
         this.loadMaterialX(this.materialXAsset as any as string);
     }
 
-    async loadMaterialX(path: string) {
-        const renderer = GameObject.getComponent(this.gameObject, Renderer);
-        if (!renderer) return;
+    private _loadingPath: string | null = null;
 
-        const manager = new LoadingManager();
-        
-        // This is a WORKAROUND until we can properly reference compressed/packed textures (requires three.js update + MaterialX loader fixes).
-        // In the meantime, they're exported using ImageReference, where they are simply put into "assets/"
-        // without a subpath, so we need to assume
-        // 1) all texture names are unique
-        // 2) all textures needed by the .mtlx file are manually referenced in the array above
-        manager.resolveURL = ( url: string ) => {
-            // If the URL already starts with "assets/" we keep it as is.
-            if (url.startsWith('assets/')) return url;
+    loadMaterialX(path: string) {
 
-            // Split out the path and only use the filename for reference for now, we assume unique names here.
-            const parts = url.split('/');
-            const filename = parts.pop();
-            if (debug) console.log('resolveURL', url, filename)
-            return "assets/" + filename;
-        };
-        
-        const mtlxLoader = new MaterialXLoader(manager);
-        const material = await mtlxLoader
-					.setPath( '' )
-					.loadAsync( path )
-					.then( ( { materials } ) => {
-                        // a mtlx file can contain multiple materials, we just take the first one here and log all of them
-                        if (debug) console.log('Loaded .mtlx materials', materials);
-                        const firstMaterial = Object.values( materials )[0] as Material;
-                        return firstMaterial;
-                    });
+        this._loadingPath = path;
 
-        if (debug) console.log('Loaded .mtlx material', material, path);
-        if (material)
-            renderer.sharedMaterial = material;
+        import("@needle-tools/materialx").then(mod => {
+
+            if (this._loadingPath !== path) {
+                console.warn(`MaterialXAsset: Loading path has changed from ${path} to ${this._loadingPath}, aborting load.`);
+                return;
+            }
+
+            if (debug) console.log("MTLX", path);
+
+            const loader = new TextureLoader();
+
+            return fetch(path).then(res => res.text()).then(text => {
+                mod.Experimental_API.createMaterialXMaterial(text, 0, {
+                    getTexture: async (url) => {
+                        // If the URL already starts with "assets/" we keep it as is.
+                        if (url.startsWith('assets/') || url.startsWith("/assets/")) {
+
+                        }
+                        else {
+                            // Split out the path and only use the filename for reference for now, we assume unique names here.
+                            // This is because the Textures referenced in Unity are exported to the "assets" folder by name
+                            // But the paths in the .mtlx file can be different, so we need to ignore the path and just use the filename for reference for now.
+                            const parts = url.split('/');
+                            const filename = parts.pop();
+                            if (debug) console.log('MTLX resolveURL', { url, filename });
+                            url = "/assets/" + filename;
+                        }
+
+                        if (debug) console.log('MTLX Load texture', url);
+                        return await loader.loadAsync(url).then(texture => {
+                            texture.flipY = false; // MaterialX textures are expected to be flipped in Y, but three.js does this by default, so we disable it here.
+                            return texture;
+                        })
+                    },
+                }).then(material => {
+                    if (this._loadingPath !== path) {
+                        console.warn(`MaterialXAsset: Loaded material from ${path} but the loading path has changed to ${this._loadingPath}, ignoring loaded material.`);
+                        return;
+                    }
+                    const renderer = this.gameObject.getComponent(Renderer);
+                    if (!renderer) {
+                        console.warn("MaterialXAsset: No Renderer found on GameObject, can't assign material.", this.gameObject);
+                        return;
+                    }
+                    if (debug) console.log('Loaded .mtlx material', material, path);
+                    if (material)
+                        renderer.sharedMaterials[0] = material;
+
+                })
+            });
+        })
+            .catch(err => {
+                console.error("Please install '@needle-tools/materialx' to load .mtlx files", err);
+                throw err;
+            });
     }
 }

@@ -20,8 +20,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Knight_mat_glTF
+  m_Name: Knight_materialX
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _VOLUME_TRANSMISSION_OFF
   m_InvalidKeywords:
@@ -34,6 +36,7 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -80,10 +83,6 @@ Material:
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - anisotropyTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 0, y: 0}
         m_Offset: {x: 0, y: 0}
     - baseColorTexture:
         m_Texture: {fileID: 2800000, guid: 14c38f1ae2fe8487c917c12f2f7c67c7, type: 3}
@@ -159,7 +158,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ANISOTROPY: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _AutoSurfaceMode: 0
@@ -215,10 +213,6 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     - alphaCutoff: -0.5
-    - anisotropyRotation: 0
-    - anisotropyStrength: 0
-    - anisotropyTextureRotation: 0
-    - anisotropyTextureTexCoord: 0
     - attenuationDistance: 0.001
     - baseColorTextureRotation: 0
     - baseColorTextureTexCoord: 0
@@ -277,6 +271,7 @@ Material:
     - sheenColorFactor: {r: 0, g: 0, b: 0, a: 0}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &6893479005494147622
 MonoBehaviour:
   m_ObjectHideFlags: 11
