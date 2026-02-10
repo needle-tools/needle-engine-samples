@@ -1,4 +1,4 @@
-import { Behaviour, GameObject, ImageReference, Renderer, getParam, serializable } from "@needle-tools/engine";
+import { Behaviour, GameObject, ImageReference, NEEDLE_ENGINE_MODULES, Renderer, getParam, serializable } from "@needle-tools/engine";
 import { TextureLoader } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -32,7 +32,7 @@ export class MaterialXAsset extends Behaviour {
 
         this._loadingPath = path;
 
-        import("@needle-tools/materialx").then(mod => {
+        NEEDLE_ENGINE_MODULES.MaterialX.load().then(mod => {
 
             if (this._loadingPath !== path) {
                 console.warn(`MaterialXAsset: Loading path has changed from ${path} to ${this._loadingPath}, aborting load.`);
