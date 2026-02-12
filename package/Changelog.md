@@ -4,6 +4,10 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.4.3] - 2026-02-12
+- Fix: MaterialX sample missing gradient texture. Additionally feedback for URP has been improved (Unity ShaderGraph needs Universal Renderpipeline installed and enabled) 
+- Update Multi-Lightmap sample
+
 ## [1.4.1] - 2026-02-09
 - Update image-tracking sample
 - Update MaterialX sample
