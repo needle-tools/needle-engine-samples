@@ -499,10 +499,15 @@ public class AssetChecks
             var path = AssetDatabase.GUIDToAssetPath(cubeMap);
             var cubemap = AssetDatabase.LoadAssetAtPath<Cubemap>(path);
             
+#if UNITY_2022_1_OR_NEWER
+            var isHdr = GraphicsFormatUtility.IsHDRFormat(cubemap.graphicsFormat);
+#else
             var isHdr = !GraphicsFormatUtility.IsSRGBFormat(cubemap.graphicsFormat);
+#endif
+
             if (cubemap && !isHdr)
-                errors.Add(($"Cubemap {Path.GetFileName(path)} is an sRGB texture, should be float: " + cubemap.graphicsFormat, cubemap));
-            
+                errors.Add(($"Cubemap {Path.GetFileName(path)} is not a HDR texture: " + cubemap.graphicsFormat, cubemap));
+
             var ext = Path.GetExtension(path);
             if (ext != ".exr" && ext != ".hdr")
                 errors.Add(($"Cubemap {Path.GetFileName(path)} ({cubeMap}) is not .hdr or .exr: " + ext, cubemap));
