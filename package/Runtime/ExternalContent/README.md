@@ -20,6 +20,4 @@ All components support URL parameters for easy testing with different assets.
 
 ## Documentation
 
-- [AssetReference API](https://engine.needle.tools/docs/api/AssetReference)
-- [Lazy Loading & Multiple Scenes](https://engine.needle.tools/docs/how-to-guides/export/#lazy-loading-multiple-scenes)
-- [Scripting: Create Components](https://engine.needle.tools/docs/how-to-guides/scripting/create-components)
+- [Scripting Documentation](https://engine.needle.tools/docs/scripting.html)

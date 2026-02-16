@@ -1,17 +1,17 @@
 # Scrollytelling 2
 
-A scroll-driven 3D experience using the `ScrollFollow` component to animate objects, materials, and physics properties as the user scrolls through the page.
+Create stunning scroll-driven 3D animations and narratives that bring your story to life as users scroll down the page - no coding required.
+
+## Use Cases
+
+Build engaging product stories, create interactive annual reports, design immersive portfolios, showcase project timelines, or craft compelling brand narratives that unfold as users scroll.
 
 ## What This Sample Shows
 
-- **ScrollFollow** — The new `ScrollFollow` component drives object animations based on scroll position, without needing Timeline
-- **Material Animation** — Material properties like color and opacity animate in response to scroll
-- **Physics Properties** — Physics parameters change as you scroll through sections
-- **FollowCursor** — Mouse-reactive elements add interactivity on top of the scroll-driven animation
-- **No Code Required** — Everything is set up with built-in components in Unity
+This sample demonstrates how to use built-in Needle Engine components to create interactive scrollytelling animations. As you scroll, 3D scenes animate, cameras move, and objects transform - all synchronized to scroll position.
 
-Simply create animations in Unity — they work automatically on the web, driven by scroll position.
+Built entirely with Unity components - animate your timeline, and it automatically syncs to page scroll on the web.
 
 ## Related Sample
 
-- [Scrollytelling](https://engine.needle.tools/samples/scrollytelling/) - The original scrollytelling sample using Timeline and `ScrollTimeline`
+- [Scrollytelling](https://engine.needle.tools/samples/scrollytelling/) - The original scrollytelling sample with additional examples

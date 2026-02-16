@@ -1,12 +1,18 @@
 # Digital Landscape
 
-A showcase of custom Shader Graph rendering in Needle Engine. A stylized landscape is generated entirely through a vertex-displacing shader, demonstrating how advanced Unity shaders translate to the web.
+Build stunning procedural terrain visualizations using Shader Graph - perfect for creating stylized landscapes, data visualizations, or artistic scenes with cinematic quality.
+
+## Use Cases
+
+Create beautiful terrain visualizations, abstract data landscapes, stylized game environments, or showcase complex shader techniques for web-based 3D experiences.
 
 ## What This Sample Shows
 
-- **Custom Shader Graph** — The `LandscapeGraph` shader transforms a flat plane into terrain geometry using vertex displacement
-- **Shader Graph to Web** — Visual shader programming in Unity that works automatically on the web
-- **Post-Processing** — Depth of field and bloom create an atmospheric, cinematic look
-- **Interactive Camera** — `OrbitControls` lets you explore the scene
+- **Procedural Terrain Generation** - A custom Shader Graph (`LandscapeGraph`) transforms a flat plane into detailed terrain geometry
+- **Unity Shader Graph Workflow** - Demonstrates visual shader programming that works seamlessly on the web
+- **Cinematic Post-Processing** - Combines depth of field and bloom effects for atmospheric, high-quality visuals
+- **Interactive Exploration** - `OrbitControls` lets you navigate and explore the generated landscape
 
-Built with Unity's Shader Graph and URP. Simply create animations in Unity's Animation window — they work automatically on the web.
+## Technical Highlights
+
+Built with Unity's Shader Graph and Universal Render Pipeline (URP), showing how advanced Unity rendering features translate to performant web experiences. The scene includes carefully tuned post-processing with depth of field focus effects and high-intensity bloom (10.0 intensity) for dramatic lighting.

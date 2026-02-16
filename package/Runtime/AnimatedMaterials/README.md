@@ -2,6 +2,10 @@
 
 Bring your materials to life by animating any property - color, metallic, roughness, texture transforms, and more. Create dynamic visual effects without writing shader code.
 
+## Use Cases
+
+Create pulsing glows for sci-fi interfaces, animated product reveals, dynamic environmental effects like flickering lights, or interactive materials that respond to user input.
+
 ## What This Sample Shows
 
 Needle Engine can animate any material property using Unity's Animation system. This sample demonstrates animating all the key properties of the MeshPhysicalMaterial:
