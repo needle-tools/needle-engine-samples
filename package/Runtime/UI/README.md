@@ -5,7 +5,7 @@ These samples showcase the translation of Unity's UGUI system to Needle Engine c
 A number of component types like panels, buttons, text are supported.  
 Events on buttons can directly be set to trigger events on other components.  
 
-Read more about [supported UI components](https://engine.needle.tools/docs/component-reference.html#ui) in our docs.
+Read more about [supported UI components](https://engine.needle.tools/docs/reference/components) in our docs.
 
 ## Screenspace UI (2D)
 

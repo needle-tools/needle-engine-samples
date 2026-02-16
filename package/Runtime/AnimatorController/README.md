@@ -8,13 +8,13 @@ Often these conditions are:
  - Boolean - "true or false state"
     - Example: "IsGrounded" or "IsAttacking"
  - Numbers which you can compare to
-    - less, more, equel... 
+    - less, more, equal...
 
 You can also not use any conditions and just transition from one animation to another by just specifying how to blend between these two animations. This way you can chain them after each other in a sequence. 
 
 Here we have two animations, open and close, and we jump between them with a trigger called "Toggle".
 
-You can open this Animator Controller asset located at `AnimatorController/Assets/Crate AnimatorController` by double clicing on it.
+You can open this Animator Controller asset located at `AnimatorController/Assets/Crate AnimatorController` by double clicking on it.
 
 Mind that you can click on the states and the transitions to see *their settings* in the inspector.
 

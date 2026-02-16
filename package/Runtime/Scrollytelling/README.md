@@ -1,6 +1,6 @@
 # Scrollytelling
 
-This sample show's how to use Unity's powerful Timeline system to control 3D content on the web by scrolling through the website. 
+This sample shows how to use Unity's powerful Timeline system to control 3D content on the web by scrolling through the website. 
 
 ## Usage
 
@@ -9,7 +9,7 @@ This sample show's how to use Unity's powerful Timeline system to control 3D con
 
 ## Useful references
 
-- For more information, refer to [the documentation](https://engine.needle.tools/docs/features-overview.html#timeline)
+- For more information, refer to [the documentation](https://engine.needle.tools/docs/explanation/core-concepts/features-overview#timeline-sequencing)
 - Unity's intro to [timelines](https://learn.unity.com/tutorial/introduction-to-timeline-2019-3#5f8fa52dedbc2a284332bd38)
 
 

@@ -11,5 +11,5 @@ Image Tracking on Android WebXR **requires a browser flag to be enabled** (chrom
 [View the image target](https://engine.needle.tools/samples-uploads/image-tracking/assets/needle-marker.png)
 
 Read more about image tracking in the Needle documentation:   
-- [Image Tracking Explainer](https://engine.needle.tools/docs/xr.html#image-tracking)  
-- [Everywhere Actions](https://engine.needle.tools/docs/everywhere-actions.html#image-tracking)
+- [Image Tracking Explainer](https://engine.needle.tools/docs/how-to-guides/xr/#image-tracking)  
+- [Everywhere Actions](https://engine.needle.tools/docs/how-to-guides/everywhere-actions/#image-tracking)
