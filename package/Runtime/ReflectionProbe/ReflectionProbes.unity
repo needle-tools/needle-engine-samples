@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 5035ae8e2c8a4dd41a1d1a787d921256, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 4b7dad35ab4424447ac7759c7d15e3b5, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1609064306}
-  m_IndirectSpecularColor: {r: 0.6192141, g: 0.69999945, b: 0.7067927, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: a7f7206d259354648b81f9d26e21213f, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 31ec1a7cb16371e4abceb33a9f611e56, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -606,7 +605,7 @@ ReflectionProbe:
   m_RenderDynamicObjects: 0
   m_UseOcclusionCulling: 1
   m_Importance: 1
-  m_CustomBakedTexture: {fileID: 8900000, guid: 6d80dc90a54354768850e6ca37e42dac, type: 3}
+  m_CustomBakedTexture: {fileID: 8900000, guid: ea87b0042b1034e8b8d28e5d0b2f470e, type: 3}
 --- !u!1 &691125482
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,7 +835,7 @@ Transform:
   m_GameObject: {fileID: 706762903}
   m_LocalRotation: {x: 0.0119798705, y: -0.96786124, z: 0.046987254, w: 0.2467659}
   m_LocalPosition: {x: 2.386, y: 1.525, z: 4.375}
-  m_LocalScale: {x: 1.0000132, y: 1, z: 1.00001}
+  m_LocalScale: {x: 1.0000175, y: 1, z: 1.0000142}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -861,12 +860,12 @@ MonoBehaviour:
   autoRotate: 1
   autoRotateSpeed: -0.15
   minPolarAngle: 0
-  maxPolarAngle: 1.8
+  maxPolarAngle: 2
   minAzimuthAngle: -6.2831845
   maxAzimuthAngle: Infinity
   enableZoom: 1
-  minZoom: 0
-  maxZoom: 10000
+  minZoom: 0.5
+  maxZoom: 10
   zoomSpeed: 1
   zoomToCursor: 0
   enablePan: 1
@@ -879,6 +878,7 @@ MonoBehaviour:
   clickBackgroundToFitScene: 2
   allowInterrupt: 1
   lookAtConstraint: {fileID: 706762909}
+  targetBounds: {fileID: 0}
 --- !u!114 &706762908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,12 +1012,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.ExportInfo, Needle.Engine.Common $ GlobalObjectId_V1-2-f514d1d331c449849a0dc16a6a1fc75c-784234923-0
   DirectoryName: Library/Needle/Sample
   RemoteUrl: 
-  AutoExport: 1
-  AutoCompress: 1
+  ExportOnSave: 1
+  AutoCompress: 0
   Dependencies:
   - Name: '@needle-tools/samples-scripts'
-    VersionOrPath: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
+    Version: 
+    Path: Packages/com.needle.engine-samples/Runtime/_Shared/SampleScripts.npmdef
     Guid: a54d66e790a1fe74b86cebd5eae8145d
+  CloudName: ReflectionProbes
+  CloudTeam: 
 --- !u!4 &784234924
 Transform:
   m_ObjectHideFlags: 0
@@ -1047,7 +1050,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Codegen.ComponentGenerator, Needle.Engine
     $ GlobalObjectId_V1-2-f514d1d331c449849a0dc16a6a1fc75c-784234925-0
   compilerDirectory: Library/Needle/Sample/node_modules/@needle-tools/needle-component-compiler/src
-  Debug: 0
 --- !u!114 &784234927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1092,12 +1094,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52882cd15871496cba5a3596b2e735c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Needle.Engine.Gltf.Experimental.progressive.ProgressiveTexturesSettings,
-    Needle.Engine.GltfExport
-  AllowProgressiveLoading: 1
+  m_EditorClassIdentifier: Needle.Engine.Gltf.NeedleCompressionSettings, Needle.Engine.GltfExport
+  DefaultTextureFormat: 1
+  TextureMaxSize: 8192
+  GenerateTextureLODs: 1
   UseMaxSize: 1
-  MaxSize: 1024
-  GenerateLODs: 1
+  LODsMaxSize: 1024
+  MeshCompression: 10
+  GenerateMeshLODs: 1
+  TextureOverrides: []
+  MeshOverrides: []
 --- !u!1 &826524073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,8 +1522,8 @@ MonoBehaviour:
   autoPlace: 1
   autoCenter: 0
   useXRAnchor: 0
-  useQuicklookExport: 0
   useDepthSensing: 0
+  useQuicklookExport: 0
   useDefaultControls: 1
   showControllerModels: 1
   showHandModels: 1
@@ -2180,6 +2186,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
