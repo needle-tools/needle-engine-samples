@@ -5,7 +5,7 @@ This sample showcases that by moving around instruments. Make sure to also try i
 
 ## How it Works
 
-The Sample is built using Needle Engine [Everywhere Actions](https://engine.needle.tools/docs/everywhere-actions.html) - a set of carefully chosen components that allow you to create interactive experiences in Unity without writing a single line of code.
+The Sample is built using Needle Engine [Everywhere Actions](https://engine.needle.tools/docs/how-to-guides/everywhere-actions/) - a set of carefully chosen components that allow you to create interactive experiences in Unity without writing a single line of code.
 They are designed to serve as building blocks for experiences across the web, mobile and XR, including Augmented Reality on iOS.
 
 ## Attributions

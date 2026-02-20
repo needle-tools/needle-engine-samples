@@ -2,7 +2,7 @@
 
 This sample showcases a selection of different custom shaders that are built with Unity's ShaderGraph and exported to the web.   
 
-Please follow [the documentation](https://engine.needle.tools/docs/export.html#exporting-materials) for more information and instructions.
+Please follow [the documentation](https://engine.needle.tools/docs/how-to-guides/export/#exporting-materials) for more information and instructions.
 
 ### What's a shader?
 Shaders are programs that run on the GPU with the usual goal of rendering an object. Luckily there are a lot of layers of abstractions, with the top one being a visual graph where the experience is very beginner friendly.
