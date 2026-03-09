@@ -157,18 +157,22 @@ namespace Needle.Engine
 									await Task.Delay(1000);
 									var path = exp.GetProjectDirectory();
 									var cmd =
-										$"{NpmUtils.GetInstallCommand(exp.GetProjectDirectory())} --silent {packageName}@{packageVersion} && npm update {packageName} --silent";
-									if (await ProcessHelper.RunCommand(cmd, exp.GetProjectDirectory()))
+										$"{NpmUtils.GetInstallCommand(exp.GetProjectDirectory())} --silent {packageName}@{packageVersion}";
+									var res = await ProcessHelper.RunCommand(cmd, exp.GetProjectDirectory());
+									if (res)
 									{
+										Debug.Log($"Successfully installed {packageName}@{packageVersion} - now updating npm lockfile for the {packageName} package.", t);
+										await ProcessHelper.RunCommand($"npm update {packageName} --silent", exp.GetProjectDirectory());
 										EditorGUIUtility.PingObject(t);
-										Debug.Log($"Successfully installed {packageName}@{packageVersion}", t);
+										Debug.Log($"Successfully installed {packageName}@{packageVersion}. If the sample did not open automatically please click the 'Open Sample' button.", t);
 										ProjectBundle.Actions.RequestWebProjectScanning(path);
 									}
 									else
 									{
 										Debug.LogWarning(
-											$"Failed to install {packageName}@{packageVersion} - please check the console for errors.",
+											$"Failed to install {packageName}@{packageVersion} - please check the console for errors or running install again via the Needle Engine component (Context menu: Needle Engine/Web Project/Install).\nCommand: {cmd}\nWorking Directory: {path}\nResult: {res}",
 											t);
+										ProjectBundle.Actions.RequestWebProjectScanning(path);
 									}
 								}
 							}
