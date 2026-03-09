@@ -175,7 +175,10 @@ namespace Needle.Engine
 						}
 						else
 						{
-							Debug.LogError("Missing Needle Engine component", t);
+							if(!exp)
+								Debug.LogError("Missing Needle Engine component in your scene. Please add the Needle Engine component to your scene.", t);
+							else if(!exp.Exists())
+								Debug.LogError("Your Needle Engine project is not installed or set up. Please select the Needle Engine component in your scene and set up a path for your directory.", t);
 						}
 					}
 				}
