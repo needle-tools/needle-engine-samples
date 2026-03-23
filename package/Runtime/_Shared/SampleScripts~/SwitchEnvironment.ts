@@ -10,6 +10,9 @@ export class SwitchEnvironment extends Behaviour {
     @serializable(Euler)
     environmentRotation = new Euler(0, 2.1, 0);
 
+    @serializable()
+    rotateEnvironment = true;
+
     private currentEnvironmentIndex = -1;
 
     awake() {
@@ -23,9 +26,14 @@ export class SwitchEnvironment extends Behaviour {
         });
         // preload environments
         if (this.environments) {
-            this.environments.forEach(async env => {
-                if (env?.url) await fetch(env.url, { priority: "low" }).catch(err => console.error(`Failed to preload environment map from ${env.url}:`, err));
-            });
+            (async () => {
+                await new Promise(resolve => setTimeout(resolve, 300));
+                for (let i = 0; i < this.environments!.length; i++) {
+                    const env = this.environments![i];
+                    if (!env?.url) continue;
+                    await fetch(env.url, { priority: "low" } as RequestInit).catch(err => console.error(`Failed to preload environment map from ${env.url}:`, err));
+                }
+            })();
         }
     }
 
@@ -34,6 +42,11 @@ export class SwitchEnvironment extends Behaviour {
             this.currentEnvironmentIndex = 0;
             this.setEnvironment(this.environments[0]);
         }
+    }
+
+    update() {
+        if(this.rotateEnvironment)
+            this.context.scene.environmentRotation.y += this.context.time.deltaTime * .07;
     }
 
     nextEnvironment() {
