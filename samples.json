@@ -4,7 +4,7 @@
       "Description": "This sample uses the Seethrough component to automatically fade out objects between the camera and a target object.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/See-Through.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/See-Through.jpg?v=6bb91b555afd2990577535653d874124"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/See-Through.jpg?v=5c4052e9e9115ed32dedc23abca9c970"
       },
       "LiveUrl": "https://see-through-walls-zubcksz28jgxs.needle.run/",
       "Priority": 60,
@@ -107,7 +107,7 @@
         {
           "Component": "Volume",
           "Path": "engine/src/engine-components/postprocessing/Volume.ts",
-          "MoreInfoUrl": "https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@12.1/manual/Volumes.html"
+          "MoreInfoUrl": "https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@14.0/manual/Volumes.html"
         },
         {
           "Component": "WebXR",
@@ -146,7 +146,7 @@
       "Description": "No-code example for how to use the window scroll and cursor to control physics, lights and timeline animation",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Scrollytelling-2.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Scrollytelling-2.jpg?v=03ad79ef451f906ec124ecd160784f38"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Scrollytelling-2.jpg?v=7f1ac57f81cf42c417877e62dcc66639"
       },
       "LiveUrl": "https://scrollytelling-2-z23hmxby7c6x.needle.run/",
       "Priority": 50,
@@ -237,7 +237,7 @@
       "Description": "Drop a 3D asset on the page to render. With networking functionality the DropListener is able to fetch and load dropped assets as well.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Droplistener.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Droplistener.jpg?v=4f7fddc8a20c8a0d5a2cd20586c5cd32"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Droplistener.jpg?v=b14233d4fea3d28b08365baf318af460"
       },
       "LiveUrl": "https://droplistener-zubcksz1veaoo.needle.run/",
       "Priority": 35,
@@ -328,10 +328,93 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/Droplistener/README.md"
     },
     {
+      "Description": "10x faster image based lighting, zero framedrops and 95% less GPU memory usage",
+      "Thumbnail": {
+        "relativePath": "package/Editor/Screenshots/FastHDR.jpg",
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/FastHDR.jpg?v=3907c8bf44296a2551e9b4bfaa581ee1"
+      },
+      "LiveUrl": "https://fasthdr-exr-compression-zubckszw4qro.needle.run/",
+      "Priority": 30,
+      "Tags": [
+        "Rendering",
+        "Performance and Optimization"
+      ],
+      "RepositoryUrl": "",
+      "UsedComponents": [
+        {
+          "Component": "Animator",
+          "Path": "engine/src/engine-components/Animator.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "AudioListener",
+          "Path": "engine/src/engine-components/AudioListener.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "Camera",
+          "Path": "engine/src/engine-components/Camera.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "BoxCollider",
+          "Path": "engine/src/engine-components/Collider.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "MeshCollider",
+          "Path": "engine/src/engine-components/Collider.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "SphereCollider",
+          "Path": "engine/src/engine-components/Collider.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "ContactShadows",
+          "Path": "engine/src/engine-components/ContactShadows.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/ContactShadows"
+        },
+        {
+          "Component": "Light",
+          "Path": "engine/src/engine-components/Light.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "NeedleMenu",
+          "Path": "engine/src/engine-components/NeedleMenu.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/NeedleMenu"
+        },
+        {
+          "Component": "OrbitControls",
+          "Path": "engine/src/engine-components/OrbitControls.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/OrbitControls"
+        },
+        {
+          "Component": "MeshRenderer",
+          "Path": "engine/src/engine-components/Renderer.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "WebXR",
+          "Path": "engine/src/engine-components/webxr/WebXR.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/WebXR"
+        },
+        {
+          "Component": "XRRig",
+          "Path": "engine/src/engine-components/webxr/WebXRRig.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/XRRig"
+        }
+      ],
+      "Name": "FastHDR Environment Lighting - EXR compression",
+      "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/Fast HDR/README.md"
+    },
+    {
       "Description": "Using Splines and Scroll Animation",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Splines-Scroll.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Splines-Scroll.jpg?v=14ecf7175fa7d126aa7e080b27c45815"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Splines-Scroll.jpg?v=479007ab1a1b4989ab81c378aef0956c"
       },
       "LiveUrl": "https://splines-scroll-zubcksz2rarmn.needle.run/",
       "Priority": 30,
@@ -420,7 +503,7 @@
       "Description": "Create your own unique face filters with blendshapes, animations and particles. Record videos for your social media or share the link with friends and family",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Face Filter.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Face Filter.jpg?v=2305f3937beb3c4d59ab093c45b62c2e"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Face Filter.jpg?v=f5fea4947fd0c096d988d88a6cf5b495"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/facefilter/",
       "Priority": 25,
@@ -429,7 +512,6 @@
         "Interaction",
         "Games"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [],
       "Name": "Face Filter",
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/Facefilter/README.md"
@@ -438,7 +520,7 @@
       "Description": "Create a unique and interactive website header. Make a character look at your mouse cursor.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/LookAtCursor.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/LookAtCursor.jpg?v=5b2388c0202bde3977ed97bc59b45cfb"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/LookAtCursor.jpg?v=eef94948cf8999bacb1e0799e36c8733"
       },
       "LiveUrl": "https://look-at-cursor-zubckszo5bwc.needle.run/",
       "Priority": 25,
@@ -525,7 +607,7 @@
       "Description": "Character controller that works in iOS AR too",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/USDZCharacters.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/USDZCharacters.jpg?v=67d9d3ffbc7598d3e35f4b059c54cf31"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/USDZCharacters.jpg?v=d34eec6d5248817929f0e3c10cf30c97"
       },
       "LiveUrl": "https://usdz-characters-zubckssncjg.needle.run/",
       "Priority": 20,
@@ -536,7 +618,6 @@
         "USDZ",
         "Everywhere Actions"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Animator",
@@ -626,7 +707,7 @@
       "Description": "Changing objects and materials via script.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Configurator.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Configurator.jpg?v=fe76afe532d960384d811ff6eddfe335"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Configurator.jpg?v=93f5adc34091620a57ff4925f402d68f"
       },
       "LiveUrl": "https://configurator-zubcksdobfe.needle.run/",
       "Priority": 20,
@@ -746,7 +827,7 @@
       "Description": "Orientation Sensor Access",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/DeviceSensors.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DeviceSensors.jpg?v=ec6f962986d11a732e87df6ef236e793"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DeviceSensors.jpg?v=f16a326efe2b7fa4e1c77d7883512dea"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/device-sensors/",
       "Priority": 20,
@@ -754,7 +835,6 @@
         "Scripting",
         "Interaction"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "SensorAccessSample",
@@ -819,7 +899,7 @@
       "Description": "Annotate 3D content",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Hotspots.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Hotspots.jpg?v=d7fc8bfc7399770fb5867d24297d34d5"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Hotspots.jpg?v=155972766455590885e410c63c8e9653"
       },
       "LiveUrl": "https://hotspots-zubckszghs1b.needle.run/",
       "Priority": 20,
@@ -953,7 +1033,7 @@
       "Description": "Use your VR headset to record and animate your characters and avatars",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/RecordedAvatars.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/RecordedAvatars.jpg?v=598706d7cfd3fc3cdb00b0be47550de2"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/RecordedAvatars.jpg?v=8887205f62530e67a133b8a80dd31151"
       },
       "LiveUrl": "https://avatar-recording-zubcks1ha2hu.needle.run/",
       "Priority": 20,
@@ -1031,7 +1111,7 @@
       "Description": "Score the most points by hitting as many shots without missing!",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ShootingRange.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ShootingRange.jpg?v=234651f04880ba884c75656445e9964e"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ShootingRange.jpg?v=ed6c0983a399f171eb3a0ac64003ce1a"
       },
       "LiveUrl": "https://shootingrange-zubcks1sxocs.needle.run/",
       "Priority": 20,
@@ -1222,7 +1302,7 @@
       "Description": "Play audio and animation on click interactions",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/MusicalInstrument.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MusicalInstrument.jpg?v=2e97298467c6d55091b0dc4650636211"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MusicalInstrument.jpg?v=a57145d23b6ccdd31243dff8d8d3e400"
       },
       "LiveUrl": "https://musicalinstrument-zubcksz1usd7h.needle.run/",
       "Priority": 19,
@@ -1314,7 +1394,7 @@
       "Description": "Placing content on physical image markers",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ImageTracking.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ImageTracking.jpg?v=e80662c187ce15be05a1b092706fdfee"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ImageTracking.jpg?v=f4983e365affab7b6d92d920d58ae4fd"
       },
       "LiveUrl": "https://image-tracking-zubckszr0qj2.needle.run/",
       "Priority": 18,
@@ -1414,7 +1494,7 @@
       "Description": "Download textures & models from external sources",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ExternalContent.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ExternalContent.jpg?v=28e6f92fa938444ce5aedd8293c2f002"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ExternalContent.jpg?v=fa68ce887adb2b86496df0b37938bdc0"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/dynamic-content",
       "Priority": 17,
@@ -1422,7 +1502,6 @@
         "Scripting",
         "Dynamic Content"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioLoading",
@@ -1527,7 +1606,7 @@
       "Description": "Minigame where you play as an archer",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/BowAndArrow.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/BowAndArrow.jpg?v=292eb14e0dd6dc240447535f67f5f1e0"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/BowAndArrow.jpg?v=d92f28ca9570513f4bb1d4ba91b3c44a"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/bow-and-arrow/",
       "Priority": 15,
@@ -1535,7 +1614,6 @@
         "Games",
         "XR"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Arrow",
@@ -1680,7 +1758,7 @@
       "Description": "Slalom minigame showcasing raycast vehicle physics",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/CarPhysics.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/CarPhysics.jpg?v=bbccd8e29eed79c105dc62b62cfc9bde"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/CarPhysics.jpg?v=2c90fca4361559ed648aba22bfa4a683"
       },
       "LiveUrl": "https://car-physics-zubcksqzdwj.needle.run/",
       "Priority": 15,
@@ -1688,7 +1766,6 @@
         "Games",
         "Physics"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AspectRatioFitterUI",
@@ -1873,7 +1950,7 @@
       "Description": "Networking, WebXR, Drag & Duplicate",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Sandbox.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Sandbox.jpg?v=b2be3d74125ce1773b011286fb2855c0"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Sandbox.jpg?v=794661007336e9edf968989ff36b7c87"
       },
       "LiveUrl": "https://collaborativesandbox-zubcks1qdkhy.needle.run/",
       "Priority": 15,
@@ -2022,7 +2099,7 @@
       "Description": "Changing an object's material with a spatial menu",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/USDZColorMenu.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/USDZColorMenu.jpg?v=78b9125fee48d39a60236ee92206bad4"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/USDZColorMenu.jpg?v=27d358dfc1d2bb2242d1eb0e38dfb137"
       },
       "LiveUrl": "https://usdz-color-menu-zubcksmqsjo.needle.run/",
       "Priority": 15,
@@ -2033,7 +2110,6 @@
         "USDZ",
         "Everywhere Actions"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -2123,7 +2199,7 @@
       "Description": "Faster load times, smaller payloads",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ProgressiveLoading.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ProgressiveLoading.jpg?v=6fa90873c411168312324634a2def814"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ProgressiveLoading.jpg?v=00875d0ab1e67d0a78fa4ab6c6a81aef"
       },
       "LiveUrl": "https://progressive-textures-zubcks2stjym.needle.run/",
       "Priority": 15,
@@ -2196,7 +2272,7 @@
       "Description": "High-quality jewelry rendering using shader pathtracing",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/JewelryRing.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/JewelryRing.jpg?v=68a5c5e58e8623de7e1e6c539558bb38"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/JewelryRing.jpg?v=bb010c2105d88e3e3e89746eb9a099fd"
       },
       "LiveUrl": "https://jewelry-ring-zubckszopxdy.needle.run/",
       "Priority": 15,
@@ -2204,7 +2280,6 @@
         "Rendering",
         "XR"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Diamond",
@@ -2274,7 +2349,7 @@
       "Description": "Renderer and tooling for gaussian splatting, a novel way to render 3D content.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/GaussianSplatting.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/GaussianSplatting.jpg?v=122c6f16fb7fe066a74965a5f5233bda"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/GaussianSplatting.jpg?v=4cd0bfc8330bee6dba9e915503e2a31a"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/gaussian-splats",
       "Priority": 15,
@@ -2282,7 +2357,6 @@
         "Rendering",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "SplatRenderer",
@@ -2352,14 +2426,13 @@
       "Description": "Floor projection from environment maps",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/GroundProjection.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/GroundProjection.jpg?v=a8db4831393e0daf8f0c4d00f1f50dae"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/GroundProjection.jpg?v=f7b1c279fdaae2b039bb15754c5b5bbd"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/groundprojection",
       "Priority": 15,
       "Tags": [
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Animator",
@@ -2429,7 +2502,7 @@
       "Description": "Openstreetmap.org integration in 3D",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/InteractiveMap.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/InteractiveMap.jpg?v=c34f17eb8cdbe71065fca0e48af59bd4"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/InteractiveMap.jpg?v=e182aaf22f8a2b9c9f54803bccc76b5e"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/interactive-map",
       "Priority": 15,
@@ -2437,7 +2510,6 @@
         "Scripting",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "MapLocator",
@@ -2492,14 +2564,13 @@
       "Description": "Increase and decrease quality based on camera distance. (LOD)",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/LOD.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/LOD.jpg?v=e11bf4d81dc2109b8d91b3b4d8fc1a49"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/LOD.jpg?v=7948fec4b979aed3e961a0faeb3cd609"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/lods/",
       "Priority": 15,
       "Tags": [
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "CameraGoal",
@@ -2604,7 +2675,7 @@
       "Description": "Rendering multiple cameras to the screen",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/MultiCamera.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MultiCamera.jpg?v=4eaf9a35385a3b7faf816170258539f4"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MultiCamera.jpg?v=18298a2b31982e7ceda38b8c601c68af"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/multiple-cameras",
       "Priority": 15,
@@ -2612,7 +2683,6 @@
         "Rendering",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "CameraScissorSample",
@@ -2677,7 +2747,7 @@
       "Description": "Camera controls with gyroscope support",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/PanoramaControls.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PanoramaControls.jpg?v=1b4c35d490a588b3cd558a174f31b98e"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PanoramaControls.jpg?v=1275591ba251175859a2e6e5d8a3de6f"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/panorama-controls",
       "Priority": 15,
@@ -2686,7 +2756,6 @@
         "Interaction",
         "XR"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "PanoramaControls",
@@ -2726,7 +2795,7 @@
       "Description": "Sample showcasing mesh and texture compression with progressive loading and automatic LOD generation, enabling fast downloads, smooth performance, and efficient rendering of high-poly assets.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ProgressiveMeshAndTexture.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ProgressiveMeshAndTexture.jpg?v=d617653cdeb62a5cddad2a58be7f3985"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ProgressiveMeshAndTexture.jpg?v=6e084dc0b5c4fd5fcf66e6c8fd296d1e"
       },
       "LiveUrl": "https://progressive-meshes-zubcksxqvae.needle.run/",
       "Priority": 15,
@@ -2743,7 +2812,7 @@
       "Description": "WebRTC and Streaming",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Screensharing.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Screensharing.jpg?v=fc94fe5fd0cb95689ce81b4ae4804273"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Screensharing.jpg?v=8fd65a5fe5d047beaeae85a88dfb9c0c"
       },
       "LiveUrl": "https://screensharing-zubcks1qbdid.needle.run/",
       "Priority": 15,
@@ -2883,7 +2952,7 @@
       "Description": "Access and render room meshes on Quest 3",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/XRMeshTracking.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/XRMeshTracking.jpg?v=141599f13ec1ecaf46afcd2dff9895bb"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/XRMeshTracking.jpg?v=b72eda45b054090ff0070a0540838641"
       },
       "LiveUrl": "https://mesh-tracking-zubckszgqtfr.needle.run/",
       "Priority": 15,
@@ -2891,7 +2960,6 @@
         "XR",
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "HTMLMenu",
@@ -2961,7 +3029,7 @@
       "Description": "Placing audio sources in 3D with spatial falloff",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/SpatialAudio.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SpatialAudio.jpg?v=52526a55e3d864f0b8eb0fb5152af9a4"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SpatialAudio.jpg?v=eb3cb892e03fa0b7b0ef48b91b24dbe0"
       },
       "LiveUrl": "https://spatial-audio-zubckswmztj.needle.run/",
       "Priority": 12,
@@ -3052,14 +3120,13 @@
       "Description": "Deploy projects made with Needle to Netlify",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Netlify.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Netlify.jpg?v=b796dabf4c1d44830c53fbc1b682f636"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Netlify.jpg?v=e1ac4a5eed9d1dc73b83628230107c48"
       },
       "LiveUrl": "https://needle-engine-netlify-sample.netlify.app/",
       "Priority": 11,
       "Tags": [
         "Deployment"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -3144,7 +3211,7 @@
       "Description": "Integration with the NextJS framework.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/NextJSProjectSample.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/NextJSProjectSample.jpg?v=1a9d9635be80e8917d8539caabcad242"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/NextJSProjectSample.jpg?v=6531cac9d27697bb3b73f2537aad0d16"
       },
       "LiveUrl": "https://needle-engine-nextjs.vercel.app",
       "Priority": 11,
@@ -3153,7 +3220,6 @@
         "Deployment",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -3218,7 +3284,7 @@
       "Description": "Integration with the Svelte web framework.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/SvelteProjectSample.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SvelteProjectSample.jpg?v=df11441cae0098877c9401d72d5749ea"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SvelteProjectSample.jpg?v=b07505a686f9483d60313790f6af8baf"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/svelte-project-sample",
       "Priority": 11,
@@ -3227,7 +3293,6 @@
         "Frameworks",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [],
       "Name": "Svelte integration",
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/Svelte Project Sample/README.md"
@@ -3236,7 +3301,7 @@
       "Description": "Integration with SvelteKit for dynamic or static pages",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/SvelteKitProjectSample.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SvelteKitProjectSample.jpg?v=65ac0379532e1f32d333791d9276d77a"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SvelteKitProjectSample.jpg?v=06ecdd3c26d6ee58e91fb9dee538262d"
       },
       "LiveUrl": "https://needle-engine.github.io/sveltekit-sample/",
       "Priority": 11,
@@ -3245,7 +3310,6 @@
         "Frameworks",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [],
       "Name": "SvelteKit integration",
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/Sveltekit Project Sample/README.md"
@@ -3254,7 +3318,7 @@
       "Description": "Integration with the Vue.js web framework.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/VueProjectSample.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/VueProjectSample.jpg?v=5978efa4e36985c904cda9df60f8fc7c"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/VueProjectSample.jpg?v=c2722198d2156d5e0a83a74a950171ba"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/vue-project-sample/",
       "Priority": 11,
@@ -3263,7 +3327,6 @@
         "Frameworks",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Animator",
@@ -3353,7 +3416,7 @@
       "Description": "Configure your product in quicklook",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/USDZProduct.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/USDZProduct.jpg?v=6bb6957ef5f341786966de72aaa7057f"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/USDZProduct.jpg?v=aa098e2d7209e568883c8f0905dd7060"
       },
       "LiveUrl": "https://usdz-product-zubcksm4nb6.needle.run/",
       "Priority": 10,
@@ -3454,7 +3517,7 @@
       "Description": "Proximity based soft shadows for flat surfaces",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ContactShadows.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ContactShadows.jpg?v=a9bf75df1969e9a1a7483580d5887df3"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ContactShadows.jpg?v=b4d49efe342e6ddaeebf7f4747c00742"
       },
       "LiveUrl": "https://contactshadows-zubcksz1co6et.needle.run/",
       "Priority": 10,
@@ -3536,7 +3599,7 @@
       "Description": "Displaying external web pages in 3D",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/iFrameContent.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/iFrameContent.jpg?v=a6fe6e4d35462320912f4a5127d8b745"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/iFrameContent.jpg?v=f96f892f0a6584eb80f97e8b0a070da8"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/iframe-content/?url=https://www.youtube.com/embed/puWNRrG4MCg",
       "Priority": 10,
@@ -3544,7 +3607,6 @@
         "Rendering",
         "HTML"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "IFrameContent",
@@ -3614,7 +3676,7 @@
       "Description": "Control the scene with your hands",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/MediaPipeHands.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MediaPipeHands.jpg?v=970a5dea3b009ca1176eb3d5184b7b96"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MediaPipeHands.jpg?v=829ddb5ad3def843aa43e53a74ff23ad"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/mediapipe-hands/",
       "Priority": 10,
@@ -3622,7 +3684,6 @@
         "XR",
         "Interaction"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "MediapipeHands",
@@ -3712,7 +3773,7 @@
       "Description": "Easily bake multiple lightmaps for a scene and switch between different lightmaps at runtime.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/MultipleLightmaps.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MultipleLightmaps.jpg?v=3abb91b36f9aff6f05eb5362cfcfaf7b"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MultipleLightmaps.jpg?v=925a8544b509c35c9e4b46b44722a01e"
       },
       "LiveUrl": "https://multi-lightmaps-zubcks1bkxlv.needle.run/",
       "Priority": 10,
@@ -3810,11 +3871,6 @@
           "Component": "XRRig",
           "Path": "engine/src/engine-components/webxr/WebXRRig.ts",
           "MoreInfoUrl": "https://engine.needle.tools/docs/api/XRRig"
-        },
-        {
-          "Component": "XRFlag",
-          "Path": "engine/src/engine-components/webxr/XRFlag.ts",
-          "MoreInfoUrl": "https://engine.needle.tools/docs/api/XRFlag"
         }
       ],
       "Name": "Multiple lightmaps",
@@ -3824,7 +3880,7 @@
       "Description": "Particle Systems and Trails",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Particles.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Particles.jpg?v=21b8a741ce5f47f556dc6a9cc99f249d"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Particles.jpg?v=c63e0821850b21ee8e8d593caacb269d"
       },
       "LiveUrl": "https://particles-zubcks1xe9hg.needle.run/",
       "Priority": 10,
@@ -3971,7 +4027,7 @@
       "Description": "Physical objects interacting with animated objects",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/PhysicsAnimation.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PhysicsAnimation.jpg?v=95ddb726643b978c22791f3e0415d271"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PhysicsAnimation.jpg?v=003708c71172c008ba1a6527775f5111"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/physics-animation/",
       "Priority": 10,
@@ -3979,7 +4035,6 @@
         "Animation",
         "Physics"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AutoReset",
@@ -4074,7 +4129,7 @@
       "Description": "Simple physics scene with objects changing colors on collision",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/PhysicsBasic.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PhysicsBasic.jpg?v=6d846a01ad74b53d583d4ac9aa79fd0a"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PhysicsBasic.jpg?v=a2ab4db997166c823e9b70aa2182d9f6"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/basic-physics",
       "Priority": 10,
@@ -4082,7 +4137,6 @@
         "Physics",
         "Interaction"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "ShowBalloonMessage",
@@ -4177,14 +4231,13 @@
       "Description": "Connections between physical objects",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/PhysicsJoints.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PhysicsJoints.jpg?v=16800c06c8a298f49705fb7660982b69"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PhysicsJoints.jpg?v=36c3bb2ee83e9b0e6ba9563558dbb8c3"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/joints/",
       "Priority": 10,
       "Tags": [
         "Physics"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "ResetPositionOnInterval",
@@ -4289,7 +4342,7 @@
       "Description": "Rigidbodies, Colliders, Triggers",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Physics Playground.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Physics Playground.jpg?v=20d24e34f0aa85b5f9bf8ed9ca6ff869"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Physics Playground.jpg?v=b7d8108c20c586653ec7299e5a2fe6ca"
       },
       "LiveUrl": "https://physics-playground-zubcksgtkqf.needle.run/",
       "Priority": 10,
@@ -4422,14 +4475,13 @@
       "Description": "Using stencil buffers",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/StencilPortal.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/StencilPortal.jpg?v=359443775c59ebab092d71436bcda943"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/StencilPortal.jpg?v=ac348a20e2450b5e1835d735fbde4c25"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/stencil-portals",
       "Priority": 10,
       "Tags": [
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "TimeUI",
@@ -4534,7 +4586,7 @@
       "Description": "Lynx R1 scrolling website",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Scrollytelling.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Scrollytelling.jpg?v=a5b699448b4bb361c4f46bfdf5015332"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Scrollytelling.jpg?v=f9d8dfbca950b0749e8607d6e72322fd"
       },
       "LiveUrl": "https://scrollytelling-zubcks2kujpl.needle.run/",
       "Priority": 10,
@@ -4622,7 +4674,7 @@
       "Description": "Set custom reflections per object",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ReflectionProbes.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ReflectionProbes.jpg?v=2ea4c516abd5ad29de33afcc53ae7340"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ReflectionProbes.jpg?v=7a2843e69f73ccce738c3e1a2c65e5c5"
       },
       "LiveUrl": "https://reflectionprobes-zubcksz1q2ghw.needle.run/",
       "Priority": 10,
@@ -4734,7 +4786,7 @@
       "Description": "Physics, Passthrough, Walls and Furniture on Quest / Quest Pro",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/PresencePlatformRoomTracking.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PresencePlatformRoomTracking.jpg?v=d4bc8f0b939a3e799258d948a9e7fc00"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PresencePlatformRoomTracking.jpg?v=10c7025d7bb494651b9970f3f12ccd47"
       },
       "LiveUrl": "https://presence-platform-zubcks22eosc.needle.run/",
       "Priority": 10,
@@ -4743,7 +4795,6 @@
         "Interaction",
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "RandomColor",
@@ -4883,7 +4934,7 @@
       "Description": "Plane Tracking, Passthrough, Spatial Understanding",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/SwitchableWalls.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SwitchableWalls.jpg?v=ec0d1196a6a6d9504b41f6b37e3471ac"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SwitchableWalls.jpg?v=400ac7cd9dbb02efe88df95d95f1a49b"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/switchable-walls/",
       "Priority": 10,
@@ -4892,7 +4943,6 @@
         "Rendering",
         "Interaction"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "RevealWorldBehind",
@@ -4992,7 +5042,7 @@
       "Description": "Characters, Animations and Controls",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Third-Person Controller.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Third-Person Controller.jpg?v=77cb68507e26fdb1ca24bb08c2dcb05e"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Third-Person Controller.jpg?v=4886aa6280e33fd2cf6397e7284a8a05"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/character-controller",
       "Priority": 10,
@@ -5001,7 +5051,6 @@
         "Games",
         "Interaction"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "MobileControls",
@@ -5141,7 +5190,7 @@
       "Description": "Glass vase refraction",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Transmission.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Transmission.jpg?v=c8abeb90b20ecb5f4fb913c7910cbea6"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Transmission.jpg?v=2a8c97e1cf579b0a5885bd4714f5f8ba"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/transmission/",
       "Priority": 10,
@@ -5213,7 +5262,7 @@
       "Description": "Very basic voxel editor made with Everywhere Actions",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/VoxelEditor.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/VoxelEditor.jpg?v=0410545713a7913ce3f2bcabb46973e6"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/VoxelEditor.jpg?v=1415d77ac93692fcfe9591aa9608e8b9"
       },
       "LiveUrl": "https://voxel-editor-zubcks2wodnr.needle.run/",
       "Priority": 10,
@@ -5224,7 +5273,6 @@
         "Everywhere Actions",
         "USDZ"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -5299,7 +5347,7 @@
       "Description": "Loading support for VRM files",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/VRMLoading.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/VRMLoading.jpg?v=d47631d6c94bd9d6c97ca0552ac87fd9"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/VRMLoading.jpg?v=81a0c299b09a982c02c3f5900c2ba5b3"
       },
       "LiveUrl": "https://vrm-character-loading-zubcks1jt6hf.needle.run/",
       "Priority": 10,
@@ -5307,7 +5355,6 @@
         "Dynamic Content",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "VRMLoader",
@@ -5352,7 +5399,7 @@
       "Description": "Custom shader showcasing terrain visualization",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/DigitalLandscape.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DigitalLandscape.jpg?v=d4ab0fc8d11fe37517d2990de40f9adb"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DigitalLandscape.jpg?v=9580a7e512696e39f18c6fdeae6a18ed"
       },
       "LiveUrl": "https://digital-landscape-zubcksz1zn9ka.needle.run/",
       "Priority": 7,
@@ -5414,7 +5461,7 @@
       "Description": "PostProcessing with DoF, Bloom, SSAO and more",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/PostProcessing.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PostProcessing.jpg?v=f550e224359fa6d2d1d4f902f623cedd"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PostProcessing.jpg?v=abb3a2afbab81375ad06f1f86eccc46c"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/postprocessing",
       "Priority": 6,
@@ -5520,6 +5567,11 @@
           "MoreInfoUrl": "https://engine.needle.tools/docs/api/ScreenSpaceAmbientOcclusion"
         },
         {
+          "Component": "ScreenSpaceAmbientOcclusionN8",
+          "Path": "engine/src/engine-components/postprocessing/Effects/ScreenspaceAmbientOcclusionN8.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/ScreenSpaceAmbientOcclusionN8"
+        },
+        {
           "Component": "SpectatorCamera",
           "Path": "engine/src/engine-components/SpectatorCamera.ts",
           "MoreInfoUrl": "https://engine.needle.tools/docs/api/SpectatorCamera"
@@ -5547,7 +5599,7 @@
         {
           "Component": "Volume",
           "Path": "engine/src/engine-components/postprocessing/Volume.ts",
-          "MoreInfoUrl": "https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@12.1/manual/Volumes.html"
+          "MoreInfoUrl": ""
         },
         {
           "Component": "WebARSessionRoot",
@@ -5572,7 +5624,7 @@
       "Description": "Sidescroller with desktop, touch and gamepad inputs, using sprites.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Sidescroller.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Sidescroller.jpg?v=69d3dd6d10bb550cbf67ee592daea2ce"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Sidescroller.jpg?v=163b561ba6a818dbb3fee11439e49ae9"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/sidescroller",
       "Priority": 6,
@@ -5581,7 +5633,6 @@
         "Interaction",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "SidescrollerCamera",
@@ -5641,7 +5692,7 @@
       "Description": "Animate material values to create effects and transitions",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/AnimatedMaterials.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AnimatedMaterials.jpg?v=bf34809fcc27cfe5604a1447e561d84b"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AnimatedMaterials.jpg?v=a1fb122e70108490f90e34191cf21fb0"
       },
       "LiveUrl": "https://animatedmaterials-zubcks1a1tap.needle.run/",
       "Priority": 5,
@@ -5794,7 +5845,7 @@
       "Description": "Powerful animation capabilities. Animate material values, scripts, objects.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/AnimatedProperties.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AnimatedProperties.jpg?v=1cb231e33aa853f1798048ea3e258c73"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AnimatedProperties.jpg?v=bf2d8f703c6925f12249aff6461250d5"
       },
       "LiveUrl": "https://animatedproperties-zubcks1wsp0p.needle.run/",
       "Priority": 5,
@@ -5887,7 +5938,7 @@
       "Description": "Humanoid character with switchable animations ",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/USDZAnimator.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/USDZAnimator.jpg?v=b8952a3b138bbdc5df3d2433ce85c260"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/USDZAnimator.jpg?v=dbce18e14f91d961bad355b001c53ced"
       },
       "LiveUrl": "https://usdz-animator-zubcksql43a.needle.run/",
       "Priority": 5,
@@ -5897,7 +5948,6 @@
         "Everywhere Actions",
         "USDZ"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Animator",
@@ -5992,7 +6042,7 @@
       "Description": "Simple animator controller to transition between two states and play a sound effect (no code)",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/AnimatorController.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AnimatorController.jpg?v=e3ed2a798ed1cb86e138ee8c5f81e60f"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AnimatorController.jpg?v=531a9e1a48417d9751107ce62e1e14b4"
       },
       "LiveUrl": "https://animatorcontroller-zubckseqcin.needle.run/",
       "Priority": 5,
@@ -6084,7 +6134,7 @@
       "Description": "Modify the camera stream and use it for material effects.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ARBackground.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ARBackground.jpg?v=cfcfd7c4d710c451449271537483243b"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ARBackground.jpg?v=807804f3d243388352e2ee33f15087d4"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/ar-camera-background",
       "Priority": 5,
@@ -6092,7 +6142,6 @@
         "XR",
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Animator",
@@ -6162,7 +6211,7 @@
       "Description": "Whole body tracking in XR",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/BodyTracking.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/BodyTracking.jpg?v=4a9e9662e1273f2b16925f587f8f5877"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/BodyTracking.jpg?v=f04f83bb5a09da359e8b5c755ebc80ab"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/body-tracking/",
       "Priority": 5,
@@ -6170,7 +6219,6 @@
         "XR",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "WebXRBodyTracking",
@@ -6220,7 +6268,7 @@
       "Description": "Custom hand models in WebXR",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/CustomHands.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/CustomHands.jpg?v=96182e92688ad94c9008b3955a4c2a4a"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/CustomHands.jpg?v=b341387a86a1643b9ec52c2972919a2c"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/custom-hands/",
       "Priority": 5,
@@ -6228,7 +6276,6 @@
         "XR",
         "Interaction"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -6298,7 +6345,7 @@
       "Description": "Blend virtual objects with your real environment",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/DepthSensing.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DepthSensing.jpg?v=49c8753fb50d05ee0841215eb1f55eb4"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DepthSensing.jpg?v=6272d3b347a5a3def4b027131f1e25bb"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/depth-sensing/",
       "Priority": 5,
@@ -6306,7 +6353,6 @@
         "Rendering",
         "XR"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "RandomColor",
@@ -6371,7 +6417,7 @@
       "Description": "Character Controller with Touch Support and Multiplayer capability",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/FirstPersonControllerMP.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/FirstPersonControllerMP.jpg?v=f0cd4629740356eba5da5359a1fc1469"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/FirstPersonControllerMP.jpg?v=69f0959b4ff221c7b6a101b3ebdef689"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/first-person-controller-multiplayer",
       "Priority": 5,
@@ -6381,7 +6427,6 @@
         "Interaction",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "FirstPersonController",
@@ -6496,7 +6541,7 @@
       "Description": "First Person Character Controller with Touch Support",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/FirstPersonControllerSP.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/FirstPersonControllerSP.jpg?v=aee63316e12f5ceab037736e698f52eb"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/FirstPersonControllerSP.jpg?v=3cb573c975d0155b517ee816f15024ae"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/first-person-controller-singleplayer/",
       "Priority": 5,
@@ -6591,7 +6636,7 @@
       "Description": "Displaying text, rich text, font families",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Fonts.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Fonts.jpg?v=3c16a9d5d17f6ba194e54c75a24539fc"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Fonts.jpg?v=452d20443031217901f5a39e415c7eb1"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/fonts/",
       "Priority": 5,
@@ -6678,7 +6723,7 @@
       "Description": "Communication between Needle Engine and external javascript",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/JavascriptCommunication.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/JavascriptCommunication.jpg?v=976c5f6c264bf8471086d97256bd1a1a"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/JavascriptCommunication.jpg?v=0858cc110594e20a0968cd3fa8342654"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/javascript-communication",
       "Priority": 5,
@@ -6687,7 +6732,6 @@
         "HTML",
         "Frameworks"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "ClickToSplit",
@@ -6772,7 +6816,7 @@
       "Description": "Showcase your product interactivly",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/JetEngine.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/JetEngine.jpg?v=d3a448deda71ca471f7feb0c08d6471d"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/JetEngine.jpg?v=045b1a19697fa9380b86832506802325"
       },
       "LiveUrl": "https://jetengine-zubcksz23xxhr.needle.run/",
       "Priority": 5,
@@ -6888,7 +6932,7 @@
       "Description": "Collaborative drawing in 3D for sketches and scribbles",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/LineDrawing.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/LineDrawing.jpg?v=88316f641948cc4eba522eb1b1a3ba74"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/LineDrawing.jpg?v=1a09d50d7e05ef5278136a05b2a6dccc"
       },
       "LiveUrl": "https://linedrawing-zubcksz1uj4gf.needle.run/",
       "Priority": 5,
@@ -7033,7 +7077,7 @@
       "Description": "MaterialX materials running in the browser with Needle Engine – industry-standard shaders at full fidelity.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/MaterialX.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MaterialX.jpg?v=5d846f6324440898ca84953e8cb3f384"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MaterialX.jpg?v=dbb728066ef6b25c1a369a4dd9e82544"
       },
       "LiveUrl": "https://materialx-zubckswjke1.needle.run/",
       "Priority": 5,
@@ -7140,7 +7184,7 @@
       "Description": "Load and switch scenes",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/MultiScenes.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MultiScenes.jpg?v=f5e2ca66590c500b02ccee1d69736c6a"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MultiScenes.jpg?v=e3a61c4dc94dddb6ed9f31cdfda9772d"
       },
       "LiveUrl": "https://multi-scenes-zubckszphbmb.needle.run/",
       "Priority": 5,
@@ -7193,14 +7237,13 @@
       "Description": "Generate navmesh and find a path between two points",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Navmesh.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Navmesh.jpg?v=2f16404387c92700f921568f2f8a9d42"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Navmesh.jpg?v=87938fafbf4ca8b12c29b9af22d3cba8"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/navmesh/",
       "Priority": 5,
       "Tags": [
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "EnforceParameters",
@@ -7280,7 +7323,7 @@
       "Description": "Spawn and control networked players. Understand networking lifecycle for PlayerState.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/NetworkingPlayer.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/NetworkingPlayer.jpg?v=d06f2dbc87f6b06987424de59f1d41e7"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/NetworkingPlayer.jpg?v=aee5cac42dab3796f2c6f8854e616ddb"
       },
       "LiveUrl": "https://networking-players-zubcks1nyee.needle.run/",
       "Priority": 5,
@@ -7288,7 +7331,6 @@
         "Networking",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "PlayerStateUI",
@@ -7393,7 +7435,7 @@
       "Description": "Logitech MX Ink – XR Stylus for Meta Quest",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/MXInkPenSword.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MXInkPenSword.jpg?v=d6ab7356dc0d2c00287e1d0780415ecd"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MXInkPenSword.jpg?v=c4f11c36b6adb1948f810f92dae25796"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/mx-ink-pencil-and-sword",
       "Priority": 5,
@@ -7402,7 +7444,6 @@
         "XR",
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "LinesDrawer",
@@ -7532,7 +7573,7 @@
       "Description": "Integrate Needle Engine into a react component",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ReactSample.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ReactSample.jpg?v=033cae60226cda914c82abc3c811008e"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ReactSample.jpg?v=48fcd329553478e57c008abc9465c6c4"
       },
       "LiveUrl": "https://needle-engine.github.io/react-sample/",
       "Priority": 5,
@@ -7541,7 +7582,6 @@
         "HTML",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -7601,14 +7641,13 @@
       "Description": "Code example",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/RealtimeClock.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/RealtimeClock.jpg?v=2f53ee777f602d7df556607fdb1926fd"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/RealtimeClock.jpg?v=f766a72982d78d8bf836649f1cbed07e"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads//realtime-clock",
       "Priority": 5,
       "Tags": [
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Clock",
@@ -7658,14 +7697,13 @@
       "Description": "Exporting Unity Shaders to the web",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/CustomShader.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/CustomShader.jpg?v=fe36602650e3748dd353e1b2d5ef9d4c"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/CustomShader.jpg?v=4cdc0d6efd903689e045814b059bec38"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/custom-shaders",
       "Priority": 5,
       "Tags": [
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "IncreaseShaderSpeedOverTime",
@@ -7735,7 +7773,7 @@
       "Description": "Use Rigidbody and Collider components to make objects physical and collide with each other - without writing a single line of code.      ",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/SnowGlobe.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SnowGlobe.jpg?v=154385c81c18bb9d6d83bbdc8825b46f"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SnowGlobe.jpg?v=1b961293b16b4f342bd8a84fdb60f484"
       },
       "LiveUrl": "https://snowglobe-zubckszvui3a.needle.run/",
       "Priority": 5,
@@ -7815,7 +7853,7 @@
       "Description": "Complex animation",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/SummoningAnimation.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SummoningAnimation.jpg?v=336421a2b751e7c377a2c4a0622f5c68"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SummoningAnimation.jpg?v=c99b2e9a9e85a9cae4643d909a2d2214"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/summoning-animation/",
       "Priority": 5,
@@ -7826,7 +7864,6 @@
         "USDZ",
         "Everywhere Actions"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "ResetAnimationsForXR",
@@ -7891,7 +7928,7 @@
       "Description": "Synchronize animator and animation state over network",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/NetworkingAnimator.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/NetworkingAnimator.jpg?v=de2cd2ad06834a37bdc3296ed30c2163"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/NetworkingAnimator.jpg?v=6d4728ad1be91457e7cf53b82621dd69"
       },
       "LiveUrl": "https://synced-animator-zubcksz1m7y0i.needle.run/",
       "Priority": 5,
@@ -7900,7 +7937,6 @@
         "Animation",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "SyncedAnimator",
@@ -8020,7 +8056,7 @@
       "Description": "High-resolution textures and AR placement",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/TextureDetailsPainting.jpeg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/TextureDetailsPainting.jpeg?v=6d8a9593749dc7a6fad4e10c63d962f8"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/TextureDetailsPainting.jpeg?v=6793c4fadff4033c709de05f13e5a844"
       },
       "LiveUrl": "https://texture-details-zubcks29rlwv.needle.run/",
       "Priority": 5,
@@ -8086,7 +8122,7 @@
       "Description": "Displaying videos, codecs, transparency",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/VideoPlayer.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/VideoPlayer.jpg?v=de57db12f13e42f1490742168298dbe0"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/VideoPlayer.jpg?v=4d1372bb6397cc8339436c63cf41f3fd"
       },
       "LiveUrl": "https://video-playback-zubcksz234yi9.needle.run/",
       "Priority": 5,
@@ -8205,7 +8241,7 @@
       "Description": "Visibility, enabled/disabled, hierarchy",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ObjectVisibility.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ObjectVisibility.jpg?v=bf592c8bb3320796d9ba51774c599e33"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ObjectVisibility.jpg?v=46021261dd85fa80e60a009c76b15195"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/object-visibility/",
       "Priority": 5,
@@ -8213,7 +8249,6 @@
         "Scripting",
         "Rendering"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "ResetPositionOnInterval",
@@ -8318,7 +8353,7 @@
       "Description": "Create 3D UIs with Canvas",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/UIButton.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/UIButton.jpg?v=9fc792909f27ffb3f8553dd0c84638ff"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/UIButton.jpg?v=51033b5b932c4f53010e02a34feca643"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/worldspace-ui/",
       "Priority": 5,
@@ -8446,7 +8481,7 @@
       "Description": "Paths made out of bezier curves",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Splines.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Splines.jpg?v=9050b9ac102e56eabc3d627b0676f409"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Splines.jpg?v=1d3710f201f2a33d73bc3053e29089bd"
       },
       "LiveUrl": "https://splines-zubcks1p3ij0.needle.run/",
       "Priority": 3,
@@ -8524,7 +8559,7 @@
       "Description": "RenderTexture sample",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/RenderTexture.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/RenderTexture.jpg?v=a5d427fc1e6140234c33d4c7cf45f897"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/RenderTexture.jpg?v=209b59f5f8f5c9bd4d19cce0ae764f30"
       },
       "LiveUrl": "https://movieset-zubcksz1uleb3.needle.run/",
       "Priority": 2,
@@ -8631,14 +8666,13 @@
       "Description": "This sample shows how to modify the target framerate",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Framerate.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Framerate.jpg?v=3f08cb9865a8ffa07201d68476c0dd38"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Framerate.jpg?v=05a29d2af5d99485e4428b0b72fd5299"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/framerate",
       "Priority": 0,
       "Tags": [
         "Performance and Optimization"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "EnforceParameters",
@@ -8738,7 +8772,7 @@
       "Description": "Custom DOM Overlays in AR",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/AROverlay.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AROverlay.jpg?v=2bebb87a381d99774e9391e829ea807a"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AROverlay.jpg?v=cc0a6e68b5115f16c4564ec5c64df75a"
       },
       "LiveUrl": "https://ar-dom-overlay-zubcksz1hvpx8.needle.run/",
       "Priority": 0,
@@ -8812,7 +8846,7 @@
       "Description": "Custom DOM Layout",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/CustomLayout.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/CustomLayout.jpg?v=3c1a878df2ca1dd15ce52b533be3caf4"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/CustomLayout.jpg?v=1478e5180d6d586af9a3d76e35b185f0"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/html-custom-layout",
       "Priority": 0,
@@ -8821,7 +8855,6 @@
         "HTML",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -8876,7 +8909,7 @@
       "Description": "AR and VR buttons can be customized for your app.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/HTMLCustomXRButtons.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/HTMLCustomXRButtons.jpg?v=498ded5ba2b1d1d5a5bac42a2ced3129"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/HTMLCustomXRButtons.jpg?v=d61bcac6dda8518a30026b563b60f4fe"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/html-custom-xr-buttons",
       "Priority": 0,
@@ -8885,7 +8918,6 @@
         "HTML",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "CustomXRButtons",
@@ -8945,7 +8977,7 @@
       "Description": "Use p5.js to draw dynamic and interactive textures",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/p5js.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/p5js.jpg?v=ec59e221f6eac59497dc4245e725ef3d"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/p5js.jpg?v=fd63632af0e05ce7c41747f086b7e489"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/p5js",
       "Priority": 0,
@@ -8955,7 +8987,6 @@
         "Frameworks",
         "Frontend"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "CanvasToObject",
@@ -9015,7 +9046,7 @@
       "Description": "3D Holographic Display",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/LookingGlass.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/LookingGlass.jpg?v=b1d4a62b03784232e0cceeb22c9099b2"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/LookingGlass.jpg?v=f2f89be2dcd35351416a82a6c582a91d"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/looking-glass/",
       "Priority": 0,
@@ -9023,7 +9054,6 @@
         "Rendering",
         "Devices"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "LookingGlass",
@@ -9128,7 +9158,7 @@
       "Description": "Emitting particles on interaction",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Particle Bursts.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Particle Bursts.jpg?v=1fac2b6a9eed660cbc786da9efa9e35b"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Particle Bursts.jpg?v=bf12e2ad682c245094a17dd3fe099b7d"
       },
       "LiveUrl": "https://particle-burst-zubckszcfrke.needle.run/",
       "Priority": 0,
@@ -9221,7 +9251,7 @@
       "Description": "Particles Spawned on Collision with Slowmotion Effect and Physics Materials",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Particles On Collision.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Particles On Collision.jpg?v=2b6a6294906fc01c35a82d81c65aab3b"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Particles On Collision.jpg?v=978b64fde407a24635d1618b23284802"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/particles-on-collision/",
       "Priority": 0,
@@ -9315,7 +9345,7 @@
       "Description": "Combining pen data and 3D",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/PencilSword.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PencilSword.jpg?v=cb665bed2c60143903984ddb03c18d22"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/PencilSword.jpg?v=a2fe42ed589d3875557692c0e65e2c0b"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/pencil-sword/",
       "Priority": 0,
@@ -9323,7 +9353,6 @@
         "Interaction",
         "Scripting"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "PencilData",
@@ -9383,7 +9412,7 @@
       "Description": "Scroll through multiple product pages using a Timeline and Timeline Events",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ProductFlyover.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ProductFlyover.jpg?v=32965f5de6d13348bd1cc1fcab302f4f"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ProductFlyover.jpg?v=842a462f9305be067aa1ae9b4642b3bd"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/product-flyover/",
       "Priority": 0,
@@ -9428,7 +9457,7 @@
       "Description": "Example showing Needle Engine screenspace Canvas UI",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Screenspace UI.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Screenspace UI.jpg?v=aff8b00f3a82ca0e47ddd51a21dba9b7"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Screenspace UI.jpg?v=98360be2433a999832a562aca19d3850"
       },
       "LiveUrl": "https://screenspace-ui-zubcks1lmhb0.needle.run/",
       "Priority": 0,
@@ -9585,7 +9614,7 @@
       "Description": "Render additive or masked transparent shadows, great for AR",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ShadowCatcher.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ShadowCatcher.jpg?v=0df2eb8ac5fe42e11b67e58c41fe085a"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ShadowCatcher.jpg?v=c7076328baf28ce8e37f8db03cee281f"
       },
       "LiveUrl": "https://shadowcatcher-zubcks1hvwok.needle.run/",
       "Priority": 0,
@@ -9653,7 +9682,7 @@
       "Description": "Reactive Zones and Events",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/SpatialTrigger.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SpatialTrigger.jpg?v=14350200eb56ac5fb4ab8475a09b8e3d"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/SpatialTrigger.jpg?v=ec7708d892ac1f94a85b1dd2a5aabb61"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/spatial-triggers/",
       "Priority": 0,
@@ -9661,7 +9690,6 @@
         "Scripting",
         "Interaction"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "RandomColor",
@@ -9776,7 +9804,7 @@
       "Description": "Animate Sprites using AnimationClips",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Spritesheet.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Spritesheet.jpg?v=945283c2125659b36c1679f112cc635f"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Spritesheet.jpg?v=ae2bee457479787c8901f0b09c30a929"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/spritesheet/",
       "Priority": 0,
@@ -9785,7 +9813,6 @@
         "Animation",
         "Games"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "Animator",
@@ -9835,14 +9862,13 @@
       "Description": "Deploy projects made with Needle to an FTP Server",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/FTP.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/FTP.jpg?v=e9b40898a398e4a7db84ec4b31675be9"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/FTP.jpg?v=4db3b44e5d5fa36e045988b01a350989"
       },
       "LiveUrl": "https://engine.needle.tools/samples-uploads/deploy-to-ftp/",
       "Priority": -1,
       "Tags": [
         "Deployment"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -9922,14 +9948,13 @@
       "Description": "Deploy projects made with Needle to GitHub Pages",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/GitHub.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/GitHub.jpg?v=bbe5eb2de3c6f7e95d005650686acd9f"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/GitHub.jpg?v=efe13d8e02c5131768c3e322b5ea9b26"
       },
       "LiveUrl": "https://kipash.github.io/needle-sample-github-pages/",
       "Priority": -1,
       "Tags": [
         "Deployment"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -10009,14 +10034,13 @@
       "Description": "Deploy projects made with Needle to Glitch",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/glitch.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/glitch.jpg?v=83e66be3f32b7a8bab828dc02bddbe32"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/glitch.jpg?v=4b8e4bbb7410b5e6be809a5a54e39773"
       },
       "LiveUrl": "https://quark-knowledgeable-caravan.glitch.me/",
       "Priority": -1,
       "Tags": [
         "Deployment"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -10096,14 +10120,13 @@
       "Description": "Deploy projects made with Needle to Itch.io",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/itch.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/itch.jpg?v=e7401ecf89677987907eb068a7ef1fed"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/itch.jpg?v=1be6095e8303cca0a22eb76955355e28"
       },
       "LiveUrl": "https://itch.io/embed-upload/10256073?color=000000",
       "Priority": -1,
       "Tags": [
         "Deployment"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "AudioListener",
@@ -10183,7 +10206,7 @@
       "Description": "APIs for checking device, browser, and capabilities",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/DeviceDetection.jpg",
-        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DeviceDetection.jpg?v=2aafc8c765d59af7b3101de0ba89c032"
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DeviceDetection.jpg?v=1b7eca68323488795bdc4d7cf68bf476"
       },
       "LiveUrl": "https://device-detection-zubcksz2cygtl.needle.run/",
       "Priority": -1,
@@ -10191,7 +10214,6 @@
         "Scripting",
         "Devices"
       ],
-      "RepositoryUrl": "",
       "UsedComponents": [
         {
           "Component": "DeviceDetection",
