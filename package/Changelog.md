@@ -4,10 +4,19 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.4.5] - 2026-003-09
+## [1.5.0] - 2026-04-20
+- Update Needle Engine dependency to 5.x
+- Add: FastHDR sample (EXR compression)
+- Add: AnimatorController sample
+- Add: SwitchEnvironment sample script
+- Fix: Stencil Portals missing serialized property
+
+## [1.4.5] - 2026-03-09
 - Fix Sample Install Editor
 - Update ReflectionProbes scene
-- Update See Through scene
+- Update See Through: use fade teleport + teleport targets in WebXR
+- Scene Loading: removed static from animated object
+- MaterialX: remove URP requirement
 
 ## [1.4.4] - 2026-02-12
 - Update VideoPlayer sample
