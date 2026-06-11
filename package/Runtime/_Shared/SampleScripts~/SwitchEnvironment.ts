@@ -13,6 +13,9 @@ export class SwitchEnvironment extends Behaviour {
     @serializable()
     rotateEnvironment = true;
 
+    @serializable()
+    setAsSkybox = false;
+
     private currentEnvironmentIndex = -1;
 
     awake() {
@@ -74,5 +77,8 @@ export class SwitchEnvironment extends Behaviour {
         }
         this.context.scene.environment = envMap;
         this.context.scene.environmentRotation = this.environmentRotation;
+        if (this.setAsSkybox) {
+            this.context.scene.background = envMap;
+        }
     }
 }

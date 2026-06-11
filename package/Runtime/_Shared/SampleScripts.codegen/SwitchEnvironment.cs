@@ -10,6 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public Needle.Engine.FileReference[] @environments;
 		public UnityEngine.Vector3 @environmentRotation = new UnityEngine.Vector3(0f, 2.1f, 0f);
 		public bool @rotateEnvironment = true;
+		public bool @setAsSkybox = false;
 		public void Awake() {}
 		public void Start() {}
 		public void OnEnable() {}
