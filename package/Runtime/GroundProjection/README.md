@@ -1,24 +1,17 @@
 # Ground Projection sample
 
-[Equirectangular panorama](https://polyhaven.com/hdris) is a form of projection for 360 photos which are often used as a __skybox__, which is in fact a big sphere glued to the camera. So based on that, we can create our sphere and change its shape by flattening the bottom 40% which results in a hemisphere with a beveled floor. And that is the principle behind Ground Projection.
+Ground Projection takes a 360° photo and makes it look like your model is truly standing on the ground, rather than floating inside a bubble. The floor of the scene is gently flattened, so your object sits on a believable surface with lighting and reflections that match all around it — perfect for product shots and hero scenes. You can find beautiful free panoramas over at [Poly Haven](https://polyhaven.com/hdris).
 
-### With basic parameters, you can define this deformation and tweak that to your liking:
+A couple of simple sliders let you shape the look: **Radius** sets how wide the floor spreads out, and **Height** controls how the walls of the scene curve up around your model. The ground also softens toward the horizon so everything blends together naturally — this follows your skybox's **Blurriness** setting, so a soft background gives you a soft floor to match. And with the **AR Blending** option, it can even melt into the real world when viewed in AR, making your model feel like it's really there in the room with you.
 
-- Scale - sphere's scale
-- Radius - density of the floor
-- Height - density of the sides
+**No coding required:** just upload a model to [cloud.needle.tools](https://cloud.needle.tools) and switch on Ground Projection right in the viewer's **Renderer Settings**.
 
-[GroundProjectedEnv](https://threejs.org/examples/webgl_materials_envmaps_groundprojected.html) from Three.js
+Want to swap backgrounds without rebuilding? **RemoteSkybox** loads a panorama straight from a web link, keeping your experience light and quick to load.
 
----
-
-## RemoteSkybox
-
-Is a component that lets you download a skybox from other sources. This means that you can supply a link where the panorama is hosted instead of including it in the build, this can reduce the initial download size.
-
----
+Curious about the details? Everything is in the [GroundProjectedEnv reference](https://engine.needle.tools/docs/api/GroundProjectedEnv).
 
 ## Credits
+
 ```
 Plane model
 Author: Grapic_artplay
