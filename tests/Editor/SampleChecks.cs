@@ -5,7 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Needle.Engine.Samples;
+// Optional package: only present when com.needle.missing-component-info is installed
+// (see the versionDefines entry in Needle.Engine.Samples.Tests.asmdef). The package does
+// not compile on Unity 6000.5+, so it is no longer a hard dependency of the tests.
+#if HAS_MISSING_COMPONENT_INFO
 using Needle.MissingReferences;
+#endif
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -495,11 +500,12 @@ namespace SampleChecks
             }
         }
 
+#if HAS_MISSING_COMPONENT_INFO
         [Test]
         public void MissingReferencesTest()
         {
             OpenSceneAndCopyIfNeeded();
-            
+
             // perform scans on the opened scene
             var options = new SceneScanner.Options
             {
@@ -516,10 +522,11 @@ namespace SampleChecks
 
                 foreach (var container in missingReferences)
                     container.Value.FormatAsLog(sb);
-                
+
                 Assert.Fail("Missing References:\n" + sb);
             }
         }
+#endif
 
         [Test]
         public void DeploymentSetupCorrect()
