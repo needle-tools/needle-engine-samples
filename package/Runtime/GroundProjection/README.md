@@ -1,20 +1,14 @@
-# Ground Projection sample
+# Ground Projection
 
-Ground Projection takes a 360° photo and makes it look like your model is truly standing on the ground, rather than floating inside a bubble. The floor of the scene is gently flattened, so your object sits on a believable surface with lighting and reflections that match all around it — perfect for product shots and hero scenes. You can find beautiful free panoramas over at [Poly Haven](https://polyhaven.com/hdris).
+Ground projection makes a 3D model look like it's really standing on the ground, instead of floating inside a 360° HDRI bubble. Needle Engine flattens the floor of the environment so your object sits on a believable surface, with lighting and reflections that match all around — ideal for product shots and hero scenes. Grab free panoramas from [Poly Haven](https://polyhaven.com/hdris).
 
-A couple of simple sliders let you shape the look: **Radius** sets how wide the floor spreads out, and **Height** controls how the walls of the scene curve up around your model. The ground also softens toward the horizon so everything blends together naturally — this follows your skybox's **Blurriness** setting, so a soft background gives you a soft floor to match. And with the **AR Blending** option, it can even melt into the real world when viewed in AR, making your model feel like it's really there in the room with you.
+Two sliders shape the look: **Radius** sets how far the floor spreads, and **Height** controls how the scene curves up around the model. The ground softens toward the horizon to match your skybox blur, and **AR Blending** lets it melt into the real room in AR. **RemoteSkybox** swaps panoramas from a web link without rebuilding.
 
-**No coding required:** just upload a model to [cloud.needle.tools](https://cloud.needle.tools) and switch on Ground Projection right in the viewer's **Renderer Settings**.
+**No code required.** Ground Projection is available for every asset you upload to [Needle Cloud](https://cloud.needle.tools) — turn it on and configure it per asset right in the viewer's Renderer Settings, no Unity project needed.
 
-Want to swap backgrounds without rebuilding? **RemoteSkybox** loads a panorama straight from a web link, keeping your experience light and quick to load.
+**Learn more**
+- [GroundProjectedEnv](https://engine.needle.tools/docs/api/GroundProjectedEnv) — API reference
+- [RemoteSkybox](https://engine.needle.tools/docs/api/RemoteSkybox) — load panoramas from a URL
 
-Curious about the details? Everything is in the [GroundProjectedEnv reference](https://engine.needle.tools/docs/api/GroundProjectedEnv).
-
-## Credits
-
-```
-Plane model
-Author: Grapic_artplay
-Source: https://sketchfab.com/3d-models/plane-low-poly-6f41d5adee2f4c71a3dca8c943829b7f
-License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
-```
+## Attributions
+- [Plane model](https://sketchfab.com/3d-models/plane-low-poly-6f41d5adee2f4c71a3dca8c943829b7f) by Grapic_artplay — CC-BY 4.0

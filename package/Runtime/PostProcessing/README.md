@@ -1,23 +1,12 @@
 # Post Processing
 
-This sample demonstrates post processing effects in Needle Engine and how they can be set up from Unity. 
-Effects such as `Depth of Field`, `Bloom`, `Tone Mapping`, `Color Correction` or `Screen Space Ambient Occlusion` are supported. On URP, they can be set up using Unity's Volume system.  
+Add cinematic post-processing to a 3D web scene — Bloom, Depth of Field, Tone Mapping, Color Correction, and Screen Space Ambient Occlusion — set up visually in Unity and running in the browser with Needle Engine. No shader code required.
 
-## Usage
+On URP you configure effects with Unity's **Volume** system: add a **Global** Volume, create a profile, and add effects from the built-in list. Unity's and Needle's value ranges differ, so expect a little tweaking to match the runtime look — the experimental EditorSync component speeds that up. Screen Space Ambient Occlusion is added as a component on your camera.
 
-- Add a `Volume` component in your scene and make sure it's set to `Global`.
-- Create a new profile
-- Add your effects from the built-in list
-- Enable properties of the effect and observer them in the game/scene view
+Post-processing export is currently URP-only. From the Built-in render pipeline you can still set effects up in code at runtime.
 
-As the range of supported values between Unity's postprocessing stack and Needle Engine's postprocessing stack differs, some experimentation may be needed to get the right runtime look. You can add the (experimental) Editor Sync component to your scene root for even faster iteration.  
-
-### Ambient Occlusion
-
-Screen Space Ambient Occlusion can be added as a component to your camera to enable this at runtime. This does not match to Unity's SSAO renderer feature due to incompatible settings. 
-
-## Limitations
-
-Exporting post processing effects is currently only supported in URP. You can still use them from BiRP at runtime, but you need to set them up in code. 
-
-To see post processing effects inside Unity, make sure post processing is enabled both on the camera and the URP asset. Also, make sure post processing is enabled in the scene view.
+**Learn more**
+- [PostProcessing](https://engine.needle.tools/docs/api/PostProcessing) — API reference
+- [Volume](https://engine.needle.tools/docs/api/Volume) — set up effects with profiles
+- [Feature overview](https://engine.needle.tools/docs/explanation/core-concepts/features-overview) — docs

@@ -1,14 +1,17 @@
-# 3D Hotspots
+# Hotspots
 
-Hotspots are a handy way to display extra information and highlight important parts of your product. It can improve the user experience by offering more information in a clear and organized way.   
+Add interactive 3D hotspots to any model to annotate products, label parts, and reveal extra detail on click — a clean way to guide viewers through 3D content on the web and in AR/VR.
 
-Supported features:
-- Billboard behaviour
-- XR: AR and VR modes
-- Custom icons and graphics
-- Custom animations
-- Camera viewpoint when clicked
+Each hotspot is a billboarded marker that always faces the camera and, when clicked, can surface a caption, custom icon, or animation and frame the object from the perfect viewpoint. It works in the browser and carries over to WebXR sessions.
 
----
+- Billboard markers with custom icons and graphics
+- Camera flies to a set viewpoint on click
+- Works in AR and VR out of the box
 
-Assets by [Andry Shekh](<https://sketchfab.com/sheh5262>), [labarch](https://sketchfab.com/labarch) and [Igor K.](https://sketchfab.com/Igor_K.) on Sketchfab.
+**Learn more**
+- [Button](https://engine.needle.tools/docs/api/Button)
+- [Image](https://engine.needle.tools/docs/api/Image)
+- [NeedleMenu](https://engine.needle.tools/docs/api/NeedleMenu)
+
+## Attributions
+Assets by [Andry Shekh](https://sketchfab.com/sheh5262), [labarch](https://sketchfab.com/labarch) and [Igor K.](https://sketchfab.com/Igor_K.) on Sketchfab.

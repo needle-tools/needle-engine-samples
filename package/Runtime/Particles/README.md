@@ -1,31 +1,14 @@
 # Particles
 
-Using **Particle Systems** you can create powerful and beautiful visual effects.    
-You can use particles to create a virtual firework, smoke, fire, atmospheric dust, car trails and much more.  
-Particles are batched together which allows for fast and performant rendering - even on low-end devices!  
+Add GPU-batched particle systems to your web project to build fire, smoke, sparks, trails, dust, and firework effects that stay smooth even on low-end devices. Author them visually in Unity and export straight to the browser with Needle Engine.
 
-Explore the scenes listed below to see various usecases:
+This sample walks through three scenes: a modifier overview that shows how emission, shape, color, and velocity shape a particle system, plus examples that spawn particle bursts on click and on collision events from code.
 
-### **Particle Overview** - [Live Sample](https://engine.needle.tools/samples/particles)
+- Tune particle behavior with familiar Unity Particle System modifiers
+- Emit bursts from scripts and physics collisions
+- Batched rendering keeps thousands of particles fast
 
-Showcase of individual modifiers of the particle system.
+**Learn more**
 
-### **Particle on Collision** - [Live Sample](https://engine.needle.tools/samples/particles-on-collision/)
-
-Example of how to emit particles from code and use Needle Engine collision events.
-
-
-### **Particles on Click** - [Live Sample](https://engine.needle.tools/samples/particle-bursts/)
-
-Click in the scene to trigger a particle explosion!
-
----
-
-## Creating a new particle system in Unity
-
-1. Create a new game object and add the ParticleSystem component.
-2. Create a material by right-clicking in the Project window and selecting `Create/Material`. 
-3. Choose a supported shader. (We recommend `UnityGLTF/UnlitGraph`)
-4. Enable transparency and set the color of your material to white with full opacity. Choose a texture for your particles. If you don't have one, you can use the `default-particle` texture. 
-5. Assign the material to the particle system in the **Renderer** tab to the Material property.
-6. Save the scene to see your new particle system in action.
+- [ParticleSystem API reference](https://engine.needle.tools/docs/api/ParticleSystem)
+- [Needle Core Components](https://engine.needle.tools/docs/reference/components)
