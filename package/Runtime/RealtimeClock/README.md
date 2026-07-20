@@ -1,17 +1,9 @@
 # Realtime Clock
 
-Learn the basics of custom TypeScript scripting with this simple example of a dynamic 3D clock that displays the current time.
+Build a live 3D clock that shows the current time in the browser, and learn how custom TypeScript scripting works in Needle Engine along the way. This realtime clock is a compact, practical starting point for any time-based visualization, dashboard, or scheduling interface.
 
-## Use Cases
+The Needle clock rotates its hour, minute, and second hands every frame from the real system time. It works by reading `context.time` inside a component's `update()` lifecycle method and mapping the current hours, minutes, and seconds onto each hand's rotation.
 
-Great as a learning example for TypeScript scripting, or use it as a starting point for creating time-based visualizations, scheduling interfaces, or real-time data displays.
-
-## What This Sample Shows
-
-A 3D clock that updates in real-time to display the current time. This demonstrates:
-- Basic TypeScript component scripting
-- Updating object transforms based on time
-- Using the `update()` lifecycle method
-
-Perfect for developers new to Needle Engine scripting who want to see a simple, practical example of custom component behavior.
-
+**Learn more**
+- [Create Components](https://engine.needle.tools/docs/how-to-guides/scripting/create-components)
+- [OrbitControls](https://engine.needle.tools/docs/api/OrbitControls)

@@ -15,7 +15,12 @@ namespace Needle
         };
 
         public override MaskEntry[] Masks => _masks;
+        // Unity 6000.4+ EntityId migration: GetInstanceID() is obsolete (compile error in 6000.5).
+#if UNITY_6000_4_OR_NEWER
+        public override string HelperID => "StencilLayers_" + gameObject.GetEntityId();
+#else
         public override string HelperID => "StencilLayers_" + gameObject.GetInstanceID();
+#endif
 
         LayerUtility maskUtility = new LayerUtility();
         public override EditorMaskUtility MaskUtility => maskUtility;

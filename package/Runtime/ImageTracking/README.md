@@ -1,15 +1,14 @@
 # Image Tracking
 
-Demonstrates how to attach 3D content onto a custom image marker.
-Start the scene below in AR on Android or iOS, and point your phone's camera at the image marker on a screen.
-You can also print the marker out.  
+Anchor 3D content onto a real-world image marker and bring it to life in augmented reality. Image tracking lets you turn a printed poster, business card, or on-screen graphic into an interactive AR experience that runs right in the browser.
 
-Image tracking on iOS is natively supported.
+This sample shows how Needle Engine detects a custom image marker through WebXR and places animated content on top of it. Open the scene in AR on iOS or Android, then point your camera at the [image target](https://engine.needle.tools/samples-uploads/image-tracking/assets/needle-marker.png) on a screen or print.
 
-Image Tracking on Android WebXR **requires a browser flag to be enabled** (chrome://flags, **WebXR Incubations**). Without this flag, image tracking is not available, and the scene needs to be placed manually. Due to this, we don't consider Image Tracking generally available.
+- Image tracking is natively supported in AR on iOS.
+- On Android WebXR it needs a browser flag (`chrome://flags` → **WebXR Incubations**), so it isn't generally available yet.
+- Combine with Everywhere Actions to export interactive USDZ for Apple QuickLook.
 
-[View the image target](https://engine.needle.tools/samples-uploads/image-tracking/assets/needle-marker.png)
-
-Read more about image tracking in the Needle documentation:   
-- [Image Tracking Explainer](https://engine.needle.tools/docs/how-to-guides/xr/#image-tracking)  
+**Learn more**
+- [Image Tracking (WebXR)](https://engine.needle.tools/docs/how-to-guides/xr/#image-tracking)
 - [Everywhere Actions](https://engine.needle.tools/docs/how-to-guides/everywhere-actions/#image-tracking)
+- [WebXR component](https://engine.needle.tools/docs/api/WebXR)

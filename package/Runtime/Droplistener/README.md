@@ -1,15 +1,8 @@
-# Droplistener
+# Drop Listener
 
-Drop a 3D asset on the page to render. With networking functionality the DropListener is able to fetch and load dropped assets. It's also possible to drag-drop URL's of 3D assets from other websites. 
+Drag and drop a 3D model onto the page to load and view it instantly — glTF, GLB, and more, rendered in the browser with Needle Engine. You can drop local files, or even drag the URL of a 3D asset from another website straight into the scene.
 
-<!-- Try dragging one of the links below into the demo:  
+The `DropListener` component handles the fetch and load. Because the sample is networked, a dropped asset shows up for everyone in the same room — drop a model on one screen and it appears live on the others.
 
-- [A Beautiful Game](https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/ABeautifulGame/glTF/ABeautifulGame.gltf)
-- [AnisotropyBarnLamp](https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/AnisotropyBarnLamp/glTF/AnisotropyBarnLamp.gltf)
-- [Damaged Helmet](https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/DamagedHelmet/glTF-Binary/DamagedHelmet.glb)
-- [Shoe Asset](https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/MaterialsVariantsShoe/glTF/MaterialsVariantsShoe.gltf)
-- [Skull](https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/ScatteringSkull/glTF-Binary/ScatteringSkull.glb) -->
-
-### Documentation
-
-- [Droplistener Documentation](https://engine.needle.tools/docs/api/DropListener)
+**Learn more**
+- [DropListener](https://engine.needle.tools/docs/api/DropListener) — API reference

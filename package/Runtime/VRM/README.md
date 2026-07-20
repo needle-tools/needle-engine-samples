@@ -1,23 +1,15 @@
-# VRM Characters
+# VRM Character
 
-Load and display VRM humanoid avatars in your web experiences - the widely-supported format for VR avatars with extensive customization options.
+Load and display VRM characters in your browser to build avatar viewers, VTuber apps, and social VR experiences on the web. VRM is the widely-supported humanoid avatar format, so users can bring their own characters made in tools like VRoid Studio into your app.
 
-## Use Cases
+This sample drops a VRM file into the scene and renders it in three.js, with orbit controls to inspect the avatar from any angle. The model loads with its full skeleton, blend shapes, and spring-bone physics for natural hair and cloth motion.
 
-Create virtual showrooms for avatar customization, build social VR experiences, integrate with VTuber applications, or allow users to import their own VRM characters into your web app.
-
-## What This Sample Shows
-
-[VRM](https://vrm.dev/en/) is a widely supported 3D humanoid avatar file format designed for VR applications. Needle Engine can load and display VRM files directly, including:
-
-- VRM character models with proper bone structure
+- Import any `.vrm` humanoid avatar
 - Facial expressions and blend shapes
-- Spring bone physics for hair and clothing
-- Material properties
+- Spring-bone physics for hair and clothing
 
-VRM files can be created and customized using numerous user-friendly tools like VRoid Studio, making it easy for users to bring their own characters into your experiences.
+**Learn more**
 
-## Resources
-
-- [VRM Official Website](https://vrm.dev/en/)
-- [VRoid Studio](https://vroid.com/en/studio) - Free VRM character creator
+- [VRM format](https://vrm.dev/en/) — the humanoid avatar standard
+- [VRoid Studio](https://vroid.com/en/studio) — free VRM character creator
+- [OrbitControls](https://engine.needle.tools/docs/api/OrbitControls) — orbit the camera around your avatar

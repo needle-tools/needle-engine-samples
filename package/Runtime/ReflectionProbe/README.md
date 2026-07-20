@@ -1,17 +1,8 @@
 # Reflection Probes
 
-Reflections are an important aspect while lighting your scene. Sometimes your scene will need unique reflections for parts that have Chrome materials, it's often desirable to have reflections that are different from their surroundings for better clarity.
+Assign a custom environment map per object for accurate, controllable reflections on the web. Instead of every surface reflecting one global skybox, reflection probes let you give each object — or a group of objects in a volume — its own reflection map, so chrome, glossy, and metallic materials look exactly right. This is key for product visualization and high-quality configurators, where believable lighting and clean reflections make or break the result.
 
-## Usage
+Assign a reflection probe to an object via **Anchor Override** on its renderer, and give the probe a custom environment map — for example an [equirectangular panorama](https://polyhaven.com/hdris) — so that surface reflects exactly what you want. Reflection probes work from both the Unity and Blender integrations.
 
-Set the `Anchor Override` in the MeshRenderer component to the ReflectionProbe that you want to apply.
-Note: Currently, volumes are not supported.
-
-## Where to get a cubemap?
- 
-### Rendered from your scene"
-For immersive reflections, it is recommended to bake them from the environment. You can do that right from a reflection probe by selecting `Type: Baked` and hitting the Bake button down below.
-
-### Custom 360° image
-Alternatively, you can import any [equirectangular panorama](https://polyhaven.com/hdris), and in the import settings, you can change the `Texture shape: cube`.   
-That texture is now assignable in the reflection probe inspector after setting the probe's type to `Custom`.
+**Learn more**
+- [ReflectionProbe](https://engine.needle.tools/docs/api/ReflectionProbe) — API reference

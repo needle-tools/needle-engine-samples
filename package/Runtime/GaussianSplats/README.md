@@ -1,29 +1,17 @@
-# Rendering Gaussian Splats
+# Gaussian Splatting
 
-Gaussian Splatting is a novel rendering technique where a point cloud with stretched particles – so-called "gaussians" – is optimized to fit a mesh. 
+Render photorealistic real-world captures on the web with Gaussian Splatting. Bring 3D scans from Luma AI, Polycam or the original 3DGS pipeline into three.js and let anyone explore them straight in the browser — no plugins, no app install.
 
-The original paper can be found here: https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/.
+This sample streams a `.ply` or `.splat` point cloud into a splat renderer that draws millions of view-oriented gaussians in real time, with orbit controls for smooth navigation on desktop and mobile.
 
-The renderer implementation inside Needle Engine is based on https://github.com/quadjr/aframe-gaussian-splatting/.  
+- Import `.ply` or `.splat` captures from Luma AI, Polycam or the official 3DGS tools
+- Optionally define a cutout object to show only part of the scene
+- Runs on desktop and mobile, with partial WebXR AR/VR support
 
-## Creating Gaussian Splatting files
+**Learn more**
+- [OrbitControls](https://engine.needle.tools/docs/api/OrbitControls)
+- [WebXR](https://engine.needle.tools/docs/api/WebXR)
 
-There are at least two online solutions for creating the files in addition to the official source code:  
-- [Luma Labs](https://lumalabs.ai/interactive-scenes) 
-- [PolyCam](https://poly.cam/gaussian-splatting) 
-
-Follow the instructions there to create your own captures.  
-
-## Using splat files inside Needle Engine
-
-- download a .ply file for your capture (called "PLY" or "Splats")
-- put it into your web project at `include/<myFile.ply>`
-- in the scene, reference the file path from a `SplatRenderer` component
-- (optional) specify a cutout object to only show parts of the rendering
-    - the splat file will currently *not* be previewed inside the editor. This functionality may be added at a later point.
-
-*Note:* .splat files are also supported.
-
-## Partial VR and AR support
-
-The current rendering implementation is well suited for desktop and mobile use, but is not fast enough for Quest VR/AR usage. 
+## Attributions
+- [3D Gaussian Splatting for Real-Time Radiance Field Rendering](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/) by Inria GraphDeco
+- [aframe-gaussian-splatting](https://github.com/quadjr/aframe-gaussian-splatting/) by quadjr

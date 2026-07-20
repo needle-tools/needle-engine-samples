@@ -1,11 +1,14 @@
 # AR Camera Background
 
-This sample demonstrates access to the camera image in an AR session. Typically this is used for recording the full screen, distortion effects, projection mapping, or computer vision cases. 
+Access the live camera image inside a WebXR AR session to build full-screen recording, real-time distortion and tint effects, projection mapping, or lightweight computer-vision experiences — straight in the browser, no app install required.
 
-An additional optional WebXR session feature is requested at session creation time: `camera-access`. On most devices this also requires the user to grant additional permissions to use the camera. 
+This sample shows how the AR camera feed is requested through the optional WebXR `camera-access` feature and piped into your materials, so you can sample and reshape the passthrough frame with your own shader.
 
-The background tinting feature is provided as an example; duplicating the ARCameraBackground script allows modifying the shader, using different rendering techniques, and so on. 
+- Reads the real camera stream during an active AR session
+- Applies a background tint as an editable, duplicate-and-modify starting point
+- Note: camera image access is not available on Meta Quest devices
 
-## Limitations
-
-Camera image access is not supported on Meta Quest devices (not even for native apps). 
+**Learn more**
+- [WebARCameraBackground component](https://engine.needle.tools/docs/api/WebARCameraBackground)
+- [VR & AR (WebXR) guide](https://engine.needle.tools/docs/xr.html)
+- [WebXR component](https://engine.needle.tools/docs/api/WebXR)

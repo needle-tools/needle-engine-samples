@@ -1,17 +1,14 @@
-# Look at Cursor
+# Look At Cursor Interactive 3D Header
 
-Create engaging interactive headers and embeds where 3D characters track your mouse movement - built entirely with no-code components.
+Build an interactive 3D website header where a character looks at the cursor and follows the mouse, perfect for landing pages, product mascots, and playful portfolio embeds that feel alive.
 
-## Use Cases
+This sample shows how to make a 3D object track the pointer using only built-in Needle Engine components: a cursor-following target drives a look-at behaviour, so the character's head turns toward your mouse and nearby props react as you move, with no custom code.
 
-Perfect for interactive website headers, engaging product mascots, immersive portfolio pieces, or any scenario where you want 3D characters to feel alive and responsive to user interaction.
+- No-code setup: add the components in Unity or Blender and they run on the web automatically
+- Runs anywhere a browser does, embedded straight into your HTML page
 
-## What This Sample Shows
+**Learn more**
 
-This cute website header was created with just built-in Needle Engine components. Move your mouse over the screen to see the 3D character look at it and the plants around react to movement.
-
-**Components Used:**
-- **LookAt** - Makes the character's head and eyes turn towards a target
-- **FollowCursor** - Tracks mouse position to create the target point
-
-No custom code required - just add these components in Unity and they work automatically on the web!
+- [LookAt component](https://engine.needle.tools/docs/api/LookAt) — turn an object toward a target or the cursor
+- [CursorFollow component](https://engine.needle.tools/docs/api/CursorFollow) — smoothly track pointer and touch position in 3D
+- [Creating components](https://engine.needle.tools/docs/how-to-guides/scripting/create-components) — go further with custom scripting

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 10
 --- !u!114 &-3822755523786603910
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -35,18 +35,22 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Rock_7
   m_Shader: {fileID: -6465566751694194690, guid: 478ce3626be7a5f4ea58d6b13f05a2e4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _VERTEX_COLORS_ON
   - _VOLUME_TRANSMISSION_OFF
   m_InvalidKeywords:
   - _NORMALMAP
+  - _VERTEX_COLORS_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
   stringTagMap:
     RenderType: Opaque
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -94,6 +98,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - anisotropyTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 0}
     - baseColorTexture:
         m_Texture: {fileID: 2800000, guid: 93ff32da3a680164fb6adbac2473c3ca, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -130,6 +138,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - sheenColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - sheenRoughnessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - specularColorTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -160,7 +176,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ANISOTROPY: 0
     - _AlphaClip: 0
+    - _AlphaToMask: 0
     - _AutoSurfaceMode: 0
     - _BUILTIN_AlphaClip: 0
     - _BUILTIN_Blend: 0
@@ -174,6 +192,7 @@ Material:
     - _BUILTIN_ZWrite: 1
     - _BUILTIN_ZWriteControl: 0
     - _Blend: 0
+    - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _CLEARCOAT: 0
     - _CastShadows: 1
@@ -184,6 +203,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Glossiness: 0
@@ -198,11 +218,13 @@ Material:
     - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SHEEN: 0
     - _SPECULAR: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
     - _Surface: 0
     - _TEXTURE_TRANSFORM: 0
     - _UVSec: 0
@@ -214,6 +236,10 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     - alphaCutoff: -0.5
+    - anisotropyRotation: 0
+    - anisotropyStrength: 0
+    - anisotropyTextureRotation: 0
+    - anisotropyTextureTexCoord: 0
     - attenuationDistance: 0.001
     - baseColorTextureRotation: 0
     - baseColorTextureTexCoord: 0
@@ -245,6 +271,11 @@ Material:
     - occlusionTextureRotation: 0
     - occlusionTextureTexCoord: 0
     - roughnessFactor: 0.5
+    - sheenColorTextureRotation: 0
+    - sheenColorTextureTexCoord: 0
+    - sheenRoughnessFactor: 0
+    - sheenRoughnessTextureRotation: 0
+    - sheenRoughnessTextureTexCoord: 0
     - specularColorTextureRotation: 0
     - specularColorTextureTexCoord: 0
     - specularFactor: 1
@@ -264,5 +295,7 @@ Material:
     - attenuationColor: {r: 1, g: 1, b: 1, a: 0}
     - baseColorFactor: {r: 0.9961292, g: 1, b: 0.567, a: 1}
     - emissiveFactor: {r: 0, g: 0, b: 0, a: 1}
+    - sheenColorFactor: {r: 0, g: 0, b: 0, a: 0}
     - specularColorFactor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

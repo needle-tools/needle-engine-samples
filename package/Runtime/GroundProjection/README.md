@@ -1,27 +1,14 @@
-# Ground Projection sample
+# Ground Projection
 
-[Equirectangular panorama](https://polyhaven.com/hdris) is a form of projection for 360 photos which are often used as a __skybox__, which is in fact a big sphere glued to the camera. So based on that, we can create our sphere and change its shape by flattening the bottom 40% which results in a hemisphere with a beveled floor. And that is the principle behind Ground Projection.
+Ground projection makes a 3D model look like it's really standing on the ground, instead of floating inside a 360° HDRI bubble. Needle Engine flattens the floor of the environment so your object sits on a believable surface, with lighting and reflections that match all around — ideal for product shots and hero scenes. Grab free panoramas from [Poly Haven](https://polyhaven.com/hdris).
 
-### With basic parameters, you can define this deformation and tweak that to your liking:
+Two sliders shape the look: **Radius** sets how far the floor spreads, and **Height** controls how the scene curves up around the model. The ground softens toward the horizon to match your skybox blur, and **AR Blending** lets it melt into the real room in AR. **RemoteSkybox** swaps panoramas from a web link without rebuilding.
 
-- Scale - sphere's scale
-- Radius - density of the floor
-- Height - density of the sides
+**No code required.** Ground Projection is available for every asset you upload to [Needle Cloud](https://cloud.needle.tools) — turn it on and configure it per asset right in the viewer's Renderer Settings, no Unity project needed.
 
-[GroundProjectedEnv](https://threejs.org/examples/webgl_materials_envmaps_groundprojected.html) from Three.js
+**Learn more**
+- [GroundProjectedEnv](https://engine.needle.tools/docs/api/GroundProjectedEnv) — API reference
+- [RemoteSkybox](https://engine.needle.tools/docs/api/RemoteSkybox) — load panoramas from a URL
 
----
-
-## RemoteSkybox
-
-Is a component that lets you download a skybox from other sources. This means that you can supply a link where the panorama is hosted instead of including it in the build, this can reduce the initial download size.
-
----
-
-## Credits
-```
-Plane model
-Author: Grapic_artplay
-Source: https://sketchfab.com/3d-models/plane-low-poly-6f41d5adee2f4c71a3dca8c943829b7f
-License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
-```
+## Attributions
+- [Plane model](https://sketchfab.com/3d-models/plane-low-poly-6f41d5adee2f4c71a3dca8c943829b7f) by Grapic_artplay — CC-BY 4.0

@@ -1,11 +1,11 @@
-# Device sensors
+# Device Sensors
 
-## Gyroscope
-
-Gyroscope sensor is access via [RelativeOrientationSensor](https://developer.mozilla.org/en-US/docs/Web/API/RelativeOrientationSensor) API or [DeviceOrientation](https://developer.mozilla.org/en-US/docs/Web/API/Device_orientation_events/Detecting_device_orientation). Where the later is a fallback api with wider platform support.
-
-If the device doesn't support any implemented method the `onfail` event is raised on the Gyroscope.
+Turn a phone into a window you can look through. This sample reads your device's motion sensors, so people can explore a 360° scene simply by moving their phone around — tilt up to see the sky, turn around to look behind them.
 
 ## Panorama Controls
 
-Place this component onto your camera object to get drag-to-look camera controls with gyroscope support. It features FOV zoom, idle auto-spin, and other capabilities ideal for 360 viewer applications.
+Drop [**Panorama Controls**](https://github.com/needle-tools/needle-engine-samples/blob/main/package/Runtime/DeviceSensors/Scripts/Samples.Sensors~/PanoramaControls.ts) onto your camera and you've got a polished 360° viewer out of the box: drag to look around, pinch or scroll to zoom, and a gentle auto-spin that invites people in when they're idle. On phones it uses the gyroscope automatically, and you can offer a button to switch that on or off. Great for virtual tours, product panoramas, and immersive backdrops.
+
+## Gyroscope
+
+Under the hood, the [`Gyroscope.ts`](https://github.com/needle-tools/needle-engine-samples/blob/main/package/Runtime/DeviceSensors/Scripts/Samples.Sensors~/Gyroscope.ts) script handles the tricky part of reading device orientation across phones. It uses the modern [RelativeOrientationSensor](https://developer.mozilla.org/en-US/docs/Web/API/RelativeOrientationSensor) where available and falls back to [DeviceOrientation](https://developer.mozilla.org/en-US/docs/Web/API/Device_orientation_events/Detecting_device_orientation) for wider support. If a device can't do either, it lets you know so you can fall back gracefully to drag controls.

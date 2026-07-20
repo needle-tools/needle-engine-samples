@@ -1,27 +1,12 @@
-# Fast HDR
+# FastHDR Environment Lighting
 
-Needle Engine's Fast HDR format enables high-quality HDR environment lighting and skyboxes at a fraction of the file size compared to traditional formats like EXR or HDR.
+Photoreal HDR lighting and skyboxes on the web, without the wait. FastHDR is Needle Engine's compressed environment format — it loads up to **10× faster than EXR**, uses about **95% less GPU memory**, and streams in without frame drops, so image-based lighting stays smooth even on phones.
 
-**[Read the full Fast HDR documentation](https://engine.needle.tools/docs/explanation/fasthdr.html)**
+This sample compares an EXR environment against its FastHDR version. Assign an EXR or HDR texture as your skybox in Unity and Needle Engine converts it automatically on export: external maps become tiny `.pmrem.ktx2` files (~100–200 KB instead of several MB), while an internal Unity skybox stays bundled in the GLB. It's a drop-in replacement — no scene changes required.
 
-## Key Features
+**Learn more**
+- [FastHDR documentation](https://engine.needle.tools/docs/explanation/fasthdr.html) — how it works
+- [Needle Cloud HDRIs](https://cloud.needle.tools/hdris) — free, ready-to-use FastHDR environments
 
-- **Tiny File Sizes**: HDR environment maps compressed to ~100-200 KB instead of several MB
-- **Fast Loading**: Quick download and decode times for better user experience
-- **High Quality**: Preserves HDR lighting information for accurate reflections and environment lighting
-- **Easy to Use**: Drop-in replacement for EXR/HDR skyboxes in your scenes
-
-## Usage
-
-1. Add a `Camera` with a skybox background to your scene
-2. Assign an EXR or HDR texture as the environment/skybox — Needle Engine will automatically convert it to the Fast HDR format on export
-3. On export, external EXR/HDR textures are converted to `.pmrem.ktx2` files, significantly reducing download size. If the skybox is an internal Unity Skybox texture, it stays bundled inside the GLB as a single file.
-
-## Resources
-
-- [Fast HDR Documentation](https://engine.needle.tools/docs/explanation/fasthdr.html)
-- [Needle Cloud HDRIs](https://cloud.needle.tools/hdris) — Free HDR environment maps ready to use
-
-## Credits
-
-Textures and models used in this sample are from [Poly Haven](https://polyhaven.com), licensed under CC0.
+## Attributions
+- Textures and models from [Poly Haven](https://polyhaven.com) — CC0

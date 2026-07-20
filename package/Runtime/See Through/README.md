@@ -1,5 +1,8 @@
-# See-through Walls and Objects
+# See-Through Walls and Objects
 
-This example demonstrates how to create a see-through effect for walls and objects in a 3D scene using Needle Engine. The effect is achieved by fading out objects that obstruct the view towards a specified center point, such as a camera or player position.
+Look inside a building without the walls getting in the way. This see-through effect automatically fades out anything between the camera and a target — walls, ceilings, furniture — so you can see into a room from any angle in the browser.
 
-The `SeeThroughFade` component is attached to the objects that should fade out when they obstruct the view. The component uses the material's alpha property to create a smooth transition effect (it supports both alphaHash and transparent blend modes).
+Add the See-Through component to the objects that should fade when they block the view toward a center point (a camera or focal object). It fades via the material's alpha, supporting both alpha-hash and transparent blend modes for a smooth transition.
+
+**Learn more**
+- [SeeThrough](https://engine.needle.tools/docs/api/SeeThrough) — API reference
