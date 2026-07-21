@@ -95,6 +95,11 @@
           "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
         },
         {
+          "Component": "TeleportTarget",
+          "Path": "engine/src/engine-components/webxr/TeleportTarget.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/TeleportTarget"
+        },
+        {
           "Component": "Text",
           "Path": "engine/src/engine-components/ui/Text.ts",
           "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
@@ -107,7 +112,7 @@
         {
           "Component": "Volume",
           "Path": "engine/src/engine-components/postprocessing/Volume.ts",
-          "MoreInfoUrl": "https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@14.0/manual/Volumes.html"
+          "MoreInfoUrl": ""
         },
         {
           "Component": "WebXR",
@@ -118,6 +123,11 @@
           "Component": "XRRig",
           "Path": "engine/src/engine-components/webxr/WebXRRig.ts",
           "MoreInfoUrl": "https://engine.needle.tools/docs/api/XRRig"
+        },
+        {
+          "Component": "XRControllerMovement",
+          "Path": "engine/src/engine-components/webxr/controllers/XRControllerMovement.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/XRControllerMovement"
         }
       ],
       "Name": "See through",
@@ -411,7 +421,7 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/Fast HDR/README.md"
     },
     {
-      "Description": "Using Splines and Scroll Animation",
+      "Description": "Drive a 3D camera along a spline with page scroll, revealing your scene section by section as visitors scroll. Web scrollytelling with Needle.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Splines-Scroll.jpg",
         "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Splines-Scroll.jpg?v=479007ab1a1b4989ab81c378aef0956c"
@@ -824,7 +834,7 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/Configurator/README.md"
     },
     {
-      "Description": "Orientation Sensor Access",
+      "Description": "Turn a phone into a window into a 360 scene. Read device motion sensors and the gyroscope to look around by moving the phone, with drag and zoom fallback.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/DeviceSensors.jpg",
         "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/DeviceSensors.jpg?v=d39085498b91d86ccf9c8571919417df"
@@ -1030,7 +1040,7 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/Hotspots/README.md"
     },
     {
-      "Description": "Use your VR headset to record and animate your characters and avatars",
+      "Description": "Animate a character by performing it in VR. Record eye, hand, and mouth tracking with a headset and play it back on the web as an avatar.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/RecordedAvatars.jpg",
         "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/RecordedAvatars.jpg?v=8887205f62530e67a133b8a80dd31151"
@@ -1299,7 +1309,7 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/ShootingRange/README.md"
     },
     {
-      "Description": "Play audio and animation on click interactions",
+      "Description": "Tap a 3D instrument to play sounds and animations. A no-code Everywhere Actions sample for the web that also works in iOS AR Quick Look.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/MusicalInstrument.jpg",
         "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/MusicalInstrument.jpg?v=a57145d23b6ccdd31243dff8d8d3e400"
@@ -1491,7 +1501,7 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/ImageTracking/README.md"
     },
     {
-      "Description": "Download textures & models from external sources",
+      "Description": "Load 3D models, textures, and audio from any URL at runtime. Build configurators, user-generated content, or smaller initial bundles with Needle.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ExternalContent.jpg",
         "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ExternalContent.jpg?v=fa68ce887adb2b86496df0b37938bdc0"
@@ -1603,7 +1613,7 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/ExternalContent/README.md"
     },
     {
-      "Description": "Minigame where you play as an archer",
+      "Description": "A VR archery minigame for the web with physics-based arrows and target practice. Also playable on desktop and mobile from one project.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/BowAndArrow.jpg",
         "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/BowAndArrow.jpg?v=d92f28ca9570513f4bb1d4ba91b3c44a"
@@ -2191,7 +2201,7 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/USDZExport/README.md"
     },
     {
-      "Description": "Faster load times, smaller payloads",
+      "Description": "Load 3D content faster with gltf-progressive. Defer texture resolution and mesh level-of-detail, streaming full detail on demand as it comes into view.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/ProgressiveLoading.jpg",
         "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/ProgressiveLoading.jpg?v=963a1432e2fca90bdf7347f4dd006d8c"
@@ -8467,7 +8477,85 @@
       "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/UI/README.md"
     },
     {
-      "Description": "Paths made out of bezier curves",
+      "Description": "Take AR photos natively and directly share them with others",
+      "Thumbnail": {
+        "relativePath": "package/Editor/Screenshots/AR Photo.jpg",
+        "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/AR Photo.jpg?v=e78265f0083fa272e5cad6e0e2ca5b89"
+      },
+      "LiveUrl": "https://ar-photo-zubcksz27abel.needle.run/",
+      "Priority": 3,
+      "Tags": [
+        "XR",
+        "Rendering"
+      ],
+      "RepositoryUrl": "",
+      "UsedComponents": [
+        {
+          "Component": "Animator",
+          "Path": "engine/src/engine-components/Animator.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "AudioListener",
+          "Path": "engine/src/engine-components/AudioListener.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "Camera",
+          "Path": "engine/src/engine-components/Camera.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "DragControls",
+          "Path": "engine/src/engine-components/DragControls.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/DragControls"
+        },
+        {
+          "Component": "Light",
+          "Path": "engine/src/engine-components/Light.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "NeedleMenu",
+          "Path": "engine/src/engine-components/NeedleMenu.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/NeedleMenu"
+        },
+        {
+          "Component": "OrbitControls",
+          "Path": "engine/src/engine-components/OrbitControls.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/OrbitControls"
+        },
+        {
+          "Component": "ObjectRaycaster",
+          "Path": "engine/src/engine-components/ui/Raycaster.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/ObjectRaycaster"
+        },
+        {
+          "Component": "MeshRenderer",
+          "Path": "engine/src/engine-components/Renderer.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/component-reference.html"
+        },
+        {
+          "Component": "WebARCameraBackground",
+          "Path": "engine/src/engine-components/webxr/WebARCameraBackground.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/WebARCameraBackground"
+        },
+        {
+          "Component": "WebARSessionRoot",
+          "Path": "engine/src/engine-components/webxr/WebARSessionRoot.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/WebARSessionRoot"
+        },
+        {
+          "Component": "WebXR",
+          "Path": "engine/src/engine-components/webxr/WebXR.ts",
+          "MoreInfoUrl": "https://engine.needle.tools/docs/api/WebXR"
+        }
+      ],
+      "Name": "AR Photo",
+      "ReadmeUrl": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Runtime/AR Photo/README.md"
+    },
+    {
+      "Description": "Create smooth 3D paths from bezier curves and animate objects along them, with an AnimationClip or live user input, in the browser with Needle.",
       "Thumbnail": {
         "relativePath": "package/Editor/Screenshots/Splines.jpg",
         "absolutePath": "https://raw.githubusercontent.com/needle-tools/needle-engine-samples/main/package/Editor/Screenshots/Splines.jpg?v=1d3710f201f2a33d73bc3053e29089bd"
