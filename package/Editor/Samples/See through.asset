@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Needle.Engine.Samples.SampleInfo, Needle.Engine.Samples.Editor
     $ GlobalObjectId_V1-3-b3773821dfcbbb544bb92a36a6773973-11400000-0
   DisplayName: See through
-  Description: See-through walls and objects on the web. Automatically fade
-    anything between the camera and a target so you can look inside a 3D scene
-    from any angle.
+  Description: See-through walls and objects on the web. Automatically fade anything
+    between the camera and a target so you can look inside a 3D scene from any angle.
   Thumbnail: {fileID: 2800000, guid: 1f693f7c03ed3bc45b436b4d187ea38e, type: 3}
   LiveUrl: https://see-through-walls-zubcksz28jgxs.needle.run/
   Priority: 60
@@ -75,6 +74,9 @@ MonoBehaviour:
   - Component: SeeThrough
     Path: engine/src/engine-components/SeeThrough.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
+  - Component: TeleportTarget
+    Path: engine/src/engine-components/webxr/TeleportTarget.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/api/TeleportTarget
   - Component: Text
     Path: engine/src/engine-components/ui/Text.ts
     MoreInfoUrl: https://engine.needle.tools/docs/component-reference.html
@@ -83,10 +85,13 @@ MonoBehaviour:
     MoreInfoUrl: https://engine.needle.tools/docs/api/ToneMappingEffect
   - Component: Volume
     Path: engine/src/engine-components/postprocessing/Volume.ts
-    MoreInfoUrl: https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@14.0/manual/Volumes.html
+    MoreInfoUrl: 
   - Component: WebXR
     Path: engine/src/engine-components/webxr/WebXR.ts
     MoreInfoUrl: https://engine.needle.tools/docs/api/WebXR
   - Component: XRRig
     Path: engine/src/engine-components/webxr/WebXRRig.ts
     MoreInfoUrl: https://engine.needle.tools/docs/api/XRRig
+  - Component: XRControllerMovement
+    Path: engine/src/engine-components/webxr/controllers/XRControllerMovement.ts
+    MoreInfoUrl: https://engine.needle.tools/docs/api/XRControllerMovement

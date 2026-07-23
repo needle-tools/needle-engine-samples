@@ -12,3 +12,6 @@ Two ready-made pieces do the heavy lifting, no custom code needed:
 - [**screenshot2**](https://engine.needle.tools/docs/api/screenshot2) captures the composited image and hands it to the device's native share sheet, so sharing feels just like sharing any other photo.
 
 Learn more in the [WebXR documentation](https://engine.needle.tools/docs/how-to-guides/xr/).
+
+## Attributions
+- Poster motif for the [2026 Annual Exhibition](https://www.burg-halle.de/artikel/a/jahresausstellung-2026-2) of the Burg Giebichenstein University of Art and Design Halle. Design: Franka Nowak & Jan Goldmann

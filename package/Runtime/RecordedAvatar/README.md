@@ -1,17 +1,7 @@
-# Avatar Recording
+# Recorded Avatars
 
-A simple way to animate your characters is by using a VR headset's own tracking capabilities. With eye tracking, hand tracking, and mouth movement estimation, the end result is a fully animated character from the waist up.
+Animate a character by performing it in VR. Using a headset's own eye, hand, and mouth tracking, you can record a full upper-body performance and play it back on the web as an animated avatar — no keyframing required.
 
-This sample only showcases the result of the animation. The recorder itself is a separate Quest app.
+This sample shows the playback result. The recording itself is done in a separate Quest app, [Avatar Recorder](https://www.meta.com/en-gb/experiences/6145925042141671/) (Quest 2, Quest Pro, and Quest 3 via AppLab), where you can record, trim, and export — with your Meta Avatar or just the bone animation, and optional audio. Eye and face capture needs a Quest Pro in good lighting.
 
-## Avatar Recorder
-
-Available on Quest 2, Quest Pro and Quest 3 via [AppLab](https://www.meta.com/en-gb/experiences/6145925042141671/). This software allows you to start recording right away. After recording, you can trim the recording directly in the application. Overall, there are many options you would need when producing and exporting your animated avatars.
-
-Mind that recording eye tracking and face expressions is only possibly on Quest Pro in good lighting conditions.
-
-You can choose to export the animation with your Meta Avatar, or you can export only the bone animations. Sound is optional as well.
-
-## Unity
-
-A good practice is to use a Timeline in order to synchronize the animation from the .glb file and the audio from the .wav file. Note that the user has to interact with the page by clicking so the website can play any sound.
+In Unity, a Timeline keeps the exported `.glb` animation and `.wav` audio in sync. Since browsers only play sound after a user interaction, playback starts on the first click.

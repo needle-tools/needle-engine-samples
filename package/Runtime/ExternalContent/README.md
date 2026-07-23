@@ -1,25 +1,16 @@
 # External Content
 
-Build dynamic applications that load 3D models, textures, and audio from any URL at runtime - perfect for content management systems, user-generated content, or keeping your initial bundle size small.
+Load 3D models, textures, and audio from any URL at runtime, in the browser. Perfect for content management systems, user-generated content, or keeping your initial bundle small by fetching assets only when they're needed — build a configurator that loads models on demand, or a platform for user-uploaded 3D.
 
-## Use Cases
+Three components show the pattern:
 
-Create product configurators that load models on-demand, build platforms for user-generated 3D content, integrate with content management systems, or reduce initial loading times by fetching assets only when needed.
+- **ModelLoading** — loads glTF/GLB from any URL with Needle's `AssetReference`, with automatic cleanup and `?model=URL` support
+- **TextureLoading** — loads images as textures via `ImageReference` and applies them to materials
+- **AudioLoading** — fetches and plays external audio, creating `AudioSource` components on the fly
 
-## What This Sample Shows
+All three take URL parameters, so you can test with different assets straight from the address bar.
 
-Three different loading components demonstrate runtime asset loading:
-
-**ModelLoading** - Uses Needle's `AssetReference` to load glTF/GLB models from any URL, with automatic cleanup and URL parameter support (`?model=URL`)
-
-**TextureLoading** - Loads images as textures using `ImageReference`, applies them to materials with proper settings
-
-**AudioLoading** - Fetches and plays audio files from external sources, creating `AudioSource` components dynamically as needed
-
-All components support URL parameters for easy testing with different assets.
-
-## Documentation
-
-- [AssetReference API](https://engine.needle.tools/docs/api/AssetReference)
-- [Lazy Loading & Multiple Scenes](https://engine.needle.tools/docs/how-to-guides/export/#lazy-loading-multiple-scenes)
-- [Scripting: Create Components](https://engine.needle.tools/docs/how-to-guides/scripting/create-components)
+**Learn more**
+- [AssetReference](https://engine.needle.tools/docs/api/AssetReference) — API reference
+- [Exporting & lazy loading](https://engine.needle.tools/docs/how-to-guides/export/#lazy-loading-multiple-scenes) — docs
+- [Create Components](https://engine.needle.tools/docs/how-to-guides/scripting/create-components) — scripting guide
