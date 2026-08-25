@@ -297,8 +297,16 @@ namespace SampleChecks
             {
                 // Check physics components
                 var hasPhysicsTag = sample.Tags.FirstOrDefault(x => x.name == "Physics") != null;
+#if UNITY_6000_4_OR_NEWER
+                var hasColliders = Object.FindObjectsByType<Collider>().Length > 0;
+#else
                 var hasColliders = Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).Length > 0;
+#endif
+#if UNITY_6000_4_OR_NEWER
+                var hasRigidbodies = Object.FindObjectsByType<Rigidbody>().Length > 0;
+#else
                 var hasRigidbodies = Object.FindObjectsByType<Rigidbody>(FindObjectsSortMode.None).Length > 0;
+#endif
 
                 if (hasPhysicsTag || hasRigidbodies)
                 {
@@ -359,7 +367,11 @@ namespace SampleChecks
         {
             OpenSceneAndCopyIfNeeded();
 
+#if UNITY_6000_4_OR_NEWER
+            var components = Object.FindObjectsByType<HtmlMeta>();
+#else
             var components = Object.FindObjectsByType<HtmlMeta>(FindObjectsSortMode.None);
+#endif
             Assert.IsTrue(components.Length > 0, "Scene is missing HTML Meta component");
             Assert.IsTrue(components.Length == 1, "Scene has multiple HTML Meta components");
 
@@ -534,7 +546,11 @@ namespace SampleChecks
             OpenSceneAndCopyIfNeeded();
 
             // explicitly get the DeployToFTP component so we can check the path
+#if UNITY_6000_4_OR_NEWER
+            var deployToFtps = Object.FindObjectsByType<DeployToFTP>();
+#else
             var deployToFtps = Object.FindObjectsByType<DeployToFTP>(FindObjectsSortMode.None);
+#endif
             Assert.LessOrEqual(deployToFtps.Length, 1, "More than one DeployToFTP component found");
 
             // We want to avoid accidentally keeping staging paths in the scene
@@ -550,7 +566,11 @@ namespace SampleChecks
             var allDeploymentComponentsInScene = new List<MonoBehaviour>();
             foreach (var deploymentType in deploymentTypes)
             {
+#if UNITY_6000_4_OR_NEWER
+                var components = Object.FindObjectsByType(deploymentType, FindObjectsInactive.Include) as MonoBehaviour[];
+#else
                 var components = Object.FindObjectsByType(deploymentType, FindObjectsInactive.Include, FindObjectsSortMode.None) as MonoBehaviour[];
+#endif
                 if (components == null) continue;
                 allDeploymentComponentsInScene.AddRange(components);
             }

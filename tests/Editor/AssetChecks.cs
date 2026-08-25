@@ -360,7 +360,11 @@ public class AssetChecks
         GatherDependenciesOfType(scenePath, materialFiles);
         var errors = CollectMaterialErrors(materialFiles);
         var errorMaterials = errors.Select(x => x.Item2).ToArray();
+#if UNITY_6000_4_OR_NEWER
+        var sceneRenderers = Object.FindObjectsByType<Renderer>(FindObjectsInactive.Include);
+#else
         var sceneRenderers = Object.FindObjectsByType<Renderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+#endif
         var sceneRenderersWithErrors = sceneRenderers.Where(x => x.sharedMaterials.Any(errorMaterials.Contains)).ToArray();
         foreach (var e in  sceneRenderersWithErrors)
             Debug.LogError($"Renderer {e.name} has invalid materials", e);
