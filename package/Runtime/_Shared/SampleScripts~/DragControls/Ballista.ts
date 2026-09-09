@@ -250,11 +250,12 @@ export class Ballista extends Behaviour {
         const impulse = this.minForce + drawAmount * (this.force - this.minForce);
 
         // Wait a frame before touching the body at all. DragControls finishes its drag *after*
-        // firing dragEnded: it resumes the physics it suspended - restoring the kinematic flag -
-        // and then writes its own release velocity onto every rigidbody it was dragging. That list
-        // is `getComponentsInChildren(draggedObject)` captured at drag start, so an arrow parented
-        // under the mechanism is in it, and an impulse applied here is wiped a moment later. The
-        // arrow then simply drops, which looks exactly like a wrong direction.
+        // firing dragEnded: it writes its own release velocity onto every rigidbody it was dragging.
+        // That list is `getComponentsInChildren(draggedObject)` captured at drag start, so an arrow
+        // parented under the mechanism is in it - and the drag skips only the bodies a drop target
+        // is still holding, which this arrow is not, having been released from the socket above.
+        // An impulse applied here is therefore wiped a moment later, and the arrow simply drops,
+        // which looks exactly like a wrong direction.
         await delayForFrames(1);
         if (!this.activeAndEnabled || !arrow.parent) return;
 
