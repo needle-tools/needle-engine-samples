@@ -5,7 +5,7 @@ import { Matrix4, Object3D } from "three";
 
 export class ClickToReset extends Behaviour implements UsdzBehaviour {
     
-    /** All children in "target" will be reset to their start position on click. */
+    /** All children in target will be reset to their start position on click. */
     @serializable(GameObject)
     target?: GameObject;
 
