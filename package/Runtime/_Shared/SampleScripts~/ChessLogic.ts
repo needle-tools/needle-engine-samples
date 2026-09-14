@@ -36,6 +36,9 @@ const _scratchQuat = new Quaternion();
  *
  * Scope: basic legal moves, path-blocking for sliding pieces, captures and turn order.
  * Not implemented (TODO): check/checkmate detection, castling, en passant, pawn promotion.
+ *
+ * Call {@link setPlayModeActive}(false) to suspend rule enforcement entirely — useful for letting a
+ * player freely set up a custom position before switching back to a real game.
  */
 export class ChessLogic extends Behaviour {
 
@@ -66,6 +69,10 @@ export class ChessLogic extends Behaviour {
     /** Optional UI Text kept updated with whose turn it is, e.g. White to move. Left unset, nothing happens. */
     @serializable(Text)
     turnLabel?: Text;
+
+    /** While true, chess rules and turn order are enforced. While false, any piece can be dropped on any square, freely — use setPlayModeActive() to toggle this from a UI event. */
+    @serializable()
+    playModeActive: boolean = true;
 
     private _dragTarget: DragTarget | null = null;
     private _pieceInfo: Map<Object3D, PieceInfo> = new Map();
@@ -119,8 +126,12 @@ export class ChessLogic extends Behaviour {
             this._unsubscribe.push(dc.dragEnded.addEventListener(args => this.onPieceDragEnded(piece, args)));
         }
 
-        this.refreshActivePieceHighlights();
-        this.updateTurnLabel();
+        if (this.playModeActive) {
+            this.refreshActivePieceHighlights();
+            this.updateTurnLabel();
+        } else if (this.turnLabel) {
+            this.turnLabel.text = "Arranging pieces";
+        }
     }
 
     onDisable(): void {
@@ -268,6 +279,26 @@ export class ChessLogic extends Behaviour {
         return out;
     }
 
+    // ---- play mode ------------------------------------------------------------------------------
+
+    /**
+     * Toggles rule enforcement on or off. Wire a UI event (e.g. a Toggle's OnValueChanged) to this
+     * method to let a player switch between playing a real game and freely rearranging pieces.
+     * Inactive: any piece can be dropped on any square of the board, no turn order, no captures —
+     * a drop onto an occupied square just swaps the two pieces, via DragTarget's own default behavior.
+     */
+    setPlayModeActive(active: boolean): void {
+        if (this.playModeActive === active) return;
+        this.playModeActive = active;
+        if (active) {
+            this.refreshActivePieceHighlights();
+            this.updateTurnLabel();
+        } else {
+            this.hideActivePieceHighlights();
+            if (this.turnLabel) this.turnLabel.text = "Arranging pieces";
+        }
+    }
+
     // ---- drag event wiring --------------------------------------------------------------------
 
     private onPieceDragStarted(piece: Object3D, _args: DragStartedEventArgs): void {
@@ -276,6 +307,10 @@ export class ChessLogic extends Behaviour {
         if (!info || fromSlot === undefined) return;
         this._activeMover = piece;
         this._activeFromSlot = fromSlot;
+        if (!this.playModeActive) {
+            this._activeLegalSlots = new Set();
+            return;
+        }
         this._activeLegalSlots = this.computeLegalDestinations(info, fromSlot);
         this.showHighlights(this._activeLegalSlots);
     }
@@ -286,6 +321,7 @@ export class ChessLogic extends Behaviour {
             args.disallow();
             return;
         }
+        if (!this.playModeActive) return; // any square on our own board is fine while rearranging
         const toSlot = target.currentSlot;
         if (toSlot < 0 || !this._activeLegalSlots.has(toSlot)) {
             args.disallow();
@@ -322,6 +358,7 @@ export class ChessLogic extends Behaviour {
         const previousSlot = this._slotOf.get(object);
         this._slotOf.set(object, args.slot);
         this._pendingCaptureVictim = null;
+        if (!this.playModeActive) return; // rearranging freely — no turn order, no capture bookkeeping
         if (previousSlot === args.slot) return; // put back on its own square — not a move, keep the same turn
         this.currentTurn = this.currentTurn === "white" ? "black" : "white";
         this.refreshActivePieceHighlights();
@@ -382,6 +419,10 @@ export class ChessLogic extends Behaviour {
 
     private hideHighlights(): void {
         for (const mesh of this._highlightPool) mesh.visible = false;
+    }
+
+    private hideActivePieceHighlights(): void {
+        for (const mesh of this._activeHighlightPool) mesh.visible = false;
     }
 
     /** Persistent marker (independent of the drag-time move/capture highlights) on every piece belonging to whoever's turn it currently is. */
