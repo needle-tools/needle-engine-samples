@@ -1,8 +1,11 @@
-import { Behaviour, DragControls, DragTarget, GameObject, Mathf, Renderer, serializable } from "@needle-tools/engine";
-import { Color, MeshStandardMaterial } from "three";
+import { Behaviour, DragControls, DragTarget, GameObject, getParam, Mathf, Renderer, serializable } from "@needle-tools/engine";
+import { Color, MeshStandardMaterial, Object3D } from "three";
 import { CookingPot } from "./CookingPot";
 
 // Documentation → https://docs.needle.tools/scripting
+
+/** Add `?debugcooking` to the URL to log what each plate is doing and which pot it is heating. */
+const debug = getParam("debugcooking");
 
 /**
  * Drives a 4-plate electric oven: {@link plates} (a {@link DragTarget} in `Slots` mode) is where
@@ -55,8 +58,20 @@ export class OvenPlateController extends Behaviour {
 
     private readonly _plateMaterials: (MeshStandardMaterial | undefined)[] = [];
     private readonly _plateHeat: number[] = [];
+    private readonly _wasActive: boolean[] = [];
+    private readonly _lastOccupant: (Object3D | null)[] = [];
+    private _unsubscribe?: Function;
 
     onEnable(): void {
+        // A pot taken off a plate is done with whatever that plate cooked: the finished state it is
+        // still showing gets cleared here rather than lingering until the pot is next used.
+        this._unsubscribe = this.plates?.objectRemoved.addEventListener(args => {
+            const pot = this.findPot(args.object);
+            if (debug) console.log(`[Oven] "${args.object?.name}" removed from plate ${args.slot}`
+                + `${pot ? "" : " (no CookingPot)"}`, args.object);
+            pot?.clearFinishedCook();
+        });
+
         this._plateMaterials.length = 0;
         this._plateHeat.length = 0;
         for (const renderer of this.plateRenderers) {
@@ -76,20 +91,57 @@ export class OvenPlateController extends Behaviour {
     }
 
     update(): void {
-        if (!this.plates) return;
+        if (!this.plates) {
+            if (debug) console.warn("[Oven] no plates DragTarget assigned", this);
+            return;
+        }
         const deltaTime = this.context.time.deltaTime;
         const count = Math.min(this.handles.length, this.plateRenderers.length, this.plates.slotCount);
+        if (debug && count <= 0) {
+            console.warn(`[Oven] nothing to drive - handles: ${this.handles.length}, renderers: `
+                + `${this.plateRenderers.length}, slots: ${this.plates.slotCount}`, this);
+        }
 
         for (let slot = 0; slot < count; slot++) {
             const heat = this.advanceHeat(slot, this.strengthAt(slot), deltaTime);
             this.updateGlow(slot, heat);
 
-            if (heat <= this.activeThreshold) continue;
+            const active = heat > this.activeThreshold;
+            if (debug && active !== (this._wasActive[slot] ?? false)) {
+                this._wasActive[slot] = active;
+                console.log(`[Oven] plate ${slot} ${active ? "ON" : "off"} - handle `
+                    + `${this.strengthAt(slot).toFixed(2)}, heat ${heat.toFixed(2)}`);
+            }
+            if (!active) continue;
+
             const occupant = this.plates.getOccupant(slot);
+            if (debug && occupant !== (this._lastOccupant[slot] ?? null)) {
+                this._lastOccupant[slot] = occupant;
+                console.log(`[Oven] plate ${slot} occupant: ${occupant?.name ?? "(empty)"}`, occupant);
+            }
             if (!occupant) continue;
-            const pot = GameObject.getOrAddComponent(occupant, CookingPot);
+
+            const pot = this.findPot(occupant);
+            if (!pot) {
+                if (debug) console.warn(`[Oven] plate ${slot}: "${occupant.name}" has no CookingPot`, occupant);
+                continue;
+            }
             pot.addHeat(heat, deltaTime);
         }
+    }
+
+    onDisable(): void {
+        this._unsubscribe?.();
+        this._unsubscribe = undefined;
+    }
+
+    /** The CookingPot belonging to an object sitting on a plate. Looked up rather than added: a pot
+     *  carries its own, with its events wired in the editor, and adding one here would silently give
+     *  anything that lands on a plate a blank component whose events go nowhere. */
+    private findPot(object: Object3D | null | undefined): CookingPot | null {
+        if (!object) return null;
+        return GameObject.getComponentInChildren(object, CookingPot)
+            ?? GameObject.getComponentInParent(object, CookingPot);
     }
 
     /** The plate's target strength: its handle's `normalizedValue`, or 0 below `activeThreshold`.
