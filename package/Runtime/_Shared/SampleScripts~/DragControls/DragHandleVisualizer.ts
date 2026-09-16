@@ -1,5 +1,5 @@
 import {
-    Behaviour, DragControls, DragMode, GameObject, GrabGesture, serializable,
+    Behaviour, DragControls, DragMode, DragTarget, GameObject, GrabGesture, serializable,
 } from "@needle-tools/engine";
 import {
     Camera, Color, Object3D, OrthographicCamera, PerspectiveCamera, Sprite, SpriteMaterial,
@@ -49,14 +49,15 @@ export enum HandleDisplay {
  *
  * | What the pointer is over | Icon | Cursor |
  * |---|---|---|
- * | the body of a movable object, or {@link DragMode.Slide} | four-way arrows, aligned to the slide axis where there is one | `move` |
+ * | the body of a movable object, or {@link DragMode.Slide} | an open hand — or, for a slide, arrows along the axis it runs on | `grab` |
  * | a side, with {@link DragControls.rotateOnEdgeGrab} on — or a turn mode | a circular arrow | `grab` |
  * | a corner, with {@link DragControls.scaleOnCornerGrab} on — or {@link DragMode.Scale} | a box with an arrow growing out of it, pointing out of the nearest corner | `nwse-resize` / `neswresize` |
+ * | dragging over a {@link DragTarget} that will not take the object | a circle with a bar through it | `not-allowed` |
  * | nothing draggable | hidden | restored |
  *
- * Assign the four icons below from the shared Icons folder — DragHandleMove, DragHandleSlide,
- * DragHandleTurn, DragHandleResize — or your own art in their place. Any icon left empty simply
- * shows no handle for that gesture; the cursor still changes.
+ * Assign the five icons below from the shared Icons folder — DragHandleMove, DragHandleSlide,
+ * DragHandleTurn, DragHandleResize, DragHandleForbidden — or your own art in their place. Any icon
+ * left empty simply shows no handle for that gesture; the cursor still changes.
  *
  * Which of the two halves is used is by default decided by the input, and re-decided as it changes
  * — the cursor for a mouse, the in-scene icon for XR and touch. See {@link HandleDisplay}.
@@ -119,8 +120,8 @@ export class DragHandleVisualizer extends Behaviour {
     @serializable()
     showWhileDragging: boolean = true;
 
-    /** Art for free movement, shown on the body of an object that can be carried anywhere.
-     *  DragHandleMove in the shared Icons folder. */
+    /** Art for free movement, shown on the body of an object that can be carried anywhere. An open
+     *  hand, DragHandleMove in the shared Icons folder. */
     @serializable(Texture)
     moveIcon: Texture | null = null;
 
@@ -136,6 +137,11 @@ export class DragHandleVisualizer extends Behaviour {
      *  drawn pointing up and to the right - see the note on the icon angle if you replace it. */
     @serializable(Texture)
     resizeIcon: Texture | null = null;
+
+    /** Art shown in place of the usual handle while a drag is over a drop target that will not take
+     *  it right now. DragHandleForbidden. Not turned to any angle: shown exactly as drawn. */
+    @serializable(Texture)
+    forbiddenIcon: Texture | null = null;
 
     /**
      * Only show handles for objects under this one. Leave empty to watch the whole scene, which is
@@ -153,6 +159,11 @@ export class DragHandleVisualizer extends Behaviour {
         // Passive: this only ever reads the event's type, and saying so lets the browser keep
         // scrolling off the main thread.
         const el = this.context.domElement as HTMLElement | undefined;
+        // The cursor the page itself wants, taken once here rather than the first time a handle is
+        // shown. By then something else may have put its own on the element — `DragControls` sets a
+        // plain hand for as long as the pointer is over a draggable — and taking that for the
+        // page's own would strand a hand over everything else the moment a handle stops being shown.
+        this._previousCursor = el?.style.cursor ?? "";
         el?.addEventListener("pointermove", this._onPointerEvent, { passive: true });
         el?.addEventListener("pointerdown", this._onPointerEvent, { passive: true });
     }
@@ -186,7 +197,7 @@ export class DragHandleVisualizer extends Behaviour {
             this._hide();
             return;
         }
-        this._show(found.gesture, found.point, found.drag);
+        this._show(found.gesture, found.point, found.drag, found.blocked);
     }
 
     /**
@@ -229,7 +240,7 @@ export class DragHandleVisualizer extends Behaviour {
      * what this drag is doing, and {@link DragControls.pointerState} is what knows. Only when
      * nothing is being dragged does this fall back to a raycast.
      */
-    private _resolve(): { gesture: GrabGesture, point: Vector3, drag: DragControls } | null {
+    private _resolve(): { gesture: GrabGesture, point: Vector3, drag: DragControls, blocked: boolean } | null {
         const active = this._activeDrag();
         if (active) {
             if (!this.showWhileDragging) return null;
@@ -239,7 +250,8 @@ export class DragHandleVisualizer extends Behaviour {
             const point = state?.point ?? (active.draggedObject ?? active.dragObject)?.worldPosition;
             if (!point) return null;
             const gesture = this._gestureOfRunningDrag(active);
-            return gesture === null ? null : { gesture, point, drag: active };
+            if (gesture === null) return null;
+            return { gesture, point, drag: active, blocked: active.dropBlocked !== null };
         }
 
         const hits = this.context.physics.raycast({
@@ -251,7 +263,7 @@ export class DragHandleVisualizer extends Behaviour {
             if (!drag || !drag.activeAndEnabled) continue;
             const gesture = drag.getGestureAt(hit.point);
             if (gesture === null) continue;
-            return { gesture, point: hit.point, drag };
+            return { gesture, point: hit.point, drag, blocked: false };
         }
         return null;
     }
@@ -292,8 +304,20 @@ export class DragHandleVisualizer extends Behaviour {
 
     // #region presentation
 
-    private _show(gesture: GrabGesture, point: Vector3, drag: DragControls): void {
-        if (this._enabled(this.useCursor, _cursorSuitsInput)) this._setCursor(this._cursorFor(gesture, point, drag));
+    /** @param blocked whether the drag is currently over a {@link DragTarget} that refuses the
+     *  object - see {@link DragControls.dropBlocked}. Overrides `gesture` for both halves of the
+     *  display: there is no useful move/turn/resize answer for a drop that cannot land. */
+    private _show(gesture: GrabGesture, point: Vector3, drag: DragControls, blocked: boolean): void {
+        if (this._enabled(this.useCursor, _cursorSuitsInput)) {
+            // Taken before the first write and held until there is nothing to show: DragControls
+            // puts a plain hand on anything draggable the pointer enters, and two writers on one
+            // style property leave whichever ran last in place - which on an idle frame is not
+            // necessarily the one that still means something.
+            this._cursorClaim ??= DragControls.claimCursor(this);
+            this._setCursor(blocked
+                ? this._imageCursor(this.forbiddenIcon, "not-allowed") ?? "not-allowed"
+                : this._cursorFor(gesture, point, drag));
+        }
         // Not merely skipped: Auto can stop choosing the cursor mid-session, when a headset is put
         // on, and the one already set would otherwise stay on the canvas for good.
         else this._restoreCursor();
@@ -305,7 +329,7 @@ export class DragHandleVisualizer extends Behaviour {
         }
 
         const material = sprite.material as SpriteMaterial;
-        material.map = this._textureFor(gesture, drag);
+        material.map = blocked ? this.forbiddenIcon : this._textureFor(gesture, drag);
         material.opacity = this.opacity;
         material.color.copy(this.color);
         material.needsUpdate = true;
@@ -313,8 +337,9 @@ export class DragHandleVisualizer extends Behaviour {
         sprite.position.copy(point);
         sprite.visible = true;
         // Screen-space turn, so a slide's arrows lie along the axis the object actually travels and
-        // a corner's arrows point out of the corner they belong to.
-        material.rotation = this._screenRotationFor(gesture, point, drag);
+        // a corner's arrows point out of the corner they belong to. The forbidden icon reads the
+        // same from every angle, so it is left at 0 rather than turned onto anything.
+        material.rotation = blocked ? 0 : this._screenRotationFor(gesture, point, drag);
         this._placeOnScreen(sprite, point);
     }
 
@@ -473,7 +498,7 @@ export class DragHandleVisualizer extends Behaviour {
             // - an open hand - says only that the thing can be picked up. So the assigned art is
             // used as the cursor itself where there is any, which is also the only way the turn
             // icon is ever seen on a desktop: Auto shows the cursor there and not the handle.
-            case GrabGesture.Turn: return this._imageCursor(this.turnIcon) ?? "grab";
+            case GrabGesture.Turn: return this._imageCursor(this.turnIcon, "grab") ?? "grab";
             case GrabGesture.Resize: {
                 // Which way the corner lies on screen, picked from the four resize cursors by
                 // octant — the same set, and the same split, a free-transform box uses. The icon's
@@ -489,7 +514,13 @@ export class DragHandleVisualizer extends Behaviour {
                 if (deg < 112.5) return "ns-resize";
                 return "nwse-resize";
             }
-            default: return "move";
+            // An open hand: the thing under the pointer is to be picked up and carried, which is
+            // what a hand says and what the four-way `move` cross does not - that one belongs to a
+            // window or a selection being nudged about, not to an object being taken hold of. The
+            // keyword rather than the assigned art, unlike the turn cursor: the browser already has
+            // this one, draws it at whatever the display's pixel density is, and matches whatever
+            // the rest of the page uses to mean the same thing.
+            default: return "grab";
         }
     }
 
@@ -498,15 +529,18 @@ export class DragHandleVisualizer extends Behaviour {
      *
      * Browsers cap a custom cursor at well under the icon's own resolution, so it is redrawn at
      * {@link _cursorPixels} with its hotspot in the middle — which is where a rotation glyph points
-     * from. The keyword after the comma is what the browser falls back to if it refuses the image.
+     * from. `fallback` is the keyword the browser falls back to if it refuses the image, baked into
+     * the returned string itself rather than left to the caller's `??`, since a browser that accepts
+     * the URL but then fails to decode it still needs the right word behind it.
      *
      * Only successes are cached: a texture whose bitmap has not finished decoding answers `null`
      * now and the real thing a frame or two later, and caching that first `null` would mean the
      * cursor never appeared at all.
      */
-    private _imageCursor(texture: Texture | null): string | null {
+    private _imageCursor(texture: Texture | null, fallback: string): string | null {
         if (!texture) return null;
-        const cached = this._cursorCache.get(texture);
+        const cacheKey = fallback + "|" + texture.uuid;
+        const cached = this._cursorCache.get(cacheKey);
         if (cached) return cached;
         const image = texture.image as CanvasImageSource & { width?: number, naturalWidth?: number } | null;
         if (!image || !(image.naturalWidth || image.width)) return null;
@@ -515,8 +549,8 @@ export class DragHandleVisualizer extends Behaviour {
             const canvas = document.createElement("canvas");
             canvas.width = canvas.height = size;
             canvas.getContext("2d")?.drawImage(image, 0, 0, size, size);
-            const value = `url(${canvas.toDataURL("image/png")}) ${size / 2} ${size / 2}, grab`;
-            this._cursorCache.set(texture, value);
+            const value = `url(${canvas.toDataURL("image/png")}) ${size / 2} ${size / 2}, ${fallback}`;
+            this._cursorCache.set(cacheKey, value);
             return value;
         }
         catch {
@@ -525,16 +559,33 @@ export class DragHandleVisualizer extends Behaviour {
             return null;
         }
     }
-    private readonly _cursorCache: Map<Texture, string> = new Map();
+    private readonly _cursorCache: Map<string, string> = new Map();
 
-    /** Sets the cursor, remembering what was there so {@link _restoreCursor} can put it back.
-     *  Whether the cursor is wanted at all is decided by the caller. */
+    /**
+     * Sets the cursor. Whether the cursor is wanted at all is decided by the caller; what to put
+     * back when it stops being wanted is {@link _restoreCursor}'s business.
+     *
+     * What is already on the element decides whether to write, rather than only what was written
+     * last: anything else in the page may have set its own cursor since - `DragControls` puts a
+     * plain hand on every draggable the pointer enters - and a check against our own last value
+     * alone would never notice, leaving that other cursor up for as long as the gesture did not
+     * happen to change. Asked every frame, so an overwrite lasts one.
+     */
     private _setCursor(cursor: string): void {
         const el = this.context.domElement as HTMLElement | undefined;
-        if (!el || this._cursor === cursor) return;
-        if (this._cursor === null) this._previousCursor = el.style.cursor;
+        if (!el) return;
+        // Already ours and still untouched, so there is nothing to write. Both halves matter: the
+        // first skips the work, the second notices an overwrite and puts the cursor back.
+        if (this._cursor === cursor && el.style.cursor === this._cursorAsRead) return;
         el.style.cursor = cursor;
         this._cursor = cursor;
+        // What the element makes of it, which is not always what went in: an image cursor comes back
+        // re-serialized, `url(data:...)` written and `url("data:...")` read. Comparing the written
+        // form against the element would never match again, so this component would take its own
+        // cursor for someone else's - never recognising it to take it back, and rewriting a data URI
+        // every frame in the meantime. Keyword cursors come back unchanged and this costs them a
+        // string compare.
+        this._cursorAsRead = el.style.cursor;
     }
 
     /**
@@ -545,13 +596,24 @@ export class DragHandleVisualizer extends Behaviour {
      * the other direction.
      */
     private _restoreCursor(): void {
+        // Given back before the write, not after: from here on the hand hint is the right answer
+        // for anything draggable the pointer is over, and this component has nothing to say.
+        this._cursorClaim?.();
+        this._cursorClaim = null;
         if (this._cursor === null) return;
         const el = this.context.domElement as HTMLElement | undefined;
-        if (el && el.style.cursor === this._cursor) el.style.cursor = this._previousCursor;
+        // Against the element's own reading of what we set, never against what we wrote - see the
+        // note in _setCursor. This is the comparison that decides whether the cursor still belongs
+        // to us, so getting it wrong means never giving it back.
+        if (el && el.style.cursor === this._cursorAsRead) el.style.cursor = this._previousCursor;
         this._cursor = null;
+        this._cursorAsRead = null;
     }
     private _cursor: string | null = null;
+    private _cursorAsRead: string | null = null;
     private _previousCursor: string = "";
+    /** Gives the cursor back to `DragControls` - see where it is claimed. */
+    private _cursorClaim: (() => void) | null = null;
 
     // #endregion
 
