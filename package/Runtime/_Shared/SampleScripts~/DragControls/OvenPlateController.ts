@@ -1,5 +1,5 @@
-import { Behaviour, DragControls, DragTarget, GameObject, getParam, Mathf, Renderer, serializable } from "@needle-tools/engine";
-import { Color, MeshStandardMaterial, Object3D } from "three";
+import { Behaviour, DragControls, DragTarget, EventList, GameObject, getParam, Mathf, Renderer, serializable } from "@needle-tools/engine";
+import { Color, Material, MeshStandardMaterial, Object3D } from "three";
 import { CookingPot } from "./CookingPot";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -8,17 +8,29 @@ import { CookingPot } from "./CookingPot";
 const debug = getParam("debugcooking");
 
 /**
- * Drives a 4-plate electric oven: {@link plates} (a {@link DragTarget} in `Slots` mode) is where
- * pots land, {@link handles} are the `Hinge Rotation` {@link DragControls} that turn each plate on,
- * and {@link plateRenderers} are what glows to show it.
+ * Drives an electric cooker with two independent halves: the hob on top and the oven below.
  *
- * All three lists are index-matched - `handles[i]` and `plateRenderers[i]` both belong to
- * `plates.slots[i]`. Each plate's {@link DragControls.normalizedValue} is its target strength, but
- * the plate itself only gets there over {@link glowRampSeconds} once turned up, and fades back over
- * {@link glowCooldownSeconds} once turned down - an element has thermal mass, it does not snap to
- * temperature. A plate above {@link activeThreshold} glows proportionally to its actual heat and,
- * if a {@link CookingPot} is sitting in that slot, cooks it at that same heat - including the
- * residual heat while it is still cooling down.
+ * **Hob.** {@link plates} (a {@link DragTarget} in `Slots` mode) is where pots land, {@link handles}
+ * are the `Hinge Rotation` {@link DragControls} that turn each plate on, and {@link plateRenderers}
+ * are what glows to show it. All three lists are index-matched - `handles[i]` and
+ * `plateRenderers[i]` both belong to `plates.slots[i]`.
+ *
+ * **Oven.** {@link ovenHandle} turns it on and everything in {@link ovenTarget} bakes, however many
+ * slots that target has - a shelf takes whatever fits rather than one dish per ring.
+ * {@link onOvenActive} / {@link onOvenInactive} mark the oven compartment crossing
+ * {@link activeThreshold} specifically - a plate turning on or off does not raise either.
+ *
+ * Either way a handle's {@link DragControls.normalizedValue} is only a *target* strength: the plate
+ * or oven gets there over {@link glowRampSeconds} once turned up, and fades back over
+ * {@link glowCooldownSeconds} once turned down, because an element has thermal mass and does not
+ * snap to temperature. Anything above {@link activeThreshold} cooks the {@link CookingPot}s sitting
+ * in it at its actual heat - including the residual heat while it is still cooling down.
+ *
+ * Two indicator lamps say which half is live: {@link platesLightMaterial} for the hob and
+ * {@link ovenLightMaterial} for the oven, each lit through its own material's emission. Unlike the
+ * plates and the oven's baking heat, a lamp is electrical rather than thermal - it is a plain
+ * on/off switch, set straight from the handle each frame with none of {@link glowRampSeconds} /
+ * {@link glowCooldownSeconds} and no dimming with how far the handle is turned.
  */
 export class OvenPlateController extends Behaviour {
 
@@ -33,6 +45,47 @@ export class OvenPlateController extends Behaviour {
     /** One renderer per plate, same order as `plates.slots`, whose material is made to glow. */
     @serializable(Renderer)
     plateRenderers: Renderer[] = [];
+
+    /** Where dishes are put to bake - the shelf or rack inside the oven. Everything this target
+     *  holds bakes together, in every slot it has. Leave unset for a hob with no oven. */
+    @serializable(DragTarget)
+    ovenTarget?: DragTarget;
+
+    /** The Hinge Rotation handle that turns the oven on, read the same way as a plate handle. */
+    @serializable(DragControls)
+    ovenHandle?: DragControls;
+
+    /** Raised once, the moment the oven itself crosses `activeThreshold` and starts baking. Not
+     *  raised by a plate turning on - only the oven compartment. */
+    @serializable(EventList)
+    onOvenActive: EventList = new EventList();
+
+    /** Raised once, the moment the oven itself drops back below `activeThreshold`. Not raised by a
+     *  plate turning off - only the oven compartment. */
+    @serializable(EventList)
+    onOvenInactive: EventList = new EventList();
+
+    /** Material of the lamp that is lit while any plate is on. Its emission is driven directly, so
+     *  assign the material the lamp actually uses. */
+    @serializable(Material)
+    platesLightMaterial?: Material;
+
+    /** Material of the lamp that is lit while the oven is baking. Its emission is driven directly,
+     *  so assign the material the lamp actually uses. */
+    @serializable(Material)
+    ovenLightMaterial?: Material;
+
+    /** Emissive tint of the hob's indicator lamp at full strength. */
+    @serializable(Color)
+    platesLightColor: Color = new Color(1, 0.15, 0.05);
+
+    /** Emissive tint of the oven's indicator lamp at full strength. */
+    @serializable(Color)
+    ovenLightColor: Color = new Color(1, 0.45, 0.05);
+
+    /** Emissive intensity of an indicator lamp while lit. 0 while off - there is nothing in between. */
+    @serializable()
+    maxControlLightIntensity: number = 2;
 
     /** Handle position below this (0-1) counts as off: no glow, no cooking. Keeps a barely-nudged
      *  handle from lighting the plate up. */
@@ -60,17 +113,23 @@ export class OvenPlateController extends Behaviour {
     private readonly _plateHeat: number[] = [];
     private readonly _wasActive: boolean[] = [];
     private readonly _lastOccupant: (Object3D | null)[] = [];
-    private _unsubscribe?: Function;
+    private readonly _unsubscribe: Function[] = [];
+    private _ovenHeat: number = 0;
+    private _ovenWasActive: boolean = false;
 
     onEnable(): void {
-        // A pot taken off a plate is done with whatever that plate cooked: the finished state it is
-        // still showing gets cleared here rather than lingering until the pot is next used.
-        this._unsubscribe = this.plates?.objectRemoved.addEventListener(args => {
-            const pot = this.findPot(args.object);
-            if (debug) console.log(`[Oven] "${args.object?.name}" removed from plate ${args.slot}`
-                + `${pot ? "" : " (no CookingPot)"}`, args.object);
-            pot?.clearFinishedCook();
-        });
+        // A pot taken out is done with whatever cooked it: the finished state it is still showing
+        // gets cleared here rather than lingering until the pot is next used.
+        for (const target of [this.plates, this.ovenTarget]) {
+            const unsubscribe = target?.objectRemoved.addEventListener(args => {
+                const pot = this.findPot(args.object);
+                if (debug) console.log(`[Oven] "${args.object?.name}" removed from `
+                    + `${target === this.ovenTarget ? "the oven" : `plate ${args.slot}`}`
+                    + `${pot ? "" : " (no CookingPot)"}`, args.object);
+                pot?.clearFinishedCook();
+            });
+            if (unsubscribe) this._unsubscribe.push(unsubscribe);
+        }
 
         this._plateMaterials.length = 0;
         this._plateHeat.length = 0;
@@ -91,17 +150,39 @@ export class OvenPlateController extends Behaviour {
     }
 
     update(): void {
+        const deltaTime = this.context.time.deltaTime;
+        this.updatePlates(deltaTime);
+        this.updateOven(deltaTime);
+        // Driven by the handles directly, not by `_plateHeat`/`_ovenHeat` - a lamp is electrical,
+        // not thermal, so unlike the plates and the oven's own baking heat it has no business
+        // ramping in and out, or dimming with the dial. It is a switch: on the instant any handle
+        // clears `activeThreshold`, off the instant none do.
+        this.updateLight(this.platesLightMaterial, this.platesLightColor, this.anyPlateActive());
+        this.updateLight(this.ovenLightMaterial, this.ovenLightColor, this.strengthOf(this.ovenHandle) > 0);
+    }
+
+    /** Whether any plate handle is past `activeThreshold` right now (unramped) - what lights the
+     *  hob's indicator lamp. */
+    private anyPlateActive(): boolean {
+        if (!this.plates) return false;
+        const count = Math.min(this.handles.length, this.plates.slotCount);
+        for (let slot = 0; slot < count; slot++) {
+            if (this.strengthAt(slot) > 0) return true;
+        }
+        return false;
+    }
+
+    /** Runs every plate, ramping each one's heat and cooking whatever sits on it. */
+    private updatePlates(deltaTime: number): void {
         if (!this.plates) {
             if (debug) console.warn("[Oven] no plates DragTarget assigned", this);
             return;
         }
-        const deltaTime = this.context.time.deltaTime;
         const count = Math.min(this.handles.length, this.plateRenderers.length, this.plates.slotCount);
         if (debug && count <= 0) {
             console.warn(`[Oven] nothing to drive - handles: ${this.handles.length}, renderers: `
                 + `${this.plateRenderers.length}, slots: ${this.plates.slotCount}`, this);
         }
-
         for (let slot = 0; slot < count; slot++) {
             const heat = this.advanceHeat(slot, this.strengthAt(slot), deltaTime);
             this.updateGlow(slot, heat);
@@ -130,9 +211,33 @@ export class OvenPlateController extends Behaviour {
         }
     }
 
+    /** Bakes everything on the oven shelf, ramping the oven's own heat. */
+    private updateOven(deltaTime: number): void {
+        const heat = this._ovenHeat = this.rampHeat(
+            this._ovenHeat, this.strengthOf(this.ovenHandle), deltaTime);
+
+        const active = heat > this.activeThreshold;
+        if (active !== this._ovenWasActive) {
+            this._ovenWasActive = active;
+            if (debug) {
+                console.log(`[Oven] baking ${active ? "ON" : "off"} - handle `
+                    + `${this.strengthOf(this.ovenHandle).toFixed(2)}, heat ${heat.toFixed(2)}`);
+            }
+            if (active) this.onOvenActive.invoke();
+            else this.onOvenInactive.invoke();
+        }
+        if (!active || !this.ovenTarget) return;
+
+        // Copied out: `occupants` hands back a buffer the target reuses, and cooking a pot can put
+        // it through its finish, which reads occupancy again.
+        for (const occupant of [...this.ovenTarget.occupants]) {
+            this.findPot(occupant)?.addHeat(heat, deltaTime);
+        }
+    }
+
     onDisable(): void {
-        this._unsubscribe?.();
-        this._unsubscribe = undefined;
+        for (const unsubscribe of this._unsubscribe) unsubscribe();
+        this._unsubscribe.length = 0;
     }
 
     /** The CookingPot belonging to an object sitting on a plate. Looked up rather than added: a pot
@@ -148,20 +253,29 @@ export class OvenPlateController extends Behaviour {
      *  This is where the handle is *now* - {@link advanceHeat} is what the plate itself is at, a
      *  step behind while it ramps up or cools down. */
     strengthAt(slot: number): number {
-        const value = this.handles[slot]?.normalizedValue ?? 0;
+        return this.strengthOf(this.handles[slot]);
+    }
+
+    /** What a handle is asking for: its `normalizedValue`, or 0 below {@link activeThreshold}. */
+    private strengthOf(handle: DragControls | undefined | null): number {
+        const value = handle?.normalizedValue ?? 0;
         return value > this.activeThreshold ? value : 0;
     }
 
-    /** Moves this plate's actual heat towards `target`, taking `glowRampSeconds` to climb from cold
-     *  to fully on and `glowCooldownSeconds` to fall back, and returns the new value. A plate that
-     *  is still cooling counts as heat for {@link CookingPot.addHeat} too, not just for the glow. */
+    /** Moves this plate's actual heat towards `target` and returns the new value. */
     private advanceHeat(slot: number, target: number, deltaTime: number): number {
-        const current = this._plateHeat[slot] ?? 0;
-        const seconds = target > current ? this.glowRampSeconds : this.glowCooldownSeconds;
-        const step = seconds > 0 ? deltaTime / seconds : 1;
-        const next = Mathf.moveTowards(current, target, step);
+        const next = this.rampHeat(this._plateHeat[slot] ?? 0, target, deltaTime);
         this._plateHeat[slot] = next;
         return next;
+    }
+
+    /** One step of an element's thermal mass: {@link glowRampSeconds} to climb from cold to fully
+     *  on, {@link glowCooldownSeconds} to fall back. Whatever is still cooling counts as heat for
+     *  {@link CookingPot.addHeat} too, not just for the glow. */
+    private rampHeat(current: number, target: number, deltaTime: number): number {
+        const seconds = target > current ? this.glowRampSeconds : this.glowCooldownSeconds;
+        const step = seconds > 0 ? deltaTime / seconds : 1;
+        return Mathf.moveTowards(current, target, step);
     }
 
     private updateGlow(slot: number, heat: number): void {
@@ -171,5 +285,16 @@ export class OvenPlateController extends Behaviour {
         // needing a separate on/off switch.
         material.emissive.copy(this.glowColor);
         material.emissiveIntensity = heat * this.maxGlowIntensity;
+    }
+
+    /** Switches an indicator lamp fully on or fully off in its own colour - no ramping, no dimming
+     *  with the handle, see the note in `update`. The material is written to as it was assigned,
+     *  not cloned like the plates are: a lamp's material is the one its mesh is already drawing
+     *  with, and a clone would leave the lamp showing the untouched original. */
+    private updateLight(material: Material | undefined, color: Color, on: boolean): void {
+        const lamp = material as MeshStandardMaterial | undefined;
+        if (!lamp?.emissive) return;
+        lamp.emissive.copy(color);
+        lamp.emissiveIntensity = on ? this.maxControlLightIntensity : 0;
     }
 }
