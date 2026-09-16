@@ -26,11 +26,13 @@ const debug = getParam("debugcooking");
  * snap to temperature. Anything above {@link activeThreshold} cooks the {@link CookingPot}s sitting
  * in it at its actual heat - including the residual heat while it is still cooling down.
  *
- * Two indicator lamps say which half is live: {@link platesLightMaterial} for the hob and
- * {@link ovenLightMaterial} for the oven, each lit through its own material's emission. Unlike the
- * plates and the oven's baking heat, a lamp is electrical rather than thermal - it is a plain
- * on/off switch, set straight from the handle each frame with none of {@link glowRampSeconds} /
- * {@link glowCooldownSeconds} and no dimming with how far the handle is turned.
+ * Three lamps say what is live: {@link platesLightMaterial} for the hob, {@link ovenLightMaterial}
+ * for the oven's dashboard indicator, and {@link ovenInteriorLightMaterial} for the light inside
+ * the oven cavity - the last two switch together, since both just mean "the oven is on". Each is
+ * lit through its own material's emission. Unlike the plates and the oven's baking heat, a lamp is
+ * electrical rather than thermal - it is a plain on/off switch, set straight from the handle each
+ * frame with none of {@link glowRampSeconds} / {@link glowCooldownSeconds} and no dimming with how
+ * far the handle is turned.
  */
 export class OvenPlateController extends Behaviour {
 
@@ -70,22 +72,36 @@ export class OvenPlateController extends Behaviour {
     @serializable(Material)
     platesLightMaterial?: Material;
 
-    /** Material of the lamp that is lit while the oven is baking. Its emission is driven directly,
-     *  so assign the material the lamp actually uses. */
+    /** Material of the dashboard lamp that is lit while the oven is baking. Its emission is driven
+     *  directly, so assign the material the lamp actually uses. */
     @serializable(Material)
     ovenLightMaterial?: Material;
+
+    /** Material of the lamp inside the oven cavity, lighting the food while it bakes - the same
+     *  on/off switch as `ovenLightMaterial`, just a second, separate material to drive. Optional;
+     *  leave unset for an oven with no interior light. */
+    @serializable(Material)
+    ovenInteriorLightMaterial?: Material;
 
     /** Emissive tint of the hob's indicator lamp at full strength. */
     @serializable(Color)
     platesLightColor: Color = new Color(1, 0.15, 0.05);
 
-    /** Emissive tint of the oven's indicator lamp at full strength. */
+    /** Emissive tint of the oven's dashboard indicator lamp at full strength. */
     @serializable(Color)
     ovenLightColor: Color = new Color(1, 0.45, 0.05);
 
     /** Emissive intensity of an indicator lamp while lit. 0 while off - there is nothing in between. */
     @serializable()
     maxControlLightIntensity: number = 2;
+
+    /** HDR emissive colour of the oven's interior lamp while lit, black while off - there is nothing
+     *  in between. An HDR colour rather than `ovenLightColor` + `maxControlLightIntensity`: this
+     *  one lights the inside of the cavity itself rather than a small dashboard lens, so it is set
+     *  on `ovenInteriorLightMaterial` as-is, with brightness baked into the colour instead of a
+     *  shared intensity multiplier - pick components above 1 to push it brighter. */
+    @serializable(Color)
+    ovenInteriorLightColor: Color = new Color(3, 1.4, 0.3);
 
     /** Handle position below this (0-1) counts as off: no glow, no cooking. Keeps a barely-nudged
      *  handle from lighting the plate up. */
@@ -158,7 +174,9 @@ export class OvenPlateController extends Behaviour {
         // ramping in and out, or dimming with the dial. It is a switch: on the instant any handle
         // clears `activeThreshold`, off the instant none do.
         this.updateLight(this.platesLightMaterial, this.platesLightColor, this.anyPlateActive());
-        this.updateLight(this.ovenLightMaterial, this.ovenLightColor, this.strengthOf(this.ovenHandle) > 0);
+        const ovenOn = this.strengthOf(this.ovenHandle) > 0;
+        this.updateLight(this.ovenLightMaterial, this.ovenLightColor, ovenOn);
+        this.updateHdrLight(this.ovenInteriorLightMaterial, this.ovenInteriorLightColor, ovenOn);
     }
 
     /** Whether any plate handle is past `activeThreshold` right now (unramped) - what lights the
@@ -296,5 +314,16 @@ export class OvenPlateController extends Behaviour {
         if (!lamp?.emissive) return;
         lamp.emissive.copy(color);
         lamp.emissiveIntensity = on ? this.maxControlLightIntensity : 0;
+    }
+
+    /** Same switch as `updateLight`, but for a colour that is already HDR - brightness lives in
+     *  `color` itself, so it goes onto `emissive` as-is with `emissiveIntensity` left at 1 rather
+     *  than being scaled by `maxControlLightIntensity`. */
+    private updateHdrLight(material: Material | undefined, color: Color, on: boolean): void {
+        const lamp = material as MeshStandardMaterial | undefined;
+        if (!lamp?.emissive) return;
+        if (on) lamp.emissive.copy(color);
+        else lamp.emissive.setScalar(0);
+        lamp.emissiveIntensity = 1;
     }
 }
