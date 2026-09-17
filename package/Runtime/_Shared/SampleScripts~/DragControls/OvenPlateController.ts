@@ -1,4 +1,4 @@
-import { Behaviour, DragControls, DragTarget, EventList, GameObject, getParam, Mathf, Renderer, serializable } from "@needle-tools/engine";
+import { Behaviour, DragControls, DragTarget, EventList, GameObject, getParam, MaterialPropertyBlock, Mathf, Renderer, serializable } from "@needle-tools/engine";
 import { Color, Material, MeshStandardMaterial, Object3D } from "three";
 import { CookingPot } from "./CookingPot";
 
@@ -13,7 +13,9 @@ const debug = getParam("debugcooking");
  * **Hob.** {@link plates} (a {@link DragTarget} in `Slots` mode) is where pots land, {@link handles}
  * are the `Hinge Rotation` {@link DragControls} that turn each plate on, and {@link plateRenderers}
  * are what glows to show it. All three lists are index-matched - `handles[i]` and
- * `plateRenderers[i]` both belong to `plates.slots[i]`.
+ * `plateRenderers[i]` both belong to `plates.slots[i]`. The glow itself goes on as a
+ * `MaterialPropertyBlock` per plate rather than a cloned material, so every plate can glow to its
+ * own heat off one shared material asset.
  *
  * **Oven.** {@link ovenHandle} turns it on and everything in {@link ovenTarget} bakes, however many
  * slots that target has - a shelf takes whatever fits rather than one dish per ring.
@@ -125,7 +127,7 @@ export class OvenPlateController extends Behaviour {
     @serializable()
     glowCooldownSeconds: number = 3;
 
-    private readonly _plateMaterials: (MeshStandardMaterial | undefined)[] = [];
+    private readonly _plateBlocks: (MaterialPropertyBlock<MeshStandardMaterial> | undefined)[] = [];
     private readonly _plateHeat: number[] = [];
     private readonly _wasActive: boolean[] = [];
     private readonly _lastOccupant: (Object3D | null)[] = [];
@@ -147,21 +149,15 @@ export class OvenPlateController extends Behaviour {
             if (unsubscribe) this._unsubscribe.push(unsubscribe);
         }
 
-        this._plateMaterials.length = 0;
+        this._plateBlocks.length = 0;
         this._plateHeat.length = 0;
         for (const renderer of this.plateRenderers) {
             this._plateHeat.push(0);
-            // Clone before writing to it - `sharedMaterials` is shared by every renderer that
-            // references the same source material, so mutating it in place would make every plate
-            // (or anything else using that material) glow together.
-            const source = renderer?.sharedMaterials[0] as MeshStandardMaterial | undefined;
-            if (!source) {
-                this._plateMaterials.push(undefined);
-                continue;
-            }
-            const clone = source.clone();
-            renderer.sharedMaterials[0] = clone;
-            this._plateMaterials.push(clone);
+            // A property block per plate's object rather than a cloned material: the shared material
+            // itself is never touched, so every plate keeps glowing independently off the one asset.
+            this._plateBlocks.push(renderer
+                ? MaterialPropertyBlock.get<MeshStandardMaterial>(renderer.gameObject)
+                : undefined);
         }
     }
 
@@ -256,6 +252,9 @@ export class OvenPlateController extends Behaviour {
     onDisable(): void {
         for (const unsubscribe of this._unsubscribe) unsubscribe();
         this._unsubscribe.length = 0;
+        // Property block overrides outlive this behaviour otherwise - without this a disabled
+        // controller would leave its plates stuck glowing at whatever heat they were last at.
+        for (const block of this._plateBlocks) block?.clearAllOverrides();
     }
 
     /** The CookingPot belonging to an object sitting on a plate. Looked up rather than added: a pot
@@ -297,12 +296,13 @@ export class OvenPlateController extends Behaviour {
     }
 
     private updateGlow(slot: number, heat: number): void {
-        const material = this._plateMaterials[slot];
-        if (!material) return;
+        const block = this._plateBlocks[slot];
+        if (!block) return;
         // The tint stays constant; heat drives intensity down to 0, which reads as "off" without
-        // needing a separate on/off switch.
-        material.emissive.copy(this.glowColor);
-        material.emissiveIntensity = heat * this.maxGlowIntensity;
+        // needing a separate on/off switch. Both go on as property block overrides rather than onto
+        // a material directly, so the plate's own material is never mutated or cloned.
+        block.setOverride("emissive", this.glowColor);
+        block.setOverride("emissiveIntensity", heat * this.maxGlowIntensity);
     }
 
     /** Switches an indicator lamp fully on or fully off in its own colour - no ramping, no dimming
