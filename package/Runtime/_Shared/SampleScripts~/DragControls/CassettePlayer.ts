@@ -54,10 +54,12 @@ const LOCAL_AXES: Record<DragAxis, Vector3> = {
  * hands it back - {@link lid} is disabled again, right back to needing an eject press before it can
  * be grabbed at all, the same as it started.
  *
- * {@link cassetteSlot} is the {@link DragTarget} the cassette tape itself is dropped into. The
- * cassette source never starts without one occupying it - a fresh {@link playPauseControl} press
- * does nothing while it is empty - and pulling the tape back out while playing pauses it immediately,
- * the same as pressing {@link stopControl} would, minus the seek back to the start.
+ * {@link cassetteSlot} is the {@link DragTarget} the cassette tape itself is dropped into. It is
+ * only ever enabled while {@link lid} is open, so the tape cannot be reached with the lid shut - see
+ * {@link setLidOpen}. The cassette source never starts without one occupying it - a fresh
+ * {@link playPauseControl} press does nothing while it is empty - and pulling the tape back out
+ * while playing pauses it immediately, the same as pressing {@link stopControl} would, minus the
+ * seek back to the start.
  */
 export class CassettePlayer extends Behaviour {
 
@@ -121,7 +123,9 @@ export class CassettePlayer extends Behaviour {
     cassetteAudioSource?: AudioSource;
 
     /** The DragTarget the cassette tape is dropped into. Optional - if left unset the cassette
-     *  source is never gated by presence and behaves as though a tape were always loaded. */
+     *  source is never gated by presence and behaves as though a tape were always loaded, and there
+     *  is nothing for `lid` opening/closing to enable or disable. Disabled itself while `lid` is
+     *  closed, so a tape can only be dropped in or pulled out while the lid is actually open. */
     @serializable(DragTarget)
     cassetteSlot?: DragTarget;
 
@@ -194,6 +198,7 @@ export class CassettePlayer extends Behaviour {
             this._lidRestQuaternion = this.lid.gameObject.quaternion.clone();
             this.lid.enabled = false;
         }
+        this.setLidOpen(false);
         this._powered = (this.powerControl?.normalizedValue ?? 0) > this.onThreshold;
         this._mode = this.currentMode();
         if (this._powered) this.resumeIfShouldPlay(this._mode);
@@ -323,6 +328,7 @@ export class CassettePlayer extends Behaviour {
             this._lidRelockTimer = -1;
             if (this.lid.normalizedValue <= this.lidCloseThreshold) {
                 this.lid.enabled = false;
+                this.setLidOpen(false);
                 this._poppingLid = false;
                 this._lidPopT = 0;
             }
@@ -345,7 +351,14 @@ export class CassettePlayer extends Behaviour {
         if (this._lidPopT >= 1) {
             this._poppingLid = false;
             this.lid.enabled = true;
+            this.setLidOpen(true);
         }
+    }
+
+    /** Keeps `cassetteSlot` enabled in lockstep with whether `lid` is open (handed over to the
+     *  player) - the tape can only be dropped in or pulled out while the lid actually is. */
+    private setLidOpen(open: boolean): void {
+        if (this.cassetteSlot) this.cassetteSlot.enabled = open;
     }
 
     private currentMode(): CassetteMode {
