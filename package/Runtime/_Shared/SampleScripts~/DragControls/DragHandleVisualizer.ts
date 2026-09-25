@@ -53,7 +53,7 @@ export enum HandleDisplay {
  * | a side, with {@link DragControls.rotateOnEdgeGrab} on — or a turn mode | a circular arrow | `grab` |
  * | a corner, with {@link DragControls.scaleOnCornerGrab} on — or {@link DragMode.Scale} | a box with an arrow growing out of it, pointing out of the nearest corner | `nwse-resize` / `neswresize` |
  * | dragging over a {@link DragTarget} that will not take the object | a circle with a bar through it | `not-allowed` |
- * | nothing draggable | hidden | restored |
+ * | nothing draggable, or a spot outside the handles of an object held only by {@link DragControls.grabPoints} | hidden | restored |
  *
  * Assign the five icons below from the shared Icons folder — DragHandleMove, DragHandleSlide,
  * DragHandleTurn, DragHandleResize, DragHandleForbidden — or your own art in their place. Any icon

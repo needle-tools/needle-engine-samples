@@ -31,7 +31,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.AudioSource @amAudioSource;
 		[UnityEngine.Tooltip("Source played while the mode switch reads Cassette.")]
 		public UnityEngine.AudioSource @cassetteAudioSource;
-		[UnityEngine.Tooltip("The DragTarget the cassette tape is dropped into. Optional - if left unset the cassette source is never gated by presence and behaves as though a tape were always loaded.")]
+		[UnityEngine.Tooltip("The DragTarget the cassette tape is dropped into. Optional - if left unset the cassette source is never gated by presence and behaves as though a tape were always loaded, and there is nothing for opening/closing to enable or disable. Disabled itself while is closed, so a tape can only be dropped in or pulled out while the lid is actually open.")]
 		public Needle.Engine.Components.DragTarget @cassetteSlot;
 		[UnityEngine.Tooltip("Slider position above which a switch counts as on, or a push button counts as pressed.")]
 		public float @onThreshold = 0.5f;
