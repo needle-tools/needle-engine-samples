@@ -7,16 +7,16 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class GalleryManager : UnityEngine.MonoBehaviour
 	{
-		public Needle.Typescript.GeneratedComponents.GalleryPOI[] @pois = new Needle.Typescript.GeneratedComponents.GalleryPOI[]{ };
+		public Needle.Typescript.GeneratedComponents.GalleryPOI[] @pois;
 		public Needle.Typescript.GeneratedComponents.GalleryUI @galleryUI;
 		public string @categoryName = "";
 		public Needle.Engine.FileReference @icon;
 		public bool @arrowKeysNavigation = true;
-		public void awake(){}
-		public void poiFocused(Needle.Typescript.GeneratedComponents.GalleryPOI @poi){}
-		public void focusNext(Needle.Typescript.GeneratedComponents.GalleryPOI @poi){}
-		public void focusPrevious(Needle.Typescript.GeneratedComponents.GalleryPOI @poi){}
-		public void update(){}
+		public void Awake() {}
+		public void poiFocused(Needle.Typescript.GeneratedComponents.GalleryPOI @poi) {}
+		public void focusNext(Needle.Typescript.GeneratedComponents.GalleryPOI @poi) {}
+		public void focusPrevious(Needle.Typescript.GeneratedComponents.GalleryPOI @poi) {}
+		public void Update() {}
 	}
 }
 

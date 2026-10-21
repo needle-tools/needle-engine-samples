@@ -65,6 +65,7 @@ import { ButtonAndTextFiller } from "../Gallery/ButtonAndTextFiller.js";
 import { GalleryManager } from "../Gallery/GalleryManager.js";
 import { GalleryPOI } from "../Gallery/GalleryPOI.js";
 import { GalleryUI } from "../Gallery/GalleryUI.js";
+import { GalleryNavigation } from "../Gallery/GalleryNavigation.js";
 import { MaterialXAsset } from "../Material X/MaterialXAsset.js";
 import { SyncedPlayableDirector } from "../Networking/SyncedPlayableDirector.js";
 import { ConsumeAllPointers } from "../PointerHandlers/ConsumeAllPointers.js";
@@ -137,6 +138,7 @@ export function registerTypes() {
 	TypeStore.add("GalleryManager", GalleryManager);
 	TypeStore.add("GalleryPOI", GalleryPOI);
 	TypeStore.add("GalleryUI", GalleryUI);
+	TypeStore.add("GalleryNavigation", GalleryNavigation);
 	TypeStore.add("MaterialXAsset", MaterialXAsset);
 	TypeStore.add("SyncedPlayableDirector", SyncedPlayableDirector);
 	TypeStore.add("ConsumeAllPointers", ConsumeAllPointers);

@@ -23,6 +23,17 @@ export class GalleryManager extends Behaviour {
     arrowKeysNavigation: boolean = true;
 
     private selectedPOIIndex: number = 0;
+    private focusListeners: Array<(poi: GalleryPOI, index: number) => void> = [];
+
+    //@nonSerialized
+    get selectedIndex() { return this.selectedPOIIndex; }
+
+    /** Calls back with the POI and its index whenever a POI of this manager is focused. Returns a function that removes the listener. */
+    //@nonSerialized
+    addFocusListener(listener: (poi: GalleryPOI, index: number) => void) {
+        this.focusListeners.push(listener);
+        return () => { this.focusListeners = this.focusListeners.filter(x => x !== listener); };
+    }
 
     awake(): void {
         this.populateGalleryUI(this.pois);
@@ -52,6 +63,7 @@ export class GalleryManager extends Behaviour {
         if (index == -1) return;
 
         this.selectedPOIIndex = index;
+        this.focusListeners.forEach(x => x(poi, index));
     }
 
     focusNext(poi?:GalleryPOI) {
