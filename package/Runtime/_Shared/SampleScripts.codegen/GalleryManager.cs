@@ -12,7 +12,10 @@ namespace Needle.Typescript.GeneratedComponents
 		public string @categoryName = "";
 		public Needle.Engine.FileReference @icon;
 		public bool @arrowKeysNavigation = true;
+		[UnityEngine.Tooltip("Hide all POIs but the focused one. The POI being left stays visible until the camera has arrived at the new one. Uses the Ignore Raycast layer, which the camera stops rendering.")]
+		public bool @hideInactivePOIs = false;
 		public void Awake() {}
+		public void Start() {}
 		public void poiFocused(Needle.Typescript.GeneratedComponents.GalleryPOI @poi) {}
 		public void focusNext(Needle.Typescript.GeneratedComponents.GalleryPOI @poi) {}
 		public void focusPrevious(Needle.Typescript.GeneratedComponents.GalleryPOI @poi) {}
