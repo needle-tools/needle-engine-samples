@@ -1,152 +1,113 @@
 import {
-    Behaviour, DragControls, DragMode, DragTarget, GameObject, GrabGesture, serializable,
+    Behaviour, DragControls, DragMode, EdgeGrabMode, GameObject, GrabGesture, GrabRim, serializable,
 } from "@needle-tools/engine";
 import {
-    Camera, Color, Object3D, OrthographicCamera, PerspectiveCamera, Sprite, SpriteMaterial,
+    AdditiveBlending, BufferAttribute, BufferGeometry, Camera, Color, DoubleSide, Matrix4, Mesh,
+    MeshBasicMaterial, Object3D, OrthographicCamera, PerspectiveCamera, Ray, Sprite, SpriteMaterial,
     Texture, Vector2, Vector3,
 } from "three";
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
+import { LineSegments2 } from "three/examples/jsm/lines/LineSegments2.js";
+import { LineSegmentsGeometry } from "three/examples/jsm/lines/LineSegmentsGeometry.js";
 
 // Documentation → https://docs.needle.tools/scripting
 
 /**
  * When one half of the handle display is shown - see {@link DragHandleVisualizer.showIcon} and
- * {@link DragHandleVisualizer.useCursor}.
- *
- * The two halves suit opposite inputs, which is what {@link Auto} exists for: a mouse already has a
- * pointer on screen and the cheapest, most familiar way to say what a spot does is to change it,
- * while in XR there is no cursor to change at all and the only place to put the answer is in the
- * scene. Touch has no hover to speak of, so nothing is shown until a drag starts and the handle is
- * the only half that means anything.
+ * {@link DragHandleVisualizer.useCursor}. Auto: cursor for a mouse, icon for touch and XR.
  */
 export enum HandleDisplay {
-    /** Decide from whatever is driving the pointer right now, and keep deciding - a session that
-     *  enters XR partway through switches over with it. */
+    /** Decide from the current input; re-decided when it changes (e.g. entering XR). */
     Auto = 0,
-    /** Always shown, whatever the input. */
     Always = 1,
-    /** Never shown. */
     Never = 2,
 }
 
 /**
- * Shows the user what a {@link DragControls} object will do **before** they drag it: a handle icon
- * under the pointer, and a matching mouse cursor, saying whether this spot moves the object, turns
- * it, or resizes it.
+ * Shows what a {@link DragControls} object will do before it is dragged: an icon under the pointer,
+ * a matching cursor, and - for objects with edge or corner grabs - the rim zones drawn on the
+ * object itself.
  *
- * A draggable object is otherwise opaque. With {@link DragControls.rotateOnEdgeGrab} and
- * {@link DragControls.scaleOnCornerGrab} the same object answers to three different gestures
- * depending on where it is taken hold of — the middle moves it, the sides turn it, the corners
- * resize it — and nothing on screen says so. The user finds out by dragging and undoing. This is
- * the affordance that free-transform tools in every image editor already provide, brought to a 3D
- * scene: point at a corner, see the resize arrows, know what will happen.
+ * One instance covers the whole scene, including objects spawned later. Extra instances stand by.
  *
- * Drop one of these anywhere in the scene. It watches the pointer, not any particular object, so a
- * single instance covers every draggable there is — including ones spawned later.
- *
- * One is also all a scene needs, and all it should have: two would draw two handles in the same
- * spot and overwrite each other's cursor every frame. Only the instance enabled first does the
- * work; any other stands by in case that one goes away, and says so once in the console.
- *
- * | What the pointer is over | Icon | Cursor |
+ * | Pointer over | Icon | Cursor |
  * |---|---|---|
- * | the body of a movable object, or {@link DragMode.Slide} | an open hand — or, for a slide, arrows along the axis it runs on | `grab` |
- * | a side, with {@link DragControls.rotateOnEdgeGrab} on — or a turn mode | a circular arrow | `grab` |
- * | a corner, with {@link DragControls.scaleOnCornerGrab} on — or {@link DragMode.Scale} | a box with an arrow growing out of it, pointing out of the nearest corner | `nwse-resize` / `neswresize` |
- * | dragging over a {@link DragTarget} that will not take the object | a circle with a bar through it | `not-allowed` |
- * | nothing draggable, or a spot outside the handles of an object held only by {@link DragControls.grabPoints} | hidden | restored |
+ * | body, or {@link DragMode.Slide} | move cross / slide arrows along the axis | `grab` |
+ * | a side with rotateOnEdgeGrab, or a turn mode | circular arrow | turn icon |
+ * | a corner with scaleOnCornerGrab, or {@link DragMode.Scale} | resize arrow out of the corner | `*-resize` |
+ * | a drop target refusing the object | forbidden | `not-allowed` |
+ * | nothing draggable | hidden | restored |
  *
- * Assign the five icons below from the shared Icons folder — DragHandleMove, DragHandleSlide,
- * DragHandleTurn, DragHandleResize, DragHandleForbidden — or your own art in their place. Any icon
- * left empty simply shows no handle for that gesture; the cursor still changes.
- *
- * Which of the two halves is used is by default decided by the input, and re-decided as it changes
- * — the cursor for a mouse, the in-scene icon for XR and touch. See {@link HandleDisplay}.
- *
- * @example Cursor only, whatever the input
- * ```ts
- * const handles = scene.addComponent(DragHandleVisualizer);
- * handles.showIcon = HandleDisplay.Never;
- * handles.useCursor = HandleDisplay.Always;
- * ```
+ * Icons: DragHandleMove, DragHandleSlide, DragHandleTurn, DragHandleResize, DragHandleForbidden
+ * from the shared Icons folder. An empty slot shows no icon; the cursor still changes.
  */
 export class DragHandleVisualizer extends Behaviour {
 
-    /** Show the handle icon in the scene, under the pointer. On Auto it appears for every input
-     *  except a mouse, which is better served by the cursor below. */
+    /** Show the handle icon under the pointer. Auto: every input except a mouse. */
     @serializable()
     showIcon: HandleDisplay = HandleDisplay.Auto;
 
-    /**
-     * Set the mouse cursor to match the gesture. On Auto it is used for mouse input only - there is
-     * no cursor to set in XR, and none worth setting on a touch screen.
-     *
-     * Restored to whatever it was as soon as the pointer leaves a draggable, on disable, and the
-     * moment Auto stops choosing it - so this never leaves a stuck cursor behind.
-     */
+    /** Set the mouse cursor to match the gesture. Auto: mouse only. Restored when no longer used. */
     @serializable()
     useCursor: HandleDisplay = HandleDisplay.Auto;
 
-    /** How big the icon is drawn, in screen pixels. Constant at any distance: a handle is a piece
-     *  of interface, and a piece of interface that shrinks into the distance stops being clickable
-     *  long before it stops being drawn. */
+    /** Draw the edge and corner zones on hovered objects that rotate on edge grab or scale on corner grab. */
+    @serializable()
+    showRim: boolean = true;
+
+    /** Icon size in screen pixels; constant at any distance. */
     @serializable()
     iconSize: number = 44;
 
-    /**
-     * Nudge the icon away from the spot it marks, in screen pixels: X to the right, Y up.
-     *
-     * Screen pixels rather than world units so the nudge holds its distance at any depth and any
-     * zoom, exactly as the icon size does. A world-space offset would drift as the camera moved and
-     * would have to be retuned for every object it was used on.
-     *
-     * Useful mainly to get the icon out from under the mouse cursor, which sits at that same spot
-     * and otherwise covers it. Something like 0, 28 puts the handle just above the pointer.
-     */
+    /** Icon offset from the pointer in screen pixels, X right and Y up. */
     @serializable(Vector2)
     screenOffset: Vector2 = new Vector2(0, 0);
 
-    /** Icon tint. Multiplies the assigned art, so white leaves it exactly as authored. The supplied
-     *  icons have a near-black plate behind the glyph, which a tint leaves neutral. */
+    /** Icon tint; white leaves the art unchanged. */
     @serializable(Color)
     color: Color = new Color(1, 1, 1);
 
-    /** How solid the icon is. */
+    /** Icon opacity. */
     @serializable()
     opacity: number = 0.9;
 
-    /** Keep showing the handle while a drag is actually running. On by default: the icon tracks the
-     *  live pointer through the drag and is the clearest confirmation that the gesture the user
-     *  aimed for is the one they got. */
+    /** Rim color for the zones that rotate. */
+    @serializable(Color)
+    turnColor: Color = new Color(1, 0.7, 0.25);
+
+    /** Rim color for the zones that resize. */
+    @serializable(Color)
+    resizeColor: Color = new Color(0.3, 0.8, 1);
+
+    /** Rim line width in screen pixels. The hovered zone is drawn at twice this. */
+    @serializable()
+    rimWidth: number = 2.5;
+
+    /** Keep showing the handle while a drag is running. */
     @serializable()
     showWhileDragging: boolean = true;
 
-    /** Art for free movement, shown on the body of an object that can be carried anywhere. An open
-     *  hand, DragHandleMove in the shared Icons folder. */
+    /** Free movement. DragHandleMove. */
     @serializable(Texture)
     moveIcon: Texture | null = null;
 
-    /** Art for movement along one axis, turned onto that axis at runtime. DragHandleSlide. */
+    /** Movement along one axis, drawn along X and turned onto the axis at runtime. DragHandleSlide. */
     @serializable(Texture)
     slideIcon: Texture | null = null;
 
-    /** Art for rotation. DragHandleTurn. */
+    /** Rotation. DragHandleTurn. */
     @serializable(Texture)
     turnIcon: Texture | null = null;
 
-    /** Art for resizing, turned onto the corner being grabbed. DragHandleResize, whose arrow is
-     *  drawn pointing up and to the right - see the note on the icon angle if you replace it. */
+    /** Resizing, drawn pointing up and to the right and turned onto the grabbed corner. DragHandleResize. */
     @serializable(Texture)
     resizeIcon: Texture | null = null;
 
-    /** Art shown in place of the usual handle while a drag is over a drop target that will not take
-     *  it right now. DragHandleForbidden. Not turned to any angle: shown exactly as drawn. */
+    /** Shown while a drag is over a drop target that refuses it. DragHandleForbidden. */
     @serializable(Texture)
     forbiddenIcon: Texture | null = null;
 
-    /**
-     * Only show handles for objects under this one. Leave empty to watch the whole scene, which is
-     * the usual setup — set it when only part of a scene is meant to look editable.
-     */
+    /** Only show handles for objects under this one. Empty: the whole scene. */
     @serializable(Object3D)
     root: Object3D | null = null;
 
@@ -154,37 +115,29 @@ export class DragHandleVisualizer extends Behaviour {
 
     onEnable(): void {
         if (!_owners.has(this.context)) _owners.set(this.context, this);
-        this._sprite = this._createSprite();
-        this.context.scene.add(this._sprite);
-        // Passive: this only ever reads the event's type, and saying so lets the browser keep
-        // scrolling off the main thread.
+        this._sprite ??= this._createSprite();
+        this._rim ??= new RimDisplay();
+        this.context.scene.add(this._sprite, this._rim.root);
         const el = this.context.domElement as HTMLElement | undefined;
-        // The cursor the page itself wants, taken once here rather than the first time a handle is
-        // shown. By then something else may have put its own on the element — `DragControls` sets a
-        // plain hand for as long as the pointer is over a draggable — and taking that for the
-        // page's own would strand a hand over everything else the moment a handle stops being shown.
+        // Taken now: later, DragControls may have put its own hover cursor on the element.
         this._previousCursor = el?.style.cursor ?? "";
-        el?.addEventListener("pointermove", this._onPointerEvent, { passive: true });
-        el?.addEventListener("pointerdown", this._onPointerEvent, { passive: true });
+        for (const type of _pointerEvents) el?.addEventListener(type, this._onPointerEvent, { passive: true });
     }
 
     onDisable(): void {
         if (_owners.get(this.context) === this) _owners.delete(this.context);
         this._sprite?.removeFromParent();
-        this._sprite = null;
+        this._rim?.root.removeFromParent();
         this._restoreCursor();
         const el = this.context.domElement as HTMLElement | undefined;
-        el?.removeEventListener("pointermove", this._onPointerEvent);
-        el?.removeEventListener("pointerdown", this._onPointerEvent);
+        for (const type of _pointerEvents) el?.removeEventListener(type, this._onPointerEvent);
     }
 
     onDestroy(): void {
         if (_owners.get(this.context) === this) _owners.delete(this.context);
-        // onDisable has usually run already, but a component removed outright never sees it, and a
-        // cursor left as a resize arrow over a scene with no handles in it is a visible bug.
         this._restoreCursor();
-        // The material is ours; the textures on it are assets shared with whatever else uses them.
         this._sprite?.material.dispose();
+        this._rim?.dispose();
     }
 
     update(): void {
@@ -193,27 +146,15 @@ export class DragHandleVisualizer extends Behaviour {
             return;
         }
         const found = this._resolve();
-        if (!found) {
-            this._hide();
-            return;
-        }
-        this._show(found.gesture, found.point, found.drag, found.blocked);
+        if (!found) this._hide();
+        else this._show(found);
+        this._updateRim(found);
     }
 
-    /**
-     * Whether this is the instance doing the work - see the note on the class.
-     *
-     * Asked every frame rather than settled once on enable, so that whichever instance is left
-     * takes over the moment the one holding it is disabled or removed, rather than the scene
-     * losing its handles for good.
-     */
+    /** Whether this is the instance doing the work. Re-checked every frame so a standby takes over. */
     private _owns(): boolean {
         const owner = _owners.get(this.context);
         if (owner === this) return true;
-        // An owner that is disabled or destroyed counts as gone. Checked here rather than trusted
-        // to have released the claim on its way out, because a component removed outright can skip
-        // both onDisable and onDestroy — and a claim left pointing at a dead instance would leave
-        // the scene with no handles at all, which is worse than the duplicate this guards against.
         if (!owner || !owner.activeAndEnabled) {
             _owners.set(this.context, this);
             return true;
@@ -221,8 +162,7 @@ export class DragHandleVisualizer extends Behaviour {
         if (!this._warnedDuplicate) {
             this._warnedDuplicate = true;
             console.warn("[DragHandleVisualizer] More than one in the scene: the one on "
-                + owner.gameObject.name + " is showing the handles, the one on " + this.gameObject.name
-                + " is standing by. A single instance already covers every draggable object.");
+                + owner.gameObject.name + " is active, the one on " + this.gameObject.name + " stands by.");
         }
         return false;
     }
@@ -232,94 +172,93 @@ export class DragHandleVisualizer extends Behaviour {
 
     // #region what is under the pointer
 
-    /**
-     * The gesture available right now, and where.
-     *
-     * A drag in flight answers first and answers itself: once the object is moving, the question is
-     * no longer what is under the pointer — the pointer has usually left the object entirely — but
-     * what this drag is doing, and {@link DragControls.pointerState} is what knows. Only when
-     * nothing is being dragged does this fall back to a raycast.
-     */
-    private _resolve(): { gesture: GrabGesture, point: Vector3, drag: DragControls, blocked: boolean } | null {
+    /** The gesture available right now, and where. A running drag answers first. */
+    private _resolve(): Found | null {
         const active = this._activeDrag();
         if (active) {
+            this._hover = null;
             if (!this.showWhileDragging) return null;
             const state = active.pointerState;
-            // Attached and the two-pointer gestures resolve no single point; the object itself is
-            // the honest place to put the handle then.
+            // Attached and two-pointer drags resolve no single point.
             const point = state?.point ?? (active.draggedObject ?? active.dragObject)?.worldPosition;
-            if (!point) return null;
-            const gesture = this._gestureOfRunningDrag(active);
-            if (gesture === null) return null;
-            return { gesture, point, drag: active, blocked: active.dropBlocked !== null };
+            const gesture = state?.gesture ?? null;
+            if (!point || gesture === null) return null;
+            return { gesture, point, drag: active, blocked: active.dropBlocked !== null, dragging: true, xr: state?.isXR === true };
         }
 
+        const xr = this._isXR();
+        // Screen pointer gone (left the canvas, finger lifted): nothing is hovered.
+        if (!xr && !this._pointerInside) {
+            this._hover = null;
+            return null;
+        }
+        if (!this._hoverIsStale(xr)) return this._hover;
+
+        this._hover = null;
+        if (xr) {
+            for (const controller of this.context.xr?.controllers ?? []) {
+                if (!controller.connected) continue;
+                const found = this._raycast(controller.ray, true);
+                if (found) { this._hover = found; break; }
+            }
+        }
+        else this._hover = this._raycast(null, false);
+        return this._hover;
+    }
+
+    /** First hit along the ray. A non-draggable hit occludes everything behind it. */
+    private _raycast(ray: Ray | null, xr: boolean): Found | null {
         const hits = this.context.physics.raycast({
             targets: this.root ? [this.root] : undefined,
+            ray: ray ?? undefined,
         });
         for (const hit of hits) {
-            if (!hit.object || hit.object === this._sprite) continue;
+            if (!hit.object || _isOwnVisual(hit.object)) continue;
             const drag = GameObject.getComponentInParent(hit.object, DragControls);
-            if (!drag || !drag.activeAndEnabled) continue;
-            const gesture = drag.getGestureAt(hit.point);
-            if (gesture === null) continue;
-            return { gesture, point: hit.point, drag, blocked: false };
+            if (!drag || !drag.activeAndEnabled) return null;
+            const gesture = drag.getGestureAt(hit.point, xr);
+            if (gesture === null) return null;
+            return { gesture, point: hit.point.clone(), drag, blocked: false, dragging: false, xr };
         }
         return null;
     }
+    private _hover: Found | null = null;
 
-    /** The DragControls currently dragging something, if any. Cheap: the scene is only walked while
-     *  the last known one has stopped, and a drag is the moment when that is least likely. */
+    /** Raycast again only when the pointer or camera moved, or every few frames for moving objects. */
+    private _hoverIsStale(xr: boolean): boolean {
+        const cam = this.context.mainCamera as Camera | null;
+        const pointer = this.context.input.mousePositionRC;
+        let stale = xr || (this.context.time.frameCount - this._lastRaycastFrame) >= 8;
+        if (!_lastPointer.equals(pointer)) { _lastPointer.copy(pointer); stale = true; }
+        if (cam && !_lastCamera.equals(cam.matrixWorld)) { _lastCamera.copy(cam.matrixWorld); stale = true; }
+        if (stale) this._lastRaycastFrame = this.context.time.frameCount;
+        return stale;
+    }
+    private _lastRaycastFrame: number = -1;
+
+    /** The DragControls currently dragging, within {@link root}. */
     private _activeDrag(): DragControls | null {
-        if (this._lastActive?.pointerState) return this._lastActive;
-        const all = GameObject.getComponentsInChildren(this.root ?? this.context.scene, DragControls);
-        for (const drag of all ?? []) {
-            if (drag.pointerState) { this._lastActive = drag; return drag; }
+        for (const drag of DragControls.CurrentlySelected) {
+            if (!drag.pointerState) continue;
+            if (this.root && !_isUnder(drag.gameObject, this.root)) continue;
+            return drag;
         }
-        this._lastActive = null;
         return null;
-    }
-    private _lastActive: DragControls | null = null;
-
-    /**
-     * What a running drag is doing.
-     *
-     * Read from the mode the drag actually resolved rather than from the point, because an edge
-     * grab has already made its decision: the drag is turning the object whatever the pointer has
-     * since wandered over, and re-reading the zone under a pointer that has left the object would
-     * flicker the icon through every gesture on the way out.
-     */
-    private _gestureOfRunningDrag(drag: DragControls): GrabGesture | null {
-        switch (drag.pointerState?.mode ?? drag.dragMode) {
-            case DragMode.None: return null;
-            case DragMode.Scale: return GrabGesture.Resize;
-            case DragMode.HingeRotate:
-            case DragMode.Rotate:
-            case DragMode.ScaleAndRotate: return GrabGesture.Turn;
-            default: return GrabGesture.Move;
-        }
     }
 
     // #endregion
 
     // #region presentation
 
-    /** @param blocked whether the drag is currently over a {@link DragTarget} that refuses the
-     *  object - see {@link DragControls.dropBlocked}. Overrides `gesture` for both halves of the
-     *  display: there is no useful move/turn/resize answer for a drop that cannot land. */
-    private _show(gesture: GrabGesture, point: Vector3, drag: DragControls, blocked: boolean): void {
+    private _show(found: Found): void {
+        const { gesture, point, drag, blocked } = found;
         if (this._enabled(this.useCursor, _cursorSuitsInput)) {
-            // Taken before the first write and held until there is nothing to show: DragControls
-            // puts a plain hand on anything draggable the pointer enters, and two writers on one
-            // style property leave whichever ran last in place - which on an idle frame is not
-            // necessarily the one that still means something.
+            // Held while shown so DragControls' plain hover hand does not overwrite it.
             this._cursorClaim ??= DragControls.claimCursor(this);
             this._setCursor(blocked
-                ? this._imageCursor(this.forbiddenIcon, "not-allowed") ?? "not-allowed"
+                ? this._imageCursor(this.forbiddenIcon, "not-allowed")
                 : this._cursorFor(gesture, point, drag));
         }
-        // Not merely skipped: Auto can stop choosing the cursor mid-session, when a headset is put
-        // on, and the one already set would otherwise stay on the canvas for good.
         else this._restoreCursor();
 
         const sprite = this._sprite;
@@ -328,19 +267,24 @@ export class DragHandleVisualizer extends Behaviour {
             return;
         }
 
-        const material = sprite.material as SpriteMaterial;
-        material.map = blocked ? this.forbiddenIcon : this._textureFor(gesture, drag);
+        const material = sprite.material;
+        const map = blocked ? this.forbiddenIcon : this._textureFor(gesture, drag);
+        if (!map) {
+            sprite.visible = false;
+            return;
+        }
+        if (material.map !== map) {
+            // Recompile only when the map appears or disappears, not on a swap.
+            if (!material.map) material.needsUpdate = true;
+            material.map = map;
+        }
         material.opacity = this.opacity;
         material.color.copy(this.color);
-        material.needsUpdate = true;
+        material.rotation = blocked ? 0 : this._screenRotationFor(gesture, point, drag);
 
         sprite.position.copy(point);
         sprite.visible = true;
-        // Screen-space turn, so a slide's arrows lie along the axis the object actually travels and
-        // a corner's arrows point out of the corner they belong to. The forbidden icon reads the
-        // same from every angle, so it is left at 0 rather than turned onto anything.
-        material.rotation = blocked ? 0 : this._screenRotationFor(gesture, point, drag);
-        this._placeOnScreen(sprite, point);
+        this._placeOnScreen(sprite, point, found.xr);
     }
 
     private _hide(): void {
@@ -348,61 +292,54 @@ export class DragHandleVisualizer extends Behaviour {
         this._restoreCursor();
     }
 
-    /** Whether a half of the display is on, resolving {@link HandleDisplay.Auto} through `suits`. */
     private _enabled(setting: HandleDisplay, suits: (xr: boolean, mouse: boolean) => boolean): boolean {
         if (setting === HandleDisplay.Always) return true;
         if (setting === HandleDisplay.Never) return false;
         return suits(this._isXR(), this._isMouse());
     }
 
-    /** Whether an XR session is running. Asked every frame rather than cached at start-up: a page
-     *  begins on a flat screen and enters XR later, and the answer has to change with it. */
     private _isXR(): boolean {
         return this.context.isInXR === true;
     }
 
-    /**
-     * Whether the pointer being used is a mouse.
-     *
-     * Taken from the DOM events directly rather than from `context.input.getIsMouse`, which records
-     * the pointer's type only when a button goes **down**. This component works entirely on hover —
-     * everything it does happens before anything is pressed — so that answer is always no here, and
-     * a mouse would never once be recognised as one.
-     *
-     * Before any pointer has moved there is nothing to have observed, so the device is asked what
-     * kind of pointer it primarily has. That is the right question at that moment and the wrong one
-     * afterwards: a laptop with a touchscreen reports a fine hovering pointer whichever the user is
-     * actually reaching for, which is why an observed event always wins.
-     */
+    /** From DOM events: context.input.getIsMouse is only set on pointer-down. */
     private _isMouse(): boolean {
         if (this._lastPointerType !== null) return this._lastPointerType === "mouse";
         return globalThis.matchMedia?.("(hover: hover) and (pointer: fine)").matches === true;
     }
     private _lastPointerType: string | null = null;
+    private _pointerInside: boolean = false;
     private readonly _onPointerEvent = (e: Event) => {
-        const type = (e as PointerEvent).pointerType;
-        if (type) this._lastPointerType = type;
+        const evt = e as PointerEvent;
+        if (evt.pointerType) this._lastPointerType = evt.pointerType;
+        switch (evt.type) {
+            case "pointerleave":
+            case "pointercancel":
+                this._pointerInside = false;
+                break;
+            case "pointerup":
+                // A lifted finger or pen has no hover left.
+                if (evt.pointerType !== "mouse") this._pointerInside = false;
+                break;
+            default:
+                this._pointerInside = true;
+        }
     };
 
-    /**
-     * Give the sprite its size and its nudge, both of which are asked for in screen pixels and so
-     * both of which come from the same number: how much world one pixel is worth where the icon is
-     * standing.
-     */
-    private _placeOnScreen(sprite: Sprite, point: Vector3): void {
+    /** Size in screen pixels and the pixel offset. In XR a fixed angular size instead. */
+    private _placeOnScreen(sprite: Sprite, point: Vector3, xr: boolean): void {
         const cam = this.context.mainCamera as Camera | null;
-        const perPixel = this._worldPerPixel(point);
-        if (!cam || perPixel <= 0) return;
+        if (!cam) return;
+        const perPixel = xr
+            ? cam.getWorldPosition(_camPos).distanceTo(point) * _xrWorldPerPixel
+            : this._worldPerPixel(point);
+        if (perPixel <= 0) return;
 
         const size = this.iconSize * perPixel;
         sprite.scale.set(size, size, 1);
 
         const offset = this.screenOffset;
         if (!offset || (offset.x === 0 && offset.y === 0)) return;
-        // The camera's own right and up in world space: the two directions the screen's x and y
-        // actually lie along, whatever the camera is doing. Reading them from the matrix means a
-        // tilted or rolled camera moves the icon the way the screen would, not the way the world
-        // would.
         _camRight.setFromMatrixColumn(cam.matrixWorld, 0).normalize();
         _camUp.setFromMatrixColumn(cam.matrixWorld, 1).normalize();
         sprite.position
@@ -410,13 +347,7 @@ export class DragHandleVisualizer extends Behaviour {
             .addScaledVector(_camUp, offset.y * perPixel);
     }
 
-    /**
-     * How much world space one screen pixel covers at `point`, or 0 when that cannot be worked out.
-     *
-     * The world height of the viewport at the icon's depth, divided by the viewport's height in
-     * pixels. An orthographic camera's viewport height does not depend on distance at all, which is
-     * the whole difference between the two branches.
-     */
+    /** World size of one screen pixel at `point`, or 0. */
     private _worldPerPixel(point: Vector3): number {
         const cam = this.context.mainCamera as Camera | null;
         const height = this.context.domHeight;
@@ -436,16 +367,8 @@ export class DragHandleVisualizer extends Behaviour {
     }
 
     /**
-     * How far to turn the icon on screen, in radians.
-     *
-     * A slide follows its own axis, so the arrows lie along the track the object actually runs on.
-     * Resize points out of the corner being grabbed, which is the convention a free-transform box
-     * already sets. Move is a cross and Turn a circle; both read the same at every angle and are
-     * left alone.
-     *
-     * Each result has the angle the icon is **drawn** at subtracted from it: the arrows are baked
-     * into the bitmap pointing somewhere already, and rotating by the target angle alone would add
-     * the two together. Only the resize icon is drawn off-axis, on the 45 degree diagonal.
+     * Screen-space turn for the icon, in radians: slide arrows along the slide axis, resize arrow
+     * out of the grabbed corner. The drawn angle of the art is subtracted.
      */
     private _screenRotationFor(gesture: GrabGesture, point: Vector3, drag: DragControls): number {
         const cam = this.context.mainCamera;
@@ -456,30 +379,30 @@ export class DragHandleVisualizer extends Behaviour {
             if (!axis) return 0;
             _from.copy(point).addScaledVector(axis, -0.5);
             _to.copy(point).addScaledVector(axis, 0.5);
-            // The slide arrows are drawn along 0, so the screen angle is already the turn.
             return this._screenAngle(_from, _to, cam);
         }
 
         if (gesture === GrabGesture.Resize) {
-            const object = drag.draggedObject ?? drag.dragObject;
-            if (!object) return 0;
-            // Out of the object's centre through the grabbed corner: the direction the corner is
-            // pulled to grow the object, which is the direction the arrows should lie along. Less
-            // the diagonal they are drawn on, or the icon ends up a right angle away from it.
-            const angle = this._screenAngle((object as Object3D).getWorldPosition(_from), point, cam);
-            return angle - _resizeIconScreenAngle;
+            const centre = this._boundsCentre(drag, _from);
+            if (!centre) return 0;
+            return this._screenAngle(centre, point, cam) - _resizeIconScreenAngle;
         }
 
         return 0;
     }
 
-    /** The on-screen angle of the segment `from`→`to`, measured the way `SpriteMaterial.rotation`
-     *  measures it. */
+    /** World centre of the object's bounds; the pivot is often at the base and skews corner directions. */
+    private _boundsCentre(drag: DragControls, out: Vector3): Vector3 | null {
+        const obj = drag.draggedObject ?? drag.dragObject;
+        if (!obj) return null;
+        if (drag.getGrabRim(_rimQuery)) return obj.localToWorld(_rimQuery.bounds.getCenter(out));
+        return (obj as Object3D).getWorldPosition(out);
+    }
+
+    /** On-screen angle of `from`→`to`, as SpriteMaterial.rotation measures it. */
     private _screenAngle(from: Vector3, to: Vector3, cam: Camera): number {
         _a.copy(from).project(cam);
         _b.copy(to).project(cam);
-        // The viewport is rarely square, and an angle measured in normalized device coordinates on
-        // a wide viewport points somewhere the user is not looking.
         const aspect = (this.context.domWidth || 1) / (this.context.domHeight || 1);
         const dx = (_b.x - _a.x) * aspect;
         const dy = _b.y - _a.y;
@@ -489,122 +412,101 @@ export class DragHandleVisualizer extends Behaviour {
 
     // #endregion
 
+    // #region rim
+
+    private _updateRim(found: Found | null): void {
+        const rim = this._rim;
+        if (!rim) return;
+        const dt = this.context.time.deltaTime;
+        let target: DragControls | null = null;
+        let point: Vector3 | null = null;
+        if (this.showRim && found && found.drag.getGrabRim(_rimQuery, found.point, found.xr)) {
+            // While dragging, keep the rim only for a turn or resize; a carried object needs none.
+            if (!found.dragging || found.gesture !== GrabGesture.Move) {
+                target = found.drag;
+                point = found.dragging ? null : found.point;
+            }
+        }
+        const cam = this.context.mainCamera as Camera | null;
+        rim.update(target, target ? _rimQuery : null, point, dt, this.context.time.time, {
+            turn: this.turnColor, resize: this.resizeColor, width: this.rimWidth,
+            resolutionX: this.context.domWidth, resolutionY: this.context.domHeight,
+            xr: found?.xr === true, camera: cam,
+        });
+    }
+
+    private _rim: RimDisplay | null = null;
+
+    // #endregion
+
     // #region cursor
 
     private _cursorFor(gesture: GrabGesture, point: Vector3, drag: DragControls): string {
         switch (gesture) {
-            // The one gesture CSS has no cursor for. Move has `move` and a resize has the four
-            // `*-resize` arrows, all of which say what they mean; rotation has nothing, and `grab`
-            // - an open hand - says only that the thing can be picked up. So the assigned art is
-            // used as the cursor itself where there is any, which is also the only way the turn
-            // icon is ever seen on a desktop: Auto shows the cursor there and not the handle.
-            case GrabGesture.Turn: return this._imageCursor(this.turnIcon, "grab") ?? "grab";
+            // CSS has no rotate cursor, so the turn art is used.
+            case GrabGesture.Turn: return this._imageCursor(this.turnIcon, "grab");
             case GrabGesture.Resize: {
-                // Which way the corner lies on screen, picked from the four resize cursors by
-                // octant — the same set, and the same split, a free-transform box uses. The icon's
-                // own drawn angle is added back because what is wanted here is the direction
-                // itself, not the turn that gets the bitmap onto it.
+                // Direction out of the corner on screen, picked by octant (NDC, y up).
                 const angle = this._screenRotationFor(gesture, point, drag) + _resizeIconScreenAngle;
-                // Into 0..180: a direction and its opposite call for the same cursor. Measured in
-                // normalized device coordinates, where y runs up — so 45 degrees slopes up and to
-                // the right, which is the north-east/south-west diagonal.
                 const deg = ((angle * 180 / Math.PI) % 180 + 180) % 180;
                 if (deg < 22.5 || deg >= 157.5) return "ew-resize";
                 if (deg < 67.5) return "nesw-resize";
                 if (deg < 112.5) return "ns-resize";
                 return "nwse-resize";
             }
-            // An open hand: the thing under the pointer is to be picked up and carried, which is
-            // what a hand says and what the four-way `move` cross does not - that one belongs to a
-            // window or a selection being nudged about, not to an object being taken hold of. The
-            // keyword rather than the assigned art, unlike the turn cursor: the browser already has
-            // this one, draws it at whatever the display's pixel density is, and matches whatever
-            // the rest of the page uses to mean the same thing.
             default: return "grab";
         }
     }
 
     /**
-     * A CSS cursor drawn from an icon texture, or `null` where there is no usable image yet.
-     *
-     * Browsers cap a custom cursor at well under the icon's own resolution, so it is redrawn at
-     * {@link _cursorPixels} with its hotspot in the middle — which is where a rotation glyph points
-     * from. `fallback` is the keyword the browser falls back to if it refuses the image, baked into
-     * the returned string itself rather than left to the caller's `??`, since a browser that accepts
-     * the URL but then fails to decode it still needs the right word behind it.
-     *
-     * Only successes are cached: a texture whose bitmap has not finished decoding answers `null`
-     * now and the real thing a frame or two later, and caching that first `null` would mean the
-     * cursor never appeared at all.
+     * A CSS cursor from an icon texture, falling back to `fallback`. Compressed textures (KTX2) have
+     * no drawable image; they get the keyword. Cached per image, so a progressive texture swapping
+     * in its full resolution is redrawn once.
      */
-    private _imageCursor(texture: Texture | null, fallback: string): string | null {
-        if (!texture) return null;
-        const cacheKey = fallback + "|" + texture.uuid;
-        const cached = this._cursorCache.get(cacheKey);
-        if (cached) return cached;
-        const image = texture.image as CanvasImageSource & { width?: number, naturalWidth?: number } | null;
-        if (!image || !(image.naturalWidth || image.width)) return null;
-        try {
-            const size = _cursorPixels;
-            const canvas = document.createElement("canvas");
-            canvas.width = canvas.height = size;
-            canvas.getContext("2d")?.drawImage(image, 0, 0, size, size);
-            const value = `url(${canvas.toDataURL("image/png")}) ${size / 2} ${size / 2}, ${fallback}`;
-            this._cursorCache.set(cacheKey, value);
-            return value;
-        }
-        catch {
-            // A texture from another origin taints the canvas and toDataURL throws. Nothing to be
-            // done about it here, and the keyword cursor is a fine answer.
-            return null;
-        }
-    }
-    private readonly _cursorCache: Map<string, string> = new Map();
+    private _imageCursor(texture: Texture | null, fallback: string): string {
+        if (!texture) return fallback;
+        const image = texture.image as unknown;
+        if (!image) return fallback;
+        const cached = this._cursorCache.get(texture.uuid + "|" + fallback);
+        if (cached && cached.image === image) return cached.value;
 
-    /**
-     * Sets the cursor. Whether the cursor is wanted at all is decided by the caller; what to put
-     * back when it stops being wanted is {@link _restoreCursor}'s business.
-     *
-     * What is already on the element decides whether to write, rather than only what was written
-     * last: anything else in the page may have set its own cursor since - `DragControls` puts a
-     * plain hand on every draggable the pointer enters - and a check against our own last value
-     * alone would never notice, leaving that other cursor up for as long as the gesture did not
-     * happen to change. Asked every frame, so an overwrite lasts one.
-     */
+        let value = fallback;
+        if (_isDrawable(image)) {
+            const width = (image as { naturalWidth?: number }).naturalWidth || (image as { width: number }).width;
+            if (!width) return fallback; // still decoding, try again next frame
+            try {
+                const size = _cursorPixels;
+                const canvas = document.createElement("canvas");
+                canvas.width = canvas.height = size;
+                canvas.getContext("2d")?.drawImage(image, 0, 0, size, size);
+                value = `url(${canvas.toDataURL("image/png")}) ${size / 2} ${size / 2}, ${fallback}`;
+            }
+            catch {
+                // Cross-origin image taints the canvas.
+            }
+        }
+        this._cursorCache.set(texture.uuid + "|" + fallback, { image, value });
+        return value;
+    }
+    private readonly _cursorCache: Map<string, { image: unknown, value: string }> = new Map();
+
+    /** Writes the cursor if it changed or someone else overwrote it. */
     private _setCursor(cursor: string): void {
         const el = this.context.domElement as HTMLElement | undefined;
         if (!el) return;
-        // Already ours and still untouched, so there is nothing to write. Both halves matter: the
-        // first skips the work, the second notices an overwrite and puts the cursor back.
         if (this._cursor === cursor && el.style.cursor === this._cursorAsRead) return;
         el.style.cursor = cursor;
         this._cursor = cursor;
-        // What the element makes of it, which is not always what went in: an image cursor comes back
-        // re-serialized, `url(data:...)` written and `url("data:...")` read. Comparing the written
-        // form against the element would never match again, so this component would take its own
-        // cursor for someone else's - never recognising it to take it back, and rewriting a data URI
-        // every frame in the meantime. Keyword cursors come back unchanged and this costs them a
-        // string compare.
+        // The element re-serializes url() values, so compare against what it reads back.
         this._cursorAsRead = el.style.cursor;
     }
 
-    /**
-     * Put the cursor back exactly once, and only if it is still the one we set.
-     *
-     * Anything else in the page may have set its own cursor since — a UI overlay, another
-     * interaction script — and stamping our remembered value over theirs would be the same bug in
-     * the other direction.
-     */
+    /** Puts the cursor back, only if it is still ours. */
     private _restoreCursor(): void {
-        // Given back before the write, not after: from here on the hand hint is the right answer
-        // for anything draggable the pointer is over, and this component has nothing to say.
         this._cursorClaim?.();
         this._cursorClaim = null;
         if (this._cursor === null) return;
         const el = this.context.domElement as HTMLElement | undefined;
-        // Against the element's own reading of what we set, never against what we wrote - see the
-        // note in _setCursor. This is the comparison that decides whether the cursor still belongs
-        // to us, so getting it wrong means never giving it back.
         if (el && el.style.cursor === this._cursorAsRead) el.style.cursor = this._previousCursor;
         this._cursor = null;
         this._cursorAsRead = null;
@@ -612,46 +514,30 @@ export class DragHandleVisualizer extends Behaviour {
     private _cursor: string | null = null;
     private _cursorAsRead: string | null = null;
     private _previousCursor: string = "";
-    /** Gives the cursor back to `DragControls` - see where it is claimed. */
     private _cursorClaim: (() => void) | null = null;
 
     // #endregion
 
-    // #region the sprite and its icons
+    // #region sprite
 
     private _sprite: Sprite | null = null;
 
     private _createSprite(): Sprite {
         const material = new SpriteMaterial({
             transparent: true,
-            // A handle is interface, not scenery: it belongs in front of the thing it labels, and
-            // half of it disappearing into a sofa arm would say the wrong thing about where it is.
             depthTest: false,
             depthWrite: false,
             toneMapped: false,
         });
         const sprite = new Sprite(material);
         sprite.visible = false;
-        sprite.renderOrder = 10000;
-        // Off the raycast layer, or the handle sits under the pointer and shadows the very object
-        // it is describing — the icon would be the only thing ever hit.
-        sprite.layers.set(2);
-        // Deliberately not the component's own name: a GameObject carrying this component is very
-        // likely called that too, and a scene with both in it makes getObjectByName ambiguous —
-        // which silently hands back whichever the traversal reaches first.
+        sprite.renderOrder = 10001;
         sprite.name = _spriteName;
+        _markOwnVisual(sprite);
         return sprite;
     }
 
-    /**
-     * The icon for this gesture, or `null` when none has been assigned — in which case the cursor
-     * still changes and only the in-scene handle is missing.
-     *
-     * {@link DragMode.Slide} splits off from the rest of Move because it does not move freely: it
-     * runs on one axis, and a four-way cross over a drawer promises two directions of travel that
-     * do not exist. It falls back to {@link moveIcon} where no slide art is assigned, which is
-     * wrong in the same small way but better than showing nothing.
-     */
+    /** The icon for this gesture. Slide falls back to the move icon. */
     private _textureFor(gesture: GrabGesture, drag: DragControls): Texture | null {
         if (gesture === GrabGesture.Turn) return this.turnIcon;
         if (gesture === GrabGesture.Resize) return this.resizeIcon;
@@ -662,54 +548,453 @@ export class DragHandleVisualizer extends Behaviour {
     // #endregion
 }
 
-/**
- * The diagonal the resize icon's arrow already points along, measured the way the screen measures
- * angles — which has to be taken off the direction wanted before the sprite is turned onto it,
- * since rotating art that already points somewhere adds the two together.
- *
- * Positive because the arrow runs from the image's bottom-left box out to its top-right corner, and
- * image rows go **down** while screen angles go up: the same diagonal is minus 45 degrees in the
- * image and plus 45 on screen. Getting this sign wrong leaves the icon a right angle away from the
- * direction it means to point along — which still looks like a plausible arrow, and is why it is
- * named here rather than inlined.
- *
- * The arrow points one way only, so this is the whole 360 degrees and not just the diagonal:
- * replacing DragHandleResize with art pointing anywhere else means putting that angle here.
- */
-const _resizeIconScreenAngle = Math.PI * 0.25;
+type Found = {
+    gesture: GrabGesture,
+    point: Vector3,
+    drag: DragControls,
+    blocked: boolean,
+    dragging: boolean,
+    xr: boolean,
+};
+
+type RimStyle = {
+    turn: Color,
+    resize: Color,
+    width: number,
+    resolutionX: number,
+    resolutionY: number,
+    xr: boolean,
+    camera: Camera | null,
+};
 
 /**
- * {@link HandleDisplay.Auto} for the cursor: a mouse, and nothing else.
+ * The rim zones of one object: corner brackets for the resize zones, segmented side bars for the
+ * turn zones. The zone under the pointer is drawn thicker with a soft fill. Fades and settles in
+ * from slightly larger on appear.
  *
- * XR has no cursor at all, and a touch screen has one only in the sense that the browser will let
- * you set a property nobody will ever see.
+ * Flat for most edge grab modes: one face, the one {@link DragControls.getGrabRim} reads. For
+ * {@link EdgeGrabMode.FaceGrid}, where every face has its own zones, the camera-facing faces of
+ * the box are drawn together, so corners read as three-legged block corners and the hovered zone
+ * lights up on every visible face it touches.
  */
-/** Scene-graph name for the handle sprite. Distinct from the component's own name on purpose —
- *  see where it is assigned. */
+class RimDisplay {
+    readonly root: Object3D = new Object3D();
+    private readonly _frame: LineSegments2;
+    private readonly _frameMaterial: LineMaterial;
+    private readonly _hi: LineSegments2;
+    private readonly _hiMaterial: LineMaterial;
+    private readonly _fill: Mesh;
+    private readonly _fillMaterial: MeshBasicMaterial;
+
+    private _drag: DragControls | null = null;
+    private _frameKey: string = "";
+    private _zoneKey: string = "";
+    private _alpha: number = 0;
+    private _zoneAlpha: number = 0;
+    private readonly _bounds = new GrabRim();
+    /** Bounds centre and half extents, per local axis. */
+    private readonly _c: number[] = [0, 0, 0];
+    private readonly _h: number[] = [0, 0, 0];
+    /** Active face: normal axis and its sign. */
+    private _iw: number = 1;
+    private _sw: number = 1;
+    private _cube: boolean = false;
+    /** Camera-facing faces, bit `axis * 2 + (sign > 0 ? 1 : 0)`. */
+    private _visible: number = 0;
+
+    constructor() {
+        this.root.name = "DragHandle.Rim";
+        this.root.matrixAutoUpdate = false;
+        this.root.visible = false;
+
+        this._frameMaterial = _lineMaterial();
+        this._frame = new LineSegments2(new LineSegmentsGeometry(), this._frameMaterial);
+        this._frame.renderOrder = 9998;
+
+        this._hiMaterial = _lineMaterial();
+        this._hi = new LineSegments2(new LineSegmentsGeometry(), this._hiMaterial);
+        this._hi.renderOrder = 10000;
+
+        this._fillMaterial = new MeshBasicMaterial({
+            transparent: true, depthTest: false, depthWrite: false, side: DoubleSide,
+            blending: AdditiveBlending, toneMapped: false,
+        });
+        // Up to three quads: a block corner shows on three faces.
+        const fillGeometry = new BufferGeometry();
+        fillGeometry.setAttribute("position", new BufferAttribute(new Float32Array(12 * 3), 3));
+        const index: number[] = [];
+        for (let q = 0; q < 3; q++) index.push(q * 4, q * 4 + 1, q * 4 + 2, q * 4, q * 4 + 2, q * 4 + 3);
+        fillGeometry.setIndex(index);
+        this._fill = new Mesh(fillGeometry, this._fillMaterial);
+        this._fill.renderOrder = 9999;
+        this._fill.frustumCulled = false;
+
+        for (const obj of [this._frame, this._hi, this._fill]) {
+            _markOwnVisual(obj);
+            obj.matrixAutoUpdate = false;
+            this.root.add(obj);
+        }
+        _markOwnVisual(this.root);
+    }
+
+    dispose(): void {
+        this._frame.geometry.dispose();
+        this._hi.geometry.dispose();
+        this._fill.geometry.dispose();
+        this._frameMaterial.dispose();
+        this._hiMaterial.dispose();
+        this._fillMaterial.dispose();
+    }
+
+    /** `point` null keeps the current highlight (a drag in flight). */
+    update(drag: DragControls | null, rim: GrabRim | null, point: Vector3 | null, dt: number, time: number, style: RimStyle): void {
+        if (drag && rim && drag !== this._drag) {
+            // Let the previous object's rim fade out first, then draw the new one in fresh.
+            if (this._drag && this._alpha > 0.05) {
+                this._fadeOut(dt);
+                this._apply(style, time);
+                return;
+            }
+            this._drag = drag;
+            this._alpha = 0;
+            this._zoneKey = "";
+            this._frameKey = "";
+        }
+        const obj = drag ? (drag.draggedObject ?? drag.dragObject) : null;
+        if (!drag || !rim || !obj) {
+            this._fadeOut(dt);
+            this._apply(style, time);
+            return;
+        }
+
+        this._bounds.bounds.copy(rim.bounds);
+        this._bounds.faceNormal.copy(rim.faceNormal);
+        this._bounds.margin = rim.margin;
+        this._bounds.turnsOnEdge = rim.turnsOnEdge;
+        this._bounds.resizesOnCorner = rim.resizesOnCorner;
+        this._layout(obj, drag.edgeGrabMode === EdgeGrabMode.FaceGrid, style.camera);
+        this._rebuildFrame(style);
+        if (point) this._rebuildZone(obj, point, style);
+
+        this._alpha = Math.min(1, this._alpha + dt * 6);
+        this._zoneAlpha = Math.min(1, this._zoneAlpha + dt * 10);
+        this._apply(style, time);
+    }
+
+    private _fadeOut(dt: number): void {
+        this._alpha = Math.max(0, this._alpha - dt * 8);
+        this._zoneAlpha = Math.max(0, this._zoneAlpha - dt * 12);
+        if (this._alpha <= 0) this._drag = null;
+    }
+
+    private _apply(style: RimStyle, time: number): void {
+        const obj = this._drag ? (this._drag.draggedObject ?? this._drag.dragObject) : null;
+        this.root.visible = this._alpha > 0.001 && obj !== null;
+        if (!this.root.visible || !obj) return;
+
+        // Ease out of a slightly larger frame, scaled about the bounds centre.
+        const ease = 1 - Math.pow(1 - this._alpha, 3);
+        const k = 1 + 0.08 * (1 - ease);
+        const c = this._bounds.bounds.getCenter(_rimCentre);
+        _rimMatrix.makeTranslation(c.x, c.y, c.z)
+            .multiply(_rimScale.makeScale(k, k, k))
+            .multiply(_rimTranslate.makeTranslation(-c.x, -c.y, -c.z));
+        obj.updateWorldMatrix(true, false);
+        this.root.matrix.multiplyMatrices(obj.matrixWorld, _rimMatrix);
+        this.root.matrixWorldNeedsUpdate = true;
+
+        const width = style.xr ? style.width * 1.5 : style.width;
+        this._frameMaterial.linewidth = width;
+        this._hiMaterial.linewidth = width * 2;
+        for (const m of [this._frameMaterial, this._hiMaterial]) m.resolution.set(style.resolutionX || 1, style.resolutionY || 1);
+
+        const pulse = 0.8 + 0.2 * Math.sin(time * 5);
+        this._frameMaterial.opacity = 0.55 * ease;
+        this._hiMaterial.opacity = ease * this._zoneAlpha * pulse;
+        this._fillMaterial.opacity = 0.22 * ease * this._zoneAlpha * pulse;
+        this._hi.visible = this._fill.visible = this._zoneKey !== "body" && this._zoneKey !== "";
+    }
+
+    /** Centre, half extents, active face and - for the block style - which faces the camera sees. */
+    private _layout(obj: Object3D, cube: boolean, cam: Camera | null): void {
+        const b = this._bounds.bounds;
+        for (let i = 0; i < 3; i++) {
+            this._c[i] = (b.min.getComponent(i) + b.max.getComponent(i)) * 0.5;
+            this._h[i] = (b.max.getComponent(i) - b.min.getComponent(i)) * 0.5;
+        }
+        const n = this._bounds.faceNormal;
+        this._iw = n.x !== 0 ? 0 : n.y !== 0 ? 1 : 2;
+        this._sw = n.getComponent(this._iw) > 0 ? 1 : -1;
+        this._cube = cube;
+        this._visible = cube && cam ? this._facesTowards(obj, cam) : _faceBit(this._iw, this._sw);
+    }
+
+    private _facesTowards(obj: Object3D, cam: Camera): number {
+        const ortho = (cam as OrthographicCamera).isOrthographicCamera === true;
+        if (ortho) cam.getWorldDirection(_rimView).negate();
+        else cam.getWorldPosition(_rimCamPos);
+        obj.updateWorldMatrix(true, false);
+        let mask = 0;
+        for (let i = 0; i < 3; i++) {
+            for (const s of [-1, 1]) {
+                _rimNormal.set(0, 0, 0).setComponent(i, s).transformDirection(obj.matrixWorld);
+                if (!ortho) {
+                    _rimPoint.set(this._c[0], this._c[1], this._c[2]);
+                    _rimPoint.setComponent(i, this._c[i] + s * this._h[i]);
+                    obj.localToWorld(_rimPoint);
+                    _rimView.copy(_rimCamPos).sub(_rimPoint);
+                }
+                if (_rimNormal.dot(_rimView) > 1e-5) mask |= _faceBit(i, s);
+            }
+        }
+        // The face being read is always shown, even edge-on.
+        return mask | _faceBit(this._iw, this._sw);
+    }
+
+    private _isVisible(axis: number, sign: number): boolean {
+        return (this._visible & _faceBit(axis, sign)) !== 0;
+    }
+
+    /** Pushes the local point at `centre + (x, y, z)`. */
+    private _pt(x: number, y: number, z: number, out: number[]): void {
+        out.push(this._c[0] + x, this._c[1] + y, this._c[2] + z);
+    }
+
+    /** Pushes a point given as offsets along three named axes. */
+    _ax(ia: number, a: number, ib: number, b: number, iw: number, w: number, out: number[]): void {
+        _rimTriple[ia] = a; _rimTriple[ib] = b; _rimTriple[iw] = w;
+        this._pt(_rimTriple[0], _rimTriple[1], _rimTriple[2], out);
+    }
+
+    private _cornerColor(style: RimStyle): Color | null {
+        if (this._bounds.resizesOnCorner) return style.resize;
+        return this._bounds.turnsOnEdge ? style.turn : null;
+    }
+
+    private _rebuildFrame(style: RimStyle): void {
+        const r = 1 - this._bounds.margin;
+        const key = [this._drag?.guid, this._h.map(v => v.toFixed(4)).join(","), this._visible, r,
+            this._bounds.turnsOnEdge, this._bounds.resizesOnCorner, style.turn.getHex(), style.resize.getHex()].join("|");
+        if (key === this._frameKey) return;
+        this._frameKey = key;
+
+        const segments = new SegmentSet();
+        const corner = this._cornerColor(style);
+        for (let iw = 0; iw < 3; iw++) {
+            for (const sw of [-1, 1]) {
+                if (!this._isVisible(iw, sw)) continue;
+                const ia = iw === 0 ? 1 : 0, ib = iw === 2 ? 1 : 2;
+                const ha = this._h[ia], hb = this._h[ib], w = sw * this._h[iw];
+                if (ha <= 1e-6 || hb <= 1e-6) continue;
+                if (corner) {
+                    for (const sa of [-1, 1]) for (const sb of [-1, 1]) {
+                        segments.add(this, corner, ia, sa * ha, ib, sb * hb, iw, w, ia, sa * r * ha);
+                        segments.add(this, corner, ia, sa * ha, ib, sb * hb, iw, w, ib, sb * r * hb);
+                    }
+                }
+                if (this._bounds.turnsOnEdge) {
+                    // Inset from the brackets so the two read as separate zones.
+                    const gap = 0.06 * Math.min(ha, hb);
+                    for (const s of [-1, 1]) {
+                        segments.addSpan(this, style.turn, ia, ib, s * hb, iw, w, -r * ha + gap, r * ha - gap);
+                        segments.addSpan(this, style.turn, ib, ia, s * ha, iw, w, -r * hb + gap, r * hb - gap);
+                    }
+                }
+            }
+        }
+        _setSegments(this._frame, segments.positions, segments.colors);
+    }
+
+    private _rebuildZone(obj: Object3D, pointWorld: Vector3, style: RimStyle): void {
+        const p = obj.worldToLocal(_rimPoint.copy(pointWorld));
+        const iw = this._iw, sw = this._sw;
+        const ia = iw === 0 ? 1 : 0, ib = iw === 2 ? 1 : 2;
+        const ha = this._h[ia], hb = this._h[ib], hw = this._h[iw];
+        if (ha <= 1e-6 || hb <= 1e-6) { this._setZone("body"); return; }
+        const r = 1 - this._bounds.margin;
+        const u = p.getComponent(ia) - this._c[ia];
+        const v = p.getComponent(ib) - this._c[ib];
+        const pastA = Math.abs(u) / ha >= r, pastB = Math.abs(v) / hb >= r;
+        const sa = Math.sign(u) || 1, sb = Math.sign(v) || 1;
+        const w = sw * hw;
+
+        let key = "body";
+        let color: Color | null = null;
+        if (pastA && pastB) {
+            key = `c${iw}${sw}${sa}${sb}`;
+            color = this._cornerColor(style);
+        }
+        else if ((pastA || pastB) && this._bounds.turnsOnEdge) {
+            key = pastA ? `a${iw}${sw}${sa}` : `b${iw}${sw}${sb}`;
+            color = style.turn;
+        }
+        if (!color) key = "body";
+        key += "|" + this._visible;
+        if (key === this._zoneKey) return;
+        this._setZone(key.startsWith("body") ? "body" : key);
+        if (!color) return;
+
+        const lines = new SegmentSet();
+        const fill: number[] = [];
+        // Depth into the box along the face normal, for the block style's side faces.
+        const deep = this._cube && hw > 1e-6;
+        if (key.startsWith("c")) {
+            const ca = sa * ha, cb = sb * hb;
+            lines.add(this, color, ia, ca, ib, cb, iw, w, ia, sa * r * ha);
+            lines.add(this, color, ia, ca, ib, cb, iw, w, ib, sb * r * hb);
+            this._quad(fill, ia, sa * r * ha, ca, ib, sb * r * hb, cb, iw, w);
+            if (deep) {
+                lines.add(this, color, ia, ca, ib, cb, iw, w, iw, sw * r * hw);
+                if (this._isVisible(ia, sa)) this._quad(fill, ib, sb * r * hb, cb, iw, sw * r * hw, w, ia, ca);
+                if (this._isVisible(ib, sb)) this._quad(fill, ia, sa * r * ha, ca, iw, sw * r * hw, w, ib, cb);
+            }
+        }
+        else {
+            // An edge: `ie` is the axis the grab went past, `il` the one the edge runs along.
+            const ie = key.startsWith("a") ? ia : ib, il = key.startsWith("a") ? ib : ia;
+            const se = key.startsWith("a") ? sa : sb;
+            const he = this._h[ie], hl = this._h[il];
+            lines.addSpan(this, color, il, ie, se * he, iw, w, -r * hl, r * hl);
+            this._quad(fill, ie, se * r * he, se * he, il, -r * hl, r * hl, iw, w);
+            if (deep && this._isVisible(ie, se)) this._quad(fill, iw, sw * r * hw, w, il, -r * hl, r * hl, ie, se * he);
+        }
+        _setSegments(this._hi, lines.positions, lines.colors);
+
+        const attr = this._fill.geometry.getAttribute("position") as BufferAttribute;
+        (attr.array as Float32Array).set(fill);
+        attr.needsUpdate = true;
+        this._fill.geometry.setDrawRange(0, (fill.length / 12) * 6);
+        this._fillMaterial.color.copy(color);
+    }
+
+    /** A quad spanning [a0, a1] x [b0, b1] on the plane `iw = w`. */
+    private _quad(out: number[], ia: number, a0: number, a1: number, ib: number, b0: number, b1: number, iw: number, w: number): void {
+        this._ax(ia, a0, ib, b0, iw, w, out);
+        this._ax(ia, a1, ib, b0, iw, w, out);
+        this._ax(ia, a1, ib, b1, iw, w, out);
+        this._ax(ia, a0, ib, b1, iw, w, out);
+    }
+
+    private _setZone(key: string): void {
+        if (key !== this._zoneKey) this._zoneAlpha = 0;
+        this._zoneKey = key;
+    }
+}
+
+/** Line segments with colours, skipping duplicates - adjacent faces share their edges and corners. */
+class SegmentSet {
+    readonly positions: number[] = [];
+    readonly colors: number[] = [];
+    private readonly _seen = new Set<string>();
+
+    /** From the point (a, b, w) on axes (ia, ib, iw), moving axis `im` to `to`. */
+    add(rim: RimDisplay, color: Color, ia: number, a: number, ib: number, b: number, iw: number, w: number, im: number, to: number): void {
+        const start: number[] = [];
+        rim._ax(ia, a, ib, b, iw, w, start);
+        _rimTriple[ia] = a; _rimTriple[ib] = b; _rimTriple[iw] = w;
+        _rimTriple[im] = to;
+        const end: number[] = [];
+        rim._ax(0, _rimTriple[0], 1, _rimTriple[1], 2, _rimTriple[2], end);
+        this._push(start, end, color);
+    }
+
+    /** Along axis `il` from `l0` to `l1`, at `ie = e` and `iw = w`. */
+    addSpan(rim: RimDisplay, color: Color, il: number, ie: number, e: number, iw: number, w: number, l0: number, l1: number): void {
+        const start: number[] = [];
+        const end: number[] = [];
+        rim._ax(il, l0, ie, e, iw, w, start);
+        rim._ax(il, l1, ie, e, iw, w, end);
+        this._push(start, end, color);
+    }
+
+    private _push(start: number[], end: number[], color: Color): void {
+        const ka = start.map(v => v.toFixed(5)).join(","), kb = end.map(v => v.toFixed(5)).join(",");
+        const key = ka < kb ? ka + "|" + kb : kb + "|" + ka;
+        if (this._seen.has(key)) return;
+        this._seen.add(key);
+        this.positions.push(...start, ...end);
+        this.colors.push(color.r, color.g, color.b, color.r, color.g, color.b);
+    }
+}
+
+function _faceBit(axis: number, sign: number): number {
+    return 1 << (axis * 2 + (sign > 0 ? 1 : 0));
+}
+
+function _lineMaterial(): LineMaterial {
+    return new LineMaterial({
+        vertexColors: true,
+        transparent: true,
+        depthTest: false,
+        depthWrite: false,
+        toneMapped: false,
+        linewidth: 2,
+    });
+}
+
+function _setSegments(lines: LineSegments2, positions: number[], colors: number[]): void {
+    // A fresh geometry: LineSegmentsGeometry cannot grow its instance buffers in place.
+    lines.geometry.dispose();
+    const geometry = new LineSegmentsGeometry();
+    if (positions.length) {
+        geometry.setPositions(positions);
+        geometry.setColors(colors);
+    }
+    lines.geometry = geometry;
+    lines.visible = positions.length > 0;
+}
+
 /**
- * The instance showing the handles, per context. Every instance watches the whole scene, so a
- * second one has nothing of its own to do and would only fight the first for the canvas cursor.
- * Claimed on enable and released on disable and destroy, but never trusted: the holder is checked
- * for being alive on every read, so a claim can never strand the scene without handles.
+ * Our visuals must never be hit by a raycast, or they occlude the object they describe and swallow
+ * its presses. Physics raycasts meshes through their geometry and never calls `raycast()`, so the
+ * engine's own opt-out is used, plus layer 2 which the default raycast skips.
  */
+function _markOwnVisual(obj: Object3D): void {
+    obj.userData[_ownVisualKey] = true;
+    obj.raycastAllowed = false;
+    obj.layers.set(2);
+    obj.raycast = () => { };
+}
+function _isOwnVisual(obj: Object3D): boolean {
+    for (let o: Object3D | null = obj; o; o = o.parent) if (o.userData?.[_ownVisualKey]) return true;
+    return false;
+}
+const _ownVisualKey = "dragHandleVisual";
+
+function _isUnder(obj: Object3D, root: Object3D): boolean {
+    for (let o: Object3D | null = obj; o; o = o.parent) if (o === root) return true;
+    return false;
+}
+
+function _isDrawable(image: unknown): image is CanvasImageSource {
+    return (typeof HTMLImageElement !== "undefined" && image instanceof HTMLImageElement)
+        || (typeof HTMLCanvasElement !== "undefined" && image instanceof HTMLCanvasElement)
+        || (typeof ImageBitmap !== "undefined" && image instanceof ImageBitmap)
+        || (typeof OffscreenCanvas !== "undefined" && image instanceof OffscreenCanvas);
+}
+
+/** The resize art points up and to the right: +45 degrees on screen (image rows run down). */
+const _resizeIconScreenAngle = Math.PI * 0.25;
+
+/** The instance showing the handles, per context. */
 const _owners: Map<object, DragHandleVisualizer> = new Map();
 
 const _spriteName = "DragHandle.Icon";
 
-/** Side of a custom mouse cursor, in pixels. Browsers cap these — Chrome refuses anything over 128
- *  and the practical size every platform draws well is this one. */
+const _pointerEvents = ["pointermove", "pointerdown", "pointerup", "pointerleave", "pointercancel"] as const;
+
+/** Custom cursor size in pixels; browsers draw this size well everywhere. */
 const _cursorPixels = 32;
 
-const _cursorSuitsInput = (xr: boolean, mouse: boolean) => !xr && mouse;
+/** World size per "pixel" per metre of distance in XR: 44 px is about 2.5 degrees. */
+const _xrWorldPerPixel = 0.001;
 
-/**
- * {@link HandleDisplay.Auto} for the icon: everything except a mouse.
- *
- * A mouse already carries the answer in its own cursor, and a second copy of it floating in the
- * scene an inch away is noise. Every other input has nowhere else to put it.
- */
+const _cursorSuitsInput = (xr: boolean, mouse: boolean) => !xr && mouse;
 const _iconSuitsInput = (xr: boolean, mouse: boolean) => xr || !mouse;
 
+const _rimQuery = new GrabRim();
+const _lastPointer = new Vector2(Number.NaN, Number.NaN);
+const _lastCamera = new Matrix4();
 const _camPos = new Vector3();
 const _camRight = new Vector3();
 const _camUp = new Vector3();
@@ -718,3 +1003,12 @@ const _from = new Vector3();
 const _to = new Vector3();
 const _a = new Vector3();
 const _b = new Vector3();
+const _rimPoint = new Vector3();
+const _rimCentre = new Vector3();
+const _rimMatrix = new Matrix4();
+const _rimScale = new Matrix4();
+const _rimTranslate = new Matrix4();
+const _rimTriple: number[] = [0, 0, 0];
+const _rimView = new Vector3();
+const _rimCamPos = new Vector3();
+const _rimNormal = new Vector3();
