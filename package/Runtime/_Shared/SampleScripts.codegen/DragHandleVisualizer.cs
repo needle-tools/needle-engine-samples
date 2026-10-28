@@ -37,7 +37,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Texture @turnIcon;
 		[UnityEngine.Tooltip("Resizing, drawn pointing up and to the right and turned onto the grabbed corner. DragHandleResize.")]
 		public UnityEngine.Texture @resizeIcon;
-		[UnityEngine.Tooltip("Shown while a drag is over a drop target that refuses it. DragHandleForbidden.")]
+		[UnityEngine.Tooltip("Shown while a drag cannot be let go where it is: the drop is vetoed, or there is no room. DragHandleForbidden.")]
 		public UnityEngine.Texture @forbiddenIcon;
 		[UnityEngine.Tooltip("Only show handles for objects under this one. Empty: the whole scene.")]
 		public UnityEngine.Transform @root;

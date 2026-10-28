@@ -1,5 +1,5 @@
 import {
-    Behaviour, DragControls, DragMode, EdgeGrabMode, GameObject, GrabGesture, GrabRim, serializable,
+    Behaviour, DragControls, DragMode, EdgeGrabMode, GameObject, GrabGesture, GrabRim, grabRimWidths, serializable,
 } from "@needle-tools/engine";
 import {
     AdditiveBlending, BufferAttribute, BufferGeometry, Camera, Color, DoubleSide, Matrix4, Mesh,
@@ -35,7 +35,7 @@ export enum HandleDisplay {
  * | body, or {@link DragMode.Slide} | move cross / slide arrows along the axis | `grab` |
  * | a side with rotateOnEdgeGrab, or a turn mode | circular arrow | turn icon |
  * | a corner with scaleOnCornerGrab, or {@link DragMode.Scale} | resize arrow out of the corner | `*-resize` |
- * | a drop target refusing the object | forbidden | `not-allowed` |
+ * | a drag that cannot be let go here: the drop is vetoed, or there is no room where it is pointed | forbidden | `not-allowed` |
  * | nothing draggable | hidden | restored |
  *
  * Icons: DragHandleMove, DragHandleSlide, DragHandleTurn, DragHandleResize, DragHandleForbidden
@@ -103,7 +103,7 @@ export class DragHandleVisualizer extends Behaviour {
     @serializable(Texture)
     resizeIcon: Texture | null = null;
 
-    /** Shown while a drag is over a drop target that refuses it. DragHandleForbidden. */
+    /** Shown while a drag cannot be let go where it is: the drop is vetoed, or there is no room. DragHandleForbidden. */
     @serializable(Texture)
     forbiddenIcon: Texture | null = null;
 
@@ -183,7 +183,7 @@ export class DragHandleVisualizer extends Behaviour {
             const point = state?.point ?? (active.draggedObject ?? active.dragObject)?.worldPosition;
             const gesture = state?.gesture ?? null;
             if (!point || gesture === null) return null;
-            return { gesture, point, drag: active, blocked: active.dropBlocked !== null, dragging: true, xr: state?.isXR === true };
+            return { gesture, point, drag: active, blocked: this._cannotDrop(active), dragging: true, xr: state?.isXR === true };
         }
 
         const xr = this._isXR();
@@ -223,6 +223,21 @@ export class DragHandleVisualizer extends Behaviour {
         return null;
     }
     private _hover: Found | null = null;
+
+    /**
+     * Whether letting go now would fail: an allowDrop listener vetoed it, or the pose the pointer asks
+     * for is occupied. No room only counts once it has lasted a moment, so brushing past an obstacle
+     * does not flash the sign. Being near a target that does not take the object is not a failure -
+     * the object is simply put down - so that alone shows nothing.
+     */
+    private _cannotDrop(drag: DragControls): boolean {
+        const now = this.context.time.time;
+        if (!drag.collisionBlocked) this._noRoomSince = -1;
+        else if (this._noRoomSince < 0) this._noRoomSince = now;
+        const noRoom = this._noRoomSince >= 0 && now - this._noRoomSince >= _noRoomDelay;
+        return !drag.dropAllowed || noRoom;
+    }
+    private _noRoomSince: number = -1;
 
     /** Raycast again only when the pointer or camera moved, or every few frames for moving objects. */
     private _hoverIsStale(xr: boolean): boolean {
@@ -599,6 +614,7 @@ class RimDisplay {
     private _iw: number = 1;
     private _sw: number = 1;
     private _cube: boolean = false;
+    private _column: boolean = false;
     /** Camera-facing faces, bit `axis * 2 + (sign > 0 ? 1 : 0)`. */
     private _visible: number = 0;
 
@@ -669,10 +685,14 @@ class RimDisplay {
 
         this._bounds.bounds.copy(rim.bounds);
         this._bounds.faceNormal.copy(rim.faceNormal);
+        this._bounds.edgeWidth.copy(rim.edgeWidth);
+        this._bounds.cornerWidth.copy(rim.cornerWidth);
         this._bounds.margin = rim.margin;
+        this._bounds.worldScale.copy(rim.worldScale);
+        this._bounds.viewDistance = rim.viewDistance;
         this._bounds.turnsOnEdge = rim.turnsOnEdge;
         this._bounds.resizesOnCorner = rim.resizesOnCorner;
-        this._layout(obj, drag.edgeGrabMode === EdgeGrabMode.FaceGrid, style.camera);
+        this._layout(obj, drag.edgeGrabMode, style.camera);
         this._rebuildFrame(style);
         if (point) this._rebuildZone(obj, point, style);
 
@@ -715,8 +735,8 @@ class RimDisplay {
         this._hi.visible = this._fill.visible = this._zoneKey !== "body" && this._zoneKey !== "";
     }
 
-    /** Centre, half extents, active face and - for the block style - which faces the camera sees. */
-    private _layout(obj: Object3D, cube: boolean, cam: Camera | null): void {
+    /** Centre, half extents, active face and - for the block and column styles - which faces the camera sees. */
+    private _layout(obj: Object3D, mode: EdgeGrabMode, cam: Camera | null): void {
         const b = this._bounds.bounds;
         for (let i = 0; i < 3; i++) {
             this._c[i] = (b.min.getComponent(i) + b.max.getComponent(i)) * 0.5;
@@ -725,8 +745,11 @@ class RimDisplay {
         const n = this._bounds.faceNormal;
         this._iw = n.x !== 0 ? 0 : n.y !== 0 ? 1 : 2;
         this._sw = n.getComponent(this._iw) > 0 ? 1 : -1;
-        this._cube = cube;
-        this._visible = cube && cam ? this._facesTowards(obj, cam) : _faceBit(this._iw, this._sw);
+        this._cube = mode === EdgeGrabMode.FaceGrid;
+        // Top Down reads only the footprint, so its rim runs the full height of the sides.
+        this._column = mode === EdgeGrabMode.TopDown && this._h[this._iw] > 1e-6;
+        this._visible = (this._cube || this._column) && cam ? this._facesTowards(obj, cam) : _faceBit(this._iw, this._sw);
+        if (this._column) this._visible &= ~_faceBit(this._iw, -this._sw);
     }
 
     private _facesTowards(obj: Object3D, cam: Camera): number {
@@ -766,14 +789,23 @@ class RimDisplay {
         this._pt(_rimTriple[0], _rimTriple[1], _rimTriple[2], out);
     }
 
+    /** Corners are their own zone only while they resize; otherwise they are just where two edges meet. */
     private _cornerColor(style: RimStyle): Color | null {
-        if (this._bounds.resizesOnCorner) return style.resize;
-        return this._bounds.turnsOnEdge ? style.turn : null;
+        return this._bounds.resizesOnCorner ? style.resize : null;
+    }
+
+    /** Edge and corner widths of the face with normal axis `iw`, sized as the engine sizes it. */
+    private _faceWidths(iw: number): { e: Vector3, k: Vector3 } {
+        const b = this._bounds;
+        const e = new Vector3(), k = new Vector3();
+        grabRimWidths(b.bounds, _rimAxis.set(0, 0, 0).setComponent(iw, 1), b.margin, b.worldScale, b.viewDistance, e, k, b.resizesOnCorner);
+        return { e, k };
     }
 
     private _rebuildFrame(style: RimStyle): void {
-        const r = 1 - this._bounds.margin;
-        const key = [this._drag?.guid, this._h.map(v => v.toFixed(4)).join(","), this._visible, r,
+        const widths = [0, 1, 2].map(iw => this._faceWidths(iw));
+        const key = [this._drag?.guid, this._h.map(v => v.toFixed(4)).join(","), this._visible, this._column,
+            widths.map(w => w.k.toArray().map(v => v.toFixed(4)).join(",")).join(";"),
             this._bounds.turnsOnEdge, this._bounds.resizesOnCorner, style.turn.getHex(), style.resize.getHex()].join("|");
         if (key === this._frameKey) return;
         this._frameKey = key;
@@ -782,27 +814,57 @@ class RimDisplay {
         const corner = this._cornerColor(style);
         for (let iw = 0; iw < 3; iw++) {
             for (const sw of [-1, 1]) {
-                if (!this._isVisible(iw, sw)) continue;
+                // the column style reads one face; its sides are drawn below
+                if (this._column ? iw !== this._iw || sw !== this._sw : !this._isVisible(iw, sw)) continue;
                 const ia = iw === 0 ? 1 : 0, ib = iw === 2 ? 1 : 2;
                 const ha = this._h[ia], hb = this._h[ib], w = sw * this._h[iw];
                 if (ha <= 1e-6 || hb <= 1e-6) continue;
+                // where the corner zones end on this face
+                const k = widths[iw].k;
+                const ka = corner ? ha - k.getComponent(ia) : ha, kb = corner ? hb - k.getComponent(ib) : hb;
                 if (corner) {
                     for (const sa of [-1, 1]) for (const sb of [-1, 1]) {
-                        segments.add(this, corner, ia, sa * ha, ib, sb * hb, iw, w, ia, sa * r * ha);
-                        segments.add(this, corner, ia, sa * ha, ib, sb * hb, iw, w, ib, sb * r * hb);
+                        segments.add(this, corner, ia, sa * ha, ib, sb * hb, iw, w, ia, sa * ka);
+                        segments.add(this, corner, ia, sa * ha, ib, sb * hb, iw, w, ib, sb * kb);
                     }
                 }
                 if (this._bounds.turnsOnEdge) {
                     // Inset from the brackets so the two read as separate zones.
-                    const gap = 0.06 * Math.min(ha, hb);
+                    const gap = corner ? 0.06 * Math.min(ka, kb) : 0;
                     for (const s of [-1, 1]) {
-                        segments.addSpan(this, style.turn, ia, ib, s * hb, iw, w, -r * ha + gap, r * ha - gap);
-                        segments.addSpan(this, style.turn, ib, ia, s * ha, iw, w, -r * hb + gap, r * hb - gap);
+                        if (ka > gap) segments.addSpan(this, style.turn, ia, ib, s * hb, iw, w, -ka + gap, ka - gap);
+                        if (kb > gap) segments.addSpan(this, style.turn, ib, ia, s * ha, iw, w, -kb + gap, kb - gap);
                     }
                 }
             }
         }
+        if (this._column) this._addColumnSides(segments, widths[this._iw].k, corner, style);
         _setSegments(this._frame, segments.positions, segments.colors);
+    }
+
+    /**
+     * The column style's visible sides: the vertical box edges, which are the outer edges of the
+     * corner columns, and the bottom outline drawn like the top.
+     */
+    private _addColumnSides(segments: SegmentSet, k: Vector3, corner: Color | null, style: RimStyle): void {
+        const iw = this._iw, ia = iw === 0 ? 1 : 0, ib = iw === 2 ? 1 : 2;
+        const ha = this._h[ia], hb = this._h[ib];
+        if (ha <= 1e-6 || hb <= 1e-6) return;
+        const top = this._sw * this._h[iw], bottom = -top;
+        const gap = corner ? 0.06 * Math.min(ha - k.getComponent(ia), hb - k.getComponent(ib)) : 0;
+        const edge = corner ?? style.turn;
+        for (const [ie, il] of [[ia, ib], [ib, ia]]) {
+            const he = this._h[ie], hl = this._h[il], kl = corner ? hl - k.getComponent(il) : hl;
+            for (const se of [-1, 1]) {
+                if (!this._isVisible(ie, se)) continue;
+                for (const sl of [-1, 1]) {
+                    segments.add(this, edge, ie, se * he, il, sl * hl, iw, top, iw, bottom);
+                    if (corner) segments.add(this, corner, ie, se * he, il, sl * hl, iw, bottom, il, sl * kl);
+                }
+                if (this._bounds.turnsOnEdge && kl > gap)
+                    segments.addSpan(this, style.turn, il, ie, se * he, iw, bottom, -kl + gap, kl - gap);
+            }
+        }
     }
 
     private _rebuildZone(obj: Object3D, pointWorld: Vector3, style: RimStyle): void {
@@ -811,25 +873,30 @@ class RimDisplay {
         const ia = iw === 0 ? 1 : 0, ib = iw === 2 ? 1 : 2;
         const ha = this._h[ia], hb = this._h[ib], hw = this._h[iw];
         if (ha <= 1e-6 || hb <= 1e-6) { this._setZone("body"); return; }
-        const r = 1 - this._bounds.margin;
+        const E = this._bounds.edgeWidth, K = this._bounds.cornerWidth;
         const u = p.getComponent(ia) - this._c[ia];
         const v = p.getComponent(ib) - this._c[ib];
-        const pastA = Math.abs(u) / ha >= r, pastB = Math.abs(v) / hb >= r;
+        // the engine's test, see grabBoundsZoneByWidths
+        const inA = ha - Math.abs(u), inB = hb - Math.abs(v);
+        const cornerHit = this._bounds.resizesOnCorner && inA <= K.getComponent(ia) && inB <= K.getComponent(ib);
+        const pastA = inA <= E.getComponent(ia), pastB = inB <= E.getComponent(ib);
         const sa = Math.sign(u) || 1, sb = Math.sign(v) || 1;
         const w = sw * hw;
 
         let key = "body";
         let color: Color | null = null;
-        if (pastA && pastB) {
+        if (cornerHit) {
             key = `c${iw}${sw}${sa}${sb}`;
             color = this._cornerColor(style);
         }
         else if ((pastA || pastB) && this._bounds.turnsOnEdge) {
-            key = pastA ? `a${iw}${sw}${sa}` : `b${iw}${sw}${sb}`;
+            // where two edges meet, the nearer one
+            const onA = pastA && (!pastB || inA <= inB);
+            key = onA ? `a${iw}${sw}${sa}` : `b${iw}${sw}${sb}`;
             color = style.turn;
         }
         if (!color) key = "body";
-        key += "|" + this._visible;
+        key += "|" + this._visible + "|" + K.toArray().concat(E.toArray()).map(x => x.toFixed(4)).join(",");
         if (key === this._zoneKey) return;
         this._setZone(key.startsWith("body") ? "body" : key);
         if (!color) return;
@@ -840,13 +907,25 @@ class RimDisplay {
         const deep = this._cube && hw > 1e-6;
         if (key.startsWith("c")) {
             const ca = sa * ha, cb = sb * hb;
-            lines.add(this, color, ia, ca, ib, cb, iw, w, ia, sa * r * ha);
-            lines.add(this, color, ia, ca, ib, cb, iw, w, ib, sb * r * hb);
-            this._quad(fill, ia, sa * r * ha, ca, ib, sb * r * hb, cb, iw, w);
+            const ka = ha - K.getComponent(ia), kb = hb - K.getComponent(ib);
+            lines.add(this, color, ia, ca, ib, cb, iw, w, ia, sa * ka);
+            lines.add(this, color, ia, ca, ib, cb, iw, w, ib, sb * kb);
+            this._quad(fill, ia, sa * ka, ca, ib, sb * kb, cb, iw, w);
             if (deep) {
-                lines.add(this, color, ia, ca, ib, cb, iw, w, iw, sw * r * hw);
-                if (this._isVisible(ia, sa)) this._quad(fill, ib, sb * r * hb, cb, iw, sw * r * hw, w, ia, ca);
-                if (this._isVisible(ib, sb)) this._quad(fill, ia, sa * r * ha, ca, iw, sw * r * hw, w, ib, cb);
+                // down the side faces, as those faces size their corners
+                const sideA = this._faceWidths(ia).k, sideB = this._faceWidths(ib).k;
+                const kwA = hw - sideA.getComponent(iw), kwB = hw - sideB.getComponent(iw);
+                lines.add(this, color, ia, ca, ib, cb, iw, w, iw, sw * Math.min(kwA, kwB));
+                if (this._isVisible(ia, sa)) this._quad(fill, ib, sb * (hb - sideA.getComponent(ib)), cb, iw, sw * kwA, w, ia, ca);
+                if (this._isVisible(ib, sb)) this._quad(fill, ia, sa * (ha - sideB.getComponent(ia)), ca, iw, sw * kwB, w, ib, cb);
+            }
+            else if (this._column) {
+                // the whole corner column, top to bottom
+                lines.add(this, color, ia, ca, ib, cb, iw, w, iw, -w);
+                lines.add(this, color, ia, ca, ib, cb, iw, -w, ia, sa * ka);
+                lines.add(this, color, ia, ca, ib, cb, iw, -w, ib, sb * kb);
+                if (this._isVisible(ia, sa)) this._quad(fill, ib, sb * kb, cb, iw, -w, w, ia, ca);
+                if (this._isVisible(ib, sb)) this._quad(fill, ia, sa * ka, ca, iw, -w, w, ib, cb);
             }
         }
         else {
@@ -854,9 +933,19 @@ class RimDisplay {
             const ie = key.startsWith("a") ? ia : ib, il = key.startsWith("a") ? ib : ia;
             const se = key.startsWith("a") ? sa : sb;
             const he = this._h[ie], hl = this._h[il];
-            lines.addSpan(this, color, il, ie, se * he, iw, w, -r * hl, r * hl);
-            this._quad(fill, ie, se * r * he, se * he, il, -r * hl, r * hl, iw, w);
-            if (deep && this._isVisible(ie, se)) this._quad(fill, iw, sw * r * hw, w, il, -r * hl, r * hl, ie, se * he);
+            // runs between the corner zones, as deep as the edge width
+            const kl = this._bounds.resizesOnCorner ? hl - K.getComponent(il) : hl, de = he - E.getComponent(ie);
+            lines.addSpan(this, color, il, ie, se * he, iw, w, -kl, kl);
+            this._quad(fill, ie, se * de, se * he, il, -kl, kl, iw, w);
+            if (deep && this._isVisible(ie, se)) {
+                const side = this._faceWidths(ie).e;
+                this._quad(fill, iw, sw * (hw - side.getComponent(iw)), w, il, -kl, kl, ie, se * he);
+            }
+            else if (this._column && this._isVisible(ie, se)) {
+                // the whole side between the corner columns
+                lines.addSpan(this, color, il, ie, se * he, iw, -w, -kl, kl);
+                this._quad(fill, iw, -w, w, il, -kl, kl, ie, se * he);
+            }
         }
         _setSegments(this._hi, lines.positions, lines.colors);
 
@@ -947,12 +1036,11 @@ function _setSegments(lines: LineSegments2, positions: number[], colors: number[
 /**
  * Our visuals must never be hit by a raycast, or they occlude the object they describe and swallow
  * its presses. Physics raycasts meshes through their geometry and never calls `raycast()`, so the
- * engine's own opt-out is used, plus layer 2 which the default raycast skips.
+ * engine's own opt-out is used. Not layer 2: scenes can stop rendering it (GalleryManager does).
  */
 function _markOwnVisual(obj: Object3D): void {
     obj.userData[_ownVisualKey] = true;
     obj.raycastAllowed = false;
-    obj.layers.set(2);
     obj.raycast = () => { };
 }
 function _isOwnVisual(obj: Object3D): boolean {
@@ -983,6 +1071,9 @@ const _spriteName = "DragHandle.Icon";
 
 const _pointerEvents = ["pointermove", "pointerdown", "pointerup", "pointerleave", "pointercancel"] as const;
 
+/** Seconds the pointed-at pose has to stay occupied before the forbidden sign shows. */
+const _noRoomDelay = 0.15;
+
 /** Custom cursor size in pixels; browsers draw this size well everywhere. */
 const _cursorPixels = 32;
 
@@ -1012,3 +1103,4 @@ const _rimTriple: number[] = [0, 0, 0];
 const _rimView = new Vector3();
 const _rimCamPos = new Vector3();
 const _rimNormal = new Vector3();
+const _rimAxis = new Vector3();
