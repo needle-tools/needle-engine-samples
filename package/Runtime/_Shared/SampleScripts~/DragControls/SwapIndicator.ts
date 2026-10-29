@@ -55,14 +55,18 @@ export class SwapIndicator extends Behaviour {
     private _occupantTop: number = 0;
     private _unsubscribe: Function[] = [];
 
+    awake(): void {
+        // Made once here, not per enable: a clone of this component gets copies of these fields and must not share them.
+        this._sprite = this._createSprite();
+        this._unsubscribe = [];
+    }
+
     onEnable(): void {
         this.target ??= this.gameObject.getComponent(DragTarget) ?? undefined;
         if (!this.target) {
             console.warn(`${this.name}: SwapIndicator requires a DragTarget on the same object`, this.gameObject);
             return;
         }
-        this._sprite = this._createSprite();
-        this.context.scene.add(this._sprite);
         this._unsubscribe.push(this.target.targetEntered.addEventListener(args => this._onEntered(args)));
         this._unsubscribe.push(this.target.targetExited.addEventListener(() => this._hide()));
     }
@@ -70,13 +74,15 @@ export class SwapIndicator extends Behaviour {
     onDisable(): void {
         for (const unsubscribe of this._unsubscribe) unsubscribe();
         this._unsubscribe.length = 0;
-        this._sprite?.removeFromParent();
-        this._sprite = null;
-        this._occupant = null;
+        // Hidden rather than removed: onEnable and onDisable run while the engine walks the
+        // scene's children, and taking one out of the scene there breaks that walk.
+        this._hide();
     }
 
     onDestroy(): void {
+        this._sprite?.removeFromParent();
         this._sprite?.material.dispose();
+        this._sprite = null;
     }
 
     update(): void {
@@ -110,6 +116,8 @@ export class SwapIndicator extends Behaviour {
     private _show(): void {
         const sprite = this._sprite;
         if (!sprite) return;
+        // Added on first use, from a drag event - never during the walk onEnable runs in.
+        if (sprite.parent !== this.context.scene) this.context.scene.add(sprite);
         const material = sprite.material as SpriteMaterial;
         material.map = this.icon;
         material.color.copy(this.color);

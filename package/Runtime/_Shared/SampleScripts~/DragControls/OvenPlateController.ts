@@ -46,7 +46,8 @@ export class OvenPlateController extends Behaviour {
     @serializable(DragControls)
     handles: DragControls[] = [];
 
-    /** One renderer per plate, same order as `plates.slots`, whose material is made to glow. */
+    /** One renderer per plate, same order as `plates.slots`, whose material is made to glow. An
+     *  emissive texture on that material masks the glow, so give the plates a material without one. */
     @serializable(Renderer)
     plateRenderers: Renderer[] = [];
 

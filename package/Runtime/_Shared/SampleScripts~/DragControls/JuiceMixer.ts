@@ -1,5 +1,9 @@
-import { Behaviour, DragControls, DragTarget, destroy, EventList, GameObject, getParam, serializable } from "@needle-tools/engine";
-import { Object3D } from "three";
+import { Behaviour, DragControls, DragTarget, destroy, EventList, GameObject, getParam, getWorldPosition, getWorldQuaternion, Rigidbody, serializable, setWorldPosition, setWorldQuaternion } from "@needle-tools/engine";
+import { Object3D, Quaternion, Vector3 } from "three";
+
+type Home = { parent: Object3D | null, position: Vector3, rotation: Quaternion, scale: Vector3 };
+const _up = new Vector3(0, 1, 0);
+const _spin = new Quaternion();
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -37,6 +41,10 @@ const debug = getParam("debugmixer");
  * Dropping a fresh ingredient into `ingredients` after juice has been made hides `juiceObject`
  * again and starts a new batch, the same way `CookingPot.ts` clears its own finished state the
  * moment new ingredients go in.
+ *
+ * With {@link mixSeconds} above 0 the ingredients spin down into the juice while the glass fills,
+ * instead of vanishing at once. With {@link refillSeconds} above 0 they come back where they lay
+ * at start instead of being destroyed, so the mixer can be used again and again.
  */
 export class JuiceMixer extends Behaviour {
 
@@ -71,6 +79,16 @@ export class JuiceMixer extends Behaviour {
     @serializable()
     pressThreshold: number = 0.5;
 
+    /** Seconds the mixing takes: the ingredients spin down while the juice rises. 0 makes the
+     *  juice at once. */
+    @serializable()
+    mixSeconds: number = 0;
+
+    /** Seconds after mixing until the ingredients are back where they lay at start, ready for the
+     *  next glass. Applies to the allowed objects of the ingredients target. 0 destroys them instead. */
+    @serializable()
+    refillSeconds: number = 0;
+
     /** Raised once, right after a successful press has destroyed the ingredients and switched
      *  `juiceObject` on. */
     @serializable(EventList)
@@ -79,6 +97,8 @@ export class JuiceMixer extends Behaviour {
     private _hasJuice: boolean = false;
     private _buttonWasDown: boolean = false;
     private _unsubscribe?: Function;
+    private _mixing: boolean = false;
+    private readonly _homes = new Map<Object3D, Home>();
 
     /** Whether `ingredients` currently holds at least one item. */
     get hasIngredients(): boolean {
@@ -101,6 +121,21 @@ export class JuiceMixer extends Behaviour {
 
     /** Whether the last press made juice that is still being shown. */
     get hasJuice(): boolean { return this._hasJuice; }
+
+    /** Whether a mix is running, see `mixSeconds`. Presses are ignored meanwhile. */
+    get isMixing(): boolean { return this._mixing; }
+
+    start(): void {
+        for (const item of this.ingredients?.allowedObjects ?? []) {
+            if (!item) continue;
+            this._homes.set(item, {
+                parent: item.parent,
+                position: getWorldPosition(item).clone(),
+                rotation: getWorldQuaternion(item).clone(),
+                scale: item.scale.clone(),
+            });
+        }
+    }
 
     onEnable(): void {
         // A fresh ingredient means a new batch - the juice object from the previous one stops
@@ -132,7 +167,7 @@ export class JuiceMixer extends Behaviour {
     }
 
     update(): void {
-        if (!this.pressed()) return;
+        if (!this.pressed() || this._mixing) return;
 
         if (debug && this.ingredients && this.ingredients.capacity <= 0) {
             console.warn(`[Mixer] ${this.name}: "${this.ingredients.name}" has Capacity 0 - `
@@ -157,16 +192,98 @@ export class JuiceMixer extends Behaviour {
     /** Destroys every occupant of `ingredients`, switches `juiceObject` on scaled to
      *  {@link fillScale} of how many there were, and fires `juiceMade`. */
     private makeJuice(): void {
-        const count = this.ingredients.occupants.length;
-
         // Copied out first: destroying an occupant removes it from the target, which would
         // otherwise mutate the same array this loop is reading.
-        for (const item of [...this.ingredients.occupants]) destroy(item);
+        const items = [...this.ingredients.occupants];
+        const count = items.length;
+        if (this.mixSeconds > 0) {
+            this.startCoroutine(this.mix(items));
+            return;
+        }
+        for (const item of items) this.useUp(item);
 
         if (this.juiceObject) {
             GameObject.setActive(this.juiceObject, true);
             this.juiceObject.scale.y = this.fillScale(count);
         }
+        this.finishJuice(count);
+    }
+
+    private *mix(items: Object3D[]) {
+        this._mixing = true;
+        const count = items.length;
+        const fill = this.fillScale(count);
+        const scales = items.map(item => item.scale.clone());
+        for (const item of items) this.freeze(item, true);
+        if (this.juiceObject) {
+            GameObject.setActive(this.juiceObject, true);
+            this.juiceObject.scale.y = 0.001;
+        }
+        const startTime = this.context.time.time;
+        while (true) {
+            const t = Math.min(1, (this.context.time.time - startTime) / this.mixSeconds);
+            // whirls faster as it goes, and shrinks into the juice
+            _spin.setFromAxisAngle(_up, (4 + 20 * t) * this.context.time.deltaTime);
+            for (let i = 0; i < items.length; i++) {
+                items[i].quaternion.premultiply(_spin);
+                items[i].scale.copy(scales[i]).multiplyScalar(Math.max(0.001, 1 - t * t));
+            }
+            if (this.juiceObject) this.juiceObject.scale.y = Math.max(0.001, fill * (1 - (1 - t) * (1 - t)));
+            if (t >= 1) break;
+            yield;
+        }
+        for (let i = 0; i < items.length; i++) {
+            items[i].scale.copy(scales[i]);
+            this.useUp(items[i]);
+        }
+        this._mixing = false;
+        this.finishJuice(count);
+    }
+
+    /** Takes an ingredient out of the bowl: destroyed, or put back home later, see refillSeconds. */
+    private useUp(item: Object3D) {
+        const home = this._homes.get(item);
+        if (!(this.refillSeconds > 0) || !home) {
+            destroy(item);
+            return;
+        }
+        this.ingredients.releaseObject(item);
+        this.freeze(item, true);
+        item.visible = false;
+        this.startCoroutine(this.refill(item, home));
+    }
+
+    private *refill(item: Object3D, home: Home) {
+        const end = this.context.time.time + this.refillSeconds;
+        while (this.context.time.time < end) yield;
+        (home.parent ?? this.context.scene).attach(item);
+        setWorldPosition(item, home.position);
+        setWorldQuaternion(item, home.rotation);
+        item.scale.copy(home.scale).multiplyScalar(0.001);
+        item.visible = true;
+        // pops back in, then goes back to physics and the user
+        const startTime = this.context.time.time;
+        while (true) {
+            const t = Math.min(1, (this.context.time.time - startTime) / 0.3);
+            item.scale.copy(home.scale).multiplyScalar(Math.max(0.001, 1 - (1 - t) * (1 - t)));
+            if (t >= 1) break;
+            yield;
+        }
+        this.freeze(item, false);
+    }
+
+    /** Takes an ingredient away from the user and from physics while it is animated, or gives it back. */
+    private freeze(item: Object3D, frozen: boolean) {
+        const drag = GameObject.getComponent(item, DragControls);
+        if (drag) drag.enabled = !frozen;
+        const body = GameObject.getComponent(item, Rigidbody);
+        if (body) {
+            body.isKinematic = frozen;
+            if (!frozen) body.resetVelocities();
+        }
+    }
+
+    private finishJuice(count: number): void {
         this._hasJuice = true;
 
         if (debug) console.log(`[Mixer] ${this.name}: juice made from ${count} ingredient(s), `

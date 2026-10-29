@@ -137,7 +137,10 @@ export class ChessLogic extends Behaviour {
     onDisable(): void {
         for (const unsub of this._unsubscribe) unsub();
         this._unsubscribe.length = 0;
-        this.disposeHighlights();
+        // Hidden rather than disposed: onDisable runs while the engine walks the scene's children,
+        // and taking the highlight meshes out of the scene there breaks that walk. See onDestroy.
+        this.hideHighlights();
+        this.hideActivePieceHighlights();
         this._pieceInfo.clear();
         this._slotOf.clear();
         this._activeMover = null;
@@ -145,6 +148,10 @@ export class ChessLogic extends Behaviour {
         this._activeLegalSlots = new Set();
         this._pendingCaptureVictim = null;
         this._dragTarget = null;
+    }
+
+    onDestroy(): void {
+        this.disposeHighlights();
     }
 
     // ---- piece identity -----------------------------------------------------------------------
