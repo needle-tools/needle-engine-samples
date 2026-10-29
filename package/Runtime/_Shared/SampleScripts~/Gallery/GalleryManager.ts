@@ -1,4 +1,4 @@
-import { Behaviour, EventList, FileReference, getTempVector, serializable } from "@needle-tools/engine";
+import { Behaviour, EventList, FileReference, GameObject, getParam, getTempVector, serializable } from "@needle-tools/engine";
 import { Object3D, Vector3 } from "three";
 import { GalleryUI, GalleryUIItem } from "./GalleryUI";
 import { GalleryPOI } from "./GalleryPOI";
@@ -31,6 +31,10 @@ export class GalleryManager extends Behaviour {
     @serializable()
     hideInactivePOIs: boolean = false;
 
+    /** Deactivate all POIs but the focused one, and move the camera to a POI instantly instead of easing. Replaces hideInactivePOIs when both are on. */
+    @serializable()
+    deactivateInactivePOIs: boolean = false;
+
     private selectedPOIIndex: number = 0;
     private hasFocused = false;
     private hidePending = false;
@@ -42,6 +46,10 @@ export class GalleryManager extends Behaviour {
 
     //@nonSerialized
     get selectedIndex() { return this.selectedPOIIndex; }
+
+    /** The POI focused last, undefined before the first focus. */
+    //@nonSerialized
+    get focusedPOI(): GalleryPOI | undefined { return this.hasFocused ? this.pois[this.selectedPOIIndex] : undefined; }
 
     /** Calls back with the POI and its index whenever a POI of this manager is focused. Returns a function that removes the listener. */
     //@nonSerialized
@@ -57,7 +65,15 @@ export class GalleryManager extends Behaviour {
 
     start(): void {
         // a POI focused from the url has already set this up
-        if (this.hideInactivePOIs && !this.hasFocused) this.showOnly(this.pois[this.selectedPOIIndex]);
+        if (this.hasFocused) return;
+        if (this.deactivateInactivePOIs) {
+            // the POI would focus itself in its own start, which does not run while it is inactive
+            const slug = getParam("poi");
+            const fromUrl = this.pois.find(x => x.slug === slug);
+            if (fromUrl) fromUrl.focus();
+            else this.pois[this.selectedPOIIndex]?.applyFocus();
+        }
+        else if (this.hideInactivePOIs) this.showOnly(this.pois[this.selectedPOIIndex]);
     }
 
     private populateGalleryUI(pois: GalleryPOI[]) {
@@ -69,6 +85,7 @@ export class GalleryManager extends Behaviour {
                 const item = new GalleryUIItem();
                 item.name = x.title;
                 item.icon = this.icon;
+                item.preview = x.previewImage;
                 item.click = new EventList();
                 item.click.addEventListener(() => {
                     x.focus()
@@ -84,7 +101,11 @@ export class GalleryManager extends Behaviour {
 
         this.selectedPOIIndex = index;
         this.hasFocused = true;
-        if (this.hideInactivePOIs) {
+        if (this.deactivateInactivePOIs) {
+            for (const x of this.pois) if (x !== poi) GameObject.setActive(x.gameObject, false);
+            GameObject.setActive(poi.gameObject, true);
+        }
+        else if (this.hideInactivePOIs) {
             this.setHidden(poi, false);
             this.hidePending = true;
             this.hidePendingSince = this.context.time.time;

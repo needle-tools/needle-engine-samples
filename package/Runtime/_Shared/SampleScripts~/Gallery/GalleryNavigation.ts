@@ -145,7 +145,9 @@ const css = /* css */`
     gap: 4px;
     padding: 5px;
     border-radius: 999px;
-    max-width: 100%;
+    /* fixed, so the arrows stay put whatever the title */
+    width: min(360px, 100%);
+    box-sizing: border-box;
 }
 
 .gallery-nav button {
@@ -171,6 +173,7 @@ const css = /* css */`
 .gallery-nav-arrow:active { transform: scale(0.92); }
 
 .gallery-nav-info {
+    flex: 1;
     min-width: 0;
     height: 40px;
     display: flex;
@@ -202,7 +205,9 @@ const css = /* css */`
 }
 
 .gallery-nav-title {
+    flex: 1;
     min-width: 0;
+    text-align: left;
     font-size: 15px;
     font-weight: 600;
     white-space: nowrap;

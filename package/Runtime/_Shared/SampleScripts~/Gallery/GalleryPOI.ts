@@ -1,4 +1,4 @@
-import { Behaviour, findObjectOfType, getParam, OrbitControls, serializable, setParamWithoutReload } from "@needle-tools/engine"
+import { Behaviour, findObjectOfType, getParam, ImageReference, OrbitControls, serializable, setParamWithoutReload } from "@needle-tools/engine"
 import { Object3D } from "three";
 import { GalleryManager } from "./GalleryManager";
 
@@ -23,8 +23,15 @@ export class GalleryPOI extends Behaviour {
     @serializable()
     features: string[] = [];
 
+    /** Image of this POI for the preview view of the gallery menu. Rendered with Render POI Previews on the GalleryManager. */
+    @serializable(ImageReference)
+    previewImage?: ImageReference;
+
     private galleryManager?: GalleryManager;
-    private slug: string = "";
+
+    /** Name of this POI in the poi url parameter. */
+    //@nonSerialized
+    get slug() { return toSlug(this.title); }
 
     //@nonSerialized
     initialize(manager: GalleryManager) {
@@ -32,8 +39,8 @@ export class GalleryPOI extends Behaviour {
     }
 
     start() {
-        this.slug = toSlug(this.title);
-        if (getParam("poi") === this.slug) {
+        // the manager may have focused this POI from the url before it was active
+        if (getParam("poi") === this.slug && this.galleryManager?.focusedPOI !== this) {
             this.focus();
         }
     }
@@ -41,11 +48,17 @@ export class GalleryPOI extends Behaviour {
     private previousOrbitControls?: OrbitControls;
     focus() {
         setParamWithoutReload("poi", this.slug);
+        this.applyFocus();
+    }
+
+    /** Focus without writing the POI to the url. */
+    //@nonSerialized
+    applyFocus() {
         this.galleryManager?.poiFocused(this);
         this.previousOrbitControls ??= findObjectOfType(OrbitControls)!;
         if (this.previousOrbitControls) applyTargetBounds(this.previousOrbitControls, this.targetBounds);
         if (!this.cameraView) return;
-        this.previousOrbitControls?.setCameraAndLookTarget(this.cameraView);
+        this.previousOrbitControls?.setCameraAndLookTarget(this.cameraView, this.galleryManager?.deactivateInactivePOIs ?? false);
     }
 
     focusNext() { this.galleryManager?.focusNext(this); }
