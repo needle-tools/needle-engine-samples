@@ -70,7 +70,8 @@ export class HintBubble extends Behaviour {
         const controls = (cam ? GameObject.getComponent(cam, OrbitControls) : null) ?? findObjectOfType(OrbitControls, this.context);
         if (!controls) return;
         controls.autoRotate = false;
-        controls.fitCamera({ objects: [this.target ?? this.gameObject], immediate: false, fitOffset: this.focusPadding });
+        // keep the clip planes: fitted to a small object, the far plane would cut off the rest of the scene
+        controls.fitCamera({ objects: [this.target ?? this.gameObject], immediate: false, fitOffset: this.focusPadding, cameraNearFar: "keep" });
     }
 
     private root: HTMLElement | null = null;

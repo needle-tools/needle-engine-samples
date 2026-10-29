@@ -13,7 +13,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Transform @tip;
 		[UnityEngine.Tooltip("The handle that is dragged to move the tip. Keep it outside the arm, and set its rotation to Free to aim the tool in XR.")]
 		public Needle.Engine.Components.DragControls @target;
-		[UnityEngine.Tooltip("0 only brings the tip to the target. 1 also turns the tool to match the target's orientation.")]
+		[UnityEngine.Tooltip("How far the tool turns towards the target's orientation each step, once the target has been turned, using only what reaching the position leaves free. 0 ignores the orientation.")]
 		public float @orientationWeight = 0.5f;
 		[UnityEngine.Tooltip("Fastest a joint turns while reaching, in degrees per second.")]
 		public float @maxJointSpeed = 120f;

@@ -21,6 +21,11 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @hideAfterDrag = true;
 		[UnityEngine.Tooltip("The object the arrow points at. Defaults to this object.")]
 		public UnityEngine.Transform @target;
+		[UnityEngine.Tooltip("Clicking the bubble moves the camera to the object. Needs OrbitControls on the camera.")]
+		public bool @clickToFocus = true;
+		[UnityEngine.Tooltip("Space around the object when focused: 1 fits it tightly, larger values keep more of the room in view.")]
+		public float @focusPadding = 1.6f;
+		public void focus() {}
 		public void Awake() {}
 		public void OnEnable() {}
 		public void OnDisable() {}
