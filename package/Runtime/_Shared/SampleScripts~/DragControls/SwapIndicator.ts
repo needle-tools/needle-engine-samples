@@ -14,8 +14,9 @@ const _position = new Vector3();
  * {@link DragTarget.swapOnFullSlot}.
  *
  * Add this next to the {@link DragTarget} it should watch - found automatically on this same
- * object if left unassigned. Driven entirely by {@link DragTarget.targetEntered} and
- * {@link DragTarget.targetExited} rather than polling: a slot only becomes enterable while
+ * object if left unassigned. Driven entirely by {@link DragTarget.targetEntered},
+ * {@link DragTarget.targetExited} and {@link DragTarget.objectDropped} rather than polling - a
+ * drop onto the slot ends the hover without an exit. A slot only becomes enterable while
  * occupied when a swap is actually on offer, so an occupant found on entry is already the whole
  * answer. A {@link DragTargetMode.Stacked} slot with room left in it is not a swap -
  * something would simply stack on top - so entries there are ignored until the stack is full,
@@ -69,6 +70,9 @@ export class SwapIndicator extends Behaviour {
         }
         this._unsubscribe.push(this.target.targetEntered.addEventListener(args => this._onEntered(args)));
         this._unsubscribe.push(this.target.targetExited.addEventListener(() => this._hide()));
+        // A drop onto this target ends the hover without an exit event - the swap has happened, and
+        // the icon would otherwise stay on the occupant that was just swapped away.
+        this._unsubscribe.push(this.target.objectDropped.addEventListener(() => this._hide()));
     }
 
     onDisable(): void {

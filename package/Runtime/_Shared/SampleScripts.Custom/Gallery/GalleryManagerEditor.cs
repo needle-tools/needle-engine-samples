@@ -21,6 +21,13 @@ namespace Needle.Typescript.GeneratedComponents
 		{
 			base.OnInspectorGUI();
 			EditorGUILayout.Space();
+			serializedObject.Update();
+			var solid = serializedObject.FindProperty(nameof(GalleryManager.previewSolidBackground));
+			EditorGUILayout.PropertyField(solid);
+			using (new EditorGUI.DisabledScope(!solid.boolValue))
+				EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(GalleryManager.previewBackgroundColor)));
+			EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(GalleryManager.previewLayers)));
+			serializedObject.ApplyModifiedProperties();
 			var content = new GUIContent("Render POI Previews",
 				"Renders every POI from its camera view with the main camera and assigns the images to the POI previewImage. The images are saved in a folder next to the scene.");
 			if (GUILayout.Button(content))
@@ -53,6 +60,9 @@ namespace Needle.Typescript.GeneratedComponents
 			var position = cameraTransform.position;
 			var rotation = cameraTransform.rotation;
 			var targetTexture = camera.targetTexture;
+			var clearFlags = camera.clearFlags;
+			var backgroundColor = camera.backgroundColor;
+			var cullingMask = camera.cullingMask;
 
 			var rt = RenderTexture.GetTemporary(Width * Supersampling, Height * Supersampling, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
 			var small = RenderTexture.GetTemporary(Width, Height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
@@ -61,6 +71,12 @@ namespace Needle.Typescript.GeneratedComponents
 			try
 			{
 				camera.targetTexture = rt;
+				camera.cullingMask = cullingMask & manager.previewLayers;
+				if (manager.previewSolidBackground)
+				{
+					camera.clearFlags = CameraClearFlags.SolidColor;
+					camera.backgroundColor = manager.previewBackgroundColor;
+				}
 				for (var i = 0; i < pois.Length; i++)
 				{
 					var poi = pois[i];
@@ -86,6 +102,9 @@ namespace Needle.Typescript.GeneratedComponents
 			finally
 			{
 				camera.targetTexture = targetTexture;
+				camera.clearFlags = clearFlags;
+				camera.backgroundColor = backgroundColor;
+				camera.cullingMask = cullingMask;
 				cameraTransform.SetPositionAndRotation(position, rotation);
 				camera.ResetAspect();
 				foreach (var pair in wasActive) pair.Key.gameObject.SetActive(pair.Value);
