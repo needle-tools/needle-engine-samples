@@ -1,4 +1,4 @@
-import { Behaviour, DragControls, DragMode, DragTarget, findObjectOfType, GameObject, getBoundingBox, OrbitControls, serializable } from "@needle-tools/engine";
+import { Behaviour, CornerGrabAction, DragControls, DragMode, DragTarget, EdgeGrabAction, findObjectOfType, GameObject, getBoundingBox, OrbitControls, serializable } from "@needle-tools/engine";
 import { Box3, Matrix4, Object3D, Ray, Vector2, Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
@@ -233,8 +233,10 @@ export class HintBubble extends Behaviour {
             case DragMode.SnapToSurfaces: action = "Drag to place it on a surface"; break;
         }
         const extras: string[] = [];
-        if (drag.rotateOnEdgeGrab) extras.push("grab an edge to rotate");
-        if (drag.scaleOnCornerGrab) extras.push("grab a corner to resize");
+        if (drag.edgeGrab === EdgeGrabAction.Rotate) extras.push("grab an edge to rotate");
+        if (drag.edgeGrab === EdgeGrabAction.Stretch) extras.push("grab an edge to stretch");
+        if (drag.cornerGrab === CornerGrabAction.Rotate) extras.push("grab a corner to rotate");
+        else if (drag.cornerGrab) extras.push("grab a corner to resize");
         return extras.length ? `${action}, ${extras.join(", ")}` : action;
     }
 

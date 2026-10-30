@@ -33,8 +33,8 @@ export enum HandleDisplay {
  * | Pointer over | Icon | Cursor |
  * |---|---|---|
  * | body, or {@link DragMode.Slide} | move cross / slide arrows along the axis | `grab` |
- * | a side with rotateOnEdgeGrab, or a turn mode | circular arrow | turn icon |
- * | a corner with scaleOnCornerGrab, or {@link DragMode.Scale} | resize arrow out of the corner | `*-resize` |
+ * | a side or corner that rotates (edgeGrab / cornerGrab), or a turn mode | circular arrow | turn icon |
+ * | a side or corner that stretches or scales, or {@link DragMode.Scale} | resize arrow out of the grab | `*-resize` |
  * | a drag that cannot be let go here: the drop is vetoed, or there is no room where it is pointed | forbidden | `not-allowed` |
  * | nothing draggable | hidden | restored |
  *
@@ -397,7 +397,7 @@ export class DragHandleVisualizer extends Behaviour {
             return this._screenAngle(_from, _to, cam);
         }
 
-        if (gesture === GrabGesture.Resize) {
+        if (gesture === GrabGesture.Resize || gesture === GrabGesture.Stretch) {
             const centre = this._boundsCentre(drag, _from);
             if (!centre) return 0;
             return this._screenAngle(centre, point, cam) - _resizeIconScreenAngle;
@@ -460,8 +460,9 @@ export class DragHandleVisualizer extends Behaviour {
         switch (gesture) {
             // CSS has no rotate cursor, so the turn art is used.
             case GrabGesture.Turn: return this._imageCursor(this.turnIcon, "grab");
-            case GrabGesture.Resize: {
-                // Direction out of the corner on screen, picked by octant (NDC, y up).
+            case GrabGesture.Resize:
+            case GrabGesture.Stretch: {
+                // Direction out of the grab on screen, picked by octant (NDC, y up).
                 const angle = this._screenRotationFor(gesture, point, drag) + _resizeIconScreenAngle;
                 const deg = ((angle * 180 / Math.PI) % 180 + 180) % 180;
                 if (deg < 22.5 || deg >= 157.5) return "ew-resize";
@@ -555,7 +556,7 @@ export class DragHandleVisualizer extends Behaviour {
     /** The icon for this gesture. Slide falls back to the move icon. */
     private _textureFor(gesture: GrabGesture, drag: DragControls): Texture | null {
         if (gesture === GrabGesture.Turn) return this.turnIcon;
-        if (gesture === GrabGesture.Resize) return this.resizeIcon;
+        if (gesture === GrabGesture.Resize || gesture === GrabGesture.Stretch) return this.resizeIcon;
         if (drag.dragMode === DragMode.Slide) return this.slideIcon ?? this.moveIcon;
         return this.moveIcon;
     }
@@ -690,8 +691,9 @@ class RimDisplay {
         this._bounds.margin = rim.margin;
         this._bounds.worldScale.copy(rim.worldScale);
         this._bounds.viewDistance = rim.viewDistance;
-        this._bounds.turnsOnEdge = rim.turnsOnEdge;
-        this._bounds.resizesOnCorner = rim.resizesOnCorner;
+        this._bounds.edgeGesture = rim.edgeGesture;
+        this._bounds.cornerGesture = rim.cornerGesture;
+        this._bounds.ownCorners = rim.ownCorners;
         this._layout(obj, drag.edgeGrabMode, style.camera);
         this._rebuildFrame(style);
         if (point) this._rebuildZone(obj, point, style);
@@ -789,16 +791,28 @@ class RimDisplay {
         this._pt(_rimTriple[0], _rimTriple[1], _rimTriple[2], out);
     }
 
-    /** Corners are their own zone only while they resize; otherwise they are just where two edges meet. */
+    /** The colour of a gesture: turn colour for a turn, resize colour for a resize or stretch. */
+    private _gestureColor(gesture: GrabGesture, style: RimStyle): Color | null {
+        if (gesture === GrabGesture.Turn) return style.turn;
+        if (gesture === GrabGesture.Resize || gesture === GrabGesture.Stretch) return style.resize;
+        return null;
+    }
+
+    /** Corners are their own zone only with a corner action; otherwise they are just where two edges meet. */
     private _cornerColor(style: RimStyle): Color | null {
-        return this._bounds.resizesOnCorner ? style.resize : null;
+        return this._bounds.ownCorners ? this._gestureColor(this._bounds.cornerGesture, style) : null;
+    }
+
+    /** Null where the sides move the object. */
+    private _edgeColor(style: RimStyle): Color | null {
+        return this._gestureColor(this._bounds.edgeGesture, style);
     }
 
     /** Edge and corner widths of the face with normal axis `iw`, sized as the engine sizes it. */
     private _faceWidths(iw: number): { e: Vector3, k: Vector3 } {
         const b = this._bounds;
         const e = new Vector3(), k = new Vector3();
-        grabRimWidths(b.bounds, _rimAxis.set(0, 0, 0).setComponent(iw, 1), b.margin, b.worldScale, b.viewDistance, e, k, b.resizesOnCorner);
+        grabRimWidths(b.bounds, _rimAxis.set(0, 0, 0).setComponent(iw, 1), b.margin, b.worldScale, b.viewDistance, e, k, b.ownCorners);
         return { e, k };
     }
 
@@ -806,12 +820,13 @@ class RimDisplay {
         const widths = [0, 1, 2].map(iw => this._faceWidths(iw));
         const key = [this._drag?.guid, this._h.map(v => v.toFixed(4)).join(","), this._visible, this._column,
             widths.map(w => w.k.toArray().map(v => v.toFixed(4)).join(",")).join(";"),
-            this._bounds.turnsOnEdge, this._bounds.resizesOnCorner, style.turn.getHex(), style.resize.getHex()].join("|");
+            this._bounds.edgeGesture, this._bounds.cornerGesture, this._bounds.ownCorners, style.turn.getHex(), style.resize.getHex()].join("|");
         if (key === this._frameKey) return;
         this._frameKey = key;
 
         const segments = new SegmentSet();
         const corner = this._cornerColor(style);
+        const edgeColor = this._edgeColor(style);
         for (let iw = 0; iw < 3; iw++) {
             for (const sw of [-1, 1]) {
                 // the column style reads one face; its sides are drawn below
@@ -828,12 +843,12 @@ class RimDisplay {
                         segments.add(this, corner, ia, sa * ha, ib, sb * hb, iw, w, ib, sb * kb);
                     }
                 }
-                if (this._bounds.turnsOnEdge) {
+                if (edgeColor) {
                     // Inset from the brackets so the two read as separate zones.
                     const gap = corner ? 0.06 * Math.min(ka, kb) : 0;
                     for (const s of [-1, 1]) {
-                        if (ka > gap) segments.addSpan(this, style.turn, ia, ib, s * hb, iw, w, -ka + gap, ka - gap);
-                        if (kb > gap) segments.addSpan(this, style.turn, ib, ia, s * ha, iw, w, -kb + gap, kb - gap);
+                        if (ka > gap) segments.addSpan(this, edgeColor, ia, ib, s * hb, iw, w, -ka + gap, ka - gap);
+                        if (kb > gap) segments.addSpan(this, edgeColor, ib, ia, s * ha, iw, w, -kb + gap, kb - gap);
                     }
                 }
             }
@@ -852,7 +867,8 @@ class RimDisplay {
         if (ha <= 1e-6 || hb <= 1e-6) return;
         const top = this._sw * this._h[iw], bottom = -top;
         const gap = corner ? 0.06 * Math.min(ha - k.getComponent(ia), hb - k.getComponent(ib)) : 0;
-        const edge = corner ?? style.turn;
+        const edgeColor = this._edgeColor(style);
+        const edge = corner ?? edgeColor ?? style.turn;
         for (const [ie, il] of [[ia, ib], [ib, ia]]) {
             const he = this._h[ie], hl = this._h[il], kl = corner ? hl - k.getComponent(il) : hl;
             for (const se of [-1, 1]) {
@@ -861,8 +877,8 @@ class RimDisplay {
                     segments.add(this, edge, ie, se * he, il, sl * hl, iw, top, iw, bottom);
                     if (corner) segments.add(this, corner, ie, se * he, il, sl * hl, iw, bottom, il, sl * kl);
                 }
-                if (this._bounds.turnsOnEdge && kl > gap)
-                    segments.addSpan(this, style.turn, il, ie, se * he, iw, bottom, -kl + gap, kl - gap);
+                if (edgeColor && kl > gap)
+                    segments.addSpan(this, edgeColor, il, ie, se * he, iw, bottom, -kl + gap, kl - gap);
             }
         }
     }
@@ -878,7 +894,7 @@ class RimDisplay {
         const v = p.getComponent(ib) - this._c[ib];
         // the engine's test, see grabBoundsZoneByWidths
         const inA = ha - Math.abs(u), inB = hb - Math.abs(v);
-        const cornerHit = this._bounds.resizesOnCorner && inA <= K.getComponent(ia) && inB <= K.getComponent(ib);
+        const cornerHit = this._bounds.ownCorners && inA <= K.getComponent(ia) && inB <= K.getComponent(ib);
         const pastA = inA <= E.getComponent(ia), pastB = inB <= E.getComponent(ib);
         const sa = Math.sign(u) || 1, sb = Math.sign(v) || 1;
         const w = sw * hw;
@@ -889,11 +905,11 @@ class RimDisplay {
             key = `c${iw}${sw}${sa}${sb}`;
             color = this._cornerColor(style);
         }
-        else if ((pastA || pastB) && this._bounds.turnsOnEdge) {
+        else if ((pastA || pastB) && this._edgeColor(style)) {
             // where two edges meet, the nearer one
             const onA = pastA && (!pastB || inA <= inB);
             key = onA ? `a${iw}${sw}${sa}` : `b${iw}${sw}${sb}`;
-            color = style.turn;
+            color = this._edgeColor(style);
         }
         if (!color) key = "body";
         key += "|" + this._visible + "|" + K.toArray().concat(E.toArray()).map(x => x.toFixed(4)).join(",");
@@ -934,7 +950,7 @@ class RimDisplay {
             const se = key.startsWith("a") ? sa : sb;
             const he = this._h[ie], hl = this._h[il];
             // runs between the corner zones, as deep as the edge width
-            const kl = this._bounds.resizesOnCorner ? hl - K.getComponent(il) : hl, de = he - E.getComponent(ie);
+            const kl = this._bounds.ownCorners ? hl - K.getComponent(il) : hl, de = he - E.getComponent(ie);
             lines.addSpan(this, color, il, ie, se * he, iw, w, -kl, kl);
             this._quad(fill, ie, se * de, se * he, il, -kl, kl, iw, w);
             if (deep && this._isVisible(ie, se)) {
