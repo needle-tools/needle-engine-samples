@@ -1,5 +1,5 @@
 import {
-    Behaviour, DragControls, DragMode, EdgeGrabMode, GameObject, GrabGesture, GrabRim, grabRimWidths, serializable,
+    Behaviour, DragControls, DragMode, EdgeGrabMode, GameObject, GrabGesture, GrabRim, GrabRimHit, grabRimHit, grabRimWidths, serializable,
 } from "@needle-tools/engine";
 import {
     AdditiveBlending, BufferAttribute, BufferGeometry, Camera, Color, DoubleSide, Matrix4, Mesh,
@@ -684,16 +684,7 @@ class RimDisplay {
             return;
         }
 
-        this._bounds.bounds.copy(rim.bounds);
-        this._bounds.faceNormal.copy(rim.faceNormal);
-        this._bounds.edgeWidth.copy(rim.edgeWidth);
-        this._bounds.cornerWidth.copy(rim.cornerWidth);
-        this._bounds.margin = rim.margin;
-        this._bounds.worldScale.copy(rim.worldScale);
-        this._bounds.viewDistance = rim.viewDistance;
-        this._bounds.edgeGesture = rim.edgeGesture;
-        this._bounds.cornerGesture = rim.cornerGesture;
-        this._bounds.ownCorners = rim.ownCorners;
+        this._bounds.copy(rim);
         this._layout(obj, drag.edgeGrabMode, style.camera);
         this._rebuildFrame(style);
         if (point) this._rebuildZone(obj, point, style);
@@ -888,33 +879,18 @@ class RimDisplay {
         const iw = this._iw, sw = this._sw;
         const ia = iw === 0 ? 1 : 0, ib = iw === 2 ? 1 : 2;
         const ha = this._h[ia], hb = this._h[ib], hw = this._h[iw];
-        if (ha <= 1e-6 || hb <= 1e-6) { this._setZone("body"); return; }
-        const E = this._bounds.edgeWidth, K = this._bounds.cornerWidth;
-        const u = p.getComponent(ia) - this._c[ia];
-        const v = p.getComponent(ib) - this._c[ib];
-        // the engine's test, see grabBoundsZoneByWidths
-        const inA = ha - Math.abs(u), inB = hb - Math.abs(v);
-        const cornerHit = this._bounds.ownCorners && inA <= K.getComponent(ia) && inB <= K.getComponent(ib);
-        const pastA = inA <= E.getComponent(ia), pastB = inB <= E.getComponent(ib);
-        const sa = Math.sign(u) || 1, sb = Math.sign(v) || 1;
+        const hit = grabRimHit(this._bounds, p, _rimHit);
+        const r = hit.region;
+        const sa = hit.sides.getComponent(ia), sb = hit.sides.getComponent(ib);
+        const color = sa || sb ? this._gestureColor(hit.gesture, style) : null;
         const w = sw * hw;
+        // The region's inner boundary on axis `i`, from the centre, for the side `s` it sits on.
+        const inner = (i: number, s: number) => (s > 0 ? r.min : r.max).getComponent(i) - this._c[i];
 
-        let key = "body";
-        let color: Color | null = null;
-        if (cornerHit) {
-            key = `c${iw}${sw}${sa}${sb}`;
-            color = this._cornerColor(style);
-        }
-        else if ((pastA || pastB) && this._edgeColor(style)) {
-            // where two edges meet, the nearer one
-            const onA = pastA && (!pastB || inA <= inB);
-            key = onA ? `a${iw}${sw}${sa}` : `b${iw}${sw}${sb}`;
-            color = this._edgeColor(style);
-        }
-        if (!color) key = "body";
-        key += "|" + this._visible + "|" + K.toArray().concat(E.toArray()).map(x => x.toFixed(4)).join(",");
+        const key = !color ? "body" : `${sa && sb ? "c" : sa ? "a" : "b"}${iw}${sw}${sa}${sb}|${this._visible}|`
+            + r.min.toArray().concat(r.max.toArray()).map(x => x.toFixed(4)).join(",");
         if (key === this._zoneKey) return;
-        this._setZone(key.startsWith("body") ? "body" : key);
+        this._setZone(key);
         if (!color) return;
 
         const lines = new SegmentSet();
@@ -923,10 +899,10 @@ class RimDisplay {
         const deep = this._cube && hw > 1e-6;
         if (key.startsWith("c")) {
             const ca = sa * ha, cb = sb * hb;
-            const ka = ha - K.getComponent(ia), kb = hb - K.getComponent(ib);
-            lines.add(this, color, ia, ca, ib, cb, iw, w, ia, sa * ka);
-            lines.add(this, color, ia, ca, ib, cb, iw, w, ib, sb * kb);
-            this._quad(fill, ia, sa * ka, ca, ib, sb * kb, cb, iw, w);
+            const ka = inner(ia, sa), kb = inner(ib, sb);
+            lines.add(this, color, ia, ca, ib, cb, iw, w, ia, ka);
+            lines.add(this, color, ia, ca, ib, cb, iw, w, ib, kb);
+            this._quad(fill, ia, ka, ca, ib, kb, cb, iw, w);
             if (deep) {
                 // down the side faces, as those faces size their corners
                 const sideA = this._faceWidths(ia).k, sideB = this._faceWidths(ib).k;
@@ -938,29 +914,28 @@ class RimDisplay {
             else if (this._column) {
                 // the whole corner column, top to bottom
                 lines.add(this, color, ia, ca, ib, cb, iw, w, iw, -w);
-                lines.add(this, color, ia, ca, ib, cb, iw, -w, ia, sa * ka);
-                lines.add(this, color, ia, ca, ib, cb, iw, -w, ib, sb * kb);
-                if (this._isVisible(ia, sa)) this._quad(fill, ib, sb * kb, cb, iw, -w, w, ia, ca);
-                if (this._isVisible(ib, sb)) this._quad(fill, ia, sa * ka, ca, iw, -w, w, ib, cb);
+                lines.add(this, color, ia, ca, ib, cb, iw, -w, ia, ka);
+                lines.add(this, color, ia, ca, ib, cb, iw, -w, ib, kb);
+                if (this._isVisible(ia, sa)) this._quad(fill, ib, kb, cb, iw, -w, w, ia, ca);
+                if (this._isVisible(ib, sb)) this._quad(fill, ia, ka, ca, iw, -w, w, ib, cb);
             }
         }
         else {
             // An edge: `ie` is the axis the grab went past, `il` the one the edge runs along.
-            const ie = key.startsWith("a") ? ia : ib, il = key.startsWith("a") ? ib : ia;
-            const se = key.startsWith("a") ? sa : sb;
-            const he = this._h[ie], hl = this._h[il];
-            // runs between the corner zones, as deep as the edge width
-            const kl = this._bounds.ownCorners ? hl - K.getComponent(il) : hl, de = he - E.getComponent(ie);
-            lines.addSpan(this, color, il, ie, se * he, iw, w, -kl, kl);
-            this._quad(fill, ie, se * de, se * he, il, -kl, kl, iw, w);
+            const ie = sa ? ia : ib, il = sa ? ib : ia;
+            const se = sa || sb;
+            const he = this._h[ie];
+            const l0 = r.min.getComponent(il) - this._c[il], l1 = r.max.getComponent(il) - this._c[il];
+            lines.addSpan(this, color, il, ie, se * he, iw, w, l0, l1);
+            this._quad(fill, ie, inner(ie, se), se * he, il, l0, l1, iw, w);
             if (deep && this._isVisible(ie, se)) {
                 const side = this._faceWidths(ie).e;
-                this._quad(fill, iw, sw * (hw - side.getComponent(iw)), w, il, -kl, kl, ie, se * he);
+                this._quad(fill, iw, sw * (hw - side.getComponent(iw)), w, il, l0, l1, ie, se * he);
             }
             else if (this._column && this._isVisible(ie, se)) {
                 // the whole side between the corner columns
-                lines.addSpan(this, color, il, ie, se * he, iw, -w, -kl, kl);
-                this._quad(fill, iw, -w, w, il, -kl, kl, ie, se * he);
+                lines.addSpan(this, color, il, ie, se * he, iw, -w, l0, l1);
+                this._quad(fill, iw, -w, w, il, l0, l1, ie, se * he);
             }
         }
         _setSegments(this._hi, lines.positions, lines.colors);
@@ -1100,6 +1075,7 @@ const _cursorSuitsInput = (xr: boolean, mouse: boolean) => !xr && mouse;
 const _iconSuitsInput = (xr: boolean, mouse: boolean) => xr || !mouse;
 
 const _rimQuery = new GrabRim();
+const _rimHit = new GrabRimHit();
 const _lastPointer = new Vector2(Number.NaN, Number.NaN);
 const _lastCamera = new Matrix4();
 const _camPos = new Vector3();
