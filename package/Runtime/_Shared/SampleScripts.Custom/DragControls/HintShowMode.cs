@@ -3,7 +3,7 @@
 // The component compiler generates the HintBubble partial class in
 // SampleScripts.codegen/HintBubble.cs (from SampleScripts~/DragControls/HintBubble.ts) with a field
 // of this type, showWhen, but it does not emit enum declarations from TypeScript enums - only class
-// members. So the enum itself has to exist on the C# side by hand, same rationale as HandleDisplay.cs.
+// members. So the enum itself has to exist on the C# side by hand.
 //
 // Keep names and values identical to HintShowMode in HintBubble.ts.
 namespace Needle.Typescript.GeneratedComponents
