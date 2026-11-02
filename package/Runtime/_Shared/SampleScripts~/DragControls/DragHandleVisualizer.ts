@@ -33,7 +33,7 @@ export enum HandleDisplay {
  * | Pointer over | Icon | Cursor |
  * |---|---|---|
  * | body, or {@link DragMode.Slide} | move cross / slide arrows along the axis | `grab` |
- * | a side or corner that rotates (edgeGrab / cornerGrab), or a turn mode | circular arrow | turn icon |
+ * | a side or corner that rotates (rim.edge / rim.corner), or a turn mode | circular arrow | turn icon |
  * | a side or corner that stretches or scales, or {@link DragMode.Scale} | resize arrow out of the grab | `*-resize` |
  * | a drag that cannot be let go here: the drop is vetoed, or there is no room where it is pointed | forbidden | `not-allowed` |
  * | nothing draggable | hidden | restored |
@@ -685,7 +685,7 @@ class RimDisplay {
         }
 
         this._bounds.copy(rim);
-        this._layout(obj, drag.edgeGrabMode, style.camera);
+        this._layout(obj, drag.rim.mode, style.camera);
         this._rebuildFrame(style);
         if (point) this._rebuildZone(obj, point, style);
 

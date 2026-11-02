@@ -233,10 +233,10 @@ export class HintBubble extends Behaviour {
             case DragMode.SnapToSurfaces: action = "Drag to place it on a surface"; break;
         }
         const extras: string[] = [];
-        if (drag.edgeGrab === EdgeGrabAction.Rotate) extras.push("grab an edge to rotate");
-        if (drag.edgeGrab === EdgeGrabAction.Stretch) extras.push("grab an edge to stretch");
-        if (drag.cornerGrab === CornerGrabAction.Rotate) extras.push("grab a corner to rotate");
-        else if (drag.cornerGrab) extras.push("grab a corner to resize");
+        if (drag.rim.edge === EdgeGrabAction.Rotate) extras.push("grab an edge to rotate");
+        if (drag.rim.edge === EdgeGrabAction.Stretch) extras.push("grab an edge to stretch");
+        if (drag.rim.corner === CornerGrabAction.Rotate) extras.push("grab a corner to rotate");
+        else if (drag.rim.corner) extras.push("grab a corner to resize");
         return extras.length ? `${action}, ${extras.join(", ")}` : action;
     }
 

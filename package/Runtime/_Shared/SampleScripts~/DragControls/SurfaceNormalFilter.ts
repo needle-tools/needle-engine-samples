@@ -31,14 +31,14 @@ const REGION_COLOR = 0x5577ff;
  * direction.
  *
  * Put this next to a {@link DragControls} set to {@link DragMode.SnapToSurfaces}. It installs
- * itself as that component's {@link DragControls.surfaceNormalFilter}, which is asked about each
+ * itself as that component's {@link DragSurfaceSettings.normalFilter}, which is asked about each
  * candidate surface *before* the object is moved onto it - so a forbidden face is not somewhere the
  * object goes and is then sent back from, it is somewhere the drag never reaches. Aim at a wall
  * with walls switched off and the object stays where it last had a floor, following the pointer
  * again the moment one comes back under it.
  *
  * Let go while there is nowhere allowed under it and the object returns to where the drag picked it
- * up, eased over {@link DragControls.returnDuration}. That is {@link DragControls.allowDrop}
+ * up, eased over {@link DragReturnSettings.duration}. That is {@link DragControls.allowDrop}
  * refusing the release, and it is what stops a refused drag from quietly leaving the object
  * standing at the last legal spot it passed over - somewhere the user let go well away from and did
  * not choose. It also catches the one case the filter cannot see: a drag that *began* with the
@@ -47,7 +47,7 @@ const REGION_COLOR = 0x5577ff;
  *
  * Which way a surface faces is read from its normal in world space, so this asks about *faces*
  * rather than objects - the distinction that matters, because a room's floor, walls and ceiling are
- * usually one mesh and {@link DragControls.surfaceObjects} cannot tell them apart.
+ * usually one mesh and {@link DragSurfaceSettings.objects} cannot tell them apart.
  *
  * With {@link keepUpright} on, the object stays standing for as long as it is being dragged - its
  * own up axis held on world up, whatever surface it is over - and an object picked up already
@@ -58,9 +58,9 @@ const REGION_COLOR = 0x5577ff;
  * companion to this and is not something that can be worked out. Which side of a mesh is its front
  * is an authoring fact, not a geometric one, and a rule that assumed an answer would face half of
  * all assets into the wall. Point it with the object's own rotation, or with
- * {@link DragControls.customAnchor}, both of which say it rather than guess it.
+ * {@link DragSurfaceSettings.customAnchor}, both of which say it rather than guess it.
  *
- * This is the opposite instruction to {@link DragControls.alignToSurfaceNormal}, so the two are not
+ * This is the opposite instruction to {@link DragSurfaceSettings.alignToNormal}, so the two are not
  * meant to be on together: that one lays the object down onto the surface and its standoff from
  * the surface is measured for the lying-down pose, which is then stood back up here - leaving the
  * object the right way up at the wrong distance.
@@ -169,14 +169,14 @@ export class SurfaceNormalFilter extends Behaviour {
         // The two say opposite things about the object's rotation, and the one that loses still
         // gets a vote on its position - see keepUpright. Worth a word, because the result reads as
         // a placement bug rather than as a settings clash.
-        if (this.keepUpright && this.dragControls.alignToSurfaceNormal) {
-            console.warn(`${this.name}: SurfaceNormalFilter.keepUpright and DragControls.alignToSurfaceNormal `
+        if (this.keepUpright && this.dragControls.surface.alignToNormal) {
+            console.warn(`${this.name}: SurfaceNormalFilter.keepUpright and DragControls.surface.alignToNormal `
                 + `are both on. The object will stand up, but its distance from the surface is measured `
-                + `for the lying-down pose. Switch off alignToSurfaceNormal.`, this.gameObject);
+                + `for the lying-down pose. Switch off surface.alignToNormal.`, this.gameObject);
         }
 
         // The rule that stops the object reaching a forbidden face at all.
-        this.dragControls.surfaceNormalFilter = this._rule;
+        this.dragControls.surface.normalFilter = this._rule;
         // And the backstop: a drag that began already standing on one has no candidate surface to
         // have been refused, so only the release is left to catch it.
         this._unsubscribes.push(
@@ -196,7 +196,7 @@ export class SurfaceNormalFilter extends Behaviour {
         // it was last tinted.
         this.clearTint();
         // Only if it is still ours - another component may have taken over in the meantime.
-        if (this.dragControls?.surfaceNormalFilter === this._rule) this.dragControls.surfaceNormalFilter = null;
+        if (this.dragControls?.surface.normalFilter === this._rule) this.dragControls.surface.normalFilter = null;
     }
 
     /**
@@ -241,7 +241,7 @@ export class SurfaceNormalFilter extends Behaviour {
      * data we have; its front is not.
      *
      * Runs after {@link DragControls.update} has positioned - and, under
-     * {@link DragControls.alignToSurfaceNormal}, tilted - the object for this frame, so this is the
+     * {@link DragSurfaceSettings.alignToNormal}, tilted - the object for this frame, so this is the
      * last word on its rotation. Applying it repeatedly is exactly stable: the twist of an
      * already-upright rotation is that same rotation.
      */
