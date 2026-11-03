@@ -7,7 +7,7 @@ type Home = { position: Vector3, rotation: Quaternion };
 
 /**
  * A shape sorter toy: each hole in the lid is a DragTarget that only accepts its own shape
- * (DragTarget.allowedObjects), so a wrong shape is refused and flies back. A shape posted through
+ * (DragTarget.filter.objects), so a wrong shape is refused and flies back. A shape posted through
  * its hole drops into the box. Once every hole has had its shape, the lid opens, the shapes come
  * back out onto the table and the game starts over.
  */
@@ -41,7 +41,7 @@ export class ShapeSorter extends Behaviour {
     start(): void {
         if (this.lid) this.lidClosed.copy(this.lid.quaternion);
         for (const hole of this.holes) {
-            for (const shape of hole.allowedObjects) {
+            for (const shape of hole.filter.objects) {
                 if (shape) this.homes.set(shape, { position: getWorldPosition(shape).clone(), rotation: getWorldQuaternion(shape).clone() });
             }
         }
@@ -60,7 +60,7 @@ export class ShapeSorter extends Behaviour {
 
     private *post(hole: DragTarget, shape: Object3D) {
         // let the fly-in finish, then take it back from the hole so it can drop through
-        yield* this.wait(hole.flyDuration + 0.05);
+        yield* this.wait(hole.fly.duration + 0.05);
         this.setDraggable(shape, false);
         hole.releaseObject(shape);
         const from = getWorldPosition(shape).clone();

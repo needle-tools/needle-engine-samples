@@ -110,8 +110,8 @@ export class JuiceMixer extends Behaviour {
      *  required to press the button - see the class summary - but handy for other scripts that
      *  want to show a "bowl full" hint. */
     get isFull(): boolean {
-        return !!this.ingredients && this.ingredients.capacity > 0
-            && this.ingredients.occupants.length >= this.ingredients.capacity;
+        return !!this.ingredients && this.ingredients.area.capacity > 0
+            && this.ingredients.occupants.length >= this.ingredients.area.capacity;
     }
 
     /** Whether the lid is currently sitting in `lidTarget`. */
@@ -126,7 +126,7 @@ export class JuiceMixer extends Behaviour {
     get isMixing(): boolean { return this._mixing; }
 
     start(): void {
-        for (const item of this.ingredients?.allowedObjects ?? []) {
+        for (const item of this.ingredients?.filter.objects ?? []) {
             if (!item) continue;
             this._homes.set(item, {
                 parent: item.parent,
@@ -154,7 +154,7 @@ export class JuiceMixer extends Behaviour {
         if (debug) {
             console.log(`[Mixer] ${this.name}: enabled - ingredients: `
                 + `${this.ingredients ? "assigned" : "NOT assigned"} (capacity `
-                + `${this.ingredients?.capacity ?? "?"}), lidTarget: `
+                + `${this.ingredients?.area.capacity ?? "?"}), lidTarget: `
                 + `${this.lidTarget ? "assigned" : "NOT assigned"}, button: `
                 + `${this.button ? "assigned" : "NOT assigned"}, juiceMade listeners: `
                 + `${this.juiceMade.listenerCount}`, this.gameObject);
@@ -169,7 +169,7 @@ export class JuiceMixer extends Behaviour {
     update(): void {
         if (!this.pressed() || this._mixing) return;
 
-        if (debug && this.ingredients && this.ingredients.capacity <= 0) {
+        if (debug && this.ingredients && this.ingredients.area.capacity <= 0) {
             console.warn(`[Mixer] ${this.name}: "${this.ingredients.name}" has Capacity 0 - `
                 + `fillScale has no range to ramp across and will always return maxFillScale. `
                 + `Set Capacity above 0 in the inspector.`, this.ingredients);
@@ -296,7 +296,7 @@ export class JuiceMixer extends Behaviour {
      *  `Capacity` ingredients. Returns `maxFillScale` outright while `Capacity` is 0 or 1 - there
      *  is no range to ramp across. */
     private fillScale(count: number): number {
-        const capacity = this.ingredients.capacity;
+        const capacity = this.ingredients.area.capacity;
         if (capacity <= 1) return this.maxFillScale;
         const t = Math.min(1, Math.max(0, (count - 1) / (capacity - 1)));
         return this.minFillScale + (this.maxFillScale - this.minFillScale) * t;

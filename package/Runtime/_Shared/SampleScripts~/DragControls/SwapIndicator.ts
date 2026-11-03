@@ -11,7 +11,7 @@ const _position = new Vector3();
 /**
  * Shows a swap icon floating above the object currently sitting in a slot, for as long as a drag
  * is hovering that slot and letting go there would swap it out - see
- * {@link DragTarget.swapOnFullSlot}.
+ * `DragTarget.swap.onFullSlot`.
  *
  * Add this next to the {@link DragTarget} it should watch - found automatically on this same
  * object if left unassigned. Driven entirely by {@link DragTarget.targetEntered},

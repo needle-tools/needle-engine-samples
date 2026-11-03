@@ -17,7 +17,7 @@ export class ArrowStickTarget extends Behaviour {
     /**
      * Only objects on one of these layers are stuck. `-1` (Everything) accepts anything that hits
      * it with a {@link Rigidbody} and a {@link DragControls} - same convention and default as
-     * {@link DragTarget.targetMask}, which is normally the other half of this setup: arrows are
+     * `DragTarget.filter.mask`, which is normally the other half of this setup: arrows are
      * commonly put on their own layer so a {@link DragTarget} slot only accepts arrows, and this
      * only sticks arrows - both reading the one layer.
      */

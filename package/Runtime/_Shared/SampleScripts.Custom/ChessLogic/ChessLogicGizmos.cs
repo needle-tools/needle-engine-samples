@@ -31,9 +31,9 @@ namespace Needle.Typescript.GeneratedComponents
 			var target = GetComponent<DragTarget>();
 			if (target == null || target.mode != DragTargetMode.Grid) return;
 
-			var cols = Mathf.Max(1, target.gridColumns);
-			var rows = Mathf.Max(1, target.gridRows);
-			var spacing = target.gridSpacing <= 0f ? 1f : target.gridSpacing;
+			var cols = Mathf.Max(1, target.grid.columns);
+			var rows = Mathf.Max(1, target.grid.rows);
+			var spacing = target.grid.spacing <= 0f ? 1f : target.grid.spacing;
 
 			// Two home rows per side, nearest each edge - mirrors ChessLogic.ts's startRow()/
 			// forwardDirection() so the gizmo always agrees with the runtime's own idea of sides.

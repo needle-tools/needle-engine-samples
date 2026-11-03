@@ -18,7 +18,7 @@ export class ScaleWeight extends Behaviour {
  * weighing whatever the pans hold by its ScaleWeight (100 g without one). The beam swings on a
  * spring, so it overshoots a little and settles, and the pans stay level while it turns.
  *
- * Turn on parentOnDrop on both pans and parent them under the beam: what lies in a pan then rides
+ * Turn on holding.parentOnDrop on both pans and parent them under the beam: what lies in a pan then rides
  * up and down with it.
  */
 export class BalanceScale extends Behaviour {

@@ -101,13 +101,13 @@ export class ChessLogic extends Behaviour {
 
         // Without these, pre-placed pieces never register as occupants and captures never work —
         // both default differently than chess needs, so force them rather than rely on scene authoring.
-        if (!this._dragTarget.parentOnDrop) {
-            console.info(`${this.name}: enabling DragTarget.parentOnDrop (was off, needed to track occupied squares)`);
-            this._dragTarget.parentOnDrop = true;
+        if (!this._dragTarget.holding.parentOnDrop) {
+            console.info(`${this.name}: enabling DragTarget.holding.parentOnDrop (was off, needed to track occupied squares)`);
+            this._dragTarget.holding.parentOnDrop = true;
         }
-        if (!this._dragTarget.swapOnFullSlot) {
-            console.info(`${this.name}: enabling DragTarget.swapOnFullSlot (was off, needed for captures)`);
-            this._dragTarget.swapOnFullSlot = true;
+        if (!this._dragTarget.swap.onFullSlot) {
+            console.info(`${this.name}: enabling DragTarget.swap.onFullSlot (was off, needed for captures)`);
+            this._dragTarget.swap.onFullSlot = true;
         }
 
         this.buildPieceCache();
@@ -176,9 +176,9 @@ export class ChessLogic extends Behaviour {
     private computeInitialSlot(object: Object3D): number {
         const target = this._dragTarget!;
         const local = this.gameObject.worldToLocal(getWorldPosition(object).clone());
-        const cols = Math.max(1, target.gridColumns);
-        const rows = Math.max(1, target.gridRows);
-        const spacing = target.gridSpacing || 1;
+        const cols = Math.max(1, target.grid.columns);
+        const rows = Math.max(1, target.grid.rows);
+        const spacing = target.grid.spacing || 1;
         const col = Math.round(local.x / spacing + (cols - 1) * 0.5);
         const row = Math.round(local.z / spacing + (rows - 1) * 0.5);
         return row * cols + col;
@@ -381,7 +381,7 @@ export class ChessLogic extends Behaviour {
 
     private ensureHighlightAssets(): void {
         if (!this._highlightGeometry) {
-            const spacing = this._dragTarget?.gridSpacing || 1;
+            const spacing = this._dragTarget?.grid.spacing || 1;
             const size = spacing * this.highlightSize;
             this._highlightGeometry = new PlaneGeometry(size, size);
             this._highlightGeometry.rotateX(-Math.PI / 2);

@@ -56,7 +56,7 @@ type Plant = {
  *
  * The templates are scene objects: on awake they are hidden, and any stage template authored under
  * the bed is moved out of it so the bed does not adopt it as an occupant. The bed only accepts seeds
- * spawned here, and {@link DragTarget.swapOnFullSlot} is switched off, since swapping a seed into an
+ * spawned here, and `DragTarget.swap.onFullSlot` is switched off, since swapping a seed into an
  * occupied slot would throw the plant growing there back to the pouch.
  *
  * Pointer events only reach a component from its own object or below, so this has to sit on
@@ -126,7 +126,7 @@ export class CarrotBedController extends Behaviour implements IPointerEventHandl
             console.warn(`[CarrotBed] ${this.name}: no bed assigned`, this.gameObject);
             return;
         }
-        this.bed.swapOnFullSlot = false;
+        this.bed.swap.onFullSlot = false;
 
         if (this.seedTemplate) {
             if (!this.seedTemplate.getComponent(DragControls)) {
