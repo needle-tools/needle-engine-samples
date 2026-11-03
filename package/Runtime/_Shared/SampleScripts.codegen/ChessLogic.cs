@@ -25,6 +25,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @playModeActive = true;
 		public void OnEnable() {}
 		public void OnDisable() {}
+		public void OnDestroy() {}
 		public void setPlayModeActive(bool @active) {}
 	}
 }

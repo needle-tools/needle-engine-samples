@@ -19,6 +19,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Color @color = new UnityEngine.Color(1f, 1f, 1f);
 		[UnityEngine.Tooltip("How solid the icon is.")]
 		public float @opacity = 0.9f;
+		public void Awake() {}
 		public void OnEnable() {}
 		public void OnDisable() {}
 		public void OnDestroy() {}

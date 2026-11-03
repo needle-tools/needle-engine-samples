@@ -15,6 +15,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public string @description = "";
 		[UnityEngine.Tooltip("Features this POI shows off, listed as tags under the description.")]
 		public string[] @features;
+		[UnityEngine.Tooltip("Image of this POI for the preview view of the gallery menu. Rendered with Render POI Previews on the GalleryManager.")]
+		public Needle.Engine.ImageReference @previewImage;
 		public void Start() {}
 		public void focus() {}
 		public void focusNext() {}

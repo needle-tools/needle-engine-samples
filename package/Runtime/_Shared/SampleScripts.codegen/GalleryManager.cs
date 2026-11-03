@@ -14,6 +14,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @arrowKeysNavigation = true;
 		[UnityEngine.Tooltip("Hide all POIs but the focused one. The POI being left stays visible until the camera has arrived at the new one. Uses the Ignore Raycast layer, which the camera stops rendering.")]
 		public bool @hideInactivePOIs = false;
+		[UnityEngine.Tooltip("Deactivate all POIs but the focused one, and move the camera to a POI instantly instead of easing. Replaces hideInactivePOIs when both are on.")]
+		public bool @deactivateInactivePOIs = false;
 		public void Awake() {}
 		public void Start() {}
 		public void poiFocused(Needle.Typescript.GeneratedComponents.GalleryPOI @poi) {}

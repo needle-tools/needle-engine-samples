@@ -11,7 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public Needle.Engine.Components.DragTarget @plates;
 		[UnityEngine.Tooltip("One handle per plate, same order as .")]
 		public Needle.Engine.Components.DragControls[] @handles;
-		[UnityEngine.Tooltip("One renderer per plate, same order as , whose material is made to glow.")]
+		[UnityEngine.Tooltip("One renderer per plate, same order as , whose material is made to glow. An emissive texture on that material masks the glow, so give the plates a material without one.")]
 		public UnityEngine.Renderer[] @plateRenderers;
 		[UnityEngine.Tooltip("Where dishes are put to bake - the shelf or rack inside the oven. Everything this target holds bakes together, in every slot it has. Leave unset for a hob with no oven.")]
 		public Needle.Engine.Components.DragTarget @ovenTarget;

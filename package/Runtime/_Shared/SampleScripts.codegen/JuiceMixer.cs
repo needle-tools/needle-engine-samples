@@ -21,8 +21,13 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @maxFillScale = 1f;
 		[UnityEngine.Tooltip("above this counts as pressed.")]
 		public float @pressThreshold = 0.5f;
+		[UnityEngine.Tooltip("Seconds the mixing takes: the ingredients spin down while the juice rises. 0 makes the juice at once.")]
+		public float @mixSeconds = 0f;
+		[UnityEngine.Tooltip("Seconds after mixing until the ingredients are back where they lay at start, ready for the next glass. Applies to the allowed objects of the ingredients target. 0 destroys them instead.")]
+		public float @refillSeconds = 0f;
 		[UnityEngine.Tooltip("Raised once, right after a successful press has destroyed the ingredients and switched on.")]
 		public UnityEngine.Events.UnityEvent @juiceMade = new UnityEngine.Events.UnityEvent();
+		public void Start() {}
 		public void OnEnable() {}
 		public void OnDisable() {}
 		public void Update() {}
