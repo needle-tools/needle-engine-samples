@@ -12,8 +12,8 @@ namespace Needle.Typescript.GeneratedComponents
 	[CustomEditor(typeof(GalleryManager))]
 	public class GalleryManagerEditor : Editor
 	{
-		private const int Width = 640;
-		private const int Height = 360;
+		private const int Width = 256;
+		private const int Height = 256;
 		// rendered at twice the size and scaled down, for antialiasing
 		private const int Supersampling = 2;
 
