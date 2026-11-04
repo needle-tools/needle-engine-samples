@@ -81,7 +81,6 @@ import { RecordPlayer } from "../DragControls/RecordPlayer.js";
 import { RobotArmIK } from "../DragControls/RobotArmIK.js";
 import { ShapeSorter } from "../DragControls/ShapeSorter.js";
 import { SurfaceNormalFilter } from "../DragControls/SurfaceNormalFilter.js";
-import { SwapIndicator } from "../DragControls/SwapIndicator.js";
 import { TexturePlanarMapping } from "../DragControls/TexturePlanarMapping.js";
 import { CustomUSDSettings } from "../EverywhereActions/CustomUSDSettings.js";
 import { FadeOnProximity } from "../EverywhereActions/FadeOnProximity.js";
@@ -182,7 +181,6 @@ export function registerTypes() {
 	TypeStore.add("RobotArmIK", RobotArmIK);
 	TypeStore.add("ShapeSorter", ShapeSorter);
 	TypeStore.add("SurfaceNormalFilter", SurfaceNormalFilter);
-	TypeStore.add("SwapIndicator", SwapIndicator);
 	TypeStore.add("TexturePlanarMapping", TexturePlanarMapping);
 	TypeStore.add("CustomUSDSettings", CustomUSDSettings);
 	TypeStore.add("FadeOnProximity", FadeOnProximity);
