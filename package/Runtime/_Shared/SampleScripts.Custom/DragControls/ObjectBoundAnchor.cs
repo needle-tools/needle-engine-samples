@@ -86,6 +86,9 @@ namespace Needle.Typescript.GeneratedComponents
 		[Tooltip("Pushes the anchor point outward along its own axes, in world units - a constant distance regardless of the target's scale, unlike the bounds themselves. 0 sits exactly on the bounds; a positive value clears the surface, which is normally what a drag handle wants so it doesn't sit flush inside the mesh it belongs to. Has no effect on Center, which has no axis to push along.")]
 		public float margin = 0f;
 
+		[Tooltip("Moves the anchor point by this much along the target's own axes, in world units - a constant distance regardless of the target's scale. Applied on top of the anchor and margin, and works for Center too. Use it to raise or lower a handle, e.g. (0, 0.5, 0) sits half a unit above where it would be.")]
+		public Vector3 offset = Vector3.zero;
+
 		[Tooltip("Also take on the target's rotation, instead of keeping whatever rotation this object already has. Off by default - most handles (spheres, cubes) don't care, and a handle that should stay world-axis-aligned while the target spins needs this off.")]
 		public bool matchRotation = false;
 
@@ -215,6 +218,8 @@ namespace Needle.Typescript.GeneratedComponents
 				var worldDir = (target.rotation * localDir).normalized;
 				worldPoint += worldDir * margin;
 			}
+
+			if (offset != Vector3.zero) worldPoint += target.rotation * offset;
 
 			transform.position = worldPoint;
 			if (matchRotation) transform.rotation = target.rotation;

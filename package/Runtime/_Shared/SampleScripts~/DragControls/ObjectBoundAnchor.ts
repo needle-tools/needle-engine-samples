@@ -110,6 +110,15 @@ export class ObjectBoundAnchor extends Behaviour {
     @serializable()
     margin: number = 0;
 
+    /**
+     * Moves the anchor point by this much along {@link target}'s own axes, in world units - a
+     * constant distance regardless of {@link target}'s scale. Applied on top of {@link anchor} and
+     * {@link margin}, and works for {@link ObjectBoundAnchorPosition.Center} too. Use it to raise
+     * or lower a handle, e.g. `(0, 0.5, 0)` sits half a unit above where it would be.
+     */
+    @serializable(Vector3)
+    offset: Vector3 = new Vector3(0, 0, 0);
+
     /** Also take on {@link target}'s world rotation, instead of keeping whatever rotation this
      *  object already has. Off by default - most handles (spheres, cubes) don't care, and a handle
      *  that should stay world-axis-aligned while the target spins needs this off. */
@@ -223,6 +232,13 @@ export class ObjectBoundAnchor extends Behaviour {
             _localDir.set(sx, sy, sz).normalize();
             _worldDir.copy(_localDir).applyQuaternion(getWorldQuaternion(this.target, _quat)).normalize();
             _worldPoint.addScaledVector(_worldDir, this.margin);
+        }
+
+        // Component Vector3 fields are not handedness-converted on export, so the Unity
+        // inspector's X arrives mirrored; negate it to match what the C# side shows.
+        if (this.offset.x !== 0 || this.offset.y !== 0 || this.offset.z !== 0) {
+            _worldDir.set(-this.offset.x, this.offset.y, this.offset.z).applyQuaternion(getWorldQuaternion(this.target, _quat));
+            _worldPoint.add(_worldDir);
         }
 
         setWorldPosition(this.gameObject, _worldPoint);
