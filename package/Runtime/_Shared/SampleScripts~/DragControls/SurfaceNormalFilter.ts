@@ -1,6 +1,6 @@
 import {
     Behaviour, DragAllowDropEventArgs, DragControls, DragMode, DragSurfaceData, DragUpdatedEventArgs,
-    getParam, Gizmos, MaterialPropertyBlock, Mathf, Renderer, serializable,
+    getParam, Gizmos, type IDragConstraint, MaterialPropertyBlock, Mathf, Renderer, serializable,
 } from "@needle-tools/engine";
 import { Color, MathUtils, MeshStandardMaterial, Object3D, Quaternion, Vector3 } from "three";
 
@@ -159,6 +159,16 @@ export class SurfaceNormalFilter extends Behaviour {
      *  rather than scratch, because it has to survive from one frame to the next. */
     private readonly _upright = new Quaternion();
     private _hasUpright = false;
+    /** {@link keepUpright} as a drag constraint, so it shapes the pose the drag aims at. Written
+     *  to the object after the drag instead, the release settle would ease the object back to the
+     *  aimed pose and its tilt. Only for {@link DragMode.SnapToSurfaces}, read from the mode the
+     *  drag actually runs in, which an XR hold can change. */
+    private readonly _uprightConstraint: IDragConstraint = {
+        apply: followObject => {
+            if (this.keepUpright && this.dragControls?.pointerState?.mode === DragMode.SnapToSurfaces)
+                this.applyUpright(followObject);
+        },
+    };
 
     onEnable(): void {
         this.dragControls ??= this.gameObject.getComponent(DragControls) ?? undefined;
@@ -177,6 +187,9 @@ export class SurfaceNormalFilter extends Behaviour {
 
         // The rule that stops the object reaching a forbidden face at all.
         this.dragControls.surface.normalFilter = this._rule;
+        // Picked up at the next drag start.
+        if (!this.dragControls.constraints.includes(this._uprightConstraint))
+            this.dragControls.constraints.push(this._uprightConstraint);
         // And the backstop: a drag that began already standing on one has no candidate surface to
         // have been refused, so only the release is left to catch it.
         this._unsubscribes.push(
@@ -192,6 +205,9 @@ export class SurfaceNormalFilter extends Behaviour {
     onDisable(): void {
         for (const unsubscribe of this._unsubscribes) unsubscribe();
         this._unsubscribes.length = 0;
+        const constraints = this.dragControls?.constraints;
+        const index = constraints?.indexOf(this._uprightConstraint) ?? -1;
+        if (constraints && index >= 0) constraints.splice(index, 1);
         // Overrides outlive this behaviour otherwise, leaving the object stuck at whatever colour
         // it was last tinted.
         this.clearTint();
@@ -223,7 +239,6 @@ export class SurfaceNormalFilter extends Behaviour {
     private onDragUpdated(e: DragUpdatedEventArgs): void {
         if (e.mode !== DragMode.SnapToSurfaces) return;
         this.applyTint(this.hasAllowedSurface(e.surfaceData));
-        if (this.keepUpright) this.applyUpright(e.object);
     }
 
     /**
@@ -240,10 +255,10 @@ export class SurfaceNormalFilter extends Behaviour {
      * told, and would be wrong for half the assets it met. The way the object is already turned is
      * data we have; its front is not.
      *
-     * Runs after {@link DragControls.update} has positioned - and, under
-     * {@link DragSurfaceSettings.alignToNormal}, tilted - the object for this frame, so this is the
-     * last word on its rotation. Applying it repeatedly is exactly stable: the twist of an
-     * already-upright rotation is that same rotation.
+     * Runs on the drag's follow object, after the mode's own constraints have positioned - and,
+     * under {@link DragSurfaceSettings.alignToNormal}, tilted - it for this frame, so the pose the
+     * drag aims at and settles into on release is already upright. Applying it repeatedly is
+     * exactly stable: the twist of an already-upright rotation is that same rotation.
      */
     private applyUpright(object: Object3D): void {
         const q = object.worldQuaternion;
