@@ -16,6 +16,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @previewMinWidth = 120f;
 		[UnityEngine.Tooltip("Height of a preview image in px, cropped to fit. 0 keeps the 16:9 shape of rendered previews.")]
 		public float @previewHeight = 0f;
+		[UnityEngine.Tooltip("Close the menu when an item is clicked.")]
+		public bool @closeOnItemClick = false;
 		public void Awake() {}
 		public void addNewCategory(Needle.Typescript.GeneratedComponents.GalleryUICategory @category) {}
 	}

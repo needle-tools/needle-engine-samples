@@ -56,6 +56,10 @@ export class GalleryUI extends Behaviour {
     @serializable()
     previewHeight: number = 0;
 
+    /** Close the menu when an item is clicked. */
+    @serializable()
+    closeOnItemClick: boolean = false;
+
     protected mainmenu?: Element;
     protected submenuRoot?: Element;
     protected submenu?: Element;
@@ -121,8 +125,9 @@ export class GalleryUI extends Behaviour {
         const panelBtn = this.submenuContent.classList.contains("previews") ? createPreviewButton(item) : createPanelButton(item);
 
         this.submenuContent.appendChild(panelBtn);
-        panelBtn.onclick = () => { 
+        panelBtn.onclick = () => {
             item.click?.invoke();
+            if (this.closeOnItemClick) this.hideSubmenu();
         };
     }
 
