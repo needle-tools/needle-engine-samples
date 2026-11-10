@@ -115,7 +115,7 @@ export class RobotArmIK extends Behaviour {
                 drag, object,
                 axis: _axes[drag.axis ?? DragAxis.X].clone(),
                 // read here, before anything moves, so the DragControls and this agree on rest
-                rest: drag.getRestPose(object)?.quaternion.clone() ?? object.quaternion.clone(),
+                rest: drag.getRestPose()?.quaternion.clone() ?? object.quaternion.clone(),
                 angle: 0,
                 min: free ? -Infinity : Math.min(lo, hi),
                 max: free ? Infinity : Math.max(lo, hi),

@@ -67,6 +67,7 @@ import { Ballista } from "../DragControls/Ballista.js";
 import { CarrotBedController } from "../DragControls/CarrotBedController.js";
 import { CassettePlayer } from "../DragControls/CassettePlayer.js";
 import { CookingPot } from "../DragControls/CookingPot.js";
+import { DragTrackClick } from "../DragControls/DragTrackClick.js";
 import { FloorPlan } from "../DragControls/FloorPlan.js";
 import { FloorPlanRoom } from "../DragControls/FloorPlanRoom.js";
 import { Highlight } from "../DragControls/Highlight.js";
@@ -170,6 +171,7 @@ export function registerTypes() {
 	TypeStore.add("CarrotBedController", CarrotBedController);
 	TypeStore.add("CassettePlayer", CassettePlayer);
 	TypeStore.add("CookingPot", CookingPot);
+	TypeStore.add("DragTrackClick", DragTrackClick);
 	TypeStore.add("FloorPlan", FloorPlan);
 	TypeStore.add("FloorPlanRoom", FloorPlanRoom);
 	TypeStore.add("Highlight", Highlight);
