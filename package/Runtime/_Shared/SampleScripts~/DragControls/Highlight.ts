@@ -76,7 +76,7 @@ export class Highlight extends Behaviour implements IPointerEventHandler {
     }
 
     update(): void {
-        const active = this._hovered || this.dragControls?.pointerState != null;
+        const active = this._hovered || this.dragControls?.currentState != null;
         const target = active ? 1 : 0;
         const step = this.fadeSeconds > 0 ? this.context.time.deltaTime / this.fadeSeconds : 1;
         this._strength = Mathf.moveTowards(this._strength, target, step);

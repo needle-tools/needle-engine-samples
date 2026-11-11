@@ -112,7 +112,7 @@ export class OverlayMarker extends Behaviour {
         const target = this.target ?? this.gameObject;
         const cam = this.context.mainCamera as Camera | null;
         if (this.hidden || !cam || !this.measure(target)) return;
-        if (this.hideWhileDragging && this.dragControls && (!this.dragControls.activeAndEnabled || this.dragControls.pointerState)) return;
+        if (this.hideWhileDragging && this.dragControls && (!this.dragControls.activeAndEnabled || this.dragControls.currentState)) return;
         // same layers as the marked object, so the marker hides with it when a camera stops rendering its layer
         sprite.layers.mask = target.layers.mask;
 

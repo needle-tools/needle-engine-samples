@@ -1,6 +1,6 @@
 import {
     Behaviour, DragAllowDropEventArgs, DragControls, DragMode, DragSurfaceData, DragUpdatedEventArgs,
-    getParam, Gizmos, type IDragConstraint, MaterialPropertyBlock, Mathf, Renderer, serializable,
+    type DragState, getParam, Gizmos, type IDragConstraint, MaterialPropertyBlock, Mathf, Renderer, serializable,
 } from "@needle-tools/engine";
 import { Color, MathUtils, MeshStandardMaterial, Object3D, Quaternion, Vector3 } from "three";
 
@@ -165,7 +165,7 @@ export class SurfaceNormalFilter extends Behaviour {
      *  drag actually runs in, which an XR hold can change. */
     private readonly _uprightConstraint: IDragConstraint = {
         apply: followObject => {
-            if (this.keepUpright && this.dragControls?.pointerState?.mode === DragMode.SnapToSurfaces)
+            if (this.keepUpright && this.dragControls?.currentState?.mode === DragMode.SnapToSurfaces)
                 this.applyUpright(followObject);
         },
     };
@@ -321,7 +321,7 @@ export class SurfaceNormalFilter extends Behaviour {
      * some distance away from and did not choose.
      *
      * Note the raise is per-frame as well as at the release, so this also drives
-     * {@link DragUpdatedEventArgs.dropAllowed} - the drag can say in advance what letting go would do.
+     * {@link DragState.dropAllowed} - the drag can say in advance what letting go would do.
      */
     private onAllowDrop(e: DragAllowDropEventArgs): void {
         if (e.mode !== DragMode.SnapToSurfaces) return;

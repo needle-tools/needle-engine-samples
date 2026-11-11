@@ -128,7 +128,7 @@ export class HintBubble extends Behaviour {
 
     onBeforeRender(): void {
         if (!this.root || !this.bubble || !this.line) return;
-        if (this.showWhen === HintShowMode.Always && this.dragControls?.pointerState) this.wasDragged = true;
+        if (this.showWhen === HintShowMode.Always && this.dragControls?.currentState) this.wasDragged = true;
         const visible = this.shown = this.updatePosition();
         this.root.classList.toggle("hint-bubble-visible", visible);
     }
@@ -143,8 +143,16 @@ export class HintBubble extends Behaviour {
         let dragged: Object3D | null = null;
         let slot = -1;
         if (this.showWhen === HintShowMode.WhileDraggingAccepted || hovering) {
-            dragged = this.dragTarget?.activeAndEnabled ? this.dragTarget.draggedObject : null;
-            if (hovering && dragged) slot = this.dragTarget!.currentSlot;
+            const target = this.dragTarget?.activeAndEnabled ? this.dragTarget : null;
+            // the first running drag this target takes; with two hands in XR either one shows the hint
+            for (const drag of target ? DragControls.getDragging(this.context) : []) {
+                const object = drag.draggedObject ?? drag.dragObject;
+                if (!target!.accepts(object)) continue;
+                dragged = object;
+                const state = drag.currentState;
+                if (hovering && state?.dropTarget === target) slot = state.dropSlot;
+                if (!hovering || slot >= 0) break;
+            }
             if (!dragged || (hovering && slot < 0)) {
                 // check right away once a drag starts, not with a result from before it
                 this.nextOcclusionCheck = 0;
@@ -152,7 +160,7 @@ export class HintBubble extends Behaviour {
             }
         }
         // out of the way while anything is dragged, which leaves the hints saying where it can go
-        else if (DragControls.HasAnySelected) return false;
+        else if (DragControls.getDragging(this.context).length > 0) return false;
         else if (this.dragControls && !this.dragControls.activeAndEnabled) return false;
 
         target.updateWorldMatrix(true, false);
@@ -220,7 +228,7 @@ export class HintBubble extends Behaviour {
     /** A sentence for the DragControls or DragTarget on this object, used while text is empty */
     private describe(): string {
         if (this.showWhen === HintShowMode.WhileDraggingAccepted) return "Drop it here";
-        if (this.showWhen === HintShowMode.WhileHovering) return this.dragTarget?.autoRotate ? "Keep holding to turn it" : "Let go to drop it here";
+        if (this.showWhen === HintShowMode.WhileHovering) return this.dragTarget?.snapping.autoRotate ? "Keep holding to turn it" : "Let go to drop it here";
         const drag = this.dragControls;
         if (!drag) return "";
         let action = "Drag to move";

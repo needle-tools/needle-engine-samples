@@ -322,22 +322,20 @@ export class ChessLogic extends Behaviour {
         this.showHighlights(this._activeLegalSlots);
     }
 
-    private onPieceAllowDrop(piece: Object3D, args: DragAllowDropEventArgs): void {
-        const target = args.dropTarget as DragTarget | null;
+    private onPieceAllowDrop(_piece: Object3D, args: DragAllowDropEventArgs): void {
+        const state = args.currentState;
+        const target = state.dropTarget;
         if (!target || target !== this._dragTarget) {
             args.disallow();
             return;
         }
         if (!this.playModeActive) return; // any square on our own board is fine while rearranging
-        const toSlot = target.currentSlot;
+        const toSlot = state.dropSlot;
         if (toSlot < 0 || !this._activeLegalSlots.has(toSlot)) {
             args.disallow();
             return;
         }
-        if (args.isRelease) {
-            const occupant = target.getOccupant(toSlot);
-            this._pendingCaptureVictim = occupant && occupant !== piece ? occupant : null;
-        }
+        if (args.isRelease) this._pendingCaptureVictim = state.swapWith;
     }
 
     private onPieceDragEnded(_piece: Object3D, _args: DragEndedEventArgs): void {
