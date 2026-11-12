@@ -344,7 +344,7 @@ export class CassettePlayer extends Behaviour {
         const step = this.lidPopSeconds > 0 ? dt / this.lidPopSeconds : 1;
         this._lidPopT = Mathf.moveTowards(this._lidPopT, 1, step);
 
-        const openAngle = (this.lid.startAngle + this.lid.rangeAngle) * this.lidPopFraction * this._lidPopT;
+        const openAngle = (this.lid.hinge.startAngle + this.lid.hinge.rangeAngle) * this.lidPopFraction * this._lidPopT;
         const rotation = new Quaternion().setFromAxisAngle(LOCAL_AXES[this.lid.axis], MathUtils.degToRad(openAngle));
         this.lid.gameObject.quaternion.copy(this._lidRestQuaternion).multiply(rotation);
 

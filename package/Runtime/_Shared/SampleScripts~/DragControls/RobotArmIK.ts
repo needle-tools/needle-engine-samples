@@ -109,8 +109,8 @@ export class RobotArmIK extends Behaviour {
         for (const drag of this.joints) {
             if (!drag) continue;
             const object = drag.gameObject;
-            const lo = drag.startAngle, hi = drag.startAngle + drag.rangeAngle;
-            const free = Math.abs(drag.rangeAngle) >= 360;
+            const lo = drag.hinge.startAngle, hi = drag.hinge.startAngle + drag.hinge.rangeAngle;
+            const free = Math.abs(drag.hinge.rangeAngle) >= 360;
             this.chain.push({
                 drag, object,
                 axis: _axes[drag.axis ?? DragAxis.X].clone(),

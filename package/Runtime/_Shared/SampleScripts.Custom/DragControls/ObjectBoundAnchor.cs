@@ -307,7 +307,7 @@ namespace Needle.Typescript.GeneratedComponents
 		/// as <c>+X</c> after export and end up on the mirrored (opposite) face of the exported mesh.
 		/// This resolver swaps every X-positive name for its X-negative counterpart and back, and
 		/// leaves every Y/Z-only name alone - the same rule Needle's own <c>DragControlsValueResolver</c>
-		/// applies to <c>DragControls.axisMin</c> / <c>axisMax</c> for the same reason.
+		/// applies to <c>DragControls.slide.min</c> / <c>max</c> for the same reason.
 		/// </para>
 		/// </summary>
 		public class ObjectBoundAnchorValueResolver : GltfExtensionHandlerBase, IValueResolver

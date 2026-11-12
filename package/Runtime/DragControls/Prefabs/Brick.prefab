@@ -232,18 +232,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
   dragMode: 4
+  attachedDepthRaycast: 0
   limitArea: {fileID: 0}
   limitAreaFit: 0
   customTransform: {fileID: 0}
-  requireDropTarget: 0
+  dragTargets: 0
   snapping:
     gridResolution: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
+    gridSpace: 0
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points:
     - {fileID: 5895213078939297153}
     - {fileID: 7139461925850305221}
@@ -254,35 +251,46 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
+    engageThreshold: 0
+  hinge:
+    startAngle: -180
+    rangeAngle: 360
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
-  startAngle: -180
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -320,15 +328,22 @@ MonoBehaviour:
     customAnchor: {fileID: 0}
     alignToNormal: 0
     settle: 1
+    preventOverhang: 0
+    seeThroughObjects: 0
   grab:
     mode: 0
     points: []
     alignToPointer: 1
+    boundsRaycast: 0
   rotation: 1
-  rotateOnEdgeGrab: 0
-  scaleOnCornerGrab: 0
   rim:
-    margin: 0.043
+    edge: 0
+    corner: 0
+    mode: 0
+    boundsRaycast: 0
+    inXR: 0
+    inTouch: 0
+  dragOffset: 0
   allowScaling: 0
   scaling:
     min: 0.25
@@ -359,9 +374,8 @@ MonoBehaviour:
   xrDragMode: 1
   xrKeepRotation: 0
   xrKeepScale: 0
-  _serializedVersion: 5
-  _legacyBlockOnColliders: 0
-  _legacyMaxAngle: 180
+  snapGridResolution: 0
+  _serializedVersion: 7
 --- !u!114 &3046509057176249093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,8 +407,9 @@ MonoBehaviour:
     count: 1
     direction: {x: 0, y: 1, z: 0}
   snapping:
-    distance: 0.03
+    distance: 0.07
     whenPointedAt: 1
+    reachableThroughObjects: 0
     onRelease: 0
     checkForCollider: 1
     rotation: 1
@@ -404,7 +419,7 @@ MonoBehaviour:
     autoRotateInterval: 1
   swap:
     onFullSlot: 0
-    hoverAxis: {x: 0, y: 1, z: 0}
+    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -431,6 +446,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   targetExited:
+    m_PersistentCalls:
+      m_Calls: []
+  beforeDrop:
     m_PersistentCalls:
       m_Calls: []
   objectDropped:
