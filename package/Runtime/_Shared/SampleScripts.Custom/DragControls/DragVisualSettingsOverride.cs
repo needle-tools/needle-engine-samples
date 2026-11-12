@@ -39,6 +39,9 @@ namespace Needle.Typescript.GeneratedComponents
 		[Tooltip("Show the swap icon over the object a drop would swap out.")]
 		public bool showSwap = true;
 
+		[Tooltip("Show a timer ring in place of the drop icon while a Drag Target turns the dragged object on a timer (Auto Rotate).")]
+		public bool showAutoRotate = true;
+
 		[Tooltip("Icon size as a fraction of the shorter screen side, at least 720 pixels.")]
 		[Range(0f, 0.25f)]
 		public float iconSize = 0.05f;
@@ -110,6 +113,9 @@ namespace Needle.Typescript.GeneratedComponents
 		[Tooltip("Shown over the object a drop would swap out. Empty uses the built-in icon.")]
 		public Texture swapIcon;
 
+		[Tooltip("Shown inside the timer ring while the object is turned on a timer. Empty uses the built-in icon.")]
+		public Texture autoRotateIcon;
+
 		[Tooltip("Shown while a drag is over a Drag Target that would take the object. Empty uses the built-in icon.")]
 		public Texture dropIcon;
 
@@ -141,6 +147,7 @@ namespace Needle.Typescript.GeneratedComponents
 				Field(so, nameof(showWhileDragging));
 				Field(so, nameof(showDrop));
 				Field(so, nameof(showSwap));
+				Field(so, nameof(showAutoRotate));
 
 				Section("Icon");
 				Field(so, nameof(iconSize));
@@ -189,6 +196,7 @@ namespace Needle.Typescript.GeneratedComponents
 					IconSlot(so, nameof(resizeIcon), "Resize");
 					IconSlot(so, nameof(dropIcon), "Drop");
 					IconSlot(so, nameof(swapIcon), "Swap");
+					IconSlot(so, nameof(autoRotateIcon), "Auto Rotate");
 					IconSlot(so, nameof(forbiddenIcon), "Forbidden");
 					GUILayout.FlexibleSpace();
 				}

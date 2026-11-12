@@ -39,6 +39,10 @@ export class DragVisualSettingsOverride extends Behaviour {
     @serializable()
     showSwap: boolean = true;
 
+    /** Show a timer ring in place of the drop icon while a DragTarget turns the dragged object on a timer (Auto Rotate). */
+    @serializable()
+    showAutoRotate: boolean = true;
+
     /** Icon size as a fraction of the shorter screen side, at least 720 pixels. */
     @serializable()
     iconSize: number = 0.05;
@@ -127,6 +131,10 @@ export class DragVisualSettingsOverride extends Behaviour {
     @serializable(Texture)
     swapIcon: Texture | null = null;
 
+    /** Shown inside the timer ring while the object is turned on a timer. Empty uses the built-in icon. */
+    @serializable(Texture)
+    autoRotateIcon: Texture | null = null;
+
     /** Shown while a drag is over a DragTarget that would take the object. Empty uses the built-in icon. */
     @serializable(Texture)
     dropIcon: Texture | null = null;
@@ -161,6 +169,7 @@ export class DragVisualSettingsOverride extends Behaviour {
         target.showWhileDragging = this.showWhileDragging;
         target.showDrop = this.showDrop;
         target.showSwap = this.showSwap;
+        target.showAutoRotate = this.showAutoRotate;
         target.iconSize = this.iconSize;
         target.screenOffset.copy(this.screenOffset);
         target.color.copy(this.color);
@@ -183,6 +192,7 @@ export class DragVisualSettingsOverride extends Behaviour {
         target.turnIcon = this.turnIcon ?? null;
         target.resizeIcon = this.resizeIcon ?? null;
         target.swapIcon = this.swapIcon ?? null;
+        target.autoRotateIcon = this.autoRotateIcon ?? null;
         target.dropIcon = this.dropIcon ?? null;
         target.forbiddenIcon = this.forbiddenIcon ?? null;
     }
