@@ -1,5 +1,5 @@
 import { Behaviour, CornerGrabAction, DragControls, DragMode, DragTarget, EdgeGrabAction, findObjectOfType, GameObject, getBoundingBox, OrbitControls, serializable } from "@needle-tools/engine";
-import { Box3, Matrix4, Object3D, Ray, Vector2, Vector3 } from "three";
+import { Box3, MathUtils, Matrix4, Object3D, Ray, Vector2, Vector3 } from "three";
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -68,17 +68,32 @@ export class HintBubble extends Behaviour {
     @serializable()
     focusMinSize: number = 0.8;
 
-    /** Moves the camera to the object, keeping the current viewing direction. */
+    /** Angle of the camera above the horizon when focusing, in degrees: 90 looks straight down, which suits things that move across a floor or a table. 0 keeps the current viewing direction. */
+    @serializable()
+    focusAngle: number = 0;
+
+    /** Moves the camera to the object. The viewing direction stays the same unless focusAngle is set. */
     focus() {
         const cam = this.context.mainCamera;
         const controls = (cam ? GameObject.getComponent(cam, OrbitControls) : null) ?? findObjectOfType(OrbitControls, this.context);
-        if (!controls) return;
+        if (!cam || !controls) return;
         controls.autoRotate = false;
         const target = this.target ?? this.gameObject;
+        const measured = this.measure(target);
         // a small object is fitted as if it were focusMinSize wide, which also keeps the camera clear of its near plane
-        const grow = this.measure(target) && this.extent > 0 ? Math.max(1, this.focusMinSize / this.extent) : 1;
+        const grow = measured && this.extent > 0 ? Math.max(1, this.focusMinSize / this.extent) : 1;
+        // from above: the camera stays on its side of the object and only changes its height
+        let fitDirection: Vector3 | undefined;
+        if (measured && this.focusAngle > 0) {
+            target.updateWorldMatrix(true, false);
+            _point.copy(this.localCenter).applyMatrix4(target.matrixWorld);
+            const side = cam.getWorldPosition(_camPos).sub(_point).setY(0);
+            if (side.lengthSq() < 1e-6) side.set(0, 0, 1);
+            const angle = MathUtils.degToRad(Math.min(this.focusAngle, 89));
+            fitDirection = side.normalize().multiplyScalar(Math.cos(angle)).setY(Math.sin(angle));
+        }
         // keep the clip planes: fitted to a small object, the far plane would cut off the rest of the scene
-        controls.fitCamera({ objects: [target], immediate: false, fitOffset: this.focusPadding * grow, cameraNearFar: "keep" });
+        controls.fitCamera({ objects: [target], immediate: false, fitOffset: this.focusPadding * grow, fitDirection, cameraNearFar: "keep" });
     }
 
     private root: HTMLElement | null = null;

@@ -27,6 +27,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @focusPadding = 1.6f;
 		[UnityEngine.Tooltip("Smallest area the focus frames, in meters: a switch or a dial is shown with its surroundings instead of from a few centimeters away.")]
 		public float @focusMinSize = 0.8f;
+		[UnityEngine.Tooltip("Angle of the camera above the horizon when focusing, in degrees: 90 looks straight down, which suits things that move across a floor or a table. 0 keeps the current viewing direction.")]
+		public float @focusAngle = 0f;
 		public void focus() {}
 		public void Awake() {}
 		public void OnEnable() {}
