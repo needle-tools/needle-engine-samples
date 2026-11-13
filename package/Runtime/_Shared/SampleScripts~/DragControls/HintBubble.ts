@@ -64,14 +64,21 @@ export class HintBubble extends Behaviour {
     @serializable()
     focusPadding: number = 1.6;
 
+    /** Smallest area the focus frames, in meters: a switch or a dial is shown with its surroundings instead of from a few centimeters away. */
+    @serializable()
+    focusMinSize: number = 0.8;
+
     /** Moves the camera to the object, keeping the current viewing direction. */
     focus() {
         const cam = this.context.mainCamera;
         const controls = (cam ? GameObject.getComponent(cam, OrbitControls) : null) ?? findObjectOfType(OrbitControls, this.context);
         if (!controls) return;
         controls.autoRotate = false;
+        const target = this.target ?? this.gameObject;
+        // a small object is fitted as if it were focusMinSize wide, which also keeps the camera clear of its near plane
+        const grow = this.measure(target) && this.extent > 0 ? Math.max(1, this.focusMinSize / this.extent) : 1;
         // keep the clip planes: fitted to a small object, the far plane would cut off the rest of the scene
-        controls.fitCamera({ objects: [this.target ?? this.gameObject], immediate: false, fitOffset: this.focusPadding, cameraNearFar: "keep" });
+        controls.fitCamera({ objects: [target], immediate: false, fitOffset: this.focusPadding * grow, cameraNearFar: "keep" });
     }
 
     private root: HTMLElement | null = null;
@@ -83,6 +90,7 @@ export class HintBubble extends Behaviour {
     private wasDragged = false;
     private localCenter = new Vector3();
     private radius = 0;
+    private extent = 0;
     private centerTarget: Object3D | null = null;
     private occluded = false;
     private nextOcclusionCheck = 0;
@@ -256,7 +264,9 @@ export class HintBubble extends Behaviour {
         if (_box.isEmpty()) return false;
         _invMatrix.copy(target.matrixWorld).invert();
         _box.getCenter(this.localCenter).applyMatrix4(_invMatrix);
-        this.radius = _box.getSize(_point).length() / 2;
+        _box.getSize(_point);
+        this.radius = _point.length() / 2;
+        this.extent = Math.max(_point.x, _point.y, _point.z);
         this.centerTarget = target;
         return true;
     }

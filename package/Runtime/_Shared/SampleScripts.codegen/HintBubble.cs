@@ -25,6 +25,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @clickToFocus = true;
 		[UnityEngine.Tooltip("Space around the object when focused: 1 fits it tightly, larger values keep more of the room in view.")]
 		public float @focusPadding = 1.6f;
+		[UnityEngine.Tooltip("Smallest area the focus frames, in meters: a switch or a dial is shown with its surroundings instead of from a few centimeters away.")]
+		public float @focusMinSize = 0.8f;
 		public void focus() {}
 		public void Awake() {}
 		public void OnEnable() {}
