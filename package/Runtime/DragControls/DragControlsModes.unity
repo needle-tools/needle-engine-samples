@@ -610,50 +610,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -738,7 +741,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!23 &8064284
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1313,6 +1316,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -1346,13 +1356,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -1466,6 +1469,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -1499,13 +1509,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -2062,6 +2065,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -2095,13 +2105,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -2311,6 +2314,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -2344,13 +2354,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -3095,6 +3098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 0
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -3122,7 +3126,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -3132,7 +3135,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.25
   engage:
     threshold: 0
@@ -3832,6 +3834,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -3865,13 +3874,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -4147,6 +4149,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -0.0045
@@ -4180,13 +4189,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -4351,6 +4353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 2
+  direction: 2
   slots: []
   grid:
     columns: 8
@@ -4378,7 +4381,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -4388,7 +4390,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.24
   engage:
     threshold: 0
@@ -4478,6 +4479,125 @@ MonoBehaviour:
   activePieceColor: {r: 1, g: 0.85, b: 0.2, a: 1}
   turnLabel: {fileID: 0}
   playModeActive: 1
+--- !u!1 &111151006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 111151008}
+  - component: {fileID: 111151007}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &111151007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111151006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b9bd3015a44d0cab94b7e3d25e5001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
+  mode: 0
+  direction: 2
+  slots: []
+  grid:
+    columns: 3
+    rows: 3
+    spacing: 1
+  area:
+    capacity: 0
+    region: {fileID: 0}
+    fit: 0
+    dropPoint: 0
+  stack:
+    count: 1
+    direction: {x: 0, y: 1, z: 0}
+  snapping:
+    distance: 0.2
+    whenPointedAt: 0
+    reachableThroughObjects: 0
+    onRelease: 0
+    checkForCollider: 0
+    rotation: 1
+    rotationSteps: 0
+    rotationAxis: 1
+    autoRotate: 0
+    autoRotateInterval: 1
+  swap:
+    onFullSlot: 1
+    hover: 1
+    hoverDistance: 0
+  holding:
+    occupants: 1
+    areaOccupants: 0
+    dropScale: 0
+    parentOnDrop: 0
+    adoptChildren: 1
+  fly:
+    height: 0
+    duration: 0.2
+  engage:
+    threshold: 0.48
+    elastic: 0
+    stiffness: 0.5
+  filter:
+    objects: []
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    tags: []
+    blockUnallowed: 1
+  targetEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  targetExited:
+    m_PersistentCalls:
+      m_Calls: []
+  beforeDrop:
+    m_PersistentCalls:
+      m_Calls: []
+  objectDropped:
+    m_PersistentCalls:
+      m_Calls: []
+  objectRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+  allowedObjectDragStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  allowedObjectDragEnded:
+    m_PersistentCalls:
+      m_Calls: []
+  allowTarget:
+    m_PersistentCalls:
+      m_Calls: []
+  _serializedVersion: 2
+--- !u!4 &111151008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111151006}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -130.022, y: 1.1966802, z: 1.7544783}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &113214706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4635,6 +4755,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -4668,13 +4795,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -4788,6 +4908,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -4821,13 +4948,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -5085,6 +5205,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -5118,13 +5245,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -5294,6 +5414,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -5327,13 +5454,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -5557,6 +5677,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 4
     max: 1
@@ -5590,13 +5717,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -6171,6 +6291,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 0
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -6204,13 +6331,6 @@ MonoBehaviour:
       rangeAngle: 24
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -6465,6 +6585,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -6498,13 +6625,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -6618,6 +6738,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -6651,13 +6778,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -7203,6 +7323,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -7236,13 +7363,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -7518,6 +7638,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -1
     max: 3
@@ -7551,13 +7678,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -7798,6 +7918,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -7831,13 +7958,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -8429,6 +8549,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -8462,13 +8589,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -8669,6 +8789,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -8702,13 +8829,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -8976,6 +9096,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -9009,13 +9136,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -9161,6 +9281,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -9194,13 +9321,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -10126,6 +10246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 0
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -10153,7 +10274,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -10163,7 +10283,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.25
   engage:
     threshold: 0
@@ -10296,6 +10415,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -10329,13 +10455,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -10872,6 +10991,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -10905,13 +11031,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -11072,7 +11191,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000026464764, y: -0.89029217, z: 0.4553899, w: 0.0000005173891}
   m_LocalPosition: {x: 1.89, y: 4.96, z: 3.42}
-  m_LocalScale: {x: 1.0001384, y: 1.0000708, z: 1.0001416}
+  m_LocalScale: {x: 1.0001427, y: 1.0000708, z: 1.0001438}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -11515,6 +11634,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 15
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -11548,13 +11674,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 15
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -11828,6 +11947,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -11861,13 +11987,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -11918,8 +12037,8 @@ MonoBehaviour:
     corner: 1
     mode: 0
     boundsRaycast: 0
-    inXR: 0
-    inTouch: 0
+    inXR: 1
+    inTouch: 1
   dragOffset: 0
   allowScaling: 0
   scaling:
@@ -12492,6 +12611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 828740623}
   grid:
@@ -12520,7 +12640,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -12530,7 +12649,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -12596,6 +12714,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -12629,13 +12754,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -12865,6 +12983,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -12898,13 +13023,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -13157,6 +13275,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -13190,13 +13315,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -13518,6 +13636,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -13551,13 +13676,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -13838,6 +13956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -13865,7 +13984,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -13875,7 +13993,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -13963,6 +14080,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -13996,13 +14120,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -14637,6 +14754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 0
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -14664,7 +14782,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -14674,7 +14791,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.25
   engage:
     threshold: 0
@@ -14741,6 +14857,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -14774,13 +14897,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -14929,6 +15045,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -14962,13 +15085,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -15200,6 +15316,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -15233,13 +15356,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -15446,6 +15562,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -4
@@ -15479,13 +15602,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -16012,6 +16128,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -16045,13 +16168,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -16229,6 +16345,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 1.54
     max: 0
@@ -16262,13 +16385,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -16940,6 +17056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 356006835}
   - {fileID: 922171176}
@@ -16972,7 +17089,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -16982,7 +17098,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -17129,6 +17244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots:
   - {fileID: 0}
   grid:
@@ -17157,7 +17273,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 0
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -17167,7 +17282,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -18277,6 +18391,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -18310,13 +18431,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -18774,6 +18888,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -18807,13 +18928,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -19021,6 +19135,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -19054,13 +19175,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -19156,6 +19270,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -19189,13 +19310,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -19291,6 +19405,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -19324,13 +19445,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -19426,6 +19540,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -19459,13 +19580,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -19561,6 +19675,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -19594,13 +19715,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -20139,6 +20253,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -1.54
@@ -20172,13 +20293,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -20619,6 +20733,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -20652,13 +20773,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -20772,6 +20886,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -20805,13 +20926,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -20925,6 +21039,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -20958,13 +21079,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -21196,50 +21310,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: -90
-  rangeAngle: 180
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -21324,7 +21441,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &598401634
 GameObject:
   m_ObjectHideFlags: 0
@@ -21384,6 +21501,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -21417,13 +21541,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -21929,6 +22046,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -21962,13 +22086,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -22070,6 +22187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 0
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -22097,7 +22215,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 0
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -22107,7 +22224,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -22376,6 +22492,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -22409,13 +22532,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -22516,6 +22632,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -22549,13 +22672,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -22986,6 +23102,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -23019,13 +23142,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -23344,6 +23460,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -23377,13 +23500,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -23707,6 +23823,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -23740,13 +23863,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -24242,6 +24358,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -24275,13 +24398,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -24517,6 +24633,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -24550,13 +24673,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -24892,6 +25008,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 1.54
     max: 0
@@ -24925,13 +25048,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -25152,6 +25268,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -25185,13 +25308,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -25424,6 +25540,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 1.54
     max: 0
@@ -25457,13 +25580,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -26272,6 +26388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -26299,7 +26416,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -26309,7 +26425,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -26477,6 +26592,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -26510,13 +26632,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -27623,6 +27738,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -4
     max: 0
@@ -27656,13 +27778,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -27852,6 +27967,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -27885,13 +28007,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -28298,6 +28413,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -28331,13 +28453,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -29048,6 +29163,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -3
     max: 1
@@ -29081,13 +29203,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -29222,6 +29337,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 4
@@ -29255,13 +29377,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -29431,6 +29546,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -0.003
@@ -29464,13 +29586,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -29584,6 +29699,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -0.003
@@ -29617,13 +29739,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -29737,6 +29852,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -0.003
@@ -29770,13 +29892,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -29890,6 +30005,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -0.003
@@ -29923,13 +30045,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -30301,50 +30416,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 0
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -30
-    rangeAngle: 60
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -45
-    rangeAngle: 90
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -30
-    rangeAngle: 60
-    angleSnap: 0
-    engageThreshold: 0
+  hinge:
+    startAngle: 0
+    rangeAngle: 360
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 1
     delay: 0
@@ -30483,7 +30601,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!114 &818450464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30581,6 +30699,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -30614,13 +30739,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -30827,6 +30945,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -30860,13 +30985,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -31019,6 +31137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 0
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -31046,7 +31165,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -31056,7 +31174,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.25
   engage:
     threshold: 0
@@ -31123,6 +31240,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -31156,13 +31280,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -31597,6 +31714,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -31630,13 +31754,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -31925,6 +32042,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -31958,13 +32082,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -32045,6 +32162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 3
   slots:
   - {fileID: 426142447}
   grid:
@@ -32073,7 +32191,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -32083,7 +32200,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.92
-    axis: 3
     duration: 0.2
   engage:
     threshold: 0
@@ -32414,6 +32530,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 0.32
@@ -32447,13 +32570,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -32552,6 +32668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 0
+  direction: 4
   slots: []
   grid:
     columns: 3
@@ -32579,7 +32696,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -32589,7 +32705,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.43
-    axis: 4
     duration: 0.2
   engage:
     threshold: 0
@@ -32947,6 +33062,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -32980,13 +33102,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -33324,6 +33439,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -33357,13 +33479,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -33555,6 +33670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 152535320}
   - {fileID: 1235057801}
@@ -33586,7 +33702,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -33596,7 +33711,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -33726,6 +33840,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -33759,13 +33880,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -34537,6 +34651,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -34570,13 +34691,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -34690,6 +34804,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -34723,13 +34844,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -35027,6 +35141,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -35060,13 +35181,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -35443,6 +35557,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -35476,13 +35597,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -35710,6 +35824,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -35743,13 +35864,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -36066,6 +36180,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -36099,13 +36220,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -36335,6 +36449,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.794
   slide:
     min: 1.54
     max: 0
@@ -36368,13 +36489,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.794
   returning:
     mode: 0
     delay: 0
@@ -37088,6 +37202,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -37121,13 +37242,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -37340,6 +37454,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -37373,13 +37494,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -37705,6 +37819,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -37738,13 +37859,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -37972,6 +38086,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -3
     max: 1
@@ -38005,13 +38126,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -38402,6 +38516,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 0.36
@@ -38435,13 +38556,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -38537,6 +38651,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 0.36
@@ -38570,13 +38691,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -38672,6 +38786,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 0.36
@@ -38705,13 +38826,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -38813,6 +38927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -38840,7 +38955,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -38850,7 +38964,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -38901,6 +39014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -38928,7 +39042,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -38938,7 +39051,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -38989,6 +39101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -39016,7 +39129,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -39026,7 +39138,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -39851,6 +39962,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -39884,13 +40002,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -40328,6 +40439,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -40361,13 +40479,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -40466,6 +40577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 980772107}
   grid:
@@ -40494,7 +40606,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -40504,7 +40615,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -40595,6 +40705,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -0.01
@@ -40628,13 +40745,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -41873,6 +41983,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -41906,13 +42023,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -42080,6 +42190,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -42113,13 +42230,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -42215,6 +42325,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 10.96
+    scaleThreshold: 0
+    mode: 2
+    elastic: 1
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -42248,13 +42365,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 10.96
-    scaleThreshold: 0
-    mode: 2
-    elastic: 1
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0.5
@@ -42362,6 +42472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 0
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -42389,7 +42500,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0.12
   holding:
     occupants: 1
@@ -42399,7 +42509,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.2
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -42489,6 +42598,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -42522,13 +42638,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -42696,6 +42805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 6770254028987261962}
   - {fileID: 8816126845291410159}
@@ -42725,7 +42835,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0.12
   holding:
     occupants: 1
@@ -42735,7 +42844,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.2
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -42961,6 +43069,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -42994,13 +43109,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -43169,6 +43277,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -43202,13 +43317,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -43436,6 +43544,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -43469,13 +43584,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -43674,6 +43782,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -4
@@ -43707,13 +43822,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -43883,6 +43991,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -43916,13 +44031,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -44203,6 +44311,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -44236,13 +44351,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -44858,6 +44966,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -44891,13 +45006,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -45211,6 +45319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 4
+  direction: 2
   slots:
   - {fileID: 6661243}
   - {fileID: 1275106020}
@@ -45240,7 +45349,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -45250,7 +45358,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -45516,6 +45623,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 163767064}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -45549,13 +45663,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -46113,6 +46220,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 0
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -46146,13 +46260,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -46413,6 +46520,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -46446,13 +46560,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -47059,6 +47166,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -47092,13 +47206,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -47212,6 +47319,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -47245,13 +47359,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -47365,6 +47472,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -47398,13 +47512,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -47518,6 +47625,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -47551,13 +47665,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -47672,6 +47779,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -47705,13 +47819,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -49178,50 +49285,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 1
     delay: 0
@@ -49351,7 +49461,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &1256083617
 GameObject:
   m_ObjectHideFlags: 0
@@ -49623,50 +49733,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -49751,7 +49864,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!114 &1257143101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49786,6 +49899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -49813,7 +49927,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -49823,7 +49936,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -49882,50 +49994,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -50010,7 +50125,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &1257800918
 GameObject:
   m_ObjectHideFlags: 0
@@ -50126,6 +50241,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 1891629152}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -50159,13 +50281,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -50636,6 +50751,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -50669,13 +50791,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -51189,6 +51304,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -51222,13 +51344,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -51466,6 +51581,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -51499,13 +51621,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -51556,8 +51671,8 @@ MonoBehaviour:
     corner: 1
     mode: 0
     boundsRaycast: 0
-    inXR: 0
-    inTouch: 0
+    inXR: 1
+    inTouch: 1
   dragOffset: 0
   allowScaling: 0
   scaling:
@@ -51885,6 +52000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -51912,7 +52028,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -51922,7 +52037,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -52354,6 +52468,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -52387,13 +52508,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -53032,6 +53146,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -53065,13 +53186,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -53253,6 +53367,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -53286,13 +53407,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -53598,6 +53712,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -53631,13 +53752,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -54487,6 +54601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 1323053474}
   grid:
@@ -54515,7 +54630,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 0
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -54525,7 +54639,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -54591,6 +54704,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -54624,13 +54744,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -55252,6 +55365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 652986125}
   grid:
@@ -55280,7 +55394,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -55290,7 +55403,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -55356,6 +55468,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -55389,13 +55508,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -55513,7 +55625,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb1822f1751a4acabd7c1dba099b6b56, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Engine.Components.DragControls, Needle.Engine
   dragMode: 0
   attachedDepthRaycast: 0
   limitArea: {fileID: 1707466617}
@@ -55523,50 +55635,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -55617,8 +55732,8 @@ MonoBehaviour:
     corner: 1
     mode: 0
     boundsRaycast: 0
-    inXR: 0
-    inTouch: 0
+    inXR: 1
+    inTouch: 1
   dragOffset: 0
   allowScaling: 0
   scaling:
@@ -55651,7 +55766,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!114 &1419461182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55663,7 +55778,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 546f7885af4bb562600f23ade6cedab1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.FloorPlanRoom, Needle.Engine-Samples.Runtime
   roomName: Bath
   planScale: 10
   snap: 0.05
@@ -55682,7 +55797,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58e1ed8833f4540ec44b573cf74b14ed, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.TexturePlanarMapping,
+    Needle.Engine-Samples.Runtime
   tileSize: 0.12
   continuous: 1
 --- !u!23 &1419461184
@@ -57047,6 +57163,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 0.0085
@@ -57080,13 +57203,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -57232,6 +57348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 4
   slots:
   - {fileID: 1452881180}
   grid:
@@ -57260,7 +57377,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -57270,7 +57386,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.09
-    axis: 4
     duration: 0.2
   engage:
     threshold: 0
@@ -57337,6 +57452,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -57370,13 +57492,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -57705,6 +57820,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -57738,13 +57860,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -57964,6 +58079,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 0.32
@@ -57997,13 +58119,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -58307,50 +58422,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -58401,8 +58519,8 @@ MonoBehaviour:
     corner: 1
     mode: 0
     boundsRaycast: 0
-    inXR: 0
-    inTouch: 0
+    inXR: 1
+    inTouch: 1
   dragOffset: 0
   allowScaling: 0
   scaling:
@@ -58435,7 +58553,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!114 &1486638298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58530,7 +58648,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c97e3343d64d2af4c156fdac812986c2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Needle.Typescript.GeneratedComponents.HintBubble, Needle.Engine-Samples.Runtime
   text: Pull a wall to resize the room
   screenOffset: {x: 90, y: 70}
   maxDistance: 7
@@ -59272,6 +59390,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -59305,13 +59430,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -59589,6 +59707,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -59622,13 +59747,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -59770,6 +59888,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -59803,13 +59928,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -60243,6 +60361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 923218991}
   grid:
@@ -60271,7 +60390,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 0
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -60281,7 +60399,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -60347,6 +60464,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -60380,13 +60504,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -60551,6 +60668,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -60584,13 +60708,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -60929,6 +61046,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 2131263184}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -60962,13 +61086,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -61828,6 +61945,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -0.1
     max: 0.2
@@ -61861,13 +61985,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -62103,6 +62220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -62130,7 +62248,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -62140,7 +62257,6 @@ MonoBehaviour:
     adoptChildren: 0
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -62444,6 +62560,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 6
@@ -62477,13 +62600,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -62597,6 +62713,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -1
     max: 2
@@ -62630,13 +62753,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -62750,6 +62866,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -2
     max: 1
@@ -62783,13 +62906,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -62903,6 +63019,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -4
     max: 0
@@ -62936,13 +63059,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -63386,6 +63502,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -63419,13 +63542,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -63521,6 +63637,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 0.53
@@ -63554,13 +63677,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -64440,50 +64556,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0.025
     gridSpace: 1
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -64568,7 +64687,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &1682137541
 GameObject:
   m_ObjectHideFlags: 0
@@ -64803,6 +64922,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -64836,13 +64962,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -65096,6 +65215,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 770988525}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -65129,13 +65255,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -65425,6 +65544,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: -2
     max: 2
@@ -65458,13 +65584,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -65771,6 +65890,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -65804,13 +65930,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -66051,7 +66170,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000026464764, y: -0.89029217, z: 0.4553899, w: 0.0000005173891}
   m_LocalPosition: {x: 1.89, y: 4.96, z: 3.42}
-  m_LocalScale: {x: 1.0004632, y: 1, z: 1.0002849}
+  m_LocalScale: {x: 1.0004675, y: 1, z: 1.000287}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -66270,6 +66389,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -66303,13 +66429,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -66423,6 +66542,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -66456,13 +66582,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -66576,6 +66695,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -66609,13 +66735,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -67723,6 +67842,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -0.003
@@ -67756,13 +67882,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -68329,6 +68448,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -68362,13 +68488,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -68665,6 +68784,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -68698,13 +68824,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -68941,6 +69060,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -68974,13 +69100,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -69031,8 +69150,8 @@ MonoBehaviour:
     corner: 1
     mode: 0
     boundsRaycast: 0
-    inXR: 0
-    inTouch: 0
+    inXR: 1
+    inTouch: 1
   dragOffset: 0
   allowScaling: 0
   scaling:
@@ -69244,6 +69363,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -69277,13 +69403,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -69420,6 +69539,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -69453,13 +69579,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -69893,6 +70012,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: -0.003
@@ -69926,13 +70052,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -70063,6 +70182,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -70096,13 +70222,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -70378,6 +70497,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -70411,13 +70537,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -70952,6 +71071,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -70985,13 +71111,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -71180,6 +71299,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -71213,13 +71339,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -72127,6 +72246,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -72160,13 +72286,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -72393,6 +72512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 2
+  direction: 2
   slots: []
   grid:
     columns: 6
@@ -72420,7 +72540,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 0
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -72430,7 +72549,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -72592,6 +72710,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -72625,13 +72750,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -73220,6 +73338,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -73253,13 +73378,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -73468,6 +73586,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -73501,13 +73626,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -74049,6 +74167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 1956292298}
   - {fileID: 1956292297}
@@ -74085,7 +74204,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -74095,7 +74213,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.2
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -74399,6 +74516,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -74432,13 +74556,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -74642,6 +74759,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -74675,13 +74799,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -75122,6 +75239,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -75155,13 +75279,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -75443,6 +75560,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -75476,13 +75600,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -75683,6 +75800,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 635449420}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -75716,13 +75840,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -75934,6 +76051,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -75967,13 +76091,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -76115,6 +76232,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -76148,13 +76272,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -76301,6 +76418,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -76334,13 +76458,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -76519,6 +76636,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -76552,13 +76676,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -76704,6 +76821,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -76737,13 +76861,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -76895,6 +77012,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 1988613576}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -76928,13 +77052,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 1
     delay: 0
@@ -78336,6 +78453,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -78369,13 +78493,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -78524,6 +78641,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -78557,13 +78681,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -78827,6 +78944,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -78860,13 +78984,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -79176,6 +79293,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -79209,13 +79333,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -80161,6 +80278,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -80194,13 +80318,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -80389,6 +80506,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -80422,13 +80546,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -80573,6 +80690,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -80606,13 +80730,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -81329,6 +81446,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0.44
+    mode: 2
+    elastic: 1
+    stiffness: 0.871
   slide:
     min: 0
     max: 1
@@ -81362,13 +81486,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0.44
-    mode: 2
-    elastic: 1
-    stiffness: 0.871
   returning:
     mode: 0
     delay: 0
@@ -81517,6 +81634,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -81550,13 +81674,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -81996,6 +82113,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -82029,13 +82153,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -82266,6 +82383,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -82299,13 +82423,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -82485,6 +82602,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -82518,13 +82642,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -82711,6 +82828,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -82744,13 +82868,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -82918,6 +83035,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -82951,13 +83075,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -83185,6 +83302,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -83218,13 +83342,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -88705,6 +88822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
+  direction: 5
   slots:
   - {fileID: 576630327}
   - {fileID: 254171081}
@@ -88737,7 +88855,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 0
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -88747,7 +88864,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.18
-    axis: 5
     duration: 0.25
   engage:
     threshold: 0.1
@@ -90382,50 +90498,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -90510,7 +90629,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!4 &3591425528944431409
 Transform:
   m_ObjectHideFlags: 0
@@ -91472,50 +91591,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: -150
-  rangeAngle: 300
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -91600,7 +91722,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &4252634803329802980
 GameObject:
   m_ObjectHideFlags: 0
@@ -92236,50 +92358,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -92364,7 +92489,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!4 &4632400325152798073
 Transform:
   m_ObjectHideFlags: 0
@@ -93782,6 +93907,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -93815,13 +93947,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -93975,50 +94100,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: -170
-  rangeAngle: 340
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -94103,7 +94231,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &5537084247451709145
 GameObject:
   m_ObjectHideFlags: 0
@@ -95378,6 +95506,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -95411,13 +95546,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -95690,50 +95818,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -95818,7 +95949,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!33 &6320008596837864467
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -96306,6 +96437,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -96339,13 +96477,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -96802,50 +96933,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -96930,7 +97064,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &6647795207163933629
 GameObject:
   m_ObjectHideFlags: 0
@@ -97058,6 +97192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 1
+  direction: 2
   slots:
   - {fileID: 7212389042234953279}
   - {fileID: 654940139975822240}
@@ -97093,7 +97228,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0.09
   holding:
     occupants: 1
@@ -97103,7 +97237,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.09
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0.18
@@ -97229,6 +97362,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -97262,13 +97402,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -97410,6 +97543,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -97443,13 +97583,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -98289,6 +98422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
+  direction: 2
   slots:
   - {fileID: 144054895}
   grid:
@@ -98317,7 +98451,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -98327,7 +98460,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0.08
-    axis: 2
     duration: 0.25
   engage:
     threshold: 0
@@ -98877,50 +99009,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -99005,7 +99140,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &7309152117479678753
 GameObject:
   m_ObjectHideFlags: 0
@@ -99192,50 +99327,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -99320,7 +99458,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!23 &7382181303155324864
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -99551,6 +99689,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -99584,13 +99729,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -100176,50 +100314,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -100304,7 +100445,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!4 &7796271578065489683
 Transform:
   m_ObjectHideFlags: 0
@@ -100798,12 +100939,7 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points:
     - {fileID: 1733523696}
   checkForCollider: 0
@@ -100811,38 +100947,46 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -100927,7 +101071,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!4 &7938286959200881599
 Transform:
   m_ObjectHideFlags: 0
@@ -101069,50 +101213,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -101197,7 +101344,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!23 &7991678276651121714
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -101278,6 +101425,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -101311,13 +101465,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -101586,6 +101733,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -101619,13 +101773,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -101856,50 +102003,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -101984,7 +102134,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1 &8075332826225345583
 GameObject:
   m_ObjectHideFlags: 0
@@ -102055,6 +102205,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -102088,13 +102245,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -102244,50 +102394,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -102372,7 +102525,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!4 &8119108866679722236
 Transform:
   m_ObjectHideFlags: 0
@@ -102411,50 +102564,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 1
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -102539,7 +102695,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!4 &8119285317759940615
 Transform:
   m_ObjectHideFlags: 0
@@ -102648,50 +102804,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 0
   axis: 1
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 38
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -102776,7 +102935,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!33 &8130753458019362294
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -102834,6 +102993,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -102867,13 +103033,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -103066,6 +103225,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -103099,13 +103265,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -103343,6 +103502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -103370,7 +103530,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 0
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -103380,7 +103539,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -103468,6 +103626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.Components.DragTarget, Needle.Engine
   mode: 3
+  direction: 2
   slots: []
   grid:
     columns: 3
@@ -103495,7 +103654,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 0
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -103505,7 +103663,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -103633,6 +103790,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -103666,13 +103830,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -103887,6 +104044,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0.18
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 1
+    stiffness: 0.818
   slide:
     min: 0
     max: 1
@@ -103920,13 +104084,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0.18
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 1
-    stiffness: 0.818
   returning:
     mode: 0
     delay: 0
@@ -104112,50 +104269,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -104240,7 +104400,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!4 &8327811941193718335
 Transform:
   m_ObjectHideFlags: 0
@@ -104663,50 +104823,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -104791,7 +104954,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!23 &8547511947494015035
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -105102,6 +105265,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -105135,13 +105305,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -105299,50 +105462,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -105427,7 +105593,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!4 &8665510918998437493
 Transform:
   m_ObjectHideFlags: 0
@@ -105957,6 +106123,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -105990,13 +106163,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -106728,50 +106894,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -106856,7 +107025,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1001 &8994308662769899736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107006,6 +107175,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 2
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -107039,13 +107215,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -107223,6 +107392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 4
+  direction: 2
   slots:
   - {fileID: 793892730}
   - {fileID: 1453850225}
@@ -107252,7 +107422,6 @@ MonoBehaviour:
   swap:
     onFullSlot: 1
     hover: 1
-    hoverAxis: 2
     hoverDistance: 0
   holding:
     occupants: 1
@@ -107262,7 +107431,6 @@ MonoBehaviour:
     adoptChildren: 1
   fly:
     height: 0
-    axis: 2
     duration: 0.2
   engage:
     threshold: 0
@@ -107493,6 +107661,13 @@ MonoBehaviour:
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
+  engage:
+    planeThreshold: 0
+    angleThreshold: 0
+    scaleThreshold: 0
+    mode: 2
+    elastic: 0
+    stiffness: 0.5
   slide:
     min: 0
     max: 1
@@ -107526,13 +107701,6 @@ MonoBehaviour:
       rangeAngle: 360
       angleSnap: 0
       engageThreshold: 0
-  engage:
-    planeThreshold: 0
-    angleThreshold: 0
-    scaleThreshold: 0
-    mode: 2
-    elastic: 0
-    stiffness: 0.5
   returning:
     mode: 0
     delay: 0
@@ -107769,50 +107937,53 @@ MonoBehaviour:
   snapping:
     gridResolution: 0
     gridSpace: 0
-    axisSnap: 0
-    axisSteps: 0
-    axisSnapMode: 2
     angleSnap: 0
-    angleSteps: 0
-    angleSnapMode: 2
     points: []
   checkForCollider: 0
   ignorePhysicsWhileDragging: 0
   applyAngularVelocityOnRelease: 1
   axis: 0
   customPivot: {fileID: 0}
-  axisMin: 0
-  axisMax: 1
   engage:
     planeThreshold: 0
-    axisThreshold: 0
     angleThreshold: 0
     scaleThreshold: 0
     mode: 2
     elastic: 0
     stiffness: 0.5
-  startAngle: 0
-  rangeAngle: 360
-  normalizedRangeAngle: 0
-  hingeInput: 0
-  rotateX:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
+  slide:
+    min: 0
+    max: 1
+    snapMode: 2
+    snap: 0
+    steps: 0
     engageThreshold: 0
-  rotateY:
-    enabled: 1
-    startAngle: -180
+  hinge:
+    startAngle: 0
     rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
-  rotateZ:
-    enabled: 1
-    startAngle: -180
-    rangeAngle: 360
-    angleSnap: 0
-    engageThreshold: 0
+    normalizedRangeAngle: 0
+    input: 0
+    snapMode: 2
+    steps: 0
+  rotate:
+    x:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    y:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
+    z:
+      enabled: 1
+      startAngle: -180
+      rangeAngle: 360
+      angleSnap: 0
+      engageThreshold: 0
   returning:
     mode: 0
     delay: 0
@@ -107897,7 +108068,7 @@ MonoBehaviour:
   xrKeepRotation: 0
   xrKeepScale: 0
   snapGridResolution: 0
-  _serializedVersion: 6
+  _serializedVersion: 7
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -107934,3 +108105,4 @@ SceneRoots:
   - {fileID: 1751268390}
   - {fileID: 6574797053907166911}
   - {fileID: 1719068956}
+  - {fileID: 111151008}
