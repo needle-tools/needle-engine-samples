@@ -1,6 +1,6 @@
 import {
-    Behaviour, DragAllowDropEventArgs, DragControls, DragMode, DragSurfaceData, DragUpdatedEventArgs,
-    type DragState, getParam, Gizmos, type IDragConstraint, MaterialPropertyBlock, Mathf, Renderer, serializable,
+    Behaviour, DragAllowDropEventArgs, DragControls, DragMode, DragSurfaceData, DragTarget, DragUpdatedEventArgs,
+    type DragState, GameObject, getParam, Gizmos, type IDragConstraint, MaterialPropertyBlock, Mathf, Renderer, serializable,
 } from "@needle-tools/engine";
 import { Color, MathUtils, MeshStandardMaterial, Object3D, Quaternion, Vector3 } from "three";
 
@@ -35,7 +35,8 @@ const REGION_COLOR = 0x5577ff;
  * candidate surface *before* the object is moved onto it - so a forbidden face is not somewhere the
  * object goes and is then sent back from, it is somewhere the drag never reaches. Aim at a wall
  * with walls switched off and the object stays where it last had a floor, following the pointer
- * again the moment one comes back under it.
+ * again the moment one comes back under it. With {@link blockWhileDragging} off the object goes onto
+ * any surface during the drag, and the tint and the release are all that judge it.
  *
  * Let go while there is nowhere allowed under it and the object returns to where the drag picked it
  * up, eased over {@link DragReturnSettings.duration}. That is {@link DragControls.allowDrop}
@@ -43,7 +44,9 @@ const REGION_COLOR = 0x5577ff;
  * standing at the last legal spot it passed over - somewhere the user let go well away from and did
  * not choose. It also catches the one case the filter cannot see: a drag that *began* with the
  * object already standing on a forbidden face never offered that face to the filter, so the release
- * is the only place left to notice.
+ * is the only place left to notice. A release a DragTarget would catch is never refused here - the
+ * target decides that drop. Faces of a DragTarget that accepts the dragged object are allowed at
+ * any angle, so the object can travel onto a target mounted on a wall or reach its slots.
  *
  * Which way a surface faces is read from its normal in world space, so this asks about *faces*
  * rather than objects - the distinction that matters, because a room's floor, walls and ceiling are
@@ -118,6 +121,12 @@ export class SurfaceNormalFilter extends Behaviour {
     @serializable()
     roofAngle: number = 45;
 
+    /** Keep the object off surfaces that are not allowed while it is dragged. Off: the object
+     *  follows the pointer onto any surface and only the tint shows whether it may stay there.
+     *  Letting go on a refused surface still sends it back either way. */
+    @serializable()
+    blockWhileDragging: boolean = true;
+
     /** Keep the object standing upright while it is dragged: its own up axis is held on world up,
      *  so it never tips to lie flat against a wall or hang off a ceiling, and an object picked up
      *  already leaning stands itself up. Only the tilt is taken away - whichever way the object was
@@ -149,7 +158,7 @@ export class SurfaceNormalFilter extends Behaviour {
 
     private readonly _unsubscribes: Function[] = [];
     /** Held so {@link onDisable} can take back exactly the rule it installed, and no other. */
-    private readonly _rule = (worldNormal: Vector3, point: Vector3) => this.judge(worldNormal, point);
+    private readonly _rule = (worldNormal: Vector3, point: Vector3, object: Object3D) => this.judge(worldNormal, point, object);
     private _block?: MaterialPropertyBlock<MeshStandardMaterial>;
     /** Which tint is currently written, or `null` for none - so the override is only rewritten when
      *  the answer actually changes, and only cleared when there is something to clear. */
@@ -222,11 +231,25 @@ export class SurfaceNormalFilter extends Behaviour {
      * place that sees the faces that were *refused*, since a refused one never becomes the drag's
      * surface and so is never reported back through the events.
      */
-    private judge(worldNormal: Vector3, point: Vector3): boolean {
+    private judge(worldNormal: Vector3, point: Vector3, object: Object3D): boolean {
         const angleFromUp = this.angleFromUp(worldNormal);
-        const allowed = this.isAllowed(angleFromUp);
-        if (debug) this.drawVerdict(point, worldNormal, angleFromUp, allowed);
-        return allowed;
+        const onTarget = this.isOnAcceptingTarget(object);
+        const allowed = onTarget || this.isAllowed(angleFromUp);
+        if (debug) this.drawVerdict(point, worldNormal, angleFromUp, allowed, onTarget);
+        // Off, the verdict is only shown: the tint and the release read it from the surface data.
+        return allowed || !this.blockWhileDragging;
+    }
+
+    /**
+     * Whether `surface` belongs to a DragTarget that will take the dragged object. Such a face is
+     * allowed at any angle: the target decides where the object goes, and refusing its faces would
+     * keep the object from ever getting near a slot on a wall or on the side of a box.
+     */
+    private isOnAcceptingTarget(surface: Object3D): boolean {
+        const target = GameObject.getComponentInParent(surface, DragTarget);
+        if (!target) return false;
+        const dragged = this.dragControls?.draggedObject;
+        return !dragged || target.accepts(dragged);
     }
 
     /**
@@ -234,11 +257,11 @@ export class SurfaceNormalFilter extends Behaviour {
      *
      * Read through the same test the release is decided by, so the colour is a promise rather than
      * a hint: green means "let go now and the object stays here", red means "let go now and it goes
-     * back to where you picked it up".
+     * back to where you picked it up". A DragTarget in reach counts as green, see {@link onAllowDrop}.
      */
     private onDragUpdated(e: DragUpdatedEventArgs): void {
         if (e.mode !== DragMode.SnapToSurfaces) return;
-        this.applyTint(this.hasAllowedSurface(e.surfaceData));
+        this.applyTint(!!e.currentState.dropTarget || this.hasAllowedSurface(e.surfaceData));
     }
 
     /**
@@ -320,6 +343,11 @@ export class SurfaceNormalFilter extends Behaviour {
      * quietly left standing wherever it last had a legal floor, which is a spot the user let go
      * some distance away from and did not choose.
      *
+     * A DragTarget that would catch the object overrides the surface rule: the target's own
+     * accepts and beforeDrop decide that drop. The face under the object is often one this
+     * component refuses - the wall a slot hangs on, the side of the target's own mesh - and
+     * vetoing here would stop the target from seating the object.
+     *
      * Note the raise is per-frame as well as at the release, so this also drives
      * {@link DragState.dropAllowed} - the drag can say in advance what letting go would do.
      */
@@ -328,6 +356,7 @@ export class SurfaceNormalFilter extends Behaviour {
         // The veto is one-way - once refused, nothing can put the object back, so there is nothing
         // left for this listener to decide.
         if (!e.allowed) return;
+        if (e.currentState.dropTarget) return;
 
         if (!this.hasAllowedSurface(e.surfaceData)) e.disallow();
     }
@@ -342,6 +371,7 @@ export class SurfaceNormalFilter extends Behaviour {
      */
     private hasAllowedSurface(surface: DragSurfaceData | null): boolean {
         if (!surface) return false;
+        if (this.isOnAcceptingTarget(surface.object)) return true;
         return this.isAllowed(this.angleFromUp(surface.normal));
     }
 
@@ -383,7 +413,7 @@ export class SurfaceNormalFilter extends Behaviour {
      * allowed" becomes the one thing the eye is good at - whether a point is inside a ring or
      * outside it. The numbers in the label then only confirm what the shape already showed.
      */
-    private drawVerdict(point: Vector3, normal: Vector3, angleFromUp: number, allowed: boolean): void {
+    private drawVerdict(point: Vector3, normal: Vector3, angleFromUp: number, allowed: boolean, onTarget: boolean): void {
         const color = allowed ? 0x00ff00 : 0xff0000;
 
         // The allowed regions first, so the arrow and the disc draw over them rather than under.
@@ -405,7 +435,8 @@ export class SurfaceNormalFilter extends Behaviour {
         Gizmos.DrawArrow(point, _tip, color, 0, false);
 
         // ASCII only - a degree sign renders the whole label as an empty box.
-        const text = `${Math.round(angleFromUp)} deg / ${this.familyName(angleFromUp)} / ${allowed ? "allowed" : "refused"}`;
+        const family = onTarget ? "drag target" : this.familyName(angleFromUp);
+        const text = `${Math.round(angleFromUp)} deg / ${family} / ${allowed ? "allowed" : "refused"}`;
         Gizmos.DrawLabel(_tip, text, GIZMO_LENGTH * 0.06, 0, color, undefined, undefined, false);
     }
 

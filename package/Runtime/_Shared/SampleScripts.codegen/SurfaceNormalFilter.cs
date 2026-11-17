@@ -21,6 +21,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @allowRoof = false;
 		[UnityEngine.Tooltip("How far a surface may tilt from straight down and still count as roof, in degrees.")]
 		public float @roofAngle = 45f;
+		[UnityEngine.Tooltip("Keep the object off surfaces that are not allowed while it is dragged. Off: the object follows the pointer onto any surface and only the tint shows whether it may stay there. Letting go on a refused surface still sends it back either way.")]
+		public bool @blockWhileDragging = true;
 		[UnityEngine.Tooltip("Keep the object standing upright while it is dragged: its own up axis is held on world up, so it never tips to lie flat against a wall or hang off a ceiling, and an object picked up already leaning stands itself up. Only the tilt is taken away - whichever way the object was turned, it stays turned that way. Best paired with the DragControls option Align To Surface Normal switched off, since that one is the opposite instruction.")]
 		public bool @keepUpright = false;
 		[UnityEngine.Tooltip("Tint the object while it is being dragged, to show in advance what letting go would do. Needs a renderer, and leaves the object alone the rest of the time.")]
